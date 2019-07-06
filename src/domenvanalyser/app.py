@@ -53,9 +53,10 @@ def display_measurement_time(start_time, end_time):
     logging.debug('it took ' + str(result) + ' microseconds to measure it.')
 
 
-def store_measurement(temp, pressure, humidity, luminance, colour, aqi, uva_index, uvb_index, motion):
-    measurement = 'temp: {} pressure: {} humidity: {} luminace: {} colour: {} AQI: {} UVA: {} UVB: {} motion: {}'.format(
-        temp, pressure, humidity, luminance, colour, aqi, uv_description(uva_index), uv_description(uvb_index), motion)
+def store_measurement(temp, pressure, humidity, gas_resistance, luminance, colour, aqi, uva_index, uvb_index, motion):
+    measurement = 'temp: {} pressure: {} humidity: {} gas_resistance {}, luminace: {} colour: {} AQI: {} UVA: {} UVB: {} motion: {}'.format(
+        temp, pressure, humidity, gas_resistance, luminance, colour, aqi, uv_description(uva_index),
+        uv_description(uvb_index), motion)
     logging.info(measurement)
     print(measurement)
 
@@ -86,14 +87,17 @@ def main():
     while True:
         try:
             temp = 0
-            if weather_sensor.get_sensor_data():
-                temp = weather_sensor.data.temperature
-
             pressure = 0
             humidity = 0
+            gas_resistance = 0
+            if weather_sensor.get_sensor_data():
+                temp = weather_sensor.data.temperature
+                pressure = weather_sensor.data.pressure
+                humidity = weather_sensor.data.humidity
+                gas_resistance = weather_sensor.data.gas_resistance
+            aqi = 0
             luminance = 'UNKNOWN'
             colour = 'UNKNOWN'
-            aqi = 0
             motion = 'UNKNOWN'
 
             logging.debug('getting measurement')
@@ -106,7 +110,7 @@ def main():
 
             end_time = datetime.datetime.now()
 
-            store_measurement(temp, pressure, humidity, luminance, colour, aqi, uva, uvb, motion)
+            store_measurement(temp, pressure, humidity, gas_resistance, luminance, colour, aqi, uva, uvb, motion)
 
             display_measurement_time(start_time, end_time)
 
@@ -116,6 +120,8 @@ def main():
             draw.text((0, 0), "UVA: {:02.01f}".format(uva_index), fill="white", font=rr_15)
             draw.text((0, 18), "UVB: {:02.01f}".format(uvb_index), fill="white", font=rr_15)
             draw.text((0, 36), "Temp: {}".format(temp), fill="white", font=rr_15)
+            draw.text((0, 54), "Pressure: {}".format(pressure), fill="white", font=rr_15)
+            draw.text((0, 72), "Humidity: {}".format(humidity), fill="white", font=rr_15)
             oled.display(img)
 
             time.sleep(1)  # wait for one second
