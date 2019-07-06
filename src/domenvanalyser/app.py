@@ -29,7 +29,7 @@ uv_sensor.set_integration_time('100ms')
 oled = sh1106(i2c(port=1, address=0x3C), rotate=2, height=128, width=128)
 
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
-rr_15 = ImageFont.truetype(rr_path, 12)
+rr_15 = ImageFont.truetype(rr_path, 15)
 
 
 def display_measurement_time(start_time, end_time):
@@ -93,8 +93,8 @@ def main():
             img = Image.open("images/background.png").convert(oled.mode)
             draw = ImageDraw.Draw(img)
             draw.rectangle([(0, 0), (128, 128)], fill="black")
-            draw.text((0, 30), "UVA: {:05.01f}".format(uva_index), fill="white", font=rr_15)
-            draw.text((0, 48), "UVB: {:05.01f}".format(uvb_index), fill="white", font=rr_15)
+            draw.text((0, 0), "UVA: {:05.01f}".format(uva_index), fill="white", font=rr_15)
+            draw.text((0, 18), "UVB: {:05.01f}".format(uvb_index), fill="white", font=rr_15)
             oled.display(img)
 
             time.sleep(1)  # wait for one second
