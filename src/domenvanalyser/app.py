@@ -9,7 +9,7 @@ import smbus
 import bme680
 import veml6075
 from bh1745 import BH1745
-from lsm303d import LSM303D
+from icm20948 import ICM20948
 
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
@@ -53,7 +53,7 @@ uv_sensor.set_high_dynamic_range(False)
 uv_sensor.set_integration_time('100ms')
 
 # Set up motion sensor
-lsm = LSM303D(0x1d)
+imu = ICM20948()
 
 # Set up OLED
 oled = sh1106(i2c(port=1, address=0x3C), rotate=2, height=128, width=128)
@@ -64,7 +64,7 @@ rr_12 = ImageFont.truetype(rr_path, 12)
 samples = []
 points = []
 
-sx, sy, sz = lsm.accelerometer()  # Starting values to zero out accelerometer
+sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
 sensitivity = 8  # Value from 1 to 10. Determines twitchiness of needle
 
@@ -73,13 +73,13 @@ sensitivity = 8  # Value from 1 to 10. Determines twitchiness of needle
 
 def sample():
     while True:
-        x, y, z = lsm.accelerometer()
+        ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
 
-        x -= sx
-        y -= sy
-        z -= sz
+        ax -= sx
+        ay -= sy
+        az -= sz
 
-        v = y  # Change this axis depending on orientation of breakout
+        v = ay  # Change this axis depending on orientation of breakout
 
         # Scale up or down depending on sensitivity required
 
@@ -106,12 +106,14 @@ def get_motion():
 
 
 def get_current_motion_difference() -> str:
-    x, y, z = lsm.accelerometer()
+    x, y, z = imu.read_magnetometer_data()
+    ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
 
-    x -= sx
-    y -= sy
-    z -= sz
-    return 'x:{} y:{} z:{}'.format(x, y, z)
+    ax -= sx
+    ay -= sy
+    az -= sz
+
+    return 'Acc: {:05.2f} {:03.0f} {:05.2f} Gyro:  {:05.2f} {:05.2f} {:05.2f} Mag:   {:05.2f} {:05.2f} {:05.2f}'.format(    ax, ay, az, gx, gy, gz, x, y, z)
 
 
 def display_measurement_time(start_time, end_time):
