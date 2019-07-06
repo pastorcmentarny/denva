@@ -12,8 +12,10 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
+os.chdir('/home/pi')
+
 logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s',
-                    filename='denva-log.txt')
+                    filename=os.getcwd() + 'denva-log.txt')
 
 bus = smbus.SMBus(1)
 
@@ -27,7 +29,7 @@ uv_sensor.set_integration_time('100ms')
 oled = sh1106(i2c(port=1, address=0x3C), rotate=2, height=128, width=128)
 
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
-rr_15 = ImageFont.truetype(rr_path, 15)
+rr_15 = ImageFont.truetype(rr_path, 12)
 
 
 def display_measurement_time(start_time, end_time):
@@ -42,7 +44,7 @@ def store_measurement(temp, pressure, humidity, luminance, colour, aqi, uva_inde
     print(measurement)
 
     timestamp = datetime.datetime.now()
-    sensor_log_file = open('sensor-log.csv', 'a+', newline='')
+    sensor_log_file = open(os.getcwd() + 'sensor-log.csv', 'a+', newline='')
     csv_writer = csv.writer(sensor_log_file)
     csv_writer.writerow([timestamp, temp, pressure, humidity, luminance, colour, aqi, uva_index, uvb_index, motion])
     sensor_log_file.close()
@@ -91,8 +93,8 @@ def main():
             img = Image.open("images/background.png").convert(oled.mode)
             draw = ImageDraw.Draw(img)
             draw.rectangle([(0, 0), (128, 128)], fill="black")
-            draw.text((0, 30), "UVA index:  {:05.02f}".format(uva_index), fill="white", font=rr_15)
-            draw.text((0, 48), "UVB index:  {:05.02f}".format(uvb_index), fill="white", font=rr_15)
+            draw.text((0, 30), "UVA: {:05.01f}".format(uva_index), fill="white", font=rr_15)
+            draw.text((0, 48), "UVB: {:05.01f}".format(uvb_index), fill="white", font=rr_15)
             oled.display(img)
 
             time.sleep(1)  # wait for one second
