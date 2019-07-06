@@ -5,6 +5,7 @@ import os
 import sys
 import time
 import smbus
+import bme680
 import veml6075
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
@@ -23,7 +24,16 @@ os.chdir(original)
 logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s',
                     filename=log_file)
 
+TEMP_OFFSET = 0.0
+
 bus = smbus.SMBus(1)
+# Set up weather sensor
+weather_sensor = bme680.BME680()
+weather_sensor.set_humidity_oversample(bme680.OS_2X)
+weather_sensor.set_pressure_oversample(bme680.OS_4X)
+weather_sensor.set_temperature_oversample(bme680.OS_8X)
+weather_sensor.set_filter(bme680.FILTER_SIZE_3)
+weather_sensor.set_temp_offset(TEMP_OFFSET)
 
 # Set up UV sensor
 uv_sensor = veml6075.VEML6075(i2c_dev=bus)
@@ -72,9 +82,13 @@ def uv_description(uv_index):
 
 
 def main():
+
     while True:
         try:
             temp = 0
+            if weather_sensor.get_sensor_data():
+                temp = weather_sensor.data.temperature
+
             pressure = 0
             humidity = 0
             luminance = 'UNKNOWN'
@@ -101,6 +115,7 @@ def main():
             draw.rectangle([(0, 0), (128, 128)], fill="black")
             draw.text((0, 0), "UVA: {:02.01f}".format(uva_index), fill="white", font=rr_15)
             draw.text((0, 18), "UVB: {:02.01f}".format(uvb_index), fill="white", font=rr_15)
+            draw.text((0, 36), "Temp: {}".format(temp), fill="white", font=rr_15)
             oled.display(img)
 
             time.sleep(1)  # wait for one second
