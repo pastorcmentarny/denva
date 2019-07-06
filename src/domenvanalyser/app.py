@@ -14,7 +14,7 @@ from PIL import ImageDraw
 
 # file setup
 original = os.getcwd()
-os.chdir('/home/pi')
+os.chdir('/home/pi/')
 log_file = os.getcwd() + 'denva-log.txt'
 sensor_file = os.getcwd() + 'sensor-log.csv'
 os.chdir(original)
@@ -99,8 +99,8 @@ def main():
             img = Image.open("images/background.png").convert(oled.mode)
             draw = ImageDraw.Draw(img)
             draw.rectangle([(0, 0), (128, 128)], fill="black")
-            draw.text((0, 0), "UVA: {:05.01f}".format(uva_index), fill="white", font=rr_15)
-            draw.text((0, 18), "UVB: {:05.01f}".format(uvb_index), fill="white", font=rr_15)
+            draw.text((0, 0), "UVA: {:02.01f}".format(uva_index), fill="white", font=rr_15)
+            draw.text((0, 18), "UVB: {:02.01f}".format(uvb_index), fill="white", font=rr_15)
             oled.display(img)
 
             time.sleep(1)  # wait for one second
