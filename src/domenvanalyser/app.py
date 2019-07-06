@@ -12,10 +12,16 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
+# file setup
+original = os.getcwd()
 os.chdir('/home/pi')
+log_file = os.getcwd() + 'denva-log.txt'
+sensor_file = os.getcwd() + 'sensor-log.csv'
+os.chdir(original)
+
 
 logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s',
-                    filename=os.getcwd() + 'denva-log.txt')
+                    filename=log_file)
 
 bus = smbus.SMBus(1)
 
@@ -44,7 +50,7 @@ def store_measurement(temp, pressure, humidity, luminance, colour, aqi, uva_inde
     print(measurement)
 
     timestamp = datetime.datetime.now()
-    sensor_log_file = open(os.getcwd() + 'sensor-log.csv', 'a+', newline='')
+    sensor_log_file = open(sensor_file, 'a+', newline='')
     csv_writer = csv.writer(sensor_log_file)
     csv_writer.writerow([timestamp, temp, pressure, humidity, luminance, colour, aqi, uva_index, uvb_index, motion])
     sensor_log_file.close()
