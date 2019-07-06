@@ -37,7 +37,7 @@ def display_measurement_time(start_time, end_time):
 
 def store_measurement(temp, pressure, humidity, luminance, colour, aqi, uva_index, uvb_index, motion):
     measurement = 'temp: {} pressure: {} humidity: {} luminace: {} colour: {} AQI: {} UVA: {} UVB: {} motion: {}'.format(
-        temp, pressure, humidity, luminance, colour, aqi, uva_index, uvb_index, motion)
+        temp, pressure, humidity, luminance, colour, aqi, uv_description(uva_index), uv_description(uvb_index), motion)
     logging.info(measurement)
     print(measurement)
 
@@ -84,7 +84,7 @@ def main():
 
             end_time = datetime.datetime.now()
 
-            store_measurement(temp, pressure, humidity, luminance, colour, aqi, uva_index, uvb_index, motion)
+            store_measurement(temp, pressure, humidity, luminance, colour, aqi, uva, uvb, motion)
 
             display_measurement_time(start_time, end_time)
 
@@ -93,6 +93,7 @@ def main():
             draw.rectangle([(0, 0), (128, 128)], fill="black")
             draw.text((0, 30), "UVA index:  {:05.02f}".format(uva_index), fill="white", font=rr_15)
             draw.text((0, 48), "UVB index:  {:05.02f}".format(uvb_index), fill="white", font=rr_15)
+            oled.display(img)
 
             time.sleep(1)  # wait for one second
         except KeyboardInterrupt:
