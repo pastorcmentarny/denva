@@ -4,18 +4,18 @@ import logging
 import os
 import sys
 import time
+
+import bme680
 # from threading import Thread
 import smbus
-import bme680
 import veml6075
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 from bh1745 import BH1745
 from icm20948 import ICM20948
-
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
 
 # file setup
 original = os.getcwd()
@@ -91,10 +91,6 @@ def sample():
 
         time.sleep(0.01)
 
-# FIX ME The thread to measure accelerometer crash pi due to i2c access
-# t = Thread(target=sample)
-# t.start()
-
 
 def get_motion():
     sample()
@@ -104,15 +100,30 @@ def get_motion():
     return value
 
 
-def get_current_motion_difference() -> str:
-    x, y, z = imu.read_magnetometer_data()
+def get_current_motion_difference() -> dict:
+    mx, my, mz = imu.read_magnetometer_data()
     ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
 
     ax -= sx
     ay -= sy
     az -= sz
+    return {
+        'ax': ax, 'ay': ay, 'az': az,
+        'gx': gx, 'gy': gy, 'gz': gz,
+        'mx': mx, 'my': my, 'mz': mz
+    }
 
-    return 'Acc: {:05.0f} {:05.0f} {:05.0f} Gyro: {:05.0f} {:05.0f} {:05.0f} Mag: {:05.0f} {:05.0f} {:05.0f}'.format(ax, ay, az, gx, gy, gz, x, y, z)
+
+def get_motion_as_string(motion: dict) -> str:
+    return 'Acc: {:5.1f} {:5.1f} {:5.0f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(motion['ax'],
+                                                                                                            motion['ay'],
+                                                                                                            motion['az'],
+                                                                                                            motion['gx'],
+                                                                                                            motion['gy'],
+                                                                                                            motion['gz'],
+                                                                                                            motion['mx'],
+                                                                                                            motion['my'],
+                                                                                                            motion['mz'])
 
 
 def display_measurement_time(start_time, end_time):
@@ -120,22 +131,56 @@ def display_measurement_time(start_time, end_time):
     logging.debug('it took ' + str(result) + ' microseconds to measure it.')
 
 
-def store_measurement(temp, pressure, humidity, gas_resistance, colour, aqi, uva_index, uvb_index, motion):
+def store_measurement(data):
+    motion = get_current_motion_difference()
     measurement = 'temp: {} pressure: {} humidity: {} gas_resistance {}, colour: {} AQI: {} UVA: {} UVB: {} motion: {} motion diff: {}'.format(
-        temp, pressure, humidity, gas_resistance, colour, aqi, uv_description(uva_index),
-        uv_description(uvb_index), motion, get_current_motion_difference())
+        data['temp'],
+        data['pressure'],
+        data['humidity'],
+        data['gas_resistance'],
+        data['colour'],
+        data['aqi'],
+        data['uva_index'],
+        data['uvb_index'],
+        data['motion'],
+        get_motion_as_string(motion))
     logging.info(measurement)
-    print(measurement)
-
+    print_measurement(data, 20, 6)
     timestamp = datetime.datetime.now()
     sensor_log_file = open(sensor_file, 'a+', newline='')
     csv_writer = csv.writer(sensor_log_file)
-    csv_writer.writerow([timestamp, temp, pressure, humidity, colour, aqi, uva_index, uvb_index, motion])
+    csv_writer.writerow([timestamp,
+                         data['temp'], data['pressure'], data['humidity'], data['gas_resistance'],
+                         data['colour'], data['aqi'],
+                         data['uva_index'], data['uvb_index'],
+                         data['motion'],
+                         motion['ax'], motion['ay'], motion['az'],
+                         motion['gx'], motion['gy'], motion['gz'],
+                         motion['mx'], motion['my'], motion['mz']
+                         ])
     sensor_log_file.close()
 
 
+def print_measurement(data, left_width, right_width):
+    print_title(left_width, right_width)
+    print_items(data, left_width, right_width)
+    print('-'*20 + '\n')
+
+
+def print_items(data, left_width, right_width):
+    for k, v in data.items():
+        print(k.ljust(left_width, '.') + str(v).rjust(right_width, ' '))
+
+
+def print_title(left_width, right_width):
+    title = 'Measurement @ {}'.format(datetime.datetime.now())
+    print(title.center(left_width + right_width, "-"))
+
+
 def uv_description(uv_index):
-    if uv_index < 3:
+    if uv_index == 0:
+        return "NONE"
+    elif uv_index < 3:
         return "LOW"
     elif 3 <= uv_index < 6:
         return "MEDIUM"
@@ -146,16 +191,45 @@ def uv_description(uv_index):
     elif uv_index > 11:
         return "EXTREME"
     else:
+        logging.warning('weird uv value: {}'.format(uv_index))
         return "UNKNOWN"
 
 
 def warn_if_dom_shakes_his_legs(motion):
-    if motion > 3000:
-        for i in range(10):
+    if motion > 1000:
+        for i in range(5):
             bh1745.set_leds(1)
-            time.sleep(0.05)
+            time.sleep(0.2)
             bh1745.set_leds(0)
             time.sleep(0.05)
+
+
+def get_brightness(r, g, b) -> str:
+    max_value = max(r, g, b)
+    mid = (r+g+b)/3
+    result = (max_value+mid)/2
+
+    if result < 16:
+        return 'pitch black'
+    elif 32 <= result < 64:
+        return 'very dark'
+    elif 64 <= result < 96:
+        return 'dark'
+    elif 96 <= result < 128:
+        return 'bit dark'
+    elif 128 <= result < 160:
+        return 'grey'
+    elif 160 <= result < 192:
+        return 'bit bright'
+    elif 192 <= result < 224:
+        return 'bright'
+    elif 224 <= result < 240:
+        return 'very bright'
+    elif 240 <= result < 256:
+        return 'white'
+    else:
+        logging.warning('weird brightness value: {} for {} {} {}'.format(result, r, g, b))
+        return '?'
 
 
 def main():
@@ -186,24 +260,35 @@ def main():
             uva_index, uvb_index, avg_uv_index = uv_indices
 
             end_time = datetime.datetime.now()
+            data = {
+                "temp": temp,
+                "pressure": pressure,
+                "humidity": humidity,
+                "gas_resistance": gas_resistance,
+                "aqi": aqi,
+                "colour": colour,
+                "motion": motion,
+                "uva_index": uva_index,
+                "uvb_index": uvb_index
+            }
 
-            store_measurement(temp, pressure, humidity, gas_resistance, colour, aqi, uva, uvb, motion)
+            store_measurement(data)
 
             display_measurement_time(start_time, end_time)
 
             img = Image.open("images/background.png").convert(oled.mode)
             draw = ImageDraw.Draw(img)
             draw.rectangle([(0, 0), (128, 128)], fill="black")
-            draw.text((0, 0), "UVA: {:02.01f}".format(uva_index), fill="white", font=rr_12)
-            draw.text((0, 14), "UVB: {:02.01f}".format(uvb_index), fill="white", font=rr_12)
-            draw.text((0, 28), "Temp: {}".format(temp), fill="white", font=rr_12)
-            draw.text((0, 42), "Pressure: {}".format(pressure), fill="white", font=rr_12)
-            draw.text((0, 56), "Humidity: {}".format(humidity), fill="white", font=rr_12)
-            draw.text((0, 70), "Colour: {}".format(colour), fill="white", font=rr_12)
-            draw.text((0, 84), "Motion: {:05.02f}".format(motion), fill="white", font=rr_12)
+            draw.text((0, 0), "Temp: {}".format(temp), fill="white", font=rr_12)
+            draw.text((0, 14), "Pressure: {}".format(pressure), fill="white", font=rr_12)
+            draw.text((0, 28), "Humidity: {}".format(humidity), fill="white", font=rr_12)
+            draw.text((0, 42), "Colour: {}".format(colour), fill="white", font=rr_12)
+            draw.text((0, 56), "Brightness: {}".format(get_brightness(r, g, b)), fill="white", font=rr_12)
+            draw.text((0, 70), "Motion: {:05.02f}".format(motion), fill="white", font=rr_12)
+            draw.text((0, 84), "UVA: {}".format(uv_description(uva_index)), fill="white", font=rr_12)
+            draw.text((0, 98), "UVB: {}".format(uv_description(uvb_index)), fill="white", font=rr_12)
             oled.display(img)
 
-            time.sleep(1)  # wait for one second
         except KeyboardInterrupt:
             print('request application shut down.. goodbye!')
             sys.exit(0)
