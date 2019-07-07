@@ -102,7 +102,7 @@ def get_motion():
     value = 0
     for i in range(1, len(points)):
         value += abs(points[i] - points[i - 1])
-    return '{.1f}'.format(value)
+    return value
 
 
 def get_current_motion_difference() -> str:
@@ -113,7 +113,7 @@ def get_current_motion_difference() -> str:
     ay -= sy
     az -= sz
 
-    return 'Acc: {:05.0f} {:05.0f} {:05.0f} Gyro:  {:05.0f} {:05.0f} {:05.0f} Mag:   {:05.0f} {:05.0f} {:05.0f}'.format(ax, ay, az, gx, gy, gz, x, y, z)
+    return 'Acc: {:05.0f} {:05.0f} {:05.0f} Gyro: {:05.0f} {:05.0f} {:05.0f} Mag: {:05.0f} {:05.0f} {:05.0f}'.format(ax, ay, az, gx, gy, gz, x, y, z)
 
 
 def display_measurement_time(start_time, end_time):
