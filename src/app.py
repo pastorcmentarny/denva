@@ -72,7 +72,7 @@ sensitivity = 8
 # Function to thread accelerometer values separately to OLED drawing
 
 def sample():
-    for i in range(101):
+    for i in range(51):
         ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
 
         ax -= sx
@@ -149,6 +149,15 @@ def uv_description(uv_index):
         return "UNKNOWN"
 
 
+def warn_if_dom_shakes_his_legs(motion):
+    if motion > 3000:
+        for i in range(10):
+            bh1745.set_leds(1)
+            time.sleep(0.05)
+            bh1745.set_leds(0)
+            time.sleep(0.05)
+
+
 def main():
 
     while True:
@@ -169,12 +178,7 @@ def main():
             r, g, b = bh1745.get_rgb_scaled()
             colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)
             motion = get_motion()
-            if motion > 3000:
-                for i in range(5):
-                    bh1745.set_leds(1)
-                    time.sleep(0.1)
-                    bh1745.set_leds(0)
-                    time.sleep(0.1)
+            warn_if_dom_shakes_his_legs(motion)
 
             uva, uvb = uv_sensor.get_measurements()
             uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
@@ -196,7 +200,7 @@ def main():
             draw.text((0, 42), "Pressure: {}".format(pressure), fill="white", font=rr_12)
             draw.text((0, 56), "Humidity: {}".format(humidity), fill="white", font=rr_12)
             draw.text((0, 70), "Colour: {}".format(colour), fill="white", font=rr_12)
-            draw.text((0, 84), "Motion: {}".format(motion), fill="white", font=rr_12)
+            draw.text((0, 84), "Motion: {:05.02f}".format(motion), fill="white", font=rr_12)
             oled.display(img)
 
             time.sleep(1)  # wait for one second
