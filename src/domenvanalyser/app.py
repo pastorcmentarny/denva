@@ -169,6 +169,12 @@ def main():
             r, g, b = bh1745.get_rgb_scaled()
             colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)
             motion = get_motion()
+            if motion > 3000:
+                for i in range(5):
+                    bh1745.set_leds(1)
+                    time.sleep(0.1)
+                    bh1745.set_leds(0)
+                    time.sleep(0.1)
 
             uva, uvb = uv_sensor.get_measurements()
             uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
