@@ -66,7 +66,7 @@ points = []
 
 sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
-sensitivity = 8  # Value from 1 to 10. Determines twitchiness of needle
+sensitivity = 8
 
 
 # Function to thread accelerometer values separately to OLED drawing
@@ -89,7 +89,7 @@ def sample():
         if len(points) > 100:
             points.pop(0)
 
-        time.sleep(0.05)
+        time.sleep(0.01)
 
 # The thread to measure accelerometer values
 
@@ -102,7 +102,7 @@ def get_motion():
     value = 0
     for i in range(1, len(points)):
         value += abs(points[i] - points[i - 1])
-    return value
+    return '{.1f}'.format(value)
 
 
 def get_current_motion_difference() -> str:
@@ -113,7 +113,7 @@ def get_current_motion_difference() -> str:
     ay -= sy
     az -= sz
 
-    return 'Acc: {:05.2f} {:03.0f} {:05.2f} Gyro:  {:05.2f} {:05.2f} {:05.2f} Mag:   {:05.2f} {:05.2f} {:05.2f}'.format(    ax, ay, az, gx, gy, gz, x, y, z)
+    return 'Acc: {:05.0f} {:05.0f} {:05.0f} Gyro:  {:05.0f} {:05.0f} {:05.0f} Mag:   {:05.0f} {:05.0f} {:05.0f}'.format(ax, ay, az, gx, gy, gz, x, y, z)
 
 
 def display_measurement_time(start_time, end_time):
@@ -197,6 +197,7 @@ def main():
             time.sleep(1)  # wait for one second
         except KeyboardInterrupt:
             print('request application shut down.. goodbye!')
+            t.join(3)
             sys.exit(0)
 
 
