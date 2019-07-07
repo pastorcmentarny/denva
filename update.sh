@@ -6,5 +6,6 @@ cd /home/pi
 rm branch + ".zip"
 rm -rf "denva-" + branch
 wget "https://github.com/pastorcmentarny/denva/archive/" + branch + ".zip"
+unzip branch + ".zip"
 cd "denva-" + branch + "/src/"
 sudo python3 app.py
