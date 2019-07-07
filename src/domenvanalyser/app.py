@@ -4,7 +4,7 @@ import logging
 import os
 import sys
 import time
-from threading import Thread
+# from threading import Thread
 import smbus
 import bme680
 import veml6075
@@ -72,7 +72,7 @@ sensitivity = 8
 # Function to thread accelerometer values separately to OLED drawing
 
 def sample():
-    while True:
+    for i in range(101):
         ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
 
         ax -= sx
@@ -91,14 +91,13 @@ def sample():
 
         time.sleep(0.01)
 
-# The thread to measure accelerometer values
-
-
-t = Thread(target=sample)
-t.start()
+# FIX ME The thread to measure accelerometer crash pi due to i2c access
+# t = Thread(target=sample)
+# t.start()
 
 
 def get_motion():
+    sample()
     value = 0
     for i in range(1, len(points)):
         value += abs(points[i] - points[i - 1])
@@ -197,7 +196,6 @@ def main():
             time.sleep(1)  # wait for one second
         except KeyboardInterrupt:
             print('request application shut down.. goodbye!')
-            t.join(3)
             sys.exit(0)
 
 
