@@ -6,7 +6,6 @@ import sys
 import time
 
 import bme680
-# from threading import Thread
 import smbus
 import veml6075
 from PIL import Image
@@ -69,8 +68,6 @@ sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 sensitivity = 8
 
 
-# Function to thread accelerometer values separately to OLED drawing
-
 def sample():
     for i in range(51):
         ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
@@ -81,12 +78,10 @@ def sample():
 
         v = ay  # Change this axis depending on orientation of breakout
 
-        # Scale up or down depending on sensitivity required
-
         v *= (100 * sensitivity)
 
         points.append(v)
-        if len(points) > 100:
+        if len(points) > 50:
             points.pop(0)
 
         time.sleep(0.01)
@@ -233,7 +228,7 @@ def get_brightness(r, g, b) -> str:
 
 
 def main():
-
+    bh1745.set_leds(0)
     while True:
         try:
             logging.debug('getting measurement')
@@ -291,10 +286,10 @@ def main():
 
         except KeyboardInterrupt:
             print('request application shut down.. goodbye!')
+            bh1745.set_leds(0)
             sys.exit(0)
 
 
 if __name__ == '__main__':
     print('Starting application ... \n Press Ctrl+C to shutdown')
-    bh1745.set_leds(0)
     main()
