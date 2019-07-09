@@ -1,9 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import csv
 import datetime
 import logging
 import os
 import sys
 import time
+import subprocess
 
 import bme680
 import smbus
@@ -168,7 +172,7 @@ def print_items(data, left_width, right_width):
 
 
 def print_title(left_width, right_width):
-    title = 'Measurement @ {}'.format(datetime.datetime.now())
+    title = 'Measurement @ {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     print(title.center(left_width + right_width, "-"))
 
 
@@ -191,7 +195,7 @@ def uv_description(uv_index):
 
 
 def warn_if_dom_shakes_his_legs(motion):
-    if motion > 1000:
+    if motion > 1500:
         for i in range(5):
             bh1745.set_leds(1)
             time.sleep(0.2)
@@ -271,23 +275,49 @@ def main():
 
             display_measurement_time(start_time, end_time)
 
-            img = Image.open("images/background.png").convert(oled.mode)
-            draw = ImageDraw.Draw(img)
-            draw.rectangle([(0, 0), (128, 128)], fill="black")
-            draw.text((0, 0), "Temp: {}".format(temp), fill="white", font=rr_12)
-            draw.text((0, 14), "Pressure: {}".format(pressure), fill="white", font=rr_12)
-            draw.text((0, 28), "Humidity: {}".format(humidity), fill="white", font=rr_12)
-            draw.text((0, 42), "Colour: {}".format(colour), fill="white", font=rr_12)
-            draw.text((0, 56), "Brightness: {}".format(get_brightness(r, g, b)), fill="white", font=rr_12)
-            draw.text((0, 70), "Motion: {:05.02f}".format(motion), fill="white", font=rr_12)
-            draw.text((0, 84), "UVA: {}".format(uv_description(uva_index)), fill="white", font=rr_12)
-            draw.text((0, 98), "UVB: {}".format(uv_description(uvb_index)), fill="white", font=rr_12)
-            oled.display(img)
+            draw_image_on_screen(b, colour, g, humidity, motion, pressure, r, temp, uva_index, uvb_index)
+
+            time.sleep(3)  # wait at least few seconds between measurements
 
         except KeyboardInterrupt:
             print('request application shut down.. goodbye!')
             bh1745.set_leds(0)
             sys.exit(0)
+
+
+def get_uptime():
+    return str(subprocess.check_output(['uptime', '-p']), "utf-8")\
+        .replace('days', 'd')\
+        .replace('day', 'd')\
+        .replace('hours', 'h')\
+        .replace('hour', 'h')\
+        .replace('minutes', 'm')\
+        .replace('minute', 'm')
+
+
+swapped = False
+
+
+def draw_image_on_screen(b, colour, g, humidity, motion, pressure, r, temp, uva_index, uvb_index):
+    global swapped
+    img = Image.open("images/background.png").convert(oled.mode)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([(0, 0), (128, 128)], fill="black")
+    draw.text((0, 0), "Temp: {}".format(temp), fill="white", font=rr_12)
+    draw.text((0, 14), "Pressure: {}".format(pressure), fill="white", font=rr_12)
+    draw.text((0, 28), "Humidity: {}".format(humidity), fill="white", font=rr_12)
+    draw.text((0, 42), "Motion: {:05.02f}".format(motion), fill="white", font=rr_12)
+        
+    if swapped:
+        draw.text((0, 56), "Colour: {}".format(colour), fill="white", font=rr_12)
+        draw.text((0, 70), "UVA: {}".format(uv_description(uva_index)), fill="white", font=rr_12)
+    else:
+        draw.text((0, 56), "Brightness: {}".format(get_brightness(r, g, b)), fill="white", font=rr_12)
+        draw.text((0, 70), "UVB: {}".format(uv_description(uvb_index)), fill="white", font=rr_12)
+    swapped = not swapped
+
+    draw.text((0, 84), get_uptime(), fill="white", font=rr_12)
+    oled.display(img)
 
 
 if __name__ == '__main__':
