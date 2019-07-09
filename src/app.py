@@ -4,6 +4,7 @@
 import csv
 import datetime
 import logging
+import logging.handlers as handlers
 import os
 import sys
 import time
@@ -22,14 +23,21 @@ from luma.oled.device import sh1106
 
 # file setup
 original = os.getcwd()
-os.chdir('/home/pi/')
+os.chdir('/home/pi/logs')
 log_file = os.getcwd() + '/denva-log.txt'
 sensor_file = os.getcwd() + '/sensor-log.csv'
 os.chdir(original)
 
 
-logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s',
-                    filename=log_file)
+logger = logging.getLogger('denva')
+logger.setLevel(logging.INFO)
+
+log_handler = handlers.TimedRotatingFileHandler(log_file, when='midnight', encoding='utf-8')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_handler.setLevel(logging.INFO)
+log_handler.setFormatter(formatter)
+
+logger.addHandler(log_handler)
 
 TEMP_OFFSET = 0.0
 
@@ -163,7 +171,7 @@ def store_measurement(data):
 def print_measurement(data, left_width, right_width):
     print_title(left_width, right_width)
     print_items(data, left_width, right_width)
-    print('-'*20 + '\n')
+    print('-'*40 + '\n')
 
 
 def print_items(data, left_width, right_width):
@@ -234,7 +242,7 @@ def get_brightness(r, g, b) -> str:
 def main():
     bh1745.set_leds(0)
     while True:
-        try:
+ #       try:
             logging.debug('getting measurement')
             start_time = datetime.datetime.now()
 
@@ -277,12 +285,12 @@ def main():
 
             draw_image_on_screen(b, colour, g, humidity, motion, pressure, r, temp, uva_index, uvb_index)
 
-            time.sleep(3)  # wait at least few seconds between measurements
+            time.sleep(2)  # wait at least few seconds between measurements
 
-        except KeyboardInterrupt:
-            print('request application shut down.. goodbye!')
-            bh1745.set_leds(0)
-            sys.exit(0)
+#        except KeyboardInterrupt:
+#            print('request application shut down.. goodbye!')
+#            bh1745.set_leds(0)
+#            sys.exit(0)
 
 
 def get_uptime():
@@ -300,7 +308,7 @@ swapped = False
 
 def draw_image_on_screen(b, colour, g, humidity, motion, pressure, r, temp, uva_index, uvb_index):
     global swapped
-    img = Image.open("images/background.png").convert(oled.mode)
+    img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (128, 128)], fill="black")
     draw.text((0, 0), "Temp: {}".format(temp), fill="white", font=rr_12)
