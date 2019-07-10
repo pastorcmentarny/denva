@@ -3,8 +3,9 @@
 
 import csv
 import datetime
+import json
 import logging
-import logging.handlers as handlers
+import logging.config
 import os
 import sys
 import time
@@ -27,17 +28,6 @@ os.chdir('/home/pi/logs')
 log_file = os.getcwd() + '/denva-log.txt'
 sensor_file = os.getcwd() + '/sensor-log.csv'
 os.chdir(original)
-
-
-logger = logging.getLogger('denva')
-logger.setLevel(logging.INFO)
-
-log_handler = handlers.TimedRotatingFileHandler(log_file, when='midnight', encoding='utf-8')
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-log_handler.setLevel(logging.INFO)
-log_handler.setFormatter(formatter)
-
-logger.addHandler(log_handler)
 
 TEMP_OFFSET = 0.0
 
@@ -71,6 +61,7 @@ oled = sh1106(i2c(port=1, address=0x3C), rotate=2, height=128, width=128)
 
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
 rr_12 = ImageFont.truetype(rr_path, 12)
+rr_14 = ImageFont.truetype(rr_path, 14)
 
 samples = []
 points = []
@@ -78,6 +69,22 @@ points = []
 sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
 sensitivity = 8
+
+logger = logging.getLogger('app')
+warnings_logger = logging.getLogger('warnings')
+
+
+def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, env_key='LOG_CFG'):
+    path = default_path
+    value = os.getenv(env_key, None)
+    if value:
+        path = value
+    if os.path.exists(path):
+        with open(path, 'rt') as f:
+            config = json.load(f)
+        logging.config.dictConfig(config)
+    else:
+        logging.basicConfig(level=default_level)
 
 
 def sample():
@@ -122,20 +129,63 @@ def get_current_motion_difference() -> dict:
 
 
 def get_motion_as_string(motion: dict) -> str:
-    return 'Acc: {:5.1f} {:5.1f} {:5.0f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(motion['ax'],
-                                                                                                            motion['ay'],
-                                                                                                            motion['az'],
-                                                                                                            motion['gx'],
-                                                                                                            motion['gy'],
-                                                                                                            motion['gz'],
-                                                                                                            motion['mx'],
-                                                                                                            motion['my'],
-                                                                                                            motion['mz'])
+    return 'Acc: {:5.1f} {:5.1f} {:5.0f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
+        motion['ax'],
+        motion['ay'],
+        motion['az'],
+        motion['gx'],
+        motion['gy'],
+        motion['gz'],
+        motion['mx'],
+        motion['my'],
+        motion['mz'])
 
 
 def display_measurement_time(start_time, end_time):
     result = end_time.microsecond - start_time.microsecond
     logging.debug('it took ' + str(result) + ' microseconds to measure it.')
+
+
+def get_warnings(data):
+    warnings = []
+    if data['temp'] < 16:
+        warnings.append("Temp. is TOO LOW")
+        warnings_logger.error('Temperature is too low. Current temperature is: ' + str(data['temp']))
+    elif data['temp'] < 18:
+        warnings.append("Temp. is low")
+        warnings_logger.error('Temperature is low. Current temperature is: ' + str(data['temp']))
+    elif data['temp'] > 25:
+        warnings.append("Temp. is high")
+        warnings_logger.error('Temperature is high. Current temperature is: ' + str(data['temp']))
+    elif data['temp'] > 30:
+        warnings.append("Temp. is TOO HOT")
+        warnings_logger.error('Temperature is too high. Current temperature is: ' + str(data['temp']))
+
+    if data['humidity'] < 30:
+        warnings.append("humidity. is TOO LOW")
+        warnings_logger.error('humidity is too low. Current humidity is: ' + str(data['humidity']))
+    elif data['humidity'] < 40:
+        warnings.append("humidity is low")
+        warnings_logger.error('humidity is too low. Current humidity is: ' + str(data['humidity']))
+    elif data['humidity'] > 60:
+        warnings.append("humidity is high")
+        warnings_logger.error('humidity is too cold. Current humidity is: ' + str(data['humidity']))
+    elif data['humidity'] > 70:
+        warnings.append("humidity is TOO HIGH")
+        warnings_logger.error('humidity is too cold. Current humidity is: ' + str(data['humidity']))
+
+    if data['uva_index'] > 6:
+        warnings.append("UV A is TOO HIGH")
+        warnings_logger.error('UV A is too cold. Current humidity is: ' + str(data["uva_index"]))
+
+    if data['uvb_index'] > 6:
+        warnings.append("UV B is TOO HIGH")
+        warnings_logger.error('UV B is too cold. Current UV B is: ' + str(data["uvb_index"]))
+
+    if data['motion'] > 1000:
+        warnings_logger.info('Dom is shaking his legs. Value: ' + str(data["motion"]))
+
+    return warnings
 
 
 def store_measurement(data):
@@ -171,7 +221,7 @@ def store_measurement(data):
 def print_measurement(data, left_width, right_width):
     print_title(left_width, right_width)
     print_items(data, left_width, right_width)
-    print('-'*40 + '\n')
+    print('-' * 40 + '\n')
 
 
 def print_items(data, left_width, right_width):
@@ -213,8 +263,8 @@ def warn_if_dom_shakes_his_legs(motion):
 
 def get_brightness(r, g, b) -> str:
     max_value = max(r, g, b)
-    mid = (r+g+b)/3
-    result = (max_value+mid)/2
+    mid = (r + g + b) / 3
+    result = (max_value + mid) / 2
 
     if result < 16:
         return 'pitch black'
@@ -239,95 +289,121 @@ def get_brightness(r, g, b) -> str:
         return '?'
 
 
+def get_data_from_measurement():
+    temp = 0
+    pressure = 0
+    humidity = 0
+    gas_resistance = 0
+    if weather_sensor.get_sensor_data():
+        temp = weather_sensor.data.temperature
+        pressure = weather_sensor.data.pressure
+        humidity = weather_sensor.data.humidity
+        gas_resistance = weather_sensor.data.gas_resistance
+    aqi = 0
+    r, g, b = bh1745.get_rgb_scaled()
+    colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)
+    motion = get_motion()
+    warn_if_dom_shakes_his_legs(motion)
+
+    uva, uvb = uv_sensor.get_measurements()
+    uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
+    uv_indices = uv_sensor.convert_to_index(uva, uvb, uv_comp1, uv_comp2)
+    uva_index, uvb_index, avg_uv_index = uv_indices
+
+    return {
+        "temp": temp,
+        "pressure": pressure,
+        "humidity": humidity,
+        "gas_resistance": gas_resistance,
+        "aqi": aqi,
+        "colour": colour,
+        "motion": motion,
+        "uva_index": uva_index,
+        "uvb_index": uvb_index,
+        "r": r,
+        "g": g,
+        "b": b,
+    }
+
+
 def main():
     bh1745.set_leds(0)
     while True:
- #       try:
+        try:
             logging.debug('getting measurement')
+
             start_time = datetime.datetime.now()
-
-            temp = 0
-            pressure = 0
-            humidity = 0
-            gas_resistance = 0
-            if weather_sensor.get_sensor_data():
-                temp = weather_sensor.data.temperature
-                pressure = weather_sensor.data.pressure
-                humidity = weather_sensor.data.humidity
-                gas_resistance = weather_sensor.data.gas_resistance
-            aqi = 0
-            r, g, b = bh1745.get_rgb_scaled()
-            colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)
-            motion = get_motion()
-            warn_if_dom_shakes_his_legs(motion)
-
-            uva, uvb = uv_sensor.get_measurements()
-            uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
-            uv_indices = uv_sensor.convert_to_index(uva, uvb, uv_comp1, uv_comp2)
-            uva_index, uvb_index, avg_uv_index = uv_indices
-
+            data = get_data_from_measurement()
             end_time = datetime.datetime.now()
-            data = {
-                "temp": temp,
-                "pressure": pressure,
-                "humidity": humidity,
-                "gas_resistance": gas_resistance,
-                "aqi": aqi,
-                "colour": colour,
-                "motion": motion,
-                "uva_index": uva_index,
-                "uvb_index": uvb_index
-            }
 
             store_measurement(data)
 
             display_measurement_time(start_time, end_time)
 
-            draw_image_on_screen(b, colour, g, humidity, motion, pressure, r, temp, uva_index, uvb_index)
+            draw_image_on_screen(data)
 
             time.sleep(2)  # wait at least few seconds between measurements
 
-#        except KeyboardInterrupt:
-#            print('request application shut down.. goodbye!')
-#            bh1745.set_leds(0)
-#            sys.exit(0)
+        except KeyboardInterrupt:
+            print('request application shut down.. goodbye!')
+            bh1745.set_leds(0)
+            sys.exit(0)
 
 
 def get_uptime():
-    return str(subprocess.check_output(['uptime', '-p']), "utf-8")\
-        .replace('days', 'd')\
-        .replace('day', 'd')\
-        .replace('hours', 'h')\
-        .replace('hour', 'h')\
-        .replace('minutes', 'm')\
+    return str(subprocess.check_output(['uptime', '-p']), "utf-8") \
+        .replace('days', 'd') \
+        .replace('day', 'd') \
+        .replace('hours', 'h') \
+        .replace('hour', 'h') \
+        .replace('minutes', 'm') \
         .replace('minute', 'm')
 
 
 swapped = False
+warning_swap = False
 
 
-def draw_image_on_screen(b, colour, g, humidity, motion, pressure, r, temp, uva_index, uvb_index):
+def draw_image_on_screen(data):
     global swapped
+    global warning_swap
+    warnings = get_warnings(data)
+
     img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (128, 128)], fill="black")
-    draw.text((0, 0), "Temp: {}".format(temp), fill="white", font=rr_12)
-    draw.text((0, 14), "Pressure: {}".format(pressure), fill="white", font=rr_12)
-    draw.text((0, 28), "Humidity: {}".format(humidity), fill="white", font=rr_12)
-    draw.text((0, 42), "Motion: {:05.02f}".format(motion), fill="white", font=rr_12)
-        
-    if swapped:
-        draw.text((0, 56), "Colour: {}".format(colour), fill="white", font=rr_12)
-        draw.text((0, 70), "UVA: {}".format(uv_description(uva_index)), fill="white", font=rr_12)
+    if len(warnings) > 0 and warning_swap:
+        draw.text((0, 0), "WARNINGS", fill="white", font=rr_14)
+        y = 2
+        for warning in warnings:
+            y += 14
+            draw.text((0, y), warning, fill="white", font=rr_12)
     else:
-        draw.text((0, 56), "Brightness: {}".format(get_brightness(r, g, b)), fill="white", font=rr_12)
-        draw.text((0, 70), "UVB: {}".format(uv_description(uvb_index)), fill="white", font=rr_12)
-    swapped = not swapped
+        draw.text((0, 0), "Temp: {}".format(data["temp"]), fill="white", font=rr_12)
+        draw.text((0, 14), "Pressure: {}".format(data["pressure"]), fill="white", font=rr_12)
+        draw.text((0, 28), "Humidity: {}".format(data["humidity"]), fill="white", font=rr_12)
+        draw.text((0, 42), "Motion: {:05.02f}".format(data["motion"]), fill="white", font=rr_12)
+        if swapped:
+            draw.text((0, 56), "Colour: {}".format(data["colour"]), fill="white", font=rr_12)
+            draw.text((0, 70), "UVA: {}".format(uv_description(data["uva_index"])), fill="white", font=rr_12)
+        else:
+            draw.text((0, 56), "Brightness: {}".format(get_brightness(data["r"], data["g"], data["b"])), fill="white",
+                      font=rr_12)
+            draw.text((0, 70), "UVB: {}".format(uv_description(data["uvb_index"])), fill="white", font=rr_12)
+        swapped = not swapped
 
     draw.text((0, 84), get_uptime(), fill="white", font=rr_12)
     oled.display(img)
+    warning_swap = not warning_swap  # //FIXME improve it
 
 
 if __name__ == '__main__':
+    setup_logging()
+
     print('Starting application ... \n Press Ctrl+C to shutdown')
-    main()
+    try:
+        main()
+    except Exception:
+        logger.error('Something went badly wrong..', exc_info=True)
+        bh1745.set_leds(0)
+        sys.exit(0)
