@@ -214,8 +214,8 @@ def store_measurement(data):
     logging.info(measurement)
     print_measurement(data, 20, 6)
     timestamp = datetime.datetime.now()
-    sensor_log_file = open(sensor_file, 'a+', newline='')
-    csv_writer = csv.writer(get_sensor_log_file())
+    sensor_log_file = open(get_sensor_log_file(), 'a+', newline='')
+    csv_writer = csv.writer(sensor_log_file)
     csv_writer.writerow([timestamp,
                          data['temp'], data['pressure'], data['humidity'], data['gas_resistance'],
                          data['colour'], data['aqi'],
@@ -235,8 +235,8 @@ def print_measurement(data, left_width, right_width):
 
 
 def print_items(data, left_width, right_width):
-    for k, v in data.items():
-        print(k.ljust(left_width, '.') + str(v).rjust(right_width, ' '))
+    for title, value in data.items():
+        print(title.ljust(left_width, '.') + str(value).rjust(right_width, ' '))
 
 
 def print_title(left_width, right_width):
