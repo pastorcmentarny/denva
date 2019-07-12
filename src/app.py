@@ -87,6 +87,11 @@ def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, e
         logging.basicConfig(level=default_level)
 
 
+def get_sensor_log_file() -> str:
+    today = datetime.datetime.now()
+    return '/home/pi/logs/sensor-log' + str(today.year) + '-' + str(today.month) + '-' + str(today.day) + '.csv'
+
+
 def sample():
     for i in range(51):
         ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
@@ -190,7 +195,7 @@ def get_warnings(data):
 
 def get_cpu_temp():
     return str(subprocess.check_output(['/opt/vc/bin/vcgencmd', 'measure_temp']), "utf-8") \
-               .replace('temp=', '') \
+               .replace('temp=', 'CPU:') \
 
 
 def store_measurement(data):
@@ -210,7 +215,7 @@ def store_measurement(data):
     print_measurement(data, 20, 6)
     timestamp = datetime.datetime.now()
     sensor_log_file = open(sensor_file, 'a+', newline='')
-    csv_writer = csv.writer(sensor_log_file)
+    csv_writer = csv.writer(get_sensor_log_file())
     csv_writer.writerow([timestamp,
                          data['temp'], data['pressure'], data['humidity'], data['gas_resistance'],
                          data['colour'], data['aqi'],
@@ -258,7 +263,7 @@ def uv_description(uv_index):
 
 
 def warn_if_dom_shakes_his_legs(motion):
-    if motion > 1500:
+    if motion > 1000:
         for i in range(5):
             bh1745.set_leds(1)
             time.sleep(0.2)
@@ -397,7 +402,7 @@ def draw_image_on_screen(data):
             draw.text((0, 70), "UVB: {}".format(uv_description(data["uvb_index"])), fill="white", font=rr_12)
         swapped = not swapped
 
-    #  system line
+    #  system line (TODO change every 5 cycles)
 
     if swapped:
         draw.text((0, 84), get_cpu_temp(), fill="white", font=rr_12)
