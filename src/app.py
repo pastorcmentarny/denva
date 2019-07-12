@@ -188,6 +188,11 @@ def get_warnings(data):
     return warnings
 
 
+def get_cpu_temp():
+    return str(subprocess.check_output(['/opt/vc/bin/vcgencmd', 'measure_temp']), "utf-8") \
+               .replace('temp=', '') \
+
+
 def store_measurement(data):
     motion = get_current_motion_difference()
     measurement = 'temp: {} pressure: {} humidity: {} gas_resistance {}, colour: {} AQI: {} UVA: {} UVB: {} motion: {} motion diff: {}'.format(
@@ -392,7 +397,13 @@ def draw_image_on_screen(data):
             draw.text((0, 70), "UVB: {}".format(uv_description(data["uvb_index"])), fill="white", font=rr_12)
         swapped = not swapped
 
-    draw.text((0, 84), get_uptime(), fill="white", font=rr_12)
+    #  system line
+
+    if swapped:
+        draw.text((0, 84), get_cpu_temp(), fill="white", font=rr_12)
+    else:
+        draw.text((0, 84), get_uptime(), fill="white", font=rr_12)
+
     oled.display(img)
     warning_swap = not warning_swap  # //FIXME improve it
 
