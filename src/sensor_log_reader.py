@@ -1,6 +1,7 @@
 import csv
 import datetime
 import time
+import re
 
 
 def get_sensor_log_file() -> str:
@@ -27,6 +28,10 @@ def get_records() -> dict:
             'uva': -100,
             'uvb': -100
         },
+        'cpu_temperature': {
+            'min': 100,
+            'max': -100
+        },
         'biggest_motion': 0
     }
 
@@ -46,6 +51,13 @@ def get_records() -> dict:
             result['humidity']['max'] = data_record['humidity']
         if float(data_record['humidity']) < float(result['humidity']['min']):
             result['humidity']['min'] = data_record['humidity']
+
+        if data_record['cpu_temp'] != '?':
+            data_record['cpu_temp'] = re.sub('[^0-9.]', '', data_record['cpu_temp'])
+            if float(data_record['cpu_temp']) > float(result['cpu_temperature']['max']):
+                result['cpu_temperature']['max'] = data_record['cpu_temp']
+            if float(data_record['cpu_temp']) < float(result['cpu_temperature']['min']):
+                result['cpu_temperature']['min'] = data_record['cpu_temp']
 
         if float(data_record['uva_index']) > float(result['max_uv_index']['uva']):
             result['max_uv_index']['uva'] = data_record['uva_index']
@@ -75,8 +87,12 @@ def load_data() -> list:
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
-
     for row in csv_data:
+        try:
+            row[19] == '?'
+        except IndexError:
+            row.insert(19, '?')
+            row.insert(20, '?')
         data.append(
             {
                 'timestamp': row[0],
@@ -97,7 +113,9 @@ def load_data() -> list:
                 'gz': row[15],
                 'mx': row[16],
                 'my': row[17],
-                'mz': row[18]
+                'mz': row[18],
+                'measurement_time': row[19],
+                'cpu_temp': row[20]
             }
         )
 
