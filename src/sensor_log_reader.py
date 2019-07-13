@@ -8,7 +8,7 @@ def get_sensor_log_file() -> str:
     return '/home/pi/logs/sensor-log' + str(today.year) + '-' + str(today.month) + '-' + str(today.day) + '.csv'
 
 
-def get_records() -> list:
+def get_records() -> dict:
     start = time.time_ns()
     result = {
         'temperature': {
@@ -61,6 +61,7 @@ def get_records() -> list:
         result['biggest_motion'] = str(int((float(result['biggest_motion']))))
 
     end = time.time_ns()
+    result["execution_time"] = str(end-start) + ' ns.'
     return result
 
 
