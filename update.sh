@@ -10,6 +10,8 @@ else
     rm -rf "denva-$1"
     wget "https://github.com/pastorcmentarny/denva/archive/$1.zip"
     unzip "$1.zip"
-    cd "denva-$1/src/"
+    cd "denva-$1/"
+    pip install -r "$1/requirements.txt "
+    cd "src/"
     sudo python3 app.py
 fi
