@@ -7,9 +7,9 @@ import json
 import logging
 import logging.config
 import os
+import subprocess
 import sys
 import time
-import subprocess
 
 import bme680
 import smbus
@@ -69,7 +69,7 @@ points = []
 sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
 sensitivity = 8
-
+shaking_level = 1000
 logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
 
@@ -80,8 +80,8 @@ def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, e
     if value:
         path = value
     if os.path.exists(path):
-        with open(path, 'rt') as f:
-            config = json.load(f)
+        with open(path, 'rt') as config_json_file:
+            config = json.load(config_json_file)
         logging.config.dictConfig(config)
     else:
         logging.basicConfig(level=default_level)
@@ -187,7 +187,7 @@ def get_warnings(data):
         warnings.append("UV B is TOO HIGH")
         warnings_logger.error('UV B is too cold. Current UV B is: ' + str(data["uvb_index"]))
 
-    if data['motion'] > 1000:
+    if data['motion'] > shaking_level:
         warnings_logger.info('Dom is shaking his legs. Value: ' + str(data["motion"]))
 
     return warnings
@@ -195,7 +195,17 @@ def get_warnings(data):
 
 def get_cpu_temp():
     return str(subprocess.check_output(['/opt/vc/bin/vcgencmd', 'measure_temp']), "utf-8") \
-               .replace('temp=', 'CPU:') \
+        .replace('temp=', 'CPU:')
+
+
+def get_cpu_speed():
+    cmd = "find /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq -type f | xargs cat | sort | uniq -c"
+    ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    output = ps.communicate()[0]
+    output = str(output)
+    output = output.strip()[4:len(output) - 3].strip()[2:]  # i am sorry ..
+    output = str(float(output) / 1000)
+    return 'Cpu: ' + output + ' Mhz'
 
 
 def store_measurement(data):
@@ -231,7 +241,7 @@ def store_measurement(data):
 def print_measurement(data, left_width, right_width):
     print_title(left_width, right_width)
     print_items(data, left_width, right_width)
-    print('-' * 40 + '\n')
+    print('-' * 36 + '\n')
 
 
 def print_items(data, left_width, right_width):
@@ -263,7 +273,7 @@ def uv_description(uv_index):
 
 
 def warn_if_dom_shakes_his_legs(motion):
-    if motion > 1000:
+    if motion > shaking_level:
         for i in range(5):
             bh1745.set_leds(1)
             time.sleep(0.2)
@@ -324,7 +334,7 @@ def get_data_from_measurement():
         "temp": temp,
         "pressure": pressure,
         "humidity": humidity,
-        "gas_resistance": gas_resistance,
+        "gas_resistance": "{:.2f}".format(gas_resistance),
         "aqi": aqi,
         "colour": colour,
         "motion": motion,
@@ -372,13 +382,16 @@ def get_uptime():
 
 swapped = False
 warning_swap = False
+cycle = 0
 
 
 def draw_image_on_screen(data):
     global swapped
     global warning_swap
-    warnings = get_warnings(data)
+    global cycle
+    cycle += 1
 
+    warnings = get_warnings(data)
     img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (128, 128)], fill="black")
@@ -404,13 +417,18 @@ def draw_image_on_screen(data):
 
     #  system line (TODO change every 5 cycles)
 
-    if swapped:
+    if cycle % 3 == 0:
         draw.text((0, 84), get_cpu_temp(), fill="white", font=rr_12)
-    else:
+    elif cycle % 3 == 1:
         draw.text((0, 84), get_uptime(), fill="white", font=rr_12)
+    else:
+        draw.text((0, 84), get_cpu_speed(), fill="white", font=rr_12)
 
     oled.display(img)
     warning_swap = not warning_swap  # //FIXME improve it
+
+    if cycle > 12:
+        cycle = 0
 
 
 if __name__ == '__main__':
