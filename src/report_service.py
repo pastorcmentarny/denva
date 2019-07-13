@@ -1,4 +1,6 @@
 import sensor_log_reader
+import warning_reader
+from flask import request
 from flask import Flask, jsonify
 
 """
@@ -20,6 +22,19 @@ def stats():
 @app.route("/records")
 def records():
     return jsonify(sensor_log_reader.get_records())
+
+
+@app.route("/warns")
+def today_warns():
+    return jsonify(warning_reader.get_warnings_for_today())
+
+
+@app.route("/warns/data")
+def day_warns():
+    year = request.args.get('year')
+    month = request.args.get('month')
+    day = request.args.get('day')
+    return jsonify(warning_reader.get_warnings_for(year, month, day))
 
 
 @app.route("/now")
