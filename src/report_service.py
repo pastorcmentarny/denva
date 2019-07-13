@@ -17,6 +17,11 @@ def stats():
     return jsonify(sensor_log_reader.load_data())
 
 
+@app.route("/records")
+def records():
+    return jsonify(sensor_log_reader.get_records())
+
+
 @app.route("/")
 def welcome():
     return "Warm welcome!"
