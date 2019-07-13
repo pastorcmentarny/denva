@@ -64,6 +64,11 @@ def get_records() -> list:
     return result
 
 
+def get_current_measurement() -> dict:
+    data = load_data()
+    return data[len(data)-1]
+
+
 def load_data() -> list:
     sensor_log_file = open(get_sensor_log_file(), 'r', newline='')
     csv_content = csv.reader(sensor_log_file)

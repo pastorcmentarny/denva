@@ -22,6 +22,11 @@ def records():
     return jsonify(sensor_log_reader.get_records())
 
 
+@app.route("/now")
+def now():
+    return jsonify(sensor_log_reader.get_current_measurement())
+
+
 @app.route("/")
 def welcome():
     return "Warm welcome!"
