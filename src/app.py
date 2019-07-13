@@ -10,6 +10,7 @@ import os
 import subprocess
 import sys
 import time
+import re
 
 import bme680
 import smbus
@@ -146,9 +147,8 @@ def get_motion_as_string(motion: dict) -> str:
         motion['mz'])
 
 
-def display_measurement_time(start_time, end_time):
-    result = end_time.microsecond - start_time.microsecond
-    logging.debug('it took ' + str(result) + ' microseconds to measure it.')
+def get_measurement_time(start_time, end_time):
+    return end_time.microsecond - start_time.microsecond
 
 
 def get_warnings(data):
@@ -220,7 +220,9 @@ def store_measurement(data):
         data['uva_index'],
         data['uvb_index'],
         data['motion'],
-        get_motion_as_string(motion))
+        get_motion_as_string(motion),
+        data["cpu_temp"],
+        str(data['measurement_time']) + ' ms.')
     logging.info(measurement)
     print_measurement(data, 20, 6)
     timestamp = datetime.datetime.now()
@@ -233,9 +235,15 @@ def store_measurement(data):
                          data['motion'],
                          motion['ax'], motion['ay'], motion['az'],
                          motion['gx'], motion['gy'], motion['gz'],
-                         motion['mx'], motion['my'], motion['mz']
+                         motion['mx'], motion['my'], motion['mz'],
+                         data['measurement_time'],
+                         get_cpu_from_text(data['cpu_temp'])
                          ])
     sensor_log_file.close()
+
+
+def get_cpu_from_text(cpu_temp:str):
+    return re.sub('[^0-9.]', '', cpu_temp)
 
 
 def print_measurement(data, left_width, right_width):
@@ -356,9 +364,11 @@ def main():
             data = get_data_from_measurement()
             end_time = datetime.datetime.now()
 
+            data['cpu_temp'] = get_cpu_temp()
+            measurement_time = get_measurement_time(start_time, end_time)
+            data['measurement_time'] = measurement_time
             store_measurement(data)
-
-            display_measurement_time(start_time, end_time)
+            logging.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
 
             draw_image_on_screen(data)
 
