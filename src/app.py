@@ -144,44 +144,55 @@ def get_measurement_time(start_time, end_time):
     return end_time.microsecond - start_time.microsecond
 
 
-def get_warnings(data):
+def get_warnings(data) -> list:
     warnings = []
     if data['temp'] < 16:
         warnings.append("Temp. is TOO LOW")
         warnings_logger.error('Temperature is too low. Current temperature is: ' + str(data['temp']))
     elif data['temp'] < 18:
         warnings.append("Temp. is low")
-        warnings_logger.error('Temperature is low. Current temperature is: ' + str(data['temp']))
+        warnings_logger.warning('Temperature is low. Current temperature is: ' + str(data['temp']))
     elif data['temp'] > 25:
         warnings.append("Temp. is high")
-        warnings_logger.error('Temperature is high. Current temperature is: ' + str(data['temp']))
+        warnings_logger.warning('Temperature is high. Current temperature is: ' + str(data['temp']))
     elif data['temp'] > 30:
-        warnings.append("Temp. is TOO HOT")
+        warnings.append("Temp. is TOO HIGH")
         warnings_logger.error('Temperature is too high. Current temperature is: ' + str(data['temp']))
 
     if data['humidity'] < 30:
-        warnings.append("humidity. is TOO LOW")
-        warnings_logger.error('humidity is too low. Current humidity is: ' + str(data['humidity']))
+        warnings.append("Humidity is TOO LOW")
+        warnings_logger.error('Humidity is too low. Current humidity is: ' + str(data['humidity']))
     elif data['humidity'] < 40:
-        warnings.append("humidity is low")
-        warnings_logger.error('humidity is too low. Current humidity is: ' + str(data['humidity']))
+        warnings.append("Humidity is low")
+        warnings_logger.warning('Humidity is low. Current humidity is: ' + str(data['humidity']))
     elif data['humidity'] > 60:
-        warnings.append("humidity is high")
-        warnings_logger.error('humidity is too cold. Current humidity is: ' + str(data['humidity']))
+        warnings.append("Humidity is high")
+        warnings_logger.warning('Humidity is high. Current humidity is: ' + str(data['humidity']))
     elif data['humidity'] > 70:
-        warnings.append("humidity is TOO HIGH")
-        warnings_logger.error('humidity is too cold. Current humidity is: ' + str(data['humidity']))
+        warnings.append("Humidity is TOO HIGH")
+        warnings_logger.error('Humidity is too high. Current humidity is: ' + str(data['humidity']))
 
     if data['uva_index'] > 6:
         warnings.append("UV A is TOO HIGH")
-        warnings_logger.error('UV A is too cold. Current humidity is: ' + str(data["uva_index"]))
+        warnings_logger.error('UV A is too high. Current UV A is: ' + str(data["uva_index"]))
 
     if data['uvb_index'] > 6:
         warnings.append("UV B is TOO HIGH")
-        warnings_logger.error('UV B is too cold. Current UV B is: ' + str(data["uvb_index"]))
+        warnings_logger.error('UV B is too high. Current UV B is: ' + str(data["uvb_index"]))
 
     if data['motion'] > shaking_level:
         warnings_logger.info('Dom is shaking his legs. Value: ' + str(data["motion"]))
+
+    if data['cpu_temp'] > 75:
+        warnings.append("CPU temp. TOO HIGH!")
+        warnings_logger.error('CPU temperature is too high. Current temperature is: ' + str(data['temp']))
+    elif data['cpu_temp'] > 60:
+        warnings.append("CPU temp. VERY HIGH")
+        warnings_logger.error('CPU temperature is very high. Current temperature is: ' + str(data['temp']))
+    elif data['cpu_temp'] > 50:
+        warnings.append("CPU temp. is high")
+        warnings_logger.warning('CPU temperature is high. Current temperature is: ' + str(data['temp']))
+
 
     return warnings
 

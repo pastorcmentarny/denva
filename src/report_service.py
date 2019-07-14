@@ -29,6 +29,11 @@ def today_warns():
     return jsonify(warning_reader.get_warnings_for_today())
 
 
+@app.route("/warns/now")
+def current_warns():
+    return jsonify(sensor_log_reader.get_current_warnings())
+
+
 @app.route("/warns/date")
 def day_warns():
     year = request.args.get('year')

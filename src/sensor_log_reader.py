@@ -2,6 +2,7 @@ import csv
 import datetime
 import time
 import re
+import warning_utils
 
 
 def get_sensor_log_file() -> str:
@@ -81,6 +82,9 @@ def get_current_measurement() -> dict:
     data = load_data()
     return data[len(data)-1]
 
+def get_current_warnings() -> dict:
+    data =get_current_measurement()
+    return warning_utils.ge
 
 def load_data() -> list:
     sensor_log_file = open(get_sensor_log_file(), 'r', newline='')
