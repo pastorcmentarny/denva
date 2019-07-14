@@ -44,12 +44,12 @@ def now():
 
 @app.route("/")
 def welcome():
-    return ["Warm welcome!",
+    return str(["Warm welcome!",
             (str(url_for('now'))),
             (str(url_for('records'))),
             (str(url_for('today_warns'))),
             (str(url_for('stats')))
-            ]
+            ])
 
 
 if __name__ == '__main__':
