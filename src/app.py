@@ -246,6 +246,13 @@ def get_cpu_from_text(cpu_temp:str):
     return re.sub('[^0-9.]', '', cpu_temp)
 
 
+def get_ip():
+    text = str(subprocess.check_output(['ifconfig', 'wlan0']), "utf-8")
+    start, end = text.find('inet'), text.find('netmask')
+    result = text[start+4: end]
+    return 'IP:' + result.strip()
+
+
 def print_measurement(data, left_width, right_width):
     print_title(left_width, right_width)
     print_items(data, left_width, right_width)
@@ -427,10 +434,12 @@ def draw_image_on_screen(data):
 
     #  system line (TODO change every 5 cycles)
 
-    if cycle % 3 == 0:
+    if cycle % 4 == 0:
         draw.text((0, 84), get_cpu_temp(), fill="white", font=rr_12)
-    elif cycle % 3 == 1:
+    elif cycle % 4 == 1:
         draw.text((0, 84), get_uptime(), fill="white", font=rr_12)
+    elif cycle % 4 == 3:
+        draw.text((0, 84), get_ip(), fill="white", font=rr_12)
     else:
         draw.text((0, 84), get_cpu_speed(), fill="white", font=rr_12)
 
