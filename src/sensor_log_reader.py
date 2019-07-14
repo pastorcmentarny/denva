@@ -118,6 +118,6 @@ def load_data() -> list:
                 'cpu_temp': row[20]
             }
         )
-
+    data.insert(0, 'Log entries counts: {}'.format(len(data)))
     sensor_log_file.close()
     return data
