@@ -48,7 +48,6 @@ def welcome():
             (str(url_for('now'))),
             (str(url_for('records'))),
             (str(url_for('warns'))),
-            (str(url_for('warns/date'))),
             (str(url_for('stats')))
             ]
 
