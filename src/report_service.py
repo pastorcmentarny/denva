@@ -47,7 +47,7 @@ def welcome():
     return ["Warm welcome!",
             (str(url_for('now'))),
             (str(url_for('records'))),
-            (str(url_for('warns'))),
+            (str(url_for('today_warns'))),
             (str(url_for('stats')))
             ]
 
