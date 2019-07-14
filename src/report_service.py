@@ -1,7 +1,7 @@
 import sensor_log_reader
 import warning_reader
 from flask import request
-from flask import Flask, jsonify
+from flask import Flask, jsonify, url_for
 
 """
 * Author Dominik Symonowicz
@@ -29,7 +29,7 @@ def today_warns():
     return jsonify(warning_reader.get_warnings_for_today())
 
 
-@app.route("/warns/data")
+@app.route("/warns/date")
 def day_warns():
     year = request.args.get('year')
     month = request.args.get('month')
@@ -44,7 +44,13 @@ def now():
 
 @app.route("/")
 def welcome():
-    return "Warm welcome!"
+    return ["Warm welcome!",
+            (str(url_for('/now'))),
+            (str(url_for('/records'))),
+            (str(url_for('/warns'))),
+            (str(url_for('/warns/date'))),
+            (str(url_for('/stats')))
+            ]
 
 
 if __name__ == '__main__':
