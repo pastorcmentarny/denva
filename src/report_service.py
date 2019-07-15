@@ -47,11 +47,5 @@ def welcome():
     return "Warm welcome!"
 
 
-def main():
-    print("Application started..")
-
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
-
-    main()
+    app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network

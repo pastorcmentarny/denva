@@ -23,13 +23,6 @@ from icm20948 import ICM20948
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
 
-# file setup
-original = os.getcwd()
-os.chdir('/home/pi/logs')
-log_file = os.getcwd() + '/denva-log.txt'
-sensor_file = os.getcwd() + '/sensor-log.csv'
-os.chdir(original)
-
 TEMP_OFFSET = 0.0
 
 bus = smbus.SMBus(1)
