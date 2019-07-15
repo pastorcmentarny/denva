@@ -1,3 +1,4 @@
+import re
 def get_warnings(data) -> dict:
     warnings = {}
     if data['temp'] < 16:
@@ -23,6 +24,8 @@ def get_warnings(data) -> dict:
 
     if data['uvb_index'] > 6:
         warnings['uvb_index'] = 'UV B is too high. Current UV B is: ' + str(data["uvb_index"])
+
+    data['cpu_temp'] = re.sub('[^0-9.]', '', data['cpu_temp'])
 
     if data['cpu_temp'] > 75:
         warnings['cpu_temp'] = 'CPU temperature is too high. Current temperature is: ' + str(data['cpu_temp'])
