@@ -183,7 +183,7 @@ def get_warnings(data) -> list:
     if data['motion'] > shaking_level:
         warnings_logger.info('Dom is shaking his legs. Value: ' + str(data["motion"]))
 
-    data['cpu_temp'] = re.sub('[^0-9.]', '', data['cpu_temp'])
+    data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
     if data['cpu_temp'] > 75:
         warnings.append("CPU temp. TOO HIGH!")
