@@ -207,6 +207,7 @@ def get_cpu_speed():
     try:
         output = str(float(output) / 1000)
     except ValueError:
+        logging.warning(output)
         return 'CPU: variable speed'
     return 'CPU: ' + output + ' Mhz'
 
