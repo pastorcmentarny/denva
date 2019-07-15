@@ -204,8 +204,11 @@ def get_cpu_speed():
     output = ps.communicate()[0]
     output = str(output)
     output = output.strip()[4:len(output) - 3].strip()[2:]  # i am sorry ..
-    output = str(float(output) / 1000)
-    return 'Cpu: ' + output + ' Mhz'
+    try:
+        output = str(float(output) / 1000)
+    except ValueError:
+        return 'CPU: variable speed'
+    return 'CPU: ' + output + ' Mhz'
 
 
 def store_measurement(data):
