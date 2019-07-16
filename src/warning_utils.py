@@ -43,6 +43,8 @@ def get_warnings(data) -> dict:
     elif data['cpu_temp'] > 50:
         warnings['cpu_temp'] = 'CPU temperature is high. Current temperature is: ' + str(data['cpu_temp'])
 
+    data['motion'] = float(data['motion'])
+
     if data['motion'] > 1000:
         warnings['motion'] = 'Dom is shaking his legs. Value: ' + str(data["motion"])
 

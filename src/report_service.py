@@ -35,7 +35,7 @@ def current_warns():
 
 
 @app.route("/warns/date")
-def day_warns():
+def specific_day_warns():
     year = request.args.get('year')
     month = request.args.get('month')
     day = request.args.get('day')
@@ -50,11 +50,13 @@ def now():
 @app.route("/")
 def welcome():
     return str(["Warm welcome!",
-            (str(url_for('now'))),
-            (str(url_for('records'))),
-            (str(url_for('today_warns'))),
-            (str(url_for('stats')))
-            ])
+                (request.host_url + str(url_for('now'))),
+                (request.host_url + str(url_for('records'))),
+                (request.host_url + str(url_for('today_warns'))),
+                (request.host_url + str(url_for('specific_day_warns'))),
+                (request.host_url + str(url_for('current_warns'))),
+                (request.host_url + str(url_for('stats')))
+                ])
 
 
 if __name__ == '__main__':

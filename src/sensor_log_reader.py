@@ -74,6 +74,7 @@ def get_records() -> dict:
         result['biggest_motion'] = str(int((float(result['biggest_motion']))))
 
     end = time.time_ns()
+    result['log entries counter'] = len(data_records)
     result["execution_time"] = str(end-start) + ' ns.'
     return result
 
@@ -122,6 +123,5 @@ def load_data() -> list:
                 'cpu_temp': row[20]
             }
         )
-    data.insert(0, 'Log entries counts: {}'.format(len(data)))
     sensor_log_file.close()
     return data
