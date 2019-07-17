@@ -344,6 +344,8 @@ def get_data_from_measurement():
         pressure = weather_sensor.data.pressure
         humidity = weather_sensor.data.humidity
         gas_resistance = weather_sensor.data.gas_resistance
+    else:
+        logger.warning("Weather sensor did't return readings. at" + str(datetime.datetime.now()))
     aqi = 0
     r, g, b = bh1745.get_rgb_scaled()
     colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)
