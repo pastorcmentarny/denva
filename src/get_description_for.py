@@ -1,4 +1,10 @@
-def uv_description(logging, uv_index):
+import re
+import logging
+
+logger = logging.getLogger('app')
+
+
+def uv(uv_index):
     if uv_index == 0:
         return "NONE"
     elif uv_index < 3:
@@ -12,11 +18,11 @@ def uv_description(logging, uv_index):
     elif uv_index > 11:
         return "EXTREME"
     else:
-        logging.warning('weird uv value: {}'.format(uv_index))
+        logger.warning('weird uv value: {}'.format(uv_index))
         return "UNKNOWN"
 
 
-def get_brightness(logging, r, g, b) -> str:
+def brightness(r, g, b) -> str:
     max_value = max(r, g, b)
     mid = (r + g + b) / 3
     result = (max_value + mid) / 2
@@ -40,5 +46,22 @@ def get_brightness(logging, r, g, b) -> str:
     elif 240 <= result < 256:
         return 'white'
     else:
-        logging.warning('weird brightness value: {} for {} {} {}'.format(result, r, g, b))
+        logger.warning('weird brightness value: {} for {} {} {}'.format(result, r, g, b))
         return '?'
+
+
+def get_cpu_from_text(cpu_temp: str) -> str:
+    return re.sub('[^0-9.]', '', cpu_temp)
+
+
+def get_motion_as_string(motion: dict) -> str:
+    return 'Acc: {:5.1f} {:5.1f} {:5.0f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
+        motion['ax'],
+        motion['ay'],
+        motion['az'],
+        motion['gx'],
+        motion['gy'],
+        motion['gz'],
+        motion['mx'],
+        motion['my'],
+        motion['mz'])
