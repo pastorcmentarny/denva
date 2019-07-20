@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 def get_warnings_for(year: str, month: str, day: str) -> list:
     return get_warnings('/home/pi/logs/warnings.log.' + year + '-' + month + '-' + day)
 

@@ -1,9 +1,5 @@
-import commands
-import sensor_log_reader
-import warning_reader
-
-from flask import request
-from flask import Flask, jsonify, url_for
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 """
 * Author Dominik Symonowicz
@@ -13,6 +9,14 @@ from flask import Flask, jsonify, url_for
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+
+import commands
+import sensor_log_reader
+import warning_reader
+
+from flask import request
+from flask import Flask, jsonify, url_for
+
 app = Flask(__name__)
 
 

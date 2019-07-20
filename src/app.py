@@ -60,6 +60,7 @@ sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
 sensitivity = 8
 shaking_level = 1000
+
 logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
 
