@@ -22,7 +22,7 @@ rr_12 = ImageFont.truetype(rr_path, 12)
 rr_14 = ImageFont.truetype(rr_path, 14)
 
 
-def draw_image_on_screen(data, cycle, warning_swap):
+def draw_image_on_screen(data, cycle, app_uptime):
     warnings = warning_utils.get_warnings_as_list(data)
     for x in warnings:
         logging.info(x)
@@ -51,6 +51,8 @@ def draw_image_on_screen(data, cycle, warning_swap):
         draw.text((0, 84), commands.get_cpu_temp(), fill="white", font=rr_12)
     elif cycle % 4 == 1:
         draw.text((0, 84), commands.get_uptime(), fill="white", font=rr_12)
+    elif cycle % 4 == 2:
+        draw.text((0, 84), app_uptime, fill="white", font=rr_12)
     elif cycle % 4 == 3:
         draw.text((0, 84), commands.get_ip(), fill="white", font=rr_12)
     else:
