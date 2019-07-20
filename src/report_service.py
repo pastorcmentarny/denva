@@ -1,5 +1,7 @@
+import commands
 import sensor_log_reader
 import warning_reader
+
 from flask import request
 from flask import Flask, jsonify, url_for
 
@@ -45,6 +47,11 @@ def specific_day_warns():
 @app.route("/now")
 def now():
     return jsonify(sensor_log_reader.get_current_measurement())
+
+
+@app.route("/system")
+def system():
+    return jsonify(commands.get_system_info())
 
 
 @app.route("/")

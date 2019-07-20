@@ -38,3 +38,12 @@ def get_uptime():
         .replace('hour', 'h') \
         .replace('minutes', 'm') \
         .replace('minute', 'm')
+
+
+def get_system_info():
+    return {
+        'CPU Speed' : get_cpu_speed(),
+        'CPU Temp' : get_cpu_temp(),
+        'IP': get_ip(),
+        'Uptime' : get_uptime()
+    }
