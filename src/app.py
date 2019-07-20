@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import csv
 import datetime
 import json
 import logging
@@ -9,6 +8,7 @@ import logging.config
 import os
 import sys
 import time
+from timeit import default_timer as timer
 
 import bme680
 import smbus
@@ -146,7 +146,7 @@ def get_current_motion_difference() -> dict:
 
 
 def get_measurement_time(start_time, end_time):
-    return end_time.microsecond - start_time.microsecond
+    return str(int((end_time - start_time)*1000)) + 'ms'
 
 
 def warn_if_dom_shakes_his_legs(motion):
@@ -206,9 +206,9 @@ def main():
     while True:
         try:
             logger.debug('getting measurement')
-            start_time = datetime.datetime.now()
+            start_time = timer()
             data = get_data_from_measurement()
-            end_time = datetime.datetime.now()
+            end_time = timer()
 
             data['cpu_temp'] = commands.get_cpu_temp()
             measurement_time = get_measurement_time(start_time, end_time)
