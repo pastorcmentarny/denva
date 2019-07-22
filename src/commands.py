@@ -35,6 +35,8 @@ def get_ip():
 
 def get_uptime():
     return str(subprocess.check_output(['uptime', '-p']), "utf-8") \
+        .replace('weeks', 'w') \
+        .replace('week', 'w') \
         .replace('days', 'd') \
         .replace('day', 'd') \
         .replace('hours', 'h') \

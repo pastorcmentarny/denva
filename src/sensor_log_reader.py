@@ -90,6 +90,7 @@ def get_current_warnings() -> dict:
     data =get_current_measurement()
     return warning_utils.get_warnings(data)
 
+
 def load_data() -> list:
     sensor_log_file = open(get_sensor_log_file(), 'r', newline='')
     csv_content = csv.reader(sensor_log_file)
