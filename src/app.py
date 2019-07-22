@@ -18,10 +18,14 @@ from PIL import ImageFont
 from bh1745 import BH1745
 from icm20948 import ICM20948
 
+import app_timer
 import cl_display
 import commands
+import data_files
+import email_sender_service
 import measurements
 import mini_display
+import warning_utils
 
 TEMP_OFFSET = 0.0
 
@@ -60,11 +64,13 @@ sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
 sensitivity = 8
 shaking_level = 1000
+cycle = 0
 
 logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
 
 app_startup_time = datetime.datetime.now()
+send_email_cooldown = datetime.datetime.now()
 
 
 def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, env_key='LOG_CFG'):
@@ -78,26 +84,6 @@ def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, e
         logging.config.dictConfig(config)
     else:
         logging.basicConfig(level=default_level)
-
-
-def get_app_uptime() -> str:
-    time_now = datetime.datetime.now()
-    duration = time_now - app_startup_time
-    duration_in_s = duration.total_seconds()
-    days = divmod(duration_in_s, 86400)
-    hours = divmod(days[1], 3600)
-    minutes = divmod(hours[1], 60)
-    seconds = divmod(minutes[1], 1)
-    uptime = "App:"
-    if days[0] > 0:
-        uptime += "%d d," % (days[0])
-    if hours[0] > 0:
-        uptime += "%d h," % (hours[0])
-    if minutes[0] > 0:
-        uptime += "%d m," % (minutes[0])
-    if seconds[0] > 0:
-        uptime += "%d s," % (seconds[0])
-    return uptime[:-1]
 
 
 def get_sensor_log_file() -> str:
@@ -198,12 +184,10 @@ def get_data_from_measurement():
     }
 
 
-cycle = 0
-
-
 def main():
     bh1745.set_leds(0)
     global cycle
+    global send_email_cooldown
     while True:
         try:
             logger.debug('getting measurement')
@@ -218,7 +202,9 @@ def main():
             cl_display.print_measurement(data, 20, 6)
             logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
 
-            mini_display.draw_image_on_screen(data, cycle, get_app_uptime())
+            mini_display.draw_image_on_screen(data, cycle, app_timer.get_app_uptime(app_startup_time))
+
+            send_email(data)
 
             cycle += 1
             if cycle > 12:
@@ -230,6 +216,15 @@ def main():
             print('request application shut down.. goodbye!')
             bh1745.set_leds(0)
             sys.exit(0)
+
+
+def send_email(data):
+    global send_email_cooldown
+    email_data = data
+    if app_timer.is_time_to_send_email(send_email_cooldown):
+        email_data['warnings'] = warning_utils.get_warnings_as_list(email_data)
+        email_sender_service.send(email_data, data_files.load_cfg())
+        send_email_cooldown = datetime.datetime.now()
 
 
 if __name__ == '__main__':

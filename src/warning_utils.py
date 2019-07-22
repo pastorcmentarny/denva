@@ -42,6 +42,7 @@ def get_warnings(data) -> dict:
     if data['uvb_index'] > 6:
         warnings['uvb_index'] = 'UV B is too high. Current UV B is: ' + str(data["uvb_index"])
 
+    print(data['cpu_temp'])
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
     if data['cpu_temp'] > 75:
@@ -98,7 +99,8 @@ def get_warnings_as_list(data) -> list:
     if data['motion'] > shaking_level:
         warnings_logger.info('Dom is shaking his legs. Value: ' + str(data["motion"]))
 
-    data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
+    if type(data['cpu_temp']) != float:
+        data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
     if data['cpu_temp'] > 75:
         warnings.append("CPU temp. TOO HIGH!")
