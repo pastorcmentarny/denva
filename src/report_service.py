@@ -30,6 +30,11 @@ def records():
     return jsonify(sensor_log_reader.get_records())
 
 
+@app.route("/avg")
+def average():
+    return jsonify(sensor_log_reader.get_averages())
+
+
 @app.route("/warns")
 def today_warns():
     return jsonify(warning_reader.get_warnings_for_today())
