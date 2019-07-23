@@ -104,12 +104,12 @@ def get_warnings_as_list(data) -> list:
 
     if data['cpu_temp'] > 75:
         warnings.append("CPU temp. TOO HIGH!")
-        warnings_logger.error('CPU temperature is too high. Current temperature is: ' + str(data['temp']))
+        warnings_logger.error('CPU temperature is too high. Current temperature is: ' + str(data['cpu_temp']))
     elif data['cpu_temp'] > 60:
         warnings.append("CPU temp. VERY HIGH")
-        warnings_logger.error('CPU temperature is very high. Current temperature is: ' + str(data['temp']))
+        warnings_logger.error('CPU temperature is very high. Current temperature is: ' + str(data['cpu_temp']))
     elif data['cpu_temp'] > 50:
         warnings.append("CPU temp. is high")
-        warnings_logger.warning('CPU temperature is high. Current temperature is: ' + str(data['temp']))
+        warnings_logger.warning('CPU temperature is high. Current temperature is: ' + str(data['cpu_temp']))
 
     return warnings
