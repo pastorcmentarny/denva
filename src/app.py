@@ -23,6 +23,7 @@ import cl_display
 import commands
 import data_files
 import email_sender_service
+import get_description_for
 import measurements
 import mini_display
 import warning_utils
@@ -159,7 +160,7 @@ def get_data_from_measurement():
         logger.warning("Weather sensor did't return data")
     aqi = 0
     r, g, b = bh1745.get_rgb_scaled()
-    colour = '#{:02x}{:02x}{:02x}'.format(r, g, b)  # TODO extract this
+    colour = get_description_for.to_hex(r, g, b)
     motion = get_motion()
     warn_if_dom_shakes_his_legs(motion)
 

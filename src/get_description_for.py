@@ -68,3 +68,7 @@ def get_motion_as_string(motion: dict) -> str:
         motion['mx'],
         motion['my'],
         motion['mz'])
+
+
+def to_hex(r,g,b):
+    return '#{:02x}{:02x}{:02x}'.format(r, g, b)
