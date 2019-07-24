@@ -87,11 +87,6 @@ def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, e
         logging.basicConfig(level=default_level)
 
 
-def get_sensor_log_file() -> str:
-    today = datetime.datetime.now()
-    return '/home/pi/logs/sensor-log' + str(today.year) + '-' + str(today.month) + '-' + str(today.day) + '.csv'
-
-
 def sample():
     for i in range(51):
         ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
