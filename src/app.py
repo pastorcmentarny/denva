@@ -189,9 +189,9 @@ def main():
             logger.debug('getting measurement')
             start_time = timer()
             data = get_data_from_measurement()
+            data['cpu_temp'] = commands.get_cpu_temp()
             end_time = timer()
 
-            data['cpu_temp'] = commands.get_cpu_temp()
             measurement_time = get_measurement_time(start_time, end_time)
             data['measurement_time'] = measurement_time
             measurements.store(data, get_current_motion_difference())
