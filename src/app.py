@@ -200,7 +200,7 @@ def main():
 
             mini_display.draw_image_on_screen(data, cycle, app_timer.get_app_uptime(app_startup_time))
 
-            send_email(data)
+            send_email_cooldown = email_sender_service.should_send_email(data, send_email_cooldown)
 
             cycle += 1
             if cycle > 12:
@@ -212,15 +212,6 @@ def main():
             print('request application shut down.. goodbye!')
             bh1745.set_leds(0)
             sys.exit(0)
-
-
-def send_email(data):
-    global send_email_cooldown
-    email_data = data
-    if app_timer.is_time_to_send_email(send_email_cooldown):
-        email_data['warnings'] = warning_utils.get_warnings_as_list(email_data)
-        email_sender_service.send(email_data, data_files.load_cfg())
-        send_email_cooldown = datetime.datetime.now()
 
 
 if __name__ == '__main__':
