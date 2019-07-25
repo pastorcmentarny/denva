@@ -10,6 +10,7 @@ from email.mime.text import MIMEText
 
 import app_timer
 import data_files
+import commands
 import warning_utils
 
 logger = logging.getLogger('app')
@@ -19,6 +20,7 @@ def should_send_email(data, send_email_cooldown):
     email_data = data
     if app_timer.is_time_to_send_email(send_email_cooldown):
         email_data['warnings'] = warning_utils.get_warnings_as_list(email_data)
+        email_data['system'] = commands.get_system_info()
         send(email_data, data_files.load_cfg())
         return datetime.datetime.now()
     else:

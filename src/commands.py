@@ -46,7 +46,7 @@ def get_uptime():
         .replace('minute', 'm')
 
 
-def get_system_info():
+def get_system_info() -> dict:
     return {
         'CPU Speed' : get_cpu_speed(),
         'CPU Temp' : get_cpu_temp(),
