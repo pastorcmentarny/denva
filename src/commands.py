@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import re
 import subprocess
 
 logger = logging.getLogger('app')
@@ -50,5 +51,12 @@ def get_system_info():
         'CPU Speed' : get_cpu_speed(),
         'CPU Temp' : get_cpu_temp(),
         'IP': get_ip(),
-        'Uptime' : get_uptime()
+        'Uptime': get_uptime(),
+        'Free Space: ': get_space_available() + 'MB'
     }
+
+
+def get_space_available():
+    p = subprocess.Popen("df / -m --output=avail", stdout=subprocess.PIPE, shell=True)
+    result, _ = p.communicate()
+    return re.sub('[^0-9.]', '', str(result))

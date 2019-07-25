@@ -50,15 +50,17 @@ def draw_image_on_screen(data, cycle, app_uptime):
             draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])), fill="white", font=rr_12)
             draw.text((0, 70), "UVB: {}".format(get_description_for.uv(data["uvb_index"])), fill="white", font=rr_12)
 
-    if cycle % 4 == 0:
+    if cycle % 6 == 0:
         draw.text((0, 84), commands.get_cpu_temp(), fill="white", font=rr_12)
-    elif cycle % 4 == 1:
+    elif cycle % 6 == 1:
         draw.text((0, 84), commands.get_uptime(), fill="white", font=rr_12)
-    elif cycle % 4 == 2:
-        draw.text((0, 84), app_uptime, fill="white", font=rr_12)
-    elif cycle % 4 == 3:
-        draw.text((0, 84), commands.get_ip(), fill="white", font=rr_12)
-    else:
+    elif cycle % 6 == 2:
         draw.text((0, 84), commands.get_cpu_speed(), fill="white", font=rr_12)
+    elif cycle % 6 == 3:
+        draw.text((0, 84), commands.get_ip(), fill="white", font=rr_12)
+    elif cycle % 6 == 4:
+        draw.text((0, 84), commands.get_space_available() + 'MB', fill="white", font=rr_12)
+    else:
+        draw.text((0, 84), app_uptime, fill="white", font=rr_12)
 
     oled.display(img)

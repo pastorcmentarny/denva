@@ -4,6 +4,7 @@
 import re
 import logging
 
+import commands
 warnings_logger = logging.getLogger('warnings')
 
 shaking_level = 1000  # extract to config file
@@ -42,7 +43,6 @@ def get_warnings(data) -> dict:
     if data['uvb_index'] > 6:
         warnings['uvb_index'] = 'UV B is too high [uvbe]. Current UV B is: {}'.format(str(data['uvb_index']))
 
-    print(data['cpu_temp'])
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
     if data['cpu_temp'] > 75:
@@ -60,6 +60,8 @@ def get_warnings(data) -> dict:
     if data['motion'] > 1000:
         warnings['motion'] = 'Dom is shaking his legs [slw]. Value: {}'.format(str(data['motion']))
 
+    if int(commands.get_space_available()) < 500:
+        warnings['free_space'] = 'Low Free Space: {}'.format(commands.get_space_available() + 'MB')
     return warnings
 
 
@@ -114,5 +116,10 @@ def get_warnings_as_list(data) -> list:
     elif data['cpu_temp'] > 50:
         warnings.append("CPU temp. is high")
         warnings_logger.warning('CPU temperature is high. Current temperature is: {}'.format(str(data['cpu_temp'])))
+
+    free_space = int(commands.get_space_available())
+    if free_space < 500:
+        warnings.append('Low Free Space: {}'.format(str(free_space) + 'MB'))
+        warnings_logger.warning('Low Free Space: {}'.format(str(free_space) + 'MB'))
 
     return warnings
