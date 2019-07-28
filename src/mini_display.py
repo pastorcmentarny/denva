@@ -24,8 +24,11 @@ rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Robo
 rr_12 = ImageFont.truetype(rr_path, 12)
 rr_14 = ImageFont.truetype(rr_path, 14)
 
+cycle = 0
 
-def draw_image_on_screen(data, cycle, app_uptime):
+
+def draw_image_on_screen(data, app_uptime):
+    global cycle
     warnings = warning_utils.get_warnings_as_list(data)
     for x in warnings:
         logging.info(x)
@@ -64,3 +67,6 @@ def draw_image_on_screen(data, cycle, app_uptime):
         draw.text((0, 84), app_uptime, fill="white", font=rr_12)
 
     oled.display(img)
+    cycle += 1
+    if cycle > 12:
+        cycle = 0

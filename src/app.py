@@ -199,13 +199,10 @@ def main():
             cl_display.print_measurement(data, 20, 6)
             logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
 
-            mini_display.draw_image_on_screen(data, cycle, app_timer.get_app_uptime(app_startup_time))
+            mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
             send_email_cooldown = email_sender_service.should_send_email(data, send_email_cooldown)
             send_to_report.send_current_data(data)
-            cycle += 1
-            if cycle > 12:
-                cycle = 0
 
             time.sleep(3)  # wait at least few seconds between measurements
 
