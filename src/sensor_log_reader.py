@@ -233,6 +233,6 @@ def get_data_row(row):
 
 
 def get_last_measurement() -> dict:
-    entry = commands.get_last_line_from_log('/home/pi/logs/sensor-log.csv');
+    entry = commands.get_last_line_from_log(get_sensor_log_file())
     data = entry.split(',')
     return get_data_row(data)
