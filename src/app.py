@@ -21,6 +21,7 @@ from icm20948 import ICM20948
 import app_timer
 import cl_display
 import commands
+import send_to_report
 import data_files
 import email_sender_service
 import get_description_for
@@ -192,7 +193,7 @@ def main():
             data['cpu_temp'] = commands.get_cpu_temp()
             end_time = timer()
 
-            measurement_time = get_measurement_time(start_time, end_time)
+            measurement_time = str(int((end_time - start_time) * 1000))  # in ms
             data['measurement_time'] = measurement_time
             measurements.store(data, get_current_motion_difference())
             cl_display.print_measurement(data, 20, 6)
@@ -201,7 +202,7 @@ def main():
             mini_display.draw_image_on_screen(data, cycle, app_timer.get_app_uptime(app_startup_time))
 
             send_email_cooldown = email_sender_service.should_send_email(data, send_email_cooldown)
-
+            send_to_report.send_current_data(data)
             cycle += 1
             if cycle > 12:
                 cycle = 0

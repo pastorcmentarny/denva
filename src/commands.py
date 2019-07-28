@@ -60,3 +60,8 @@ def get_space_available():
     p = subprocess.Popen("df / -m --output=avail", stdout=subprocess.PIPE, shell=True)
     result, _ = p.communicate()
     return re.sub('[^0-9.]', '', str(result))
+
+
+def get_last_line_from_log(path: str) -> str:
+    text = str(subprocess.check_output(['tail', '-n', "1", path]), "utf-8")
+    return text

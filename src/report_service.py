@@ -19,6 +19,8 @@ from flask import Flask, jsonify, url_for
 
 app = Flask(__name__)
 
+data = {}
+
 
 @app.route("/stats")
 def stats():
@@ -45,6 +47,10 @@ def current_warns():
     return jsonify(sensor_log_reader.get_current_warnings())
 
 
+@app.route("/warns/count")
+def count_warns():
+    return jsonify(sensor_log_reader.count_warning_today())
+
 @app.route("/warns/date")
 def specific_day_warns():
     year = request.args.get('year')
@@ -54,13 +60,20 @@ def specific_day_warns():
 
 
 @app.route("/now")
-def now():
-    return jsonify(sensor_log_reader.get_current_measurement())
+def now_two():
+    return jsonify(sensor_log_reader.get_last_measurement())
 
 
 @app.route("/system")
 def system():
     return jsonify(commands.get_system_info())
+
+
+@app.route("/update_data", methods=['POST'])
+def update():
+    global data
+    data = request.json
+    print(data)
 
 
 @app.route("/")
@@ -71,6 +84,7 @@ def welcome():
                 (request.host_url + str(url_for('today_warns'))),
                 (request.host_url + str(url_for('specific_day_warns'))),
                 (request.host_url + str(url_for('current_warns'))),
+                (request.host_url + str(url_for('system'))),
                 (request.host_url + str(url_for('stats')))
                 ])
 
