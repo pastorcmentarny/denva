@@ -71,7 +71,6 @@ warnings_logger = logging.getLogger('warnings')
 app_startup_time = datetime.datetime.now()
 
 
-
 def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, env_key='LOG_CFG'):
     path = default_path
     value = os.getenv(env_key, None)
@@ -128,7 +127,7 @@ def get_current_motion_difference() -> dict:
 
 def warn_if_dom_shakes_his_legs(motion):
     if motion > shaking_level:
-        for i in (5):
+        for i in range(5):
             bh1745.set_leds(1)
             time.sleep(0.2)
             bh1745.set_leds(0)
