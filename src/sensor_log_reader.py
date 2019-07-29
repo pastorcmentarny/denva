@@ -19,7 +19,12 @@ def get_sensor_log_file_for(year: int, month: int, day: int) -> str:
     return '/home/pi/logs/sensor-log' + str(year) + '-' + str(month) + '-' + str(day) + '.csv'
 
 
-def get_records() -> dict:
+def get_records_for_today() -> dict:
+    today = datetime.datetime.now()
+    return get_records(today.year, today.month, today.day)
+
+
+def get_records(year: int, month: int, day: int) -> dict:
     start = time.time_ns()
     result = {
         'temperature': {
@@ -45,7 +50,7 @@ def get_records() -> dict:
         'biggest_motion': 0
     }
 
-    data_records = load_data()
+    data_records = load_data(year, month, day)
     for data_record in data_records:
         if float(data_record['temp']) > float(result['temperature']['max']):
             result['temperature']['max'] = data_record['temp']
@@ -89,6 +94,11 @@ def get_records() -> dict:
 
 
 def get_averages() -> dict:
+    today = datetime.datetime.now()
+    return get_averages(today.year, today.month, today.day)
+
+
+def get_averages(year: int, month: int, day: int) -> dict:
     start = time.time_ns()
     result = {
         'temperature': 0,
@@ -112,7 +122,7 @@ def get_averages() -> dict:
     motion = 0
     measurement_time = 0
 
-    data_records = load_data()
+    data_records = load_data(year, month, day)
     for data_record in data_records:
         temperature += float(data_record['temp'])
         pressure += float(data_record['pressure'])
@@ -122,8 +132,11 @@ def get_averages() -> dict:
         uva += float(data_record['uva_index'])
         uvb += float(data_record['uvb_index'])
         motion += float(data_record['motion'])
-        measurement_time += float(re.sub('[^0-9.]', '', data_record['measurement_time']))
-
+        # TODO remove it as this temporary due to other bug
+        try:
+            measurement_time += float(re.sub('[^0-9.]', '', data_record['measurement_time']))
+        except ValueError:
+            measurement_time += float(1000)
     records = len(data_records)
     if records != 0:
         result['temperature'] = "{:.2f}".format(temperature / records)
@@ -163,7 +176,12 @@ def get_current_warnings() -> dict:
 
 
 def load_data() -> list:
-    sensor_log_file = open(get_sensor_log_file(), 'r', newline='')
+    today = datetime.datetime.now()
+    return load_data(today.year, today.month, today.day)
+
+
+def load_data(year: int, month: int, day: int) -> list:
+    sensor_log_file = open(get_sensor_log_file_for(year, month, day), 'r', newline='')
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []

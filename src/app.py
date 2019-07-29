@@ -21,13 +21,10 @@ from icm20948 import ICM20948
 import app_timer
 import cl_display
 import commands
-import send_to_report
-import data_files
 import email_sender_service
 import get_description_for
 import measurements
 import mini_display
-import warning_utils
 
 TEMP_OFFSET = 0.0
 

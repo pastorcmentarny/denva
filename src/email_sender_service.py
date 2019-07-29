@@ -4,6 +4,7 @@
 import smtplib
 import datetime
 import logging
+from datetime import timedelta
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -36,10 +37,12 @@ def send_report(data: dict, cfg: dict):
         msg = MIMEMultipart()  # create a message
 
         message = "Below is a json with a data:\n {}".format(str(data))
+        today = datetime.datetime.now()
+        yesterday = today - timedelta(days=1)
 
         msg['From'] = cfg['user']  # from me
         msg['To'] = cfg['user']  # to me
-        msg['Subject'] = 'Measurement @ {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        msg['Subject'] = 'Report @ {}'.format(yesterday.strftime("%Y-%m-%d %H:%M:%S"))
         msg.attach(MIMEText(message, 'plain'))
 
         stmp_server.send_message(msg, cfg['user'], cfg['user'])

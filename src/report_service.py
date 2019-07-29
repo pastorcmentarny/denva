@@ -1,93 +1,19 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+import logging
 
-"""
-* Author Dominik Symonowicz
-* WWW:	https://dominiksymonowicz.com/welcome
-* IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
-* Github:	https://github.com/pastorcmentarny
-* Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
-* LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
-"""
+import data_files
+import email_sender_service
+import report_generator
+import utils
 
-import commands
-import sensor_log_reader
-import warning_reader
-
-from flask import request
-from flask import Flask, jsonify, url_for
-
-app = Flask(__name__)
-
-data = {}
+logger = logging.getLogger('app')
 
 
-@app.route("/stats")
-def stats():
-    return jsonify(sensor_log_reader.load_data())
-
-
-@app.route("/records")
-def records():
-    return jsonify(sensor_log_reader.get_records())
-
-
-@app.route("/avg")
-def average():
-    return jsonify(sensor_log_reader.get_averages())
-
-
-@app.route("/warns")
-def today_warns():
-    return jsonify(warning_reader.get_warnings_for_today())
-
-
-@app.route("/warns/now")
-def current_warns():
-    return jsonify(sensor_log_reader.get_current_warnings())
-
-
-@app.route("/warns/count")
-def count_warns():
-    return jsonify(sensor_log_reader.count_warning_today())
-
-@app.route("/warns/date")
-def specific_day_warns():
-    year = request.args.get('year')
-    month = request.args.get('month')
-    day = request.args.get('day')
-    return jsonify(warning_reader.get_warnings_for(year, month, day))
-
-
-@app.route("/now")
-def now_two():
-    return jsonify(sensor_log_reader.get_last_measurement())
-
-
-@app.route("/system")
-def system():
-    return jsonify(commands.get_system_info())
-
-
-@app.route("/update_data", methods=['POST'])
-def update():
-    global data
-    data = request.json
-    print(data)
-
-
-@app.route("/")
-def welcome():
-    return str(["Warm welcome!",
-                (request.host_url + str(url_for('now'))),
-                (request.host_url + str(url_for('records'))),
-                (request.host_url + str(url_for('today_warns'))),
-                (request.host_url + str(url_for('specific_day_warns'))),
-                (request.host_url + str(url_for('current_warns'))),
-                (request.host_url + str(url_for('system'))),
-                (request.host_url + str(url_for('stats')))
-                ])
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+def generate_for_yesterday() -> dict:
+    path = utils.get_date_as_filename('report', 'json', utils.get_yesterday_date())
+    if data_files.check_if_report_was_generated(path):
+        return data_files.load_report(path)
+    else:
+        report = report_generator.generate_for_yesterday()
+        email_sender_service.send_report(report, data_files.load_cfg())
+        data_files.save_report(report, utils.get_date_as_filename('report', 'json', utils.get_yesterday_date()))
+        return report
