@@ -1,6 +1,11 @@
 {
-  "sensor": {
-    "sensitivity": 1000
+  "sensors": {
+    "motion": {
+      "sensitivity": 1000,
+      "noOfFlashes": 5,
+      "kedOnLength": 0.2,
+      "kedOffLength": 0.05
+    }
   },
   "email": {
     "enabled": true,

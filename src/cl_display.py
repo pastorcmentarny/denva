@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import datetime
+import utils
 
 
 def print_measurement(data, left_width, right_width):
@@ -16,5 +16,5 @@ def print_items(data, left_width, right_width):
 
 
 def print_title(left_width, right_width):
-    title = 'Measurement @ {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    title = 'Measurement @ {}'.format(utils.get_timestamp_title())
     print(title.center(left_width + right_width, "-"))

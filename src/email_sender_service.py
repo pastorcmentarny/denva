@@ -12,6 +12,7 @@ from email.mime.text import MIMEText
 import app_timer
 import data_files
 import commands
+import utils
 import warning_utils
 
 logger = logging.getLogger('app')
@@ -66,7 +67,7 @@ def send(data: dict, cfg: dict):
 
         msg['From']=cfg['user'] # from me
         msg['To']=cfg['user']  # to me
-        msg['Subject']=  'Measurement @ {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        msg['Subject'] = 'Measurement @ {}'.format(utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
 
         stmp_server.send_message(msg,cfg['user'],cfg['user'])

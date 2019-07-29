@@ -4,8 +4,8 @@
 import csv
 import datetime
 
-import get_description_for
 import sensor_log_reader
+import utils
 
 
 def store(data, motion):
@@ -21,6 +21,6 @@ def store(data, motion):
                          motion['gx'], motion['gy'], motion['gz'],
                          motion['mx'], motion['my'], motion['mz'],
                          data['measurement_time'],
-                         get_description_for.get_cpu_from_text(data['cpu_temp'])
+                         utils.get_float_number_from_text(data['cpu_temp'])
                          ])
     sensor_log_file.close()

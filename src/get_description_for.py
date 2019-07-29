@@ -53,10 +53,6 @@ def brightness(r, g, b) -> str:
         return '?'
 
 
-def get_cpu_from_text(cpu_temp: str) -> str:
-    return re.sub('[^0-9.]', '', cpu_temp)
-
-
 def get_motion_as_string(motion: dict) -> str:
     return 'Acc: {:5.1f} {:5.1f} {:5.0f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
         motion['ax'],
@@ -69,6 +65,3 @@ def get_motion_as_string(motion: dict) -> str:
         motion['my'],
         motion['mz'])
 
-
-def to_hex(r,g,b):
-    return '#{:02x}{:02x}{:02x}'.format(r, g, b)

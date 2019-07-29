@@ -22,9 +22,9 @@ import app_timer
 import cl_display
 import commands
 import email_sender_service
-import get_description_for
 import measurements
 import mini_display
+import utils
 
 TEMP_OFFSET = 0.0
 
@@ -126,13 +126,9 @@ def get_current_motion_difference() -> dict:
     }
 
 
-def get_measurement_time(start_time, end_time):
-    return str(int((end_time - start_time)*1000)) + 'ms'
-
-
 def warn_if_dom_shakes_his_legs(motion):
     if motion > shaking_level:
-        for i in range(5):
+        for i in (5):
             bh1745.set_leds(1)
             time.sleep(0.2)
             bh1745.set_leds(0)
@@ -153,7 +149,7 @@ def get_data_from_measurement():
         logger.warning("Weather sensor did't return data")
     aqi = 0
     r, g, b = bh1745.get_rgb_scaled()
-    colour = get_description_for.to_hex(r, g, b)
+    colour = utils.to_hex(r, g, b)
     motion = get_motion()
     warn_if_dom_shakes_his_legs(motion)
 
