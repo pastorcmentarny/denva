@@ -202,7 +202,6 @@ def main():
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
             send_email_cooldown = email_sender_service.should_send_email(data, send_email_cooldown)
-            send_to_report.send_current_data(data)
 
             time.sleep(3)  # wait at least few seconds between measurements
 
