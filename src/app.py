@@ -69,7 +69,7 @@ logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
 
 app_startup_time = datetime.datetime.now()
-send_email_cooldown = datetime.datetime.now()
+
 
 
 def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, env_key='LOG_CFG'):
@@ -177,7 +177,6 @@ def get_data_from_measurement():
 def main():
     bh1745.set_leds(0)
     global cycle
-    global send_email_cooldown
     while True:
         try:
             logger.debug('getting measurement')
@@ -194,7 +193,7 @@ def main():
 
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
-            send_email_cooldown = email_sender_service.should_send_email(data, send_email_cooldown)
+            email_sender_service.should_send_email(data)
 
             time.sleep(3)  # wait at least few seconds between measurements
 
