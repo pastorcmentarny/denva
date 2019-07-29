@@ -189,7 +189,7 @@ def main():
             measurement_time = str(int((end_time - start_time) * 1000))  # in ms
             data['measurement_time'] = measurement_time
             measurements.store(data, get_current_motion_difference())
-            cl_display.print_measurement(data, 20, 6)
+            cl_display.print_measurement(data)
             logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
 
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))

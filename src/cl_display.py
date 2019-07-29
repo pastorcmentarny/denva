@@ -4,7 +4,7 @@
 import utils
 
 
-def print_measurement(data, left_width, right_width):
+def print_measurement(data, left_width=20, right_width=6):
     print_title(left_width, right_width)
     print_items(data, left_width, right_width)
     print('-' * 36 + '\n')
