@@ -2,10 +2,10 @@ import csv
 import datetime
 from datetime import timedelta
 
-
+import averages
+import records
+import sensor_warnings
 import sensor_log_reader
-import warning_reader
-import warning_utils
 
 report = {
     'measurement_counter': 0,
@@ -51,17 +51,20 @@ report = {
 def generate_for_yesterday() -> dict:
     today = datetime.datetime.now()
     yesterday = today - timedelta(days=1)
-    return generate_for(yesterday.year, yesterday.month, yesterday.day)
+    return generate_for(yesterday)
 
 
-def generate_for(year, month, day) -> dict:
-    data = sensor_log_reader.get_sensor_log_file_for(year, month, day)
+def generate_for(date: datetime) -> dict:
+    year = date.year
+    month = date.month
+    day = date.day
+    data = load_data(year, month, day)
     report['measurement_counter'] = len(data)
-    warnings = warning_reader.get_warnings_for(year, month, day)
+    warnings = sensor_warnings.get_warnings_for(year, month, day)
     report['warning_counter'] = len(warnings)
-    report['warnings'] = warning_utils.count_warnings(warnings)
-    report['records'] = sensor_log_reader.get_records(year, month, day)
-    report['avg'] = sensor_log_reader.get_averages(year, month, day)
+    report['warnings'] = sensor_warnings.count_warnings(warnings)
+    report['records'] = records.get_records(data)
+    report['avg'] = averages.get_averages(data)
     return report
 
 

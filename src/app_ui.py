@@ -11,9 +11,11 @@
 """
 
 import commands
+import averages
+import records
+import sensor_warnings
 import report_service
 import sensor_log_reader
-import warning_reader
 
 from flask import request
 from flask import Flask, jsonify, url_for
@@ -23,32 +25,32 @@ app = Flask(__name__)
 
 @app.route("/stats")
 def stats():
-    return jsonify(sensor_log_reader.load_data())
+    return jsonify(sensor_log_reader.load_data_for_today())
 
 
 @app.route("/records")
-def records():
-    return jsonify(sensor_log_reader.get_records_for_today())
+def record():
+    return jsonify(records.get_records_for_today())
 
 
 @app.route("/avg")
 def average():
-    return jsonify(sensor_log_reader.get_averages())
+    return jsonify(averages.get_averages_for_today())
 
 
 @app.route("/warns")
 def today_warns():
-    return jsonify(warning_reader.get_warnings_for_today())
+    return jsonify(sensor_warnings.get_warnings_for_today())
 
 
 @app.route("/warns/now")
 def current_warns():
-    return jsonify(sensor_log_reader.get_current_warnings())
+    return jsonify(sensor_warnings.get_current_warnings())
 
 
 @app.route("/warns/count")
 def count_warns():
-    return jsonify(sensor_log_reader.count_warning_today())
+    return jsonify(sensor_warnings.count_warning_today())
 
 
 @app.route("/warns/date")
@@ -56,7 +58,7 @@ def specific_day_warns():
     year = request.args.get('year')
     month = request.args.get('month')
     day = request.args.get('day')
-    return jsonify(warning_reader.get_warnings_for(year, month, day))
+    return jsonify(sensor_warnings.get_warnings_for(year, month, day))
 
 
 @app.route("/now")

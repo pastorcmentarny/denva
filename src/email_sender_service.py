@@ -13,7 +13,7 @@ import app_timer
 import data_files
 import commands
 import utils
-import warning_utils
+import sensor_warnings
 
 logger = logging.getLogger('app')
 
@@ -24,7 +24,7 @@ def should_send_email(data):
     global send_email_cooldown
     email_data = data
     if app_timer.is_time_to_send_email(send_email_cooldown):
-        email_data['warnings'] = warning_utils.get_warnings_as_list(email_data)
+        email_data['warnings'] = sensor_warnings.get_warnings_as_list(email_data)
         email_data['system'] = commands.get_system_info()
         send(email_data, data_files.load_cfg())
         send_email_cooldown = datetime.datetime.now()

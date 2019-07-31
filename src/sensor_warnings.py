@@ -5,15 +5,32 @@ import re
 import logging
 
 import commands
+import data_files
+import sensor_log_reader
 
 warnings_logger = logging.getLogger('warnings')
 
 shaking_level = 1000  # extract to config file
 
 
+def get_warnings_for(year: str, month: str, day: str) -> list:
+    return data_files.load_warnings(
+        '/home/pi/logs/warnings.log.{}-0{}-{}'.format(str(year), str(month), str(day)))  # fix 0x
+
+
+def get_warnings_for_today() -> list:
+    return data_files.load_warnings('/home/pi/logs/warnings.log')
+
+
+def get_current_warnings() -> dict:
+    data = sensor_log_reader.get_last_measurement()
+    return get_warnings(data)
+
+
 def get_warnings(data) -> dict:
     warnings = {}
-    data['temp'] = float(data['temp'])
+    if type(data['temp']) is not float:
+        data['temp'] = float(data['temp'])
     if data['temp'] < 16:
         warnings['temp'] = 'Temperature is too low [tle]. Current temperature is: {}'.format(str(data['temp']))
     elif data['temp'] < 18:
@@ -64,6 +81,10 @@ def get_warnings(data) -> dict:
     if int(commands.get_space_available()) < 500:
         warnings['free_space'] = 'Low Free Space: {}'.format(commands.get_space_available() + 'MB')
     return warnings
+
+
+def count_warning_today() -> dict:
+    return count_warnings(get_warnings_for_today())
 
 
 def count_warnings(warnings) -> dict:

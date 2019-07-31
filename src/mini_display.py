@@ -11,8 +11,7 @@ from luma.core.interface.serial import i2c
 
 import commands
 import get_description_for
-import warning_utils
-
+import sensor_warnings
 logger = logging.getLogger('app')
 
 
@@ -29,16 +28,16 @@ cycle = 0
 
 def draw_image_on_screen(data, app_uptime):
     global cycle
-    warnings = warning_utils.get_warnings_as_list(data)
-    for x in warnings:
+    warnings_list = sensor_warnings.get_warnings_as_list(data)
+    for x in warnings_list:
         logging.info(x)
     img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (128, 128)], fill="black")
-    if len(warnings) > 0 and cycle % 3 == 2:
+    if len(warnings_list) > 0 and cycle % 3 == 2:
         draw.text((0, 0), "WARNINGS", fill="white", font=rr_14)
         y = 2
-        for warning in warnings:
+        for warning in warnings_list:
             y += 14
             draw.text((0, y), warning, fill="white", font=rr_12)
     else:
