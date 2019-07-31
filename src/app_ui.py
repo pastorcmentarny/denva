@@ -62,7 +62,7 @@ def specific_day_warns():
 
 
 @app.route("/now")
-def now_two():
+def now():
     return jsonify(sensor_log_reader.get_last_measurement())
 
 
@@ -78,15 +78,45 @@ def last_report():
 
 @app.route("/")
 def welcome():
-    return str(["Warm welcome!",
-                (request.host_url + str(url_for('now'))),
-                (request.host_url + str(url_for('records'))),
-                (request.host_url + str(url_for('today_warns'))),
-                (request.host_url + str(url_for('specific_day_warns'))),
-                (request.host_url + str(url_for('current_warns'))),
-                (request.host_url + str(url_for('system'))),
-                (request.host_url + str(url_for('stats')))
-                ])
+    host = request.host_url[:-1]
+    now = host + str(url_for('now'))
+    system = host + str(url_for('system'))
+    avg = host + str(url_for('average'))
+    records = host + str(url_for('record'))
+    stats = host + str(url_for('stats'))
+    warns = host + str(url_for('today_warns'))
+    warns_now = host + str(url_for('current_warns'))
+    warns_count = host + str(url_for('count_warns'))
+    last_report = host + str(url_for('last_report'))
+
+    return """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Denva - Dom's Environment Analyser</title>
+</head>
+<body>
+<h1>Select:</h1>
+<ul><li><a href="{}">Report for yesterday</a></li></ul>
+
+<h2>Info</h2>   
+<ul>
+    <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
+</ul>
+<h2>Warnings:</h2>
+<ul>
+    <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
+</ul>
+By Dominik(Pastor Cmentarny)&Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
+</body>
+</html>""".format(last_report, now, now, records, records, avg, avg, stats, stats, system, system,
+                  warns, warns, warns_now, warns_now, warns_count, warns_count)
 
 
 if __name__ == '__main__':
