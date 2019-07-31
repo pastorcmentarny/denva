@@ -187,9 +187,9 @@ def main():
             measurement_time = str(int((end_time - start_time) * 1000))  # in ms
             data['measurement_time'] = measurement_time
             data_files.store_measurement(data, get_current_motion_difference())
-            cl_display.print_measurement(data)
             logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
 
+            cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
             email_sender_service.should_send_email(data)
