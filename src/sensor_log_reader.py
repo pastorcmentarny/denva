@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import csv
-import datetime
+from datetime import datetime
 
 import commands
 
 
 def get_sensor_log_file() -> str:
-    today = datetime.datetime.now()
+    today = datetime.now()
     return '/home/pi/logs/sensor-log' + str(today.year) + '-' + str(today.month) + '-' + str(today.day) + '.csv'
 
 
@@ -17,7 +17,7 @@ def get_sensor_log_file_for(year: int, month: int, day: int) -> str:
 
 
 def load_data_for_today() -> list:
-    today = datetime.datetime.now()
+    today = datetime.now()
     return load_data(today.year, today.month, today.day)
 
 

@@ -12,12 +12,11 @@ from luma.core.interface.serial import i2c
 import commands
 import get_description_for
 import sensor_warnings
-logger = logging.getLogger('app')
 
+logger = logging.getLogger('app')
 
 # Set up OLED
 oled = sh1106(i2c(port=1, address=0x3C), rotate=2, height=128, width=128)
-
 
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
 rr_12 = ImageFont.truetype(rr_path, 12)
@@ -29,8 +28,6 @@ cycle = 0
 def draw_image_on_screen(data, app_uptime):
     global cycle
     warnings_list = sensor_warnings.get_warnings_as_list(data)
-    for x in warnings_list:
-        logging.info(x)
     img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (128, 128)], fill="black")
@@ -49,7 +46,8 @@ def draw_image_on_screen(data, app_uptime):
             draw.text((0, 56), "Colour: {}".format(data["colour"]), fill="white", font=rr_12)
             draw.text((0, 70), "UVA: {}".format(get_description_for.uv(data["uva_index"])), fill="white", font=rr_12)
         else:
-            draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])), fill="white", font=rr_12)
+            draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])),
+                      fill="white", font=rr_12)
             draw.text((0, 70), "UVB: {}".format(get_description_for.uv(data["uvb_index"])), fill="white", font=rr_12)
 
     if cycle % 6 == 0:

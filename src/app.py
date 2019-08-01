@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import datetime
+from datetime import datetime
 import json
 import logging
 import logging.config
@@ -68,14 +68,11 @@ cycle = 0
 logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
 
-app_startup_time = datetime.datetime.now()
+app_startup_time = datetime.now()
 
 
-def setup_logging(default_path='log_config.json', default_level=logging.DEBUG, env_key='LOG_CFG'):
+def setup_logging(default_path='configs/log_config.json', default_level=logging.INFO):
     path = default_path
-    value = os.getenv(env_key, None)
-    if value:
-        path = value
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
@@ -194,7 +191,10 @@ def main():
 
             email_sender_service.should_send_email(data)
 
-            time.sleep(3)  # wait at least few seconds between measurements
+            remaining_of_five_s = 5 - (float(measurement_time) / 1000)
+
+            if remaining_of_five_s > 0:
+                time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
 
         except KeyboardInterrupt:
             print('request application shut down.. goodbye!')

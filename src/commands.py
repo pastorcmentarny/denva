@@ -30,7 +30,7 @@ def get_cpu_temp():
 def get_ip():
     text = str(subprocess.check_output(['ifconfig', 'wlan0']), "utf-8")
     start, end = text.find('inet'), text.find('netmask')
-    result = text[start+4: end]
+    result = text[start + 4: end]
     return 'IP:' + result.strip()
 
 
@@ -48,8 +48,8 @@ def get_uptime():
 
 def get_system_info() -> dict:
     return {
-        'CPU Speed' : get_cpu_speed(),
-        'CPU Temp' : get_cpu_temp(),
+        'CPU Speed': get_cpu_speed(),
+        'CPU Temp': get_cpu_temp(),
         'IP': get_ip(),
         'Uptime': get_uptime(),
         'Free Space: ': get_space_available() + 'MB'

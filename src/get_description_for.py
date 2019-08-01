@@ -53,7 +53,7 @@ def brightness(r, g, b) -> str:
         return '?'
 
 
-def get_motion_as_string(motion: dict) -> str:
+def motion(motion: dict) -> str:
     return 'Acc: {:5.1f} {:5.1f} {:5.0f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
         motion['ax'],
         motion['ay'],
@@ -64,4 +64,3 @@ def get_motion_as_string(motion: dict) -> str:
         motion['mx'],
         motion['my'],
         motion['mz'])
-

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import datetime
+from datetime import datetime
 
 
 def get_app_uptime(app_startup_time) -> str:
-    time_now = datetime.datetime.now()
+    time_now = datetime.now()
     duration = time_now - app_startup_time
     duration_in_s = duration.total_seconds()
     days = divmod(duration_in_s, 86400)
@@ -24,7 +24,7 @@ def get_app_uptime(app_startup_time) -> str:
 
 
 def is_time_to_send_email(previous_update_time) -> bool:
-    time_now = datetime.datetime.now()
+    time_now = datetime.now()
     duration = time_now - previous_update_time
     duration_in_s = duration.total_seconds()
     return duration_in_s > 5 * 60

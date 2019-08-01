@@ -1,5 +1,5 @@
 import csv
-import datetime
+from datetime import datetime
 from datetime import timedelta
 
 import averages
@@ -49,7 +49,7 @@ report = {
 
 
 def generate_for_yesterday() -> dict:
-    today = datetime.datetime.now()
+    today = datetime.now()
     yesterday = today - timedelta(days=1)
     return generate_for(yesterday)
 

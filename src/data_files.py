@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import csv
-import datetime
+from datetime import datetime
 import json
 import os.path
 
 import sensor_log_reader
 import utils
 
+
 def load_cfg() -> dict:
-    path = '/home/pi/email.json'
+    path = '/home/pi/email.json'  # actual cfg is different place
     with open(path, 'r') as email_config:
         return json.load(email_config)
 
@@ -32,13 +33,14 @@ def load_warnings(path: str) -> list:
     content.insert(0, 'Warning counts: {}'.format(len(content)))
     return content
 
+
 def check_if_report_was_generated(report_date: str) -> bool:
     path = '/home/pi/reports/{}'.format(report_date)
     return os.path.isfile(path)
 
 
 def store_measurement(data, motion):
-    timestamp = datetime.datetime.now()
+    timestamp = datetime.now()
     sensor_log_file = open(sensor_log_reader.get_sensor_log_file(), 'a+', newline='')
     csv_writer = csv.writer(sensor_log_file)
     csv_writer.writerow([timestamp,
