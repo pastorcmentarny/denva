@@ -12,7 +12,7 @@ from luma.core.interface.serial import i2c
 import commands
 import get_description_for
 import sensor_warnings
-
+import web_data
 logger = logging.getLogger('app')
 
 # Set up OLED
@@ -37,6 +37,13 @@ def draw_image_on_screen(data, app_uptime):
         for warning in warnings_list:
             y += 14
             draw.text((0, y), warning, fill="white", font=rr_12)
+    elif cycle % 6 == 1:
+        statuses = web_data.get_status()
+        draw.text((0, 0), "Train & Tubes", fill="white", font=rr_14)
+        y = 2
+        for status in statuses:
+            y += 14
+            draw.text((0, y), status, fill="white", font=rr_12)
     else:
         draw.text((0, 0), "Temp: {}".format(data["temp"]), fill="white", font=rr_12)
         draw.text((0, 14), "Pressure: {}".format(data["pressure"]), fill="white", font=rr_12)
