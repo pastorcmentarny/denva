@@ -123,11 +123,11 @@ def welcome():
     <li><a href="{}">{}</a></li>
     <li><a href="{}">{}</a></li>
 </ul>
-<h2>:</h2>
+<h2>Other:</h2>
 <ul>
     <li><a href="{}">{}</a></li>
 </ul>
-By Dominik(Pastor Cmentarny)&Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
+By Dominik (Pastor Cmentarny) &Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
 </body>
 </html>""".format(page_last_report, page_now, page_now, page_records, page_records, page_avg, page_avg, page_stats,
                   page_stats, page_system, page_system, page_warns, page_warns, page_warns_now, page_warns_now,
