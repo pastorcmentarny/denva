@@ -187,15 +187,15 @@ def get_warnings_as_list(data) -> list:
     if data['cpu_temp'] > 75:
         warnings.append('CPU temp. TOO HIGH!')
         warnings_logger.error(
-            '[cthe] CPU temperature is too high. Current temperature is: {}'.format(str(data['cpu_temp'])))
+            '[cthf] CPU temperature is too high. Current temperature is: {}'.format(str(data['cpu_temp'])))
     elif data['cpu_temp'] > 60:
         warnings.append('CPU temp. VERY HIGH')
         warnings_logger.error(
-            '[cthw] CPU temperature is very high. Current temperature is: {}'.format(str(data['cpu_temp'])))
+            '[cthe] CPU temperature is very high. Current temperature is: {}'.format(str(data['cpu_temp'])))
     elif data['cpu_temp'] > 50:
         warnings.append('CPU temp. is high')
         warnings_logger.warning(
-            '[cthe] CPU temperature is high. Current temperature is: {}'.format(str(data['cpu_temp'])))
+            '[cthw] CPU temperature is high. Current temperature is: {}'.format(str(data['cpu_temp'])))
 
     free_space = int(commands.get_space_available())
     if free_space < 500:

@@ -14,6 +14,6 @@ def generate_for_yesterday() -> dict:
         return data_files.load_report(path)
     else:
         report = report_generator.generate_for_yesterday()
-        email_sender_service.send_report(report, data_files.load_cfg(), 'Report')
+        email_sender_service.send(report, data_files.load_cfg(), 'Report')
         data_files.save_report(report, utils.get_date_as_filename('report', 'json', utils.get_yesterday_date()))
         return report
