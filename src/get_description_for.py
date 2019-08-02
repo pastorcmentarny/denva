@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import re
 import logging
 
 logger = logging.getLogger('app')
@@ -53,14 +52,14 @@ def brightness(r, g, b) -> str:
         return '?'
 
 
-def motion(motion: dict) -> str:
+def motion(motion_data: dict) -> str:
     return 'Acc: {:5.1f} {:5.1f} {:5.0f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
-        motion['ax'],
-        motion['ay'],
-        motion['az'],
-        motion['gx'],
-        motion['gy'],
-        motion['gz'],
-        motion['mx'],
-        motion['my'],
-        motion['mz'])
+        motion_data['ax'],
+        motion_data['ay'],
+        motion_data['az'],
+        motion_data['gx'],
+        motion_data['gy'],
+        motion_data['gz'],
+        motion_data['mx'],
+        motion_data['my'],
+        motion_data['mz'])

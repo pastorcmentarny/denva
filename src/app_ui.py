@@ -88,17 +88,16 @@ def tube_trains_status():
 @app.route("/")
 def welcome():
     host = request.host_url[:-1]
-    now = host + str(url_for('now'))
-    system = host + str(url_for('system'))
-    avg = host + str(url_for('average'))
-    records = host + str(url_for('record'))
-    stats = host + str(url_for('stats'))
-    warns = host + str(url_for('today_warns'))
-    warns_now = host + str(url_for('current_warns'))
-    warns_count = host + str(url_for('count_warns'))
-    last_report = host + str(url_for('last_report'))
-    tube_trains = host + str(url_for('tube_trains_status'))
-
+    page_now = host + str(url_for('now'))
+    page_system = host + str(url_for('system'))
+    page_avg = host + str(url_for('average'))
+    page_records = host + str(url_for('record'))
+    page_stats = host + str(url_for('stats'))
+    page_warns = host + str(url_for('today_warns'))
+    page_warns_now = host + str(url_for('current_warns'))
+    page_warns_count = host + str(url_for('count_warns'))
+    page_last_report = host + str(url_for('last_report'))
+    page_tube_trains = host + str(url_for('tube_trains_status'))
 
     return """<!DOCTYPE html>
 <html lang="en">
@@ -130,8 +129,9 @@ def welcome():
 </ul>
 By Dominik(Pastor Cmentarny)&Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
 </body>
-</html>""".format(last_report, now, now, records, records, avg, avg, stats, stats, system, system,
-                  warns, warns, warns_now, warns_now, warns_count, warns_count, tube_trains, tube_trains)
+</html>""".format(page_last_report, page_now, page_now, page_records, page_records, page_avg, page_avg, page_stats,
+                  page_stats, page_system, page_system, page_warns, page_warns, page_warns_now, page_warns_now,
+                  page_warns_count, page_warns_count, page_tube_trains, page_tube_trains)
 
 
 if __name__ == '__main__':

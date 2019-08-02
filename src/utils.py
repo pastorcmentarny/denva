@@ -3,12 +3,12 @@ from datetime import timedelta
 import re
 
 
-def get_date_as_filename(name: str, type: str, dt: datetime) -> str:
-    return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{type}"
+def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
+    return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{file_type}"
 
 
-def get_filename_from_year_month_day(name: str, type: str, year: int, month: int, day: int) -> str:
-    return f"{name}-{year}-{month:02d}-{day:02d}.{type}"
+def get_filename_from_year_month_day(name: str, file_type: str, year: int, month: int, day: int) -> str:
+    return f"{name}-{year}-{month:02d}-{day:02d}.{file_type}"
 
 
 def get_filename_for_warnings(year, month, day):

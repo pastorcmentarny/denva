@@ -41,7 +41,7 @@ def get_averages(data_records) -> dict:
         uva += float(data_record['uva_index'])
         uvb += float(data_record['uvb_index'])
         motion += float(data_record['motion'])
-        # TODO remove it as this temporary due to other bug
+        # TODO remove it as this temporary due to other bug in v2
         try:
             measurement_time += float(re.sub('[^0-9.]', '', data_record['measurement_time']))
         except ValueError:
