@@ -7,6 +7,7 @@ import logging
 import commands
 import data_files
 import sensor_log_reader
+import utils
 
 warnings_logger = logging.getLogger('warnings')
 
@@ -14,8 +15,8 @@ shaking_level = 1000  # extract to config file
 
 
 def get_warnings_for(year: str, month: str, day: str) -> list:
-    return data_files.load_warnings(
-        '/home/pi/logs/warnings.log.{}-{}-0{}'.format(str(year), str(month), str(day)))  # fix 0x
+    date = utils.get_filename_for_warnings(year, month, day)
+    return data_files.load_warnings('/home/pi/logs/' + date)
 
 
 def get_warnings_for_today() -> list:

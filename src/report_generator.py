@@ -6,6 +6,8 @@ import averages
 import records
 import sensor_warnings
 import sensor_log_reader
+import utils
+
 
 report = {
     'measurement_counter': 0,
@@ -69,7 +71,8 @@ def generate_for(date: datetime) -> dict:
 
 
 def load_data(year, month, day) -> list:
-    sensor_log_file = open('/home/pi/logs/sensor-log{}-{}-{}.csv'.format(str(year), str(month), str(day)), 'r',
+    path = utils.get_filename_from_year_month_day('sensor-log', 'csv', year, month, day)
+    sensor_log_file = open('/home/pi/logs/' + path, 'r',
                            newline='')
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
