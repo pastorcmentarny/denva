@@ -16,6 +16,7 @@ import records
 import sensor_warnings
 import report_service
 import sensor_log_reader
+import web_data
 
 from flask import request
 from flask import Flask, jsonify, url_for
@@ -76,6 +77,14 @@ def last_report():
     return jsonify(report_service.generate_for_yesterday())
 
 
+@app.route("/tt")
+def tube_trains_status():
+    tt_statuses = {
+        "Train & Trains": web_data.get_status()
+    }
+    return jsonify(tt_statuses)
+
+
 @app.route("/")
 def welcome():
     host = request.host_url[:-1]
@@ -88,6 +97,8 @@ def welcome():
     warns_now = host + str(url_for('current_warns'))
     warns_count = host + str(url_for('count_warns'))
     last_report = host + str(url_for('last_report'))
+    tube_trains = host + str(url_for('tube_trains_status'))
+
 
     return """<!DOCTYPE html>
 <html lang="en">
@@ -113,10 +124,14 @@ def welcome():
     <li><a href="{}">{}</a></li>
     <li><a href="{}">{}</a></li>
 </ul>
+<h2>:</h2>
+<ul>
+    <li><a href="{}">{}</a></li>
+</ul>
 By Dominik(Pastor Cmentarny)&Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
 </body>
 </html>""".format(last_report, now, now, records, records, avg, avg, stats, stats, system, system,
-                  warns, warns, warns_now, warns_now, warns_count, warns_count)
+                  warns, warns, warns_now, warns_now, warns_count, warns_count, tube_trains, tube_trains)
 
 
 if __name__ == '__main__':
