@@ -15,7 +15,7 @@ shaking_level = 1000  # extract to config file
 
 def get_warnings_for(year: str, month: str, day: str) -> list:
     return data_files.load_warnings(
-        '/home/pi/logs/warnings.log.{}-0{}-{}'.format(str(year), str(month), str(day)))  # fix 0x
+        '/home/pi/logs/warnings.log.{}-{}-0{}'.format(str(year), str(month), str(day)))  # fix 0x
 
 
 def get_warnings_for_today() -> list:

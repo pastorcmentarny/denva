@@ -5,15 +5,15 @@ import csv
 from datetime import datetime
 
 import commands
+import utils
 
 
 def get_sensor_log_file() -> str:
-    today = datetime.now()
-    return '/home/pi/logs/sensor-log' + str(today.year) + '-' + str(today.month) + '-' + str(today.day) + '.csv'
+    return '/home/pi/logs/' + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
 def get_sensor_log_file_for(year: int, month: int, day: int) -> str:
-    return '/home/pi/logs/sensor-log' + str(year) + '-' + str(month) + '-' + str(day) + '.csv'
+    return '/home/pi/logs/' + utils.get_filename_from_year_month_day('sensor-log', 'csv', year, month, day)
 
 
 def load_data_for_today() -> list:
