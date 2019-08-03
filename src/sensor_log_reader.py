@@ -24,7 +24,7 @@ def load_data_for_today() -> list:
 
 
 def load_data(year: int, month: int, day: int) -> list:
-    sensor_log_file = open(get_sensor_log_file_for(year, month, day), 'r', newline='')
+    sensor_log_file = open(get_sensor_log_file_for(year, month, day), 'r', newline='', encoding='utf-8')
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
