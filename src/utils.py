@@ -31,3 +31,8 @@ def to_hex(r, g, b):
 
 def get_float_number_from_text(cpu_temp: str) -> str:
     return re.sub('[^0-9.]', '', cpu_temp)
+
+
+def fix_nulls(data):
+    for line in data:
+        yield line.replace('\0', '')
