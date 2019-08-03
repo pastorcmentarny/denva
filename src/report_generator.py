@@ -72,8 +72,8 @@ def generate_for(date: datetime) -> dict:
 
 def load_data(year, month, day) -> list:
     path = utils.get_filename_from_year_month_day('sensor-log', 'csv', year, month, day)
-    sensor_log_file = open('/home/pi/logs/' + path, 'r',
-                           newline='')
+    sensor_log_file = utils.fix_nulls(open('/home/pi/logs/' + path, 'r',
+                                           newline=''))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
