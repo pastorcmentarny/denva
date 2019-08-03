@@ -9,16 +9,17 @@ import utils
 
 
 def get_sensor_log_file() -> str:
-    return '/home/pi/logs/' + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+    return '/home/pi/logs/sensor-log.csv'
 
 
 def get_sensor_log_file_for(year: int, month: int, day: int) -> str:
+    if year == 0:
+        return get_sensor_log_file()
     return '/home/pi/logs/' + utils.get_filename_from_year_month_day('sensor-log', 'csv', year, month, day)
 
 
 def load_data_for_today() -> list:
-    today = datetime.now()
-    return load_data(today.year, today.month, today.day)
+    return load_data(0, 0, 0)  # yes, it is a lazy solution
 
 
 def load_data(year: int, month: int, day: int) -> list:
