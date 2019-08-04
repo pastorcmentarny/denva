@@ -36,3 +36,76 @@ def get_float_number_from_text(cpu_temp: str) -> str:
 def fix_nulls(data):
     for line in data:
         yield line.replace('\0', '')
+
+
+color_name = {
+    '#F0FFFF': 'azure ',
+    '#F5F5DC': 'beige',
+    '#000000': 'black',
+    '#0000FF': 'blue',
+    '#8A2BE2': 'blueviolet',
+    '#A52A2A': 'brown',
+    '#D2691E': 'chocolate',
+    '#FF7F50': 'coral',
+    '#6495ED': 'cornflowerblue',
+    '#00FFFF': 'cyan',
+    '#00008B': 'dark blue',
+    '#008B8B': 'dark cyan',
+    '#006400': 'dark green ',
+    '#A9A9A9': 'dark grey ',
+    '#FF8C00': 'dark orange',
+    '#8B0000': 'dark red',
+    '#9400D3': 'dark violet',
+    '#B22222': 'firebrick ',
+    '#228B22': 'forest green',
+    'fuchsia': '#FF00FF',
+    '#F8F8FF': 'ghost white',
+    '#FFD700': 'gold',
+    '#808080': 'grey',
+    '#008000': 'green',
+    '#ADFF2F': 'green yellow',
+    '#F0FFF0': 'honeydew',
+    '#FF69B4': 'hotpink',
+    '#4B0082': 'indigo',
+    '#FFFFF0': 'ivory',
+    '#E6E6FA': 'lavender',
+    '#7CFC00': 'lawngreen',
+    '#ADD8E6': 'light blue',
+    '#E0FFFF': 'light cyan',
+    '#90EE90': 'light green',
+    '#D3D3D3': 'light grey',
+    '#00FF00': 'lime',
+    '#FF00FF': 'magenta',
+    '#800000': 'maroon',
+    '#191970': 'midnight blue',
+    '#FFE4E1': 'mistyrose',
+    '#000080': 'navy',
+    '#808000': 'olive',
+    '#FFA500': 'orange',
+    '#FF4500': 'orange red',
+    '#FFC0CB': 'pink',
+    '#DDA0DD': 'plum',
+    '#800080': 'purple',
+    '#FF0000': 'red',
+    '#FA8072': 'salmon',
+    '#2E8B57': 'seashell',
+    '#A0522D': 'sienna',
+    '#C0C0C0': 'silver',
+    '#87CEEB': 'skyblue',
+    '#708090': 'slate grey',
+    '#FFFAFA': 'snow',
+    '#008080': 'teal',
+    '#FF6347': 'tomato',
+    '#40E0D0': 'turquoise',
+    '#EE82EE': 'violet',
+    '#FFFFFF': 'white',
+    '#FFFF00': 'yellow'
+}
+
+
+def get_color_name(hex_colour: str):
+    hex_colour = hex_colour.upper()
+    if hex_colour in color_name:
+        return color_name[hex_colour].capitalize()
+    else:
+        return hex_colour
