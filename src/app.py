@@ -72,7 +72,7 @@ app_startup_time = datetime.now()
 
 
 def setup_logging():
-    path = '/home/pi/configs/log_config.json'
+    path = '/home/pi/denva-master/src/configs/log_config.json'
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
