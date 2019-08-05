@@ -170,8 +170,30 @@ def get_data_from_measurement():
     }
 
 
-def main():
+def led_startup_show():
+    bh1745.set_leds(1)
+    time.sleep(0.3)
     bh1745.set_leds(0)
+    time.sleep(0.2)
+    bh1745.set_leds(1)
+    time.sleep(0.25)
+    bh1745.set_leds(0)
+    time.sleep(0.15)
+    bh1745.set_leds(1)
+    time.sleep(0.2)
+    bh1745.set_leds(0)
+    time.sleep(0.15)
+    bh1745.set_leds(1)
+    time.sleep(0.15)
+    bh1745.set_leds(0)
+    time.sleep(0.1)
+    bh1745.set_leds(1)
+    time.sleep(0.1)
+    bh1745.set_leds(0)
+
+
+def main():
+    led_startup_show()
     global cycle
     while True:
         try:
