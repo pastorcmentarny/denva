@@ -19,12 +19,12 @@ def get_cpu_speed():
     except ValueError:
         logger.warning(output)
         return 'CPU: variable speed'
-    return 'CPU: ' + output + ' Mhz'
+    return output + ' Mhz'
 
 
 def get_cpu_temp():
     return str(subprocess.check_output(['/opt/vc/bin/vcgencmd', 'measure_temp']), "utf-8") \
-        .replace('temp=', 'CPU:')
+        .strip().replace('temp=', '')
 
 
 def get_ip():
@@ -36,14 +36,11 @@ def get_ip():
 
 def get_uptime():
     return str(subprocess.check_output(['uptime', '-p']), "utf-8") \
-        .replace('weeks', 'w') \
-        .replace('week', 'w') \
-        .replace('days', 'd') \
-        .replace('day', 'd') \
-        .replace('hours', 'h') \
-        .replace('hour', 'h') \
-        .replace('minutes', 'm') \
-        .replace('minute', 'm')
+        .strip() \
+        .replace('weeks', 'w').replace('week', 'w') \
+        .replace('days', 'd').replace('day', 'd') \
+        .replace('hours', 'h').replace('hour', 'h') \
+        .replace('minutes', 'm').replace('minute', 'm')
 
 
 def get_system_info() -> dict:
@@ -59,9 +56,14 @@ def get_system_info() -> dict:
 def get_space_available():
     p = subprocess.Popen("df / -m --output=avail", stdout=subprocess.PIPE, shell=True)
     result, _ = p.communicate()
-    return re.sub('[^0-9.]', '', str(result))
+    return re.sub('[^0-9.]', '', str(result).strip())
+
+
+def get_last_ten_line_from_path(path: str) -> str:
+    text = str(subprocess.check_output(['tail', '-n', "10", path]).strip(), "utf-8")
+    return text
 
 
 def get_last_line_from_log(path: str) -> str:
-    text = str(subprocess.check_output(['tail', '-n', "1", path]), "utf-8")
+    text = str(subprocess.check_output(['tail', '-n', "1", path]).strip(), "utf-8")
     return text

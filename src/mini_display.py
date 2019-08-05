@@ -59,11 +59,11 @@ def draw_image_on_screen(data, app_uptime):
             draw.text((0, 70), "UVB: {}".format(get_description_for.uv(data["uvb_index"])), fill="white", font=rr_12)
 
     if cycle % 6 == 0:
-        draw.text((0, 84), commands.get_cpu_temp(), fill="white", font=rr_12)
+        draw.text((0, 84), 'CPU: ' + commands.get_cpu_temp(), fill="white", font=rr_12)
     elif cycle % 6 == 1:
         draw.text((0, 84), commands.get_uptime(), fill="white", font=rr_12)
     elif cycle % 6 == 2:
-        draw.text((0, 84), commands.get_cpu_speed(), fill="white", font=rr_12)
+        draw.text((0, 84), 'CPU: ' + commands.get_cpu_speed(), fill="white", font=rr_12)
     elif cycle % 6 == 3:
         draw.text((0, 84), commands.get_ip(), fill="white", font=rr_12)
     elif cycle % 6 == 4:
