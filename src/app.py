@@ -39,13 +39,9 @@ weather_sensor.set_filter(bme680.FILTER_SIZE_3)
 weather_sensor.set_temp_offset(TEMP_OFFSET)
 
 # Set up light sensor
-bh1745l = BH1745(0x38)
-bh1745l.setup()
-bh1745l.set_leds(1)
-bh1745r = BH1745(0x39)
-bh1745r.setup()
-bh1745r.set_leds(1)
-
+bh1745 = BH1745()
+bh1745.setup()
+bh1745.set_leds(1)
 
 # Set up UV sensor
 uv_sensor = veml6075.VEML6075(i2c_dev=bus)
@@ -128,18 +124,11 @@ def get_current_motion_difference() -> dict:
 
 def warn_if_dom_shakes_his_legs(motion):
     if motion > shaking_level:
-        for i in range(4):
-            bh1745l.set_leds(1)
-            bh1745r.set_leds(0)
+        for i in range(5):
+            bh1745.set_leds(1)
             time.sleep(0.2)
-            bh1745l.set_leds(0)
-            bh1745r.set_leds(1)
-            time.sleep(0.2)
-        bh1745l.set_leds(1)
-        bh1745r.set_leds(1)
-        time.sleep(0.2)
-        bh1745l.set_leds(0)
-        bh1745r.set_leds(0)
+            bh1745.set_leds(0)
+            time.sleep(0.05)
 
 
 def get_data_from_measurement():
@@ -155,7 +144,7 @@ def get_data_from_measurement():
     else:
         logger.warning("Weather sensor did't return data")
     aqi = 0
-    r, g, b = bh1745l.get_rgb_scaled()
+    r, g, b = bh1745.get_rgb_scaled()
     colour = utils.to_hex(r, g, b)
     motion = get_motion()
     warn_if_dom_shakes_his_legs(motion)
@@ -182,8 +171,7 @@ def get_data_from_measurement():
 
 
 def main():
-    bh1745l.set_leds(0)
-    bh1745r.set_leds(0)
+    bh1745.set_leds(0)
     global cycle
     while True:
         try:
@@ -210,8 +198,7 @@ def main():
 
         except KeyboardInterrupt:
             print('request application shut down.. goodbye!')
-            bh1745l.set_leds(0)
-            bh1745l.set_leds(1)
+            bh1745.set_leds(0)
             sys.exit(0)
 
 
@@ -223,6 +210,5 @@ if __name__ == '__main__':
         main()
     except Exception:
         logger.error('Something went badly wrong..', exc_info=True)
-        bh1745l.set_leds(0)
-        bh1745r.set_leds(1)
+        bh1745.set_leds(0)
         sys.exit(0)
