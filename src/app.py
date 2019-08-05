@@ -187,8 +187,11 @@ def led_startup_show():
     time.sleep(0.15)
     bh1745.set_leds(0)
     time.sleep(0.1)
-    bh1745.set_leds(1)
-    time.sleep(0.1)
+    for i in range(10):
+        bh1745.set_leds(1)
+        time.sleep(0.15)
+        bh1745.set_leds(0)
+        time.sleep(0.05)
     bh1745.set_leds(0)
 
 
