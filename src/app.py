@@ -71,14 +71,14 @@ warnings_logger = logging.getLogger('warnings')
 app_startup_time = datetime.now()
 
 
-def setup_logging(default_path='configs/log_config.json', default_level=logging.INFO):
-    path = default_path
+def setup_logging():
+    path = '/home/pi/configs/log_config.json'
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
         logging.config.dictConfig(config)
     else:
-        logging.basicConfig(level=default_level)
+        logging.basicConfig(level=logging.INFO)
 
 
 def sample():

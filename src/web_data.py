@@ -8,7 +8,6 @@ def get_train() -> str:
     try:
         response = requests.get('https://www.nationalrail.co.uk/service_disruptions/indicator.aspx')
         train_status = ''
-        response.raise_for_status()  # without try it will exit program
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
         response = html_manager.select('tr.accordian-header')
@@ -20,7 +19,7 @@ def get_train() -> str:
     return train_status
 
 
-def get_tube():
+def get_tube(online: bool):
     try:
         response = requests.get('https://api.tfl.gov.uk/line/mode/tube/status')
         data = json.loads(response.text)
@@ -30,6 +29,8 @@ def get_tube():
                 text = i['id'].capitalize() + ': '
                 for status in i['lineStatuses']:
                     text += status['statusSeverityDescription']
+                    if 'reason' in status and online:
+                        text += 'reason :' + status['reason']
                 tubes.append(text)
     except Exception as whoops:
         print('Unable to get tube data due to : %s' % whoops)
@@ -38,7 +39,7 @@ def get_tube():
 
 
 def get_status() -> list:
-    statuses = get_tube()
+    statuses = get_tube(True)
     statuses.append(get_train())
     return statuses
 
