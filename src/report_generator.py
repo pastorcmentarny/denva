@@ -8,8 +8,8 @@ import sensor_warnings
 import sensor_log_reader
 import utils
 
-
 report = {
+    'report_date': 'today',
     'measurement_counter': 0,
     'warning_counter': 0,
     'warnings': {
@@ -62,6 +62,7 @@ def generate_for(date: datetime) -> dict:
     day = date.day
     data = load_data(year, month, day)
     report['measurement_counter'] = len(data)
+    report['report_date'] = "{}.{}'{}".format(day, month, year)
     warnings = sensor_warnings.get_warnings_for(year, month, day)
     report['warning_counter'] = len(warnings)
     report['warnings'] = sensor_warnings.count_warnings(warnings)
