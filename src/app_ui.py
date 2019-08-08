@@ -73,7 +73,7 @@ def system():
 
 
 @app.route("/log")
-def system():
+def recent_log():
     return jsonify(commands.get_last_ten_line_from_path('/home/pi/logs/logs.log'))
 
 
