@@ -12,12 +12,14 @@ from email.mime.text import MIMEText
 import app_timer
 import data_files
 import commands
+import report_service
 import utils
 import sensor_warnings
 
 logger = logging.getLogger('app')
 
 send_email_cooldown = datetime.now()
+send_report_email_cooldown = datetime.now()
 
 
 def should_send_email(data):
@@ -28,6 +30,13 @@ def should_send_email(data):
         email_data['system'] = commands.get_system_info()
         send(email_data, data_files.load_cfg(), 'Measurement')
         send_email_cooldown = datetime.now()
+
+
+def should_send_report_email():
+    global send_report_email_cooldown
+    if app_timer.is_time_to_send_report_email(send_report_email_cooldown):
+        report_service.generate_for_yesterday()
+        send_report_email_cooldown = datetime.now()
 
 
 def send(data: dict, cfg: dict, subject: str):

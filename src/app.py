@@ -215,6 +215,7 @@ def main():
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
             email_sender_service.should_send_email(data)
+            email_sender_service.should_send_report_email()
 
             remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 

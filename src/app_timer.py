@@ -23,6 +23,13 @@ def get_app_uptime(app_startup_time) -> str:
     return uptime[:-1]
 
 
+def is_time_to_send_report_email(previous_update_time) -> bool:
+    time_now = datetime.now()
+    duration = time_now - previous_update_time
+    duration_in_s = duration.total_seconds()
+    return duration_in_s > 6 * 60 * 60
+
+
 def is_time_to_send_email(previous_update_time) -> bool:
     time_now = datetime.now()
     duration = time_now - previous_update_time
