@@ -17,7 +17,7 @@ def get_train() -> str:
         train_tag = response[2].find_all('td')
         train_status += train_tag[0].text.replace(' Railways', '') + ': ' + train_tag[1].text
         if train_status is not "Good service":
-            stats_log.warning("Disruption on the Chiltren Railways.{}", train_tag[1].text)
+            stats_log.warning("Disruption on the Chiltern Railways.{}", train_tag[1].text)
     except Exception as whoops:
         print('Unable to get train data due to : %s' % whoops)
         train_status = 'Train data N/A'
