@@ -41,7 +41,6 @@ weather_sensor.set_temp_offset(TEMP_OFFSET)
 # Set up light sensor
 bh1745 = BH1745()
 bh1745.setup()
-bh1745.set_leds(1)
 
 # Set up UV sensor
 uv_sensor = veml6075.VEML6075(i2c_dev=bus)
@@ -236,5 +235,5 @@ if __name__ == '__main__':
         main()
     except Exception:
         logger.error('Something went badly wrong..', exc_info=True)
-        bh1745.set_leds(0)
+        bh1745.set_leds(1)
         sys.exit(0)
