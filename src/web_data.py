@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import bs4
 import json
+import logging
 import requests
+
+stats_log = logging.getLogger('stats')
 
 
 def get_train() -> str:
@@ -13,6 +16,8 @@ def get_train() -> str:
         response = html_manager.select('tr.accordian-header')
         train_tag = response[2].find_all('td')
         train_status += train_tag[0].text.replace(' Railways', '') + ': ' + train_tag[1].text
+        if train_status is not "Good service":
+            stats_log.warning("Disruption on the Chiltren Railways.{}", train_tag[1].text)
     except Exception as whoops:
         print('Unable to get train data due to : %s' % whoops)
         train_status = 'Train data N/A'
@@ -30,6 +35,8 @@ def get_tube(online: bool):
                 for status in i['lineStatuses']:
                     text += status['statusSeverityDescription']
                     if 'reason' in status and online:
+                        if text is not "Good service":
+                            stats_log.warning("Disruption on the {}. {}", i['id'], status['reason'])
                         text += 'reason :' + status['reason']
                 tubes.append(text)
     except Exception as whoops:
