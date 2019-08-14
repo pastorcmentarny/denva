@@ -28,6 +28,14 @@
       "filename": "/home/pi/logs/warnings.log",
       "when": "midnight",
       "encoding": "utf8"
+    },
+    "stats_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "/home/pi/logs/stats.log",
+      "when": "midnight",
+      "encoding": "utf8"
     }
   },
   "loggers": {
@@ -42,6 +50,13 @@
       "level": "INFO",
       "handlers": [
         "warnings_file_handler"
+      ],
+      "propagate": false
+    },
+    "stats": {
+      "level": "INFO",
+      "handlers": [
+        "stats_file_handler"
       ],
       "propagate": false
     }

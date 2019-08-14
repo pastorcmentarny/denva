@@ -34,6 +34,11 @@ def load_warnings(path: str) -> list:
     return content
 
 
+def load_stats(path: str) -> list:
+    file = open(path, 'r', newline='')
+    content = file.readlines()
+    return content
+
 def check_if_report_was_generated(report_date: str) -> bool:
     path = '/home/pi/reports/{}'.format(report_date)
     return os.path.isfile(path)

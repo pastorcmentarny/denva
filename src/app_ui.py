@@ -10,19 +10,22 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
+import sys
+import logging
 import commands
 import averages
 import records
 import sensor_warnings
 import report_service
 import sensor_log_reader
+import tubes_train_service
 import web_data
 
 from flask import request
 from flask import Flask, jsonify, url_for
 
 app = Flask(__name__)
-
+logger = logging.getLogger('stats')
 
 @app.route("/stats")
 def stats():
@@ -90,6 +93,11 @@ def tube_trains_status():
     return jsonify(tt_statuses)
 
 
+@app.route("/tt/counter")
+def tt_counter():
+    return jsonify(tubes_train_service.count_tube_color_today())
+
+
 @app.route("/")
 def welcome():
     host = request.host_url[:-1]
@@ -103,6 +111,7 @@ def welcome():
     page_warns_count = host + str(url_for('count_warns'))
     page_last_report = host + str(url_for('last_report'))
     page_tube_trains = host + str(url_for('tube_trains_status'))
+    page_tube_trains_counter = host + str(url_for('tt_counter'))
 
     return """<!DOCTYPE html>
 <html lang="en">
@@ -131,13 +140,19 @@ def welcome():
 <h2>Other:</h2>
 <ul>
     <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
 </ul>
 By Dominik (Pastor Cmentarny) &Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
 </body>
 </html>""".format(page_last_report, page_now, page_now, page_records, page_records, page_avg, page_avg, page_stats,
                   page_stats, page_system, page_system, page_warns, page_warns, page_warns_now, page_warns_now,
-                  page_warns_count, page_warns_count, page_tube_trains, page_tube_trains)
+                  page_warns_count, page_warns_count, page_tube_trains, page_tube_trains, page_tube_trains_counter,
+                  page_tube_trains_counter)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+    try:
+        app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+    except Exception:
+        logger.error('Something went badly wrong..', exc_info=True)
+        sys.exit(0)

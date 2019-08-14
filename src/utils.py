@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from datetime import timedelta
+import logging
 import re
+
+stats_log = logging.getLogger('stats')
 
 
 def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
@@ -14,6 +17,10 @@ def get_filename_from_year_month_day(name: str, file_type: str, year: int, month
 
 def get_filename_for_warnings(year, month, day):
     return f"warnings.log.{year}-{month:02d}-{day:02d}"
+
+
+def get_filename_for_stats(year, month, day):
+    return f"stats.log.{year}-{month:02d}-{day:02d}"
 
 
 def get_yesterday_date() -> datetime:
@@ -58,7 +65,6 @@ color_name = {
     '#9400D3': 'dark violet',
     '#B22222': 'firebrick ',
     '#228B22': 'forest green',
-    'fuchsia': '#FF00FF',
     '#F8F8FF': 'ghost white',
     '#FFD700': 'gold',
     '#808080': 'grey',
@@ -102,9 +108,26 @@ color_name = {
     '#FFFF00': 'yellow'
 }
 
+tube_color_name = {
+    '#B26200': 'Bakerloo line',
+    '#DC241F': 'Central line',
+    '#FFD429': 'Circle line',
+    '#007D32': 'District line',
+    '#F4A9BE': 'Hammersmith & City line',
+    '#A1A5A7': 'Jubilee line',
+    '#9B0058': 'Metropolitan line',
+    # Northern line not part of this as is  ... #000000
+    '#0019A8': 'Piccadilly line',
+    '#0098D8': 'Victoria line',
+    '#93CEBA': 'Waterloo & City line'
+}
+
 
 def get_color_name(hex_colour: str):
     hex_colour = hex_colour.upper()
+    if hex_colour in tube_color_name:
+        stats_log.info(tube_color_name[hex_colour] + ' color')
+        return tube_color_name[hex_colour].capitalize()
     if hex_colour in color_name:
         return color_name[hex_colour].capitalize()
     else:
