@@ -5,6 +5,7 @@ import logging
 import requests
 
 stats_log = logging.getLogger('stats')
+logger = logging.getLogger('app')
 
 
 def get_train() -> str:
@@ -41,11 +42,14 @@ def get_tube(online: bool):
             else:
                 for status in i['lineStatuses']:
                     if status['statusSeverityDescription'] is not 'Good Service':
-                        stats_log.warning("{} is {} due to {}", i['id'], status['statusSeverityDescription'],
-                                          status['reason'])
+                        if 'reason' in status and online:
+                            stats_log.warning("{} is {} due to {}", i['id'], status['statusSeverityDescription'],
+                                              status['reason'])
+                        else:
+                            stats_log.warning("{} is {}", i['id'], status['statusSeverityDescription'])
 
     except Exception as whoops:
-        print('Unable to get tube data due to : %s' % whoops)
+        logger.warning('Unable to get tube data due to : %s' % whoops)
         tubes = ['Tube data N/A']
     return tubes
 
