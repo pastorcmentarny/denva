@@ -35,10 +35,14 @@ def get_tube(online: bool):
                 for status in i['lineStatuses']:
                     text += status['statusSeverityDescription']
                     if 'reason' in status and online:
-                        if text is not "Good service":
-                            stats_log.warning("Disruption on the {}. {}", i['id'], status['reason'])
+                        stats_log.warning("Disruption on the {}. {}", i['id'], status['reason'])
                         text += 'reason :' + status['reason']
                 tubes.append(text)
+            else:
+                for status in i['lineStatuses']:
+                    if 'reason' in status and online:
+                        stats_log.warning("Disruption on the {}. {}", i['id'], status['reason'])
+
     except Exception as whoops:
         print('Unable to get tube data due to : %s' % whoops)
         tubes = ['Tube data N/A']
