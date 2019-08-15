@@ -17,8 +17,8 @@ def get_train() -> str:
         response = html_manager.select('tr.accordian-header')
         train_tag = response[2].find_all('td')
         train_status += train_tag[0].text.replace(' Railways', '') + ': ' + train_tag[1].text
-        if train_status is not "Good service":
-            stats_log.warning("Disruption on the Chiltern Railways.{}", train_tag[1].text)
+        if "Good service" not in train_status:
+            stats_log.warning("Disruption on the Chiltern Railways. {}".format(train_tag[1].text))
     except Exception as whoops:
         print('Unable to get train data due to : %s' % whoops)
         train_status = 'Train data N/A'
@@ -36,17 +36,15 @@ def get_tube(online: bool):
                 for status in i['lineStatuses']:
                     text += status['statusSeverityDescription']
                     if 'reason' in status and online:
-                        stats_log.warning("Disruption on the {}. {}", i['id'], status['reason'])
+                        stats_log.warning("Disruption on the {}. {}".format(i['id'], status['reason']))
                         text += 'reason :' + status['reason']
                 tubes.append(text)
             else:
                 for status in i['lineStatuses']:
-                    if status['statusSeverityDescription'] is not 'Good Service':
+                    if 'Good Service' not in status['statusSeverityDescription']:
                         if 'reason' in status and online:
-                            stats_log.warning("{} is {} due to {}", i['id'], status['statusSeverityDescription'],
-                                              status['reason'])
-                        else:
-                            stats_log.warning("{} is {}", i['id'], status['statusSeverityDescription'])
+                            stats_log.warning("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
+                                              status['reason']))
 
     except Exception as whoops:
         logger.warning('Unable to get tube data due to : %s' % whoops)
