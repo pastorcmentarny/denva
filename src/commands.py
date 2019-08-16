@@ -49,7 +49,7 @@ def get_system_info() -> dict:
         'CPU Temp': get_cpu_temp(),
         'IP': get_ip(),
         'Uptime': get_uptime(),
-        'Free Space: ': get_space_available() + 'MB'
+        'Free Space:': get_space_available() + 'MB'
     }
 
 

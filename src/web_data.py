@@ -36,15 +36,19 @@ def get_tube(online: bool):
                 for status in i['lineStatuses']:
                     text += status['statusSeverityDescription']
                     if 'reason' in status and online:
-                        stats_log.warning("Disruption on the {}. {}".format(i['id'], status['reason']))
                         text += 'reason :' + status['reason']
+                        if ('Good Service' not in status['statusSeverityDescription']) or (
+                                'Service Closed' not in status['statusSeverityDescription']):
+                            stats_log.warning("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
+                                                                           status['reason']))
                 tubes.append(text)
             else:
                 for status in i['lineStatuses']:
-                    if 'Good Service' not in status['statusSeverityDescription']:
+                    if ('Good Service' not in status['statusSeverityDescription']) or (
+                            'Service Closed' not in status['statusSeverityDescription']):
                         if 'reason' in status and online:
                             stats_log.warning("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
-                                              status['reason']))
+                                                                           status['reason']))
 
     except Exception as whoops:
         logger.warning('Unable to get tube data due to : %s' % whoops)

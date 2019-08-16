@@ -27,6 +27,7 @@ from flask import Flask, jsonify, url_for
 app = Flask(__name__)
 logger = logging.getLogger('stats')
 
+
 @app.route("/stats")
 def stats():
     return jsonify(sensor_log_reader.load_data_for_today())
@@ -93,6 +94,11 @@ def tube_trains_status():
     return jsonify(tt_statuses)
 
 
+@app.route("/tt/delays")
+def tt_delays_counter():
+    return jsonify(tubes_train_service.count_tube_problems_today())
+
+
 @app.route("/tt/counter")
 def tt_counter():
     return jsonify(tubes_train_service.count_tube_color_today())
@@ -112,6 +118,7 @@ def welcome():
     page_last_report = host + str(url_for('last_report'))
     page_tube_trains = host + str(url_for('tube_trains_status'))
     page_tube_trains_counter = host + str(url_for('tt_counter'))
+    page_recent_log = host + str(url_for('recent_log'))
 
     return """<!DOCTYPE html>
 <html lang="en">
@@ -141,16 +148,20 @@ def welcome():
 <ul>
     <li><a href="{}">{}</a></li>
     <li><a href="{}">{}</a></li>
+    <li>Logs:</li>
+    <li><a href="{}">{}</a></li>
 </ul>
 By Dominik (Pastor Cmentarny) &Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
 </body>
 </html>""".format(page_last_report, page_now, page_now, page_records, page_records, page_avg, page_avg, page_stats,
                   page_stats, page_system, page_system, page_warns, page_warns, page_warns_now, page_warns_now,
                   page_warns_count, page_warns_count, page_tube_trains, page_tube_trains, page_tube_trains_counter,
-                  page_tube_trains_counter)
+                  page_tube_trains_counter, page_recent_log, page_recent_log)
 
 
 if __name__ == '__main__':
+    logger.info('Starting web server')
+
     try:
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
     except Exception:
