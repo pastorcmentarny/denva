@@ -20,7 +20,7 @@ def get_train() -> str:
         if "Good service" not in train_status:
             stats_log.warning("Disruption on the Chiltern Railways. {}".format(train_tag[1].text))
     except Exception as whoops:
-        print('Unable to get train data due to : %s' % whoops)
+        logger.error('Unable to get train data due to : %s' % whoops)
         train_status = 'Train data N/A'
     return train_status
 
@@ -51,7 +51,7 @@ def get_tube(online: bool):
                                                                            status['reason']))
 
     except Exception as whoops:
-        logger.warning('Unable to get tube data due to : %s' % whoops)
+        logger.error('Unable to get tube data due to : %s' % whoops)
         tubes = ['Tube data N/A']
     return tubes
 

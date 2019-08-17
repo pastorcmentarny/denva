@@ -14,7 +14,6 @@ def get_sensor_log_file() -> str:
 
 def get_sensor_log_file_for(year: int, month: int, day: int) -> str:
     path = '/home/pi/logs/' + utils.get_filename_from_year_month_day('sensor-log', 'csv', year, month, day)
-    print(path)
     return path
 
 
