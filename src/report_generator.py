@@ -51,6 +51,65 @@ report = {
             'max': 0
         },
         'biggest_motion': 0
+    },
+    "tube": {
+        "delays": {
+            'BakerlooMD': 0,
+            'BakerlooSD': 0,
+            'BakerlooPS': 0,
+            'BakerlooFS': 0,
+            'BakerlooTotalTime': 0,
+            'CentralMD': 0,
+            'CentralSD': 0,
+            'CentralPS': 0,
+            'CentralFS': 0,
+            'CentralTotalTime': 0,
+            'CircleMD': 0,
+            'CircleSD': 0,
+            'CirclePS': 0,
+            'CircleFS': 0,
+            'CircleTotalTime': 0,
+            'DistrictMD': 0,
+            'DistrictSD': 0,
+            'DistrictPS': 0,
+            'DistrictFS': 0,
+            'DistrictTotalTime': 0,
+            'HammersmithMD': 0,
+            'HammersmithSD': 0,
+            'HammersmithPS': 0,
+            'HammersmithFS': 0,
+            'HammersmithTotalTime': 0,
+            'JubileeMD': 0,
+            'JubileeSD': 0,
+            'JubileePS': 0,
+            'JubileeFS': 0,
+            'JubileeTotalTime': 0,
+            'MetropolitanMD': 0,
+            'MetropolitanSD': 0,
+            'MetropolitanPS': 0,
+            'MetropolitanFS': 0,
+            'MetropolitanTotalTime': 0,
+            'NorthernMD': 0,
+            'NorthernSD': 0,
+            'NorthernPS': 0,
+            'NorthernFS': 0,
+            'NorthernTotalTime': 0,
+            'PiccadillyMD': 0,
+            'PiccadillySD': 0,
+            'PiccadillyPS': 0,
+            'PiccadillyFS': 0,
+            'PiccadillyTotalTime': 0,
+            'VictoriaMD': 0,
+            'VictoriaSD': 0,
+            'VictoriaPS': 0,
+            'VictoriaFS': 0,
+            'VictoriaTotalTime': 0,
+            'WaterlooMD': 0,
+            'WaterlooSD': 0,
+            'WaterlooPS': 0,
+            'WaterlooFS': 0,
+            'WaterlooTotalTime': 0
+        }
     }
 }
 
@@ -62,7 +121,7 @@ def generate_for_yesterday() -> dict:
 
 
 def generate_for(date: datetime) -> dict:
-    try :
+    try:
         # is below 2 lines looks stupid? yes, because it is
         warnings_logger.info("")
         stats_log.info("")
@@ -84,9 +143,9 @@ def generate_for(date: datetime) -> dict:
         report['warnings'] = sensor_warnings.count_warnings(warnings)
         report['records'] = records.get_records(data)
         report['avg'] = averages.get_averages(data)
-        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year,month,day)
+        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month, day)
         return report
-    except :
+    except:
         logger.error("Unable to generate  report.", exc_info=True)
         return {}
 
