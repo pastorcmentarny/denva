@@ -70,16 +70,6 @@ warnings_logger = logging.getLogger('warnings')
 app_startup_time = datetime.now()
 
 
-def setup_logging():
-    path = '/home/pi/denva-master/src/configs/log_config.json'
-    if os.path.exists(path):
-        with open(path, 'rt') as config_json_file:
-            config = json.load(config_json_file)
-        logging.config.dictConfig(config)
-    else:
-        logging.basicConfig(level=logging.INFO)
-
-
 def sample():
     for i in range(51):
         ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
@@ -228,7 +218,7 @@ def main():
 
 
 if __name__ == '__main__':
-    setup_logging()
+    data_files.setup_logging()
 
     print('Starting application ... \n Press Ctrl+C to shutdown')
     try:

@@ -5,7 +5,8 @@ import csv
 from datetime import datetime
 import json
 import os.path
-
+import logging
+import logging.config
 import sensor_log_reader
 import utils
 
@@ -39,6 +40,7 @@ def load_stats(path: str) -> list:
     content = file.readlines()
     return content
 
+
 def check_if_report_was_generated(report_date: str) -> bool:
     path = '/home/pi/reports/{}'.format(report_date)
     return os.path.isfile(path)
@@ -60,3 +62,13 @@ def store_measurement(data, motion):
                          utils.get_float_number_from_text(data['cpu_temp'])
                          ])
     sensor_log_file.close()
+
+
+def setup_logging():
+    path = '/home/pi/denva-master/src/configs/log_config.json'
+    if os.path.exists(path):
+        with open(path, 'rt') as config_json_file:
+            config = json.load(config_json_file)
+        logging.config.dictConfig(config)
+    else:
+        logging.basicConfig(level=logging.INFO)
