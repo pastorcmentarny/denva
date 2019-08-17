@@ -78,7 +78,7 @@ def system():
 
 @app.route("/log")
 def recent_log():
-    return jsonify(commands.get_last_ten_line_from_path('/home/pi/logs/logs.log'))
+    return jsonify(commands.get_last_100_lines_from_log('/home/pi/logs/logs.log'))
 
 
 @app.route("/report/yesterday")
@@ -117,6 +117,7 @@ def welcome():
     page_warns_count = host + str(url_for('count_warns'))
     page_last_report = host + str(url_for('last_report'))
     page_tube_trains = host + str(url_for('tube_trains_status'))
+    page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
     page_tube_trains_counter = host + str(url_for('tt_counter'))
     page_recent_log = host + str(url_for('recent_log'))
 
@@ -148,6 +149,7 @@ def welcome():
 <ul>
     <li><a href="{}">{}</a></li>
     <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
     <li>Logs:</li>
     <li><a href="{}">{}</a></li>
 </ul>
@@ -156,7 +158,7 @@ By Dominik (Pastor Cmentarny) &Omega;(<a href="https://dominiksymonowicz.com/">M
 </html>""".format(page_last_report, page_now, page_now, page_records, page_records, page_avg, page_avg, page_stats,
                   page_stats, page_system, page_system, page_warns, page_warns, page_warns_now, page_warns_now,
                   page_warns_count, page_warns_count, page_tube_trains, page_tube_trains, page_tube_trains_counter,
-                  page_tube_trains_counter, page_recent_log, page_recent_log)
+                  page_tube_trains_counter, page_tt_delays_counter,page_tt_delays_counter, page_recent_log, page_recent_log)
 
 
 if __name__ == '__main__':

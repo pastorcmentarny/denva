@@ -64,6 +64,6 @@ def get_last_ten_line_from_path(path: str) -> str:
     return text
 
 
-def get_last_line_from_log(path: str) -> str:
-    text = str(subprocess.check_output(['tail', '-n', "1", path]).strip(), "utf-8")
+def get_last_100_lines_from_log(path: str) -> str:
+    text = str(subprocess.check_output(['tail', '-n', "100", path]).strip(), "utf-8")
     return text
