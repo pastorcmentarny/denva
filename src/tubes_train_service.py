@@ -4,7 +4,7 @@ import utils
 
 def get_stats_file_for(year: str, month: str, day: str) -> list:
     date = utils.get_filename_for_stats(year, month, day)
-    return data_files.load_stats('/home/pi/stats/' + date)
+    return data_files.load_stats('/home/pi/logs/' + date)
 
 
 def count_tube_color_for(year, month, day) -> dict:
@@ -12,7 +12,7 @@ def count_tube_color_for(year, month, day) -> dict:
 
 
 def get_stats_file_for_today() -> list:
-    return data_files.load_stats('/home/pi/stats/stats.log')
+    return data_files.load_stats('/home/pi/logs/stats.log')
 
 
 def count_tube_color_today() -> dict:
