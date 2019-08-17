@@ -91,6 +91,7 @@ def count_tube_problems(problem_list) -> dict:
         'HammersmithMD': 0,
         'HammersmithSD': 0,
         'HammersmithPS': 0,
+        'HammersmithFS': 0,
         'HammersmithTotalTime': 0,
         'JubileeMD': 0,
         'JubileeSD': 0,
