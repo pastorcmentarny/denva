@@ -35,8 +35,10 @@ def should_send_email(data):
 def should_send_report_email():
     global send_report_email_cooldown
     if app_timer.is_time_to_send_report_email(send_report_email_cooldown):
-        report_service.generate_for_yesterday()
-        send_report_email_cooldown = datetime.now()
+        result = report_service.generate_for_yesterday()
+        if not result:
+            send_report_email_cooldown = datetime.now()
+        logger.warning("Unable to send email with report")
 
 
 def send(data: dict, cfg: dict, subject: str):

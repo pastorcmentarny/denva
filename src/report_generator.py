@@ -1,4 +1,5 @@
 import csv
+import logging
 from datetime import datetime
 from datetime import timedelta
 
@@ -7,6 +8,10 @@ import records
 import sensor_warnings
 import tubes_train_service
 import utils
+
+warnings_logger = logging.getLogger('warnings')
+stats_log = logging.getLogger('stats')
+logger = logging.getLogger('app')
 
 report = {
     'report_date': 'today',
@@ -57,19 +62,33 @@ def generate_for_yesterday() -> dict:
 
 
 def generate_for(date: datetime) -> dict:
-    year = date.year
-    month = date.month
-    day = date.day
-    data = load_data(year, month, day)
-    report['measurement_counter'] = len(data)
-    report['report_date'] = "{}.{}'{}".format(day, month, year)
-    warnings = sensor_warnings.get_warnings_for(year, month, day)
-    report['warning_counter'] = len(warnings)
-    report['warnings'] = sensor_warnings.count_warnings(warnings)
-    report['records'] = records.get_records(data)
-    report['avg'] = averages.get_averages(data)
-    report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year,month,day)
-    return report
+    try :
+        # is below 2 lines looks stupid? yes, because it is
+        warnings_logger.info("")
+        stats_log.info("")
+        '''
+        why? as report is generated on next day, you need add log entry 
+        logger can trigger TimedRotatingFileHandler event  and create file
+        that is used by report service. 
+        Why I used logger to store data? because I am lazy and i used most efficient way
+        to store data I do analyse over later.
+        '''
+        year = date.year
+        month = date.month
+        day = date.day
+        data = load_data(year, month, day)
+        report['measurement_counter'] = len(data)
+        report['report_date'] = "{}.{}'{}".format(day, month, year)
+        warnings = sensor_warnings.get_warnings_for(year, month, day)
+        report['warning_counter'] = len(warnings)
+        report['warnings'] = sensor_warnings.count_warnings(warnings)
+        report['records'] = records.get_records(data)
+        report['avg'] = averages.get_averages(data)
+        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year,month,day)
+        return report
+    except :
+        logger.error("Unable to generate  report.", exc_info=True)
+        return {}
 
 
 def load_data(year, month, day) -> list:
