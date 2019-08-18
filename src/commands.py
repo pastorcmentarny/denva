@@ -4,8 +4,16 @@
 import logging
 import re
 import subprocess
-
+import utils
 logger = logging.getLogger('app')
+
+
+def capture_picture() -> str:
+    date = utils.get_timestamp_title()
+    photo_path = "/home/pi/photos/{}.jpg".format(date)
+    cmd = "fswebcam  --no-banner {}".format(photo_path)
+    subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    return photo_path
 
 
 def get_cpu_speed():

@@ -21,8 +21,7 @@ import sensor_log_reader
 import tubes_train_service
 import web_data
 
-from flask import request
-from flask import Flask, jsonify, url_for
+from flask import Flask, jsonify, url_for,send_file, request
 
 app = Flask(__name__)
 logger = logging.getLogger('stats')
@@ -102,6 +101,12 @@ def tt_delays_counter():
 @app.route("/tt/counter")
 def tt_counter():
     return jsonify(tubes_train_service.count_tube_color_today())
+
+
+@app.route("/webcam")
+def do_picture():
+    filename = commands.capture_picture()
+    return send_file(filename, mimetype='image/gif')
 
 
 @app.route("/")
