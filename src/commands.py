@@ -4,6 +4,7 @@
 import logging
 import re
 import subprocess
+import time
 import utils
 logger = logging.getLogger('app')
 
@@ -13,6 +14,7 @@ def capture_picture() -> str:
     photo_path = "/home/pi/photos/{}.jpg".format(date)
     cmd = "fswebcam  --no-banner {}".format(photo_path)
     subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    time.sleep(3)
     return photo_path
 
 
