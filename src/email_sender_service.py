@@ -5,9 +5,11 @@ import smtplib
 from datetime import datetime
 import logging
 import json
+import os
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 
 import app_timer
 import data_files
@@ -55,7 +57,10 @@ def send(data: dict, cfg: dict, subject: str):
         msg['To'] = cfg['user']
         msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
-
+        picture_path = commands.capture_picture()
+        img_data = open(picture_path, 'rb').read()
+        image = MIMEImage(img_data, name=os.path.basename(picture_path))
+        msg.attach(image)
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
         del msg
         smtp_server.quit()

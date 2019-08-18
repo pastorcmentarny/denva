@@ -14,7 +14,7 @@ def capture_picture() -> str:
     photo_path = "/home/pi/photos/{}.jpg".format(date)
     cmd = "fswebcam  --no-banner {}".format(photo_path)
     subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    time.sleep(3)
+    time.sleep(3) # improve it with check every 0.1 second
     return photo_path
 
 
