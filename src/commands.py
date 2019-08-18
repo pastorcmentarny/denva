@@ -9,7 +9,7 @@ logger = logging.getLogger('app')
 
 
 def capture_picture() -> str:
-    date = utils.get_timestamp_title()
+    date = utils.get_timestamp_file()
     photo_path = "/home/pi/photos/{}.jpg".format(date)
     cmd = "fswebcam  --no-banner {}".format(photo_path)
     subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

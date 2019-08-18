@@ -106,7 +106,7 @@ def tt_counter():
 @app.route("/webcam")
 def do_picture():
     filename = commands.capture_picture()
-    return send_file(filename, mimetype='image/gif')
+    return send_file(filename, mimetype='image/jpeg')
 
 
 @app.route("/")
