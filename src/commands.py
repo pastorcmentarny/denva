@@ -12,7 +12,7 @@ logger = logging.getLogger('app')
 def capture_picture() -> str:
     date = utils.get_timestamp_file()
     photo_path = "/home/pi/photos/{}.jpg".format(date)
-    cmd = "fswebcam  --no-banner {}".format(photo_path)
+    cmd = "fswebcam -r 1920x1080  --no-banner {}".format(photo_path)
     subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     time.sleep(3) # improve it with check every 0.1 second
     return photo_path
