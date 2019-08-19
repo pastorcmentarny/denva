@@ -17,6 +17,7 @@ def capture_picture() -> str:
     subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     while not os.path.exists(photo_path):
         time.sleep(0.1) # improve it with check every 0.1 second
+    time.sleep(5)
     return photo_path
 
 
