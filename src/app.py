@@ -6,6 +6,7 @@ import logging
 import logging.config
 import os
 import sys
+import threading
 import time
 from timeit import default_timer as timer
 
@@ -56,6 +57,8 @@ rr_14 = ImageFont.truetype(rr_path, 14)
 
 samples = []
 points = []
+pictures = []
+
 
 sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
@@ -168,18 +171,11 @@ def led_startup_show():
     bh1745.set_leds(0)
     time.sleep(0.15)
     bh1745.set_leds(1)
-    time.sleep(0.2)
-    bh1745.set_leds(0)
-    time.sleep(0.15)
-    bh1745.set_leds(1)
-    time.sleep(0.15)
-    bh1745.set_leds(0)
-    time.sleep(0.1)
-    for i in range(10):
+    for i in range(5):
         bh1745.set_leds(1)
-        time.sleep(0.15)
+        time.sleep(0.2)
         bh1745.set_leds(0)
-        time.sleep(0.05)
+        time.sleep(0.1)
     bh1745.set_leds(0)
 
 
@@ -202,6 +198,8 @@ def main():
             cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
+            data['picture_path'] = pictures
+
             email_sender_service.should_send_email(data)
             email_sender_service.should_send_report_email()
 
@@ -216,11 +214,23 @@ def main():
             sys.exit(0)
 
 
+def thread_camera():
+    while True:
+        time.sleep(15)
+        last_picture = commands.capture_picture()
+        if last_picture != "":
+            pictures.append(last_picture)
+            if len(pictures) > 5:
+                pictures.pop(0)
+
+
 if __name__ == '__main__':
     data_files.setup_logging()
 
     print('Starting application ... \n Press Ctrl+C to shutdown')
     try:
+        camera_thread = threading.Thread(target=thread_camera)
+        camera_thread.start()
         main()
     except Exception:
         logger.error('Something went badly wrong..', exc_info=True)

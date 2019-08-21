@@ -48,7 +48,7 @@ def send(data: dict, cfg: dict, subject: str):
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
         smtp_server.login(cfg['user'], cfg['pass'])
-
+        pictures_path =  data['picture_path']
         msg = MIMEMultipart()
         data = json.dumps(data, indent=2, sort_keys=True)
         message = "Below is a json with a data:\n {}".format(str(data))
@@ -57,12 +57,14 @@ def send(data: dict, cfg: dict, subject: str):
         msg['To'] = cfg['user']
         msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
-        picture_path = commands.capture_picture()
-        img_data = open(picture_path, 'rb').read()
-        image = MIMEImage(img_data, name=os.path.basename(picture_path))
-        msg.attach(image)
+        for picture in pictures_path:
+            if picture != "":
+                img_data = open(picture, 'rb').read()
+                image = MIMEImage(img_data, name=os.path.basename(picture))
+                msg.attach(image)
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
         del msg
         smtp_server.quit()
     except Exception:
-        logger.warning("Unable to send email")
+        logger.error('Unable to send email due to"..', exc_info=True)
+

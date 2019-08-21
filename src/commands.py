@@ -1,24 +1,39 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 import logging
 import os
 import re
 import subprocess
 import time
 import utils
+
 logger = logging.getLogger('app')
+
+step = 0.1
 
 
 def capture_picture() -> str:
-    date = utils.get_timestamp_file()
-    photo_path = "/home/pi/photos/{}.jpg".format(date)
-    cmd = "fswebcam -r 1920x1080 --no-banner {}".format(photo_path)
-    subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    while not os.path.exists(photo_path):
-        time.sleep(0.1) # improve it with check every 0.1 second
-    time.sleep(5)
-    return photo_path
+    try:
+        date_path = datetime.now().strftime("%Y/%m/%d")
+        path = "/home/pi/photos/{}/".format(date_path)
+        if not os.path.isdir(path):
+            os.makedirs(path)
+        date = utils.get_timestamp_file()
+        photo_path = "/home/pi/photos/{}/{}.jpg".format(date_path, date)
+        cmd = "fswebcam -r 1280x960 --no-banner {}".format(photo_path)
+        subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        total_time = step
+        while not os.path.exists(photo_path):
+            time.sleep(step)
+            total_time += step
+        time.sleep(5)
+        logger.info('it took {} seconds to capture picture'.format(total_time))
+        return photo_path
+    except Exception:
+        logger.warning('Something went badly wrong..', exc_info=True)
+    return ""
 
 
 def get_cpu_speed():
@@ -40,11 +55,11 @@ def get_cpu_temp():
         .strip().replace('temp=', '')
 
 
-def get_ip():
+def get_ip() -> str:
     text = str(subprocess.check_output(['ifconfig', 'wlan0']), "utf-8")
     start, end = text.find('inet'), text.find('netmask')
     result = text[start + 4: end]
-    return 'IP:' + result.strip()
+    return result.strip()
 
 
 def get_uptime():
