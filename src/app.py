@@ -198,7 +198,9 @@ def main():
             cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
-            data['picture_path'] = pictures
+            p = [pictures[0], pictures[-1]]
+
+            data['picture_path'] = p
 
             email_sender_service.should_send_email(data)
             email_sender_service.should_send_report_email()
