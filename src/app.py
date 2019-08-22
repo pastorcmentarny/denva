@@ -198,7 +198,9 @@ def main():
             cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
-            p = [pictures[0], pictures[-1]]
+            p = []
+            if len(pictures) > 2:
+                p = [pictures[0], pictures[-1]]
 
             data['picture_path'] = p
 
