@@ -230,13 +230,13 @@ def thread_camera():
 
 if __name__ == '__main__':
     data_files.setup_logging()
-
+    camera_thread = threading.Thread(target=thread_camera)
     print('Starting application ... \n Press Ctrl+C to shutdown')
     try:
-        camera_thread = threading.Thread(target=thread_camera)
         camera_thread.start()
         main()
     except Exception:
+        camera_thread.join()
         logger.error('Something went badly wrong..', exc_info=True)
         bh1745.set_leds(1)
         sys.exit(0)
