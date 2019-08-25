@@ -12,16 +12,17 @@ import utils
 logger = logging.getLogger('app')
 
 step = 0.1
+photo_dir = ''
 
 
 def capture_picture() -> str:
     try:
         date_path = datetime.now().strftime("%Y/%m/%d")
-        path = "/home/pi/photos/{}/".format(date_path)
+        path = "/mnt/data/photos/{}/".format(date_path)
         if not os.path.isdir(path):
             os.makedirs(path)
         date = utils.get_timestamp_file()
-        photo_path = "/home/pi/photos/{}/{}.jpg".format(date_path, date)
+        photo_path = "/mnt/data/photos/{}/{}.jpg".format(date_path, date)
         cmd = "fswebcam -r 1280x960 --no-banner {}".format(photo_path)
         subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         total_time = step
