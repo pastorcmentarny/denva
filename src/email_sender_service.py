@@ -40,10 +40,11 @@ def should_send_report_email():
         result = report_service.generate_for_yesterday()
         if not result:
             send_report_email_cooldown = datetime.now()
-        logger.warning("Unable to send email with report")
+            logger.info("Daily report email sent.")
 
 
 def send(data: dict, cfg: dict, subject: str):
+    logger.info('Sending email for {}'.format(subject))
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
@@ -65,6 +66,6 @@ def send(data: dict, cfg: dict, subject: str):
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
         del msg
         smtp_server.quit()
+        logger.info('Email sent.')
     except Exception:
         logger.error('Unable to send email due to"..', exc_info=True)
-
