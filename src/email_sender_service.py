@@ -49,7 +49,7 @@ def send(data: dict, cfg: dict, subject: str):
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
         smtp_server.login(cfg['user'], cfg['pass'])
-        pictures_path =  data['picture_path']
+
         msg = MIMEMultipart()
         data = json.dumps(data, indent=2, sort_keys=True)
         message = "Below is a json with a data:\n {}".format(str(data))
@@ -58,11 +58,17 @@ def send(data: dict, cfg: dict, subject: str):
         msg['To'] = cfg['user']
         msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
+        pictures_path = ""
+
+        if 'picture_path' in data:
+            pictures_path = data['picture_path']
+
         for picture in pictures_path:
             if picture != "":
                 img_data = open(picture, 'rb').read()
                 image = MIMEImage(img_data, name=os.path.basename(picture))
                 msg.attach(image)
+
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
         del msg
         smtp_server.quit()
