@@ -43,7 +43,7 @@ def capture_picture() -> str:
         while not os.path.exists(photo_path):
             time.sleep(step)
             total_time += step
-        time.sleep(5)
+        time.sleep(2)
         logger.info('it took {} seconds to capture picture'.format(total_time))
         return photo_path
     except Exception as e:
@@ -93,7 +93,8 @@ def get_system_info() -> dict:
         'CPU Temp': get_cpu_temp(),
         'IP': get_ip(),
         'Uptime': get_uptime(),
-        'Free Space:': get_space_available() + 'MB'
+        'Free Space:': get_space_available() + 'MB',
+        'Data Free Space:': get_data_space_available() + 'MB'
     }
 
 
