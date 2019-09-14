@@ -30,7 +30,7 @@ def should_send_email(data):
     if app_timer.is_time_to_send_email(send_email_cooldown):
         email_data['warnings'] = sensor_warnings.get_warnings_as_list(email_data)
         email_data['system'] = commands.get_system_info()
-        send(email_data, data_files.load_cfg(), 'Measurement')
+        send(email_data, 'Measurement')
         send_email_cooldown = datetime.now()
 
 
@@ -43,7 +43,8 @@ def should_send_report_email():
             logger.info("Daily report email sent.")
 
 
-def send(data: dict, cfg: dict, subject: str):
+def send(data: dict, subject: str):
+    cfg = data_files.load_cfg()
     logger.info('Sending email for {}'.format(subject))
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
@@ -51,6 +52,9 @@ def send(data: dict, cfg: dict, subject: str):
         smtp_server.login(cfg['user'], cfg['pass'])
 
         msg = MIMEMultipart()
+
+        pictures_path = data['picture_path']
+
         data = json.dumps(data, indent=2, sort_keys=True)
         message = "Below is a json with a data:\n {}".format(str(data))
 
@@ -58,10 +62,6 @@ def send(data: dict, cfg: dict, subject: str):
         msg['To'] = cfg['user']
         msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
-        pictures_path = ""
-
-        if 'picture_path' in data:
-            pictures_path = data['picture_path']
 
         for picture in pictures_path:
             if picture != "":
@@ -72,6 +72,34 @@ def send(data: dict, cfg: dict, subject: str):
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
         del msg
         smtp_server.quit()
+        logger.info('Email sent.')
+    except Exception as e:
+        logger.error('Unable to send email due to"..', exc_info=True)
+        send_error_log_email("sending email", "Unable to send {} email due to {}.".format(subject, e))
+
+
+def send_error_log_email(what: str, msg: str):
+    cfg = data_files.load_cfg()
+    logger.info('Sending error log email with message: {}'.format(msg))
+    try:
+        smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
+        smtp_server.starttls()
+        smtp_server.login(cfg['user'], cfg['pass'])
+
+        msg = MIMEMultipart()
+
+        subject = "An serious error happen while {}".format(what)
+        message = "Whoops.. Some sort of gobshite happen with app.\n Error message is: {}".format(msg)
+
+        msg['From'] = cfg['user']
+        msg['To'] = cfg['user']
+        msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
+        msg.attach(MIMEText(message, 'plain'))
+        smtp_server.send_message(msg, cfg['user'], cfg['user'])
+
+        del msg
+        smtp_server.quit()
+
         logger.info('Email sent.')
     except Exception:
         logger.error('Unable to send email due to"..', exc_info=True)

@@ -9,15 +9,16 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-
 import sys
 import logging
-import commands
+
 import averages
+import commands
+import email_sender_service
 import records
-import sensor_warnings
 import report_service
 import sensor_log_reader
+import sensor_warnings
 import tubes_train_service
 import web_data
 
@@ -125,6 +126,7 @@ def welcome():
     page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
     page_tube_trains_counter = host + str(url_for('tt_counter'))
     page_recent_log = host + str(url_for('recent_log'))
+    page_webcam = host + str(url_for('do_picture'))
 
     return """<!DOCTYPE html>
 <html lang="en">
@@ -157,13 +159,16 @@ def welcome():
     <li><a href="{}">{}</a></li>
     <li>Logs:</li>
     <li><a href="{}">{}</a></li>
+    <li>Photos:</li>
+    <li><a href="{}">{}</a></li>
 </ul>
 By Dominik (Pastor Cmentarny) &Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
 </body>
 </html>""".format(page_last_report, page_now, page_now, page_records, page_records, page_avg, page_avg, page_stats,
                   page_stats, page_system, page_system, page_warns, page_warns, page_warns_now, page_warns_now,
                   page_warns_count, page_warns_count, page_tube_trains, page_tube_trains, page_tube_trains_counter,
-                  page_tube_trains_counter, page_tt_delays_counter,page_tt_delays_counter, page_recent_log, page_recent_log)
+                  page_tube_trains_counter, page_tt_delays_counter, page_tt_delays_counter,
+                  page_recent_log, page_recent_log, page_webcam, page_webcam)
 
 
 if __name__ == '__main__':
@@ -171,6 +176,9 @@ if __name__ == '__main__':
 
     try:
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
-    except Exception:
-        logger.error('Something went badly wrong..', exc_info=True)
+    except Exception as e:
+        logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
+        email_sender_service.send_error_log_email('web application',
+                                                  'you may need reset web application as it looks like web app '
+                                                  'crashes due to {}'.format(e))
         sys.exit(0)

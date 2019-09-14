@@ -17,18 +17,7 @@ report = {
     'report_date': 'today',
     'measurement_counter': 0,
     'warning_counter': 0,
-    'warnings': {
-        'the': 0,
-        'thw': 0,
-        'tle': 0,
-        'tlw': 0,
-        'hhe': 0,
-        'hhw': 0,
-        'hle': 0,
-        'hlw': 0,
-        'uvaw': 0,
-        'uvbw': 0,
-    },
+    'warnings': {},  # TODO i believe i don't need specify anything as this dict will be overwritten
     "records": {
         'temperature': {
             'min': 0,

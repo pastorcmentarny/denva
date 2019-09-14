@@ -68,6 +68,8 @@ def draw_image_on_screen(data, app_uptime):
         draw.text((0, 84), 'IP: ' + commands.get_ip(), fill="white", font=rr_12)
     elif cycle % 6 == 4:
         draw.text((0, 84), 'Space: ' + commands.get_space_available() + 'MB', fill="white", font=rr_12)
+    elif cycle % 6 == 5:
+        draw.text((0, 84), 'Data: ' + commands.get_space_available() + 'MB', fill="white", font=rr_12)
     else:
         draw.text((0, 84), app_uptime, fill="white", font=rr_12)
 

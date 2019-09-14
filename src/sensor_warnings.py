@@ -104,6 +104,7 @@ def count_warnings(warnings) -> dict:
         'uvaw': 0,
         'uvbw': 0,
         'fsl': 0,
+        'dfsl': 0,
         'dsl': 0
     }
 
@@ -136,6 +137,8 @@ def count_warnings(warnings) -> dict:
             warning_counter['uvbw'] += 1
         elif '[fsl]' in warning:
             warning_counter['fsl'] += 1
+        elif '[dfsl]' in warning:
+            warning_counter['dfsl'] += 1
         elif '[dsl]' in warning:
             warning_counter['dsl'] += 1
 
@@ -200,6 +203,11 @@ def get_warnings_as_list(data) -> list:
     free_space = int(commands.get_space_available())
     if free_space < 500:
         warnings.append('Low Free Space: {}'.format(str(free_space) + 'MB'))
-        warnings_logger.warning('[fsw] Low Free Space: {}'.format(str(free_space) + 'MB'))
+        warnings_logger.warning('[fsl] Low Free Space: {}'.format(str(free_space) + 'MB'))
+
+    data_free_space = int(commands.get_data_space_available())
+    if data_free_space < 500:
+        warnings.append('Low Free Space on Data Partition: {}'.format(str(free_space) + 'MB'))
+        warnings_logger.warning('[dfsl] Low Free Space on Data Partition: {}'.format(str(free_space) + 'MB'))
 
     return warnings

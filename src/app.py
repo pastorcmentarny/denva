@@ -64,7 +64,6 @@ sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
 sensitivity = 8
 shaking_level = 1000
-cycle = 0
 
 logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
@@ -117,9 +116,9 @@ def warn_if_dom_shakes_his_legs(motion):
     if motion > shaking_level:
         for i in range(5):
             bh1745.set_leds(1)
-            time.sleep(0.2)
+            time.sleep(0.25)
             bh1745.set_leds(0)
-            time.sleep(0.05)
+            time.sleep(0.15)
 
 
 def get_data_from_measurement():
@@ -179,9 +178,17 @@ def led_startup_show():
     bh1745.set_leds(0)
 
 
+def get_pictures_path():
+    p = []
+    if len(pictures) > 2:
+        p = [pictures[0], pictures[-1]]
+    elif len(pictures) == 1:
+        p = [pictures[0]]
+    return p
+
+
 def main():
     led_startup_show()
-    global cycle
     while True:
         try:
             logger.debug('getting measurement')
@@ -198,11 +205,7 @@ def main():
             cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
-            p = []
-            if len(pictures) > 2:
-                p = [pictures[0], pictures[-1]]
-
-            data['picture_path'] = p
+            data['picture_path'] = get_pictures_path()
 
             email_sender_service.should_send_email(data)
             email_sender_service.should_send_report_email()
@@ -215,12 +218,13 @@ def main():
         except KeyboardInterrupt:
             print('request application shut down.. goodbye!')
             bh1745.set_leds(0)
-            sys.exit(0)
+            cleanup_before_exit()
 
 
 def thread_camera():
+    logger.info('Starting taking picture thread..', exc_info=True)
     while True:
-        time.sleep(15)
+        time.sleep(5)
         last_picture = commands.capture_picture()
         if last_picture != "":
             pictures.append(last_picture)
@@ -228,15 +232,22 @@ def thread_camera():
                 pictures.pop(0)
 
 
+def cleanup_before_exit():
+    camera_thread.join()
+    sys.exit(0)
+
+
 if __name__ == '__main__':
     data_files.setup_logging()
+    commands.mouth_drive()
     camera_thread = threading.Thread(target=thread_camera)
     print('Starting application ... \n Press Ctrl+C to shutdown')
     try:
         camera_thread.start()
         main()
-    except Exception:
-        camera_thread.join()
+    except Exception as e:
         logger.error('Something went badly wrong..', exc_info=True)
+        email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
         bh1745.set_leds(1)
-        sys.exit(0)
+
+        cleanup_before_exit()

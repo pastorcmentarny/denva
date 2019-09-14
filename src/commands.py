@@ -9,10 +9,24 @@ import subprocess
 import time
 import utils
 
+import email_sender_service
+
 logger = logging.getLogger('app')
 
 step = 0.1
 photo_dir = ''
+
+
+# lazy hack
+def mouth_drive():
+    logger.info('mounting external partion for pictures')
+    try:
+        cmd = 'sudo mount -t auto -v /dev/mmcblk0p3 /mnt/data'
+        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        logger.info(str(ps.communicate()[0]))
+    except Exception as e:
+        email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
+        logger.warning('Something went badly wrong..', exc_info=True)
 
 
 def capture_picture() -> str:
@@ -32,7 +46,8 @@ def capture_picture() -> str:
         time.sleep(5)
         logger.info('it took {} seconds to capture picture'.format(total_time))
         return photo_path
-    except Exception:
+    except Exception as e:
+        email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
         logger.warning('Something went badly wrong..', exc_info=True)
     return ""
 
@@ -63,7 +78,7 @@ def get_ip() -> str:
     return result.strip()
 
 
-def get_uptime():
+def get_uptime() -> str:
     return str(subprocess.check_output(['uptime', '-p']), "utf-8") \
         .strip() \
         .replace('weeks', 'w').replace('week', 'w') \
@@ -84,6 +99,13 @@ def get_system_info() -> dict:
 
 def get_space_available():
     p = subprocess.Popen("df / -m --output=avail", stdout=subprocess.PIPE, shell=True)
+    result, _ = p.communicate()
+    return re.sub('[^0-9.]', '', str(result).strip())
+
+
+# TODO test it
+def get_data_space_available():
+    p = subprocess.Popen("df /mnt/data -m --output=avail", stdout=subprocess.PIPE, shell=True)
     result, _ = p.communicate()
     return re.sub('[^0-9.]', '', str(result).strip())
 
