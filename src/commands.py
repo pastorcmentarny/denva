@@ -112,7 +112,7 @@ def get_data_space_available():
 
 
 def get_last_ten_line_from_path(path: str) -> str:
-    text = str(subprocess.check_output(['tail', '-n', "10", path]).strip(), "utf-8")
+    text = str(subprocess.check_output(['tail', '-n', "300", path]).strip(), "utf-8")
     return text
 
 
