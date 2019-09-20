@@ -110,6 +110,11 @@ def do_picture():
     return send_file(filename, mimetype='image/jpeg')
 
 
+@app.route("/hc")
+def now():
+    return jsonify({"status": "UP"})
+
+
 @app.route("/")
 def welcome():
     host = request.host_url[:-1]

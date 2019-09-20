@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "disable_existing_loggers": false,
   "formatters": {
     "simple": {
@@ -36,6 +36,14 @@
       "filename": "/home/pi/logs/stats.log",
       "when": "midnight",
       "encoding": "utf8"
+    },
+    "healthcheck_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "/home/pi/logs/healthcheck.log",
+      "when": "midnight",
+      "encoding": "utf8"
     }
   },
   "loggers": {
@@ -57,6 +65,13 @@
       "level": "INFO",
       "handlers": [
         "stats_file_handler"
+      ],
+      "propagate": false
+    },
+    "healthCheck": {
+      "level": "INFO",
+      "handlers": [
+        "healthcheck_file_handler"
       ],
       "propagate": false
     }

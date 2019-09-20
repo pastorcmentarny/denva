@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import timedelta
 import logging
 import re
+from datetime import datetime
+from datetime import timedelta
 
 stats_log = logging.getLogger('stats')
 
@@ -47,6 +47,27 @@ def get_float_number_from_text(cpu_temp: str) -> str:
 def fix_nulls(data):
     for line in data:
         yield line.replace('\0', '')
+
+
+def is_file_older_than_5_minutes(filename: str) -> bool:
+    year = int(filename[0:4])
+    month = int(filename[4:6])
+    day = int(filename[6:8])
+    hour = int(filename[9:11])
+    minut = int(filename[11:13])
+    second = int(filename[13:15])
+
+    last = datetime(year, month, day, hour, minut, second)
+    now = datetime.now()
+    time_delta = now - last
+    return (time_delta.seconds / 60) > 5
+
+
+def is_timestamp_older_than_5_minutes(timestamp: str) -> bool:
+    now = datetime.now()
+    last = datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S.%f')
+    time_delta = now - last
+    return (time_delta.seconds / 60) > 5
 
 
 color_name = {

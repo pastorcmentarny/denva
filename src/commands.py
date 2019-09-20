@@ -119,3 +119,10 @@ def get_last_ten_line_from_path(path: str) -> str:
 def get_last_line_from_log(path: str) -> str:
     text = str(subprocess.check_output(['tail', '-n', "1", path]).strip(), "utf-8")
     return text
+
+
+def get_last_photo_filename() -> str:
+    cmd = " ls -rt | tail -1"
+    ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    result = ps.communicate()[0]
+    return str(result)

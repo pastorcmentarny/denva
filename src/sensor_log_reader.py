@@ -67,7 +67,7 @@ def add_row(data, row):
     )
 
 
-def get_data_row(row):
+def get_data_row(row) -> dict:
     data_row = {
         'timestamp': row[0],
         'temp': row[1],
