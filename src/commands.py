@@ -125,4 +125,4 @@ def get_last_photo_filename() -> str:
     cmd = " ls -rt | tail -1"
     ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     result = ps.communicate()[0]
-    return str(result)
+    return str(result, 'utf-8')
