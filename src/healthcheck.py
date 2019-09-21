@@ -58,6 +58,7 @@ def healthcheck_test():
         logger.error("ERROR ( {} )".format(e), exc_info=True)
         send_email_on_fail(str(e))
 
+
 def send_email_on_fail(problem: str):
     email_sender_service.send_error_log_email("healthcheck", problem)
 

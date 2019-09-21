@@ -81,9 +81,9 @@ def send(data: dict, subject: str):
         send_error_log_email("sending email", "Unable to send {} email due to {}.".format(subject, e))
 
 
-def send_error_log_email(what: str, msg: str):
+def send_error_log_email(what: str, message: str):
     cfg = data_files.load_cfg()
-    logger.info('Sending error log email with message: {}'.format(msg))
+    logger.info('Sending error log email with message: {}'.format(message))
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
@@ -92,7 +92,7 @@ def send_error_log_email(what: str, msg: str):
         msg = MIMEMultipart()
 
         subject = "An serious error happen while {}".format(what)
-        message = "Whoops.. Some sort of gobshite happen with app.\n Error message is: {}".format(msg)
+        message = "Whoops.. Some sort of gobshite happen with app.\n Error message is: {}".format(message)
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
