@@ -32,29 +32,31 @@ def healthcheck_test():
     ok = True
     reasons = []
 
-    # check is ui is running
-    response = requests.get('http://192.168.0.3:5000/hc')
-    if response.status_code != requests.codes.ok:
-        ok = False
-        reasons.append("WEB APP is not working")
+    try:
+        # check is ui is running
+        response = requests.get('http://192.168.0.3:5000/hc')
+        if response.status_code != requests.codes.ok:
+            ok = False
+            reasons.append("WEB APP is not working")
 
-    # check is pictures are taken
-    if capture_photo_is_older_than_5_minutes():
-        ok = False
-        reasons.append("Capture photo is not working")
+        # check is pictures are taken
+        if capture_photo_is_older_than_5_minutes():
+            ok = False
+            reasons.append("Capture photo is not working")
 
-    # check is app is running
-    if measurement_is_older_than_5_minutes():
-        ok = False
-        reasons.append("Getting measurement is not working")
+        # check is app is running
+        if measurement_is_older_than_5_minutes():
+            ok = False
+            reasons.append("Getting measurement is not working")
 
-    if ok:
-        logger.info("PASSED")
-    else:
-        logger.info("FAILED ( {} )".format(response))
-        send_email_on_fail(str(reasons))
-    print(ok)
-
+        if ok:
+            logger.info("PASSED")
+        else:
+            logger.warning("FAILED ( {} )".format(response))
+            send_email_on_fail(str(reasons))
+    except Exception as e:
+        logger.error("ERROR ( {} )".format(e), exc_info=True)
+        send_email_on_fail(str(e))
 
 def send_email_on_fail(problem: str):
     email_sender_service.send_error_log_email("healthcheck", problem)

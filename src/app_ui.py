@@ -111,7 +111,7 @@ def do_picture():
 
 
 @app.route("/hc")
-def now():
+def healthcheck():
     return jsonify({"status": "UP"})
 
 
