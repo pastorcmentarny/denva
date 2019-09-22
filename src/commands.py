@@ -122,7 +122,14 @@ def get_last_line_from_log(path: str) -> str:
 
 
 def get_last_photo_filename() -> str:
-    cmd = " ls -rt | tail -1"
+    current_time = datetime.now()
+    path = "/mnt/data/photos/{}/{}/{}/".format(str(current_time.year), str(current_time.month), str(current_time.day))
+    cmd = " ls {} -rt | tail -1".format(path)
     ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     result = ps.communicate()[0]
     return str(result, 'utf-8')
+
+
+def reboot(reason: str):
+    logger.warning("Rebooting device due to: {}".format(reason))
+    subprocess.check_output(['sudo', 'reboot'])

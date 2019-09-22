@@ -1,12 +1,14 @@
 import logging
 import requests
+import time
+
 
 import commands
 import email_sender_service
 import sensor_log_reader
 import utils
 
-logger = logging.getLogger('healthCheck')
+logger = logging.getLogger('hc')
 
 
 # */5 * * * * sudo python3 /home/pi/denva-master/src/healthcheck.py
@@ -28,40 +30,66 @@ def measurement_is_older_than_5_minutes():
     return utils.is_timestamp_older_than_5_minutes(timestamp)
 
 
-def healthcheck_test():
-    ok = True
-    reasons = []
+attempts = 5
+wait_time = 30
+reasons = []
 
+
+def healthcheck_test_runner():
     try:
-        # check is ui is running
-        response = requests.get('http://192.168.0.3:5000/hc')
-        if response.status_code != requests.codes.ok:
-            ok = False
-            reasons.append("WEB APP is not working")
+        passed = healthcheck_test()
 
-        # check is pictures are taken
-        if capture_photo_is_older_than_5_minutes():
-            ok = False
-            reasons.append("Capture photo is not working")
+        if not passed:
+            for i in range(1, attempts + 1):
+                logger.warning(
+                    "health check failed {} time(s) ... waiting {} seconds before retry".format(i, wait_time))
+                time.sleep(wait_time)
+                passed = healthcheck_test()
 
-        # check is app is running
-        if measurement_is_older_than_5_minutes():
-            ok = False
-            reasons.append("Getting measurement is not working")
+                if passed:
+                    break
 
-        if ok:
+        if passed:
             logger.info("PASSED")
         else:
-            logger.warning("FAILED ( {} )".format(response))
-            send_email_on_fail(str(reasons))
+            logger.error("FAILED ( {} )".format(reasons))
+            send_email_on_fail("A {} attempts to pass healthcheck failed due to {}".format(attempts, str(reasons)))
+            commands.reboot("Health check failed")
+
     except Exception as e:
         logger.error("ERROR ( {} )".format(e), exc_info=True)
         send_email_on_fail(str(e))
 
+
+def healthcheck_test() -> bool:
+    is_ok = True
+
+    # check is ui is running
+    response = requests.get('http://192.168.0.6:5000/hc')
+    if response.status_code != requests.codes.ok:
+        is_ok = False
+        reasons.append("WEB APP is not working")
+
+    # check is pictures are taken
+    if capture_photo_is_older_than_5_minutes():
+        is_ok = False
+        reasons.append("Capture photo is not working")
+
+    # check is app is running
+    if measurement_is_older_than_5_minutes():
+        is_ok = False
+        reasons.append("Getting measurement is not working")
+
+    if is_ok:
+        logger.info("PASSED")
+    else:
+        logger.warning("FAILED ( {} )".format(response))
+
+    return is_ok
 
 def send_email_on_fail(problem: str):
     email_sender_service.send_error_log_email("healthcheck", problem)
 
 
 if __name__ == '__main__':
-    healthcheck_test()
+    healthcheck_test_runner()

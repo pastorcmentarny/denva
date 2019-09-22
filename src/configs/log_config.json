@@ -68,7 +68,7 @@
       ],
       "propagate": false
     },
-    "healthCheck": {
+    "hc": {
       "level": "INFO",
       "handlers": [
         "healthcheck_file_handler"
