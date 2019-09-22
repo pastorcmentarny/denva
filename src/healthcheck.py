@@ -4,6 +4,7 @@ import time
 
 
 import commands
+import data_files
 import email_sender_service
 import sensor_log_reader
 import utils
@@ -87,9 +88,11 @@ def healthcheck_test() -> bool:
 
     return is_ok
 
+
 def send_email_on_fail(problem: str):
     email_sender_service.send_error_log_email("healthcheck", problem)
 
 
 if __name__ == '__main__':
+    data_files.setup_logging()
     healthcheck_test_runner()
