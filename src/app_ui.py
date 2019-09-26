@@ -78,12 +78,12 @@ def system():
 
 @app.route("/log/app")
 def recent_log_app():
-    return jsonify(commands.get_last_lines_from_path('/home/pi/logs/logs.log'))
+    return jsonify(commands.get_lines_from_path('/home/pi/logs/logs.log', 300))
 
 
 @app.route("/log/hc")
 def recent_log_hc():
-    return jsonify(commands.get_last_lines_from_path('/home/pi/logs/healthcheck.log'))
+    return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 300))
 
 
 @app.route("/report/yesterday")
