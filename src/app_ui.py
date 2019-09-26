@@ -76,9 +76,14 @@ def system():
     return jsonify(commands.get_system_info())
 
 
-@app.route("/log")
-def recent_log():
-    return jsonify(commands.get_last_ten_line_from_path('/home/pi/logs/logs.log'))
+@app.route("/log/app")
+def recent_log_app():
+    return jsonify(commands.get_last_lines_from_path('/home/pi/logs/logs.log'))
+
+
+@app.route("/log/hc")
+def recent_log_hc():
+    return jsonify(commands.get_last_lines_from_path('/home/pi/logs/healthcheck.log'))
 
 
 @app.route("/report/yesterday")
@@ -130,7 +135,8 @@ def welcome():
     page_tube_trains = host + str(url_for('tube_trains_status'))
     page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
     page_tube_trains_counter = host + str(url_for('tt_counter'))
-    page_recent_log = host + str(url_for('recent_log'))
+    page_recent_log_app = host + str(url_for('recent_log_app'))
+    page_recent_log_hc = host + str(url_for('recent_log_hc'))
     page_webcam = host + str(url_for('do_picture'))
 
     return """<!DOCTYPE html>
@@ -164,6 +170,7 @@ def welcome():
     <li><a href="{}">{}</a></li>
     <li>Logs:</li>
     <li><a href="{}">{}</a></li>
+    <li><a href="{}">{}</a></li>
     <li>Photos:</li>
     <li><a href="{}">{}</a></li>
 </ul>
@@ -173,7 +180,8 @@ By Dominik (Pastor Cmentarny) &Omega;(<a href="https://dominiksymonowicz.com/">M
                   page_stats, page_system, page_system, page_warns, page_warns, page_warns_now, page_warns_now,
                   page_warns_count, page_warns_count, page_tube_trains, page_tube_trains, page_tube_trains_counter,
                   page_tube_trains_counter, page_tt_delays_counter, page_tt_delays_counter,
-                  page_recent_log, page_recent_log, page_webcam, page_webcam)
+                  page_recent_log_app, page_recent_log_app, page_recent_log_hc, page_recent_log_hc, page_webcam,
+                  page_webcam)
 
 
 if __name__ == '__main__':

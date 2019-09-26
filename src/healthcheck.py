@@ -81,9 +81,7 @@ def healthcheck_test() -> bool:
         is_ok = False
         reasons.append("Getting measurement is not working")
 
-    if is_ok:
-        logger.info("PASSED")
-    else:
+    if not is_ok:
         logger.warning("FAILED ( {} )".format(response))
 
     return is_ok

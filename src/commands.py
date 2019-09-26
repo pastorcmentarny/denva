@@ -111,8 +111,13 @@ def get_data_space_available():
     return re.sub('[^0-9.]', '', str(result).strip())
 
 
-def get_last_ten_line_from_path(path: str) -> str:
+def get_last_lines_from_path(path: str) -> str:
     text = str(subprocess.check_output(['tail', '-n', "300", path]).strip(), "utf-8")
+    return text
+
+
+def get_lines_from_path(path: str, lines: int) -> str:
+    text = str(subprocess.check_output(['tail', '-n', str(lines), path]).strip(), "utf-8")
     return text
 
 

@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import json
+import logging
+import os
 import smtplib
 from datetime import datetime
-import logging
-import json
-import os
-
+from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
 
 import app_timer
-import data_files
 import commands
+import data_files
 import report_service
-import utils
 import sensor_warnings
+import utils
 
 logger = logging.getLogger('app')
 
@@ -30,6 +29,8 @@ def should_send_email(data):
     if app_timer.is_time_to_send_email(send_email_cooldown):
         email_data['warnings'] = sensor_warnings.get_warnings_as_list(email_data)
         email_data['system'] = commands.get_system_info()
+        email_data['log'] = commands.get_lines_from_path('/home/pi/logs/logs.log', 10)
+        email_data['healthcheck'] = commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 10)
         send(email_data, 'Measurement')
         send_email_cooldown = datetime.now()
 
