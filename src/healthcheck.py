@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 import requests
 import time
@@ -37,6 +38,11 @@ reasons = []
 
 
 def healthcheck_test_runner():
+    now = datetime.now().time()
+    if now > datetime.now().time().replace(hour=0, minute=15, second=0, microsecond=0):
+        logger.info("INFO: TOO EARLY")
+        return
+
     try:
         passed = healthcheck_test()
 
