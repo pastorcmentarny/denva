@@ -112,7 +112,7 @@ def get_data_space_available():
 
 
 def get_lines_from_path(path: str, lines: int) -> dict:
-    text = str(subprocess.check_output(['tail', '-n', str(lines), path]).strip(), "utf-8").split('n')
+    text = str(subprocess.check_output(['tail', '-n', str(lines), path]).strip(), "utf-8").split('\n')
     return utils.convert_list_to_dict(text)
 
 
