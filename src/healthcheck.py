@@ -39,8 +39,13 @@ reasons = []
 
 def healthcheck_test_runner():
     now = datetime.now().time()
-    if now > datetime.now().time().replace(hour=0, minute=15, second=0, microsecond=0):
-        logger.info("INFO: TOO EARLY")
+    if now < datetime.now().time().replace(hour=0, minute=15, second=0, microsecond=0):
+        logger.info("TOO EARLY. Healthcheck skipped.")
+        return
+
+    if datetime.now().time().replace(hour=3, minute=0, second=0, microsecond=0) < now < datetime.now().time().replace(
+            hour=3, minute=15, second=0, microsecond=0):
+        logger.info("JUST AFTER RESTART. Healthcheck skipped.")
         return
 
     try:
