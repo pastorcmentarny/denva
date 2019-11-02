@@ -12,14 +12,17 @@ import utils
 
 logger = logging.getLogger('hc')
 
+"""
+Healthchech checks:
+ - is app is running
+ - when last measurement was
+ - check when last photo was taken
+if something wrong restart and send email
+"""
 
-# */5 * * * * sudo python3 /home/pi/denva-master/src/healthcheck.py
-
-# check is app is running
-# check when last measurement was
-# check when last photo was taken
-# if something wrong restart and send email
-
+attempts = 5
+wait_time = 30
+reasons = []
 
 def capture_photo_is_older_than_5_minutes():
     filename = commands.get_last_photo_filename()
@@ -30,11 +33,6 @@ def measurement_is_older_than_5_minutes():
     row = sensor_log_reader.get_last_measurement()
     timestamp = row['timestamp']
     return utils.is_timestamp_older_than_5_minutes(timestamp)
-
-
-attempts = 5
-wait_time = 30
-reasons = []
 
 
 def healthcheck_test_runner():
