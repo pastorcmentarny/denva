@@ -122,7 +122,7 @@ def healthcheck():
 
 
 @app.route("/ricky")
-def do_picture():
+def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
 
 
