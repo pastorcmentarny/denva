@@ -44,7 +44,8 @@ report = {
     },
      "rickmansworth": {
         "crimes": "unknown",
-        "floods": "unknown"
+        "floods": "unknown",
+        "weather": "unknown",
     },
     "tube": {
         "delays": {
@@ -140,6 +141,7 @@ def generate_for(date: datetime) -> dict:
         report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month, day)
         report['rickmansworth']['crimes'] = web_data.get_crime()
         report['rickmansworth']['floods'] = web_data.get_flood()
+        report['rickmansworth']['weather'] = web_data.get_weather()
         return report
     except:
         logger.error("Unable to generate  report.", exc_info=True)

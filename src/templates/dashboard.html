@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dom's dashboard</title>
+    <style>
+        span.good {
+            background-color: #EEEEEE;
+            color: #00EE00;
+            font-size: 36px;
+        }
+
+        span.warn {
+            background-color: #999999;
+            color: #ee9933;
+            font-size: 48px;
+        }
+
+        span.bad {
+            background-color: #CCCCCC;
+            color: #CC0000;
+            font-size: 48px;
+        }
+
+    </style>
+</head>
+<body>
+<script>
+    const text = "Dom's dashboard";
+    const speedOfFade = 50;
+    if (document.all || document.getElementById) {
+        document.write('<span id="highlight">' + text + '</span><br/>');
+        var storeText = document.getElementById ? document.getElementById("highlight") : document.all.highlight
+    } else
+        document.write(text);
+    const hex = ["00", "14", "28", "3C", "50", "64", "78", "8C", "A0", "B4", "C8", "DC", "F0"];
+    let r = 1;
+    let g = 1;
+    let b = 1;
+    let seq = 1;
+
+    function changeText() {
+        storeText.style.color = `#${hex[r]}${hex[g]}${hex[b]}`
+    }
+
+    function change() {
+        if (seq === 6) {
+            b--;
+            if (b === 0)
+                seq = 1
+        }
+        if (seq === 5) {
+            r++;
+            if (r === 12)
+                seq = 6
+        }
+        if (seq === 4) {
+            g--;
+            if (g === 0)
+                seq = 5
+        }
+        if (seq === 3) {
+            b++;
+            if (b === 12)
+                seq = 4
+        }
+        if (seq === 2) {
+            r--;
+            if (r === 0)
+                seq = 3
+        }
+        if (seq === 1) {
+            g++;
+            if (g === 12)
+                seq = 2
+        }
+        changeText()
+    }
+
+    function starteffect() {
+        if (document.all || document.getElementById)
+            flash = setInterval("change()", speedOfFade)
+    }
+
+    function isNoFoodTime() {
+        var date = new Date();
+        var currentHour = date.getHours();
+        if (currentHour <= 19 && currentHour >= 11) {
+            document.write('<span class="good">' + "FOOD TIME" + '</span>');
+        } else if (currentHour === 18 || currentHour === 10) {
+            document.write('<span class="warn">' + "FOOD/NO FOOD TIME" + '</span>');
+        } else {
+            document.write('<span class="bad">' + "NO FOOD TIME" + '</span>');
+        }
+
+    }
+
+    starteffect();
+    isNoFoodTime();
+
+</script>
+</body>
+</html>

@@ -72,8 +72,7 @@ def get_crime() -> str:
         return crime_number + ' crimes ' + crime_period
     except Exception as whoops:
         logger.error('Unable to get crime data due to : %s' % whoops)
-        train_status = 'Crime data N/A'
-    return train_status
+        return 'Crime data N/A'
 
 
 def get_flood() -> str:
@@ -87,8 +86,19 @@ def get_flood() -> str:
         return severe_flood_warnings + ", " + flood_warnings + ", " + flood_alerts
     except Exception as whoops:
         logger.error('Unable to get flood data due to : %s' % whoops)
-        train_status = 'Flood data N/A'
-    return train_status
+        return 'Flood data N/A'
+
+
+def get_weather() -> str:
+    try:
+        response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
+        html_manager = bs4.BeautifulSoup(response.text, "html.parser")
+
+        weather = html_manager.select('#tabDay0')[0].find('a')['aria-label']
+        return weather
+    except Exception as whoops:
+        logger.error('Unable to get weather data due to : %s' % whoops)
+        return 'Weather data N/A'
 
 
 def main():
