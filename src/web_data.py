@@ -62,7 +62,35 @@ def get_status() -> list:
     return statuses
 
 
-# run without app
+def get_crime() -> str:
+    try:
+        response = requests.get('https://www.police.uk/hertfordshire/C02/crime/')
+        html_manager = bs4.BeautifulSoup(response.text, "html.parser")
+
+        crime_number = html_manager.select('p#no_location_crimes strong')[0].text
+        crime_period = html_manager.select('#month > optgroup:nth-child(1) > option:nth-child(1)')[0].text
+        return crime_number + ' crimes ' + crime_period
+    except Exception as whoops:
+        logger.error('Unable to get crime data due to : %s' % whoops)
+        train_status = 'Crime data N/A'
+    return train_status
+
+
+def get_flood() -> str:
+    try:
+        response = requests.get('https://flood-warning-information.service.gov.uk/warnings?location=Rickmansworth')
+        html_manager = bs4.BeautifulSoup(response.text, "html.parser")
+
+        severe_flood_warnings = html_manager.select('#severe-flood-warnings')[0].text.replace('Severe flood warnings','').replace('Severe flooding - danger to life','').strip() + ' severe flooding warnings that are danger to life'
+        flood_warnings = html_manager.select('#flood-warnings')[0].text.replace('Flood warnings','').replace('Flooding is expected - immediate action required','').strip() + ' flooding warnings that require immediate action'
+        flood_alerts = html_manager.select('#flood-alerts')[0].text.replace('Flood alerts','').replace('Flooding is possible - be prepared','').strip() + ' flooding alerts that flooding is possible'
+        return severe_flood_warnings + ", " + flood_warnings + ", " + flood_alerts
+    except Exception as whoops:
+        logger.error('Unable to get flood data due to : %s' % whoops)
+        train_status = 'Flood data N/A'
+    return train_status
+
+
 def main():
     statuses_list = get_status()
     for item in statuses_list:

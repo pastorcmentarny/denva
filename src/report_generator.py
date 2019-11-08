@@ -8,6 +8,7 @@ import records
 import sensor_warnings
 import tubes_train_service
 import utils
+import web_data
 
 warnings_logger = logging.getLogger('warnings')
 stats_log = logging.getLogger('stats')
@@ -40,6 +41,10 @@ report = {
             'max': 0
         },
         'biggest_motion': 0
+    },
+     "rickmansworth": {
+        "crimes": "unknown",
+        "floods": "unknown"
     },
     "tube": {
         "delays": {
@@ -133,6 +138,8 @@ def generate_for(date: datetime) -> dict:
         report['records'] = records.get_records(data)
         report['avg'] = averages.get_averages(data)
         report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month, day)
+        report['rickmansworth']['crimes'] = web_data.get_crime()
+        report['rickmansworth']['floods'] = web_data.get_flood()
         return report
     except:
         logger.error("Unable to generate  report.", exc_info=True)
