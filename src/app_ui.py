@@ -15,6 +15,7 @@ import logging
 import averages
 import commands
 import email_sender_service
+import information_service
 import records
 import report_service
 import sensor_log_reader
@@ -118,6 +119,11 @@ def do_picture():
 @app.route("/hc")
 def healthcheck():
     return jsonify({"status": "UP"})
+
+
+@app.route("/ricky")
+def do_picture():
+    return jsonify(information_service.get_data_about_rickmansworth())
 
 
 @app.route("/")
