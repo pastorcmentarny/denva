@@ -101,6 +101,19 @@ def get_weather() -> str:
         return 'Weather data N/A'
 
 
+def get_o2_status() -> str:
+    try:
+        response = requests.get('https://status.o2.co.uk/api/care/2010-11-22/outages/near/radius/-1/lon/-0.5057294/lat/51.6367404/service/0/operator/0/ctype/10/address/wd38ql/customer/e1kGKHRsWmAycFN9JH4rdhsxE1gBXHlRdC0/auth/A5FDC03C:::620B3907?uuid=8d40762059154803b6dee4391394666c&browser_uuid=4a9f19cbf4fb488e8ba81e6994e89731&id=0b1b8c44-6800-9e4d-61a3-4935d46b5bc1')
+        html_manager = bs4.BeautifulSoup(response.text, "html.parser")
+
+        o2_data = json.loads(str(html_manager))
+        status = o2_data['outage_script_txt']
+        return status
+    except Exception as whoops:
+        logger.error('Unable to get o2 data due to : %s' % whoops)
+        return 'o2 data N/A'
+
+
 def main():
     statuses_list = get_status()
     for item in statuses_list:
