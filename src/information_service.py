@@ -3,7 +3,8 @@ import web_data
 information = {
     "crimes": "unknown",
     "floods": "unknown",
-    "weather": "unknown",
+    "weather": ["unknown"],
+    "o2": "unknown"
 }
 
 

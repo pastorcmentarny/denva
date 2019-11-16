@@ -104,7 +104,6 @@ def get_space_available():
     return re.sub('[^0-9.]', '', str(result).strip())
 
 
-# TODO test it
 def get_data_space_available():
     p = subprocess.Popen("df /mnt/data -m --output=avail", stdout=subprocess.PIPE, shell=True)
     result, _ = p.communicate()

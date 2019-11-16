@@ -89,16 +89,16 @@ def get_flood() -> str:
         return 'Flood data N/A'
 
 
-def get_weather() -> str:
+def get_weather() -> list:
     try:
         response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
         weather = html_manager.select('#tabDay0')[0].find('a')['aria-label']
-        return weather
+        return weather.splitlines()
     except Exception as whoops:
         logger.error('Unable to get weather data due to : %s' % whoops)
-        return 'Weather data N/A'
+        return ['Weather data N/A']
 
 
 def get_o2_status() -> str:

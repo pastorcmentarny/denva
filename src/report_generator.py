@@ -45,7 +45,7 @@ report = {
      "rickmansworth": {
         "crimes": "unknown",
         "floods": "unknown",
-        "weather": "unknown",
+        "weather": ["unknown"],
         "o2": "unknown",
     },
     "tube": {
