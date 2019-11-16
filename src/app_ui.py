@@ -14,6 +14,7 @@ import logging
 
 import averages
 import commands
+import config_serivce
 import email_sender_service
 import information_service
 import records
@@ -125,6 +126,12 @@ def healthcheck():
 def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
 
+@app.route('/set/hc')
+def set_ip_for_healthcheck():
+    host = request.host_url[:-1]
+    hc_page = host + str(url_for('healthcheck'))
+    config_serivce.update_healthcheck(hc_page)
+
 
 @app.route("/")
 def welcome():
@@ -195,6 +202,7 @@ if __name__ == '__main__':
 
     try:
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+        healthcheck()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
         email_sender_service.send_error_log_email('web application',

@@ -5,6 +5,7 @@ import time
 
 
 import commands
+import config_serivce
 import data_files
 import email_sender_service
 import sensor_log_reader
@@ -23,6 +24,7 @@ if something wrong restart and send email
 attempts = 5
 wait_time = 30
 reasons = []
+
 
 def capture_photo_is_older_than_5_minutes():
     filename = commands.get_last_photo_filename()
@@ -75,7 +77,8 @@ def healthcheck_test() -> bool:
     is_ok = True
 
     # check is ui is running
-    response = requests.get('http://192.168.0.6:5000/hc')
+    ip = config_serivce.get_healthcheck_ip()
+    response = requests.get(ip)
     if response.status_code != requests.codes.ok:
         is_ok = False
         reasons.append("WEB APP is not working")
