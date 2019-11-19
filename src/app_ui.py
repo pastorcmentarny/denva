@@ -24,7 +24,7 @@ import sensor_warnings
 import tubes_train_service
 import web_data
 
-from flask import Flask, jsonify, url_for,send_file, request
+from flask import Flask, jsonify, url_for,send_file, request, render_template
 
 app = Flask(__name__)
 logger = logging.getLogger('stats')
@@ -126,6 +126,7 @@ def healthcheck():
 def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
 
+
 @app.route('/set/hc')
 def set_ip_for_healthcheck():
     host = request.host_url[:-1]
@@ -137,6 +138,7 @@ def set_ip_for_healthcheck():
 def welcome():
     host = request.host_url[:-1]
     page_now = host + str(url_for('now'))
+    print(page_now)
     page_system = host + str(url_for('system'))
     page_avg = host + str(url_for('average'))
     page_records = host + str(url_for('record'))
@@ -151,57 +153,33 @@ def welcome():
     page_recent_log_app = host + str(url_for('recent_log_app'))
     page_recent_log_hc = host + str(url_for('recent_log_hc'))
     page_webcam = host + str(url_for('do_picture'))
+    data = {
+        'page_now' : page_now,
+        'page_system' : page_system,
+        'page_avg' : page_avg,
+        'page_records' : page_records,
+        'page_stats' : page_stats,
+        'page_warns' : page_warns,
+        'page_warns_now' : page_warns_now,
+        'page_warns_count' : page_warns_count,
+        'page_last_report' : page_last_report,
+        'page_tube_trains' : page_tube_trains,
+        'page_tt_delays_counter' : page_tt_delays_counter,
+        'page_tube_trains_counter' : page_tube_trains_counter,
+        'page_recent_log_app' : page_recent_log_app,
+        'page_recent_log_hc' : page_recent_log_hc,
+        'page_webcam' : page_webcam
+    }
 
-    return """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Denva - Dom's Environment Analyser</title>
-</head>
-<body>
-<h1>Select:</h1>
-<ul><li><a href="{}">Report for yesterday</a></li></ul>
-
-<h2>Info</h2>   
-<ul>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-</ul>
-<h2>Warnings:</h2>
-<ul>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-</ul>
-<h2>Other:</h2>
-<ul>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-    <li>Logs:</li>
-    <li><a href="{}">{}</a></li>
-    <li><a href="{}">{}</a></li>
-    <li>Photos:</li>
-    <li><a href="{}">{}</a></li>
-</ul>
-By Dominik (Pastor Cmentarny) &Omega;(<a href="https://dominiksymonowicz.com/">My homepage</a>)
-</body>
-</html>""".format(page_last_report, page_now, page_now, page_records, page_records, page_avg, page_avg, page_stats,
-                  page_stats, page_system, page_system, page_warns, page_warns, page_warns_now, page_warns_now,
-                  page_warns_count, page_warns_count, page_tube_trains, page_tube_trains, page_tube_trains_counter,
-                  page_tube_trains_counter, page_tt_delays_counter, page_tt_delays_counter,
-                  page_recent_log_app, page_recent_log_app, page_recent_log_hc, page_recent_log_hc, page_webcam,
-                  page_webcam)
+    return render_template('dashboard.html', message=data)
 
 
 if __name__ == '__main__':
     logger.info('Starting web server')
 
     try:
-        app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+        app.run(debug=True)
+        #app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
         healthcheck()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
