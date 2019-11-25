@@ -15,6 +15,7 @@ import logging
 import averages
 import commands
 import config_serivce
+import data_files
 import email_sender_service
 import information_service
 import records
@@ -27,7 +28,7 @@ import web_data
 from flask import Flask, jsonify, url_for,send_file, request, render_template
 
 app = Flask(__name__)
-logger = logging.getLogger('stats')
+logger = logging.getLogger('app')
 
 
 @app.route("/stats")
@@ -175,11 +176,11 @@ def welcome():
 
 
 if __name__ == '__main__':
+    data_files.setup_logging()
     logger.info('Starting web server')
 
     try:
-        app.run(debug=True)
-        #app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+        app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
         healthcheck()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
