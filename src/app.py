@@ -17,6 +17,7 @@ import veml6075
 from PIL import ImageFont
 from bh1745 import BH1745
 from icm20948 import ICM20948
+from sgp30 import SGP30
 
 import app_timer
 import cl_display
@@ -50,6 +51,10 @@ uv_sensor.set_integration_time('100ms')
 
 # Set up motion sensor
 imu = ICM20948()
+
+# air quality
+sgp30 = SGP30()
+
 
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
 rr_12 = ImageFont.truetype(rr_path, 12)
@@ -205,6 +210,8 @@ def main():
             cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
 
+
+
             data['picture_path'] = get_pictures_path()
 
             email_sender_service.should_send_email(data)
@@ -232,8 +239,27 @@ def thread_camera():
                 pictures.pop(0)
 
 
+def crude_progress_bar():
+    sys.stdout.write('.')
+    sys.stdout.flush()
+
+
+def thread_air_quality():
+    print("Sensor warming up, please wait...")
+    logger.info('Sensor warming up, please wait...')
+    sgp30.start_measurement(crude_progress_bar)
+    sys.stdout.write('\n')
+
+    while True:
+        result = sgp30.get_air_quality()
+        logger.info(result)
+        print(result)
+        time.sleep(1.0)
+
+
 def cleanup_before_exit():
     camera_thread.join()
+    air_quality_thread.join()
     sys.exit(0)
 
 
@@ -241,6 +267,7 @@ if __name__ == '__main__':
     data_files.setup_logging()
     commands.mouth_drive()
     camera_thread = threading.Thread(target=thread_camera)
+    air_quality_thread = threading.Thread(target=thread_air_quality)
     print('Starting application ... \n Press Ctrl+C to shutdown')
     try:
         camera_thread.start()
