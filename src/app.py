@@ -17,7 +17,7 @@ import veml6075
 from PIL import ImageFont
 from bh1745 import BH1745
 from icm20948 import ICM20948
-from sgp30 import SGP30
+#from sgp30 import SGP30
 
 import app_timer
 import cl_display
@@ -53,7 +53,7 @@ uv_sensor.set_integration_time('100ms')
 imu = ICM20948()
 
 # air quality
-sgp30 = SGP30()
+#sgp30 = SGP30()
 
 
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
@@ -244,22 +244,22 @@ def crude_progress_bar():
     sys.stdout.flush()
 
 
-def thread_air_quality():
-    print("Sensor warming up, please wait...")
-    logger.info('Sensor warming up, please wait...')
-    sgp30.start_measurement(crude_progress_bar)
-    sys.stdout.write('\n')
+#def thread_air_quality():
+#    print("Sensor warming up, please wait...")
+#    logger.info('Sensor warming up, please wait...')
+#    sgp30.start_measurement(crude_progress_bar)
+#    sys.stdout.write('\n')
 
-    while True:
-        result = sgp30.get_air_quality()
-        logger.info(result)
-        print(result)
-        time.sleep(1.0)
+ #   while True:
+ #       result = sgp30.get_air_quality()
+ #       logger.info(result)
+#        print(result)
+#        time.sleep(1.0)
 
 
 def cleanup_before_exit():
     camera_thread.join()
-    air_quality_thread.join()
+    #air_quality_thread.join()
     sys.exit(0)
 
 
@@ -267,10 +267,11 @@ if __name__ == '__main__':
     data_files.setup_logging()
     commands.mouth_drive()
     camera_thread = threading.Thread(target=thread_camera)
-    air_quality_thread = threading.Thread(target=thread_air_quality)
+    #air_quality_thread = threading.Thread(target=thread_air_quality)
     print('Starting application ... \n Press Ctrl+C to shutdown')
     try:
         camera_thread.start()
+        #air_quality_thread.start()
         main()
     except Exception as e:
         logger.error('Something went badly wrong..', exc_info=True)
