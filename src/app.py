@@ -270,7 +270,7 @@ if __name__ == '__main__':
         logger.info('Sensor warming up, please wait...')
         sgp30.start_measurement(crude_progress_bar)
         sys.stdout.write('\n')
-        logger.info('Sensor needed {} seconds to warm up')
+        logger.info('Sensor needed {} seconds to warm up'.format(counter))
         bh1745.set_leds(0)
         main()
     except Exception as e:
