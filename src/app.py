@@ -138,7 +138,7 @@ def get_data_from_measurement():
         gas_resistance = weather_sensor.data.gas_resistance
     else:
         logger.warning("Weather sensor did't return data")
-    aqi = 0
+    aqi = sgp30.get_air_quality()
     r, g, b = bh1745.get_rgb_scaled()
     colour = utils.to_hex(r, g, b)
     motion = get_motion()
@@ -239,38 +239,39 @@ def thread_camera():
                 pictures.pop(0)
 
 
+counter = 1
+led_status = 0
+
 def crude_progress_bar():
-    sys.stdout.write('.')
+    global counter
+    global  led_status
+    sys.stdout.write('Waiting.. ' + str(counter) + 's.\n')
+    counter = counter+1
     sys.stdout.flush()
-
-
-def thread_air_quality():
-    print("Sensor warming up, please wait...")
-    logger.info('Sensor warming up, please wait...')
-    sgp30.start_measurement(crude_progress_bar)
-    sys.stdout.write('\n')
-
-    while True:
-        result = sgp30.get_air_quality()
-        logger.info(result)
-        print(result)
-        time.sleep(1.0)
-
+    bh1745.set_leds(led_status)
+    if led_status == 1:
+        led_status = 0
+    else:
+        led_status = 1
 
 def cleanup_before_exit():
     camera_thread.join()
-    air_quality_thread.join()
     sys.exit(0)
 
 
 if __name__ == '__main__':
-    data_files.setup_logging()
-    commands.mouth_drive()
-    camera_thread = threading.Thread(target=thread_camera)
-    air_quality_thread = threading.Thread(target=thread_air_quality)
     print('Starting application ... \n Press Ctrl+C to shutdown')
+    data_files.setup_logging()
     try:
+        commands.mouth_drive()
+        camera_thread = threading.Thread(target=thread_camera)
         camera_thread.start()
+        print("Sensor warming up, please wait...")
+        logger.info('Sensor warming up, please wait...')
+        sgp30.start_measurement(crude_progress_bar)
+        sys.stdout.write('\n')
+        logger.info('Sensor needed {} seconds to warm up')
+        bh1745.set_leds(0)
         main()
     except Exception as e:
         logger.error('Something went badly wrong..', exc_info=True)
