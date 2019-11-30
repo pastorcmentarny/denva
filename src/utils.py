@@ -161,3 +161,4 @@ def get_color_name(hex_colour: str):
         return color_name[hex_colour].capitalize()
     else:
         return hex_colour
+

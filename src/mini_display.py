@@ -48,12 +48,14 @@ def draw_image_on_screen(data, app_uptime):
     else:
         draw.text((0, 0), "Temp: {}".format(data["temp"]), fill="white", font=rr_12)
         draw.text((0, 14), "Pressure: {}".format(data["pressure"]), fill="white", font=rr_12)
-        draw.text((0, 28), "Humidity: {}".format(data["humidity"]), fill="white", font=rr_12)
-        draw.text((0, 42), "Motion: {:05.02f}".format(data["motion"]), fill="white", font=rr_12)
         if cycle % 2 == 0:
+            draw.text((0, 28), "Humidity: {}".format(data["humidity"]), fill="white", font=rr_12)
+            draw.text((0, 42), "Motion: {:05.02f}".format(data["motion"]), fill="white", font=rr_12)
             draw.text((0, 56), "Colour: {}".format(utils.get_color_name(data["colour"])), fill="white", font=rr_12)
             draw.text((0, 70), "UVA: {}".format(get_description_for.uv(data["uva_index"])), fill="white", font=rr_12)
         else:
+            draw.text((0, 28), "Eco2: {}".format(data["tvoc"]), fill="white", font=rr_12)
+            draw.text((0, 42), "Tvoc: {}".format(data["eco2"]), fill="white", font=rr_12)
             draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])),
                       fill="white", font=rr_12)
             draw.text((0, 70), "UVB: {}".format(get_description_for.uv(data["uvb_index"])), fill="white", font=rr_12)

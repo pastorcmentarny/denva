@@ -34,6 +34,11 @@ def load_data(year: int, month: int, day: int) -> list:
         except IndexError:
             row.insert(19, '?')
             row.insert(20, '?')
+        try:
+            row[21] == '?'
+        except IndexError:
+            row.insert(21, '?')
+            row.insert(22, '?')
         add_row(data, row)
     sensor_log_file.close()
     return data
@@ -62,7 +67,9 @@ def add_row(data, row):
             'my': row[17],
             'mz': row[18],
             'measurement_time': row[19],
-            'cpu_temp': row[20]
+            'cpu_temp': row[20],
+            'eco2': row[21],
+            'tvoc': row[22]
         }
     )
 
@@ -88,7 +95,9 @@ def get_data_row(row) -> dict:
         'mx': '{:0.4f}'.format(float(row[16])),
         'my': '{:0.4f}'.format(float(row[17])),
         'mz': '{:0.4f}'.format(float(row[18])),
-        'cpu_temp': commands.get_cpu_temp()
+        'cpu_temp': commands.get_cpu_temp(),
+        'eco2': row[21],
+        'tvoc': row[22]
     }
     return data_row
 

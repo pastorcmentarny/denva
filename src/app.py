@@ -126,7 +126,7 @@ def warn_if_dom_shakes_his_legs(motion):
             time.sleep(0.15)
 
 
-def get_data_from_measurement():
+def get_data_from_measurement() -> dict:
     temp = 0
     pressure = 0
     humidity = 0
@@ -138,7 +138,10 @@ def get_data_from_measurement():
         gas_resistance = weather_sensor.data.gas_resistance
     else:
         logger.warning("Weather sensor did't return data")
-    aqi = str(sgp30.get_air_quality(),"UTF-8")
+    aqi = "n/a"
+    eco2 = str(sgp30.get_air_quality().equivalent_co2)
+    tvoc = str(sgp30.get_air_quality().total_voc)
+
     r, g, b = bh1745.get_rgb_scaled()
     colour = utils.to_hex(r, g, b)
     motion = get_motion()
@@ -162,6 +165,8 @@ def get_data_from_measurement():
         "r": r,
         "g": g,
         "b": b,
+        "eco2": eco2,
+        "tvoc": tvoc,
     }
 
 
@@ -209,8 +214,6 @@ def main():
 
             cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
-
-
 
             data['picture_path'] = get_pictures_path()
 

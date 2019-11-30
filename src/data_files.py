@@ -59,7 +59,9 @@ def store_measurement(data, motion):
                          motion['gx'], motion['gy'], motion['gz'],
                          motion['mx'], motion['my'], motion['mz'],
                          data['measurement_time'],
-                         utils.get_float_number_from_text(data['cpu_temp'])
+                         utils.get_float_number_from_text(data['cpu_temp']),
+                         data['eco2'],
+                         data['tvoc'],
                          ])
     sensor_log_file.close()
 
