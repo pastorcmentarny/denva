@@ -138,7 +138,7 @@ def get_data_from_measurement():
         gas_resistance = weather_sensor.data.gas_resistance
     else:
         logger.warning("Weather sensor did't return data")
-    aqi = str(sgp30.get_air_quality())
+    aqi = str(sgp30.get_air_quality(),"UTF-8")
     r, g, b = bh1745.get_rgb_scaled()
     colour = utils.to_hex(r, g, b)
     motion = get_motion()

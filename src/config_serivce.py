@@ -1,7 +1,7 @@
 import json
 
 # temporary, replace it
-path = '/home/pi/denva-master/src/configs/log_config.json'
+path = '/home/pi/denva-master/src/configs/config.json'
 
 
 def save_cfg(cfg: dict):
