@@ -11,6 +11,7 @@ from luma.core.interface.serial import i2c
 
 import commands
 import get_description_for
+import iqa_utils
 import sensor_warnings
 import utils
 import web_data
@@ -54,8 +55,8 @@ def draw_image_on_screen(data, app_uptime):
             draw.text((0, 56), "Colour: {}".format(utils.get_color_name(data["colour"])), fill="white", font=rr_12)
             draw.text((0, 70), "UVA: {}".format(get_description_for.uv(data["uva_index"])), fill="white", font=rr_12)
         else:
-            draw.text((0, 28), "Eco2: {}".format(data["tvoc"]), fill="white", font=rr_12)
-            draw.text((0, 42), "Tvoc: {}".format(data["eco2"]), fill="white", font=rr_12)
+            draw.text((0, 28), "eco2: {}".format(data["eco2"]), fill="white", font=rr_12)
+            draw.text((0, 42), "Tvoc: {}".format(iqa_utils.get_iqa_for_tvoc(data["tvoc"])['score']), fill="white", font=rr_12)
             draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])),
                       fill="white", font=rr_12)
             draw.text((0, 70), "UVB: {}".format(get_description_for.uv(data["uvb_index"])), fill="white", font=rr_12)

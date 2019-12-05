@@ -34,7 +34,9 @@ def get_records(data_records) -> dict:
             'min': 100,
             'max': -100
         },
-        'biggest_motion': 0
+        'biggest_motion': 0,
+        'highest_eco2': 0,
+        'highest_tvoc': 0
     }
 
     for data_record in data_records:
@@ -72,6 +74,13 @@ def get_records(data_records) -> dict:
         result['max_uv_index']['uva'] = round(float(result['max_uv_index']['uva']), 2)
         result['max_uv_index']['uvb'] = round(float(result['max_uv_index']['uvb']), 2)
         result['biggest_motion'] = str(int((float(result['biggest_motion']))))
+
+        if int(data_record['eco2']) > int(result['highest_eco2']):
+            result['highest_eco2'] = data_record['eco2']
+
+        if int(data_record['tvoc']) > int(result['highest_tvoc']):
+            result['highest_tvoc'] = data_record['tvoc']
+
 
     end = time.time_ns()
     result['log entries counter'] = len(data_records)

@@ -6,6 +6,7 @@ import logging
 
 import commands
 import data_files
+import iqa_utils
 import sensor_log_reader
 import utils
 
@@ -81,6 +82,15 @@ def get_warnings(data) -> dict:
 
     if int(commands.get_space_available()) < 500:
         warnings['free_space'] = 'Low Free Space: {}'.format(commands.get_space_available() + 'MB')
+
+    if int(data['eco2']) > 1000:
+        warnings['eco2'] = 'High CO2 level: {}'.format(data['eco2'])
+
+    if int(data['tvoc']) > 5000:
+        warnings['tvoc'] = 'Air Quality BAD: {}'.format(data['tvoc'])
+    elif int(data['tvoc']) > 1500:
+        warnings['tvoc'] = 'Air Quality POOR: {}'.format(data['tvoc'])
+
     return warnings
 
 
@@ -105,7 +115,10 @@ def count_warnings(warnings) -> dict:
         'uvbw': 0,
         'fsl': 0,
         'dfsl': 0,
-        'dsl': 0
+        'dsl': 0,
+        'cow' :0,
+        'iqe' :0,
+        'iqw' :0
     }
 
     for warning in warnings:
@@ -141,6 +154,12 @@ def count_warnings(warnings) -> dict:
             warning_counter['dfsl'] += 1
         elif '[dsl]' in warning:
             warning_counter['dsl'] += 1
+        elif '[cow]' in warning:
+            warning_counter['cow'] += 1
+        elif '[iqw]' in warning:
+            warning_counter['iqw'] += 1
+        elif '[iqe]' in warning:
+            warning_counter['iqe'] += 1
 
     return warning_counter
 
@@ -207,7 +226,20 @@ def get_warnings_as_list(data) -> list:
 
     data_free_space = int(commands.get_data_space_available())
     if data_free_space < 500:
-        warnings.append('Low Free Space on Data Partition: {}'.format(str(free_space) + 'MB'))
-        warnings_logger.warning('[dfsl] Low Free Space on Data Partition: {}'.format(str(free_space) + 'MB'))
+        warnings.append('Low Free Space on Data Partition: {}'.format(str(data_free_space) + 'MB'))
+        warnings_logger.warning('[dfsl] Low Free Space on Data Partition: {}'.format(str(data_free_space) + 'MB'))
+
+    eco2 = int(data['eco2'])
+    if eco2 > 1000:
+        warnings.append('High CO2 level (Time to open window?): {}'.format(str(eco2)))
+        warnings_logger.warning('[cow] High CO2 level (Time to open window?): {}'.format(str(eco2)))
+
+    tvoc = iqa_utils.get_iqa_for_tvoc(data['tvoc'])
+    if tvoc['value'] > 5000:
+        warnings.append('{} with value {}'.format(tvoc['information'],tvoc['value']))
+        warnings_logger.error('[iqe] {} with value {}'.format(tvoc['information'],tvoc['value']))
+    elif tvoc['value'] > 1500:
+        warnings.append('{} with value {}'.format(tvoc['information'],tvoc['value']))
+        warnings_logger.warning('[iqw] {} with value {}'.format(tvoc['information'],tvoc['value']))
 
     return warnings
