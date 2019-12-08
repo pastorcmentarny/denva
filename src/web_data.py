@@ -15,7 +15,7 @@ def get_train() -> str:
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
         response = html_manager.select('tr.accordian-header')
-        train_tag = response[2].find_all('td')
+        train_tag = response[3].find_all('td')
         train_status += train_tag[0].text.replace(' Railways', '') + ': ' + train_tag[1].text
         if "Good service" not in train_status:
             stats_log.warning("Disruption on the Chiltern Railways. {}".format(train_tag[1].text))
