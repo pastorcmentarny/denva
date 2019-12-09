@@ -133,6 +133,7 @@ def set_ip_for_healthcheck():
     host = request.host_url[:-1]
     hc_page = host + str(url_for('healthcheck'))
     config_serivce.update_healthcheck(hc_page)
+    return jsonify({"IP": config_serivce.get_healthcheck_ip()})
 
 
 @app.route("/")

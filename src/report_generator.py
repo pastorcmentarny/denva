@@ -161,8 +161,15 @@ def load_data(year, month, day) -> list:
         try:
             row[19] == '?'
         except IndexError:
+            logger.warning("no data for ")
             row.insert(19, '?')
             row.insert(20, '?')
+        try:
+            row[21] == '?'
+        except IndexError:
+            logger.warning("no eco2 or tvoc data")
+            row.insert(21, 0)
+            row.insert(22, 0)
         data.append(
             {
                 'timestamp': row[0],
@@ -185,7 +192,9 @@ def load_data(year, month, day) -> list:
                 'my': row[17],
                 'mz': row[18],
                 'measurement_time': row[19],
-                'cpu_temp': row[20]
+                'cpu_temp': row[20],
+                'eco2': row[21],
+                'tvoc': row[22],
             }
         )
     sensor_log_file.close()
