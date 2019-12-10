@@ -40,7 +40,9 @@ report = {
             'min': 0,
             'max': 0
         },
-        'biggest_motion': 0
+        'biggest_motion': 0,
+        'highest_eco2': 0,
+        'highest_tvoc': 0
     },
      "rickmansworth": {
         "crimes": "unknown",
