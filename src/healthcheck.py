@@ -5,7 +5,6 @@ import time
 
 
 import commands
-import config_serivce
 import data_files
 import email_sender_service
 import sensor_log_reader
@@ -77,7 +76,7 @@ def healthcheck_test() -> bool:
     is_ok = True
 
     # check is ui is running
-    ip = config_serivce.get_healthcheck_ip()
+    ip = commands.get_ip()
     response = requests.get(ip)
     if response.status_code != requests.codes.ok:
         is_ok = False
