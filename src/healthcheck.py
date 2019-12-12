@@ -13,7 +13,7 @@ import utils
 logger = logging.getLogger('hc')
 
 """
-Healthchech checks:
+Healthcheck checks:
  - is app is running
  - when last measurement was
  - check when last photo was taken
@@ -76,7 +76,7 @@ def healthcheck_test() -> bool:
     is_ok = True
 
     # check is ui is running
-    ip = commands.get_ip()
+    ip = 'http://' + commands.get_ip() + ':5000/hc'
     response = requests.get(ip)
     if response.status_code != requests.codes.ok:
         is_ok = False
