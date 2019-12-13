@@ -89,6 +89,13 @@ def get_flood() -> str:
         return 'Flood data N/A'
 
 
+def cleanup_weather_data(weather: str) -> list:
+    weather = weather.splitlines()[1:]
+    weather[0] = weather[0].replace('\xc2\xa0\xc2\xb0C;','').replace('\xa0','')
+    weather[1] = weather[1].replace('\xc2\xa0\xc2\xb0C;','').replace('\xa0','')
+    return weather
+
+
 def get_weather() -> list:
     try:
         response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
@@ -96,7 +103,7 @@ def get_weather() -> list:
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
         weather = html_manager.select('#tabDay0')[0].find('a')['aria-label']
-        return weather.splitlines()
+        return cleanup_weather_data(weather)
     except Exception as whoops:
         logger.error('Unable to get weather data due to : %s' % whoops)
         return ['Weather data N/A']
@@ -116,7 +123,6 @@ def get_o2_status() -> str:
 
 
 def main():
-    print(get_weather())
     statuses_list = get_status()
     for item in statuses_list:
         print(item)
