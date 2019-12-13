@@ -154,6 +154,7 @@ def welcome():
     page_tube_trains_counter = host + str(url_for('tt_counter'))
     page_recent_log_app = host + str(url_for('recent_log_app'))
     page_recent_log_hc = host + str(url_for('recent_log_hc'))
+    page_ricky = host + str(url_for('ricky'))
     page_webcam = host + str(url_for('do_picture'))
     data = {
         'page_now' : page_now,
@@ -170,7 +171,8 @@ def welcome():
         'page_tube_trains_counter' : page_tube_trains_counter,
         'page_recent_log_app' : page_recent_log_app,
         'page_recent_log_hc' : page_recent_log_hc,
-        'page_webcam' : page_webcam
+        'page_webcam' : page_webcam,
+        'page_ricky' : page_ricky
     }
 
     return render_template('dashboard.html', message=data)
