@@ -92,6 +92,7 @@ def get_flood() -> str:
 def get_weather() -> list:
     try:
         response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
+        response.encoding = "utf-8"
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
         weather = html_manager.select('#tabDay0')[0].find('a')['aria-label']
@@ -115,6 +116,7 @@ def get_o2_status() -> str:
 
 
 def main():
+    print(get_weather())
     statuses_list = get_status()
     for item in statuses_list:
         print(item)
