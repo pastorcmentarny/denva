@@ -24,7 +24,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 import logging
-
+import random
 import cl_display
 import commands
 import data_files
@@ -193,7 +193,7 @@ def setup():
 
 
 def display_on_screen():
-    draw.text((0, 0), commands.get_ip(), font=font, fill=(0, 0, 0))
+    draw.text((0, 0), commands.get_ip(), font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     st7735.display(img)
 
 
@@ -204,14 +204,18 @@ def main():
     while True:
         measurement_counter += 1
         logger.info('Getting measurement no.{}'.format(measurement_counter))
+
         start_time = timer()
-        measurement = get_measurement()
-        cl_display.print_measurement(measurement)
-        #             display_text(variables[mode], data, unit)
         display_on_screen()
+        measurement = get_measurement()
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
+        measurement['measurement_time'] = measurement_time
         logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
+        cl_display.print_measurement(measurement)
+
+        data_files.store_enviro_measurement(measurement)
+
         remaining_time_in_millis = 2 - (float(measurement_time) / 1000)
 
         if remaining_time_in_millis > 0:

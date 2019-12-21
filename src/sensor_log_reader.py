@@ -12,6 +12,10 @@ def get_sensor_log_file() -> str:
     return '/home/pi/logs/' + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
+def get_enviro_sensor_log_file() -> str:
+    return '/home/pi/logs/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+
+
 def get_sensor_log_file_for(year: int, month: int, day: int) -> str:
     path = '/home/pi/logs/' + utils.get_filename_from_year_month_day('sensor-log', 'csv', year, month, day)
     return path

@@ -46,6 +46,18 @@ def check_if_report_was_generated(report_date: str) -> bool:
     return os.path.isfile(path)
 
 
+def store_enviro_measurement(data:dict):
+    timestamp = datetime.now()
+    sensor_log_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
+    csv_writer = csv.writer(sensor_log_file)
+    csv_writer.writerow([timestamp,
+                         data["temperature"], data["pressure"],  data["humidity"],
+                         data["light"], data["proximity"], data["oxidised"], data["reduced"],
+                         data["nh3"], data["pm1"], data["pm25"], data["pm10"],
+                        ])
+    sensor_log_file.close()
+
+
 def store_measurement(data, motion):
     timestamp = datetime.now()
     sensor_log_file = open(sensor_log_reader.get_sensor_log_file(), 'a+', newline='')
