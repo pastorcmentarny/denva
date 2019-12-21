@@ -197,6 +197,7 @@ cycle = 0
 
 def display_on_screen(measurement: dict):
     global cycle
+    draw.rectangle((0, 0, 160, 80), fill="black")
     line1 = 'Denva'
     line2 = 'project'
     line3 = 'by'
@@ -206,6 +207,11 @@ def display_on_screen(measurement: dict):
         line2 = 'CPU Temp: {}'.format(commands.get_cpu_temp())
         line3 = 'Uptime: {}'.format(commands.get_uptime())
         line4 = 'Space: {}'.format(commands.get_data_space_available())
+    elif cycle % 6 == 3:
+        line1 = 'light: {}'.format(measurement["light"])
+        line2 = 'proximity: {}'.format(measurement["proximity"])
+        line3 = 'oxidised: {:.2f}'.format(measurement["oxidised"])
+        line4 = 'reduced: {:.2f}'.format(measurement["reduced"])
     else:
         line1 = 'pm   1: {}'.format(measurement["pm1"])
         line2 = 'pm 2.5: {}'.format(measurement["pm25"])
