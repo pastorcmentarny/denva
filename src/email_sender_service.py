@@ -78,7 +78,7 @@ def send(data: dict, subject: str):
         smtp_server.quit()
         logger.info('Email sent.')
     except Exception as e:
-        logger.error('Unable to send email due to"..', exc_info=True)
+        logger.error('Unable to send email due to {}'.format(e), exc_info=True)
         send_error_log_email("sending email", "Unable to send {} email due to {}.".format(subject, e))
 
 
@@ -105,8 +105,8 @@ def send_error_log_email(what: str, message: str):
         smtp_server.quit()
 
         logger.info('Email sent.')
-    except Exception:
-        logger.error('Unable to send email due to"..', exc_info=True)
+    except Exception as e:
+        logger.error('Unable to send email due to {}'.format(e), exc_info=True)
 
 
 def send_ip_email(device: str):
