@@ -107,3 +107,30 @@ def send_error_log_email(what: str, message: str):
         logger.info('Email sent.')
     except Exception:
         logger.error('Unable to send email due to"..', exc_info=True)
+
+
+def send_ip_email(device: str):
+    cfg = data_files.load_cfg()
+    logger.info('Sending email with IP info for device: {}'.format(device))
+    try:
+        smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
+        smtp_server.starttls()
+        smtp_server.login(cfg['user'], cfg['pass'])
+
+        msg = MIMEMultipart()
+
+        subject = "IP information for {}".format(device)
+        message  = "{} starts on  {}".format(device, commands.get_ip())
+
+        msg['From'] = cfg['user']
+        msg['To'] = cfg['user']
+        msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
+        msg.attach(MIMEText(message, 'plain'))
+        smtp_server.send_message(msg, cfg['user'], cfg['user'])
+
+        del msg
+        smtp_server.quit()
+
+        logger.info('Email sent.')
+    except Exception as e:
+        logger.error('Unable to send email with IP info for {} due to {}'.format(device,e), exc_info=True)
