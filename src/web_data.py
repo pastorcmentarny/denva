@@ -92,9 +92,12 @@ def get_flood() -> str:
 def cleanup_weather_data(weather: str) -> list:
     weather = weather.splitlines()[1:]
     weather[0] = weather[0].replace('\xc2\xa0\xc2\xb0C;','').replace('\xa0','')
-    weather[1] = weather[1].replace('\xc2\xa0\xc2\xb0C;','').replace('\xa0','')
+    weather[1] = clean_temp(weather[1])
     return weather
 
+
+def clean_temp(temp: str) -> str:
+    return temp.replace('\xa0','').replace('\xc2','').replace('\xb0','')[0:(len(temp)-4)] + '°C'
 
 def get_weather() -> list:
     try:
@@ -123,6 +126,7 @@ def get_o2_status() -> str:
 
 
 def main():
+    print(get_weather())
     statuses_list = get_status()
     for item in statuses_list:
         print(item)

@@ -10,7 +10,7 @@ def print_measurement(data, left_width=20, right_width=6):
     print('-' * 36 + '\n')
 
 
-def print_items(data, left_width, right_width):
+def print_items(data: dict, left_width, right_width):
     for title, value in data.items():
         print(title.ljust(left_width, '.') + str(value).rjust(right_width, ' '))
 

@@ -277,7 +277,7 @@ if __name__ == '__main__':
         bh1745.set_leds(0)
         main()
     except Exception as e:
-        logger.error('Something went badly wrong..', exc_info=True)
+        logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
         email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
         bh1745.set_leds(1)
 
