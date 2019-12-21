@@ -192,16 +192,31 @@ def setup():
     temps= [get_temperature()] * 5
 
 
+cycle = 0
+
+
 def display_on_screen(measurement: dict):
-    line1 = 'pm   1: {}'.format(measurement["pm1"])
-    line2 = 'pm 2.5: {}'.format(measurement["pm25"])
-    line3 = 'pm  10: {}'.format(measurement["pm10"])
-    line4 = 'nh   3: {}'.format(measurement["nh3"])
+    global cycle
+    line1 = 'Denva'
+    line2 = 'project'
+    line3 = 'by'
+    line4 = 'Pastor Cmentarny'
+    if cycle % 6 == 0:
+        line1 = 'IP: {}'.format(commands.get_ip())
+        line2 = 'CPU Temp: {}'.format(commands.get_cpu_temp())
+        line3 = 'Uptime: {}'.format(commands.get_uptime())
+        line4 = 'Space: {}'.format(commands.get_data_space_available())
+    else:
+        line1 = 'pm   1: {}'.format(measurement["pm1"])
+        line2 = 'pm 2.5: {}'.format(measurement["pm25"])
+        line3 = 'pm  10: {}'.format(measurement["pm10"])
+        line4 = 'nh   3: {:.2f}'.format(measurement["nh3"])
     draw.text((0, 0), line1, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     draw.text((0, 16), line2, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     draw.text((0, 32), line3, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     draw.text((0, 48), line4, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     st7735.display(img)
+    cycle += 1
 
 
 def main():
