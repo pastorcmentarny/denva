@@ -57,7 +57,7 @@ HEIGHT = st7735.height
 img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 path = os.path.dirname(os.path.realpath(__file__))
-font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 18)
+font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 16)
 
 message = ""
 
@@ -193,8 +193,8 @@ def setup():
 
 
 def display_on_screen(measurement: dict):
-    line2 = 'pm1: {} pm2.5: {} pm10: {}'.format(measurement["pm1"],measurement["pm25"],measurement["pm10"])
-    line3 = 'nh3: {:.1f} '.format(measurement["nh3"])
+    line2 = 'pm1: {} pm2.5: {} '.format(measurement["pm1"],measurement["pm25"])
+    line3 = 'pm10: {} nh3: {:.1f} '.format(measurement["pm10"], measurement["nh3"])
     draw.text((0, 0), commands.get_ip(), font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     draw.text((0, 22), line2, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     draw.text((0, 44), line3, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
