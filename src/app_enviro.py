@@ -57,7 +57,7 @@ HEIGHT = st7735.height
 img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 path = os.path.dirname(os.path.realpath(__file__))
-font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 16)
+font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 14)
 
 message = ""
 
@@ -193,11 +193,14 @@ def setup():
 
 
 def display_on_screen(measurement: dict):
-    line2 = 'pm1: {} pm2.5: {} '.format(measurement["pm1"],measurement["pm25"])
-    line3 = 'pm10: {} nh3: {:.1f} '.format(measurement["pm10"], measurement["nh3"])
-    draw.text((0, 0), commands.get_ip(), font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
-    draw.text((0, 22), line2, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
-    draw.text((0, 44), line3, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
+    line1 = 'pm   1: {}'.format(measurement["pm1"])
+    line2 = 'pm 2.5: {}'.format(measurement["pm25"])
+    line3 = 'pm  10: {}'.format(measurement["pm10"])
+    line4 = 'nh   3: {}'.format(measurement["nh3"])
+    draw.text((0, 0), line1, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
+    draw.text((0, 16), line2, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
+    draw.text((0, 32), line3, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
+    draw.text((0, 48), line4, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     st7735.display(img)
 
 
