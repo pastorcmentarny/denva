@@ -57,7 +57,7 @@ HEIGHT = st7735.height
 img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 path = os.path.dirname(os.path.realpath(__file__))
-font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 20)
+font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 18)
 
 message = ""
 
@@ -192,8 +192,12 @@ def setup():
     temps= [get_temperature()] * 5
 
 
-def display_on_screen():
+def display_on_screen(measurement: dict):
+    line2 = 'pm1: {} pm2.5: {} pm10: {}'.format(measurement["pm1"],measurement["pm25"],measurement["pm10"])
+    line3 = 'nh3: {:.1f} '.format(measurement["nh3"])
     draw.text((0, 0), commands.get_ip(), font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
+    draw.text((0, 22), line2, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
+    draw.text((0, 44), line3, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     st7735.display(img)
 
 
@@ -206,8 +210,8 @@ def main():
         logger.info('Getting measurement no.{}'.format(measurement_counter))
 
         start_time = timer()
-        display_on_screen()
         measurement = get_measurement()
+        display_on_screen(measurement)
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         measurement['measurement_time'] = measurement_time
