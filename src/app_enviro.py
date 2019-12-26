@@ -198,16 +198,13 @@ cycle = 0
 def display_on_screen(measurement: dict):
     global cycle
     draw.rectangle((0, 0, 160, 80), fill="black")
-    line1 = 'Denva'
-    line2 = 'project'
-    line3 = 'by'
-    line4 = 'Pastor Cmentarny'
+
     if cycle % 6 == 0:
         line1 = 'IP: {}'.format(commands.get_ip())
         line2 = 'CPU Temp: {}'.format(commands.get_cpu_temp())
         line3 = 'Uptime: {}'.format(commands.get_uptime())
-        line4 = 'Space: {}'.format(commands.get_data_space_available())
-    elif cycle % 6 == 3:
+        line4 = 'Space: {}'.format(commands.get_space_available())
+    elif cycle % 6 == 1:
         line1 = 'light: {}'.format(measurement["light"])
         line2 = 'proximity: {}'.format(measurement["proximity"])
         line3 = 'oxidised: {:.2f}'.format(measurement["oxidised"])
@@ -239,7 +236,7 @@ def main():
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         measurement['measurement_time'] = measurement_time
-        logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
+        logger.debug('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
 
         data_files.store_enviro_measurement(measurement)
