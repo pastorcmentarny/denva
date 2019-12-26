@@ -185,11 +185,20 @@ def get_measurement() -> dict:
     return measurement
 
 
+def ui(msg: str):
+    logger.info(msg)
+    print(msg)
+
+
 def setup():
     global temps
     global cpu_temps
+    ui("Starting up... Warming up sensors")
+    start_time = timer()
     cpu_temps = [get_cpu_temperature()] * 5
     temps= [get_temperature()] * 5
+    end_time = timer()
+    ui('Done. It took {} ms.'.format(int((end_time - start_time) * 1000)))
 
 
 cycle = 0
@@ -228,7 +237,7 @@ def main():
     print(str(cpu_temps))
     while True:
         measurement_counter += 1
-        logger.info('Getting measurement no.{}'.format(measurement_counter))
+        ui('Getting measurement no.{}'.format(measurement_counter))
 
         start_time = timer()
         measurement = get_measurement()
