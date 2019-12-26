@@ -42,7 +42,7 @@ st7735 = ST7735.ST7735(
     port=0,
     cs=1,
     dc=9,
-    backlight=6,
+    backlight=12,
     rotation=270,
     spi_speed_hz=10000000
 )
@@ -189,10 +189,11 @@ def get_measurement() -> dict:
     return measurement
 
 
-def ui(msg: str):
+def ui(msg: str,screen:bool = True):
     logger.info(msg)
     print(msg)
-    draw_message(msg)
+    if screen:
+        draw_message(msg)
 
 
 def setup():
@@ -212,10 +213,6 @@ cycle = 0
 def display_on_screen(measurement: dict):
     global cycle
     draw.rectangle((0, 0, 160, 80), fill="black")
-    line1 = 'Denva'
-    line2 = 'project'
-    line3 = 'by'
-    line4 = 'Pastor Cmentarny'
 
     if cycle % 6 == 0:
         line1 = 'IP: {}'.format(commands.get_ip())
@@ -254,7 +251,7 @@ def main():
     print(str(cpu_temps))
     while True:
         measurement_counter += 1
-        ui('Getting measurement no.{}'.format(measurement_counter))
+        ui('Measurement No.{}'.format(measurement_counter), False)
 
         start_time = timer()
         measurement = get_measurement()
