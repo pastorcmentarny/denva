@@ -192,6 +192,7 @@ def get_measurement() -> dict:
 def ui(msg: str):
     logger.info(msg)
     print(msg)
+    draw_message(msg)
 
 
 def setup():
@@ -211,6 +212,10 @@ cycle = 0
 def display_on_screen(measurement: dict):
     global cycle
     draw.rectangle((0, 0, 160, 80), fill="black")
+    line1 = 'Denva'
+    line2 = 'project'
+    line3 = 'by'
+    line4 = 'Pastor Cmentarny'
 
     if cycle % 6 == 0:
         line1 = 'IP: {}'.format(commands.get_ip())
@@ -227,12 +232,20 @@ def display_on_screen(measurement: dict):
         line2 = 'pm 2.5: {}'.format(measurement["pm25"])
         line3 = 'pm  10: {}'.format(measurement["pm10"])
         line4 = 'nh   3: {:.2f}'.format(measurement["nh3"])
+
     draw.text((0, 0), line1, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     draw.text((0, 16), line2, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     draw.text((0, 32), line3, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     draw.text((0, 48), line4, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     st7735.display(img)
     cycle += 1
+
+
+def draw_message(msg: str):
+    draw.rectangle((0, 0, 160, 80), fill="black")
+    shade_of_grey = random.randrange(127,255,1)
+    draw.text((0, 0), msg, font=font, fill=(shade_of_grey,shade_of_grey,shade_of_grey))
+    st7735.display(img)
 
 
 def main():
