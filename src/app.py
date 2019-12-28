@@ -265,6 +265,7 @@ def cleanup_before_exit():
 if __name__ == '__main__':
     print('Starting application ... \n Press Ctrl+C to shutdown')
     data_files.setup_logging()
+    email_sender_service.send_ip_email('Denva')
     try:
         commands.mouth_drive()
         camera_thread = threading.Thread(target=thread_camera)

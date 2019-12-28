@@ -28,6 +28,7 @@ import random
 import cl_display
 import commands
 import data_files
+import email_sender_service
 
 logger = logging.getLogger('app')
 
@@ -271,9 +272,10 @@ def main():
 
 
 if __name__ == '__main__':
-    print('Starting application ... \n Press Ctrl+C to shutdown')
+    ui('Starting application ... \n Press Ctrl+C to shutdown',True)
     data_files.setup_logging()
     logger.info('logs config loaded')
+    email_sender_service.send_ip_email('Denviroplas')
     try:
         main()
     except KeyboardInterrupt as e:
