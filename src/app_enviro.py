@@ -295,8 +295,10 @@ def main():
 if __name__ == '__main__':
     ui('Starting application ... \n Press Ctrl+C to shutdown',True)
     data_files.setup_logging()
-    logger.info('logs config loaded')
+    ui('Logs config loaded.\nSending email',True)
     email_sender_service.send_ip_email('Denva Enviro+')
+    ui('Email sent.\nRunning application',True)
+
     try:
         main()
     except KeyboardInterrupt as e:
