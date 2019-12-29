@@ -12,7 +12,6 @@ It measures:
 I am planning to add:
 - Indoor air quality
 - dBm measurement
-- camera to do pictures periodically while I am not at home
 
 
 This project is written in Python 3 and uses:
@@ -23,3 +22,26 @@ This project is written in Python 3 and uses:
 - 1.12" Mono OLED (128x128, white/black) Breakout
 - ICM20948 9DoF Motion Sensor Breakout
 - VEML6075 UVA/B Sensor Breakout
+
+
+## DESIGN
+
+- Denva App 
+    - _Get all sensor data_
+    - _Send all data to server_
+    - _Store all data locally_
+
+- Denviroplas App 
+    - _Get all sensor data_
+    - _Send all data to server_
+    - _Store all data locally_
+
+- Server App
+    - _Send email with data every 5 minutes_
+    - _Remove all images that are black_
+- Server CAMERA APP _Python app that making photos_
+
+
+- Server UI __
+    - Move 
+

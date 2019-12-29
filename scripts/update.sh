@@ -13,5 +13,5 @@ else
     cd "denva-$1/"
     #pip install -r "requirements.txt "
     cd "src/"
-    sudo python3 app.py
+    sudo python3 "$2.py"
 fi

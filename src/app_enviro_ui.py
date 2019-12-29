@@ -29,50 +29,12 @@ from flask import Flask, jsonify, url_for,send_file, request, render_template
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
-APP_NAME = 'Denva UI'
-
-
-@app.route("/stats")
-def stats():
-    return jsonify(sensor_log_reader.load_data_for_today())
-
-
-@app.route("/records")
-def record():
-    return jsonify(records.get_records_for_today())
-
-
-@app.route("/avg")
-def average():
-    return jsonify(averages.get_averages_for_today())
-
-
-@app.route("/warns")
-def today_warns():
-    return jsonify(sensor_warnings.get_warnings_for_today())
-
-
-@app.route("/warns/now")
-def current_warns():
-    return jsonify(sensor_warnings.get_current_warnings())
-
-
-@app.route("/warns/count")
-def count_warns():
-    return jsonify(sensor_warnings.count_warning_today())
-
-
-@app.route("/warns/date")
-def specific_day_warns():
-    year = request.args.get('year')
-    month = request.args.get('month')
-    day = request.args.get('day')
-    return jsonify(sensor_warnings.get_warnings_for(year, month, day))
+APP_NAME = 'Deniroplas UI'
 
 
 @app.route("/now")
 def now():
-    return jsonify(sensor_log_reader.get_last_measurement())
+    return jsonify(sensor_log_reader.get_last_deniroplas_measurement())
 
 
 @app.route("/system")
@@ -90,51 +52,10 @@ def recent_log_hc():
     return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 300))
 
 
-@app.route("/report/yesterday")
-def last_report():
-    return jsonify(report_service.generate_for_yesterday())
-
-
-@app.route("/tt")
-def tube_trains_status():
-    tt_statuses = {
-        "Train & Trains": web_data.get_status()
-    }
-    return jsonify(tt_statuses)
-
-
-@app.route("/tt/delays")
-def tt_delays_counter():
-    return jsonify(tubes_train_service.count_tube_problems_today())
-
-
-@app.route("/tt/counter")
-def tt_counter():
-    return jsonify(tubes_train_service.count_tube_color_today())
-
-
-@app.route("/webcam")
-def do_picture():
-    filename = commands.capture_picture()
-    return send_file(filename, mimetype='image/jpeg')
-
-
 @app.route("/hc")
 def healthcheck():
     return jsonify({"status": "UP",
                     "app": APP_NAME})
-
-@app.route("/ricky")
-def ricky():
-    return jsonify(information_service.get_data_about_rickmansworth())
-
-
-@app.route('/set/hc')
-def set_ip_for_healthcheck():
-    host = request.host_url[:-1]
-    hc_page = host + str(url_for('healthcheck'))
-    config_serivce.update_healthcheck(hc_page)
-    return jsonify({"IP": config_serivce.get_healthcheck_ip()})
 
 
 @app.route("/")
@@ -181,7 +102,7 @@ def welcome():
 
 if __name__ == '__main__':
     data_files.setup_logging()
-    logger.info('Starting web server')
+    logger.info('Starting web server for denva pollution sensor')
 
     try:
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
