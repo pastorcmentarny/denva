@@ -105,7 +105,6 @@ def get_cpu_temperature() -> float:
 factor = 0.8
 
 
-
 delay = 0.5  # Debounce the proximity tap
 mode = 0     # The starting mode
 last_page = 0
@@ -214,6 +213,9 @@ cycle = 0
 def display_on_screen(measurement: dict):
     global cycle
     draw.rectangle((0, 0, 160, 80), fill="black")
+    color1 = ['',random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)]
+    color2 = ['',random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)]
+    color3 = ['',random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)]
 
     if cycle % 6 == 0:
         line1 = 'IP: {}'.format(commands.get_ip())
@@ -230,13 +232,32 @@ def display_on_screen(measurement: dict):
         line2 = 'pm 2.5: {}'.format(measurement["pm25"])
         line3 = 'pm  10: {}'.format(measurement["pm10"])
         line4 = 'nh   3: {:.2f}'.format(measurement["nh3"])
-
-    draw.text((0, 0), line1, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
-    draw.text((0, 16), line2, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
-    draw.text((0, 32), line3, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
+        color1 = get_colour(measurement["pm1"])
+        color2 = get_colour(measurement["pm25"])
+        color3 = get_colour(measurement["pm10"])
+    draw.text((0, 0), line1, font=font, fill=(color1[1], color1[2], color1[3]))
+    draw.text((0, 16), line2, font=font, fill=(color2[1], color2[2], color2[3]))
+    draw.text((0, 32), line3, font=font, fill=(color3[1], color3[2], color2[3]))
     draw.text((0, 48), line4, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
     st7735.display(img)
     cycle += 1
+
+
+def get_colour(level: float) -> list:
+    if level < 15.5:
+        return ['Good',0,204,0]
+    elif level < 40.5:
+        return ['Moderate',255,234,0]
+    elif level < 65.5:
+        return ['Unhealthy for Sensitive', 255,165,0]
+    elif level < 150.5:
+        return ['Unhealthy',255,37,0]
+    elif level < 250.5:
+        return ['Very Unhealthy',165,0, 255]
+    elif level < 500.5:
+        return ['Hazardous',116,0,179]
+    else:
+        return ['Deadly?',30,30,30]
 
 
 def draw_message(msg: str):
