@@ -83,9 +83,9 @@ def healthcheck_test() -> bool:
         reasons.append("WEB APP is not working")
 
     # check is pictures are taken
-    if capture_photo_is_older_than_5_minutes():
+    '''if capture_photo_is_older_than_5_minutes():
         is_ok = False
-        reasons.append("Capture photo is not working")
+        reasons.append("Capture photo is not working")'''
 
     # check is app is running
     if measurement_is_older_than_5_minutes():
