@@ -231,7 +231,7 @@ def main():
                 time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
 
         except KeyboardInterrupt:
-            print('request application shut down.. goodbye!')
+            ui('request application shut down.. goodbye!')
             bh1745.set_leds(0)
             cleanup_before_exit()
 
@@ -254,7 +254,7 @@ led_status = 0
 def crude_progress_bar():
     global counter
     global  led_status
-    message = 'Waiting.. {}s.#n'.format(counter)
+    message = 'Waiting.. {}s.\n'.format(counter)
     sys.stdout.write(message)
     counter = counter+1
     sys.stdout.flush()
@@ -278,11 +278,10 @@ if __name__ == '__main__':
         commands.mouth_drive()
         camera_thread = threading.Thread(target=thread_camera)
         camera_thread.start()
-        print("Sensor warming up, please wait...")
-        logger.info('Sensor warming up, please wait...')
+        ui("Sensor warming up, please wait...")
         sgp30.start_measurement(crude_progress_bar)
         sys.stdout.write('\n')
-        logger.info('Sensor needed {} seconds to warm up'.format(counter))
+        ui('Sensor needed {} seconds to warm up'.format(counter))
         bh1745.set_leds(0)
         main()
     except Exception as e:
