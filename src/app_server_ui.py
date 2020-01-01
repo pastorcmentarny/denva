@@ -124,6 +124,7 @@ def healthcheck():
     return jsonify({"status": "UP",
                     "app": APP_NAME})
 
+
 @app.route("/ricky")
 def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
