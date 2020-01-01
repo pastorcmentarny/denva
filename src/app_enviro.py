@@ -250,4 +250,7 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt as keyboard_exception:
         logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
+        draw_message('APP crashed.')
         sys.exit(0)
+    draw_message('Goodbye.')
+
