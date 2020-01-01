@@ -4,6 +4,7 @@
 import colorsys
 import os
 from timeit import default_timer as timer
+import measurement_storage_service
 
 import ST7735
 import sys
@@ -12,6 +13,7 @@ import time
 try:
     # Transitional fix for breaking change in LTR559
     from ltr559 import LTR559
+
     ltr559 = LTR559()
 except ImportError:
     import ltr559
@@ -32,13 +34,8 @@ import email_sender_service
 
 logger = logging.getLogger('app')
 
-# BME280 temperature/pressure/humidity sensor
 bme280 = BME280()
-
-# PMS5003 particulate sensor
 pms5003 = PMS5003()
-
-# Create ST7735 LCD display class
 st7735 = ST7735.ST7735(
     port=0,
     cs=1,
@@ -47,91 +44,35 @@ st7735 = ST7735.ST7735(
     rotation=270,
     spi_speed_hz=10000000
 )
-
-# Initialize display
 st7735.begin()
 
+# setup
 WIDTH = st7735.width
 HEIGHT = st7735.height
-
-# Set up canvas and font
 img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 path = os.path.dirname(os.path.realpath(__file__))
 font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 14)
-
 message = ""
-
-# The position of the top bar
 top_pos = 25
+factor = 0.8
+delay = 0.5  # Debounce the proximity tap
+mode = 0  # The starting mode
+last_page = 0
+light = 1
+values = {}
+temps = []
+cpu_temps = []
+cycle = 0
 
 
-# Displays data and text on the 0.96" LCD
-def display_text(variable, data, unit):
-    # Maintain length of list
-    values[variable] = values[variable][1:] + [data]
-    # Scale the values for the variable between 0 and 1
-    colours = [(v - min(values[variable]) + 1) / (max(values[variable])
-                                                  - min(values[variable]) + 1) for v in values[variable]]
-    # Format the variable name and value
-    message = "{}: {:.1f} {}".format(variable[:4], data, unit)
-    logging.info(message)
-    draw.rectangle((0, 0, WIDTH, HEIGHT), (255, 255, 255))
-    for i in range(len(colours)):
-        # Convert the values to colours from red to blue
-        colour = (1.0 - colours[i]) * 0.6
-        r, g, b = [int(x * 255.0) for x in colorsys.hsv_to_rgb(colour,
-                                                               1.0, 1.0)]
-        # Draw a 1-pixel wide rectangle of colour
-        draw.rectangle((i, top_pos, i+1, HEIGHT), (r, g, b))
-        # Draw a line graph in black
-        line_y = HEIGHT - (top_pos + (colours[i] * (HEIGHT - top_pos))) \
-                 + top_pos
-        draw.rectangle((i, line_y, i+1, line_y+1), (0, 0, 0))
-    # Write the text at the top in black
-    draw.text((0, 0), message, font=font, fill=(0, 0, 0))
-    st7735.display(img)
-
-
-# Get the temperature of the CPU for compensation
 def get_cpu_temperature() -> float:
     process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE, universal_newlines=True)
     output, _error = process.communicate()
     return float(output[output.index('=') + 1:output.rindex("'")])
 
 
-# Tuning factor for compensation. Decrease this number to adjust the
-# temperature down, and increase to adjust up
-factor = 0.8
-
-
-delay = 0.5  # Debounce the proximity tap
-mode = 0     # The starting mode
-last_page = 0
-light = 1
-
-# Create a values dict to store the data
-variables = ["temperature",
-             "pressure",
-             "humidity",
-             "light",
-             "oxidised",
-             "reduced",
-             "nh3",
-             "pm1",
-             "pm25",
-             "pm10"]
-
-values = {}
-
-for v in variables:
-    values[v] = [1] * WIDTH
-
-temps = []
-cpu_temps = []
-
-
-def get_temperature() ->int:
+def get_temperature() -> int:
     global temps
     cpu_temp = get_cpu_temperature()
     # Smooth out with some averaging to decrease jitter
@@ -164,32 +105,32 @@ def get_measurement() -> dict:
 
     try:
         pms_data = pms5003.read()
-    except pmsReadTimeoutError as e:
-        logger.warning("Failed to read PMS5003 due to: {}".format(e), exc_info=True)
+    except pmsReadTimeoutError as exception:
+        logger.warning("Failed to read PMS5003 due to: {}".format(exception), exc_info=True)
         logger.info('Restarting sensor.. (it will takes ... 5 seconds')
         pms5003 = PMS5003()
         time.sleep(5)
     else:
-            p_1 = float(pms_data.pm_ug_per_m3(1.0))
-            p_2 = float(pms_data.pm_ug_per_m3(2.5))
-            p_10 = float(pms_data.pm_ug_per_m3(10))
+        p_1 = float(pms_data.pm_ug_per_m3(1.0))
+        p_2 = float(pms_data.pm_ug_per_m3(2.5))
+        p_10 = float(pms_data.pm_ug_per_m3(10))
 
-    measurement = {"temperature" : get_temperature(), #unit = "C"
-                   "pressure" : bme280.get_pressure(), #unit = "hPa"
-                     "humidity" : bme280.get_humidity(),  #        unit = "%"
-                     "light" : ltr559.get_lux(), #        unit = "Lux"
-                   "proximity" : ltr559.get_proximity(),
-                   "oxidised" : get_oxidising(),     #"oxidised"    unit = "kO"
-                   "reduced" : get_reducing(), #unit = "kO"
-                     "nh3" : get_nh3(), #unit = "kO"
-                     "pm1" : p_1, #unit = "ug/m3"
-                     "pm25" : p_2, #unit = "ug/m3"
-                     "pm10" : p_10}  #unit = "ug/m3"
+    measurement = {"temperature": get_temperature(),  # unit = "C"
+                   "pressure": bme280.get_pressure(),  # unit = "hPa"
+                   "humidity": bme280.get_humidity(),  # unit = "%"
+                   "light": ltr559.get_lux(),  # unit = "Lux"
+                   "proximity": ltr559.get_proximity(),
+                   "oxidised": get_oxidising(),  # "oxidised"    unit = "kO"
+                   "reduced": get_reducing(),  # unit = "kO"
+                   "nh3": get_nh3(),  # unit = "kO"
+                   "pm1": p_1,  # unit = "ug/m3"
+                   "pm25": p_2,  # unit = "ug/m3"
+                   "pm10": p_10}  # unit = "ug/m3"
 
     return measurement
 
 
-def ui(msg: str,screen:bool = True):
+def ui(msg: str, screen: bool = True):
     logger.info(msg)
     print(msg)
     if screen:
@@ -202,20 +143,17 @@ def setup():
     ui("Starting up... Warming up sensors")
     start_time = timer()
     cpu_temps = [get_cpu_temperature()] * 5
-    temps= [get_temperature()] * 5
+    temps = [get_temperature()] * 5
     end_time = timer()
     ui('Done. It took {} ms.'.format(int((end_time - start_time) * 1000)))
-
-
-cycle = 0
 
 
 def display_on_screen(measurement: dict):
     global cycle
     draw.rectangle((0, 0, 160, 80), fill="black")
-    color1 = ['',random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)]
-    color2 = ['',random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)]
-    color3 = ['',random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)]
+    color1 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
+    color2 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
+    color3 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
 
     if cycle % 6 == 0:
         line1 = 'IP: {}'.format(commands.get_ip())
@@ -238,32 +176,33 @@ def display_on_screen(measurement: dict):
     draw.text((0, 0), line1, font=font, fill=(color1[1], color1[2], color1[3]))
     draw.text((0, 16), line2, font=font, fill=(color2[1], color2[2], color2[3]))
     draw.text((0, 32), line3, font=font, fill=(color3[1], color3[2], color2[3]))
-    draw.text((0, 48), line4, font=font, fill=(random.randrange(0,255,1), random.randrange(0,255,1), random.randrange(0,255,1)))
+    shade_of_grey = random.randrange(128, 255, 1)
+    draw.text((0, 48), line4, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
     st7735.display(img)
     cycle += 1
 
 
 def get_colour(level: float) -> list:
     if level < 15.5:
-        return ['Good',0,204,0]
+        return ['Good', 0, 204, 0]
     elif level < 40.5:
-        return ['Moderate',255,234,0]
+        return ['Moderate', 255, 234, 0]
     elif level < 65.5:
-        return ['Unhealthy for Sensitive', 255,165,0]
+        return ['Unhealthy for Sensitive', 255, 165, 0]
     elif level < 150.5:
-        return ['Unhealthy',255,37,0]
+        return ['Unhealthy', 255, 37, 0]
     elif level < 250.5:
-        return ['Very Unhealthy',165,0, 255]
+        return ['Very Unhealthy', 165, 0, 255]
     elif level < 500.5:
-        return ['Hazardous',116,0,179]
+        return ['Hazardous', 116, 0, 179]
     else:
-        return ['Deadly?',30,30,30]
+        return ['Deadly?', 30, 30, 30]
 
 
 def draw_message(msg: str):
     draw.rectangle((0, 0, 160, 80), fill="black")
-    shade_of_grey = random.randrange(127,255,1)
-    draw.text((0, 0), msg, font=font, fill=(shade_of_grey,shade_of_grey,shade_of_grey))
+    shade_of_grey = random.randrange(127, 255, 1)
+    draw.text((0, 0), msg, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
     st7735.display(img)
 
 
@@ -285,7 +224,7 @@ def main():
         cl_display.print_measurement(measurement)
 
         data_files.store_enviro_measurement(measurement)
-
+        measurement_storage_service.send('enviro',measurement)
         remaining_time_in_millis = 2 - (float(measurement_time) / 1000)
 
         if remaining_time_in_millis > 0:
@@ -293,14 +232,14 @@ def main():
 
 
 if __name__ == '__main__':
-    ui('Starting application ... \n Press Ctrl+C to shutdown',True)
+    ui('Starting application ... \n Press Ctrl+C to shutdown', True)
     data_files.setup_logging()
-    ui('Logs config loaded.\nSending email',True)
+    ui('Logs config loaded.\nSending email', True)
     email_sender_service.send_ip_email('Denva Enviro+')
-    ui('Email sent.\nRunning application',True)
+    ui('Email sent.\nRunning application', True)
 
     try:
         main()
-    except KeyboardInterrupt as e:
-        logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
+    except KeyboardInterrupt as keyboard_exception:
+        logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
         sys.exit(0)
