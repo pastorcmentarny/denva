@@ -32,6 +32,7 @@ import cl_display
 import commands
 import data_files
 import email_sender_service
+import measurement_storage_service
 import mini_display
 import utils
 
@@ -204,6 +205,7 @@ def get_pictures_path():
         p = [pictures[0]]
     return p
 
+
 def ui(message: str):
     logging.info(message)
     mini_display.display_information(message)
@@ -227,6 +229,7 @@ def main():
 
             cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
+            measurement_storage_service.send('denva',data)
 
             data['picture_path'] = get_pictures_path()
 
