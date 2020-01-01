@@ -110,3 +110,9 @@ def get_last_measurement() -> dict:
     entry = commands.get_last_line_from_log(get_sensor_log_file())
     data = entry.split(',')
     return get_data_row(data)
+
+
+def get_last_enviro_measurement() -> dict:
+    entry = commands.get_last_line_from_log(get_enviro_sensor_log_file())
+    data = entry.split(',')
+    return get_data_row(data)
