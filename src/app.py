@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-import logging
 import logging.config
 import os
-import sys
 import threading
-import time
+from datetime import datetime
 from timeit import default_timer as timer
 
 import bme680
 import smbus
+import sys
+import time
 import veml6075
-
 from PIL import ImageFont
 from bh1745 import BH1745
 from icm20948 import ICM20948
@@ -55,7 +53,6 @@ imu = ICM20948()
 # air quality
 sgp30 = SGP30()
 
-
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
 rr_12 = ImageFont.truetype(rr_path, 12)
 rr_14 = ImageFont.truetype(rr_path, 14)
@@ -63,7 +60,6 @@ rr_14 = ImageFont.truetype(rr_path, 14)
 samples = []
 points = []
 pictures = []
-
 
 sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
@@ -245,17 +241,21 @@ def thread_camera():
 counter = 1
 led_status = 0
 
+
 def crude_progress_bar():
     global counter
-    global  led_status
-    sys.stdout.write('Waiting.. ' + str(counter) + 's.\n')
-    counter = counter+1
+    global led_status
+    message = 'Waiting.. {}s.#n'.format(counter)
+    sys.stdout.write(message)
+    mini_display.display_information()
+    counter = counter + 1
     sys.stdout.flush()
     bh1745.set_leds(led_status)
     if led_status == 1:
         led_status = 0
     else:
         led_status = 1
+
 
 def cleanup_before_exit():
     camera_thread.join()
