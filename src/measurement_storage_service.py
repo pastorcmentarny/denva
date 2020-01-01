@@ -9,14 +9,17 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import requests
+import json
 import logging
 
+import requests
+
 import config_serivce
+
 logger = logging.getLogger('app')
 
 
-def get_url_for(name:str):
+def get_url_for(name: str):
     cfg = config_serivce.load_cfg()
     if name == 'enviro':
         return '{}/enviro'.format(cfg['urls']['server'])
@@ -26,10 +29,13 @@ def get_url_for(name:str):
         logging.error('unknown name: {}'.format(name))
 
 
-def send(service_name:str,data:dict):
+def send(service_name: str, data: dict):
     url = get_url_for(service_name)
-    response = requests.post(url, data=data)
-    if response.status_code == '200':
-        logger.info('data sent successfully for {}'.format(service_name))
-    else:
-        logger.warning('unable to sent data. code:{}'.format(response.status_code))
+    try:
+        response = requests.post(url, data=json.dumps(data), timeout=2)
+        if response.status_code == '200':
+            logger.info('data sent successfully for {}'.format(service_name))
+        else:
+            logger.warning('Unable to sent data. code:{}'.format(response.status_code))
+    except Exception as e:
+        logger.error('Unable to sent data\n{}'.format(e), exc_info=True)
