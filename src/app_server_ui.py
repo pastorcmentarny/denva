@@ -29,7 +29,7 @@ from flask import Flask, jsonify, url_for,send_file, request, render_template
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
-APP_NAME = 'Denva UI'
+APP_NAME = 'Server UI'
 
 
 @app.route("/stats")
@@ -136,7 +136,7 @@ def store_enviro_measurement():
     print (request.is_json)
     logger.info(request.get_json())
     print(request.get_json())
-    return 'OK'
+    return jsonify(success=True)
 
 
 @app.route("/")
@@ -190,7 +190,7 @@ if __name__ == '__main__':
         healthcheck()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
-        email_sender_service.send_error_log_email('web application',
+        '''email_sender_service.send_error_log_email('web application',
                                                   'you may need reset web application as it looks like web app '
-                                                  'crashes due to {}'.format(e))
+                                                  'crashes due to {}'.format(e))'''
         sys.exit(0)
