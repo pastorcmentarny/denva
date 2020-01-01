@@ -19,9 +19,9 @@ logger = logging.getLogger('app')
 def get_url_for(name:str):
     cfg = config_serivce.load_cfg()
     if name == 'enviro':
-        return '{}/enviro'.format(cfg['urls']['enviro'])
+        return '{}/enviro'.format(cfg['urls']['server'])
     elif name == 'denva':
-        return '{}/denva'.format(cfg['urls']['denva'])
+        return '{}/denva'.format(cfg['urls']['server'])
     else:
         logging.error('unknown name: {}'.format(name))
 
