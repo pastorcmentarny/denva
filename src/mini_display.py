@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
 import logging
+import os
+
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-from luma.oled.device import sh1106
 from luma.core.interface.serial import i2c
+from luma.oled.device import sh1106
 
 import commands
 import get_description_for
@@ -15,6 +16,7 @@ import iqa_utils
 import sensor_warnings
 import utils
 import web_data
+
 logger = logging.getLogger('app')
 
 # Set up OLED
@@ -25,6 +27,14 @@ rr_12 = ImageFont.truetype(rr_path, 12)
 rr_14 = ImageFont.truetype(rr_path, 14)
 
 cycle = 0
+
+
+def display_information(message: str):
+    img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([(0, 0), (128, 128)], fill="black")
+    draw.text((0, 0), message, fill="white", font=rr_12)
+    oled.display(img)
 
 
 def draw_image_on_screen(data, app_uptime):
@@ -56,7 +66,8 @@ def draw_image_on_screen(data, app_uptime):
             draw.text((0, 70), "UVA: {}".format(get_description_for.uv(data["uva_index"])), fill="white", font=rr_12)
         else:
             draw.text((0, 28), "eco2: {}".format(data["eco2"]), fill="white", font=rr_12)
-            draw.text((0, 42), "Tvoc: {}".format(iqa_utils.get_iqa_for_tvoc(data["tvoc"])['score']), fill="white", font=rr_12)
+            draw.text((0, 42), "Tvoc: {}".format(iqa_utils.get_iqa_for_tvoc(data["tvoc"])['score']), fill="white",
+                      font=rr_12)
             draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])),
                       fill="white", font=rr_12)
             draw.text((0, 70), "UVB: {}".format(get_description_for.uv(data["uvb_index"])), fill="white", font=rr_12)
