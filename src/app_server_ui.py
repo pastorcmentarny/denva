@@ -130,6 +130,15 @@ def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
 
 
+@app.route('/denva', methods = ['POST'])
+def store_denva_measurement():
+    logging.info('processing denva measurement request')
+    print (request.is_json)
+    logger.info(request.get_json())
+    print(request.get_json())
+    return jsonify(success=True)
+
+
 @app.route('/enviro', methods = ['POST'])
 def store_enviro_measurement():
     logging.info('processing enviro measurement request')
