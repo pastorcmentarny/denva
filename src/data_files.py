@@ -18,6 +18,8 @@ import logging.config
 import sensor_log_reader
 import utils
 
+logger = logging.getLogger('app')
+
 
 def load_cfg() -> dict:
     path = '/home/pi/email.json'  # actual cfg is different place
@@ -54,16 +56,25 @@ def check_if_report_was_generated(report_date: str) -> bool:
     return os.path.isfile(path)
 
 
-def store_enviro_measurement(data:dict):
+def add_measurement_to_file(file, data:dict):
     timestamp = datetime.now()
-    sensor_log_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
-    csv_writer = csv.writer(sensor_log_file)
+    csv_writer = csv.writer(file)
     csv_writer.writerow([timestamp,
-                         data["temperature"], data["pressure"],  data["humidity"],
-                         data["light"], data["proximity"], data["oxidised"], data["reduced"],
-                         data["nh3"], data["pm1"], data["pm25"], data["pm10"],
-                        ])
-    sensor_log_file.close()
+                     data["temperature"], data["pressure"],  data["humidity"],
+                     data["light"], data["proximity"], data["oxidised"], data["reduced"],
+                     data["nh3"], data["pm1"], data["pm25"], data["pm10"],
+                     ])
+    file.close()
+
+
+def store_enviro_measurement(data:dict):
+    local_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
+    add_measurement_to_file(local_file, data)
+    try:
+        server_file = open(sensor_log_reader.get_enviro_sensor_log_file_at_server(), 'a+', newline='')
+        add_measurement_to_file(server_file, data)
+    except IOError as exception:
+        logger.warning(exception)
 
 
 def store_measurement(data, motion):
