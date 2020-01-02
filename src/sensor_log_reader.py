@@ -15,13 +15,24 @@ from datetime import datetime
 import commands
 import utils
 
+PI_PATH = '/home/pi/logs/'
+NETWORK_PATH = '/mnt/data/sensors/'
+
 
 def get_sensor_log_file() -> str:
-    return '/home/pi/logs/' + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+    return PI_PATH + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
 def get_enviro_sensor_log_file() -> str:
-    return '/home/pi/logs/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+    return PI_PATH + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+
+
+def get_sensor_log_file_at_server() -> str:
+    return NETWORK_PATH + '/denva/' + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+
+
+def get_enviro_sensor_log_file_at_server() -> str:
+    return NETWORK_PATH + '/enviro/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
 
 
 def get_sensor_log_file_for(year: int, month: int, day: int) -> str:
