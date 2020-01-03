@@ -247,6 +247,7 @@ if __name__ == '__main__':
     ui('Email sent.\nRunning application', True)
 
     try:
+        commands.mouth_all_drives()
         main()
     except KeyboardInterrupt as keyboard_exception:
         logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)

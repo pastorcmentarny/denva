@@ -25,15 +25,18 @@ step = 0.1
 photo_dir = ''
 
 
-# lazy hack
-def mouth_drive():
+def mouth_all_drives():
     logger.info('mounting external partion for pictures')
     try:
         cmd = 'sudo mount -t auto -v /dev/mmcblk0p3 /mnt/data'
         ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         logger.info(str(ps.communicate()[0]))
+        cmd = 'sudo mount -a'
+        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        logger.info(str(ps.communicate()[0]))
     except Exception as e:
-        email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
+        error_message = "Unable to mount drive due to {}".format(e)
+        email_sender_service.send_error_log_email("mount drive", error_message)
         logger.warning('Something went badly wrong..', exc_info=True)
 
 
@@ -42,6 +45,7 @@ def capture_picture() -> str:
         date_path = datetime.now().strftime("%Y/%m/%d")
         path = "/mnt/data/photos/{}/".format(date_path)
         if not os.path.isdir(path):
+            logger.info('creating folder for ()'.format(path))
             os.makedirs(path)
         date = utils.get_timestamp_file()
         photo_path = "/mnt/data/photos/{}/{}.jpg".format(date_path, date)
@@ -55,8 +59,8 @@ def capture_picture() -> str:
         logger.info('it took {:.2f} seconds to capture picture'.format(total_time))
         return photo_path
     except Exception as e:
+        logger.warning('Something went badly wrong\n{}'.format(e), exc_info=True)
         email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
-        logger.warning('Something went badly wrong..', exc_info=True)
     return ""
 
 
