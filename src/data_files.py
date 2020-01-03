@@ -56,7 +56,7 @@ def check_if_report_was_generated(report_date: str) -> bool:
     return os.path.isfile(path)
 
 
-def add_measurement_to_file(file, data:dict):
+def add_enviro_measurement_to_file(file, data:dict):
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
     csv_writer.writerow([timestamp,
@@ -69,18 +69,19 @@ def add_measurement_to_file(file, data:dict):
 
 def store_enviro_measurement(data:dict):
     local_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
-    add_measurement_to_file(local_file, data)
+    add_enviro_measurement_to_file(local_file, data)
     try:
         server_file = open(sensor_log_reader.get_enviro_sensor_log_file_at_server(), 'a+', newline='')
-        add_measurement_to_file(server_file, data)
+        add_enviro_measurement_to_file(server_file, data)
+        # if flag is true, set to false
     except IOError as exception:
         logger.warning(exception)
+        # add flag to indicate that there is a problem
 
 
-def store_measurement(data, motion):
+def add_measurement_to_file(file, data:dict,motion):
     timestamp = datetime.now()
-    sensor_log_file = open(sensor_log_reader.get_sensor_log_file(), 'a+', newline='')
-    csv_writer = csv.writer(sensor_log_file)
+    csv_writer = csv.writer(file)
     csv_writer.writerow([timestamp,
                          data['temp'], data['pressure'], data['humidity'], data['gas_resistance'],
                          data['colour'], data['aqi'],
@@ -94,11 +95,23 @@ def store_measurement(data, motion):
                          data['eco2'],
                          data['tvoc'],
                          ])
-    sensor_log_file.close()
+    file.close()
+
+
+def store_measurement(data, motion):
+    local_file = open(sensor_log_reader.get_sensor_log_file(), 'a+', newline='')
+    add_measurement_to_file(local_file, data,motion)
+    try:
+        server_file = open(sensor_log_reader.get_sensor_log_file_at_server(), 'a+', newline='')
+        add_measurement_to_file(server_file, data)
+        # if flag is true, set to false
+    except IOError as exception:
+        logger.warning(exception)
+        # add flag to indicate that there is a problem
 
 
 def setup_logging():
-    path = '/home/pi/denva-master/src/configs/log_config.json'
+    path = '/home/pi/denva-master/src/configs/log_config.json' # //FIX IT
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
