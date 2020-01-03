@@ -79,7 +79,7 @@ def store_enviro_measurement(data:dict):
         # add flag to indicate that there is a problem
 
 
-def add_measurement_to_file(file, data:dict,motion):
+def add_measurement_to_file(file, data:dict, motion):
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
     csv_writer.writerow([timestamp,
@@ -100,10 +100,10 @@ def add_measurement_to_file(file, data:dict,motion):
 
 def store_measurement(data, motion):
     local_file = open(sensor_log_reader.get_sensor_log_file(), 'a+', newline='')
-    add_measurement_to_file(local_file, data,motion)
+    add_measurement_to_file(local_file, data, motion)
     try:
         server_file = open(sensor_log_reader.get_sensor_log_file_at_server(), 'a+', newline='')
-        add_measurement_to_file(server_file, data)
+        add_measurement_to_file(server_file, data,motion)
         # if flag is true, set to false
     except IOError as exception:
         logger.warning(exception)
