@@ -52,7 +52,7 @@ def capture_picture() -> str:
             time.sleep(step)
             total_time += step
         time.sleep(2)
-        logger.info('it took {} seconds to capture picture'.format(total_time))
+        logger.info('it took {:.2f} seconds to capture picture'.format(total_time))
         return photo_path
     except Exception as e:
         email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
