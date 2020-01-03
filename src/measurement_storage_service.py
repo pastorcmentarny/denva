@@ -34,7 +34,7 @@ def send(service_name: str, data: dict):
     try:
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         response = requests.post(url, data=json.dumps(data), timeout=2,headers=headers)
-        if response.status_code == '200':
+        if response.status_code == 200:
             logger.info('data sent successfully for {}'.format(service_name))
         else:
             logger.warning('Unable to sent data. code:{}'.format(response.status_code))
