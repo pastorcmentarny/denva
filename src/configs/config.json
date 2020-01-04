@@ -17,6 +17,11 @@
   "paths": {
     "photosPath": "/mnt/data/photos/"
   },
+  "sensor": {
+    "cpu_temp_warn" : 60,
+    "cpu_temp_error" : 70,
+    "cpu_temp_fatal" : 80
+  },
   "system": {
     "free_space": 500,
     "ip": "http://192.168.0.6:5000/hc"
