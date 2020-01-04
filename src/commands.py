@@ -55,12 +55,13 @@ def capture_picture() -> str:
         while not os.path.exists(photo_path):
             time.sleep(step)
             total_time += step
-        time.sleep(2)
+        time.sleep(0.25)
         logger.info('it took {:.2f} seconds to capture picture'.format(total_time))
         return photo_path
     except Exception as e:
         logger.warning('Something went badly wrong\n{}'.format(e), exc_info=True)
         email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
+    logger.warning('No path returned due to previous error.')
     return ""
 
 
