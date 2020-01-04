@@ -17,11 +17,12 @@ import data_files
 import iqa_utils
 import sensor_log_reader
 import utils
-
+import config_serivce
 warnings_logger = logging.getLogger('warnings')
 
 shaking_level = 1000  # extract to config file
 
+config = config_serivce.load_cfg('configs/config.json')
 
 def get_warnings_for(year: str, month: str, day: str) -> list:
     date = utils.get_filename_for_warnings(year, month, day)
@@ -73,13 +74,13 @@ def get_warnings(data) -> dict:
 
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
-    if data['cpu_temp'] > 75:
+    if data['cpu_temp'] > config['sensor']['cpu_temp_fatal']:
         warnings['cpu_temp'] = 'CPU temperature is too high [cthf]. Current temperature is: {}'.format(
             str(data['cpu_temp']))
-    elif data['cpu_temp'] > 60:
+    elif data['cpu_temp'] > config['sensor']['cpu_temp_error']:
         warnings['cpu_temp'] = 'CPU temperature is very high [cthe]. Current temperature is: {}'.format(
             str(data['cpu_temp']))
-    elif data['cpu_temp'] > 50:
+    elif data['cpu_temp'] > config['sensor']['cpu_temp_warn']:
         warnings['cpu_temp'] = 'CPU temperature is high [cthw]. Current temperature is: {}'.format(
             str(data['cpu_temp']))
 
@@ -214,15 +215,15 @@ def get_warnings_as_list(data) -> list:
     if type(data['cpu_temp']) != float:
         data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
-    if data['cpu_temp'] > 75:
+    if data['cpu_temp'] > config['sensor']['cpu_temp_fatal']:
         warnings.append('CPU temp. TOO HIGH!')
         warnings_logger.error(
             '[cthf] CPU temperature is too high. Current temperature is: {}'.format(str(data['cpu_temp'])))
-    elif data['cpu_temp'] > 60:
+    elif data['cpu_temp'] > config['sensor']['cpu_temp_error']:
         warnings.append('CPU temp. VERY HIGH')
         warnings_logger.error(
             '[cthe] CPU temperature is very high. Current temperature is: {}'.format(str(data['cpu_temp'])))
-    elif data['cpu_temp'] > 50:
+    elif data['cpu_temp'] > config['sensor']['cpu_temp_warn']:
         warnings.append('CPU temp. is high')
         warnings_logger.warning(
             '[cthw] CPU temperature is high. Current temperature is: {}'.format(str(data['cpu_temp'])))
