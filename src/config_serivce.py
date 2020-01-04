@@ -20,8 +20,8 @@ def save_cfg(cfg: dict):
         config_file.write(json.dumps(cfg))
 
 
-def load_cfg() -> dict:
-    with open(path, 'r') as config:
+def load_cfg(config_path: str = path) -> dict:
+    with open(config_path, 'r') as config:
         return json.load(config)
 
 
