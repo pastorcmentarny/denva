@@ -45,7 +45,7 @@ def capture_picture() -> str:
         date_path = datetime.now().strftime("%Y/%m/%d")
         path = "/mnt/data/photos/{}/".format(date_path)
         if not os.path.isdir(path):
-            logger.info('creating folder for ()'.format(path))
+            logger.info('creating folder for {}'.format(path))
             os.makedirs(path)
         date = utils.get_timestamp_file()
         photo_path = "/mnt/data/photos/{}/{}.jpg".format(date_path, date)
