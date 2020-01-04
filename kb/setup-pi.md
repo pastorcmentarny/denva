@@ -5,7 +5,7 @@
 
 Install:
 ```bash
-# disable swapfile as I don't need .It reducs amount write/read of SD card.It is not for perofrmance
+# disable swap file as I don't need .It reduces amount write/read of SD card.It is not for performance
 sudo dphys-swapfile swapoff && \
 sudo dphys-swapfile uninstall && \
 sudo systemctl disable dphys-swapfile
