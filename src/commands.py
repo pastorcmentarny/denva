@@ -56,7 +56,7 @@ def capture_picture() -> str:
             time.sleep(step)
             total_time += step
         time.sleep(0.25)
-        logger.info('it took {:.2f} seconds to capture picture'.format(total_time))
+        logger.info('it took {:.1f} seconds to capture picture'.format(total_time))
         return photo_path
     except Exception as e:
         logger.warning('Something went badly wrong\n{}'.format(e), exc_info=True)
