@@ -37,6 +37,14 @@
       "when": "midnight",
       "encoding": "utf8"
     },
+    "server_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "e:/denva/logs/server.log",
+      "when": "midnight",
+      "encoding": "utf8"
+    },
     "healthcheck_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
@@ -58,6 +66,14 @@
       "level": "INFO",
       "handlers": [
         "warnings_file_handler"
+      ],
+      "propagate": false
+    },
+    "server": {
+      "level": "INFO",
+      "handlers": [
+        "server_file_handler",
+        "console"
       ],
       "propagate": false
     },
