@@ -148,12 +148,17 @@ def ui(msg: str, screen: bool = True):
 def setup():
     global temps
     global cpu_temps
+    warm_up_measurement_counter = 10
     ui("Starting up... Warming up sensors")
     start_time = timer()
-    cpu_temps = [get_cpu_temperature()] * 5
-    temps = [get_temperature()] * 5
+    cpu_temps = [get_cpu_temperature()] * warm_up_measurement_counter
+    temps = [get_temperature()] * warm_up_measurement_counter
     end_time = timer()
-    ui('Done. It took {} ms.'.format(int((end_time - start_time) * 1000)))
+    ui('It took {} ms.\nMounting drives...'.format(int((end_time - start_time) * 1000)))
+    start_time = timer()
+    commands.mouth_all_drives('enviro')
+    end_time = timer()
+    ui('It took {} ms.'.format(int((end_time - start_time) * 1000)))
 
 
 def display_on_screen(measurement: dict):
@@ -227,7 +232,7 @@ def main():
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         measurement['measurement_time'] = measurement_time
-        logger.debug('it took ' + str(measurement_time) + ' milliseconds to measure it.')
+        logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
 
         data_files.store_enviro_measurement(measurement)
