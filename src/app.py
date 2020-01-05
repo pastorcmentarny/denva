@@ -287,8 +287,8 @@ if __name__ == '__main__':
     email_sender_service.send_ip_email('Denva')
     try:
         commands.mount_all_drives()
-        camera_thread = threading.Thread(target=thread_camera)
-        camera_thread.start()
+        #camera_thread = threading.Thread(target=thread_camera)
+        #camera_thread.start()
         ui("Sensor warming up, please wait...")
         sgp30.start_measurement(crude_progress_bar)
         sys.stdout.write('\n')
