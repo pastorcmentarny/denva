@@ -14,19 +14,21 @@ import logging
 import sys
 import time
 import data_files
-import email_sender_service
-import commands
 
-logger = logging.getLogger('app')
+
+import webcam_utils
+
+logger = logging.getLogger('server')
 
 pictures = []
 
+
 def main():
-    counter = 0;
+    counter = 0
     while True:
         counter+=1
         time.sleep(5)
-        last_picture = commands.capture_picture()
+        last_picture = webcam_utils.capture_picture()
 
         if last_picture != "":
             pictures.append(last_picture)
@@ -54,6 +56,6 @@ if __name__ == '__main__':
         main()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
-        email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
+        #email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
 
     sys.exit(0)
