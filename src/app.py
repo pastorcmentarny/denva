@@ -277,7 +277,7 @@ def crude_progress_bar():
 
 
 def cleanup_before_exit():
-    camera_thread.join()
+    #camera_thread.join()
     sys.exit(0)
 
 
