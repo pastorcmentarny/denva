@@ -76,10 +76,11 @@ def send(data: dict, subject: str):
 
         if subject == 'Measurement':
             for picture in pictures_path:
-                if picture != "":
+                logger.debug('Picture sending disabled')
+                '''if picture != "":
                     img_data = open(picture, 'rb').read()
                     image = MIMEImage(img_data, name=os.path.basename(picture))
-                    msg.attach(image)
+                    msg.attach(image)'''
 
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
         del msg
