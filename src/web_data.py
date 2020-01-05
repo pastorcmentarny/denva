@@ -12,6 +12,8 @@
 import bs4
 import json
 import logging
+
+import bs4
 import requests
 
 stats_log = logging.getLogger('stats')
@@ -19,8 +21,10 @@ logger = logging.getLogger('app')
 
 
 def get_train() -> str:
+    logger.info('Getting Chiltern Railways data..')
     try:
         response = requests.get('https://www.nationalrail.co.uk/service_disruptions/indicator.aspx')
+        log_response_result(response,'trains')
         train_status = ''
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
@@ -36,8 +40,11 @@ def get_train() -> str:
 
 
 def get_tube(online: bool):
+    logger.info('Getting tube data..')
     try:
         response = requests.get('https://api.tfl.gov.uk/line/mode/tube/status')
+        log_response_result(response, 'tube')
+
         data = json.loads(response.text)
         tubes = []
         for i in data:
@@ -73,8 +80,10 @@ def get_status() -> list:
 
 
 def get_crime() -> str:
+    logger.info('Getting Crime data..')
     try:
         response = requests.get('https://www.police.uk/hertfordshire/C02/crime/')
+        log_response_result(response, 'crime')
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
         crime_number = html_manager.select('p#no_location_crimes strong')[0].text
@@ -86,13 +95,20 @@ def get_crime() -> str:
 
 
 def get_flood() -> str:
+    logger.info('Getting Flood data..')
     try:
         response = requests.get('https://flood-warning-information.service.gov.uk/warnings?location=Rickmansworth')
+        log_response_result(response, 'flood')
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
-        severe_flood_warnings = html_manager.select('#severe-flood-warnings')[0].text.replace('Severe flood warnings','').replace('Severe flooding - danger to life','').strip() + ' severe flooding warnings that are danger to life'
-        flood_warnings = html_manager.select('#flood-warnings')[0].text.replace('Flood warnings','').replace('Flooding is expected - immediate action required','').strip() + ' flooding warnings that require immediate action'
-        flood_alerts = html_manager.select('#flood-alerts')[0].text.replace('Flood alerts','').replace('Flooding is possible - be prepared','').strip() + ' flooding alerts that flooding is possible'
+        severe_flood_warnings = html_manager.select('#severe-flood-warnings')[0].text.replace('Severe flood warnings',
+                                                                                              '').replace(
+            'Severe flooding - danger to life', '').strip() + ' severe flooding warnings that are danger to life'
+        flood_warnings = html_manager.select('#flood-warnings')[0].text.replace('Flood warnings', '').replace(
+            'Flooding is expected - immediate action required',
+            '').strip() + ' flooding warnings that require immediate action'
+        flood_alerts = html_manager.select('#flood-alerts')[0].text.replace('Flood alerts', '').replace(
+            'Flooding is possible - be prepared', '').strip() + ' flooding alerts that flooding is possible'
         return severe_flood_warnings + ", " + flood_warnings + ", " + flood_alerts
     except Exception as whoops:
         logger.error('Unable to get flood data due to : %s' % whoops)
@@ -101,39 +117,56 @@ def get_flood() -> str:
 
 def cleanup_weather_data(weather: str) -> list:
     weather = weather.splitlines()[1:]
-    weather[0] = weather[0].replace('\xc2\xa0\xc2\xb0','').replace('\xa0','').replace('\u00b0','').replace('C;','*C') # temporary fix
+    weather[0] = weather[0].replace('\xc2\xa0\xc2\xb0', '').replace('\xa0', '').replace('\u00b0', '').replace('C;',
+                                                                                                              '*C')  # temporary fix
     weather[1] = clean_temp(weather[1])
     return weather
 
 
 def clean_temp(temp: str) -> str:
-    return temp.replace('\xa0','').replace('\xc2','').replace('\xb0','')[0:(len(temp)-4)] + '°C'
+    return temp.replace('\xa0', '').replace('\xc2', '').replace('\xb0', '')[0:(len(temp) - 4)] + '°C'
 
 
 def get_weather() -> list:
+    logger.info('weather')
     try:
         response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
         response.encoding = "utf-8"
+        log_response_result(response, 'weather')
+
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
         weather = html_manager.select('#tabDay0')[0].find('a')['aria-label']
         return cleanup_weather_data(weather)
     except Exception as whoops:
-        logger.error('Unable to get weather data due to : %s' % whoops)
+        logger.error('Unable to get weather data due to: {}'.format(whoops))
         return ['Weather data N/A']
 
 
 def get_o2_status() -> str:
     try:
-        response = requests.get('https://status.o2.co.uk/api/care/2010-11-22/outages/near/radius/-1/lon/-0.5057294/lat/51.6367404/service/0/operator/0/ctype/10/address/wd38ql/customer/e1kGKHRsWmAycFN9JH4rdhsxE1gBXHlRdC0/auth/A5FDC03C:::620B3907?uuid=8d40762059154803b6dee4391394666c&browser_uuid=4a9f19cbf4fb488e8ba81e6994e89731&id=0b1b8c44-6800-9e4d-61a3-4935d46b5bc1')
+        response = requests.get(
+            'https://status.o2.co.uk/api/care/2010-11-22/outages/near/radius/-1/lon/-0.5057294/lat/51.6367404/service/0/operator/0/ctype/10/address/wd38ql/customer/e1kGKHRsWmAycFN9JH4rdhsxE1gBXHlRdC0/auth/A5FDC03C:::620B3907?uuid=8d40762059154803b6dee4391394666c&browser_uuid=4a9f19cbf4fb488e8ba81e6994e89731&id=0b1b8c44-6800-9e4d-61a3-4935d46b5bc1')
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
-
+        log_response_result(response)
         o2_data = json.loads(str(html_manager))
         status = o2_data['outage_script_txt']
         return status
     except Exception as whoops:
-        logger.error('Unable to get o2 data due to : %s' % whoops)
+        logger.error('Unable to get o2 data due to: {}'.format(whoops))
         return 'o2 data N/A'
+
+
+def log_response_result(response, what: str):
+    try:
+        if response.status_code == 200:
+            logger.debug('Received data from {}'.format(what))
+        else:
+            logger.warning(
+                'There was a problem during receive data from {}. Return Code:{}'.format(what, response.status_code))
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning('Response error: {}'.format(whoops))
 
 
 def main():
