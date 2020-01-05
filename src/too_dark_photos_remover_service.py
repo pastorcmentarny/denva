@@ -31,6 +31,10 @@ def get_all_photos_for() -> list:
 
 def is_photo_mostly_black(file):
     global deleted
+    if os.path.splitext(file)[-1].lower() != ".jpg":
+        print('{} is not a photo. Ignore it')
+        return
+
     im = Image.open(file)  # Can be many different formats.
     total_pixels = im.width * im.height
     pix = im.load()
