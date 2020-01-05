@@ -49,13 +49,15 @@ def is_photo_mostly_black(file):
     too_dark = dark_pixels / total_pixels * 100
     if too_dark > 95:
         print(file + 'is too dark and need to be deleted.')
-        os.remove(file)
-        if os.path.exists(file):
-            print('{} NOT deleted.'.format(file))
-        else:
-            print("{} deleted.".format(file))
-            deleted += 1
-
+        try:
+            os.remove(file)
+            if os.path.exists(file):
+                print('{} NOT deleted.'.format(file))
+            else:
+                print("{} deleted.".format(file))
+                deleted += 1
+        except Exception as e:
+            print('unable to process {} file due to {}'.format(file, e))
     print(str(dark_pixels) + ' out of ' + str(total_pixels) + ' is dark. (' + str(too_dark) + '%)')
 
 
