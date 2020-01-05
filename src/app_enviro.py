@@ -156,7 +156,7 @@ def setup():
     end_time = timer()
     ui('It took {} ms.\nMounting drives...'.format(int((end_time - start_time) * 1000)))
     start_time = timer()
-    commands.mouth_all_drives('enviro')
+    commands.mount_all_drives('enviro')
     end_time = timer()
     ui('It took {} ms.'.format(int((end_time - start_time) * 1000)))
 
@@ -251,7 +251,7 @@ if __name__ == '__main__':
     ui('Email sent.\nRunning application', True)
 
     try:
-        commands.mouth_all_drives()
+        commands.mount_all_drives()
         main()
     except KeyboardInterrupt as keyboard_exception:
         logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)

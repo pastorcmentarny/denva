@@ -286,7 +286,7 @@ if __name__ == '__main__':
     data_files.setup_logging()
     email_sender_service.send_ip_email('Denva')
     try:
-        commands.mouth_all_drives()
+        commands.mount_all_drives()
         camera_thread = threading.Thread(target=thread_camera)
         camera_thread.start()
         ui("Sensor warming up, please wait...")

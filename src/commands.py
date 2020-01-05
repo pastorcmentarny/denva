@@ -25,7 +25,7 @@ step = 0.1
 photo_dir = ''
 
 
-def mouth_all_drives(device:str = 'denva'):
+def mount_all_drives(device:str = 'denva'):
     logger.info('mounting external partion for pictures')
     try:
         if device == 'denva':
