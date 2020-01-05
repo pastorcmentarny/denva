@@ -25,12 +25,15 @@ step = 0.1
 photo_dir = ''
 
 
-def mouth_all_drives():
+def mouth_all_drives(device:str = 'denva'):
     logger.info('mounting external partion for pictures')
     try:
-        cmd = 'sudo mount -t auto -v /dev/mmcblk0p3 /mnt/data'
-        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        logger.info(str(ps.communicate()[0]))
+        if device == 'denva':
+            logger.info('Mounting local data partition..')
+            cmd = 'sudo mount -t auto -v /dev/mmcblk0p3 /mnt/data'
+            ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            logger.info(str(ps.communicate()[0]))
+        logger.info('Mounting network(LattePanda) data partition..')
         cmd = 'sudo mount -a'
         ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         logger.info(str(ps.communicate()[0]))
