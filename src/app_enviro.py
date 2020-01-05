@@ -217,7 +217,6 @@ def draw_message(msg: str):
 def main():
     measurement_counter = 0
     setup()
-    print(str(cpu_temps))
     while True:
         measurement_counter += 1
         ui('Measurement No.{}'.format(measurement_counter), False)
