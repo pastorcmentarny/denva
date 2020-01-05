@@ -110,8 +110,11 @@ def store_measurement(data, motion):
         # add flag to indicate that there is a problem
 
 
-def setup_logging():
-    path = '/home/pi/denva-master/src/configs/log_config.json' # //FIX IT
+def setup_logging(service:str = 'app'):
+    if service == 'server':
+        path = 'E:\\denva\\logs\\server_log_config.json' # //FIX IT
+    else:
+        path = '/home/pi/denva-master/src/configs/log_config.json' # //FIX IT
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
