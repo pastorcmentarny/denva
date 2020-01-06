@@ -111,6 +111,7 @@ def store_measurement(data, motion):
 
 
 def setup_logging(service:str = 'app'):
+    path = ""
     if service == 'server':
         path = 'E:\\denva\\logs\\server_log_config.json' # //FIX IT
     else:
@@ -119,5 +120,6 @@ def setup_logging(service:str = 'app'):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
         logging.config.dictConfig(config)
+        logger.info('logs loaded from {}'.format(path))
     else:
         logging.basicConfig(level=logging.INFO)
