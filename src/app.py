@@ -247,6 +247,7 @@ def main():
             cleanup_before_exit()
 
 
+'''
 def thread_camera():
     logger.info('Starting taking picture thread..', exc_info=True)
     while True:
@@ -256,7 +257,7 @@ def thread_camera():
             pictures.append(last_picture)
             if len(pictures) > 5:
                 pictures.pop(0)
-
+'''
 
 counter = 1
 led_status = 0
@@ -282,10 +283,14 @@ def cleanup_before_exit():
 
 
 if __name__ == '__main__':
+    bh1745.set_leds(1)
+    time.sleep(3)
+    bh1745.set_leds(0)
     ui('Starting application ... \n Press Ctrl+C to shutdown')
     data_files.setup_logging()
     email_sender_service.send_ip_email('Denva')
     try:
+        ui('Mounting network drives')
         commands.mount_all_drives()
         #camera_thread = threading.Thread(target=thread_camera)
         #camera_thread.start()
@@ -299,5 +304,4 @@ if __name__ == '__main__':
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
         email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
         bh1745.set_leds(1)
-
         cleanup_before_exit()
