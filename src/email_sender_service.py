@@ -119,8 +119,8 @@ def send_error_log_email(what: str, message: str):
 
 
 def send_ip_email(device: str):
-    cfg = data_files.load_cfg()
     logger.info('Sending email with IP info for device: {}'.format(device))
+    cfg = data_files.load_cfg()
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
