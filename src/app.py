@@ -14,7 +14,6 @@ import logging
 import logging.config
 import os
 import sys
-import threading
 import time
 from timeit import default_timer as timer
 
@@ -51,6 +50,7 @@ weather_sensor.set_temp_offset(TEMP_OFFSET)
 # Set up light sensor
 bh1745 = BH1745()
 bh1745.setup()
+bh1745.set_leds(1)
 
 # Set up UV sensor
 uv_sensor = veml6075.VEML6075(i2c_dev=bus)
@@ -180,20 +180,11 @@ def get_data_from_measurement() -> dict:
 
 
 def led_startup_show():
-    bh1745.set_leds(1)
-    time.sleep(0.3)
-    bh1745.set_leds(0)
-    time.sleep(0.2)
-    bh1745.set_leds(1)
-    time.sleep(0.25)
-    bh1745.set_leds(0)
-    time.sleep(0.15)
-    bh1745.set_leds(1)
     for i in range(5):
         bh1745.set_leds(1)
         time.sleep(0.2)
         bh1745.set_leds(0)
-        time.sleep(0.1)
+        time.sleep(0.05)
     bh1745.set_leds(0)
 
 
@@ -283,9 +274,6 @@ def cleanup_before_exit():
 
 
 if __name__ == '__main__':
-    bh1745.set_leds(1)
-    time.sleep(3)
-    bh1745.set_leds(0)
     ui('Starting application ... \n Press Ctrl+C to shutdown')
     data_files.setup_logging()
     email_sender_service.send_ip_email('Denva')
