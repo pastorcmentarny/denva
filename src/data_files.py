@@ -28,13 +28,16 @@ def load_cfg() -> dict:
 
 
 def save_report(report: dict, file: str):
-    with open('/home/pi/reports/{}'.format(file), 'w+', encoding='utf-8') as report_file:
+    report_file_path = '/home/pi/reports/{}'.format(file)
+    logger.info('Saving report to {}'.format(report_file_path))
+    with open(report_file_path, 'w+', encoding='utf-8') as report_file:
         json.dump(report, report_file, ensure_ascii=False, indent=4)
 
 
 def load_report(report_date: str) -> dict:
-    path = '/home/pi/reports/{}'.format(report_date)
-    with open(path, 'r') as report_file:
+    report_file_path = '/home/pi/reports/{}'.format(report_date)
+    logger.info('Loading report from {}'.format(report_file_path))
+    with open(report_file_path, 'r') as report_file:
         return json.load(report_file)
 
 
@@ -116,6 +119,7 @@ def setup_logging(service:str = 'app'):
         path = 'E:\\denva\\logs\\server_log_config.json' # //FIX IT
     else:
         path = '/home/pi/denva-master/src/configs/log_config.json' # //FIX IT
+
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
