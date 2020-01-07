@@ -89,6 +89,12 @@ def system():
     return jsonify(commands.get_system_info())
 
 
+@app.route("/log/system")
+def recent_log_app():
+    logger.info('Getting system logs')
+    return jsonify(commands.get_system_logs(200))
+
+
 @app.route("/log/app")
 def recent_log_app():
     logger.info('Getting application logs')
