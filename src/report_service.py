@@ -20,11 +20,18 @@ logger = logging.getLogger('app')
 
 
 def generate_for_yesterday() -> dict:
+    logger.info('Getting report for yesterday...')
     path = utils.get_date_as_filename('report', 'json', utils.get_yesterday_date())
-    if data_files.check_if_report_was_generated(path):
-        return data_files.load_report(path)
-    else:
-        report = report_generator.generate_for_yesterday()
-        email_sender_service.send(report, 'Report')
-        data_files.save_report(report, utils.get_date_as_filename('report', 'json', utils.get_yesterday_date()))
-        return report
+    try:
+        if data_files.check_if_report_was_generated(path):
+            logger.info('Report was generated. Getting report from file.')
+            return data_files.load_report(path)
+        else:
+            logger.info('Generating report')
+            report = report_generator.generate_for_yesterday()
+            email_sender_service.send(report, 'Report')
+            data_files.save_report(report, utils.get_date_as_filename('report', 'json', utils.get_yesterday_date()))
+            return report
+    except Exception as e:
+        logger.error('Unable to generate report due to {}.Returning empty report'.format(e), exc_info=True)
+        return {'error': str(e)}
