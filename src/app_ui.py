@@ -34,31 +34,37 @@ APP_NAME = 'Denva UI'
 
 @app.route("/stats")
 def stats():
+    logger.info('Get all stats for today')
     return jsonify(sensor_log_reader.load_data_for_today())
 
 
 @app.route("/records")
 def record():
+    logger.info('Getting record measurement from today')
     return jsonify(records.get_records_for_today())
 
 
 @app.route("/avg")
 def average():
+    logger.info('Getting average measurement from today')
     return jsonify(averages.get_averages_for_today())
 
 
 @app.route("/warns")
 def today_warns():
+    logger.info('Getting all warnings from today')
     return jsonify(sensor_warnings.get_warnings_for_today())
 
 
 @app.route("/warns/now")
 def current_warns():
+    logger.info('Getting current warnings')
     return jsonify(sensor_warnings.get_current_warnings())
 
 
 @app.route("/warns/count")
 def count_warns():
+    logger.info('Getting warnings count')
     return jsonify(sensor_warnings.count_warning_today())
 
 
@@ -67,34 +73,39 @@ def specific_day_warns():
     year = request.args.get('year')
     month = request.args.get('month')
     day = request.args.get('day')
+    logger.info('Getting warnings for {}.{}.{}'.format(day,month,year))
     return jsonify(sensor_warnings.get_warnings_for(year, month, day))
 
 
 @app.route("/now")
 def now():
+    logger.info('Getting last measurement')
     return jsonify(sensor_log_reader.get_last_measurement())
 
 
 @app.route("/system")
 def system():
+    logger.info('Getting information about system')
     return jsonify(commands.get_system_info())
 
 
 @app.route("/log/app")
 def recent_log_app():
+    logger.info('Getting application logs')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/logs.log', 300))
 
 
 @app.route("/log/hc")
 def recent_log_hc():
+    logger.info('Getting healthcheck logs')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 300))
-
 
 @app.route("/report/yesterday")
 def last_report():
+    logger.info('Getting report for yesterday')
     return jsonify(report_service.generate_for_yesterday())
 
-
+# TODO remove it when implementation of server is done
 @app.route("/tt")
 def tube_trains_status():
     tt_statuses = {
@@ -102,35 +113,39 @@ def tube_trains_status():
     }
     return jsonify(tt_statuses)
 
-
+# TODO remove it when implementation of server is done
 @app.route("/tt/delays")
 def tt_delays_counter():
     return jsonify(tubes_train_service.count_tube_problems_today())
 
 
+# TODO remove it as it is useless
 @app.route("/tt/counter")
 def tt_counter():
     return jsonify(tubes_train_service.count_tube_color_today())
 
 
+# TODO remove it when implementation of camera is removed
 @app.route("/webcam")
 def do_picture():
     filename = commands.capture_picture()
     return send_file(filename, mimetype='image/jpeg')
 
-
 @app.route("/hc")
 def healthcheck():
+    logger.info('Getting healthcheck')
     return jsonify({"status": "UP",
-                    "app": APP_NAME})
+                        "app": APP_NAME})
 
 @app.route("/ricky")
 def ricky():
+    logger.info('Getting various data about Ricky')
     return jsonify(information_service.get_data_about_rickmansworth())
 
 
 @app.route('/set/hc')
 def set_ip_for_healthcheck():
+    logger.info('Setting ip for healthcheck')
     host = request.host_url[:-1]
     hc_page = host + str(url_for('healthcheck'))
     config_serivce.update_healthcheck(hc_page)
@@ -139,6 +154,7 @@ def set_ip_for_healthcheck():
 
 @app.route("/")
 def welcome():
+    logger.info('Getting a main page')
     host = request.host_url[:-1]
     page_now = host + str(url_for('now'))
     print(page_now)
@@ -172,7 +188,7 @@ def welcome():
         'page_tube_trains_counter' : page_tube_trains_counter,
         'page_recent_log_app' : page_recent_log_app,
         'page_recent_log_hc' : page_recent_log_hc,
-        'page_webcam' : page_webcam,
+        'page_webcam' : page_webcam, # TODO remove it when implementation of camera is removed
         'page_ricky' : page_ricky
     }
 
