@@ -90,7 +90,7 @@ def system():
 
 
 @app.route("/log/system")
-def recent_log_app():
+def recent_system_log_app():
     logger.info('Getting system logs')
     return jsonify(commands.get_system_logs(200))
 
