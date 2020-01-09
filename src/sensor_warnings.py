@@ -22,7 +22,7 @@ warnings_logger = logging.getLogger('warnings')
 
 shaking_level = 1000  # extract to config file
 
-config = config_serivce.load_cfg('configs/config.json')
+config = config_serivce.load_cfg('/home/pi/denva-master/src/configs/config.json')
 
 def get_warnings_for(year: str, month: str, day: str) -> list:
     date = utils.get_filename_for_warnings(year, month, day)
