@@ -269,7 +269,7 @@ def crude_progress_bar():
 
 
 def cleanup_before_exit():
-    #camera_thread.join()
+    # camera_thread.join()
     sys.exit(0)
 
 
@@ -280,8 +280,8 @@ if __name__ == '__main__':
     try:
         ui('Mounting network drives')
         commands.mount_all_drives()
-        #camera_thread = threading.Thread(target=thread_camera)
-        #camera_thread.start()
+        # camera_thread = threading.Thread(target=thread_camera)
+        # camera_thread.start()
         ui("Sensor warming up, please wait...")
         sgp30.start_measurement(crude_progress_bar)
         sys.stdout.write('\n')
