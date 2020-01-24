@@ -49,8 +49,9 @@ def get_timestamp_title() -> str:
 def get_timestamp_file() -> str:
     return datetime.now().strftime("%Y%m%d-%H%M%S")
 
-def get_timestamp_key() -> str:
-    return datetime.now().strftime("%m%d")
+
+def get_timestamp_key(dt:datetime = datetime.now()) -> str:
+    return dt.strftime("%m%d")
 
 def to_hex(r, g, b):
     return '#{:02x}{:02x}{:02x}'.format(r, g, b)
