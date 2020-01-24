@@ -1,4 +1,5 @@
 import datetime
+
 import utils
 
 events = {
@@ -62,12 +63,13 @@ def get_sentence_from_list_of_events(event_list: list) -> str:
     if len(event_list) == 1:
         return event_list[0]
     elif len(event_list) == 2:
-        return '{} and {}'.format(event_list[0],event_list[1])
+        return '{} and {}'.format(event_list[0], event_list[1])
     elif len(event_list) > 2:
         sentence = ''
-        for x in event_list[0:len(event_list)-1]:
+        for x in event_list[0:len(event_list) - 1]:
             sentence = sentence + x + " "
-        return '{}and {}'.format(sentence,event_list[len(event_list)-1])
+        return '{}and {}'.format(sentence, event_list[len(event_list) - 1])
+
 
 def get_next_3_events() -> list:
     next3events = []
@@ -76,11 +78,11 @@ def get_next_3_events() -> list:
     while len(next3events) < 3:
         event = events.get(utils.get_timestamp_key(day))
         if event is not None:
-            next3events.append('{} ({})'.format(get_sentence_from_list_of_events(event),day_left_text(counter)))
+            next3events.append('{} ({})'.format(get_sentence_from_list_of_events(event), day_left_text(counter)))
         day = day + datetime.timedelta(days=1)
         counter = counter + 1
     return next3events
 
-
+# test next 3 events
 if __name__ == '__main__':
     print(get_next_3_events())

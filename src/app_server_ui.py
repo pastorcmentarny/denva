@@ -14,6 +14,7 @@ import logging
 
 import app_server_service
 import averages
+import celebrations
 import commands
 import config_serivce
 import data_files
@@ -160,7 +161,6 @@ def store_enviro_measurement():
 def welcome():
     host = request.host_url[:-1]
     page_now = host + str(url_for('now'))
-    print(page_now)
     page_system = host + str(url_for('system'))
     page_avg = host + str(url_for('average'))
     page_records = host + str(url_for('record'))
@@ -192,7 +192,8 @@ def welcome():
         'page_recent_log_app' : page_recent_log_app,
         'page_recent_log_hc' : page_recent_log_hc,
         'page_webcam' : page_webcam,
-        'page_ricky' : page_ricky
+        'page_ricky' : page_ricky,
+        'celebrations' : celebrations.get_next_3_events()
     }
 
     return render_template('dashboard-server.html', message=data)
