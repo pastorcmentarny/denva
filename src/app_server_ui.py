@@ -12,6 +12,7 @@
 import sys
 import logging
 
+import app_server_service
 import averages
 import commands
 import config_serivce
@@ -48,6 +49,13 @@ def average():
 
 
 @app.route("/warns")
+def warns_page():
+    data = {}
+    data['warnings'] = app_server_service.get_all_warnings_page()
+    return render_template('warnings.html', message=data)
+
+
+@app.route("/warns/today")
 def today_warns():
     return jsonify(sensor_warnings.get_warnings_for_today())
 
@@ -187,11 +195,11 @@ def welcome():
         'page_ricky' : page_ricky
     }
 
-    return render_template('dashboard.html', message=data)
+    return render_template('dashboard-server.html', message=data)
 
 
 if __name__ == '__main__':
-    data_files.setup_logging()
+    data_files.setup_logging('dev')
     logger.info('Starting web server')
 
     try:
