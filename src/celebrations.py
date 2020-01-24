@@ -1,0 +1,46 @@
+import utils
+
+events = {
+    '0101': ['[PL;UK;CN] New year day'],
+    '0121': ["[PL] Dzien Babci"],
+    '0122': ["[PL] Dzien Dziadka"],
+    '0124': ["[!]Chinese new year"],
+    '0308': ["[A] International Women Day"],
+    '0312': ['Terry Pratchett passed away'],
+    '0320': ['Spring starts'],
+    '0329': ['Zmiana czasu z zimowego na letni'],
+    '0401': ['[PL;UK] Prima Aprilis'],
+    '0410': ['Good Friday'],
+    '0412': ['[!]Easter'],
+    '0413': ['Easter Monday'],
+    '0422': ['International Earth Day'],
+    '0428': ['Terry Prattchet was born in 1948'],
+    '0501': ['[PL;CN] Labour Day'],
+    '0502': ['[PL] Dzień Flagi Rzeczpospolitej Polskiej'],
+    '0503': ['Święto Konstytucji 3 Maja'],
+    '0508': ['[UK] Early May Bank Holiday'],
+    '0526': ['[PL] Mother day'],
+    '0525': [' Late May Bank Holiday'],
+    '0601': ['[PL;CN] Children day'],
+    '0620': ['Summer starts', 'Longest day in the year'],
+    '0623': ['[PL] Dzień Ojca'],
+    '0831': ['[UK] Late Summer Bank Holiday'],
+    '0922': ['Autumn starts'],
+    '0930': ['[PL] Dzień Chłopaka'],
+    '1025': ['Zmiana czasu z letniego na zimowy'],
+    '1101': ['Wszystkich Świętych'],
+    '1102': ['Dzień zaduszny'],
+    '1111': ['[PL] Narodowe święto Niepodległości'],
+    '1129': ['[PL] Andrzejki'],
+    '1204': ['[PL] Barborka (Dzień Górnika)'],
+    '1206': ['[PL] Dzień św. Mikołaja'],
+    '1221': ['Winter starts', 'Shortest day of the year'],
+    '1224': ['[PL,EN] Christmas Eve'],
+    '1225': ['[PL,EN] Christmas day'],
+    '1226': ['[PL,EN] Boxing day'],
+    '1231': ['New year Eve'],
+}
+
+
+def get_today() -> list:
+    return events.get(utils.get_timestamp_key(), [])
