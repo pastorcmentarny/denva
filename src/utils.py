@@ -172,3 +172,10 @@ def get_color_name(hex_colour: str):
     else:
         return hex_colour
 
+
+def clean_list_from_nones(dirty_list: list) -> list:
+    clean_list = []
+    for item in dirty_list:
+        if item is not None:
+            clean_list.append(item)
+    return clean_list
