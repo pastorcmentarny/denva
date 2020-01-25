@@ -20,7 +20,8 @@ def get_gateway_data() -> dict:
             'english' : eng.get_random_english_sentence(),
             'method' : method.get_random_method_name(),
             'calendar' : celebrations.get_next_3_events(),
-            'today' : get_last_updated_page()
+            'today' : get_last_updated_page(),
+            'weather' : web_data.get_weather()
             }
 
 
