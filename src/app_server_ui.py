@@ -14,11 +14,9 @@ import logging
 
 import app_server_service
 import averages
-import celebrations
+import www.celebrations as celebrations
 import commands
-import config_serivce
 import data_files
-import email_sender_service
 import information_service
 import records
 import report_service
@@ -26,9 +24,6 @@ import sensor_log_reader
 import sensor_warnings
 import tubes_train_service
 import web_data
-import www.random_chinese_word as cn
-import www.good_english_sentence as eng
-import www.good_method_name as method
 from flask import Flask, jsonify, url_for,send_file, request, render_template
 
 app = Flask(__name__)
@@ -60,12 +55,7 @@ def warns_page():
 
 @app.route("/gateway")
 def gateway_page():
-    data = {'chinese' : cn.get_random_chinese_word(),
-            'english' : eng.get_random_english_sentence(),
-            'method' : method.get_random_method_name(),
-            'calendar' : celebrations.get_next_3_events(),
-            }
-    return render_template('gateway.html',message=data)
+    return render_template('gateway.html',message=app_server_service.get_gateway_data())
 
 
 @app.route("/warns/today")

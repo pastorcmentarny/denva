@@ -2,8 +2,26 @@ import datetime
 
 import time
 
+import www.celebrations as celebrations
+import www.random_chinese_word as cn
+import www.good_english_sentence as eng
+import www.good_method_name as method
 import utils
 import web_data
+
+
+def get_last_updated_page() -> str:
+    now = datetime.datetime.now()
+    return "{}.{}'{} - {}:{}".format(now.day,now.month,now.year,now.hour,now.minute)
+
+
+def get_gateway_data() -> dict:
+    return {'chinese' : cn.get_random_chinese_word(),
+            'english' : eng.get_random_english_sentence(),
+            'method' : method.get_random_method_name(),
+            'calendar' : celebrations.get_next_3_events(),
+            'today' : get_last_updated_page()
+            }
 
 
 def get_fasting_warning() -> str:
