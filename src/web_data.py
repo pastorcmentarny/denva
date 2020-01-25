@@ -117,9 +117,6 @@ def get_flood() -> str:
 
 def cleanup_weather_data(weather: str) -> list:
     weather = weather.splitlines()[1:]
-    weather[0] = weather[0].replace('\xc2\xa0\xc2\xb0', '').replace('\xa0', '').replace('\u00b0', '').replace('C;',
-                                                                                                              '*C')  # temporary fix
-    weather[1] = clean_temp(weather[1])
     return weather
 
 
@@ -136,7 +133,7 @@ def get_weather() -> list:
 
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
-        weather = html_manager.select('#tabDay0')[0].find('a')['aria-label']
+        weather = html_manager.select('#tabDay0')[0].find('div').text
         return cleanup_weather_data(weather)
     except Exception as whoops:
         logger.error('Unable to get weather data due to: {}'.format(whoops))
