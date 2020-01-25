@@ -26,7 +26,9 @@ import sensor_log_reader
 import sensor_warnings
 import tubes_train_service
 import web_data
-
+import www.random_chinese_word as cn
+import www.good_english_sentence as eng
+import www.good_method_name as method
 from flask import Flask, jsonify, url_for,send_file, request, render_template
 
 app = Flask(__name__)
@@ -54,6 +56,16 @@ def warns_page():
     data = {}
     data['warnings'] = app_server_service.get_all_warnings_page()
     return render_template('warnings.html', message=data)
+
+
+@app.route("/gateway")
+def gateway_page():
+    data = {'chinese' : cn.get_random_chinese_word(),
+            'english' : eng.get_random_english_sentence(),
+            'method' : method.get_random_method_name(),
+            'calendar' : celebrations.get_next_3_events(),
+            }
+    return render_template('gateway.html',message=data)
 
 
 @app.route("/warns/today")
@@ -174,6 +186,7 @@ def welcome():
     page_tube_trains_counter = host + str(url_for('tt_counter'))
     page_recent_log_app = host + str(url_for('recent_log_app'))
     page_recent_log_hc = host + str(url_for('recent_log_hc'))
+    page_gateway = host + str(url_for('gateway_page'))
     page_ricky = host + str(url_for('ricky'))
     page_webcam = host + str(url_for('do_picture'))
     data = {
@@ -193,6 +206,7 @@ def welcome():
         'page_recent_log_hc' : page_recent_log_hc,
         'page_webcam' : page_webcam,
         'page_ricky' : page_ricky,
+        'page_gateway' : page_gateway,
         'celebrations' : celebrations.get_next_3_events()
     }
 
