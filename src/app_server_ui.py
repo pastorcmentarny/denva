@@ -9,12 +9,13 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import sys
 import logging
+
+import sys
+from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import app_server_service
 import averages
-import www.celebrations as celebrations
 import commands
 import data_files
 import information_service
@@ -24,7 +25,6 @@ import sensor_log_reader
 import sensor_warnings
 import tubes_train_service
 import web_data
-from flask import Flask, jsonify, url_for,send_file, request, render_template
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -55,7 +55,7 @@ def warns_page():
 
 @app.route("/gateway")
 def gateway_page():
-    return render_template('gateway.html',message=app_server_service.get_gateway_data())
+    return render_template('gateway.html', message=app_server_service.get_gateway_data())
 
 
 @app.route("/warns/today")
@@ -141,22 +141,65 @@ def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
 
 
-@app.route('/denva', methods = ['POST'])
+@app.route('/denva', methods=['POST'])
 def store_denva_measurement():
     logging.info('processing denva measurement request')
-    print (request.is_json)
+    print(request.is_json)
     logger.info(request.get_json())
     print(request.get_json())
     return jsonify(success=True)
 
 
-@app.route('/enviro', methods = ['POST'])
+@app.route('/enviro', methods=['POST'])
 def store_enviro_measurement():
     logging.info('processing enviro measurement request')
-    print (request.is_json)
+    print(request.is_json)
     logger.info(request.get_json())
     print(request.get_json())
     return jsonify(success=True)
+
+
+def get_denva_mocked_data() -> dict:
+    return {
+        'timestamp': '2020-01-27',
+        'temp': '17*C',
+        'pressure': '1030',
+        'humidity': '39.03',
+        'gas_resistance': '123456789',
+        'colour': '#00000',
+        'aqi': 'n/a',
+        'uva_index': '0.01',
+        'uvb_index': '0.01',
+        'motion': '95.08',
+        'ax': '101',
+        'ay': '102',
+        'az': '103',
+        'gx': '104',
+        'gy': '105',
+        'gz': '106',
+        'mx': '107',
+        'my': '108',
+        'mz': '109',
+        'cpu_temp': '45.08*C',
+        'eco2': '400',
+        'tvoc': '200'
+    }
+
+
+def get_enviro_mocked_data():
+    return {
+        "temperature": '17.5*C',
+        "pressure": '1030',
+        "humidity": '39.51%',
+        "light": '100',
+        "proximity": '100',
+        "oxidised": '100',
+        "reduced": '100',
+        "nh3": '100',
+        "pm1": '100',
+        "pm25": '100',
+        "pm10": '100',
+    }
 
 
 @app.route("/")
@@ -178,26 +221,29 @@ def welcome():
     page_recent_log_hc = host + str(url_for('recent_log_hc'))
     page_gateway = host + str(url_for('gateway_page'))
     page_ricky = host + str(url_for('ricky'))
+    page_warns = host + str(url_for('ricky'))
     page_webcam = host + str(url_for('do_picture'))
     data = {
-        'page_now' : page_now,
-        'page_system' : page_system,
-        'page_avg' : page_avg,
-        'page_records' : page_records,
-        'page_stats' : page_stats,
-        'page_warns' : page_warns,
-        'page_warns_now' : page_warns_now,
-        'page_warns_count' : page_warns_count,
-        'page_last_report' : page_last_report,
-        'page_tube_trains' : page_tube_trains,
-        'page_tt_delays_counter' : page_tt_delays_counter,
-        'page_tube_trains_counter' : page_tube_trains_counter,
-        'page_recent_log_app' : page_recent_log_app,
-        'page_recent_log_hc' : page_recent_log_hc,
-        'page_webcam' : page_webcam,
-        'page_ricky' : page_ricky,
-        'page_gateway' : page_gateway,
-        'celebrations' : celebrations.get_next_3_events()
+        'page_now': page_now,
+        'page_system': page_system,
+        'page_avg': page_avg,
+        'page_records': page_records,
+        'page_stats': page_stats,
+        'page_warns': page_warns,
+        'page_warns_now': page_warns_now,
+        'page_warns_count': page_warns_count,
+        'page_last_report': page_last_report,
+        'page_tube_trains': page_tube_trains,
+        'page_tt_delays_counter': page_tt_delays_counter,
+        'page_tube_trains_counter': page_tube_trains_counter,
+        'page_recent_log_app': page_recent_log_app,
+        'page_recent_log_hc': page_recent_log_hc,
+        'page_webcam': page_webcam,
+        'page_ricky': page_ricky,
+        'page_gateway': page_gateway,
+        'page_warnings': warns_page,
+        'denva': get_denva_mocked_data(),
+        'enviro': get_enviro_mocked_data()
     }
 
     return render_template('dashboard-server.html', message=data)
