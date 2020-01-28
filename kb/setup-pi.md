@@ -14,5 +14,11 @@ sudo systemctl disable dphys-swapfile
 sudo apt-get install postfix
 
 
+sudo apt-get install ntfs-3g 
+sudo apt-get autoremove
+
+## Pi related
+* ``` i2cdetect -y 1``` display list i2c port used on
+
 
 ```
