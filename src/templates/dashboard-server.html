@@ -30,18 +30,23 @@
     <script type=text/javascript src="{{url_for('static', filename='scripts.js') }}"></script>
     <script type=text/javascript src="{{url_for('static', filename='fasting.js') }}"></script>
     <script type=text/javascript src="{{url_for('static', filename='copyright.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='grettings.js') }}"></script>
 </head>
 <body>
-
-
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h2 class="my-0 mr-md-auto font-weight-normal">
-        <script>displayTitle();</script>
-    </h2>
-    <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 btn btn-outline-primary" href="{{message.page_webcam}}">Do picture</a>
-
-    </nav>
+<div class="card-deck">
+    <script type="text/javascript">
+        displayGreetings();
+    </script>
+</div>
+<div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+        <a class="p-2 text-muted" href="{{message.page_gateway}}">Gateway</a>
+        <a class="p-2 text-muted" href="{{message.page_warnings}}">Warnings</a>
+        <a class="p-2 text-muted" href="#">Denva</a>
+        <a class="p-2 text-muted" href="#">Enviro</a>
+        <a class="p-2" href="{{message.page_ricky}}">Rickmansworth</a>
+        <a class="p-2 text-muted" href="{{message.page_webcam}}">Do picture</a>
+     </nav>
 </div>
 <div class="container">
     <div class="card-deck mb-3 text-center">
@@ -97,9 +102,28 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li>PM 1.0: N/A</li>
-                    <li>PM 2.5: N/A</li>
-                    <li>PM 10 : N/A</li>
+                    <li><strong>timestamp</strong> : {{message.denva.timestamp}}</li>
+                    <li><strong>temp</strong> : {{message.denva.temp}}</li>
+                    <li><strong>pressure</strong> : {{message.denva.pressure}}</li>
+                    <li><strong>humidity</strong> : {{message.denva.humidity}}</li>
+                    <li><strong>gas_resistance</strong> : {{message.denva.gas_resistance}}</li>
+                    <li><strong>colour</strong> : {{message.denva.colour}}</li>
+                    <li><strong>aqi</strong> : {{message.denva.aqi}}</li>
+                    <li><strong>uva_index</strong> : {{message.denva.uva_index}}</li>
+                    <li><strong>uvb_index</strong> : {{message.denva.uvb_index}}</li>
+                    <li><strong>motion</strong> : {{message.denva.motion}}</li>
+                    <li><strong>ax</strong> : {{message.denva.ax}}</li>
+                    <li><strong>ay</strong> : {{message.denva.ay}}</li>
+                    <li><strong>az</strong> : {{message.denva.az}}</li>
+                    <li><strong>gx</strong> : {{message.denva.gx}}</li>
+                    <li><strong>gy</strong> : {{message.denva.gy}}</li>
+                    <li><strong>gz</strong> : {{message.denva.gz}}</li>
+                    <li><strong>mx</strong> : {{message.denva.mx}}</li>
+                    <li><strong>my</strong> : {{message.denva.my}}</li>
+                    <li><strong>mz</strong> : {{message.denva.mz}}</li>
+                    <li><strong>cpu_temp</strong> : {{message.denva.cpu_temp}}</li>
+                    <li><strong>eco2</strong> : {{message.denva.eco2}}</li>
+                    <li><strong>tvoc</strong> : {{message.denva.tvoc}}</li>
                 </ul>
             </div>
             <div class="card-header">
@@ -120,9 +144,17 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li>PM 1.0: N/A</li>
-                    <li>PM 2.5: N/A</li>
-                    <li>PM 10 : N/A</li>
+                        <li><strong>temperature</strong> : {{message.enviro.temperature}}</li>
+                        <li><strong>pressure</strong> : {{message.enviro.pressure}}</li>
+                        <li><strong>humidity</strong> : {{message.enviro.humidity}}</li>
+                        <li><strong>light</strong> : {{message.enviro.light}}</li>
+                        <li><strong>proximity</strong> : {{message.enviro.proximity}}</li>
+                        <li><strong>oxidised</strong> : {{message.enviro.oxidised}}</li>
+                        <li><strong>reduced</strong> : {{message.enviro.reduced}}</li>
+                        <li><strong>nh3</strong> : {{message.enviro.nh3}}</li>
+                        <li><strong>pm1</strong> : {{message.enviro.pm1}}</li>
+                        <li><strong>pm25</strong> : {{message.enviro.pm25}}</li>
+                        <li><strong>pm10</strong> : {{message.enviro.pm10}}</li>
                 </ul>
             </div>
 
