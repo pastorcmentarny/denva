@@ -117,7 +117,10 @@ def get_flood() -> str:
 
 def cleanup_weather_data(weather: str) -> list:
     weather = weather.splitlines()[1:]
-    return weather
+    weather_result = 'Weather:'
+    for sentence in weather:
+        weather_result += sentence
+    return weather_result
 
 
 def clean_temp(temp: str) -> str:
