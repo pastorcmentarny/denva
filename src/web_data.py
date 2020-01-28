@@ -9,7 +9,6 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import bs4
 import json
 import logging
 
@@ -24,7 +23,7 @@ def get_train() -> str:
     logger.info('Getting Chiltern Railways data..')
     try:
         response = requests.get('https://www.nationalrail.co.uk/service_disruptions/indicator.aspx')
-        log_response_result(response,'trains')
+        log_response_result(response, 'trains')
         train_status = ''
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
@@ -175,6 +174,51 @@ def main():
     for item in statuses_list:
         print(item)
 
+def network_check():
+    ok = 0
+    pages = [
+        "https://dominiksymonowicz.com",
+        'https://bing.com/',
+        'https://google.com/',
+        'https://baidu.com',
+        'https://wikipedia.org',
+        'https://amazon.com',
+    ]
+    headers = requests.utils.default_headers()
+    headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
-if __name__ == '__main__':
-    main()
+    problems = []
+
+    for page in pages:
+
+        print('checking connection to :{}'.format(page))
+
+        try:
+            response = requests.get(page,headers=headers)
+
+            if response.status_code == 200:
+                ok += 1
+            else:
+                response.raise_for_status()
+        except Exception as whoops:
+            logger.warning('Response error: {}'.format(whoops))
+            problems.append(whoops)
+    status = get_network_status(ok)
+
+    return {
+        'status': status,
+        'result': "{} of {} pages were loaded".format(ok, len(pages)),
+        'problems': problems
+    }
+
+
+def get_network_status(ok: int) -> str:
+    if ok == 6:
+        return 'Perfect'
+    elif ok >= 4:
+        return 'Good'
+    elif ok >= 2:
+        return 'POOR'
+    else:
+        return 'DOWN!'
+
