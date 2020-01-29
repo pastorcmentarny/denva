@@ -6,7 +6,6 @@ def load_dictionary_file() -> list:
     file_path = 'D:/Projects/denva/src/data/dictionary.txt'
     file = open(file_path, 'r',encoding="UTF-8",  newline='')
     content = file.readlines()
-    print('text with line counter')
     for line in content:
         definition = line.split(";;")
         definition = definition[2:len(definition)-2]
@@ -20,7 +19,8 @@ def load_dictionary_file() -> list:
 
 
 def get_random_chinese_word() -> dict:
-    return words[random.randint(0,len(words)-1)]
+    load_dictionary_file()
+    return words[random.randint(0, len(words) - 1)]
 
 
 if __name__ == '__main__':
