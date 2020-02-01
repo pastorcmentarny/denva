@@ -4,7 +4,6 @@
 
 branch = "master"
 
-#!/bin/bash
     echo "killing app and server"
     sudo kill $(ps aux | grep '[p]ython3' | awk '{print $2}' | xargs sudo kill -15 )
     echo "removing existing apps"
