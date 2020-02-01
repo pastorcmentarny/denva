@@ -6,6 +6,7 @@ import www.celebrations as celebrations
 import www.random_chinese_word as cn
 import www.good_english_sentence as eng
 import www.good_method_name as method
+import www.random_irregular_verb as verb
 import utils
 import web_data
 
@@ -18,10 +19,11 @@ def get_last_updated_page() -> str:
 def get_gateway_data() -> dict:
     return {'chinese' : cn.get_random_chinese_word(),
             'english' : eng.get_random_english_sentence(),
+            'verb' : verb.get_random_irregular_verb(),
             'method' : method.get_random_method_name(),
             'calendar' : celebrations.get_next_3_events(),
             'today' : get_last_updated_page(),
-            'weather' : web_data.get_weather()
+            'weather' : "Weather:Maximum daytime temperature: 7 degrees Celsius;Minimum nighttime temperature: 6 degrees Celsius.Overcast.Sunrise: 07:51; Sunset: 16:38.UV: Low;Pollution: Low;No pollen data.", # web_data.get_weather()
             }
 
 

@@ -25,32 +25,11 @@ import sensor_log_reader
 import sensor_warnings
 import tubes_train_service
 import web_data
+import local_data_gateway
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
 APP_NAME = 'Server UI'
-
-
-@app.route("/stats")
-def stats():
-    return jsonify(sensor_log_reader.load_data_for_today())
-
-
-@app.route("/records")
-def record():
-    return jsonify(records.get_records_for_today())
-
-
-@app.route("/avg")
-def average():
-    return jsonify(averages.get_averages_for_today())
-
-
-@app.route("/warns")
-def warns_page():
-    data = {}
-    data['warnings'] = app_server_service.get_all_warnings_page()
-    return render_template('warnings.html', message=data)
 
 
 @app.route("/gateway")
@@ -58,37 +37,9 @@ def gateway_page():
     return render_template('gateway.html', message=app_server_service.get_gateway_data())
 
 
-@app.route("/warns/today")
-def today_warns():
-    return jsonify(sensor_warnings.get_warnings_for_today())
-
-
-@app.route("/warns/now")
-def current_warns():
-    return jsonify(sensor_warnings.get_current_warnings())
-
-
-@app.route("/warns/count")
-def count_warns():
-    return jsonify(sensor_warnings.count_warning_today())
-
-
-@app.route("/warns/date")
-def specific_day_warns():
-    year = request.args.get('year')
-    month = request.args.get('month')
-    day = request.args.get('day')
-    return jsonify(sensor_warnings.get_warnings_for(year, month, day))
-
-
 @app.route("/now")
 def now():
     return jsonify(sensor_log_reader.get_last_measurement())
-
-
-@app.route("/system")
-def system():
-    return jsonify(commands.get_system_info())
 
 
 @app.route("/log/app")
@@ -96,32 +47,9 @@ def recent_log_app():
     return jsonify(commands.get_lines_from_path('/home/pi/logs/logs.log', 300))
 
 
-@app.route("/log/hc")
-def recent_log_hc():
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 300))
-
-
 @app.route("/report/yesterday")
-def last_report():
-    return jsonify(report_service.generate_for_yesterday())
-
-
-@app.route("/tt")
-def tube_trains_status():
-    tt_statuses = {
-        "Train & Trains": web_data.get_status()
-    }
-    return jsonify(tt_statuses)
-
-
-@app.route("/tt/delays")
-def tt_delays_counter():
-    return jsonify(tubes_train_service.count_tube_problems_today())
-
-
-@app.route("/tt/counter")
-def tt_counter():
-    return jsonify(tubes_train_service.count_tube_color_today())
+def last_report_from_denva_and_enviro():
+    return jsonify(report_service.get_reports_from_denva_and_enviro())
 
 
 @app.route("/webcam")
@@ -139,6 +67,19 @@ def healthcheck():
 @app.route("/ricky")
 def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
+
+
+@app.route("/tt")
+def tube_trains_status():
+    tt_statuses = {
+        "Train & Trains": web_data.get_status()
+    }
+    return jsonify(tt_statuses)
+
+
+@app.route("/tt/delays")
+def tt_delays_counter():
+    return jsonify(tubes_train_service.count_tube_problems_today())
 
 
 @app.route('/denva', methods=['POST'])
@@ -206,44 +147,24 @@ def get_enviro_mocked_data():
 def welcome():
     host = request.host_url[:-1]
     page_now = host + str(url_for('now'))
-    page_system = host + str(url_for('system'))
-    page_avg = host + str(url_for('average'))
-    page_records = host + str(url_for('record'))
-    page_stats = host + str(url_for('stats'))
-    page_warns = host + str(url_for('today_warns'))
-    page_warns_now = host + str(url_for('current_warns'))
-    page_warns_count = host + str(url_for('count_warns'))
-    page_last_report = host + str(url_for('last_report'))
     page_tube_trains = host + str(url_for('tube_trains_status'))
     page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
-    page_tube_trains_counter = host + str(url_for('tt_counter'))
     page_recent_log_app = host + str(url_for('recent_log_app'))
-    page_recent_log_hc = host + str(url_for('recent_log_hc'))
     page_gateway = host + str(url_for('gateway_page'))
     page_ricky = host + str(url_for('ricky'))
-    page_warns = host + str(url_for('ricky'))
     page_webcam = host + str(url_for('do_picture'))
     data = {
         'page_now': page_now,
-        'page_system': page_system,
-        'page_avg': page_avg,
-        'page_records': page_records,
-        'page_stats': page_stats,
-        'page_warns': page_warns,
-        'page_warns_now': page_warns_now,
-        'page_warns_count': page_warns_count,
-        'page_last_report': page_last_report,
         'page_tube_trains': page_tube_trains,
         'page_tt_delays_counter': page_tt_delays_counter,
-        'page_tube_trains_counter': page_tube_trains_counter,
         'page_recent_log_app': page_recent_log_app,
-        'page_recent_log_hc': page_recent_log_hc,
         'page_webcam': page_webcam,
         'page_ricky': page_ricky,
         'page_gateway': page_gateway,
-        'page_warnings': warns_page,
+        'warnings': local_data_gateway.get_current_warnings_for_all_services(),
         'denva': get_denva_mocked_data(),
-        'enviro': get_enviro_mocked_data()
+        'enviro': get_enviro_mocked_data(),
+        'network' : web_data.network_check()
     }
 
     return render_template('dashboard-server.html', message=data)
