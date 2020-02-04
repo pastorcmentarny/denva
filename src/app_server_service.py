@@ -2,11 +2,11 @@ import datetime
 
 import time
 
-import www.celebrations as celebrations
-import www.random_chinese_word as cn
-import www.good_english_sentence as eng
-import www.good_method_name as method
-import www.random_irregular_verb as verb
+import mothership.celebrations as celebrations
+import mothership.random_chinese_word as cn
+import mothership.good_english_sentence as eng
+import mothership.good_method_name as method
+import mothership.random_irregular_verb as verb
 import utils
 import web_data
 
