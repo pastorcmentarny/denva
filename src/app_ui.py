@@ -106,23 +106,11 @@ def recent_log_hc():
     logger.info('Getting healthcheck logs')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 300))
 
+
 @app.route("/report/yesterday")
 def last_report():
     logger.info('Getting report for yesterday')
     return jsonify(report_service.generate_for_yesterday())
-
-# TODO remove it when implementation of server is done
-@app.route("/tt")
-def tube_trains_status():
-    tt_statuses = {
-        "Train & Trains": web_data.get_status()
-    }
-    return jsonify(tt_statuses)
-
-# TODO remove it when implementation of server is done
-@app.route("/tt/delays")
-def tt_delays_counter():
-    return jsonify(tubes_train_service.count_tube_problems_today())
 
 
 # TODO remove it as it is useless
@@ -130,12 +118,6 @@ def tt_delays_counter():
 def tt_counter():
     return jsonify(tubes_train_service.count_tube_color_today())
 
-
-# TODO remove it when implementation of camera is removed
-@app.route("/webcam")
-def do_picture():
-    filename = commands.capture_picture()
-    return send_file(filename, mimetype='image/jpeg')
 
 @app.route("/hc")
 def healthcheck():
@@ -172,13 +154,10 @@ def welcome():
     page_warns_now = host + str(url_for('current_warns'))
     page_warns_count = host + str(url_for('count_warns'))
     page_last_report = host + str(url_for('last_report'))
-    page_tube_trains = host + str(url_for('tube_trains_status'))
-    page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
     page_tube_trains_counter = host + str(url_for('tt_counter'))
     page_recent_log_app = host + str(url_for('recent_log_app'))
     page_recent_log_hc = host + str(url_for('recent_log_hc'))
     page_ricky = host + str(url_for('ricky'))
-    page_webcam = host + str(url_for('do_picture'))
     data = {
         'page_now' : page_now,
         'page_system' : page_system,
@@ -189,12 +168,9 @@ def welcome():
         'page_warns_now' : page_warns_now,
         'page_warns_count' : page_warns_count,
         'page_last_report' : page_last_report,
-        'page_tube_trains' : page_tube_trains,
-        'page_tt_delays_counter' : page_tt_delays_counter,
         'page_tube_trains_counter' : page_tube_trains_counter,
         'page_recent_log_app' : page_recent_log_app,
         'page_recent_log_hc' : page_recent_log_hc,
-        'page_webcam' : page_webcam, # TODO remove it when implementation of camera is removed
         'page_ricky' : page_ricky
     }
 
