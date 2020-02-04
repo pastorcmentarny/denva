@@ -115,7 +115,9 @@ def store_measurement(data, motion):
 
 def setup_logging(service:str = 'app'):
     path = ""
-    if service == 'server':
+    if service == 'dev':
+        path = 'D:\\Projects\\denva\\src\\configs\\server_log_config.json'
+    elif service == 'server':
         path = 'E:\\denva\\logs\\server_log_config.json' # //FIX IT
     else:
         path = '/home/pi/denva-master/src/configs/log_config.json' # //FIX IT
