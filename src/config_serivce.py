@@ -12,8 +12,8 @@
 import json
 
 # temporary, replace it
-path = '/home/pi/denva-master/src/configs/config.json'
-
+# path = '/home/pi/denva-master/src/configs/config.json'
+path = 'D:\Projects\denva\src\configs\config.json'
 
 def save_cfg(cfg: dict):
     with open(path, 'w') as config_file:
@@ -36,3 +36,13 @@ def update_healthcheck(ip: str):
 def get_healthcheck_ip() -> str:
     config = load_cfg()
     return config['system']['ip']
+
+
+def get_current_warnings_url_for(service: str) -> str:
+    config = load_cfg()
+    return "{}/warns/now".format(config['url'][service])
+
+
+def get_options() -> dict:
+    config = load_cfg()
+    return config['options']

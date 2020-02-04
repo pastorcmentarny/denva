@@ -26,6 +26,9 @@
     "free_space": 500,
     "ip": "http://192.168.0.6:5000/hc"
   },
+  "options": {
+    "inChina" : true
+  },
   "urls": {
     "server" : "http://192.168.0.20:5000",
     "denva" : "http://192.168.0.17:5000",

@@ -15,14 +15,13 @@ import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import app_server_service
-import averages
+
 import commands
+import config_serivce
 import data_files
 import information_service
-import records
 import report_service
 import sensor_log_reader
-import sensor_warnings
 import tubes_train_service
 import web_data
 import local_data_gateway
@@ -164,7 +163,7 @@ def welcome():
         'warnings': local_data_gateway.get_current_warnings_for_all_services(),
         'denva': get_denva_mocked_data(),
         'enviro': get_enviro_mocked_data(),
-        'network' : web_data.network_check()
+        'network' : web_data.network_check(config_serivce.get_options()['inChina'])
     }
 
     return render_template('dashboard-server.html', message=data)
