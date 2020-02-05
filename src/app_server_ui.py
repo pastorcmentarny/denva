@@ -15,6 +15,7 @@ import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import app_server_service
+import networkcheck
 
 import commands
 import config_serivce
@@ -163,7 +164,7 @@ def welcome():
         'warnings': local_data_gateway.get_current_warnings_for_all_services(),
         'denva': get_denva_mocked_data(),
         'enviro': get_enviro_mocked_data(),
-        'network' : web_data.network_check(config_serivce.get_options()['inChina'])
+        'network' : networkcheck.network_check(config_serivce.get_options()['inChina'])
     }
 
     return render_template('dashboard-server.html', message=data)
