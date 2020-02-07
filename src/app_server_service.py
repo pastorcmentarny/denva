@@ -19,6 +19,7 @@ import mothership.random_chinese_word as cn
 import mothership.good_english_sentence as eng
 import mothership.good_method_name as method
 import mothership.random_irregular_verb as verb
+import mothership.personal_stats as personal_events
 import utils
 import web_data
 
@@ -35,7 +36,8 @@ def get_gateway_data() -> dict:
             'method' : method.get_random_method_name(),
             'calendar' : celebrations.get_next_3_events(),
             'today' : get_last_updated_page(),
-            'weather' : "Weather:Maximum daytime temperature: 7 degrees Celsius;Minimum nighttime temperature: 6 degrees Celsius.Overcast.Sunrise: 07:51; Sunset: 16:38.UV: Low;Pollution: Low;No pollen data.", # web_data.get_weather()
+            'events' : personal_events.get_personal_stats(),
+            'weather' : web_data.get_weather()
             }
 
 
