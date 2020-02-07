@@ -46,3 +46,8 @@ def get_current_warnings_url_for(service: str) -> str:
 def get_options() -> dict:
     config = load_cfg()
     return config['options']
+
+
+def get_path_for_personal_events() -> str:
+    config = load_cfg()
+    return config['paths']['events']

@@ -15,7 +15,9 @@
     "pass": "PASSWORD"
   },
   "paths": {
-    "photosPath": "/mnt/data/photos/"
+    "photosPath": "/mnt/data/photos/",
+    "tubeAndTrainsPath" : "D:\\denva\\data\\tubetrains\\",
+    "events" : "d:\\ds-lpd-server\\events.json"
   },
   "sensor": {
     "cpu_temp_warn" : 60,

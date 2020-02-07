@@ -1,0 +1,41 @@
+from datetime import datetime
+
+import config_serivce
+import data_files
+
+
+def convert_to_date_time(happen_at_time: str) -> datetime:
+    date_as_array = happen_at_time.split('-')
+    if len(date_as_array) == 3:
+        return datetime(int(date_as_array[0]), int(date_as_array[1]), int(date_as_array[2]))
+    elif len(date_as_array) == 5:
+        return datetime(int(date_as_array[0]), int(date_as_array[1]), int(date_as_array[2]),
+                        int(date_as_array[3]), int(date_as_array[4]))
+    else:
+        print('invalid data:{}'.format(happen_at_time))
+        # TODO figure out what to return
+
+
+def get_time_in_days_as_text(event_time: datetime) -> str:
+    result = int((datetime.now() - event_time).days) + 1
+    text = 'day'
+    if result > 1:
+        text += 's'
+    return '{} {}.'.format(result, text)
+
+
+def get_events():
+    return data_files.load_json_data_as_dict_from(config_serivce.get_path_for_personal_events())
+
+
+def get_personal_stats():
+    converted = {}
+    events = get_events()
+    for event, happen_at_time in events.items():
+        converted[event] = convert_to_date_time(happen_at_time)
+        print(converted[event])
+        print(get_time_in_days_as_text(converted[event]))
+
+
+if __name__ == '__main__':
+    get_personal_stats()
