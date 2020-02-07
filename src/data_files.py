@@ -129,3 +129,8 @@ def setup_logging(service:str = 'app'):
         logger.info('logs loaded from {}'.format(path))
     else:
         logging.basicConfig(level=logging.INFO)
+
+
+def load_json_data_as_dict_from(path: str) -> dict:
+    with open(path, 'r', encoding='utf-8') as json_file:
+        return json.load(json_file)
