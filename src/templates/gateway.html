@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="My bookmarks HQ">
     <meta name="author" content="Dominik Symonowicz">
-    <title>HQ Gateway</title>
+    <title>Mothership HQ</title>
 
     <!--  JavaScripts -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
@@ -21,21 +23,112 @@
 
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <a class="navbar-brand" href="http://localhost:5000/">Dom's Gateway</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
+            aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarsExample03">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Daily</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown03">
+                <a class="nav-link dropdown-toggle" href="#" id="daily" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Daily</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a href="https://www.theguardian.com/uk-news/all" class="dropdown-item"> UK (TheGuardian)</a>
                     <a href="https://www.theguardian.com/uk/london" class="dropdown-item">London (TheGuardian)</a>
                     <a href="https://news.ycombinator.com" class="dropdown-item">IT (Ycombinator)</a>
                     <a href="https://www.theregister.co.uk/software/" class="dropdown-item">TheRegister (Software)</a>
                     <a href="https://www.theregister.co.uk/business/" class="dropdown-item">TheRegister (Business)</a>
+                    <a href="http://garfield.com" class="dropdown-item">Garfield</a>
+                    <a href="http://www.gocomics.com/pearlsbeforeswine" class="dropdown-item">Pearls Before Swine</a>
+                    <a href="http://xkcd.com" class="dropdown-item">xkcd</a>
+                    <a href="http://www.rynek-kolejowy.pl/?desktop=true" class="dropdown-item">Rynek Kolejowy</a>
+                    <a href="http://railnews.co.uk/news/" class="dropdown-item">Rail News</a>
+                    <a href="https://www.cooltura24.co.uk/wiadomosci" class="dropdown-item">Coolturas</a>
+                    <a href="https://goniec.com/wiadomosci/wielka-brytania" class="dropdown-item">Goniec</a>
+                    <a href="https://spring.io/blog" class="dropdown-item">Spring Framework Blog</a>
+
+
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="weekly" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Weekly</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown02">
+                    <a href="http://chinytolubie.pl" class="dropdown-item">Chiny to lubie</a>
+                    <a href="http://www.theguardian.com/world/china" class="dropdown-item">TheGuardian (China)</a>
+                    <a href="http://www.focus.pl/kosmos" class="dropdown-item">Kosmos (Focus)</a>
+                    <a href="http://www.lifehacker.co.uk" class="dropdown-item">life hacker</a>
+                    <a href="http://www.tajemniczywroclaw.pl" class="dropdown-item ">Tajemniczy Wrocław</a>
                     <a href="https://www.nasa.gov/news-articles" class="dropdown-item">Nasa news</a>
+                    <a href="http://joemonster.org/index.php" class="dropdown-item">Joe Monster</a>
+                    <a href="http://clientsfromhell.net" class="dropdown-item">Client from hell</a>
+                </div>
+            </li>
+            >
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="blog" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">My projects</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown04">
+                    <a href="https://pablo.buffer.com/" class="dropdown-item">Pablo</a>
+                    <a href="https://app.grammarly.com/" class="dropdown-item">Grammarly</a>
+                    <a href="https://apps.admob.com/?pli=1#home" class="dropdown-item">Admob</a>
+                    <a href="https://www.google.com/adsense/app#home" class="dropdown-item">AdSense</a>
+                    <a href="https://play.google.com/apps/publish/?dev_acc=05014121812182259281#AppListPlace"
+                       class="dropdown-item">Developer Console</a>
+                    <a href="https://play.google.com/store/apps/developer?id=Dominik+Symonowicz"
+                       class="dropdown-item">Google
+                        Play</a>
+                    <a href="https://dominiksymonowicz.blogspot.co.uk" class="dropdown-item">Blog Dominik</a>
+                    <a href="https://dominiksymonowicz.com" class="dropdown-item">Homepage</a>
+                    <a href="https://github.com/pastorcmentarny" class="dropdown-item">GitHub</a>
+                    <a href="https://www.google.com/webmasters/tools/home?hl=en" class="dropdown-item">Webmasters
+                        Tools</a>
+                    <a href="https://buffer.com/app/profile/5a0a01a8dc8ca5a8104ede15/buffer/queue/list"
+                       class="dropdown-item">Buffer</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dev" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Dev</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown04">
+                    <a href="https://www.uuidgenerator.net" class="dropdown-item">UUID GENERATOR</a>
+                    <a href="http://www.regexplanet.com/advanced/java/index.html" class="dropdown-item">Regex test</a>
+                    <a href="http://westciv.com/tools/gradients/" class="dropdown-item">Gradient tool</a>
+                    <a href="http://www.jslint.com" class="dropdown-item">jslint</a>
+                    <a href="http://www.colorhexa.com" class="dropdown-item">color hexa</a>
+                    <a href="http://json-p.org/validator.html" class="dropdown-item">Json-p Validator</a>
+                    <a href="http://jsbin.com/?html,css,js,output" class="dropdown-item">jsbin</a>
+                    <a href="http://meyerweb.com/eric/tools/dencoder/" class="dropdown-item">URL decoder/encoder</a>
+                    <a href="https://code.stypi.com/" class="dropdown-item">Stypi (Editor)</a>
+                    <a href="http://www.json-generator.com" class="dropdown-item">JSON GENERATOR</a>
+                    <a href="https://ftfy.now.sh/" class="dropdown-item">Ftfy (Unicode fix)</a>
+                    <a href="http://www.goodemailcopy.com" class="dropdown-item">Good Email Copy</a>
+                    <a href="https://tinyjpg.com/" class="dropdown-item">TINY JPG</a>
+                    <a href="https://www.kaggle.com/datasets/" class="dropdown-item">kaggle datasets</a>
+                    <a href="https://sites.google.com/site/ddmwsst/create-your-own-certificate-and-ca"
+                       class="dropdown-item">Create
+                        own cert. and ca</a>
+                    <a href="https://www.freeformatter.com/" class="dropdown-item">free formatter</a>
+                    <a href="https://www.xmlvalidation.com/index.php" class="dropdown-item">xml validation</a>
+                    <a href="https://crontab.guru/" class="dropdown-item">Crontab</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="tools" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Tools</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown05">
+                    <a href="https://www.caffeineinformer.com/"  class="dropdown-item">Caffeine Informer</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="other" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Other</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown05">
+                    <a href="http://www.beerintheevening.com" class="dropdown-item">Beer in the Evening</a>
+                    <a href="http://www.railwaytouring.net/uk-day-trips/" class="dropdown-item">railway touring</a>
+                    <a href="https://theuselessweb.com/" class="dropdown-item">the useless web</a>
+                    <a href="http://www.italki.com/notebook/ranking/chinese?days=all" class="dropdown-item">Italki.com</a>
                 </div>
             </li>
         </ul>
@@ -44,13 +137,34 @@
 
 <!-- main part -->
 <div class="row mb-3">
-    <div class="col-md-8">
+    <div class="col-md-4">
         <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <h3 class="mb-0">Status</h3>
+                {% for weather_sentence in message.weather %}
+                <div class="mb-1 text-primary">{{weather_sentence}}</div>
+                {% endfor %}
 
-                <div class="mb-1 text-primary">{{message.weather}}</div>
-             </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+                <p><strong class="d-inline-block mb-2 text-warning">Calendar</strong> <span class="mb-1 text-muted">{{message.today}}</span>
+                </p>
+                {% for celebration in message.calendar %}
+                <div class="mb-1 text-muted">{{celebration}}</div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+                <p><strong class="d-inline-block mb-2 text-dark">Timer</strong></p>
+                {% for key,event in message.events.items() %}
+                <div class="mb-1 text-muted">{{key}} - {{event}}</div>
+                {% endfor %}
+            </div>
         </div>
     </div>
     <div class="col-md-4">
@@ -74,15 +188,17 @@
         </div>
         <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
-                <p><strong class="d-inline-block mb-2 text-warning">Calendar</strong>                <span class="mb-1 text-muted">{{message.today}}</span></p>
-                {% for celebration in message.calendar %}
-                    <div class="mb-1 text-muted">{{celebration}}</div>
-                    {% endfor %}
+                <strong class="d-inline-block mb-2 text-info">Irregular verb</strong>
+                <h3 class="mb-0">{{message.verb.Base}}</h3>
+                <div class="mb-1 text-muted">{{message.verb.PastSimple}}</div>
+                <p class="mb-auto">{{message.verb.PastParticiple}}</p>
+
+                <div class="mb-1 text-muted"></div>
             </div>
         </div>
     </div>
 </div>
-
+&nbsp;/|&nbsp;Dm'S 2020<br/>/ |\<br/><br/>
 
 
 <!-- all scritps -->
