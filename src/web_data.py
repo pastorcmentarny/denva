@@ -87,7 +87,9 @@ def get_crime() -> str:
 
         crime_number = html_manager.select('p#no_location_crimes strong')[0].text
         crime_period = html_manager.select('#month > optgroup:nth-child(1) > option:nth-child(1)')[0].text
-        return crime_number + ' crimes ' + crime_period
+        crime_result = '{} crimes {}'.format(crime_number, crime_period)
+        stats_log.info(crime_result)
+        return crime_result
     except Exception as whoops:
         logger.error('Unable to get crime data due to : %s' % whoops)
         return 'Crime data N/A'
@@ -108,7 +110,9 @@ def get_flood() -> str:
             '').strip() + ' flooding warnings that require immediate action'
         flood_alerts = html_manager.select('#flood-alerts')[0].text.replace('Flood alerts', '').replace(
             'Flooding is possible - be prepared', '').strip() + ' flooding alerts that flooding is possible'
-        return severe_flood_warnings + ", " + flood_warnings + ", " + flood_alerts
+        flooding_result = "Flooding. {}, {}, {}.".format(severe_flood_warnings, flood_warnings, flood_alerts)
+        stats_log.info(flooding_result)
+        return flooding_result
     except Exception as whoops:
         logger.error('Unable to get flood data due to : %s' % whoops)
         return 'Flood data N/A'
@@ -126,7 +130,27 @@ def clean_temp(temp: str) -> str:
     return temp.replace('\xa0', '').replace('\xc2', '').replace('\xb0', '')[0:(len(temp) - 4)] + '°C'
 
 
+# prototype for cleanup data coming from weather website
+def __get_mocked_weather():
+    result = "Weather:Maximum daytime temperature: 7 degrees Celsius;Minimum nighttime temperature: 6 degrees Celsius.Overcast.Sunrise: 07:51; Sunset: 16:38.UV: Low;Pollution: Low;No pollen data."
+    result = result.split(';')
+    result_list = []
+    for x in result:
+        y = x.split('.')
+        for z in y:
+            result_list.append(z)
+    print(result_list[0])
+    result_list[0] = result_list[0].replace('Weather:', '')
+    result_list.remove('')
+    result_list.remove('Overcast')
+    print(result_list)
+    return result_list
+
+
 def get_weather() -> list:
+    if True:
+        return __get_mocked_weather()
+
     logger.info('weather')
     try:
         response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
@@ -136,6 +160,7 @@ def get_weather() -> list:
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
         weather = html_manager.select('#tabDay0')[0].find('div').text
+        stats_log.info(weather)
         return cleanup_weather_data(weather)
     except Exception as whoops:
         logger.error('Unable to get weather data due to: {}'.format(whoops))
@@ -150,6 +175,7 @@ def get_o2_status() -> str:
         log_response_result(response)
         o2_data = json.loads(str(html_manager))
         status = o2_data['outage_script_txt']
+        stats_log.info(status)
         return status
     except Exception as whoops:
         logger.error('Unable to get o2 data due to: {}'.format(whoops))
@@ -175,3 +201,5 @@ def main():
         print(item)
 
 
+if __name__ == '__main__':
+    get_weather()
