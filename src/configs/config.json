@@ -17,7 +17,8 @@
   "paths": {
     "photosPath": "/mnt/data/photos/",
     "tubeAndTrainsPath" : "D:\\denva\\data\\tubetrains\\",
-    "events" : "d:\\ds-lpd-server\\events.json"
+    "events" : "d:\\ds-lpd-server\\events.json",
+    "bin" : "d:\\ds-lpd-server\\data-bin\\"
   },
   "sensor": {
     "cpu_temp_warn" : 60,

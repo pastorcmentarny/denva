@@ -51,3 +51,8 @@ def get_options() -> dict:
 def get_path_for_personal_events() -> str:
     config = load_cfg()
     return config['paths']['events']
+
+
+def get_path_for_data_bin() -> str:
+    config = load_cfg()
+    return config['paths']['bin']
