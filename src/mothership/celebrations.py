@@ -6,30 +6,22 @@ events = {
     '0101': ['New year day'],
     '0121': ["Dzien Babci"],
     '0122': ["Dzien Dziadka"],
-    '0124': ["Chinese new year"],
     '0308': ["International Women Day"],
     '0312': ['Terry Pratchett passed away'],
     '0320': ['Spring starts'],
-    '0329': ['Zmiana czasu z zimowego na letni'],
     '0401': ['Prima Aprilis'],
-    '0410': ['Good Friday'],
-    '0412': ['Easter'],
-    '0413': ['Easter Monday'],
     '0422': ['International Earth Day'],
     '0428': ['Terry Prattchet was born in 1948'],
     '0501': ['Labour Day'],
     '0502': ['Dzień Flagi Rzeczpospolitej Polskiej'],
     '0503': ['Święto Konstytucji 3 Maja'],
-    '0508': ['Early May Bank Holiday'],
     '0526': ['Mother day'],
-    '0525': ['Late May Bank Holiday'],
     '0601': ['Children day'],
     '0620': ['Summer starts', 'Longest day in the year'],
-    '0623': ['Dzień Ojca'],
-    '0831': ['Late Summer Bank Holiday'],
+    '0621': ['Father day[UK]'],
+    '0623': ['Dzień Ojca [PL]'],
     '0922': ['Autumn starts'],
     '0930': ['Dzień Chłopaka'],
-    '1025': ['Zmiana czasu z letniego na zimowy'],
     '1101': ['Wszystkich Świętych'],
     '1102': ['Dzień zaduszny'],
     '1111': ['Narodowe święto Niepodległości'],
@@ -43,9 +35,23 @@ events = {
     '1231': ['New year Eve'],
 }
 
+movable_events = {
+    '0124': ["Chinese new year"],
+    '0329': ['Zmiana czasu z zimowego na letni'],
+    '0410': ['Good Friday'],
+    '0412': ['Easter'],
+    '0413': ['Easter Monday'],
+    '0508': ['Early May Bank Holiday'],
+    '0525': ['Late May Bank Holiday'],
+    '0831': ['Late Summer Bank Holiday'],
+    '1025': ['Zmiana czasu z letniego na zimowy'],
+}
+
+all_events = utils.merge_two_dictionaries(events,movable_events)
+
 
 def get_today() -> list:
-    return events.get(utils.get_timestamp_key(), [])
+    return all_events.get(utils.get_timestamp_key(), [])
 
 
 def day_left_text(counter: int) -> str:
@@ -76,12 +82,13 @@ def get_next_3_events() -> list:
     day = datetime.datetime.now()
     counter = 0
     while len(next3events) < 3:
-        event = events.get(utils.get_timestamp_key(day))
+        event = all_events.get(utils.get_timestamp_key(day))
         if event is not None:
             next3events.append('{} ({})'.format(get_sentence_from_list_of_events(event), day_left_text(counter)))
         day = day + datetime.timedelta(days=1)
         counter = counter + 1
     return next3events
+
 
 # test next 3 events
 if __name__ == '__main__':
