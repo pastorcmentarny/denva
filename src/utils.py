@@ -190,3 +190,8 @@ def clean_list_from_nones(dirty_list: list) -> list:
         if item is not None:
             clean_list.append(item)
     return clean_list
+
+
+def merge_two_dictionaries(first: dict, second: dict) -> dict:
+    second.update(first)
+    return second
