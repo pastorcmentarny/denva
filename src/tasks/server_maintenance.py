@@ -9,6 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import datetime
 import os
 import shutil
 from timeit import default_timer as timer
@@ -31,8 +32,8 @@ def clean_data_bin():
         print('recreate a directory')
         os.mkdir(data_bin_directory)
         print('clean data bin complete.')
-    except OSError as e:  ## if failed, report it back to the user ##
-        print("Error: %s - %s." % (e.filename, e.strerror))
+    except OSError as exception:
+        print("Error: %s - %s." % (exception.filename, exception.strerror))
 
 
 def clean():
@@ -43,5 +44,13 @@ def clean():
     print('It took {} ms to complete all tasks.'.format(int((timer() - start_total_time) * 1000)))
 
 
+def reminders():
+    if datetime.datetime.now().year >= 2021:
+        print("PLEASE UPDATE  EVENTS AND CELEBRATIONS!"
+              " UPDATE DATE THAT VARY EVERY YEAR! "
+              "After that update this method to next year :)")
+
+
 if __name__ == '__main__':
     clean()
+    reminders()
