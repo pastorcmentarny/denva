@@ -42,6 +42,14 @@ def get_yesterday_date() -> datetime:
     return today - timedelta(days=1)
 
 
+def get_dates_for_last_7_days() -> list:
+    today = datetime.now()
+    days = []
+    for i in range(1,8):
+        days.append(today - timedelta(days=i))
+    return days
+
+
 def get_timestamp_title() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
