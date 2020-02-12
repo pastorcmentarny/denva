@@ -15,7 +15,7 @@ import datetime
 import time
 
 import mothership.celebrations as celebrations
-import mothership.random_chinese_word as cn
+import mothership.chinese_dictionary_service as cn
 import mothership.good_english_sentence as eng
 import mothership.good_method_name as method
 import mothership.random_irregular_verb as verb

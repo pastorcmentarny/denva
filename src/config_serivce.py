@@ -56,3 +56,13 @@ def get_path_for_personal_events() -> str:
 def get_path_for_data_bin() -> str:
     config = load_cfg()
     return config['paths']['bin']
+
+
+def get_path_for_cctv_backup() -> list:
+    config = load_cfg()
+    return config['paths']['cctv-backup']
+
+
+def get_path_to_chinese_dictionary() -> str:
+    config = load_cfg()
+    return config['paths']['chinese-dictionary']
