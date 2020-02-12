@@ -15,13 +15,22 @@ I am planning to add:
 
 
 This project is written in Python 3 and uses:
-- Raspberry Pi 3 Model B+ 
+On Denva device:
+- Raspberry Pi 4 (4GB) 
 - Pimoroni Breakout Garden HAT
 - BH1745 Luminance and Colour Sensor Breakout
 - BME680 Breakout - Air Quality, Temperature, Pressure, Humidity Sensor
 - 1.12" Mono OLED (128x128, white/black) Breakout
 - ICM20948 9DoF Motion Sensor Breakout
 - VEML6075 UVA/B Sensor Breakout
+
+On Enviro device:
+- Raspberry Pi 3 Model B+ 
+- Enviro+
+- PMS 5003 to measure pollution
+
+Server:
+- LattePanda Delta 432
 
 
 ## DESIGN
@@ -31,7 +40,7 @@ This project is written in Python 3 and uses:
     - _Send all data to server_
     - _Store all data locally_
 
-- Denviroplas App 
+- Enviro App 
     - _Get all sensor data_
     - _Send all data to server_
     - _Store all data locally_
