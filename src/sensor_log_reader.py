@@ -125,6 +125,21 @@ def get_data_row(row) -> dict:
     return data_row
 
 
+def get_data_row_for_enviro(row) -> dict:
+    data_row = {
+        'timestamp': row[0],
+        "temperature": row[1],  # unit = "C"
+        "oxidised": row[6],  # "oxidised"    unit = "kO"
+        "reduced": row[7],  # unit = "kO"
+        "nh3": row[8],  # unit = "kO"
+        "pm1": row[9],  # unit = "ug/m3"
+        "pm25": row[10],  # unit = "ug/m3"
+        "pm10": row[11],  # unit = "ug/m3"
+        'cpu_temp': commands.get_cpu_temp(),
+    }
+    return data_row
+
+
 def get_last_measurement() -> dict:
     entry = commands.get_last_line_from_log(get_sensor_log_file())
     data = entry.split(',')
@@ -134,4 +149,4 @@ def get_last_measurement() -> dict:
 def get_last_enviro_measurement() -> dict:
     entry = commands.get_last_line_from_log(get_enviro_sensor_log_file())
     data = entry.split(',')
-    return get_data_row(data)
+    return get_data_row_for_enviro(data)
