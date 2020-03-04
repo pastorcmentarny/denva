@@ -148,8 +148,6 @@ def __get_mocked_weather():
 
 
 def get_weather() -> list:
-    if True:
-        return __get_mocked_weather()
 
     logger.info('weather')
     try:
