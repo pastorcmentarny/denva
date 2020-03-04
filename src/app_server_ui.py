@@ -100,33 +100,6 @@ def store_enviro_measurement():
     return jsonify(success=True)
 
 
-def get_denva_mocked_data() -> dict:
-    return {
-        'timestamp': '2020-01-27',
-        'temp': '17*C',
-        'pressure': '1030',
-        'humidity': '39.03',
-        'gas_resistance': '123456789',
-        'colour': '#00000',
-        'aqi': 'n/a',
-        'uva_index': '0.01',
-        'uvb_index': '0.01',
-        'motion': '95.08',
-        'ax': '101',
-        'ay': '102',
-        'az': '103',
-        'gx': '104',
-        'gy': '105',
-        'gz': '106',
-        'mx': '107',
-        'my': '108',
-        'mz': '109',
-        'cpu_temp': '45.08*C',
-        'eco2': '400',
-        'tvoc': '200'
-    }
-
-
 def get_enviro_mocked_data():
     return {
         "temperature": '17.5*C',
@@ -162,8 +135,8 @@ def welcome():
         'page_ricky': page_ricky,
         'page_gateway': page_gateway,
         'warnings': local_data_gateway.get_current_warnings_for_all_services(),
-        'denva': get_denva_mocked_data(),
-        'enviro': get_enviro_mocked_data(),
+        'denva': local_data_gateway.get_current_reading_for_denva(),
+        'enviro': local_data_gateway.get_current_reading_for_enviro(),
         'network' : networkcheck.network_check(config_serivce.get_options()['inChina'])
     }
 
