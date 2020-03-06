@@ -15,17 +15,16 @@ import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import app_server_service
-import networkcheck
-
 import commands
 import config_serivce
 import data_files
 import information_service
+import local_data_gateway
+import networkcheck
 import report_service
 import sensor_log_reader
 import tubes_train_service
 import web_data
-import local_data_gateway
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -62,7 +61,7 @@ def do_picture():
 def healthcheck():
     return jsonify({"status": "UP",
                     "app": APP_NAME,
-                   "network" : networkcheck.network_check(config_serivce.get_options()['inChina'])})
+                    "network": networkcheck.network_check(config_serivce.get_options()['inChina'])})
 
 
 @app.route("/ricky")
@@ -141,6 +140,7 @@ def welcome():
     }
 
     return render_template('dashboard-server.html', message=data)
+
 
 if __name__ == '__main__':
     data_files.setup_logging('dev')

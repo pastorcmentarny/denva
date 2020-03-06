@@ -1,18 +1,19 @@
-from timeit import default_timer as timer
-import data_files
 import logging
+from timeit import default_timer as timer
+
 import requests
+
+import data_files
 
 PERFECT = 'Perfect'
 GOOD = 'Good'
 POOR = 'POOR'
 DOWN = 'DOWN!'
 
-
 logger = logging.getLogger('hc')
 
 
-def network_check(in_china: bool = False):
+def network_check(in_china: bool = False) -> dict:
     logger.debug('Checking network...')
     ok = 0
     problems = []
