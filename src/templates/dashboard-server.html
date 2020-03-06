@@ -59,7 +59,6 @@
                     {% for celebration in message.celebrations %}
                     <li>{{celebration}}</li>
                     {% endfor %}
-                    <li><strong>Network</strong> : {{message.network.status}}</li>
                 </ul>
                 <ul class="list-unstyled mt-3 mb-4">
                     <li><a href="{{message.page_tube_trains}}">Tube&Trains status</a></li>
@@ -92,12 +91,7 @@
                     {% for enviro in message.warnings.enviro %}
                     <li class="mb-1 text-warning">{{enviro}}</li>
                     {% endfor %}
-                    {% if message.network.problems[0] is defined %}
-                    <li class="mb-1 text-danger">Network problems:</li>
-                    {% endif %}
-                    {% for problem in message.network.problems %}
-                    <li class="mb-1 text-warning">{{problem}}</li>
-                    {% endfor %}
+
                 </ul>
             </div>
 
@@ -158,10 +152,6 @@
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
                         <li><strong>temperature</strong> : {{message.enviro.temperature}}</li>
-                        <li><strong>pressure</strong> : {{message.enviro.pressure}}</li>
-                        <li><strong>humidity</strong> : {{message.enviro.humidity}}</li>
-                        <li><strong>light</strong> : {{message.enviro.light}}</li>
-                        <li><strong>proximity</strong> : {{message.enviro.proximity}}</li>
                         <li><strong>oxidised</strong> : {{message.enviro.oxidised}}</li>
                         <li><strong>reduced</strong> : {{message.enviro.reduced}}</li>
                         <li><strong>nh3</strong> : {{message.enviro.nh3}}</li>

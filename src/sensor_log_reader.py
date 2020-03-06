@@ -106,18 +106,18 @@ def get_data_row(row) -> dict:
         'gas_resistance': row[4],
         'colour': row[5],
         'aqi': row[6],
-        'uva_index': '{:0.4f}'.format(float(row[7])),
-        'uvb_index': '{:0.4f}'.format(float(row[8])),
+        'uva_index': '{:0.2f}'.format(float(row[7])),
+        'uvb_index': '{:0.2f}'.format(float(row[8])),
         'motion': row[9],
-        'ax': '{:0.4f}'.format(float(row[10])),
-        'ay': '{:0.4f}'.format(float(row[11])),
-        'az': '{:0.4f}'.format(float(row[12])),
-        'gx': '{:0.4f}'.format(float(row[13])),
-        'gy': '{:0.4f}'.format(float(row[14])),
-        'gz': '{:0.4f}'.format(float(row[15])),
-        'mx': '{:0.4f}'.format(float(row[16])),
-        'my': '{:0.4f}'.format(float(row[17])),
-        'mz': '{:0.4f}'.format(float(row[18])),
+        'ax': '{:0.2f}'.format(float(row[10])),
+        'ay': '{:0.2f}'.format(float(row[11])),
+        'az': '{:0.2f}'.format(float(row[12])),
+        'gx': '{:0.2f}'.format(float(row[13])),
+        'gy': '{:0.2f}'.format(float(row[14])),
+        'gz': '{:0.2f}'.format(float(row[15])),
+        'mx': '{:0.2f}'.format(float(row[16])),
+        'my': '{:0.2f}'.format(float(row[17])),
+        'mz': '{:0.2f}'.format(float(row[18])),
         'cpu_temp': commands.get_cpu_temp(),
         'eco2': row[21],
         'tvoc': row[22]
@@ -128,10 +128,10 @@ def get_data_row(row) -> dict:
 def get_data_row_for_enviro(row) -> dict:
     data_row = {
         'timestamp': row[0],
-        "temperature": row[1],  # unit = "C"
-        "oxidised": row[6],  # "oxidised"    unit = "kO"
-        "reduced": row[7],  # unit = "kO"
-        "nh3": row[8],  # unit = "kO"
+        'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
+        "oxidised": '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+        'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
+        "nh3": '{:0.2f}'.format(float(row[8])),  # unit = "kO"
         "pm1": row[9],  # unit = "ug/m3"
         "pm25": row[10],  # unit = "ug/m3"
         "pm10": row[11],  # unit = "ug/m3"

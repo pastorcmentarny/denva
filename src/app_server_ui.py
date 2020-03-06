@@ -61,7 +61,8 @@ def do_picture():
 @app.route("/hc")
 def healthcheck():
     return jsonify({"status": "UP",
-                    "app": APP_NAME})
+                    "app": APP_NAME,
+                   "network" : networkcheck.network_check(config_serivce.get_options()['inChina'])})
 
 
 @app.route("/ricky")
@@ -136,12 +137,10 @@ def welcome():
         'page_gateway': page_gateway,
         'warnings': local_data_gateway.get_current_warnings_for_all_services(),
         'denva': local_data_gateway.get_current_reading_for_denva(),
-        'enviro': local_data_gateway.get_current_reading_for_enviro(),
-        'network' : networkcheck.network_check(config_serivce.get_options()['inChina'])
+        'enviro': local_data_gateway.get_current_reading_for_enviro()
     }
 
     return render_template('dashboard-server.html', message=data)
-
 
 if __name__ == '__main__':
     data_files.setup_logging('dev')
