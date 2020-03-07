@@ -15,7 +15,7 @@
     },
     "log_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
       "filename": "d:/denva/logs/logs.log",
       "when": "midnight",
@@ -23,7 +23,7 @@
     },
     "warnings_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
       "filename": "d:/denva/logs/warnings.log",
       "when": "midnight",
@@ -31,7 +31,7 @@
     },
     "stats_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
       "filename": "d:/denva/logs/stats.log",
       "when": "midnight",
@@ -39,7 +39,7 @@
     },
     "server_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
       "filename": "d:/denva/logs/server.log",
       "when": "midnight",
@@ -47,30 +47,30 @@
     },
     "healthcheck_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
-      "filename": "d:/denva/logs/healthcheck.log",
+      "filename": "D:/denva/logs/healthcheck.log",
       "when": "midnight",
       "encoding": "utf8"
     }
   },
   "loggers": {
     "app": {
-      "level": "INFO",
+      "level": "DEBUG",
       "handlers": [
         "log_file_handler"
       ],
       "propagate": false
     },
     "warnings": {
-      "level": "INFO",
+      "level": "DEBUG",
       "handlers": [
         "warnings_file_handler"
       ],
       "propagate": false
     },
     "server": {
-      "level": "INFO",
+      "level": "DEBUG",
       "handlers": [
         "server_file_handler",
         "console"
@@ -78,14 +78,14 @@
       "propagate": false
     },
     "stats": {
-      "level": "INFO",
+      "level": "DEBUG",
       "handlers": [
         "stats_file_handler"
       ],
       "propagate": false
     },
     "hc": {
-      "level": "INFO",
+      "level": "DEBUG",
       "handlers": [
         "healthcheck_file_handler"
       ],
@@ -93,7 +93,7 @@
     }
   },
   "root": {
-    "level": "INFO",
+    "level": "DEBUG",
     "handlers": [
       "console"
     ]

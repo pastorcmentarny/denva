@@ -63,10 +63,16 @@ def network_check(in_china: bool = False) -> dict:
     total_time = int(end_time - start_time) * 1000
     print("it took {} ms to check.".format(total_time))  # in ms
     log_result(problems, status, total_time)
+    result = "{} of {} pages were loaded".format(ok, len(pages))
+
+    logger.info(status)
+    logger.info(result)
+    if len(problems) > 0:
+        logger.warning(problems)
 
     return {
         'status': status,
-        'result': "{} of {} pages were loaded".format(ok, len(pages)),
+        'result': result,
         'problems': problems
     }
 

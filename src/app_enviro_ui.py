@@ -18,6 +18,8 @@ import commands
 import data_files
 import email_sender_service
 import sensor_log_reader
+import networkcheck
+import config_serivce
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -47,7 +49,8 @@ def recent_log_hc():
 @app.route("/hc")
 def healthcheck():
     return jsonify({"status": "UP",
-                    "app": APP_NAME})
+                    "app": APP_NAME,
+                    "network": networkcheck.network_check(config_serivce.get_options()['inChina'])})
 
 
 @app.route("/")
