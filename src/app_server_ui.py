@@ -143,7 +143,7 @@ def welcome():
 
 
 if __name__ == '__main__':
-    data_files.setup_logging('dev')
+    data_files.setup_logging('server')
     logger.info('Starting web server')
 
     try:

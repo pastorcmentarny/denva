@@ -275,8 +275,8 @@ def cleanup_before_exit():
 
 if __name__ == '__main__':
     ui('Starting application ... \n Press Ctrl+C to shutdown')
-    data_files.setup_logging()
-    email_sender_service.send_ip_email('Denva')
+    data_files.setup_logging('denva')
+    email_sender_service.send_ip_email('denva')
     try:
         ui('Mounting network drives')
         commands.mount_all_drives()

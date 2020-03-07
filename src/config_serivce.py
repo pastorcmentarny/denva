@@ -11,26 +11,74 @@
 """
 import json
 
-# temporary, replace it
-# path = '/home/pi/denva-master/src/configs/config.json'
-path = 'D:\Projects\denva\src\configs\config.json'
+settings = {
+    "mode" : 'dev',
+    "sensors": {
+        "motion": {
+            "sensitivity": 1000,
+            "noOfFlashes": 5,
+            "kedOnLength": 0.2,
+            "kedOffLength": 0.05
+        }
+    },
+    "email": {
+        "enabled": True,
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "user": "EMAIL",
+        "pass": "PASSWORD"
+    },
+    "paths": {
+        "photosPath": "/mnt/data/photos/",
+        "tubeAndTrainsPath" : "D:\\denva\\data\\tubetrains\\",
+        "events" : "D:\\ds-lpd-server\\events.json",
+        "bin" : "D:\\ds-lpd-server\\data-bin\\",
+        "cctv-backup" : ["D:\\ds-lpd-server\\cctv", "D:\\ds-lpd-server\\backup"],
+        "chinese-dictionary" : "D:\\Projects\\denva\\src\\data\\dictionary.txt",
+        "server_drive" : "D:\\Projects\\denva\\src\\data\\dictionary.txt"
+    },
+    "sensor": {
+        "cpu_temp_warn" : 60,
+        "cpu_temp_error" : 70,
+        "cpu_temp_fatal" : 80
+    },
+    "system": {
+        "free_space": 500,
+        "ip" : "http://192.168.0.6:5000"
+    },
+    "options": {
+        "inChina" : False
+    },
+    "urls": {
+        "server" : "http://192.168.0.20:5000",
+        "denva" : "http://192.168.0.2:5000",
+        "enviro" : "http://192.168.0.4:5000"
+    },
+    "logs": {
+        'dev': 'D:\Projects\denva\src\configs\dev_log_config.json',
+        'server': 'E:\denva\logs\server_log_config.json',
+        'denva': '/home/pi/denva-master/src/configs/log_config.json',
+        'enviro': '/home/pi/denva-master/src/configs/log_config.json'
+    }
+}
 
-def save_cfg(cfg: dict):
-    with open(path, 'w') as config_file:
-        config_file.write(json.dumps(cfg))
+
+def get_log_path_for(env_type: str) -> str:
+    print(env_type)
+    if settings["mode"] == 'dev':
+        print(settings["mode"])
+        return settings['logs']['dev']
+    else:
+        return settings['logs'][env_type]
 
 
-def load_cfg(config_path: str = path) -> dict:
-    with open(config_path, 'r') as config:
-        return json.load(config)
+def load_cfg() -> dict:
+    return settings
 
 
 def update_healthcheck(ip: str):
-    config = load_cfg()
-    print(config['system']['ip'])
-    config['system']['ip'] = '{}'.format(ip)
-    print(config['system']['ip'])
-    save_cfg(config)
+    settings['system']['ip'] = '{}'.format(ip)
+    print(settings['system']['ip'])
 
 
 def get_healthcheck_ip() -> str:
@@ -66,3 +114,5 @@ def get_path_for_cctv_backup() -> list:
 def get_path_to_chinese_dictionary() -> str:
     config = load_cfg()
     return config['paths']['chinese-dictionary']
+
+

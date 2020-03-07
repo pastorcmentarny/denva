@@ -18,6 +18,19 @@ import utils
 
 logger = logging.getLogger('app')
 
+def generate_for_last_7_days() -> dict:
+    logger.info('Getting report for last 7 days..')
+    paths = utils.get_dates_for_last_7_days()
+    reports = []
+    for path in paths:
+        if data_files.check_if_report_was_generated(path):
+            reports.append(data_files.load_report(path))
+        else:
+            logger.warning('There is no report for {}'.format(path))
+
+    for report in reports:
+        report
+
 
 def generate_for_yesterday() -> dict:
     logger.info('Getting report for yesterday...')

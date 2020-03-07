@@ -16,6 +16,8 @@ import os.path
 import logging
 import logging.config
 import sensor_log_reader
+
+import config_serivce
 import utils
 
 logger = logging.getLogger('app')
@@ -113,15 +115,8 @@ def store_measurement(data, motion):
         # add flag to indicate that there is a problem
 
 
-def setup_logging(service:str = 'app'):
-    path = ""
-    if service == 'dev':
-        path = 'D:\\Projects\\denva\\src\\configs\\server_log_config.json'
-    elif service == 'server':
-        path = 'E:\\denva\\logs\\server_log_config.json' # //FIX IT
-    else:
-        path = '/home/pi/denva-master/src/configs/log_config.json' # //FIX IT
-
+def setup_logging(service:str = 'dev'):
+    path = config_serivce.get_log_path_for(service)
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)

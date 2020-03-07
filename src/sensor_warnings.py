@@ -20,7 +20,7 @@ import utils
 import config_serivce
 warnings_logger = logging.getLogger('warnings')
 
-shaking_level = 1000  # extract to config file
+shaking_level = config_serivce.load_cfg()['sensors']['motion']['sensitivity']
 
 config = config_serivce.load_cfg('/home/pi/denva-master/src/configs/config.json')
 
