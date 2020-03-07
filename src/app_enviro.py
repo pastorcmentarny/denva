@@ -218,6 +218,19 @@ def draw_message(msg: str):
     draw.text((0, 0), msg, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
     st7735.display(img)
 
+on = True
+
+def set_brightness_for_screen(proximity):
+    global on
+    if proximity > 1000:
+        on = not on
+        if on:
+            logger.info('switching ON backlight')
+            st7735.set_backlight(12)
+        else:
+            logger.info('switching OFF backlight')
+            st7735.set_backlight(0)
+
 
 def main():
     measurement_counter = 0
@@ -234,7 +247,7 @@ def main():
         measurement['measurement_time'] = measurement_time
         logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
-
+        set_brightness_for_screen(measurement['proximity'])
         data_files.store_enviro_measurement(measurement)
         measurement_storage_service.send('enviro',measurement)
         remaining_time_in_millis = 2 - (float(measurement_time) / 1000)
