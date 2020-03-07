@@ -100,22 +100,6 @@ def store_enviro_measurement():
     return jsonify(success=True)
 
 
-def get_enviro_mocked_data():
-    return {
-        "temperature": '17.5*C',
-        "pressure": '1030',
-        "humidity": '39.51%',
-        "light": '100',
-        "proximity": '100',
-        "oxidised": '100',
-        "reduced": '100',
-        "nh3": '100',
-        "pm1": '100',
-        "pm25": '100',
-        "pm10": '100',
-    }
-
-
 @app.route("/")
 def welcome():
     host = request.host_url[:-1]
