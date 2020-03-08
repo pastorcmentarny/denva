@@ -148,7 +148,6 @@ def __get_mocked_weather():
 
 
 def get_weather() -> list:
-
     logger.info('weather')
     try:
         response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
@@ -170,7 +169,7 @@ def get_o2_status() -> str:
         response = requests.get(
             'https://status.o2.co.uk/api/care/2010-11-22/outages/near/radius/-1/lon/-0.5057294/lat/51.6367404/service/0/operator/0/ctype/10/address/wd38ql/customer/e1kGKHRsWmAycFN9JH4rdhsxE1gBXHlRdC0/auth/A5FDC03C:::620B3907?uuid=8d40762059154803b6dee4391394666c&browser_uuid=4a9f19cbf4fb488e8ba81e6994e89731&id=0b1b8c44-6800-9e4d-61a3-4935d46b5bc1')
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
-        log_response_result(response)
+        log_response_result(response,"o2")
         o2_data = json.loads(str(html_manager))
         status = o2_data['outage_script_txt']
         stats_log.info(status)
@@ -192,6 +191,40 @@ def log_response_result(response, what: str):
         logger.warning('Response error: {}'.format(whoops))
 
 
+def __get_scale_result_from(city: str, index: int) -> str:
+    if index > 300:
+        level = 'Hazardous!'
+        advice = 'Stay at home!'
+    elif index > 150:
+        level = 'Unhealthy'
+        advice = 'Should stay at home.'
+    elif index > 100:
+        level = 'Moderate'
+        advice = 'Limit prolong outdoor activity.'
+    else:
+        level = 'Good'
+        advice = ""
+    return 'At {}, pollution level is {} ({}).{}'.format(city.capitalize(), level, index, advice)
+
+
+def get_pollution_for(city: str) -> str:
+    logger.info('weather')
+    try:
+        response = requests.get('https://aqicn.org/city/{}/'.format(city))
+        response.encoding = "utf-8"
+        log_response_result(response, 'weather')
+
+        html_manager = bs4.BeautifulSoup(response.text, "html.parser")
+
+        index = html_manager.select('.aqivalue')[0].text
+        pollution_index = int(index)
+        stats_log.info(pollution_index)
+        return __get_scale_result_from(city, pollution_index)
+    except Exception as whoops:
+        logger.error('Unable to get pollution data due to: {}'.format(whoops))
+        return ['Pollution data N/A']
+
+
 def main():
     print(get_weather())
     statuses_list = get_status()
@@ -200,4 +233,5 @@ def main():
 
 
 if __name__ == '__main__':
-    get_weather()
+    print(get_pollution_for('wroclaw'))
+    print(get_pollution_for('tianjin'))
