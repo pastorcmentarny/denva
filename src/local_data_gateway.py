@@ -3,11 +3,12 @@ import requests
 import config_serivce
 
 def get_current_reading_for_denva() -> dict:
-    return get_data_for('http://192.168.0.2:5000/now')
+    return get_data_for('{}/now'.format(config_serivce.load_cfg()["urls"]['denva']))
 
 
 def get_current_reading_for_enviro() -> dict:
-    return get_data_for('http://192.168.0.4:5000/now')
+    return get_data_for('{}/now'.format(config_serivce.load_cfg()["urls"]['enviro']))
+
 
 
 def get_data_for(url: str) -> dict:
