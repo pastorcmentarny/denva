@@ -9,7 +9,6 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-
 settings = {
     "mode": 'dev',
     "sensors": {
@@ -20,20 +19,17 @@ settings = {
             "kedOffLength": 0.05
         }
     },
-    "email": {
-        "enabled": True,
-        "host": "smtp.gmail.com",
-        "port": 587,
-        "user": "EMAIL",
-        "pass": "PASSWORD"
-    },
     "paths": {
+        "backup": "D:\\denva\\backup\\",
         "photosPath": "/mnt/data/photos/",
         "tubeAndTrainsPath": "D:\\denva\\data\\tubetrains\\",
         "events": "D:\\ds-lpd-server\\events.json",
         "bin": "D:\\ds-lpd-server\\data-bin\\",
         "cctv-backup": ["D:\\ds-lpd-server\\cctv", "D:\\ds-lpd-server\\backup"],
-        "chinese-dictionary": "D:\\Projects\\denva\\src\\data\\dictionary.txt",
+        "chinese-dictionary": {
+            'dev': "D:\Projects\denva\src\data\dictionary.txt",
+            'server': "E:\denva\src\data\dictionary.txt"
+        },
         "server_drive": "D:\\Projects\\denva\\src\\data\\dictionary.txt"
     },
     "sensor": {
@@ -49,7 +45,7 @@ settings = {
         "inChina": False
     },
     "urls": {
-        "server": "http://192.168.0.20:5000",
+        "server": "http://192.168.0.5:5000",
         "denva": "http://192.168.0.2:5000",
         "enviro": "http://192.168.0.4:5000"
     },
@@ -58,6 +54,10 @@ settings = {
         'server': 'E:\denva\logs\server_log_config.json',
         'denva': '/home/pi/denva-master/src/configs/log_config.json',
         'enviro': '/home/pi/denva-master/src/configs/log_config.json'
+    },
+    "informationData": {
+        'dev': 'D:\Projects\denva\src\data\information.json',
+        'server': 'E:\denva\src\data\information.json'
     }
 }
 
@@ -67,6 +67,12 @@ def get_log_path_for(env_type: str) -> str:
         return settings['logs']['dev']
     else:
         return settings['logs'][env_type]
+
+def get_information_path() -> str:
+    if settings["mode"] == 'dev':
+        return settings['informationData']['dev']
+    else:
+        return settings['informationData']['server']
 
 
 def load_cfg() -> dict:
@@ -109,5 +115,7 @@ def get_path_for_cctv_backup() -> list:
 
 
 def get_path_to_chinese_dictionary() -> str:
-    config = load_cfg()
-    return config['paths']['chinese-dictionary']
+    if settings["mode"] == 'dev':
+        return settings['paths']['chinese-dictionary']['dev']
+    else:
+        return settings['paths']['chinese-dictionary']['server']
