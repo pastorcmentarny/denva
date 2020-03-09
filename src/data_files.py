@@ -16,6 +16,7 @@ import os.path
 import logging
 import logging.config
 import sensor_log_reader
+from pathlib import Path
 
 import config_serivce
 import utils
@@ -129,3 +130,7 @@ def setup_logging(service:str = 'dev'):
 def load_json_data_as_dict_from(path: str) -> dict:
     with open(path, 'r', encoding='utf-8') as json_file:
         return json.load(json_file)
+
+def save_dict_data_as_json(path: str,data: dict):
+    with open(path, 'w', encoding='utf-8') as path_file:
+        json.dump(data,path_file , ensure_ascii=False, indent=4)
