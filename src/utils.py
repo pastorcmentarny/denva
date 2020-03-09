@@ -10,6 +10,8 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
+import logging.config
+
 import re
 from datetime import datetime
 from datetime import timedelta
@@ -195,3 +197,7 @@ def clean_list_from_nones(dirty_list: list) -> list:
 def merge_two_dictionaries(first: dict, second: dict) -> dict:
     second.update(first)
     return second
+
+def setup_test_logging():
+    logging.basicConfig(level=logging.DEBUG)
+    logging.debug('Running test logging')
