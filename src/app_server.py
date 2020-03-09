@@ -14,14 +14,26 @@ import logging
 import sys
 import time
 import data_files
+from datetime import datetime
 
-
+import app_timer
+import local_data_gateway
+import mothership.information_service as information
 import webcam_utils
 
 logger = logging.getLogger('server')
 
 pictures = []
+send_email_cooldown = datetime.now()
 
+def should_send_email():
+    global send_email_cooldown
+    email_data = {}
+    if app_timer.is_time_to_send_email(send_email_cooldown):
+        email_data['information'] = information.get_information()
+        email_data['denva'] = local_data_gateway.get_current_reading_for_denva()
+        email_data['enviro'] = local_data_gateway.get_current_reading_for_enviro()
+        send_email_cooldown = datetime.now()
 
 def main():
     counter = 0
@@ -29,7 +41,7 @@ def main():
         counter+=1
         time.sleep(5)
         last_picture = webcam_utils.capture_picture()
-
+        information.should_refresh()
         if last_picture != "":
             pictures.append(last_picture)
             if len(pictures) > 5:
@@ -45,6 +57,7 @@ def info(msg:str):
 def setup():
     start_time = timer()
     data_files.setup_logging('server')
+    information.refresh_all()
     end_time = timer()
     info('Setup took {} ms.'.format(int((end_time - start_time) * 1000)))
 
