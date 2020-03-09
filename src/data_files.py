@@ -134,3 +134,11 @@ def load_json_data_as_dict_from(path: str) -> dict:
 def save_dict_data_as_json(path: str,data: dict):
     with open(path, 'w', encoding='utf-8') as path_file:
         json.dump(data,path_file , ensure_ascii=False, indent=4)
+
+
+def backup_information_data(data: dict):
+    dt = datetime.now()
+    dir_path = 'D:\\denva\\backup\\{}\\{:02d}\\{:02d}\\'.format(dt.year,dt.month,dt.day)
+    Path(dir_path).mkdir(parents=True, exist_ok=True)
+    dir_path +="information-backup." + utils.get_timestamp_file() + ".json"
+    save_dict_data_as_json(dir_path,data)
