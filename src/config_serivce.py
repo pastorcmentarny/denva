@@ -39,15 +39,15 @@ settings = {
     },
     "system": {
         "free_space": 500,
-        "ip": "http://192.168.0.6:5000"
+        "ip": "http://192.168.0.200:5000"
     },
     "options": {
         "inChina": False
     },
     "urls": {
-        "server": "http://192.168.0.5:5000",
-        "denva": "http://192.168.0.2:5000",
-        "enviro": "http://192.168.0.4:5000"
+        "server": "http://192.168.0.200:5000",
+        "denva": "http://192.168.0.201:5000",
+        "enviro": "http://192.168.0.202:5000"
     },
     "logs": {
         'dev': 'D:\Projects\denva\src\configs\dev_log_config.json',
