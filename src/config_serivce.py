@@ -91,7 +91,7 @@ def get_healthcheck_ip() -> str:
 
 def get_current_warnings_url_for(service: str) -> str:
     config = load_cfg()
-    return "{}/warns/now".format(config['url'][service])
+    return "{}/warns/now".format(config['urls'][service])
 
 
 def get_options() -> dict:
