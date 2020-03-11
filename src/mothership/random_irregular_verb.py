@@ -1,10 +1,12 @@
 import random
 
+import config_serivce
+
 words = []
 
 
 def load_dictionary_file() -> list:
-    file_path = 'D:/Projects/denva/src/data/irregular_verbs.txt'
+    file_path = config_serivce.get_irregular_verbs_path()
     file = open(file_path, 'r', encoding="UTF-8", newline='')
     content = file.readlines()
     for line in content:
@@ -23,10 +25,3 @@ def get_random_irregular_verb() -> dict:
     load_dictionary_file()
     return words[random.randint(0, len(words) - 1)]
 
-
-if __name__ == '__main__':
-    load_dictionary_file()
-    random_chinese_word = get_random_irregular_verb()
-    print(random_chinese_word.get('Base'))
-    print(random_chinese_word.get('PastSimple'))
-    print(random_chinese_word.get('PastParticiple'))
