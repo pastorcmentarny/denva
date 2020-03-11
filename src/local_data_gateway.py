@@ -12,8 +12,8 @@ def get_current_reading_for_enviro() -> dict:
 
 
 def get_data_for(url: str) -> dict:
-    response = requests.get(url)
     try:
+        response = requests.get(url)
         response.raise_for_status()
         return json.loads(response.text)
     except Exception as whoops:
