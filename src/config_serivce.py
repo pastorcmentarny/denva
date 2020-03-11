@@ -20,6 +20,10 @@ settings = {
         }
     },
     "paths": {
+        "base" : {
+            'dev' : 'D:\Projects\denva\src\\',
+            'server' : 'E:\denva\src\\'
+        },
         "backup": "D:\\denva\\backup\\",
         "photosPath": "/mnt/data/photos/",
         "tubeAndTrainsPath": "D:\\denva\\data\\tubetrains\\",
@@ -119,3 +123,8 @@ def get_path_to_chinese_dictionary() -> str:
         return settings['paths']['chinese-dictionary']['dev']
     else:
         return settings['paths']['chinese-dictionary']['server']
+
+
+def get_irregular_verbs_path() -> str:
+    mode = settings['mode']
+    return settings['paths']['base'][mode] + 'data/irregular_verbs.txt'
