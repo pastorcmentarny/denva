@@ -17,6 +17,8 @@ import data_files
 from datetime import datetime
 
 import app_timer
+import config_serivce
+import email_sender_service
 import local_data_gateway
 import mothership.information_service as information
 import webcam_utils
@@ -24,28 +26,33 @@ import webcam_utils
 logger = logging.getLogger('server')
 
 pictures = []
-send_email_cooldown = datetime.now()
+email_cooldown = datetime.now()
 
 def should_send_email():
-    global send_email_cooldown
+    global email_cooldown
     email_data = {}
-    if app_timer.is_time_to_send_email(send_email_cooldown):
+    if app_timer.is_time_to_run_every_5_minutes(email_cooldown):
+        logger.info('sending email..')
         email_data['information'] = information.get_information()
         email_data['denva'] = local_data_gateway.get_current_reading_for_denva()
         email_data['enviro'] = local_data_gateway.get_current_reading_for_enviro()
-        send_email_cooldown = datetime.now()
+        email_data['warnings'] = local_data_gateway.get_current_warnings_for_all_services()
+        email_sender_service.send(email_data,'server')
+        email_cooldown = datetime.now()
 
 def main():
     counter = 0
     while True:
         counter+=1
         time.sleep(5)
-        last_picture = webcam_utils.capture_picture()
+        if config_serivce.load_cfg()['mode'] == 'server':
+            last_picture = webcam_utils.capture_picture()
+            if last_picture != "":
+                pictures.append(last_picture)
+                if len(pictures) > 5:
+                    pictures.pop(0)
         information.should_refresh()
-        if last_picture != "":
-            pictures.append(last_picture)
-            if len(pictures) > 5:
-                pictures.pop(0)
+        should_send_email()
         print(pictures)
 
 
@@ -69,6 +76,6 @@ if __name__ == '__main__':
         main()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
-        #email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
+        email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
 
     sys.exit(0)

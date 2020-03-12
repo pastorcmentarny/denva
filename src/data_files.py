@@ -25,7 +25,10 @@ logger = logging.getLogger('app')
 
 
 def load_cfg() -> dict:
-    path = '/home/pi/email.json'  # actual cfg is different place
+    if     config_serivce.load_cfg()['mode']:
+        path = 'd:\denva\email.json'
+    else:
+        path = '/home/pi/email.json'  # actual cfg is different place
     with open(path, 'r') as email_config:
         return json.load(email_config)
 

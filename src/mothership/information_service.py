@@ -59,16 +59,23 @@ def refresh_all():
 
 
 def should_refresh():
+    global every_five_minutes
+    global every_hour
+    global every_six_hour
+
     if app_timer.is_time_to_run_every_6_hours(every_six_hour):
         refresh_all()
+        every_six_hour = datetime.now()
         return
 
     if app_timer.is_time_to_run_every_hour(every_hour):
         refresh_hourly()
         data_files.backup_information_data(information)
+        every_hour = datetime.now()
 
     if app_timer.is_time_to_run_every_5_minutes(every_five_minutes):
         refresh_every_5_minutes()
+        every_five_minutes = datetime.now()
 
 
 def refresh_every_5_minutes():

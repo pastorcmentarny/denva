@@ -43,6 +43,10 @@ def should_send_email(data):
         send_email_cooldown = datetime.now()
 
 
+def should_send_email_v2(data):
+    send(data, 'Data')
+
+
 def should_send_report_email():
     global send_report_email_cooldown
     if app_timer.is_time_to_send_report_email(send_report_email_cooldown):

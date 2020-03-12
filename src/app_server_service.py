@@ -15,6 +15,7 @@ import datetime
 import time
 
 import mothership.celebrations as celebrations
+import mothership.information_service as information
 import mothership.chinese_dictionary_service as cn
 import mothership.good_english_sentence as eng
 import mothership.good_method_name as method
@@ -37,7 +38,8 @@ def get_gateway_data() -> dict:
             'calendar' : celebrations.get_next_3_events(),
             'today' : get_last_updated_page(),
             'events' : personal_events.get_personal_stats(),
-            'weather' : web_data.get_weather()
+            'weather' : web_data.get_weather(),
+            'information': information.get_information()
             }
 
 
