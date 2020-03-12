@@ -107,7 +107,11 @@ def get_warnings(data) -> dict:
 def count_warning_today() -> dict:
     return count_warnings(get_warnings_for_today())
 
-
+#TODO replace mocked data with real one
+def get_current_warnings_for_enviro() -> dict:
+    return  {
+        'test' : 'crazy pollution'
+    }
 def count_warnings(warnings) -> dict:
     warning_counter = {
         'the': 0,

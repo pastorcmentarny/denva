@@ -20,6 +20,7 @@ import email_sender_service
 import sensor_log_reader
 import networkcheck
 import config_serivce
+import sensor_warnings
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -44,6 +45,12 @@ def recent_log_app():
 @app.route("/log/hc")
 def recent_log_hc():
     return jsonify(commands.get_lines_from_path('/home/pi/logs/enviro-hc.log', 300))
+
+
+@app.route("/warns/now")
+def current_warns():
+    logger.debug('Getting current warnings for enviro')
+    return jsonify(sensor_warnings.get_current_warnings_for_enviro())
 
 
 @app.route("/hc")
