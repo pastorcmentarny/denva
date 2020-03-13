@@ -119,32 +119,20 @@ def get_flood() -> str:
 
 
 def cleanup_weather_data(weather: str) -> list:
-    weather = weather.splitlines()[1:]
-    weather_result = 'Weather:'
-    for sentence in weather:
-        weather_result += sentence
-    return weather_result
-
-
-def clean_temp(temp: str) -> str:
-    return temp.replace('\xa0', '').replace('\xc2', '').replace('\xb0', '')[0:(len(temp) - 4)] + '°C'
-
-
-# prototype for cleanup data coming from weather website
-def __get_mocked_weather():
-    result = "Weather:Maximum daytime temperature: 7 degrees Celsius;Minimum nighttime temperature: 6 degrees Celsius.Overcast.Sunrise: 07:51; Sunset: 16:38.UV: Low;Pollution: Low;No pollen data."
-    result = result.split(';')
+    logger.debug(weather)
+    result = weather.split(';')
     result_list = []
     for x in result:
         y = x.split('.')
         for z in y:
             result_list.append(z)
-    print(result_list[0])
-    result_list[0] = result_list[0].replace('Weather:', '')
-    result_list.remove('')
-    result_list.remove('Overcast')
+    result_list.remove('Today')
     print(result_list)
     return result_list
+
+
+def clean_temp(temp: str) -> str:
+    return temp.replace('\xa0', '').replace('\xc2', '').replace('\xb0', '')[0:(len(temp) - 4)] + '°C'
 
 
 def get_weather() -> list:
