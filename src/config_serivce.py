@@ -27,7 +27,10 @@ settings = {
         "backup": "D:\\denva\\backup\\",
         "photosPath": "/mnt/data/photos/",
         "tubeAndTrainsPath": "D:\\denva\\data\\tubetrains\\",
-        "events": "D:\\ds-lpd-server\\events.json",
+        "events": {
+            "dev" : "D:\\denva\\events.json",
+            "server" : "E:\\denva\\events.json"
+        },
         "bin": "D:\\ds-lpd-server\\data-bin\\",
         "cctv-backup": ["D:\\ds-lpd-server\\cctv", "D:\\ds-lpd-server\\backup"],
         "chinese-dictionary": {
@@ -102,8 +105,8 @@ def get_options() -> dict:
 
 
 def get_path_for_personal_events() -> str:
-    config = load_cfg()
-    return config['paths']['events']
+    mode = settings['mode']
+    return settings['paths']['events'][mode]
 
 
 def get_path_for_data_bin() -> str:
