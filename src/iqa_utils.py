@@ -37,7 +37,7 @@ def get_iqa_for_tvoc(tvoc: str) -> dict:
         result['action'] = 'Ventilation required.'
         result['information'] = 'Air Quality is not good. (Not recommended for exposure for than year)'
     elif tvoc_value < 5000:
-        result['score'] = 'POOr'
+        result['score'] = 'POOR'
         result['value'] = tvoc_value
         result['action'] = 'Ventilate now!'
         result['information'] = 'Air Quality is POOR. (Not recommended for exposure for than month)'
