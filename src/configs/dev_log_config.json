@@ -58,7 +58,8 @@
     "app": {
       "level": "DEBUG",
       "handlers": [
-        "log_file_handler"
+        "log_file_handler",
+        "console"
       ],
       "propagate": false
     },
