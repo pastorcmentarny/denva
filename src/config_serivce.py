@@ -66,10 +66,8 @@ settings = {
 }
 
 
-def get_log_path_for(env_type: str) -> str:
-    if settings["mode"] == 'dev':
-        return settings['logs']['dev']
-    else:
+def get_log_path_for() -> str:
+        env_type = settings['mode']
         return settings['logs'][env_type]
 
 def get_information_path() -> str:
@@ -128,3 +126,8 @@ def get_path_to_chinese_dictionary() -> str:
 def get_irregular_verbs_path() -> str:
     mode = settings['mode']
     return settings['paths']['base'][mode] + 'data/irregular_verbs.txt'
+
+def set_mode_to(mode:str):
+    settings['mode'] = mode
+    #settings['mode'] = 'dev'
+    print('The mode is set to {}'.format(settings['mode']))

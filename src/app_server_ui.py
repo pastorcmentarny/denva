@@ -127,7 +127,8 @@ def welcome():
 
 
 if __name__ == '__main__':
-    data_files.setup_logging('server')
+    config_serivce.set_mode_to('server')
+    data_files.setup_logging()
     logger.info('Starting web server')
 
     try:

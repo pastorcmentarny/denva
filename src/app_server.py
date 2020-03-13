@@ -63,13 +63,14 @@ def info(msg:str):
 
 def setup():
     start_time = timer()
-    data_files.setup_logging('server')
+    data_files.setup_logging()
     information.refresh_all()
     end_time = timer()
     info('Setup took {} ms.'.format(int((end_time - start_time) * 1000)))
 
 
 if __name__ == '__main__':
+    config_serivce.set_mode_to('server')
     print('Starting Server App ... \n Press Ctrl+C to shutdown')
     setup()
     try:

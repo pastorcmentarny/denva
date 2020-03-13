@@ -121,8 +121,8 @@ def store_measurement(data, motion):
         # add flag to indicate that there is a problem
 
 
-def setup_logging(service:str = 'dev'):
-    path = config_serivce.get_log_path_for(service)
+def setup_logging():
+    path = config_serivce.get_log_path_for()
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
@@ -144,6 +144,7 @@ def save_dict_data_as_json(path: str,data: dict):
 def backup_information_data(data: dict):
     dt = datetime.now()
     dir_path = 'D:\\denva\\backup\\{}\\{:02d}\\{:02d}\\'.format(dt.year,dt.month,dt.day)
+    logger.debug('performing information backup using path {}'.format(dir_path))
     Path(dir_path).mkdir(parents=True, exist_ok=True)
     dir_path +="information-backup." + utils.get_timestamp_file() + ".json"
     save_dict_data_as_json(dir_path,data)

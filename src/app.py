@@ -27,6 +27,7 @@ from icm20948 import ICM20948
 from sgp30 import SGP30
 
 import app_timer
+import config_serivce
 import cl_display
 import commands
 import data_files
@@ -274,8 +275,9 @@ def cleanup_before_exit():
 
 
 if __name__ == '__main__':
+    config_serivce.set_mode_to('denva')
+    data_files.setup_logging()
     ui('Starting application ... \n Press Ctrl+C to shutdown')
-    data_files.setup_logging('denva')
     email_sender_service.send_ip_email('denva')
     try:
         ui('Mounting network drives')

@@ -69,7 +69,8 @@ def get_measurement():
 
 
 if __name__ == '__main__':
-    data_files.setup_logging('enviro')
+    config_serivce.set_mode_to('enviro')
+    data_files.setup_logging()
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:

@@ -10,14 +10,15 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
-import colorsys
 import os
 from timeit import default_timer as timer
-import measurement_storage_service
 
 import ST7735
 import sys
 import time
+
+import config_serivce
+import measurement_storage_service
 
 try:
     # Transitional fix for breaking change in LTR559
@@ -257,8 +258,9 @@ def main():
 
 
 if __name__ == '__main__':
+    config_serivce.set_mode_to('enviro')
+    data_files.setup_logging()
     ui('Starting application ... \n Press Ctrl+C to shutdown', True)
-    data_files.setup_logging('enviro')
     ui('Logs config loaded.\nSending email', True)
     email_sender_service.send_ip_email('Denva Enviro+')
     ui('Email sent.\nRunning application', True)
