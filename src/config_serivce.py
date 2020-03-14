@@ -130,6 +130,14 @@ def get_irregular_verbs_path() -> str:
     mode = settings['mode']
     return settings['paths']['base'][mode] + 'data/irregular_verbs.txt'
 
+
+def get_path_for_information_backup() -> str:
+    path = ":\\denva\\"
+    if settings['mode'] == 'server':
+        return 'e' + path
+    return 'd' + path
+
+
 def set_mode_to(mode:str):
     settings['mode'] = mode
     #settings['mode'] = 'dev'
