@@ -94,7 +94,6 @@ if __name__ == '__main__':
         utils.setup_test_logging()
         refresh_all()
         data_files.save_dict_data_as_json(config_serivce.get_information_path(), information)
-        print(data_files.load_json_data_as_dict_from(config_serivce.get_information_path()))
         data_files.backup_information_data(information)
     except Exception as e:
         print(information)
