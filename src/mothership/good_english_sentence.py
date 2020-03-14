@@ -13,4 +13,5 @@ sentences = [
 
 
 def get_random_english_sentence() -> str:
-    return sentences[random.randint(0, len(sentences))]
+    return sentences[random.randint(0, len(sentences)-1)]
+
