@@ -11,10 +11,9 @@
 """
 import json
 import logging
-import os
 import smtplib
 from datetime import datetime
-from email.mime.image import MIMEImage
+#from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -66,9 +65,10 @@ def send(data: dict, subject: str):
 
         msg = MIMEMultipart()
 
+        '''taking picture for email disabled as it is used by server app now
         pictures_path = []
         if subject == 'Measurement':
-            pictures_path = data['picture_path']
+            pictures_path = data['picture_path']'''
 
         data = json.dumps(data, indent=2, sort_keys=True)
         message = "Below is a json with a data:\n {}".format(str(data))
@@ -78,10 +78,10 @@ def send(data: dict, subject: str):
         msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
 
-        if subject == 'Measurement':
+        '''taking picture for email disabled as it is used by server app now
+            if subject == 'Measurement':
             for picture in pictures_path:
-                logger.debug('Picture sending disabled')
-                '''if picture != "":
+                if picture != "":
                     img_data = open(picture, 'rb').read()
                     image = MIMEImage(img_data, name=os.path.basename(picture))
                     msg.attach(image)'''
@@ -143,7 +143,6 @@ def send_ip_email(device: str):
 
         del msg
         smtp_server.quit()
-
         logger.info('Email sent.')
     except Exception as e:
         logger.error('Unable to send email with IP info for {} due to {}'.format(device,e), exc_info=True)
