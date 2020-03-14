@@ -84,11 +84,6 @@ def load_cfg() -> dict:
     return settings
 
 
-def update_healthcheck(ip: str):
-    settings['system']['ip'] = '{}'.format(ip)
-    print(settings['system']['ip'])
-
-
 def get_healthcheck_ip() -> str:
     config = load_cfg()
     return config['system']['ip']
