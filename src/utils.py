@@ -4,7 +4,7 @@
 """
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
-* IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
+* IT BLOG:	h[ttps://dominiksymonowicz.blogspot.co.uk
 * Github:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
@@ -18,9 +18,11 @@ from datetime import timedelta
 
 stats_log = logging.getLogger('stats')
 
+def as_3_digit_number(index : int) -> str:
+    return f"{index:03d}"
 
 def convert_list_to_dict(source: list) -> dict:
-    return {index: source[index] for index in range(0, len(source))}
+    return {as_3_digit_number(index): source[index] for index in range(0, len(source))}
 
 
 def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
