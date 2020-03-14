@@ -130,6 +130,7 @@ def setup_logging():
         logger.info('logs loaded from {}'.format(path))
     else:
         logging.basicConfig(level=logging.INFO)
+        logger.warning('Using default logging due to problem with loading from log: {}'.format(path))
 
 
 def load_json_data_as_dict_from(path: str) -> dict:
