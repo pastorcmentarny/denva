@@ -15,6 +15,7 @@ import json
 import os.path
 import logging
 import logging.config
+import random
 import sensor_log_reader
 from pathlib import Path
 
@@ -151,3 +152,14 @@ def backup_information_data(data: dict):
     Path(dir_path).mkdir(parents=True, exist_ok=True)
     dir_path +="information-backup." + utils.get_timestamp_file() + ".json"
     save_dict_data_as_json(dir_path,data)
+
+#TODO improve convert files to files_list
+def get_random_frame_picture_path():
+    path = config_serivce.load_cfg()['paths']['frame'][config_serivce.get_mode()]
+    files_list = []
+    with os.scandir(path) as files:
+        for file in files:
+            files_list.append(path + "\\" + file.name)
+
+    return files_list[random.randint(0, len(files_list)-1)]
+

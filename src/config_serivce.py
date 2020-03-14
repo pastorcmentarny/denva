@@ -24,6 +24,10 @@ settings = {
             'dev' : 'D:\Projects\denva\src\\',
             'server' : 'E:\denva\src\\'
         },
+        "frame" : {
+            'dev' : 'D:\ds-lpd-server\cctv\\1',
+            'server' : 'E:\\frame\\'
+        },
         "backup": "D:\\denva\\backup\\",
         "photosPath": "/mnt/data/photos/",
         "tubeAndTrainsPath": "D:\\denva\\data\\tubetrains\\",
@@ -134,6 +138,11 @@ def get_path_for_information_backup() -> str:
 
 
 def set_mode_to(mode:str):
-    settings['mode'] = mode
-    #settings['mode'] = 'dev'
+    #settings['mode'] = mode
+    settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
+
+
+def get_mode() -> str:
+    return settings['mode']
+

@@ -21,6 +21,7 @@ import mothership.good_english_sentence as eng
 import mothership.good_method_name as method
 import mothership.random_irregular_verb as verb
 import mothership.personal_stats as personal_events
+import data_files
 import utils
 import web_data
 
@@ -77,6 +78,8 @@ def get_all_warnings_page() -> list:
 
     return data
 
+def get_random_frame() -> str:
+    return data_files.get_random_frame_picture_path()
 
 #USED for test only
 if __name__ == '__main__':

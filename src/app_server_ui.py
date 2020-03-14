@@ -82,6 +82,12 @@ def tt_delays_counter():
     return jsonify(tubes_train_service.count_tube_problems_today())
 
 
+@app.route("/frame")
+def frame():
+    filename = app_server_service.get_random_frame()
+    print(filename)
+    return send_file(filename, mimetype='image/jpeg')
+
 @app.route('/denva', methods=['POST'])
 def store_denva_measurement():
     logging.info('processing denva measurement request')
