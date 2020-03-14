@@ -37,6 +37,7 @@ def should_send_email():
         email_data['denva'] = local_data_gateway.get_current_reading_for_denva()
         email_data['enviro'] = local_data_gateway.get_current_reading_for_enviro()
         email_data['warnings'] = local_data_gateway.get_current_warnings_for_all_services()
+        email_data['logs'] = local_data_gateway.get_current_logs_for_all_services()
         email_sender_service.send(email_data,'server')
         email_cooldown = datetime.now()
 

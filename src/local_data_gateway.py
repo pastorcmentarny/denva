@@ -9,6 +9,17 @@ def get_current_reading_for_denva() -> dict:
 def get_current_reading_for_enviro() -> dict:
     return get_data_for('{}/now'.format(config_serivce.load_cfg()["urls"]['enviro']))
 
+def get_current_logs_for_all_services() -> dict:
+    return {
+        'app' :{
+            'denva' : get_data_for('{}/log/app/recent'.format(config_serivce.load_cfg()["urls"]['denva'])),
+            'enviro' : get_data_for('{}/log/app/recent'.format(config_serivce.load_cfg()["urls"]['enviro']))
+    },
+        'hc' : {
+            'denva' : get_data_for('{}/log/hc/recent'.format(config_serivce.load_cfg()["urls"]['denva'])),
+            'enviro' : get_data_for('{}/log/hc/recent'.format(config_serivce.load_cfg()["urls"]['enviro']))
+        }
+    }
 
 
 def get_data_for(url: str) -> dict:
