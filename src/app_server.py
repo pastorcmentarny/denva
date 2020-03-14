@@ -23,7 +23,7 @@ import local_data_gateway
 import mothership.information_service as information
 import webcam_utils
 
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 
 pictures = []
 email_cooldown = datetime.now()

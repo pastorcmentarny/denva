@@ -27,7 +27,7 @@ import tubes_train_service
 import web_data
 
 app = Flask(__name__)
-logger = logging.getLogger('app')
+logger = logging.getLogger('server')
 APP_NAME = 'Server UI'
 
 
