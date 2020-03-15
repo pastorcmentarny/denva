@@ -207,16 +207,19 @@ def ui(message: str):
 
 
 def main():
+    measurement_counter = 0
     led_startup_show()
     while True:
         try:
-            logger.debug('getting measurement')
+            measurement_counter += 1
+            logger.debug('getting measurement no.{}'.format(measurement_counter))
             start_time = timer()
             data = get_data_from_measurement()
             data['cpu_temp'] = commands.get_cpu_temp()
             end_time = timer()
 
             measurement_time = str(int((end_time - start_time) * 1000))  # in ms
+            data['measurement_counter'] = measurement_counter
             data['measurement_time'] = measurement_time
             data_files.store_measurement(data, get_current_motion_difference())
             logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')

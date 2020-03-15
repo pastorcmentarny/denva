@@ -9,8 +9,10 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import sys
 import logging
+
+import sys
+from flask import Flask, jsonify, url_for, request, render_template
 
 import averages
 import commands
@@ -18,18 +20,14 @@ import config_serivce
 import data_files
 import email_sender_service
 import information_service
+import networkcheck
 import records
 import report_service
 import sensor_log_reader
 import sensor_warnings
-import tubes_train_service
-import networkcheck
-import web_data
-
-from flask import Flask, jsonify, url_for,send_file, request, render_template
 
 app = Flask(__name__)
-logger = logging.getLogger('app')
+logger = logging.getLogger('server')
 APP_NAME = 'Denva UI'
 
 
@@ -74,7 +72,7 @@ def specific_day_warns():
     year = request.args.get('year')
     month = request.args.get('month')
     day = request.args.get('day')
-    logger.info('Getting warnings for {}.{}.{}'.format(day,month,year))
+    logger.info('Getting warnings for {}.{}.{}'.format(day, month, year))
     return jsonify(sensor_warnings.get_warnings_for(year, month, day))
 
 
@@ -116,7 +114,7 @@ def log_hc():
 
 @app.route("/log/hc/recent")
 def recent_log_hc():
-    logger.info('Getting recent healthcheck logs  for sending as email')
+    logger.info('Getting recent healthcheck logs for sending as email')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 20))
 
 
@@ -132,6 +130,7 @@ def healthcheck():
     return jsonify({"status": "UP",
                     "app": APP_NAME,
                     "network": networkcheck.network_check(config_serivce.get_options()['inChina'])})
+
 
 @app.route("/ricky")
 def ricky():
@@ -157,18 +156,18 @@ def welcome():
     page_recent_log_hc = host + str(url_for('log_hc'))
     page_ricky = host + str(url_for('ricky'))
     data = {
-        'page_now' : page_now,
-        'page_system' : page_system,
-        'page_avg' : page_avg,
-        'page_records' : page_records,
-        'page_stats' : page_stats,
-        'page_warns' : page_warns,
-        'page_warns_now' : page_warns_now,
-        'page_warns_count' : page_warns_count,
-        'page_last_report' : page_last_report,
-        'page_recent_log_app' : page_recent_log_app,
-        'page_recent_log_hc' : page_recent_log_hc,
-        'page_ricky' : page_ricky
+        'page_now': page_now,
+        'page_system': page_system,
+        'page_avg': page_avg,
+        'page_records': page_records,
+        'page_stats': page_stats,
+        'page_warns': page_warns,
+        'page_warns_now': page_warns_now,
+        'page_warns_count': page_warns_count,
+        'page_last_report': page_last_report,
+        'page_recent_log_app': page_recent_log_app,
+        'page_recent_log_hc': page_recent_log_hc,
+        'page_ricky': page_ricky
     }
 
     return render_template('dashboard.html', message=data)

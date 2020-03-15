@@ -15,7 +15,7 @@
     },
     "log_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
       "filename": "/home/pi/logs/logs.log",
       "when": "midnight",
@@ -92,7 +92,7 @@
     }
   },
   "root": {
-    "level": "INFO",
+    "level": "DEBUG",
     "handlers": [
       "console"
     ]

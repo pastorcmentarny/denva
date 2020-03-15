@@ -26,20 +26,21 @@ import utils
 
 logger = logging.getLogger('app')
 
-send_email_cooldown = datetime.now()
+send_denva_email_cooldown = datetime.now()
 send_report_email_cooldown = datetime.now()
 
 
 def should_send_email(data):
-    global send_email_cooldown
+    global send_denva_email_cooldown
     email_data = data
-    if app_timer.is_time_to_send_email(send_email_cooldown):
+    if app_timer.is_time_to_send_email(send_denva_email_cooldown):
+        logger.info('Collecting data')
         email_data['warnings'] = sensor_warnings.get_warnings_as_list(email_data)
         email_data['system'] = commands.get_system_info()
         email_data['log'] = commands.get_lines_from_path('/home/pi/logs/logs.log', 10)
         email_data['healthcheck'] = commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 10)
         send(email_data, 'Measurement')
-        send_email_cooldown = datetime.now()
+        send_denva_email_cooldown = datetime.now()
 
 
 def should_send_email_v2(data):
