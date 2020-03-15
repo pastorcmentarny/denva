@@ -23,7 +23,7 @@
     },
     "warnings_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
       "filename": "/home/pi/logs/warnings.log",
       "when": "midnight",
@@ -31,7 +31,7 @@
     },
     "server_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
       "filename": "/home/pi/logs/server.log",
       "when": "midnight",
@@ -56,7 +56,7 @@
   },
   "loggers": {
     "app": {
-      "level": "INFO",
+      "level": "DEBUG",
       "handlers": [
         "log_file_handler"
       ],
@@ -70,7 +70,7 @@
       "propagate": false
     },
     "server": {
-      "level": "INFO",
+      "level": "DEBUG",
       "handlers": [
         "server_file_handler"
       ],
