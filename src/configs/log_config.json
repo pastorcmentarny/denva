@@ -33,7 +33,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "e:/denva/logs/server.log",
+      "filename": "/home/pi/logs/server.log",
       "when": "midnight",
       "encoding": "utf8"
     },
