@@ -126,12 +126,6 @@ def last_report():
     return jsonify(report_service.generate_for_yesterday())
 
 
-# TODO remove it as it is useless
-@app.route("/tt/counter")
-def tt_counter():
-    return jsonify(tubes_train_service.count_tube_color_today())
-
-
 @app.route("/hc")
 def healthcheck():
     logger.info('Getting healthcheck')
@@ -159,7 +153,6 @@ def welcome():
     page_warns_now = host + str(url_for('current_warns'))
     page_warns_count = host + str(url_for('count_warns'))
     page_last_report = host + str(url_for('last_report'))
-    page_tube_trains_counter = host + str(url_for('tt_counter'))
     page_recent_log_app = host + str(url_for('log_app'))
     page_recent_log_hc = host + str(url_for('log_hc'))
     page_ricky = host + str(url_for('ricky'))
@@ -173,7 +166,6 @@ def welcome():
         'page_warns_now' : page_warns_now,
         'page_warns_count' : page_warns_count,
         'page_last_report' : page_last_report,
-        'page_tube_trains_counter' : page_tube_trains_counter,
         'page_recent_log_app' : page_recent_log_app,
         'page_recent_log_hc' : page_recent_log_hc,
         'page_ricky' : page_ricky

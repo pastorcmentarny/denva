@@ -153,6 +153,7 @@ def backup_information_data(data: dict):
     dir_path +="information-backup." + utils.get_timestamp_file() + ".json"
     save_dict_data_as_json(dir_path,data)
 
+
 #TODO improve convert files to files_list
 def get_random_frame_picture_path():
     path = config_serivce.load_cfg()['paths']['frame'][config_serivce.get_mode()]

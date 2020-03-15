@@ -85,6 +85,8 @@ warnings_logger = logging.getLogger('warnings')
 
 app_startup_time = datetime.now()
 
+counter = 1
+led_status = 0
 
 def sample():
     for i in range(51):
@@ -250,9 +252,6 @@ def thread_camera():
             if len(pictures) > 5:
                 pictures.pop(0)
 '''
-
-counter = 1
-led_status = 0
 
 
 def crude_progress_bar():
