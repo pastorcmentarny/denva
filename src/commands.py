@@ -13,6 +13,7 @@ from datetime import datetime
 import logging
 import os
 import re
+import psutil
 import subprocess
 import time
 import utils
@@ -109,8 +110,9 @@ def get_system_info() -> dict:
         'CPU Temp': get_cpu_temp(),
         'IP': get_ip(),
         'Uptime': get_uptime(),
-        'Free Space:': get_space_available() + 'MB',
-        'Data Free Space:': get_data_space_available() + 'MB'
+        "Memory Available": '{} MB'.format(utils.convert_bytes_to_MB(psutil.virtual_memory().available)),
+        'Free Space:':  '{} MB'.format(get_space_available()),
+        'Data Free Space:': '{} MB'.format(get_data_space_available())
     }
 
 
@@ -151,3 +153,4 @@ def reboot(reason: str):
 
 def get_system_logs(number: int) -> dict:
     return get_lines_from_path('/var/log/syslog',number)
+

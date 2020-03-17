@@ -16,12 +16,13 @@ def get_system_disk_space_free():
 # add disk free
 def get_system_information() -> dict:
     return {
-        "CPU freq": psutil.cpu_freq().current,
-        "Memory": utils.convert_bytes_to_MB(psutil.virtual_memory().available),
-        "Disk Free": get_system_disk_space_free(),
+        "CPU Speed": '{} MHz'.format(psutil.cpu_freq().current),
+        "Memory Available": '{}MB'.format(utils.convert_bytes_to_MB(psutil.virtual_memory().available)),
+        "Disk Free": "{} MB".format(get_system_disk_space_free()),
         "Boot Time": get_boot_time()
 
     }
+
 
 
 def get_system_warnings() -> list:
