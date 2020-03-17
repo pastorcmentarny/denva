@@ -49,6 +49,7 @@ settings = {
         "cpu_temp_fatal": 80
     },
     "system": {
+        "memory_available" :  250 * 1024 * 1024,  # 250MB
         "free_space": 500,
         "ip": "http://192.168.0.200:5000"
     },
@@ -138,11 +139,25 @@ def get_path_for_information_backup() -> str:
 
 
 def set_mode_to(mode:str):
-    settings['mode'] = mode
-    #settings['mode'] = 'dev'
+    #settings['mode'] = mode
+    settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
 
 
 def get_mode() -> str:
     return settings['mode']
+
+
+def get_memory_available_threshold():
+    return settings['system']['memory_available']
+
+
+def get_system_drive() -> str:
+    mode = get_mode()
+    if mode == 'dev':
+        return 'D:'
+    elif mode == 'server':
+        return 'E:'
+    else:
+        return '/'
 
