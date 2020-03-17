@@ -139,8 +139,8 @@ def get_path_for_information_backup() -> str:
 
 
 def set_mode_to(mode:str):
-    #settings['mode'] = mode
-    settings['mode'] = 'dev'
+    settings['mode'] = mode
+    #settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
 
 
