@@ -203,3 +203,7 @@ def merge_two_dictionaries(first: dict, second: dict) -> dict:
 def setup_test_logging():
     logging.basicConfig(level=logging.DEBUG)
     logging.debug('Running test logging')
+
+
+def convert_bytes_to_MB(bytes:int) -> int:
+    return int(bytes/1000/1000)
