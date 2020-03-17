@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import platform
 
 """
 * Author Dominik Symonowicz
@@ -137,10 +138,10 @@ def get_path_for_information_backup() -> str:
         return 'e' + path
     return 'd' + path
 
-
 def set_mode_to(mode:str):
     settings['mode'] = mode
-    #settings['mode'] = 'dev'
+    if platform.node() == 'DomL5':
+        settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
 
 
