@@ -151,6 +151,8 @@ def get_mode() -> str:
 def get_memory_available_threshold():
     return settings['system']['memory_available']
 
+def get_disk_space_available_threshold():
+    return settings['system']['free_space']
 
 def get_system_drive() -> str:
     mode = get_mode()

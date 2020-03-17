@@ -27,9 +27,11 @@ def get_system_information() -> dict:
 def get_system_warnings() -> list:
     problems = []
     memory_data = psutil.virtual_memory()
-    threshold = config_serivce.get_memory_available_threshold()
-    if memory_data.available <= threshold:
-        problems.append('Memory available is low. Memory left: {} bytes'.format(memory_data.available))
+    memory_threshold = config_serivce.get_memory_available_threshold()
+    if memory_data.available <= memory_threshold:
+        problems.append('Memory available is low. Memory left: {} bytes.'.format(memory_data.available))
+    if get_system_disk_space_free() <= config_serivce.get_disk_space_available_threshold():
+        problems.append('Disk free space is low. Free space left: {} MB.'.format(get_system_disk_space_free()))
     return problems
 
 
