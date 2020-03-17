@@ -23,6 +23,7 @@ import local_data_gateway
 import networkcheck
 import report_service
 import sensor_log_reader
+import system_data_service
 import tubes_train_service
 import web_data
 
@@ -75,6 +76,12 @@ def tube_trains_status():
         "Train & Trains": web_data.get_status()
     }
     return jsonify(tt_statuses)
+
+
+@app.route("/system")
+def system():
+    logger.info('Getting information about system')
+    return jsonify(system_data_service.get_system_information())
 
 
 @app.route("/tt/delays")

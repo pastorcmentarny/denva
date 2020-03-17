@@ -11,7 +11,9 @@
 """
 
 import datetime
-
+import gc
+import os
+import psutil
 import time
 
 import mothership.celebrations as celebrations
@@ -81,6 +83,14 @@ def get_all_warnings_page() -> list:
 def get_random_frame() -> str:
     return data_files.get_random_frame_picture_path()
 
+#prototype if works i need systemutils
+def clean():
+    print(psutil.Process(os.getpid()).memory_info())
+    gc.collect()
+    print(psutil.Process(os.getpid()).memory_info())
+
+
 #USED for test only
 if __name__ == '__main__':
     print(get_all_warnings_page())
+    clean()
