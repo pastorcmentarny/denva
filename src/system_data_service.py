@@ -17,13 +17,14 @@ def get_system_disk_space_free():
 def get_system_information() -> dict:
     return {
         "CPU Speed": '{} MHz'.format(psutil.cpu_freq().current),
-        "Memory Available": '{}MB'.format(utils.convert_bytes_to_MB(psutil.virtual_memory().available)),
+        "Memory Available": get_memory_available_in_mb(),
         "Disk Free": "{} MB".format(get_system_disk_space_free()),
         "Boot Time": get_boot_time()
-
     }
 
 
+def get_memory_available_in_mb() -> str:
+    return '{}MB'.format(utils.convert_bytes_to_MB(psutil.virtual_memory().available))
 
 def get_system_warnings() -> list:
     problems = []
