@@ -54,36 +54,32 @@
             </div>
             <div class="card-body">
                 <div class="card-body">
-                    <strong class="d-inline-block mb-2 text-success">Server(LP)</strong>
                     <ul class="list-unstyled mt-3 mb-4">
+                        <li><strong class="d-inline-block text-success">Server(LP)</strong></li>
                         <li><b>CPU Speed:</b>{{message.system.server["CPU Speed"]}}</li>
                         <li><b>Memory Available:</b>{{message.system.server["Memory Available"]}}</li>
                         <li><b>Disk Free:</b>{{message.system.server["Disk Free"]}}</li>
                         <li><b>Uptime:</b>{{message.system.server["Uptime"]}}</li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <strong class="d-inline-block mb-2 text-success">Denva(Pi4)</strong>
-                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>_</li>
+                        <li><strong class="d-inline-block mb-2 text-success">Denva(Pi4)</strong></li>
                         <li><b>CPU Speed : </b>{{message.system.denva["CPU Speed"]}}</li>
                         <li><b>CPU Temp : </b>{{message.system.denva["CPU Temp"]}}</li>
                         <li><b>Memory Available : </b>{{message.system.denva["Memory Available"]}}</li>
                         <li><b>Free Space : </b>{{message.system.denva["Free Space"]}}</li>
                         <li><b>Data Free Space : </b>{{message.system.denva["Data Free Space"]}}</li>
                         <li><b>Uptime : </b>{{message.system.denva["Uptime"]}}</li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <strong class="d-inline-block mb-2 text-success">Enviro(Pi3)</strong>
-                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>_</li>
+                        <li><strong class="d-inline-block mb-2 text-success">Enviro(Pi3)</strong></li>
                         <li><b>CPU Speed : </b>{{message.system.enviro["CPU Speed"]}}</li>
                         <li><b>CPU Temp : </b>{{message.system.enviro["CPU Temp"]}}</li>
                         <li><b>RAM Available : </b>{{message.system.enviro["Memory Available"]}}</li>
                         <li><b>Free Space : </b>{{message.system.enviro["Free Space"]}}</li>
                         <li><b>Data Free Space : </b>{{message.system.enviro["Data Free Space"]}}</li>
                         <li><b>Uptime : </b>{{message.system.enviro["Uptime"]}}</li>
+                        <li>_</li>
                     </ul>
                 </div>
+                <hr/>
                 <ul class="list-unstyled mt-3 mb-4">
                     <li><a href="{{message.page_tube_trains}}">Tube&Trains status</a></li>
                     <li><a href="{{message.page_tt_delays_counter}}">Tube delays counter</a></li>
@@ -100,7 +96,6 @@
                     <li>Report for last month</li>
                 </ul>
             </div>
-
         </div>
         <div class="card mb-3 shadow-sm">
             <div class="card-header">
@@ -123,12 +118,15 @@
             </div>
             <div class="card-body">
                 <ul  class="list-unstyled mt-3 mb-4">
-                    <li><a href="{{message.page_recent_log_app}}">Denva logs</a></li>
-                    <li><a href="{{message.page_recent_log_hc}}">Denva's Healthcheck logs</a></li>
-                    <li><a href="{{message.page_recent_log_app}}">Enviro logs</a></li>
-                    <li><a href="{{message.page_recent_log_hc}}">Enviro's Healthcheck logs</a></li>
-                    <li><a href="{{message.page_recent_log_app}}">Server logs</a></li>
-                    <li><a href="{{message.page_recent_log_hc}}">Denva's Healthcheck logs</a></li>
+                    <li><a href="{{message.links.logApp.denva}}">Denva App logs</a></li>
+                    <li><a href="{{message.links.logHc.denva}}">Denva's Health logs</a></li>
+                    <li><a href="{{message.links.logUi.denva}}">Denva's UI logs</a></li>
+                    <li><a href="{{message.links.logApp.enviro}}">Enviro App logs</a></li>
+                    <li><a href="{{message.links.logHc.enviro}}">Enviro's Health logs</a></li>
+                    <li><a href="{{message.links.logUi.enviro}}">Enviro's UI logs</a></li>
+                    <li><a href="{{message.links.logApp.server}}">Server App logs</a></li>
+                    <li><a href="{{message.links.logHc.server}}">Denva's Health logs</a></li>
+                    <li><a href="{{message.links.logUi.server}}">Denva's UI logs</a></li>
                 </ul>
             </div>
             <div class="card-header">

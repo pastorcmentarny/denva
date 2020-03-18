@@ -104,21 +104,24 @@ def get_current_system_information_for_all_services():
     }
 
 
-def get_links_for_gateway() -> dict:
+def get_links_for_gateway(sensor_only:bool=False) -> dict:
     return {
-        'log-app': get_links_for('log/app'),
-        'log-hc': get_links_for('log/hc'),
-        'log-ui': get_links_for('log/ui')
+        'logApp': get_links_for('log/app',sensor_only),
+        'logHc': get_links_for('log/hc',sensor_only),
+        'logUi': get_links_for('log/ui',sensor_only)
     }
 
 
-def get_links_for(suffix: str) -> dict:
+def get_links_for(suffix: str,sensor_only:bool=False) -> dict:
     urls = config_serivce.load_cfg()['urls']
-    return {
-        'server': '{}/{}'.format(urls['server'], suffix),
+    result = {
         'denva': '{}/{}'.format(urls['denva'], suffix),
         'enviro': '{}/{}'.format(urls['enviro'], suffix)
     }
+    if not sensor_only:
+        result['server'] = '{}/{}'.format(urls['server'], suffix)
+
+    return result
 
 
 import pprint
