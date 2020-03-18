@@ -43,8 +43,37 @@ def now():
 
 
 @app.route("/log/app")
+def log_app():
+    logger.info('Getting application logs')
+    return jsonify(app_server_service.get_last_logs_for('logs.log', 300))
+
+
+@app.route("/log/app/recent")
 def recent_log_app():
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/logs.log', 300))
+    logger.info('Getting recent application logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('logs.log', 20))
+
+
+@app.route("/log/hc")
+def log_hc():
+    logger.info('Getting healthcheck logs')
+    return jsonify(app_server_service.get_last_logs_for('healthcheck.log', 300))
+
+
+@app.route("/log/hc/recent")
+def recent_log_hc():
+    logger.info('Getting recent healthcheck logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('healthcheck.log', 20))
+
+@app.route("/log/ui")
+def log_ui():
+    logger.info('Getting server ui logs')
+    return jsonify(app_server_service.get_last_logs_for('server.log', 300))
+
+@app.route("/log/ui/recent")
+def recent_log_ui():
+    logger.info('Getting recent server ui logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('server.log', 20))
 
 
 @app.route("/report/yesterday")
@@ -122,12 +151,14 @@ def welcome():
     page_recent_log_app = host + str(url_for('recent_log_app'))
     page_gateway = host + str(url_for('gateway_page'))
     page_ricky = host + str(url_for('ricky'))
+    page_frame = host + str(url_for('frame'))
     page_webcam = host + str(url_for('do_picture'))
     data = {
         'page_now': page_now,
         'page_tube_trains': page_tube_trains,
         'page_tt_delays_counter': page_tt_delays_counter,
         'page_recent_log_app': page_recent_log_app,
+        'page_frame': page_frame,
         'page_webcam': page_webcam,
         'page_ricky': page_ricky,
         'page_gateway': page_gateway,

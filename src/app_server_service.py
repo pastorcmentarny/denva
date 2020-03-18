@@ -11,37 +11,41 @@
 """
 
 import datetime
-import gc
 import os
+
+import gc
 import psutil
 import time
 
+import config_serivce
+import data_files
+import local_data_gateway
 import mothership.celebrations as celebrations
-import mothership.information_service as information
 import mothership.chinese_dictionary_service as cn
 import mothership.good_english_sentence as eng
 import mothership.good_method_name as method
-import mothership.random_irregular_verb as verb
+import mothership.information_service as information
 import mothership.personal_stats as personal_events
-import data_files
+import mothership.random_irregular_verb as verb
+import system_data_service
 import utils
 import web_data
 
 
 def get_last_updated_page() -> str:
     now = datetime.datetime.now()
-    return "{}.{}'{} - {}:{}".format(now.day,now.month,now.year,now.hour,now.minute)
+    return "{}.{}'{} - {}:{}".format(now.day, now.month, now.year, now.hour, now.minute)
 
 
 def get_gateway_data() -> dict:
-    return {'chinese' : cn.get_random_chinese_word(),
-            'english' : eng.get_random_english_sentence(),
-            'verb' : verb.get_random_irregular_verb(),
-            'method' : method.get_random_method_name(),
-            'calendar' : celebrations.get_next_3_events(),
-            'today' : get_last_updated_page(),
-            'events' : personal_events.get_personal_stats(),
-            'weather' : web_data.get_weather(),
+    return {'chinese': cn.get_random_chinese_word(),
+            'english': eng.get_random_english_sentence(),
+            'verb': verb.get_random_irregular_verb(),
+            'method': method.get_random_method_name(),
+            'calendar': celebrations.get_next_3_events(),
+            'today': get_last_updated_page(),
+            'events': personal_events.get_personal_stats(),
+            'weather': web_data.get_weather(),
             'information': information.get_information()
             }
 
@@ -80,17 +84,53 @@ def get_all_warnings_page() -> list:
 
     return data
 
+
 def get_random_frame() -> str:
     return data_files.get_random_frame_picture_path()
 
-#prototype if works i need systemutils
+
+# prototype if works i need systemutils
 def clean():
     print(psutil.Process(os.getpid()).memory_info())
     gc.collect()
     print(psutil.Process(os.getpid()).memory_info())
 
 
-#USED for test only
+def get_current_system_information_for_all_services():
+    return {
+        'server': system_data_service.get_system_information(),
+        'denva': local_data_gateway.get_data_for('{}/system'.format(config_serivce.load_cfg()["urls"]['denva'])),
+        'enviro': local_data_gateway.get_data_for('{}/system'.format(config_serivce.load_cfg()["urls"]['enviro']))
+    }
+
+
+def get_links_for_gateway() -> dict:
+    return {
+        'log-app': get_links_for('log/app'),
+        'log-hc': get_links_for('log/hc'),
+        'log-ui': get_links_for('log/ui')
+    }
+
+
+def get_links_for(suffix: str) -> dict:
+    urls = config_serivce.load_cfg()['urls']
+    return {
+        'server': '{}/{}'.format(urls['server'], suffix),
+        'denva': '{}/{}'.format(urls['denva'], suffix),
+        'enviro': '{}/{}'.format(urls['enviro'], suffix)
+    }
+
+
+import pprint
+
 if __name__ == '__main__':
-    print(get_all_warnings_page())
-    clean()
+    pprint.PrettyPrinter(indent=4).pprint(get_links_for_gateway())
+
+#TODO improve it
+def get_last_logs_for(log_file_name: str, lines):
+    env = config_serivce.get_mode()
+    if env == 'dev':
+        env_dir = 'd:/denva/logs/'
+    else:
+        env_dir = 'e:/denva/logs/'
+    return data_files.tail(env_dir + log_file_name,lines)

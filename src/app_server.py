@@ -16,26 +16,18 @@ import time
 import data_files
 from datetime import datetime
 
+import app_server_service
 import app_timer
 import config_serivce
 import email_sender_service
 import local_data_gateway
 import mothership.information_service as information
-import system_data_service
 import webcam_utils
 
 logger = logging.getLogger('app')
 
 pictures = []
 email_cooldown = datetime.now()
-
-
-def get_current_system_information_for_all_services():
-    return {
-        'server' : system_data_service.get_system_information(),
-        'denva': local_data_gateway.get_data_for('{}/system'.format(config_serivce.load_cfg()["urls"]['denva'])),
-        'enviro': local_data_gateway.get_data_for('{}/system'.format(config_serivce.load_cfg()["urls"]['enviro']))
-    }
 
 
 def should_send_email():
@@ -48,7 +40,7 @@ def should_send_email():
         email_data['enviro'] = local_data_gateway.get_current_reading_for_enviro()
         email_data['warnings'] = local_data_gateway.get_current_warnings_for_all_services()
         email_data['logs'] = local_data_gateway.get_current_logs_for_all_services()
-        email_data['system'] = get_current_system_information_for_all_services()
+        email_data['system'] = app_server_service.get_current_system_information_for_all_services()
         email_sender_service.send(email_data,'server')
         email_cooldown = datetime.now()
 

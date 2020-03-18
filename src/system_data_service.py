@@ -19,7 +19,7 @@ def get_system_information() -> dict:
         "CPU Speed": '{} MHz'.format(psutil.cpu_freq().current),
         "Memory Available": get_memory_available_in_mb(),
         "Disk Free": "{} MB".format(get_system_disk_space_free()),
-        "Boot Time": get_boot_time()
+        "Uptime": get_boot_time()
     }
 
 

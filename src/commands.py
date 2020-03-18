@@ -111,8 +111,8 @@ def get_system_info() -> dict:
         'IP': get_ip(),
         'Uptime': get_uptime(),
         "Memory Available": '{} MB'.format(utils.convert_bytes_to_MB(psutil.virtual_memory().available)),
-        'Free Space:':  '{} MB'.format(get_space_available()),
-        'Data Free Space:': '{} MB'.format(get_data_space_available())
+        'Free Space':  '{} MB'.format(get_space_available()),
+        'Data Free Space': '{} MB'.format(get_data_space_available())
     }
 
 
