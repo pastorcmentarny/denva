@@ -104,15 +104,20 @@ def get_current_system_information_for_all_services():
     }
 
 
-def get_links_for_gateway(sensor_only:bool=False) -> dict:
+def get_links_for_gateway(sensor_only: bool = False) -> dict:
     return {
-        'logApp': get_links_for('log/app',sensor_only),
-        'logHc': get_links_for('log/hc',sensor_only),
-        'logUi': get_links_for('log/ui',sensor_only)
+        'logApp': get_links_for('log/app', sensor_only),
+        'logHc': get_links_for('log/hc', sensor_only),
+        'logUi': get_links_for('log/ui', sensor_only),
+        'averages': get_links_for('avg', True),
+        'records': get_links_for('records', True),
+        'stats': get_links_for('stats', True),
+        'warningsAll': get_links_for('warns', True),
+        'warningsCounter': get_links_for('warns/count', True),
     }
 
 
-def get_links_for(suffix: str,sensor_only:bool=False) -> dict:
+def get_links_for(suffix: str, sensor_only: bool = False) -> dict:
     urls = config_serivce.load_cfg()['urls']
     result = {
         'denva': '{}/{}'.format(urls['denva'], suffix),
@@ -129,11 +134,12 @@ import pprint
 if __name__ == '__main__':
     pprint.PrettyPrinter(indent=4).pprint(get_links_for_gateway())
 
-#TODO improve it
+
+# TODO improve it
 def get_last_logs_for(log_file_name: str, lines):
     env = config_serivce.get_mode()
     if env == 'dev':
         env_dir = 'd:/denva/logs/'
     else:
         env_dir = 'e:/denva/logs/'
-    return data_files.tail(env_dir + log_file_name,lines)
+    return data_files.tail(env_dir + log_file_name, lines)

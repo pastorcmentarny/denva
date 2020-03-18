@@ -44,7 +44,7 @@
         <a class="p-2" href="{{message.page_ricky}}">Rickmansworth</a>
         <a class="p-2" href="{{message.page_frame}}">Random picture</a>
         <a class="p-2" href="{{message.page_webcam}}">Do picture</a>
-     </nav>
+    </nav>
 </div>
 <div class="container">
     <div class="card-deck mb-3 text-center">
@@ -103,7 +103,9 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><script>displayIntermittentFastingInfo();</script></li>
+                    <li>
+                        <script>displayIntermittentFastingInfo();</script>
+                    </li>
                     {% for denva in message.warnings.denva %}
                     <li class="mb-1 text-warning">{{denva}}</li>
                     {% endfor %}
@@ -117,16 +119,16 @@
                 <h4 class="my-0 font-weight-normal">LOGS</h4>
             </div>
             <div class="card-body">
-                <ul  class="list-unstyled mt-3 mb-4">
+                <ul class="list-unstyled mt-3 mb-4">
                     <li><a href="{{message.links.logApp.denva}}">Denva App logs</a></li>
                     <li><a href="{{message.links.logHc.denva}}">Denva's Health logs</a></li>
                     <li><a href="{{message.links.logUi.denva}}">Denva's UI logs</a></li>
                     <li><a href="{{message.links.logApp.enviro}}">Enviro App logs</a></li>
                     <li><a href="{{message.links.logHc.enviro}}">Enviro's Health logs</a></li>
                     <li><a href="{{message.links.logUi.enviro}}">Enviro's UI logs</a></li>
-                    <li><a href="{{message.links.logApp.server}}">Server App logs</a></li>
-                    <li><a href="{{message.links.logHc.server}}">Denva's Health logs</a></li>
-                    <li><a href="{{message.links.logUi.server}}">Denva's UI logs</a></li>
+                    <li><a href="{{message.links.logApp.server}}">Server's App logs</a></li>
+                    <li><a href="{{message.links.logHc.server}}">Server's Health logs</a></li>
+                    <li><a href="{{message.links.logUi.server}}">Server's UI logs</a></li>
                 </ul>
             </div>
             <div class="card-header">
@@ -134,9 +136,14 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><a href="{{message.page_warns}}">All Warnings today</a></li>
-                    <li><a href="{{message.page_warns_now}}">Current warnings</a></li>
-                    <li><a href="{{message.page_warns_count}}">Warnings count</a></li>
+                    <li>Denva</li>
+                    <li><a href="{{message.links.warningsAll.denva}}">All Warnings today</a></li>
+                    <li><a href="{{message.links.warningsCounter.denva}}">Warnings count</a></li>
+                    <hr/>
+                    <li>Enviro</li>
+                    <li><a href="{{message.links.warningsAll.enviro}}">All Warnings today</a></li>
+                    <li><a href="{{message.links.warningsCounter.enviro}}">Warnings count</a></li>
+
                 </ul>
             </div>
         </div>
@@ -175,10 +182,9 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><a href="{{message.page_system}}">System</a></li>
-                    <li><a href="{{message.page_avg}}">Averages</a></li>
-                    <li><a href="{{message.page_records}}">Records</a></li>
-                    <li><a href="{{message.page_stats}}">Stats</a></li>
+                    <li><a href="{{message.links.averages.denva}}">Averages</a></li>
+                    <li><a href="{{message.links.records.denva}}">Records</a></li>
+                    <li><a href="{{message.links.stats.denva}}">Stats</a></li>
                 </ul>
             </div>
         </div>
@@ -188,13 +194,13 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                        <li><strong>temperature</strong> : {{message.enviro.temperature}}</li>
-                        <li><strong>oxidised</strong> : {{message.enviro.oxidised}}</li>
-                        <li><strong>reduced</strong> : {{message.enviro.reduced}}</li>
-                        <li><strong>nh3</strong> : {{message.enviro.nh3}}</li>
-                        <li><strong>pm1</strong> : {{message.enviro.pm1}}</li>
-                        <li><strong>pm25</strong> : {{message.enviro.pm25}}</li>
-                        <li><strong>pm10</strong> : {{message.enviro.pm10}}</li>
+                    <li><strong>temperature</strong> : {{message.enviro.temperature}}</li>
+                    <li><strong>oxidised</strong> : {{message.enviro.oxidised}}</li>
+                    <li><strong>reduced</strong> : {{message.enviro.reduced}}</li>
+                    <li><strong>nh3</strong> : {{message.enviro.nh3}}</li>
+                    <li><strong>pm1</strong> : {{message.enviro.pm1}}</li>
+                    <li><strong>pm25</strong> : {{message.enviro.pm25}}</li>
+                    <li><strong>pm10</strong> : {{message.enviro.pm10}}</li>
                 </ul>
             </div>
 
@@ -203,10 +209,9 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><a href="{{message.page_system}}">System</a></li>
-                    <li><a href="{{message.page_avg}}">Averages</a></li>
-                    <li><a href="{{message.page_records}}">Records</a></li>
-                    <li><a href="{{message.page_stats}}">Stats</a></li>
+                    <li><a href="{{message.links.averages.enviro}}">Averages</a></li>
+                    <li><a href="{{message.links.records.enviro}}">Records</a></li>
+                    <li><a href="{{message.links.stats.enviro}}">Stats</a></li>
                 </ul>
             </div>
         </div>
