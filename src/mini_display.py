@@ -86,15 +86,15 @@ def draw_image_on_screen(data, app_uptime):
     elif cycle % 7 == 1:
         draw.text((0, 84), commands.get_uptime(), fill="white", font=rr_12)
     elif cycle % 7 == 2:
-        draw.text((0, 84), 'CPU: {}'.format(commands.get_cpu_speed()) , fill="white", font=rr_12)
+        draw.text((0, 84), 'CPU: {}'.format(commands.get_cpu_speed()), fill="white", font=rr_12)
     elif cycle % 7 == 3:
-        draw.text((0, 84), 'IP: {}'.format(commands.get_ip()) , fill="white", font=rr_12)
+        draw.text((0, 84), 'IP: {}'.format(commands.get_ip()), fill="white", font=rr_12)
     elif cycle % 7 == 4:
-        draw.text((0, 84), 'Space: {} MB', fill="white", font=rr_12)
+        draw.text((0, 84), 'Space: {} MB'.format(commands.get_space_available()), fill="white", font=rr_12)
     elif cycle % 7 == 5:
-        draw.text((0, 84), 'Data: {}MB'.format(commands.get_data_space_available()), fill="white", font=rr_12)
+        draw.text((0, 84), 'Data: {} MB'.format(commands.get_data_space_available()), fill="white", font=rr_12)
     elif cycle % 7 == 6:
-        draw.text((0, 84), 'RAM left: {}'.format(system_data_service.get_memory_available_in_mb()), fill="white",
+        draw.text((0, 84), 'RAM avail.: {}'.format(system_data_service.get_memory_available_in_mb()), fill="white",
                   font=rr_12)
     else:
         draw.text((0, 84), app_uptime, fill="white", font=rr_12)
