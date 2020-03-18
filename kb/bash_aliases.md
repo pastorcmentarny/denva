@@ -1,4 +1,8 @@
-aliases used on pi
-* `denva-la = tail -n 200 /home/pi/logs/logs.log`
-* `denva-ls = tail -n 200 /home/pi/logs/server.log`
-* `denva=update = sudo bash /home/pi/denva-master/scripts/update.sh master app`
+#####Edit file
+`sudo nano .bashrc`
+
+#####Aliases used on pi
+* `alias denva-la ='tail -n 300 /home/pi/logs/logs.log'`
+* `alias denva-ls ='tail -n 300 /home/pi/logs/server.log'`
+* `alias denva-lh ='tail -n 300 /home/pi/logs/healthcheck.log'`
+* `alias denva=update ='sudo bash /home/pi/denva-master/scripts/update.sh master app'`
