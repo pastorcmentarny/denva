@@ -164,7 +164,8 @@ def welcome():
         'page_gateway': page_gateway,
         'warnings': local_data_gateway.get_current_warnings_for_all_services(),
         'denva': local_data_gateway.get_current_reading_for_denva(),
-        'enviro': local_data_gateway.get_current_reading_for_enviro()
+        'enviro': local_data_gateway.get_current_reading_for_enviro(),
+        'system' : app_server_service.get_current_system_information_for_all_services()
     }
 
     return render_template('dashboard-server.html', message=data)
