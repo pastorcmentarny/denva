@@ -14,7 +14,6 @@ import logging
 import requests
 import time
 
-
 import commands
 import data_files
 import email_sender_service

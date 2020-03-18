@@ -41,13 +41,14 @@ def should_send_email():
         email_data['warnings'] = local_data_gateway.get_current_warnings_for_all_services()
         email_data['logs'] = local_data_gateway.get_current_logs_for_all_services()
         email_data['system'] = app_server_service.get_current_system_information_for_all_services()
-        email_sender_service.send(email_data,'server')
+        email_sender_service.send(email_data, 'server')
         email_cooldown = datetime.now()
+
 
 def main():
     counter = 0
     while True:
-        counter+=1
+        counter += 1
         time.sleep(5)
         if config_serivce.load_cfg()['mode'] == 'server':
             last_picture = webcam_utils.capture_picture()

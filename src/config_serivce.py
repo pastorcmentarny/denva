@@ -21,20 +21,20 @@ settings = {
         }
     },
     "paths": {
-        "base" : {
-            'dev' : 'D:\Projects\denva\src\\',
-            'server' : 'E:\denva\src\\'
+        "base": {
+            'dev': 'D:\Projects\denva\src\\',
+            'server': 'E:\denva\src\\'
         },
-        "frame" : {
-            'dev' : 'D:\ds-lpd-server\cctv\\1',
-            'server' : 'E:\\frame\\'
+        "frame": {
+            'dev': 'D:\ds-lpd-server\cctv\\1',
+            'server': 'E:\\frame\\'
         },
         "backup": "D:\\denva\\backup\\",
         "photosPath": "/mnt/data/photos/",
         "tubeAndTrainsPath": "D:\\denva\\data\\tubetrains\\",
         "events": {
-            "dev" : "D:\\denva\\events.json",
-            "server" : "E:\\denva\\events.json"
+            "dev": "D:\\denva\\events.json",
+            "server": "E:\\denva\\events.json"
         },
         "bin": "D:\\ds-lpd-server\\data-bin\\",
         "cctv-backup": ["D:\\ds-lpd-server\\cctv", "D:\\ds-lpd-server\\backup"],
@@ -50,7 +50,7 @@ settings = {
         "cpu_temp_fatal": 80
     },
     "system": {
-        "memory_available" :  250 * 1024 * 1024,  # 250MB
+        "memory_available": 250 * 1024 * 1024,  # 250MB
         "free_space": 500,
         "ip": "http://192.168.0.200:5000"
     },
@@ -76,8 +76,9 @@ settings = {
 
 
 def get_log_path_for() -> str:
-        env_type = settings['mode']
-        return settings['logs'][env_type]
+    env_type = settings['mode']
+    return settings['logs'][env_type]
+
 
 def get_information_path() -> str:
     if settings["mode"] == 'dev':
@@ -138,7 +139,8 @@ def get_path_for_information_backup() -> str:
         return 'e' + path
     return 'd' + path
 
-def set_mode_to(mode:str):
+
+def set_mode_to(mode: str):
     settings['mode'] = mode
     if platform.node() == 'DomL5':
         settings['mode'] = 'dev'
@@ -152,8 +154,10 @@ def get_mode() -> str:
 def get_memory_available_threshold():
     return settings['system']['memory_available']
 
+
 def get_disk_space_available_threshold():
     return settings['system']['free_space']
+
 
 def get_system_drive() -> str:
     mode = get_mode()
@@ -163,4 +167,3 @@ def get_system_drive() -> str:
         return 'E:'
     else:
         return '/'
-

@@ -33,7 +33,7 @@ def send(service_name: str, data: dict):
     url = get_url_for(service_name)
     try:
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        response = requests.post(url, data=json.dumps(data), timeout=2,headers=headers)
+        response = requests.post(url, data=json.dumps(data), timeout=2, headers=headers)
         if response.status_code == 200:
             logger.debug('data sent successfully for {}'.format(service_name))
         else:

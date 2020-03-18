@@ -26,7 +26,7 @@ step = 0.1
 photo_dir = ''
 
 
-def mount_all_drives(device:str = 'denva'):
+def mount_all_drives(device: str = 'denva'):
     logger.info('mounting external partion for pictures')
     try:
         if device == 'denva':
@@ -111,7 +111,7 @@ def get_system_info() -> dict:
         'IP': get_ip(),
         'Uptime': get_uptime(),
         "Memory Available": '{} MB'.format(utils.convert_bytes_to_megabytes(psutil.virtual_memory().available)),
-        'Free Space':  '{} MB'.format(get_space_available()),
+        'Free Space': '{} MB'.format(get_space_available()),
         'Data Free Space': '{} MB'.format(get_data_space_available())
     }
 
@@ -152,5 +152,4 @@ def reboot(reason: str):
 
 
 def get_system_logs(number: int) -> dict:
-    return get_lines_from_path('/var/log/syslog',number)
-
+    return get_lines_from_path('/var/log/syslog', number)

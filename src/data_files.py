@@ -172,7 +172,7 @@ def get_random_frame_picture_path():
     return files_list[random.randint(0, len(files_list) - 1)]
 
 
-#TODO improve it, not my code. Do my own implementation and compare performance
+# TODO improve it, not my code. Do my own implementation and compare performance
 def tail(file_path: str, lines=1) -> list:
     lines_found = []
     block_counter = -1

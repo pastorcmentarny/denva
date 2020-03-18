@@ -26,7 +26,8 @@ def get_system_information() -> dict:
 def get_memory_available_in_mb() -> str:
     return '{}MB'.format(utils.convert_bytes_to_megabytes(psutil.virtual_memory().available))
 
-#TODO use this for all services not only server
+
+# TODO use this for all services not only server
 def get_system_warnings() -> list:
     problems = []
     memory_data = psutil.virtual_memory()

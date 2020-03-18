@@ -18,8 +18,10 @@ from datetime import timedelta
 
 stats_log = logging.getLogger('stats')
 
-def as_3_digit_number(index : int) -> str:
+
+def as_3_digit_number(index: int) -> str:
     return f"{index:03d}"
+
 
 def convert_list_to_dict(source: list) -> dict:
     return {as_3_digit_number(index): source[index] for index in range(0, len(source))}
@@ -49,7 +51,7 @@ def get_yesterday_date() -> datetime:
 def get_dates_for_last_7_days() -> list:
     today = datetime.now()
     days = []
-    for i in range(1,8):
+    for i in range(1, 8):
         days.append(today - timedelta(days=i))
     return days
 
@@ -62,8 +64,9 @@ def get_timestamp_file() -> str:
     return datetime.now().strftime("%Y%m%d-%H%M%S")
 
 
-def get_timestamp_key(dt:datetime = datetime.now()) -> str:
+def get_timestamp_key(dt: datetime = datetime.now()) -> str:
     return dt.strftime("%m%d")
+
 
 def to_hex(r, g, b):
     return '#{:02x}{:02x}{:02x}'.format(r, g, b)
@@ -200,10 +203,11 @@ def merge_two_dictionaries(first: dict, second: dict) -> dict:
     second.update(first)
     return second
 
+
 def setup_test_logging():
     logging.basicConfig(level=logging.DEBUG)
     logging.debug('Running test logging')
 
 
-def convert_bytes_to_megabytes(size_in_bytes:int) -> int:
+def convert_bytes_to_megabytes(size_in_bytes: int) -> int:
     return int(size_in_bytes / 1000 / 1000)

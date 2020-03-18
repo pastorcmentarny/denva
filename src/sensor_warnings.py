@@ -18,6 +18,7 @@ import iqa_utils
 import sensor_log_reader
 import utils
 import config_serivce
+
 warnings_logger = logging.getLogger('warnings')
 
 shaking_level = config_serivce.load_cfg()['sensors']['motion']['sensitivity']
@@ -107,11 +108,14 @@ def get_warnings(data) -> dict:
 def count_warning_today() -> dict:
     return count_warnings(get_warnings_for_today())
 
-#TODO replace mocked data with real one
+
+# TODO replace mocked data with real one
 def get_current_warnings_for_enviro() -> dict:
-    return  {
-        'test' : 'crazy pollution'
+    return {
+        'test': 'crazy pollution'
     }
+
+
 def count_warnings(warnings) -> dict:
     warning_counter = {
         'the': 0,
@@ -130,9 +134,9 @@ def count_warnings(warnings) -> dict:
         'fsl': 0,
         'dfsl': 0,
         'dsl': 0,
-        'cow' :0,
-        'iqe' :0,
-        'iqw' :0
+        'cow': 0,
+        'iqe': 0,
+        'iqw': 0
     }
 
     for warning in warnings:
@@ -250,10 +254,10 @@ def get_warnings_as_list(data) -> list:
 
     tvoc = iqa_utils.get_iqa_for_tvoc(data['tvoc'])
     if tvoc['value'] > 5000:
-        warnings.append('{} with value {}'.format(tvoc['information'],tvoc['value']))
-        warnings_logger.error('[iqe] {} with value {}'.format(tvoc['information'],tvoc['value']))
+        warnings.append('{} with value {}'.format(tvoc['information'], tvoc['value']))
+        warnings_logger.error('[iqe] {} with value {}'.format(tvoc['information'], tvoc['value']))
     elif tvoc['value'] > 1500:
-        warnings.append('{} with value {}'.format(tvoc['information'],tvoc['value']))
-        warnings_logger.warning('[iqw] {} with value {}'.format(tvoc['information'],tvoc['value']))
+        warnings.append('{} with value {}'.format(tvoc['information'], tvoc['value']))
+        warnings_logger.warning('[iqw] {} with value {}'.format(tvoc['information'], tvoc['value']))
 
     return warnings

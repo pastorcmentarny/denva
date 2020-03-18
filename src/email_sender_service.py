@@ -13,7 +13,7 @@ import json
 import logging
 import smtplib
 from datetime import datetime
-#from email.mime.image import MIMEImage
+# from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -134,7 +134,7 @@ def send_ip_email(device: str):
         msg = MIMEMultipart()
 
         subject = "IP information for {}".format(device)
-        message  = "{} starts on  {}".format(device, commands.get_ip())
+        message = "{} starts on  {}".format(device, commands.get_ip())
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
@@ -146,4 +146,4 @@ def send_ip_email(device: str):
         smtp_server.quit()
         logger.info('Email sent.')
     except Exception as e:
-        logger.error('Unable to send email with IP info for {} due to {}'.format(device,e), exc_info=True)
+        logger.error('Unable to send email with IP info for {} due to {}'.format(device, e), exc_info=True)

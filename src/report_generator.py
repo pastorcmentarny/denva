@@ -55,7 +55,7 @@ report = {
         'highest_eco2': 0,
         'highest_tvoc': 0
     },
-     "rickmansworth": {
+    "rickmansworth": {
         "crimes": "unknown",
         "floods": "unknown",
         "weather": ["unknown"],

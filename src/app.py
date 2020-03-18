@@ -9,27 +9,26 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-from datetime import datetime
 import logging
 import logging.config
 import os
-import sys
-import time
+from datetime import datetime
 from timeit import default_timer as timer
 
 import bme680
 import smbus
+import sys
+import time
 import veml6075
-
 from PIL import ImageFont
 from bh1745 import BH1745
 from icm20948 import ICM20948
 from sgp30 import SGP30
 
 import app_timer
-import config_serivce
 import cl_display
 import commands
+import config_serivce
 import data_files
 import email_sender_service
 import measurement_storage_service
@@ -65,7 +64,6 @@ imu = ICM20948()
 # air quality
 sgp30 = SGP30()
 
-
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
 rr_12 = ImageFont.truetype(rr_path, 12)
 rr_14 = ImageFont.truetype(rr_path, 14)
@@ -73,7 +71,6 @@ rr_14 = ImageFont.truetype(rr_path, 14)
 samples = []
 points = []
 pictures = []
-
 
 sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
@@ -87,6 +84,7 @@ app_startup_time = datetime.now()
 
 counter = 1
 led_status = 0
+
 
 def sample():
     for i in range(51):
@@ -226,7 +224,7 @@ def main():
 
             cl_display.print_measurement(data)
             mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
-            measurement_storage_service.send('denva',data)
+            measurement_storage_service.send('denva', data)
 
             data['picture_path'] = get_pictures_path()
 
@@ -259,10 +257,10 @@ def thread_camera():
 
 def crude_progress_bar():
     global counter
-    global  led_status
+    global led_status
     message = 'Waiting.. {}s.\n'.format(counter)
     sys.stdout.write(message)
-    counter = counter+1
+    counter = counter + 1
     sys.stdout.flush()
     bh1745.set_leds(led_status)
     if led_status == 1:

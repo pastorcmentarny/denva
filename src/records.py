@@ -89,7 +89,6 @@ def get_records(data_records) -> dict:
         if int(data_record['tvoc']) > int(result['highest_tvoc']):
             result['highest_tvoc'] = data_record['tvoc']
 
-
     end = time.time_ns()
     result['log entries counter'] = len(data_records)
     result["execution_time"] = str(end - start) + ' ns.'

@@ -25,7 +25,7 @@ def capture_picture() -> str:
         photo_path = '{}\\{}.jpg'.format(path, date)
         logger.info(photo_path)
         check, frame = webcam.read()
-        cv2.imwrite(photo_path,frame)
+        cv2.imwrite(photo_path, frame)
         logger.info('saving image to file')
         while not os.path.exists(photo_path):
             time.sleep(step)

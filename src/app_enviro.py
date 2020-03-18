@@ -23,6 +23,7 @@ import measurement_storage_service
 try:
     # Transitional fix for breaking change in LTR559
     from ltr559 import LTR559
+
     ltr559 = LTR559()
 except ImportError:
     import ltr559
@@ -219,7 +220,9 @@ def draw_message(msg: str):
     draw.text((0, 0), msg, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
     st7735.display(img)
 
+
 on = True
+
 
 def set_brightness_for_screen(proximity):
     global on
@@ -250,7 +253,7 @@ def main():
         cl_display.print_measurement(measurement)
         set_brightness_for_screen(measurement['proximity'])
         data_files.store_enviro_measurement(measurement)
-        measurement_storage_service.send('enviro',measurement)
+        measurement_storage_service.send('enviro', measurement)
         remaining_time_in_millis = 2 - (float(measurement_time) / 1000)
 
         if remaining_time_in_millis > 0:
@@ -273,4 +276,3 @@ if __name__ == '__main__':
         draw_message('APP crashed.')
         sys.exit(0)
     draw_message('Goodbye.')
-

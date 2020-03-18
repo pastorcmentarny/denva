@@ -65,10 +65,12 @@ def recent_log_hc():
     logger.info('Getting recent healthcheck logs for sending as email')
     return jsonify(app_server_service.get_last_logs_for('healthcheck.log', 20))
 
+
 @app.route("/log/ui")
 def log_ui():
     logger.info('Getting server ui logs')
     return jsonify(app_server_service.get_last_logs_for('server.log', 300))
+
 
 @app.route("/log/ui/recent")
 def recent_log_ui():
@@ -124,6 +126,7 @@ def frame():
     print(filename)
     return send_file(filename, mimetype='image/jpeg')
 
+
 @app.route('/denva', methods=['POST'])
 def store_denva_measurement():
     logging.info('processing denva measurement request')
@@ -165,8 +168,8 @@ def welcome():
         'warnings': local_data_gateway.get_current_warnings_for_all_services(),
         'denva': local_data_gateway.get_current_reading_for_denva(),
         'enviro': local_data_gateway.get_current_reading_for_enviro(),
-        'system' : app_server_service.get_current_system_information_for_all_services(),
-        'links' : app_server_service.get_links_for_gateway()
+        'system': app_server_service.get_current_system_information_for_all_services(),
+        'links': app_server_service.get_links_for_gateway()
     }
 
     return render_template('dashboard-server.html', message=data)
