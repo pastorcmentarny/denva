@@ -118,6 +118,18 @@ def recent_log_hc():
     return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 20))
 
 
+@app.route("/log/ui")
+def log_ui():
+    logger.info('Getting server ui logs')
+    return jsonify(commands.get_lines_from_path('/home/pi/logs/server.log', 300))
+
+
+@app.route("/log/ui/recent")
+def recent_log_ui():
+    logger.info('Getting recent server ui logs for sending as email')
+    return jsonify(commands.get_lines_from_path('/home/pi/logs/server.log', 20))
+
+
 @app.route("/report/yesterday")
 def last_report():
     logger.info('Getting report for yesterday')
