@@ -72,7 +72,7 @@
     "server": {
       "level": "INFO",
       "handlers": [
-        "server_file_handler",
+        "server_file_handler"
       ],
       "propagate": false
     },

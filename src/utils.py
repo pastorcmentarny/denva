@@ -205,5 +205,5 @@ def setup_test_logging():
     logging.debug('Running test logging')
 
 
-def convert_bytes_to_MB(bytes:int) -> int:
-    return int(bytes/1000/1000)
+def convert_bytes_to_megabytes(size_in_bytes:int) -> int:
+    return int(size_in_bytes / 1000 / 1000)

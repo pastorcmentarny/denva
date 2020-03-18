@@ -10,7 +10,7 @@ def get_boot_time() -> str:
 
 
 def get_system_disk_space_free():
-    return utils.convert_bytes_to_MB(psutil.disk_usage(config_serivce.get_system_drive()).free)
+    return utils.convert_bytes_to_megabytes(psutil.disk_usage(config_serivce.get_system_drive()).free)
 
 
 # add disk free
@@ -24,7 +24,7 @@ def get_system_information() -> dict:
 
 
 def get_memory_available_in_mb() -> str:
-    return '{}MB'.format(utils.convert_bytes_to_MB(psutil.virtual_memory().available))
+    return '{}MB'.format(utils.convert_bytes_to_megabytes(psutil.virtual_memory().available))
 
 def get_system_warnings() -> list:
     problems = []

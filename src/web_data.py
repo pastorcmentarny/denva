@@ -210,7 +210,7 @@ def get_pollution_for(city: str) -> str:
         return __get_scale_result_from(city, pollution_index)
     except Exception as whoops:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))
-        return ['Pollution data N/A']
+        return 'Pollution data N/A'
 
 
 def main():

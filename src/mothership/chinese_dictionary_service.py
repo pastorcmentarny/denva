@@ -72,23 +72,17 @@ def get_chinese_dictionary_from_github() -> list:
         response.raise_for_status()
         return response.text.splitlines()
     except Exception as whoops:
-        return {'Error': '{}'.format(whoops)}
+        return ['Error: {}'.format(whoops)]
 
 
+#TODO finish it
 def save_dictionary(github):
     pass
 
-
+#TODO finish it
 def update_dictionary_if_needed():
     github = get_chinese_dictionary_from_github()
     local = load_dictionary_file()
     if len(github) > len(local):
         save_dictionary(github)
 
-
-if __name__ == '__main__':
-    random_chinese_word = get_random_chinese_word()
-    print(random_chinese_word.get('character'))
-    print(random_chinese_word.get('pinyin'))
-    print(random_chinese_word.get('english'))
-    print(random_chinese_word.get('polish'))

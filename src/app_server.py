@@ -57,12 +57,6 @@ def main():
                     pictures.pop(0)
         information.should_refresh()
         should_send_email()
-        print(pictures)
-
-
-def info(msg:str):
-    logger.info(msg)
-    print(msg)
 
 
 def setup():
@@ -70,7 +64,7 @@ def setup():
     data_files.setup_logging()
     information.refresh_all()
     end_time = timer()
-    info('Setup took {} ms.'.format(int((end_time - start_time) * 1000)))
+    logger.info('Setup took {} ms.'.format(int((end_time - start_time) * 1000)))
 
 
 if __name__ == '__main__':
