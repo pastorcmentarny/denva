@@ -1,0 +1,14 @@
+span.good {
+    background-color: #FAFAFA;
+    color: #00EE00;
+}
+
+span.warn {
+    background-color: #F6F6F6;
+    color: #f7a133;
+}
+
+span.bad {
+    background-color: #F0F0F0;
+    color: #CC0000;
+}

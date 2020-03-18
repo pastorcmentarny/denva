@@ -52,6 +52,8 @@ function change() {
 
 
 function displayTitle() {
-    if (document.getElementById)
-        flash = setInterval("change()", speedOfFade)
+    if (document.getElementById) {
+        setInterval("change()", speedOfFade);
+    }
+
 }

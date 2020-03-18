@@ -18,6 +18,6 @@ function displayGreetings() {
 }
 
 function display(greetings) {
-    const who = ",Dominik!";
+    const who = ", Dominik!";
     document.write(greetings + who);
 }

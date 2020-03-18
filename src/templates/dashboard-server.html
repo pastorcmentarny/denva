@@ -4,40 +4,16 @@
     <meta charset="UTF-8">
     <meta name="author" content="Dominik Symonowicz">
     <title>Dom's dashboard</title>
-    <style>
-        span.good {
-            background-color: #EEEEEE;
-            color: #00EE00;
-        }
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
-        span.warn {
-            background-color: #AAAAAA;
-            color: #f7a133;
-        }
-
-        span.bad {
-            background-color: #CCCCCC;
-            color: #CC0000;
-        }
-
-    </style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-
-    <script type=text/javascript src="{{url_for('static', filename='scripts.js') }}"></script>
-    <script type=text/javascript src="{{url_for('static', filename='fasting.js') }}"></script>
-    <script type=text/javascript src="{{url_for('static', filename='copyright.js') }}"></script>
-    <script type=text/javascript src="{{url_for('static', filename='grettings.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/scripts.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/fasting.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/copyright.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/grettings.js') }}"></script>
 </head>
 <body>
-<div class="card-deck">
-    <script type="text/javascript">
-        displayGreetings();
-    </script>
-</div>
 <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
         <a class="p-2" href="{{message.page_gateway}}">Gateway</a>
@@ -55,6 +31,12 @@
             <div class="card-body">
                 <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4">
+                        <li class="text-left">
+                            <script type="text/javascript">displayGreetings();</script>
+                            It is a
+                            <script>displayIntermittentFastingInfo();</script>
+                            .<br/>
+                        </li>
                         <li><strong class="d-inline-block text-success">Server(LP)</strong></li>
                         <li><b>CPU Speed:</b>{{message.system.server["CPU Speed"]}}</li>
                         <li><b>Memory Available:</b>{{message.system.server["Memory Available"]}}</li>
@@ -103,16 +85,15 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li>
-                        <script>displayIntermittentFastingInfo();</script>
-                    </li>
                     {% for denva in message.warnings.denva %}
                     <li class="mb-1 text-warning">{{denva}}</li>
                     {% endfor %}
                     {% for enviro in message.warnings.enviro %}
                     <li class="mb-1 text-warning">{{enviro}}</li>
                     {% endfor %}
-
+                    {% for server in message.warnings.server %}
+                    <li class="mb-1 text-warning">{{server}}</li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="card-header">
@@ -228,5 +209,6 @@
         </div>
     </footer>
 </div>
+<script type="text/javascript">displayTitle();</script>
 </body>
 </html>

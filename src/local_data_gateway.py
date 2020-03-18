@@ -1,7 +1,7 @@
 import json
 
 import requests
-
+import system_data_service
 import config_serivce
 
 
@@ -38,7 +38,8 @@ def get_data_for(url: str) -> dict:
 def get_current_warnings_for_all_services() -> dict:
     return {
         'denva': get_data_for(config_serivce.get_current_warnings_url_for('denva')),
-        'enviro': get_data_for(config_serivce.get_current_warnings_url_for('enviro'))
+        'enviro': get_data_for(config_serivce.get_current_warnings_url_for('enviro')),
+        'server': system_data_service.get_system_warnings()
     }
 
 
