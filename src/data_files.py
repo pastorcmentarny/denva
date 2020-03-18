@@ -10,16 +10,16 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import csv
-from datetime import datetime
 import json
-import os.path
 import logging
 import logging.config
+import os.path
 import random
-import sensor_log_reader
+from datetime import datetime
 from pathlib import Path
 
 import config_serivce
+import sensor_log_reader
 import utils
 
 logger = logging.getLogger('app')
@@ -68,18 +68,18 @@ def check_if_report_was_generated(report_date: str) -> bool:
     return os.path.isfile(path)
 
 
-def add_enviro_measurement_to_file(file, data:dict):
+def add_enviro_measurement_to_file(file, data: dict):
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
     csv_writer.writerow([timestamp,
-                     data["temperature"], data["pressure"],  data["humidity"],
-                     data["light"], data["proximity"], data["oxidised"], data["reduced"],
-                     data["nh3"], data["pm1"], data["pm25"], data["pm10"],
-                     ])
+                         data["temperature"], data["pressure"], data["humidity"],
+                         data["light"], data["proximity"], data["oxidised"], data["reduced"],
+                         data["nh3"], data["pm1"], data["pm25"], data["pm10"],
+                         ])
     file.close()
 
 
-def store_enviro_measurement(data:dict):
+def store_enviro_measurement(data: dict):
     local_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
     add_enviro_measurement_to_file(local_file, data)
     try:
@@ -91,7 +91,7 @@ def store_enviro_measurement(data:dict):
         # add flag to indicate that there is a problem
 
 
-def add_measurement_to_file(file, data:dict, motion):
+def add_measurement_to_file(file, data: dict, motion):
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
     csv_writer.writerow([timestamp,
@@ -121,7 +121,7 @@ def store_measurement(data, motion):
     add_measurement_to_file(local_file, data, motion)
     try:
         server_file = open(sensor_log_reader.get_sensor_log_file_at_server(), 'a+', newline='')
-        add_measurement_to_file(server_file, data,motion)
+        add_measurement_to_file(server_file, data, motion)
         logger.debug('measurement no.{} saved to file.'.format(counter))
         # if flag is true, set to false
     except IOError as exception:
@@ -146,22 +146,22 @@ def load_json_data_as_dict_from(path: str) -> dict:
         return json.load(json_file)
 
 
-def save_dict_data_as_json(path: str,data: dict):
+def save_dict_data_as_json(path: str, data: dict):
     with open(path, 'w', encoding='utf-8') as path_file:
-        json.dump(data,path_file , ensure_ascii=False, indent=4)
+        json.dump(data, path_file, ensure_ascii=False, indent=4)
 
 
 def backup_information_data(data: dict):
     dt = datetime.now()
     path = config_serivce.get_path_for_information_backup()
-    dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path,dt.year,dt.month,dt.day)
+    dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path, dt.year, dt.month, dt.day)
     logger.debug('performing information backup using path {}'.format(dir_path))
     Path(dir_path).mkdir(parents=True, exist_ok=True)
-    dir_path +="information-backup." + utils.get_timestamp_file() + ".json"
-    save_dict_data_as_json(dir_path,data)
+    dir_path += "information-backup." + utils.get_timestamp_file() + ".json"
+    save_dict_data_as_json(dir_path, data)
 
 
-#TODO improve convert files to files_list
+# TODO improve convert files to files_list
 def get_random_frame_picture_path():
     path = config_serivce.load_cfg()['paths']['frame'][config_serivce.get_mode()]
     files_list = []
@@ -169,5 +169,23 @@ def get_random_frame_picture_path():
         for file in files:
             files_list.append(path + "\\" + file.name)
 
-    return files_list[random.randint(0, len(files_list)-1)]
+    return files_list[random.randint(0, len(files_list) - 1)]
 
+
+#TODO improve it, not my code. Do my own implementation and compare performance
+def tail(file_path: str, lines=1) -> list:
+    lines_found = []
+    block_counter = -1
+    file = open(file_path)
+    while len(lines_found) < lines:
+        try:
+            file.seek(block_counter * 4098, os.SEEK_END)
+        except IOError:
+            file.seek(0)
+            lines_found = file.readlines()
+            break
+
+        lines_found = file.readlines()
+        block_counter -= 1
+
+    return lines_found[-lines:]
