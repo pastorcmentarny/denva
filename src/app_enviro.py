@@ -41,6 +41,7 @@ import cl_display
 import commands
 import data_files
 import email_sender_service
+import sensor_warnings
 
 logger = logging.getLogger('app')
 
@@ -254,6 +255,7 @@ def main():
         set_brightness_for_screen(measurement['proximity'])
         data_files.store_enviro_measurement(measurement)
         measurement_storage_service.send('enviro', measurement)
+        sensor_warnings.get_current_warnings_for_enviro()
         remaining_time_in_millis = 2 - (float(measurement_time) / 1000)
 
         if remaining_time_in_millis > 0:

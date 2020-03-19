@@ -109,11 +109,70 @@ def count_warning_today() -> dict:
     return count_warnings(get_warnings_for_today())
 
 
-# TODO replace mocked data with real one
+
+# soruce: https://ec.europa.eu/environment/air/quality/standards.htm
 def get_current_warnings_for_enviro() -> dict:
-    return {
-        'test': 'crazy pollution'
-    }
+    data = sensor_log_reader.get_last_enviro_measurement()
+    warnings = {}
+
+    if data['cpu_temp'] > config['sensor']['cpu_temp_fatal']:
+        msg = 'CPU temperature is too high [cthf]. Current temperature is: {}'.format(str(data['cpu_temp']))
+        warnings['cpu_temp'] = msg
+        warnings_logger.error(msg)
+
+    elif data['cpu_temp'] > config['sensor']['cpu_temp_error']:
+        msg = 'CPU temperature is very high [cthe]. Current temperature is: {}'.format(str(data['cpu_temp']))
+        warnings['cpu_temp'] = msg
+        warnings_logger.error(msg)
+    elif data['cpu_temp'] > config['sensor']['cpu_temp_warn']:
+        msg = 'CPU temperature is high [cthw]. Current temperature is: {}'.format(str(data['cpu_temp']))
+        warnings['cpu_temp'] = msg
+        warnings_logger.warning(msg)
+
+    if type(data['temperature']) is not float:
+        data['temperature'] = float(data['temperature'])
+    if data['temperature'] < 16:
+        msg = 'Temperature is too low [tle]. Current temperature is: {}'.format(str(data['temperature']))
+        warnings['temperature'] = msg
+        warnings_logger.error(msg)
+    elif data['temperature'] < 18:
+        msg = 'Temperature is low [tlw]. Current temperature is: {}'.format(str(data['temperature']))
+        warnings['temperature'] = msg
+        warnings_logger.warning(msg)
+    elif data['temperature'] > 25:
+        msg = 'Temperature is high [thw]. Current temperature is: {}'.format(str(data['temperature']))
+        warnings['temperature'] = msg
+        warnings_logger.warning(msg)
+    elif data['temperature'] > 30:
+        msg = 'Temperature is too high  [the]. Current temperature is: {}'.format(str(data['temperature']))
+        warnings['temperature'] = msg
+        warnings_logger.error(msg)
+
+    '''carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
+    Nitrogen dioxide (NO2) - 40 µg/m3 Carbon monoxide (CO) - 10 mg/m3
+    Data from sensor is in kilo-Ohms
+    data['oxidised']: '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+    data['reduced']: '{:0.2f}'.format(float(row[7])),  # unit = 'kO'
+    data['nh3']: '{:0.2f}'.format(float(row[8])),  # unit = 'kO'
+    data['pm1']: row[9],  # unit = 'ug/m3'
+    need to convert between format
+    '''
+
+    if data['pm1'] > 25:
+        msg = 'Particle 1 amount is too high [p1w]. Current PM1 amount is {} ug/m3'.format(str(data['pm25']))
+        warnings['pm1'] = msg
+        warnings_logger.error(msg)
+    if data['pm25'] > 25:
+        msg = 'Particle 2.5 amount is too high [p2w]. Current PM2.5 amount is {} ug/m3'.format(str(data['pm25']))
+        warnings['pm2_5'] = msg
+        warnings_logger.error(msg)
+    if data['pm10'] > 40:
+        msg = 'Particle 10 amount is too high [pTw]. Current PM10 amount is {} ug/m3'.format(str(data['pm25']))
+        warnings['pm10'] = msg
+        warnings_logger.error(msg)
+
+    return warnings
+
 
 
 def count_warnings(warnings) -> dict:
