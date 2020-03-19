@@ -37,6 +37,7 @@ from PIL import ImageDraw
 from PIL import ImageFont
 import logging
 import random
+import re
 import cl_display
 import commands
 import config_serivce
@@ -210,7 +211,7 @@ def display_on_screen(measurement: dict):
 
 
 def get_colour_for_cpu():
-    cpu_temp = commands.get_cpu_temp()
+    cpu_temp = float(re.sub('[^0-9.]', '', commands.get_cpu_temp()))
     config = config_serivce.load_cfg()
     if cpu_temp > config['sensor']['cpu_temp_fatal']:
         return ['Fatal', 255, 16, 1]
