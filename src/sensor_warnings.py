@@ -115,6 +115,8 @@ def get_current_warnings_for_enviro() -> dict:
     data = sensor_log_reader.get_last_enviro_measurement()
     warnings = {}
 
+    data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
+
     if data['cpu_temp'] > config['sensor']['cpu_temp_fatal']:
         msg = 'CPU temperature is too high [cthf]. Current temperature is: {}'.format(str(data['cpu_temp']))
         warnings['cpu_temp'] = msg
@@ -128,6 +130,9 @@ def get_current_warnings_for_enviro() -> dict:
         msg = 'CPU temperature is high [cthw]. Current temperature is: {}'.format(str(data['cpu_temp']))
         warnings['cpu_temp'] = msg
         warnings_logger.warning(msg)
+
+    data['temperature'] = float(data['temperature'])
+
 
     if type(data['temperature']) is not float:
         data['temperature'] = float(data['temperature'])
@@ -158,18 +163,28 @@ def get_current_warnings_for_enviro() -> dict:
     need to convert between format
     '''
 
+    data['pm1'] = float(data['pm1'])
+
     if data['pm1'] > 25:
         msg = 'Particle 1 amount is too high [p1w]. Current PM1 amount is {} ug/m3'.format(str(data['pm25']))
         warnings['pm1'] = msg
         warnings_logger.error(msg)
-    elif data['pm25'] > 25:
+
+    data['pm25'] = float(data['pm25'])
+
+    if data['pm25'] > 25:
         msg = 'Particle 2.5 amount is too high [p2w]. Current PM2.5 amount is {} ug/m3'.format(str(data['pm25']))
         warnings['pm2_5'] = msg
         warnings_logger.error(msg)
-    elif data['pm10'] > 40:
+
+    data['pm10'] = float(data['pm10'])
+
+    if data['pm10'] > 40:
         msg = 'Particle 10 amount is too high [pTw]. Current PM10 amount is {} ug/m3'.format(str(data['pm25']))
         warnings['pm10'] = msg
         warnings_logger.error(msg)
+
+    data['light'] = float(data['light'])
 
     if data['light'] > 3000:
         msg = 'It is too bright in the room. Current value: {} lux.'.format(str(data['light']))
