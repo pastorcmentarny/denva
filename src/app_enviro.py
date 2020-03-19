@@ -181,10 +181,12 @@ def display_on_screen(measurement: dict):
         line2 = 'IP: {}'.format(commands.get_ip())
         line3 = 'Uptime: {}'.format(commands.get_uptime())
     elif cycle % 6 == 1:
-        line1 = 'RAM avail.: {} MB'.format(system_data_service.get_memory_available_in_mb())
+        line1 = 'RAM avail.: {}'.format(system_data_service.get_memory_available_in_mb())
         line2 = 'Space: {}'.format(commands.get_space_available())
         line3 = 'Data Space: {}'.format(commands.get_data_space_available())
+
         color1 = get_colour_for_cpu()
+
     elif cycle % 6 == 2:
         line1 = 'light: {}'.format(measurement["light"])
         line2 = 'proximity: {}'.format(measurement["proximity"])

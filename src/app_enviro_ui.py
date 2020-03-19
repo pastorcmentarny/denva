@@ -29,53 +29,60 @@ APP_NAME = 'Denva Enviro UI'
 
 @app.route("/now")
 def now():
+    logger.info('Getting current measurement from Enviro')
     return jsonify(sensor_log_reader.get_last_enviro_measurement())
 
 
 @app.route("/system")
 def system():
+    logger.info('Getting system information about Enviro')
     return jsonify(commands.get_system_info())
 
 
 @app.route("/log/app")
 def log_app():
+    logger.info('Getting application logs for sending as email for Enviro')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/logs.log', 300))
 
 
 @app.route("/log/app/recent")
 def recent_log_app():
-    logger.info('Getting recent application logs for sending as email')
+    logger.info('Getting recent application logs for sending as email for Enviro')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/logs.log', 20))
 
 
 @app.route("/log/hc")
 def log_hc():
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/enviro-hc.log', 300))
+    return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 300))
 
 
 @app.route("/log/hc/recent")
 def recent_log_hc():
-    logger.info('Getting recent healthcheck logs  for sending as email')
+    logger.info('Getting recent healthcheck logs  for sending as email for Enviro')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 20))
 
 
 @app.route("/log/ui")
 def log_ui():
-    logger.info('Getting server ui logs')
+    logger.info('Getting server ui logs for Enviro')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/server.log', 300))
 
 
 @app.route("/log/ui/recent")
 def recent_log_ui():
-    logger.info('Getting recent server ui logs for sending as email')
+    logger.info('Getting recent server ui logs for sending as email  for Enviro')
     return jsonify(commands.get_lines_from_path('/home/pi/logs/server.log', 20))
 
 
 @app.route("/warns/now")
 def current_warns():
-    logger.debug('Getting current warnings for enviro')
+    logger.debug('Getting current warnings for Enviro')
     return jsonify(sensor_warnings.get_current_warnings_for_enviro())
 
+@app.route("/warns/count")
+def count_warns():
+    logger.info('Getting warnings count for Enviro')
+    return jsonify(sensor_warnings.count_warning_today())
 
 @app.route("/hc")
 def healthcheck():

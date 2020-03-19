@@ -66,7 +66,8 @@ settings = {
         'dev': 'D:\Projects\denva\src\configs\dev_log_config.json',
         'server': 'E:\denva\logs\server_log_config.json',
         'denva': '/home/pi/denva-master/src/configs/log_config.json',
-        'enviro': '/home/pi/denva-master/src/configs/log_config.json'
+        'enviro': '/home/pi/denva-master/src/configs/log_config.json',
+        'hc': '/home/pi/denva-master/src/configs/log_config.json'
     },
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',

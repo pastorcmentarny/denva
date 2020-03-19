@@ -14,6 +14,7 @@ import logging
 import requests
 import time
 
+import config_serivce
 import commands
 import data_files
 import email_sender_service
@@ -47,6 +48,7 @@ def measurement_is_older_than_5_minutes():
 
 
 def healthcheck_test_runner():
+    logger.info('Running healthcheck')
     now = datetime.now().time()
     if now < datetime.now().time().replace(hour=0, minute=15, second=0, microsecond=0):
         logger.info("TOO EARLY. Healthcheck skipped.")
@@ -113,5 +115,6 @@ def send_email_on_fail(problem: str):
 
 
 if __name__ == '__main__':
+    config_serivce.set_mode_to('hc')
     data_files.setup_logging()
     healthcheck_test_runner()
