@@ -177,18 +177,18 @@ def display_on_screen(measurement: dict):
     line4 = ''
 
     if cycle % 6 == 0:
-        line1 = 'IP: {}'.format(commands.get_ip())
-        line2 = 'Uptime: {}'.format(commands.get_uptime())
-    elif cycle % 6 == 1:
         line1 = 'CPU Temp: {}'.format(commands.get_cpu_temp())
-        line2 = 'RAM avail.: {} MB'.format(system_data_service.get_memory_available_in_mb())
-        line3 = 'Space: {}'.format(commands.get_space_available())
-        line4 = 'Data Space: {}'.format(commands.get_data_space_available())
+        line2 = 'IP: {}'.format(commands.get_ip())
+        line3 = 'Uptime: {}'.format(commands.get_uptime())
+    elif cycle % 6 == 1:
+        line1 = 'RAM avail.: {} MB'.format(system_data_service.get_memory_available_in_mb())
+        line2 = 'Space: {}'.format(commands.get_space_available())
+        line3 = 'Data Space: {}'.format(commands.get_data_space_available())
         color1 = get_colour_for_cpu()
     elif cycle % 6 == 2:
         line1 = 'light: {}'.format(measurement["light"])
         line2 = 'proximity: {}'.format(measurement["proximity"])
-    elif cycle % 6 == 1:
+    elif cycle % 6 == 3:
         line1 = 'nh   3: {:.2f}'.format(measurement["nh3"])
         line2 = 'oxidised: {:.2f}'.format(measurement["oxidised"])
         line3 = 'reduced: {:.2f}'.format(measurement["reduced"])
