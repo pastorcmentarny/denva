@@ -38,31 +38,31 @@
                             .<br/>
                         </li>
                         <li><strong class="d-inline-block text-success">Server(LP)</strong></li>
-                        <li><b>CPU Speed:</b>{{message.system.server["CPU Speed"]}}</li>
-                        <li><b>Memory Available:</b>{{message.system.server["Memory Available"]}}</li>
-                        <li><b>Disk Free:</b>{{message.system.server["Disk Free"]}}</li>
-                        <li><b>Uptime:</b>{{message.system.server["Uptime"]}}</li>
+                        <li class="small"><b>CPU Speed:</b>{{message.system.server["CPU Speed"]}}</li>
+                        <li class="small"><b>Memory Available:</b>{{message.system.server["Memory Available"]}}</li>
+                        <li class="small"><b>Disk Free:</b>{{message.system.server["Disk Free"]}}</li>
+                        <li class="small"><b>Uptime:</b>{{message.system.server["Uptime"]}}</li>
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Denva(Pi4)</strong></li>
-                        <li><b>CPU Speed : </b>{{message.system.denva["CPU Speed"]}}</li>
-                        <li><b>CPU Temp : </b>{{message.system.denva["CPU Temp"]}}</li>
-                        <li><b>Memory Available : </b>{{message.system.denva["Memory Available"]}}</li>
-                        <li><b>Free Space : </b>{{message.system.denva["Free Space"]}}</li>
-                        <li><b>Data Free Space : </b>{{message.system.denva["Data Free Space"]}}</li>
-                        <li><b>Uptime : </b>{{message.system.denva["Uptime"]}}</li>
+                        <li class="small"><b>CPU Speed : </b>{{message.system.denva["CPU Speed"]}}</li>
+                        <li class="small"><b>CPU Temp : </b>{{message.system.denva["CPU Temp"]}}</li>
+                        <li class="small"><b>Memory Available : </b>{{message.system.denva["Memory Available"]}}</li>
+                        <li class="small"><b>Free Space : </b>{{message.system.denva["Free Space"]}}</li>
+                        <li class="small"><b>Data Free Space : </b>{{message.system.denva["Data Free Space"]}}</li>
+                        <li class="small"><b>Uptime : </b>{{message.system.denva["Uptime"]}}</li>
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Enviro(Pi3)</strong></li>
-                        <li><b>CPU Speed : </b>{{message.system.enviro["CPU Speed"]}}</li>
-                        <li><b>CPU Temp : </b>{{message.system.enviro["CPU Temp"]}}</li>
-                        <li><b>RAM Available : </b>{{message.system.enviro["Memory Available"]}}</li>
-                        <li><b>Free Space : </b>{{message.system.enviro["Free Space"]}}</li>
-                        <li><b>Data Free Space : </b>{{message.system.enviro["Data Free Space"]}}</li>
-                        <li><b>Uptime : </b>{{message.system.enviro["Uptime"]}}</li>
+                        <li class="small"><b>CPU Speed : </b>{{message.system.enviro["CPU Speed"]}}</li>
+                        <li class="small"><b>CPU Temp : </b>{{message.system.enviro["CPU Temp"]}}</li>
+                        <li class="small"><b>RAM Available : </b>{{message.system.enviro["Memory Available"]}}</li>
+                        <li class="small"><b>Free Space : </b>{{message.system.enviro["Free Space"]}}</li>
+                        <li class="small"><b>Data Free Space : </b>{{message.system.enviro["Data Free Space"]}}</li>
+                        <li class="small"><b>Uptime : </b>{{message.system.enviro["Uptime"]}}</li>
                         <li>_</li>
                     </ul>
                 </div>
                 <hr/>
-                <ul class="list-unstyled mt-3 mb-4">
+                <ul class="list-unstyled mt-3 mb-4 small">
                     <li><a href="{{message.page_tube_trains}}">Tube&Trains status</a></li>
                     <li><a href="{{message.page_tt_delays_counter}}">Tube delays counter</a></li>
                     <li><a href="{{message.page_ricky}}">Rickmansworth</a></li>
@@ -71,7 +71,7 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">REPORTS</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
                     <li><a href="{{message.page_last_report}}">Report for yesterday</a></li>
                     <li>Report for last week</li>
@@ -83,7 +83,7 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">WARNINGS</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body ">
                 <ul class="list-unstyled mt-3 mb-4">
                     {% for denva in message.warnings.denva %}
                     <li class="mb-1 text-warning">{{denva}}</li>
@@ -99,7 +99,7 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">LOGS</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
                     <li><a href="{{message.links.logApp.denva}}">Denva App logs</a></li>
                     <li><a href="{{message.links.logHc.denva}}">Denva's Health logs</a></li>
@@ -115,7 +115,7 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">LINKS</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
                     <li>Denva</li>
                     <li><a href="{{message.links.warningsAll.denva}}">All Warnings today</a></li>
@@ -132,7 +132,7 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">DENVA</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
                     <li><strong>timestamp</strong> : {{message.denva.timestamp}}</li>
                     <li><strong>temp</strong> : {{message.denva.temp}}</li>
@@ -161,7 +161,7 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">LINKS</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
                     <li><a href="{{message.links.averages.denva}}">Averages</a></li>
                     <li><a href="{{message.links.records.denva}}">Records</a></li>
@@ -173,7 +173,7 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">ENVIRO</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
                     <li><strong>temperature</strong> : {{message.enviro.temperature}}</li>
                     <li><strong>oxidised</strong> : {{message.enviro.oxidised}}</li>
@@ -188,7 +188,7 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">LINKS</h4>
             </div>
-            <div class="card-body">
+            <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
                     <li><a href="{{message.links.averages.enviro}}">Averages</a></li>
                     <li><a href="{{message.links.records.enviro}}">Records</a></li>
