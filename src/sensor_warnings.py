@@ -162,14 +162,23 @@ def get_current_warnings_for_enviro() -> dict:
         msg = 'Particle 1 amount is too high [p1w]. Current PM1 amount is {} ug/m3'.format(str(data['pm25']))
         warnings['pm1'] = msg
         warnings_logger.error(msg)
-    if data['pm25'] > 25:
+    elif data['pm25'] > 25:
         msg = 'Particle 2.5 amount is too high [p2w]. Current PM2.5 amount is {} ug/m3'.format(str(data['pm25']))
         warnings['pm2_5'] = msg
         warnings_logger.error(msg)
-    if data['pm10'] > 40:
+    elif data['pm10'] > 40:
         msg = 'Particle 10 amount is too high [pTw]. Current PM10 amount is {} ug/m3'.format(str(data['pm25']))
         warnings['pm10'] = msg
         warnings_logger.error(msg)
+
+    if data['light'] > 3000:
+        msg = 'It is too bright in the room. Current value: {} lux.'.format(str(data['light']))
+        warnings['lhe'] = msg
+        warnings_logger.error(msg)
+    elif data['light'] > 2000:
+        msg = 'It is very bright in the room. Current value: {} lux.'.format(str(data['light']))
+        warnings['lhw'] = msg
+        warnings_logger.warning(msg)
 
     return warnings
 

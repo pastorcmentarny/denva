@@ -39,9 +39,11 @@ import logging
 import random
 import cl_display
 import commands
+import config_serivce
 import data_files
 import email_sender_service
 import sensor_warnings
+import system_data_service
 
 logger = logging.getLogger('app')
 
@@ -170,25 +172,34 @@ def display_on_screen(measurement: dict):
     color1 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
     color2 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
     color3 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
+    line3 = ''
+    line4 = ''
 
     if cycle % 6 == 0:
         line1 = 'IP: {}'.format(commands.get_ip())
-        line2 = 'CPU Temp: {}'.format(commands.get_cpu_temp())
-        line3 = 'Uptime: {}'.format(commands.get_uptime())
-        line4 = 'Space: {}'.format(commands.get_space_available())
+        line2 = 'Uptime: {}'.format(commands.get_uptime())
     elif cycle % 6 == 1:
+        line1 = 'CPU Temp: {}'.format(commands.get_cpu_temp())
+        line2 = 'RAM avail.: {} MB'.format(system_data_service.get_memory_available_in_mb())
+        line3 = 'Space: {}'.format(commands.get_space_available())
+        line4 = 'Data Space: {}'.format(commands.get_data_space_available())
+        color1 = get_colour_for_cpu()
+    elif cycle % 6 == 2:
         line1 = 'light: {}'.format(measurement["light"])
         line2 = 'proximity: {}'.format(measurement["proximity"])
-        line3 = 'oxidised: {:.2f}'.format(measurement["oxidised"])
-        line4 = 'reduced: {:.2f}'.format(measurement["reduced"])
+    elif cycle % 6 == 1:
+        line1 = 'nh   3: {:.2f}'.format(measurement["nh3"])
+        line2 = 'oxidised: {:.2f}'.format(measurement["oxidised"])
+        line3 = 'reduced: {:.2f}'.format(measurement["reduced"])
     else:
-        line1 = 'pm   1: {}'.format(measurement["pm1"])
+        line1 = 'pm    1: {}'.format(measurement["pm1"])
         line2 = 'pm 2.5: {}'.format(measurement["pm25"])
         line3 = 'pm  10: {}'.format(measurement["pm10"])
-        line4 = 'nh   3: {:.2f}'.format(measurement["nh3"])
+
         color1 = get_colour(measurement["pm1"])
         color2 = get_colour(measurement["pm25"])
         color3 = get_colour(measurement["pm10"])
+
     draw.text((0, 0), line1, font=font, fill=(color1[1], color1[2], color1[3]))
     draw.text((0, 16), line2, font=font, fill=(color2[1], color2[2], color2[3]))
     draw.text((0, 32), line3, font=font, fill=(color3[1], color3[2], color2[3]))
@@ -196,6 +207,19 @@ def display_on_screen(measurement: dict):
     draw.text((0, 48), line4, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
     st7735.display(img)
     cycle += 1
+
+
+def get_colour_for_cpu():
+    cpu_temp = commands.get_cpu_temp()
+    config = config_serivce.load_cfg()
+    if cpu_temp > config['sensor']['cpu_temp_fatal']:
+        return ['Fatal', 255, 16, 1]
+    elif cpu_temp > config['sensor']['cpu_temp_error']:
+        return ['Fatal', 246, 108, 8]
+    elif cpu_temp > config['sensor']['cpu_temp_warn']:
+        return ['Warn', 255, 215, 0]
+    else:
+        return ['Good', 106, 168, 79]
 
 
 def get_colour(level: float) -> list:

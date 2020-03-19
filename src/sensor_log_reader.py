@@ -136,6 +136,7 @@ def get_data_row_for_enviro(row) -> dict:
         "pm25": row[10],  # unit = "ug/m3"
         "pm10": row[11],  # unit = "ug/m3"
         'cpu_temp': commands.get_cpu_temp(),
+        'light': '{:0.1f}'.format(float(row[4])),
     }
     return data_row
 
