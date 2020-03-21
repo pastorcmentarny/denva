@@ -28,6 +28,18 @@ logger = logging.getLogger('app')
 
 pictures = []
 email_cooldown = datetime.now()
+denva_report_email_cooldown = datetime.now()
+
+def should_send_report_email():
+    global denva_report_email_cooldown
+    if app_timer.is_time_to_run_every_6_hours(denva_report_email_cooldown):
+        logger.info('Preparing to send denva report email')
+        start_time = timer()
+        email_data = {'now': local_data_gateway.get_current_reading_for_denva(),
+                      'report': local_data_gateway.get_yesterday_report_for_denva()}
+        end_time = timer()
+        logger.info('It took {} ms to generate data'.format(int((end_time - start_time) * 1000)))
+        email_sender_service.send(email_data, 'Report (via server)')
 
 
 def should_send_email():
@@ -58,6 +70,7 @@ def main():
                     pictures.pop(0)
         information.should_refresh()
         should_send_email()
+        should_send_report_email()
 
 
 def setup():

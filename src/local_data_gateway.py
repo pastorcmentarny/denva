@@ -12,6 +12,10 @@ def get_current_reading_for_denva() -> dict:
 def get_current_reading_for_enviro() -> dict:
     return get_data_for('{}/now'.format(config_serivce.load_cfg()["urls"]['enviro']))
 
+def get_yesterday_report_for_denva() -> dict:
+    return get_data_for('{}/report/yesterday'.format(config_serivce.load_cfg()["urls"]['denva']))
+
+
 
 def get_current_logs_for_all_services() -> dict:
     return {
