@@ -59,7 +59,7 @@ def load_enviro_data(year: int, month: int, day: int) -> list:
             row[12] == '?'
         except IndexError:
             row.insert(12, 0) #measurement time
-        add_row(data, row)
+        add_enviro_row(data, row)
     sensor_log_file.close()
     return data
 
@@ -84,6 +84,22 @@ def load_data(year: int, month: int, day: int) -> list:
         add_row(data, row)
     sensor_log_file.close()
     return data
+
+def add_enviro_row(data,row):
+    data.append(
+        {
+            'timestamp': row[0],
+            'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
+            "oxidised": '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+            'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
+            "nh3": '{:0.2f}'.format(float(row[8])),  # unit = "kO"
+            "pm1": row[9],  # unit = "ug/m3"
+            "pm25": row[10],  # unit = "ug/m3"
+            "pm10": row[11],  # unit = "ug/m3"
+            'cpu_temp': commands.get_cpu_temp(), #FIXME it is a bug
+            'light': '{:0.1f}'.format(float(row[4])),
+        }
+    )
 
 
 def add_row(data, row):
