@@ -23,7 +23,7 @@ import config_serivce
 import sensor_warnings
 
 app = Flask(__name__)
-logger = logging.getLogger('app')
+logger = logging.getLogger('server')
 APP_NAME = 'Denva Enviro UI'
 
 @app.route("/avg")
