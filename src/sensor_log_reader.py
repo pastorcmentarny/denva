@@ -35,8 +35,8 @@ def get_enviro_sensor_log_file_at_server() -> str:
     return NETWORK_PATH + 'enviro/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
 
 
-def get_sensor_log_file_for(year: int, month: int, day: int) -> str:
-    path = '/home/pi/logs/' + utils.get_filename_from_year_month_day('sensor-log', 'csv', year, month, day)
+def get_sensor_log_file_for(year: int, month: int, day: int,sensor_filename:str = 'sensor-log') -> str:
+    path = '/home/pi/logs/' + utils.get_filename_from_year_month_day(sensor_filename, 'csv', year, month, day)
     return path
 
 
@@ -44,7 +44,26 @@ def load_data_for_today() -> list:
     today = datetime.now()
     return load_data(today.year, today.month, today.day)
 
+def load_enviro_data_for_today() -> list:
+    today = datetime.now()
+    return load_enviro_data(today.year, today.month, today.day)
 
+def load_enviro_data(year: int, month: int, day: int) -> list:
+    sensor_log_file = utils.fix_nulls(
+        open(get_sensor_log_file_for(year, month, day,'sensor-enviro-log'), 'r', newline='', encoding='utf-8'))
+    csv_content = csv.reader(sensor_log_file)
+    csv_data = list(csv_content)
+    data = []
+    for row in csv_data:
+        try:
+            row[12] == '?'
+        except IndexError:
+            row.insert(12, 0) #measurement time
+        add_row(data, row)
+    sensor_log_file.close()
+    return data
+
+#TODO move this to different place
 def load_data(year: int, month: int, day: int) -> list:
     sensor_log_file = utils.fix_nulls(
         open(get_sensor_log_file_for(year, month, day), 'r', newline='', encoding='utf-8'))
