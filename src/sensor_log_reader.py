@@ -13,10 +13,13 @@ import csv
 from datetime import datetime
 
 import commands
+import logging
 import utils
 
 PI_PATH = '/home/pi/logs/'
 NETWORK_PATH = '/mnt/data/sensors/'
+
+logger = logging.getLogger('server')
 
 
 def get_sensor_log_file() -> str:
@@ -49,12 +52,14 @@ def load_enviro_data_for_today() -> list:
     return load_enviro_data(today.year, today.month, today.day)
 
 def load_enviro_data(year: int, month: int, day: int) -> list:
+    logger.debug('loading enviro sensor data from {} {} {}'.format(day,month,year))
     sensor_log_file = utils.fix_nulls(
         open(get_sensor_log_file_for(year, month, day,'sensor-enviro-log'), 'r', newline='', encoding='utf-8'))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
-    for row in csv_data:
+    for index, row in enumerate(csv_data):
+        logger.debug('read csv row no.{}'.format(index))
         try:
             row[12] == '?'
         except IndexError:
