@@ -74,7 +74,7 @@ def add_enviro_measurement_to_file(file, data: dict):
     csv_writer.writerow([timestamp,
                          data["temperature"], data["pressure"], data["humidity"],
                          data["light"], data["proximity"], data["oxidised"], data["reduced"],
-                         data["nh3"], data["pm1"], data["pm25"], data["pm10"],
+                         data["nh3"], data["pm1"], data["pm25"], data["pm10"], data['measurement_time']
                          ])
     file.close()
 
