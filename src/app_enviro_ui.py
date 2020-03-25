@@ -13,7 +13,7 @@ import logging
 
 import sys
 from flask import Flask, jsonify, request
-
+import averages
 import commands
 import data_files
 import email_sender_service
@@ -26,6 +26,10 @@ app = Flask(__name__)
 logger = logging.getLogger('app')
 APP_NAME = 'Denva Enviro UI'
 
+@app.route("/avg")
+def average():
+    logger.info('Getting average measurement from today')
+    return jsonify(averages.get_enviro_averages_for_today())
 
 @app.route("/now")
 def now():
