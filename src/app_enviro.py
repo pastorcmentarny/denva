@@ -283,7 +283,7 @@ def main():
         data_files.store_enviro_measurement(measurement)
         measurement_storage_service.send('enviro', measurement)
         sensor_warnings.get_current_warnings_for_enviro()
-        remaining_time_in_millis = 2 - (float(measurement_time) / 1000)
+        remaining_time_in_millis = 5 - (float(measurement_time) / 1000)
 
         if remaining_time_in_millis > 0:
             time.sleep(remaining_time_in_millis)
