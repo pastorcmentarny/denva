@@ -103,6 +103,7 @@ def add_enviro_row(data,row):
             "pm10": row[11],  # unit = "ug/m3"
             'cpu_temp': commands.get_cpu_temp(), #FIXME it is a bug
             'light': '{:0.1f}'.format(float(row[4])),
+            'measurement_time' : row[12]
         }
     )
 
@@ -158,7 +159,7 @@ def get_data_row(row) -> dict:
         'mx': '{:0.2f}'.format(float(row[16])),
         'my': '{:0.2f}'.format(float(row[17])),
         'mz': '{:0.2f}'.format(float(row[18])),
-        'cpu_temp': commands.get_cpu_temp(),
+        'cpu_temp': commands.get_cpu_temp(), #fix a bug
         'eco2': row[21],
         'tvoc': row[22]
     }
