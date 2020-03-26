@@ -14,9 +14,64 @@ import time
 
 import sensor_log_reader
 
-
+##refactor and remove it this
 def get_records_for_today() -> dict:
     return get_records(sensor_log_reader.load_data_for_today())
+
+
+def get_enviro_records_for_today() -> dict:
+    data_records = sensor_log_reader.load_enviro_data_for_today()
+    start = time.time_ns()
+    result = {
+        'temperature': {
+            'min': 1000,
+            'max': -1000
+        },
+        'highest_light': 0,
+        'highest_oxidised': 0,
+        'highest_reduced': 0,
+        'highest_pm1': 0,
+        'highest_pm25': 0,
+        'highest_pm10': 0,
+        'measurement_time': {
+            'min' : 100000000,
+            'max' : 0
+        }
+    }
+
+    for data_record in data_records:
+        if float(data_record['temperature']) > float(result['temperature']['max']):
+            result['temperature']['max'] = data_record['temperature']
+        if float(data_record['temperature']) < float(result['temperature']['min']):
+            result['temperature']['min'] = data_record['temperature']
+
+        if int(data_record['light']) > int(result['highest_light']):
+            result['highest_light'] = data_record['light']
+
+        if int(data_record['light']) > int(result['highest_oxidised']):
+            result['highest_oxidised'] = data_record['light']
+
+        if int(data_record['light']) > int(result['highest_reduced']):
+            result['highest_reduced'] = data_record['light']
+
+        if int(data_record['pm1']) > int(result['highest_pm1']):
+            result['highest_pm1'] = data_record['pm1']
+
+        if int(data_record['pm25']) > int(result['highest_pm25']):
+            result['highest_pm25'] = data_record['pm25']
+
+        if int(data_record['pm10']) > int(result['highest_pm10']):
+            result['highest_pm10'] = data_record['pm10']
+
+        if float(data_record['measurement_time']) > float(result['measurement_time']['max']):
+            result['measurement_time']['max'] = data_record['measurement_time']
+        if float(data_record['measurement_time']) < float(result['measurement_time']['min']):
+            result['measurement_time']['min'] = data_record['measurement_time']
+
+    end = time.time_ns()
+    result['log entries counter'] = len(data_records)
+    result["execution_time"] = str(end - start) + ' ns.'
+    return result
 
 
 def get_records(data_records) -> dict:

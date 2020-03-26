@@ -14,6 +14,7 @@ import logging
 import sys
 from flask import Flask, jsonify, request
 import averages
+import records
 import commands
 import data_files
 import email_sender_service
@@ -35,6 +36,12 @@ def average():
 def now():
     logger.info('Getting current measurement from Enviro')
     return jsonify(sensor_log_reader.get_last_enviro_measurement())
+
+
+@app.route("/records")
+def record():
+    logger.info('Getting record measurement from today')
+    return jsonify(records.get_enviro_records_for_today())
 
 
 @app.route("/system")
