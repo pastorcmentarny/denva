@@ -72,7 +72,7 @@ def get_enviro_averages(data_records: list) -> dict:
     else:
         result['info'] = 'No records'
     end_time = timer()
-    result['execution_time'] = str(end_time - start_time) + ' ns.'
+    result['execution_time'] = str(end_time - start_time) + ' ns.' #TODO FIXME  "execution_time": "0.15859715300007338 ns.",
     return result
 
 

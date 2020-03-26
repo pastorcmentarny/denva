@@ -14,13 +14,14 @@ import time
 
 import sensor_log_reader
 
-##refactor and remove it this
 def get_records_for_today() -> dict:
     return get_records(sensor_log_reader.load_data_for_today())
 
-
 def get_enviro_records_for_today() -> dict:
-    data_records = sensor_log_reader.load_enviro_data_for_today()
+    return get_enviro_records(sensor_log_reader.load_data_for_today())
+
+
+def get_enviro_records(data_records) -> dict:
     start = time.time_ns()
     result = {
         'temperature': {
@@ -35,7 +36,7 @@ def get_enviro_records_for_today() -> dict:
         'highest_pm10': 0,
         'measurement_time': {
             'min' : 100000000,
-            'max' : 0
+            'max' : -1
         }
     }
 
@@ -45,22 +46,22 @@ def get_enviro_records_for_today() -> dict:
         if float(data_record['temperature']) < float(result['temperature']['min']):
             result['temperature']['min'] = data_record['temperature']
 
-        if int(data_record['light']) > int(result['highest_light']):
+        if float(data_record['light']) > float(result['highest_light']):
             result['highest_light'] = data_record['light']
 
-        if int(data_record['light']) > int(result['highest_oxidised']):
-            result['highest_oxidised'] = data_record['light']
+        if float(data_record['oxidised']) > float(result['highest_oxidised']):
+            result['highest_oxidised'] = data_record['oxidised']
 
-        if int(data_record['light']) > int(result['highest_reduced']):
-            result['highest_reduced'] = data_record['light']
+        if float(data_record['reduced']) > float(result['highest_reduced']):
+            result['highest_reduced'] = data_record['reduced']
 
-        if int(data_record['pm1']) > int(result['highest_pm1']):
+        if float(data_record['pm1']) > float(result['highest_pm1']):
             result['highest_pm1'] = data_record['pm1']
 
-        if int(data_record['pm25']) > int(result['highest_pm25']):
+        if float(data_record['pm25']) > float(result['highest_pm25']):
             result['highest_pm25'] = data_record['pm25']
 
-        if int(data_record['pm10']) > int(result['highest_pm10']):
+        if float(data_record['pm10']) > float(result['highest_pm10']):
             result['highest_pm10'] = data_record['pm10']
 
         if float(data_record['measurement_time']) > float(result['measurement_time']['max']):
