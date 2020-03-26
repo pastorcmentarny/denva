@@ -19,6 +19,7 @@ from datetime import datetime
 from pathlib import Path
 
 import config_serivce
+import email_sender_service
 import sensor_log_reader
 import utils
 
@@ -123,23 +124,22 @@ def store_measurement(data, motion):
         server_file = open(sensor_log_reader.get_sensor_log_file_at_server(), 'a+', newline='')
         add_measurement_to_file(server_file, data, motion)
         logger.debug('measurement no.{} saved to file.'.format(counter))
-        # if flag is true, set to false
     except IOError as exception:
         logger.warning(exception)
-        # add flag to indicate that there is a problem
 
 
 def setup_logging():
-    path = config_serivce.get_log_path_for()
+    path = config_serivce.get_environment_log_path_for()
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
         logging.config.dictConfig(config)
         logger.info('logs loaded from {}'.format(path))
     else:
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.DEBUG)
         logger.warning('Using default logging due to problem with loading from log: {}'.format(path))
-
+        email_sender_service.send_error_log_email(path,
+                                          'Unable to setup logging due to invalid path {}'.format(path))
 
 def load_json_data_as_dict_from(path: str) -> dict:
     with open(path, 'r', encoding='utf-8') as json_file:

@@ -67,7 +67,10 @@ settings = {
         'server': 'E:\denva\logs\server_log_config.json',
         'denva': '/home/pi/denva-master/src/configs/log_config.json',
         'enviro': '/home/pi/denva-master/src/configs/log_config.json',
-        'hc': '/home/pi/denva-master/src/configs/log_config.json'
+        'hc': '/home/pi/denva-master/src/configs/log_config.json',
+        'log_app' : '/home/pi/logs/logs.log',
+        'log_hc' : '/home/pi/logs/healthcheck.log',
+        'log_ui' : '/home/pi/logs/server.log'
     },
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',
@@ -76,7 +79,10 @@ settings = {
 }
 
 
-def get_log_path_for() -> str:
+def get_log_path_for(log_type:str) -> str:
+    return settings['logs'][log_type]
+
+def get_environment_log_path_for() -> str:
     env_type = settings['mode']
     return settings['logs'][env_type]
 
