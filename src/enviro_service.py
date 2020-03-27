@@ -6,6 +6,7 @@ import networkcheck
 import report_service
 import sensor_log_reader
 import system_data_service
+import utils
 
 
 def run_gc() -> dict:
@@ -18,7 +19,7 @@ def run_gc() -> dict:
     gc.collect()
 
     result['memory_after'] = system_data_service.get_memory_available_in_mb()
-    result['memory_saved'] = int(result['memory_before']) - int(result['memory_after'])
+    result['memory_saved'] = utils.get_int_number_from_text(result['memory_before']) - utils.get_int_number_from_text(result['memory_after'])
     return result
 
 
