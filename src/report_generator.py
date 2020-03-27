@@ -239,6 +239,7 @@ def read_data_as_list_from_csv_file(day, month, year, log_file_name:str) -> list
 
 def generate_enviro_report_for_yesterday() -> dict:
     yesterday = datetime.now() - timedelta(days=1)
+    evniro_report ={}
 
     try:
         # is below 2 lines looks stupid? yes, because it is
@@ -255,14 +256,14 @@ def generate_enviro_report_for_yesterday() -> dict:
         month = yesterday.month
         day = yesterday.day
         data = load_enviro_data(year, month, day)
-        report['measurement_counter'] = len(data)
-        report['report_date'] = "{}.{}'{}".format(day, month, year)
+        evniro_report['measurement_counter'] = len(data)
+        evniro_report['report_date'] = "{}.{}'{}".format(day, month, year)
         warnings = sensor_warnings.get_warnings_for(year, month, day)
-        report['warning_counter'] = len(warnings)
-        report['records'] = records.get_enviro_records(data)
-        report['avg'] = averages.get_enviro_averages(data)
-        return report
-    except:
+        evniro_report['warning_counter'] = len(warnings)
+        evniro_report['avg'] = averages.get_enviro_averages(data)
+        evniro_report['records'] = records.get_enviro_records(data)
+        return evniro_report
+    except Exception as exception:
         logger.error("Unable to generate  report.", exc_info=True)
-        return {}
+        return {'error' : exception}
 

@@ -16,7 +16,7 @@ import email_sender_service
 import report_generator
 import utils
 
-logger = logging.getLogger('app')
+logger = logging.getLogger('server')
 
 def generate_enviro_report_for_yesterday() -> dict:
     yesterday = utils.get_yesterday_date()
@@ -29,7 +29,7 @@ def generate_enviro_report_for_yesterday() -> dict:
         logger.info('Generating report')
         report = report_generator.generate_enviro_report_for_yesterday()
         email_sender_service.send(report, 'Report')
-        data_files.save_report(report, utils.get_date_as_filename('report', 'json', yesterday))
+        data_files.save_report(report, utils.get_date_as_filename('report-enviro', 'json', yesterday))
 
 def generate_for_yesterday() -> dict:
     logger.info('Getting report for yesterday...')
