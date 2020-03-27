@@ -164,11 +164,7 @@ def generate_for(date: datetime) -> dict:
 
 
 def load_data(year, month, day) -> list:
-    path = utils.get_filename_from_year_month_day('sensor-log', 'csv', year, month, day)
-    sensor_log_file = utils.fix_nulls(open('/home/pi/logs/' + path, 'r',
-                                           newline=''))
-    csv_content = csv.reader(sensor_log_file)
-    csv_data = list(csv_content)
+    csv_data = read_data_as_list_from_csv_file(day, month, year,'sensor-log')
     data = []
     for row in csv_data:
         try:
@@ -210,30 +206,35 @@ def load_data(year, month, day) -> list:
                 'tvoc': row[22],
             }
         )
-    sensor_log_file.close()
     return data
 
 def load_enviro_data(year, month, day) -> list:
-    path = utils.get_filename_from_year_month_day('sensor-enviro-log', 'csv', year, month, day)
+    csv_data = read_data_as_list_from_csv_file(day, month, year,'sensor-enviro-log')
+    data = []
+    for row in csv_data:
+        data.append({
+            'timestamp' : row[0],
+            'temperature' : '{:0.1f}'.format(float(row[1])),  # unit = "C"
+            'light' : '{:0.1f}'.format(float(row[4])),
+            "oxidised" : '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+            'reduced' : '{:0.2f}'.format(float(row[7])),  # unit = "kO"
+            "nh3" : '{:0.2f}'.format(float(row[8])),  # unit = "kO"
+            "pm1" : row[9],  # unit = "ug/m3"
+            "pm25" : row[10],  # unit = "ug/m3"
+            "pm10" :  row[11],  # unit = "ug/m3"
+            "measurement_time" :  row[12],
+        })
+    return data
+
+
+def read_data_as_list_from_csv_file(day, month, year, log_file_name:str) -> list:
+    path = utils.get_filename_from_year_month_day(log_file_name, 'csv', year, month, day)
     sensor_log_file = utils.fix_nulls(open('/home/pi/logs/' + path, 'r',
                                            newline=''))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
-    data = []
-    for row in csv_data:
-        data.append({
-            data['timestamp'] : row[0],
-            data['temperature'] : '{:0.1f}'.format(float(row[1])),  # unit = "C"
-            data['light'] : '{:0.1f}'.format(float(row[4])),
-            data["oxidised"] : '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
-            data['reduced'] : '{:0.2f}'.format(float(row[7])),  # unit = "kO"
-            data["nh3"] : '{:0.2f}'.format(float(row[8])),  # unit = "kO"
-            data["pm1"] : row[9],  # unit = "ug/m3"
-            data["pm25"] : row[10],  # unit = "ug/m3"
-            data["pm10"] :  row[11],  # unit = "ug/m3"
-            data["measurement_time"] :  row[12],
-        })
-    return data
+    sensor_log_file.close()
+    return csv_data
 
 
 def generate_enviro_report_for_yesterday() -> dict:
