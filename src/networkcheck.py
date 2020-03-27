@@ -8,7 +8,7 @@ import data_files
 PERFECT = 'Perfect'
 GOOD = 'Good'
 POOR = 'POOR'
-DOWN = 'DOWN!'
+DOWN = 'DOWN'
 
 logger = logging.getLogger('hc')
 
@@ -57,7 +57,7 @@ def network_check(in_china: bool = False) -> dict:
         except Exception as whoops:
             logger.warning('Response error: {}'.format(whoops))
             problems.append(whoops)
-    status = get_network_status(ok)
+    status = _get_network_status(ok)
 
     end_time = timer()
     total_time = int(end_time - start_time) * 1000
@@ -87,17 +87,19 @@ def log_result(problems, status, total_time):
         logger.debug('Network seems to be fine. I took {} ms to check.'.format(total_time))
 
 
-def get_network_status(ok: int) -> str:
+def _get_network_status(ok: int) -> str:
     if ok == 6:
         return PERFECT
     elif ok >= 4:
         return GOOD
     elif ok >= 2:
         return POOR
+    elif ok == 1:
+        return DOWN + '?'
     else:
-        return DOWN
+        return DOWN + '!'
 
-
+# use as standalone tool :)
 if __name__ == '__main__':
     data_files.setup_logging()
     network_check()
