@@ -72,9 +72,12 @@ def to_hex(r, g, b):
     return '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
 
-def get_float_number_from_text(cpu_temp: str) -> str:
-    return re.sub('[^0-9.]', '', cpu_temp)
+#TODO change return from str to float
+def get_float_number_from_text(text: str) -> str:
+    return re.sub('[^0-9.]', '', text)
 
+def get_int_number_from_text(text: str) -> int:
+    return int(re.sub('[^0-9]', '', text))
 
 def fix_nulls(data):
     for line in data:
