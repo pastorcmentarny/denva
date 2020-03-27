@@ -259,8 +259,7 @@ def generate_enviro_report_for_yesterday() -> dict:
         report['report_date'] = "{}.{}'{}".format(day, month, year)
         warnings = sensor_warnings.get_warnings_for(year, month, day)
         report['warning_counter'] = len(warnings)
-        report['warnings'] = sensor_warnings.count_warnings(warnings)
-        report['records'] = records.get_records(data)
+        report['records'] = records.get_enviro_records(data)
         report['avg'] = averages.get_enviro_averages(data)
         return report
     except:
