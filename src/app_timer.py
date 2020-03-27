@@ -37,7 +37,7 @@ def is_time_to_send_report_email(previous_update_time) -> bool:
 
 
 def is_time_to_send_email(previous_update_time) -> bool:
-    is_time_to_run_every_5_minutes(previous_update_time)
+    return is_time_to_run_every_5_minutes(previous_update_time)
 
 
 def is_time_to_run_every_5_minutes(previous_update_time) -> bool:
