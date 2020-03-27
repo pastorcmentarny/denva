@@ -1,3 +1,6 @@
+enviroplus
+bme280
+pms5003
 veml6075
 bme680
 sgp30

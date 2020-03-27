@@ -152,11 +152,11 @@ def generate_for(date: datetime) -> dict:
         report['warnings'] = sensor_warnings.count_warnings(warnings)
         report['records'] = records.get_records(data)
         report['avg'] = averages.get_averages(data)
-        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month, day)
-        report['rickmansworth']['crimes'] = web_data.get_crime()
-        report['rickmansworth']['floods'] = web_data.get_flood()
-        report['rickmansworth']['weather'] = web_data.get_weather()
-        report['rickmansworth']['o2'] = web_data.get_o2_status()
+        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month, day) # move to separate function
+        report['rickmansworth']['crimes'] = web_data.get_crime() # move to separate function
+        report['rickmansworth']['floods'] = web_data.get_flood() # move to separate function
+        report['rickmansworth']['weather'] = web_data.get_weather() # move to separate function
+        report['rickmansworth']['o2'] = web_data.get_o2_status() # move to separate function
         return report
     except:
         logger.error("Unable to generate  report.", exc_info=True)
@@ -212,3 +212,57 @@ def load_data(year, month, day) -> list:
         )
     sensor_log_file.close()
     return data
+
+def load_enviro_data(year, month, day) -> list:
+    path = utils.get_filename_from_year_month_day('sensor-enviro-log', 'csv', year, month, day)
+    sensor_log_file = utils.fix_nulls(open('/home/pi/logs/' + path, 'r',
+                                           newline=''))
+    csv_content = csv.reader(sensor_log_file)
+    csv_data = list(csv_content)
+    data = []
+    for row in csv_data:
+        data.append({
+            data['timestamp'] : row[0],
+            data['temperature'] : '{:0.1f}'.format(float(row[1])),  # unit = "C"
+            data['light'] : '{:0.1f}'.format(float(row[4])),
+            data["oxidised"] : '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+            data['reduced'] : '{:0.2f}'.format(float(row[7])),  # unit = "kO"
+            data["nh3"] : '{:0.2f}'.format(float(row[8])),  # unit = "kO"
+            data["pm1"] : row[9],  # unit = "ug/m3"
+            data["pm25"] : row[10],  # unit = "ug/m3"
+            data["pm10"] :  row[11],  # unit = "ug/m3"
+            data["measurement_time"] :  row[12],
+        })
+    return data
+
+
+def generate_enviro_report_for_yesterday() -> dict:
+    yesterday = datetime.now() - timedelta(days=1)
+
+    try:
+        # is below 2 lines looks stupid? yes, because it is
+        warnings_logger.info("")
+        stats_log.info("")
+        '''
+        why? as report is generated on next day, you need add log entry 
+        logger can trigger TimedRotatingFileHandler event  and create file
+        that is used by report service. 
+        Why I used logger to store data? because I am lazy and i used most efficient way
+        to store data I do analyse over later.
+        '''
+        year = yesterday.year
+        month = yesterday.month
+        day = yesterday.day
+        data = load_enviro_data(year, month, day)
+        report['measurement_counter'] = len(data)
+        report['report_date'] = "{}.{}'{}".format(day, month, year)
+        warnings = sensor_warnings.get_warnings_for(year, month, day)
+        report['warning_counter'] = len(warnings)
+        report['warnings'] = sensor_warnings.count_warnings(warnings)
+        report['records'] = records.get_records(data)
+        report['avg'] = averages.get_enviro_averages(data)
+        return report
+    except:
+        logger.error("Unable to generate  report.", exc_info=True)
+        return {}
+

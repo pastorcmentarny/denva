@@ -3,6 +3,7 @@ import gc
 import commands
 import config_serivce
 import networkcheck
+import report_service
 import sensor_log_reader
 import system_data_service
 
@@ -44,3 +45,7 @@ def get_log_hc(number:int):
 
 def get_log_ui(number:int):
     return commands.get_lines_from_path(config_serivce.get_log_path_for('log_ui'), number)
+
+
+def get_report_for_yesterday():
+    return report_service.generate_enviro_report_for_yesterday()

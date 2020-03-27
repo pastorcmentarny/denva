@@ -87,6 +87,12 @@ def now():
     return jsonify(sensor_log_reader.get_last_enviro_measurement())
 
 
+@app.route("/report/yesterday")
+def last_report():
+    logger.info('Getting report for yesterday')
+    return jsonify(enviro_service.get_report_for_yesterday())
+
+
 @app.route("/records")
 def record():
     logger.info('Getting record measurement from today')

@@ -30,14 +30,22 @@ pictures = []
 email_cooldown = datetime.now()
 denva_report_email_cooldown = datetime.now()
 
-#TODO fix it to ensure send report only once
+
+# TODO fix it to ensure send report only once
 def should_send_report_email():
     global denva_report_email_cooldown
     if app_timer.is_time_to_run_every_6_hours(denva_report_email_cooldown):
         logger.info('Preparing to send denva report email')
         start_time = timer()
-        email_data = {'now': local_data_gateway.get_current_reading_for_denva(),
-                      'report': local_data_gateway.get_yesterday_report_for_denva()}
+        email_data = {'now': {
+            'denva': local_data_gateway.get_current_reading_for_denva(),
+            'enviro': local_data_gateway.get_current_reading_for_enviro()
+        },
+            'report': {
+                'denva': local_data_gateway.get_yesterday_report_for_denva(),
+                'enviro': local_data_gateway.get_yesterday_report_for_enviro()
+            }
+        }
         end_time = timer()
         logger.info('It took {} ms to generate data'.format(int((end_time - start_time) * 1000)))
         email_sender_service.send(email_data, 'Report (via server)')

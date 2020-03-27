@@ -37,6 +37,12 @@ def gateway_page():
     return render_template('gateway.html', message=app_server_service.get_gateway_data())
 
 
+@app.route("/gc")
+def gc():
+    logger.info('Running GC..')
+    return jsonify(app_server_service.run_gc())
+
+
 @app.route("/now")
 def now():
     return jsonify(sensor_log_reader.get_last_measurement())
