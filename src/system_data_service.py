@@ -1,3 +1,4 @@
+import gc
 import psutil
 from _datetime import datetime
 
@@ -38,6 +39,19 @@ def get_system_warnings() -> list:
         problems.append('Disk free space is low. Free space left: {} MB.'.format(get_system_disk_space_free()))
     return problems
 
+
+def run_gc():
+    result = {
+        'memory_before': get_memory_available_in_mb(),
+        'memory_after' : '',
+        'memory_saved' : ''
+    }
+
+    gc.collect()
+
+    result['memory_after'] = get_memory_available_in_mb()
+    result['memory_saved'] = utils.get_int_number_from_text(result['memory_before']) - utils.get_int_number_from_text(result['memory_after'])
+    return result
 
 if __name__ == '__main__':
     print(get_system_information())

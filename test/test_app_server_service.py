@@ -6,7 +6,7 @@ import system_data_service
 
 class Test(TestCase):
     # this is temporary test
-    def test_run_gc_in_enviro_service(self):
+    def test_run_gc_in_server_service(self):
         result = enviro_service.run_gc()
         memory_available_in_mb = system_data_service.get_memory_available_in_mb()
         self.assertEqual(result['memory_before'],memory_available_in_mb)

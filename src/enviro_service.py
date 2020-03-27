@@ -6,21 +6,10 @@ import networkcheck
 import report_service
 import sensor_log_reader
 import system_data_service
-import utils
 
 
 def run_gc() -> dict:
-    result = {
-        'memory_before': system_data_service.get_memory_available_in_mb(),
-        'memory_after' : '',
-        'memory_saved' : ''
-    }
-
-    gc.collect()
-
-    result['memory_after'] = system_data_service.get_memory_available_in_mb()
-    result['memory_saved'] = utils.get_int_number_from_text(result['memory_before']) - utils.get_int_number_from_text(result['memory_after'])
-    return result
+    return system_data_service.run_gc()
 
 
 def get_current_measurement(host:str):

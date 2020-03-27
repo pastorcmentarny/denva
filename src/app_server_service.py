@@ -146,14 +146,4 @@ def get_last_logs_for(log_file_name: str, lines):
 
 
 def run_gc() -> dict:
-    result = {
-        'memory_before': system_data_service.get_memory_available_in_mb(),
-        'memory_after' : '',
-        'memory_saved' : ''
-    }
-
-    gc.collect()
-
-    result['memory_after'] = system_data_service.get_memory_available_in_mb()
-    result['memory_saved'] = int(result['memory_before']) - int(result['memory_after'])
-    return result
+    return system_data_service.run_gc()
