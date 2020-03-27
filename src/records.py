@@ -21,7 +21,7 @@ def get_enviro_records_for_today() -> dict:
     return get_enviro_records(sensor_log_reader.load_data_for_today())
 
 
-def get_enviro_records(data_records) -> dict:
+def get_enviro_records(data_records: list) -> dict:
     start = time.time_ns()
     result = {
         'temperature': {
@@ -75,7 +75,7 @@ def get_enviro_records(data_records) -> dict:
     return result
 
 
-def get_records(data_records) -> dict:
+def get_records(data_records: list) -> dict:
     start = time.time_ns()
     result = {
         'temperature': {

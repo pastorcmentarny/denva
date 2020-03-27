@@ -174,7 +174,6 @@ def display_on_screen(measurement: dict):
     color2 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
     color3 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
     line3 = ''
-    line4 = ''
 
     if cycle % 6 == 0:
         line1 = 'CPU Temp: {}'.format(commands.get_cpu_temp())
@@ -206,8 +205,8 @@ def display_on_screen(measurement: dict):
     draw.text((0, 0), line1, font=font, fill=(color1[1], color1[2], color1[3]))
     draw.text((0, 16), line2, font=font, fill=(color2[1], color2[2], color2[3]))
     draw.text((0, 32), line3, font=font, fill=(color3[1], color3[2], color2[3]))
-    shade_of_grey = random.randrange(128, 255, 1)
-    draw.text((0, 48), line4, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
+    #shade_of_grey = random.randrange(128, 255, 1)
+    #draw.text((0, 48), line4, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
     st7735.display(img)
     cycle += 1
 
