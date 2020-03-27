@@ -104,10 +104,10 @@ def get_records(data_records: list) -> dict:
     }
 
     for data_record in data_records:
-        if float(data_record['temp']) > float(result['temperature']['max']):
-            result['temperature']['max'] = data_record['temp']
-        if float(data_record['temp']) < float(result['temperature']['min']):
-            result['temperature']['min'] = data_record['temp']
+        if float(data_record['temperature']) > float(result['temperature']['max']):
+            result['temperature']['max'] = data_record['temperature']
+        if float(data_record['temperature']) < float(result['temperature']['min']):
+            result['temperature']['min'] = data_record['temperature']
 
         if float(data_record['pressure']) > float(result['pressure']['max']):
             result['pressure']['max'] = data_record['pressure']
