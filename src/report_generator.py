@@ -55,12 +55,6 @@ report = {
         'highest_eco2': 0,
         'highest_tvoc': 0
     },
-    "rickmansworth": {
-        "crimes": "unknown",
-        "floods": "unknown",
-        "weather": ["unknown"],
-        "o2": "unknown",
-    },
     "tube": {
         "delays": {
             'BakerlooMD': 0,
@@ -153,10 +147,6 @@ def generate_for(date: datetime) -> dict:
         report['records'] = records.get_records(data)
         report['avg'] = averages.get_averages(data)
         report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month, day) # move to separate function
-        report['rickmansworth']['crimes'] = web_data.get_crime() # move to separate function
-        report['rickmansworth']['floods'] = web_data.get_flood() # move to separate function
-        report['rickmansworth']['weather'] = web_data.get_weather() # move to separate function
-        report['rickmansworth']['o2'] = web_data.get_o2_status() # move to separate function
         return report
     except:
         logger.error("Unable to generate  report.", exc_info=True)

@@ -190,12 +190,12 @@ def led_startup_show():
 
 
 def get_pictures_path():
-    p = []
+    pictures_path = []
     if len(pictures) > 2:
-        p = [pictures[0], pictures[-1]]
+        pictures_path = [pictures[0], pictures[-1]]
     elif len(pictures) == 1:
-        p = [pictures[0]]
-    return p
+        pictures_path = [pictures[0]]
+    return pictures_path
 
 
 def ui(message: str):

@@ -27,6 +27,7 @@ class Test(TestCase):
 
         # when
         result = records.get_records(data)
+        result['execution_time'] = '0 ns.' #not part of the test
 
         # debug
         print(result)

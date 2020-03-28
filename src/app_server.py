@@ -20,6 +20,7 @@ import app_server_service
 import app_timer
 import config_serivce
 import email_sender_service
+import information_service
 import local_data_gateway
 import mothership.information_service as information
 import webcam_utils
@@ -42,8 +43,9 @@ def should_send_report_email():
             'enviro': local_data_gateway.get_current_reading_for_enviro()
         },
             'report': {
-                'denva': local_data_gateway.get_yesterday_report_for_denva(),
-                'enviro': local_data_gateway.get_yesterday_report_for_enviro()
+                'denva' : local_data_gateway.get_yesterday_report_for_denva(),
+                'enviro' : local_data_gateway.get_yesterday_report_for_enviro(),
+                'rickmansworth' : information_service.get_data_about_rickmansworth(),
             }
         }
         end_time = timer()
