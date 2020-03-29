@@ -27,6 +27,27 @@ class MyTestCase(unittest.TestCase):
         # then
         self.assertEqual(result, expected_result)
 
+    def test_get_enviro_data_row_should_return_data_row_as_dict(self):
+        # given
+        expected_result = {'timestamp': '2020-03-27 13:44:09.656392', 'temperature': '14.9', 'light': '24.5',
+                           'oxidised': '92.08',
+                           'reduced': '224.00', 'nh3': '135.30', 'pm1': '18.0', 'pm25': '27.0', 'pm10': '27.0',
+                           'measurement_time': '330','cpu_temp': '21.6'}
+
+        row = ['2020-03-27 13:44:09.656392', '14.859722079502383', '1017.3365492766806', '12.456811542625449', '24.473',
+               '0', '92.0769230769231', '224.0000000000001', '135.304347826087', '18.0', '27.0', '27.0', '330','21.6']
+
+        print(row)
+
+        # when
+        result = sensor_log_reader.get_data_row_for_enviro(row)
+
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(result, expected_result)
+
 
 if __name__ == '__main__':
     unittest.main()

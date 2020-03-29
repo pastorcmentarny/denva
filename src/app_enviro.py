@@ -273,6 +273,7 @@ def main():
         start_time = timer()
         measurement = get_measurement()
         display_on_screen(measurement)
+        measurement['cpu_temp'] = commands.get_cpu_temp()
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         measurement['measurement_time'] = measurement_time

@@ -9,6 +9,7 @@ POOR = 'POOR'
 
 class Test(TestCase):
     def test_network_check_should_return_perfect(self):
+        # given
         expected_result = {'status': 'Perfect', 'result': '6 of 6 pages were loaded', 'problems': []}
 
         # when
