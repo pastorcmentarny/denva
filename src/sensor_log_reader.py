@@ -144,7 +144,7 @@ def get_data_row(row) -> dict:
         'temp': row[1],
         'pressure': row[2],
         'humidity': row[3],
-        'gas_resistance': row[4],
+        'gas_resistance': '{:0.2f}'.format(float(row[4])),
         'colour': row[5],
         'aqi': row[6],
         'uva_index': '{:0.2f}'.format(float(row[7])),
@@ -159,9 +159,9 @@ def get_data_row(row) -> dict:
         'mx': '{:0.2f}'.format(float(row[16])),
         'my': '{:0.2f}'.format(float(row[17])),
         'mz': '{:0.2f}'.format(float(row[18])),
-        'cpu_temp': commands.get_cpu_temp(), #fix a bug
+        'cpu_temp': row[20],
         'eco2': row[21],
-        'tvoc': row[22]
+        'tvoc': row[22],
     }
     return data_row
 
