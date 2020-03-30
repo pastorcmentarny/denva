@@ -15,7 +15,6 @@ import os
 from datetime import datetime
 from timeit import default_timer as timer
 
-import bme680
 import smbus
 import sys
 import time
@@ -31,21 +30,10 @@ import email_sender_service
 import measurement_storage_service
 #display removed import mini_display
 import utils
-from sensors import two_led_service, uv_service
+from sensors import environment_service, two_led_service, uv_service
 
-TEMP_OFFSET = 0.0
 
 bus = smbus.SMBus(1)
-
-# Set up weather sensor
-weather_sensor = bme680.BME680()
-weather_sensor.set_humidity_oversample(bme680.OS_2X)
-weather_sensor.set_pressure_oversample(bme680.OS_4X)
-weather_sensor.set_temperature_oversample(bme680.OS_8X)
-weather_sensor.set_filter(bme680.FILTER_SIZE_3)
-weather_sensor.set_temp_offset(TEMP_OFFSET)
-
-
 
 
 # Set up motion sensor
@@ -117,17 +105,7 @@ def get_current_motion_difference() -> dict:
 
 
 def get_data_from_measurement() -> dict:
-    temp = 0
-    pressure = 0
-    humidity = 0
-    gas_resistance = 0
-    if weather_sensor.get_sensor_data():
-        temp = weather_sensor.data.temperature
-        pressure = weather_sensor.data.pressure
-        humidity = weather_sensor.data.humidity
-        gas_resistance = weather_sensor.data.gas_resistance
-    else:
-        logger.warning("Weather sensor did't return data")
+    environment = environment_service.get_measurement()
     aqi = "n/a"
     eco2 = str(sgp30.get_air_quality().equivalent_co2)
     tvoc = str(sgp30.get_air_quality().total_voc)
@@ -140,10 +118,10 @@ def get_data_from_measurement() -> dict:
     uva_index, uvb_index, avg_uv_index = uv_service.get_measurements()
 
     return {
-        "temp": temp,
-        "pressure": pressure,
-        "humidity": humidity,
-        "gas_resistance": "{:.2f}".format(gas_resistance),
+        "temp": environment['temp'],
+        "pressure": environment['pressure'],
+        "humidity": environment['humidity'],
+        "gas_resistance": "{:.2f}".format(environment['gas_resistance']),
         "aqi": aqi,
         "colour": colour,
         "motion": motion,

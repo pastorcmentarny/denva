@@ -133,7 +133,6 @@ def get_current_warnings_for_enviro() -> dict:
 
     data['temperature'] = float(data['temperature'])
 
-
     if type(data['temperature']) is not float:
         data['temperature'] = float(data['temperature'])
     if data['temperature'] < 16:

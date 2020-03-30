@@ -14,11 +14,13 @@ class Test(TestCase):
                 },
                 'denva': {
                     'Memory Available': '999MB',
-                    'Disk Free' : '999MB'
+                    'Free Space' : '999MB',
+                    'Data Free Space' : '999MB'
                 },
                 'enviro' : {
                     'Memory Available': '999MB',
-                    'Disk Free' : '64MB'
+                    'Free Space' : '64MB',
+                    'Data Free Space' : '999MB'
                 }
             }
         }
