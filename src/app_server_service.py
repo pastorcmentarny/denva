@@ -19,6 +19,7 @@ import time
 
 import config_serivce
 import data_files
+import error_detector_service
 import local_data_gateway
 import mothership.celebrations as celebrations
 import mothership.chinese_dictionary_service as cn
@@ -147,3 +148,7 @@ def get_last_logs_for(log_file_name: str, lines):
 
 def run_gc() -> dict:
     return system_data_service.run_gc()
+
+
+def get_errors_from_data(data):
+    return error_detector_service.get_errors(data)

@@ -12,7 +12,7 @@ class Test(TestCase):
         # when
         result = enviro_service.run_gc()
         self.assertEqual(result['memory_before'],memory_available_in_mb)
-        self.assertLessEqual(utils.get_int_number_from_text(result['memory_after']),utils.get_int_number_from_text(memory_available_in_mb) )
+        self.assertGreaterEqual(utils.get_int_number_from_text(result['memory_after']),utils.get_int_number_from_text(memory_available_in_mb) )
         self.assertGreaterEqual(result['memory_saved'],0)
 
         #debug

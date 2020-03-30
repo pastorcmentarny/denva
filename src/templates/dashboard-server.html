@@ -86,6 +86,9 @@
             </div>
             <div class="card-body ">
                 <ul class="list-unstyled mt-3 mb-4">
+                    {% for an_error in message.errors %}
+                    <li class="mb-1 text-danger">{{an_error}}</li>
+                    {% endfor %}
                     {% for denva in message.warnings.denva %}
                     <li class="mb-1 text-warning">{{denva}}</li>
                     {% endfor %}

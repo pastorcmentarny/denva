@@ -175,8 +175,9 @@ def welcome():
         'denva': local_data_gateway.get_current_reading_for_denva(),
         'enviro': local_data_gateway.get_current_reading_for_enviro(),
         'system': app_server_service.get_current_system_information_for_all_services(),
-        'links': app_server_service.get_links_for_gateway()
+        'links': app_server_service.get_links_for_gateway(),
     }
+    data['errors'] = app_server_service.get_errors_from_data(data)
 
     return render_template('dashboard-server.html', message=data)
 

@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+import config_serivce
 import networkcheck
 
 PERFECT = 'Perfect'
@@ -9,17 +10,21 @@ POOR = 'POOR'
 
 class Test(TestCase):
     def test_network_check_should_return_perfect(self):
-        # given
-        expected_result = {'status': 'Perfect', 'result': '6 of 6 pages were loaded', 'problems': []}
+        if config_serivce.run_slow_test():
+            # given
+            expected_result = {'status': 'Perfect', 'result': '6 of 6 pages were loaded', 'problems': []}
 
-        # when
-        result =networkcheck.network_check(False)
+            # when
+            result =networkcheck.network_check(False)
 
-        # then
-        self.assertEqual(result,expected_result)
+            # then
+            self.assertEqual(result,expected_result)
 
-        #debug
-        print(result)
+            #debug
+            print(result)
+        else:
+            print('test_network_check_should_return_perfect skipped')
+            self.assertTrue(True)
 
     def test__get_network_status_should_return_perfect_for_all_url_works(self):
         result = networkcheck._get_network_status(6)

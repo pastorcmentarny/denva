@@ -75,6 +75,9 @@ settings = {
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',
         'server': 'E:\denva\src\data\information.json'
+    },
+    "test": {
+        'slow_test' : False
     }
 }
 
@@ -174,3 +177,6 @@ def get_system_drive() -> str:
         return 'E:'
     else:
         return '/'
+
+def run_slow_test() -> bool:
+    return settings['test']['slow_test']

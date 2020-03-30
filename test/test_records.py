@@ -52,7 +52,7 @@ class Test(TestCase):
 
         # when
         result = records.get_enviro_records(data)
-
+        result['execution_time'] = '0 ns.' # as execution vary per run
         # debug
         print(result)
 
