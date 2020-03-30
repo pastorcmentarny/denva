@@ -19,7 +19,6 @@ import bme680
 import smbus
 import sys
 import time
-import veml6075
 from PIL import ImageFont
 from icm20948 import ICM20948
 from sgp30 import SGP30
@@ -32,7 +31,7 @@ import email_sender_service
 import measurement_storage_service
 #display removed import mini_display
 import utils
-from sensors import two_led_service
+from sensors import two_led_service, uv_service
 
 TEMP_OFFSET = 0.0
 
@@ -47,11 +46,7 @@ weather_sensor.set_filter(bme680.FILTER_SIZE_3)
 weather_sensor.set_temp_offset(TEMP_OFFSET)
 
 
-# Set up UV sensor
-uv_sensor = veml6075.VEML6075(i2c_dev=bus)
-uv_sensor.set_shutdown(False)
-uv_sensor.set_high_dynamic_range(False)
-uv_sensor.set_integration_time('100ms')
+
 
 # Set up motion sensor
 imu = ICM20948()
@@ -142,10 +137,7 @@ def get_data_from_measurement() -> dict:
     motion = get_motion()
     two_led_service.warn_if_dom_shakes_his_legs(motion)
 
-    uva, uvb = uv_sensor.get_measurements()
-    uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
-    uv_indices = uv_sensor.convert_to_index(uva, uvb, uv_comp1, uv_comp2)
-    uva_index, uvb_index, avg_uv_index = uv_indices
+    uva_index, uvb_index, avg_uv_index = uv_service.get_measurements()
 
     return {
         "temp": temp,
