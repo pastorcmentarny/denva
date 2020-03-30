@@ -21,19 +21,18 @@ import sys
 import time
 import veml6075
 from PIL import ImageFont
-from bh1745 import BH1745
 from icm20948 import ICM20948
 from sgp30 import SGP30
 
-import app_timer
 import cl_display
 import commands
 import config_serivce
 import data_files
 import email_sender_service
 import measurement_storage_service
-import mini_display
+#display removed import mini_display
 import utils
+from sensors import two_led_service
 
 TEMP_OFFSET = 0.0
 
@@ -47,10 +46,6 @@ weather_sensor.set_temperature_oversample(bme680.OS_8X)
 weather_sensor.set_filter(bme680.FILTER_SIZE_3)
 weather_sensor.set_temp_offset(TEMP_OFFSET)
 
-# Set up light sensor
-bh1745 = BH1745()
-bh1745.setup()
-bh1745.set_leds(1)
 
 # Set up UV sensor
 uv_sensor = veml6075.VEML6075(i2c_dev=bus)
@@ -75,7 +70,6 @@ pictures = []
 sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 
 sensitivity = 8
-shaking_level = 1000
 
 logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
@@ -127,15 +121,6 @@ def get_current_motion_difference() -> dict:
     }
 
 
-def warn_if_dom_shakes_his_legs(motion):
-    if motion > shaking_level:
-        for i in range(5):
-            bh1745.set_leds(1)
-            time.sleep(0.25)
-            bh1745.set_leds(0)
-            time.sleep(0.15)
-
-
 def get_data_from_measurement() -> dict:
     temp = 0
     pressure = 0
@@ -152,10 +137,10 @@ def get_data_from_measurement() -> dict:
     eco2 = str(sgp30.get_air_quality().equivalent_co2)
     tvoc = str(sgp30.get_air_quality().total_voc)
 
-    r, g, b = bh1745.get_rgb_scaled()
+    r, g, b = two_led_service.get_measurement()
     colour = utils.to_hex(r, g, b)
     motion = get_motion()
-    warn_if_dom_shakes_his_legs(motion)
+    two_led_service.warn_if_dom_shakes_his_legs(motion)
 
     uva, uvb = uv_sensor.get_measurements()
     uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
@@ -180,15 +165,6 @@ def get_data_from_measurement() -> dict:
     }
 
 
-def led_startup_show():
-    for i in range(5):
-        bh1745.set_leds(1)
-        time.sleep(0.2)
-        bh1745.set_leds(0)
-        time.sleep(0.05)
-    bh1745.set_leds(0)
-
-
 def get_pictures_path():
     pictures_path = []
     if len(pictures) > 2:
@@ -200,13 +176,13 @@ def get_pictures_path():
 
 def ui(message: str):
     logging.info(message)
-    mini_display.display_information(message)
+    #display removed mini_display.display_information(message)
     print(message)
 
 
 def main():
     measurement_counter = 0
-    led_startup_show()
+    two_led_service.led_startup_show()
     while True:
         try:
             measurement_counter += 1
@@ -223,7 +199,7 @@ def main():
             logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
 
             cl_display.print_measurement(data)
-            mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
+            #display removed mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
             measurement_storage_service.send('denva', data)
 
             data['picture_path'] = get_pictures_path()
@@ -238,11 +214,11 @@ def main():
 
         except KeyboardInterrupt:
             ui('request application shut down.. goodbye!')
-            bh1745.set_leds(0)
+            two_led_service.off()
             cleanup_before_exit()
 
 
-'''
+''' #camera moved to server,
 def thread_camera():
     logger.info('Starting taking picture thread..', exc_info=True)
     while True:
@@ -262,15 +238,11 @@ def crude_progress_bar():
     sys.stdout.write(message)
     counter = counter + 1
     sys.stdout.flush()
-    bh1745.set_leds(led_status)
-    if led_status == 1:
-        led_status = 0
-    else:
-        led_status = 1
+    led_status = two_led_service.switch_led(led_status)
 
 
 def cleanup_before_exit():
-    # camera_thread.join()
+    #camera moved to server, camera_thread.join()
     sys.exit(0)
 
 
@@ -282,16 +254,16 @@ if __name__ == '__main__':
     try:
         ui('Mounting network drives')
         commands.mount_all_drives()
-        # camera_thread = threading.Thread(target=thread_camera)
-        # camera_thread.start()
+        #camera moved to server, camera_thread = threading.Thread(target=thread_camera)
+        #camera moved to server, camera_thread.start()
         ui("Sensor warming up, please wait...")
         sgp30.start_measurement(crude_progress_bar)
         sys.stdout.write('\n')
         ui('Sensor needed {} seconds to warm up'.format(counter))
-        bh1745.set_leds(0)
+        two_led_service.off()
         main()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
         email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
-        bh1745.set_leds(1)
+        two_led_service.on()
         cleanup_before_exit()

@@ -180,3 +180,7 @@ def get_system_drive() -> str:
 
 def run_slow_test() -> bool:
     return settings['test']['slow_test']
+
+
+def get_shaking_level():
+    return settings['sensors']['motion']['sensitivity']
