@@ -20,7 +20,6 @@ import sys
 import time
 from PIL import ImageFont
 from icm20948 import ICM20948
-from sgp30 import SGP30
 
 import cl_display
 import commands
@@ -28,19 +27,14 @@ import config_serivce
 import data_files
 import email_sender_service
 import measurement_storage_service
-#display removed import mini_display
+# display removed import mini_display
 import utils
-from sensors import environment_service, two_led_service, uv_service
-
+from sensors import air_quality_service, environment_service, two_led_service, uv_service
 
 bus = smbus.SMBus(1)
 
-
 # Set up motion sensor
 imu = ICM20948()
-
-# air quality
-sgp30 = SGP30()
 
 rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
 rr_12 = ImageFont.truetype(rr_path, 12)
@@ -107,8 +101,8 @@ def get_current_motion_difference() -> dict:
 def get_data_from_measurement() -> dict:
     environment = environment_service.get_measurement()
     aqi = "n/a"
-    eco2 = str(sgp30.get_air_quality().equivalent_co2)
-    tvoc = str(sgp30.get_air_quality().total_voc)
+    eco2 = air_quality_service.get_eco2_measurement_as_string()
+    tvoc = air_quality_service.get_tvoc_measurement_as_string()
 
     r, g, b = two_led_service.get_measurement()
     colour = utils.to_hex(r, g, b)
@@ -146,7 +140,7 @@ def get_pictures_path():
 
 def ui(message: str):
     logging.info(message)
-    #display removed mini_display.display_information(message)
+    # display removed mini_display.display_information(message)
     print(message)
 
 
@@ -169,7 +163,7 @@ def main():
             logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
 
             cl_display.print_measurement(data)
-            #display removed mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
+            # display removed mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
             measurement_storage_service.send('denva', data)
 
             data['picture_path'] = get_pictures_path()
@@ -201,18 +195,8 @@ def thread_camera():
 '''
 
 
-def crude_progress_bar():
-    global counter
-    global led_status
-    message = 'Waiting.. {}s.\n'.format(counter)
-    sys.stdout.write(message)
-    counter = counter + 1
-    sys.stdout.flush()
-    led_status = two_led_service.switch_led(led_status)
-
-
 def cleanup_before_exit():
-    #camera moved to server, camera_thread.join()
+    # camera moved to server, camera_thread.join()
     sys.exit(0)
 
 
@@ -224,11 +208,10 @@ if __name__ == '__main__':
     try:
         ui('Mounting network drives')
         commands.mount_all_drives()
-        #camera moved to server, camera_thread = threading.Thread(target=thread_camera)
-        #camera moved to server, camera_thread.start()
+        # camera moved to server, camera_thread = threading.Thread(target=thread_camera)
+        # camera moved to server, camera_thread.start()
         ui("Sensor warming up, please wait...")
-        sgp30.start_measurement(crude_progress_bar)
-        sys.stdout.write('\n')
+        led_status, counter = air_quality_service.start_measurement()
         ui('Sensor needed {} seconds to warm up'.format(counter))
         two_led_service.off()
         main()

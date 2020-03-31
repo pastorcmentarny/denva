@@ -24,7 +24,7 @@ def as_3_digit_number(index: int) -> str:
 
 
 def convert_list_to_dict(source: list) -> dict:
-    return {as_3_digit_number(index): source[index] for index in range(0, len(source))}
+    return {as_3_digit_number(index+1): source[index] for index in range(0, len(source))}
 
 
 def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
