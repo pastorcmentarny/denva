@@ -112,6 +112,7 @@ def add_measurement_to_file(file, data: dict, motion):
     file.close()
 
 
+#TODO merge motion with data
 def store_measurement(data, motion):
     try:
         counter = data['measurement_counter']

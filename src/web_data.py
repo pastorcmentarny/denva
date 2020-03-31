@@ -212,14 +212,3 @@ def get_pollution_for(city: str) -> str:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))
         return 'Pollution data N/A'
 
-
-def main():
-    print(get_weather())
-    statuses_list = get_status()
-    for item in statuses_list:
-        print(item)
-
-
-if __name__ == '__main__':
-    print(get_pollution_for('wroclaw'))
-    print(get_pollution_for('tianjin'))
