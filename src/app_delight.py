@@ -69,7 +69,7 @@ def generate_person_of_color(person_color: str):
         shape = green_rgb
     elif person_color is 'grey':
         shape = grey_rgb
-    elif person_color is 'grey':
+    elif person_color is 'blue':
         shape = blue_rgb
     else:
         shape = []
