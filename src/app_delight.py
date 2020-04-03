@@ -74,10 +74,8 @@ orange_rgb = [
     [185, 80, 0], [165, 70, 0], [128, 55, 0], [0, 0, 0]
 ]
 
-clock = 0
 
-
-def generate_person_of_color(person_color: str):
+def generate_person_of_color(person_color: str, person: list):
     if person_color is ORANGE:
         shape = orange_rgb
     elif person_color is GREEN:
@@ -97,7 +95,7 @@ def generate_person_of_color(person_color: str):
 
     y = person[1]
     for rgb in shape:
-        if (y <= 15) and (y >= 0):
+        if (y < 15) and (y > 0):
             unicornhathd.set_pixel(person[0], y, rgb[0], rgb[1], rgb[2])
         y += 1
 
@@ -107,27 +105,60 @@ def get_random_color() -> str:
     return colors[result]
 
 
-try:
-    while True:
-        for person in blue_pilled_population:
-            person_color = person[2]
-            generate_person_of_color(person_color)
-            person[1] -= 1
-        unicornhathd.set_pixel(0, 0, randint(0, 255), randint(0, 255), randint(0, 255))
-        unicornhathd.set_pixel(15, 0, randint(0, 255), randint(0, 255), randint(0, 255))
-        unicornhathd.set_pixel(0, 15, randint(0, 255), randint(0, 255), randint(0, 255))
-        unicornhathd.set_pixel(15, 15, randint(0, 255), randint(0, 255), randint(0, 255))
-        unicornhathd.show()
-        time.sleep(0.075)
-        clock += 1
+def main():
+    clock = 0
+    try:
+        generate_jeremy()
+        while True:
+            for person in blue_pilled_population:
+                person_color = person[2]
+                generate_person_of_color(person_color, person)
+                person[1] -= 1
+            unicornhathd.set_pixel(0, 0, randint(0, 255), randint(0, 255), randint(0, 255))
+            unicornhathd.set_pixel(15, 0, randint(0, 255), randint(0, 255), randint(0, 255))
+            unicornhathd.set_pixel(0, 15, randint(0, 255), randint(0, 255), randint(0, 255))
+            unicornhathd.set_pixel(15, 15, randint(0, 255), randint(0, 255), randint(0, 255))
+            unicornhathd.show()
+            time.sleep(0.075)
+            clock += 1
 
-        if clock % 5 == 0:
-            blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
-        if clock % 7 == 0:
-            blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
+            if clock % 5 == 0:
+                blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
+            if clock % 7 == 0:
+                blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
 
-        while len(blue_pilled_population) > 100:
-            blue_pilled_population.pop(0)
+            while len(blue_pilled_population) > 100:
+                blue_pilled_population.pop(0)
 
-except KeyboardInterrupt:
-    unicornhathd.off()
+    except KeyboardInterrupt:
+        unicornhathd.off()
+
+
+def generate_jeremy():
+    unicornhathd.rotation(90)
+    j_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [4, 2], [4, 3], [4, 4], [1, 4], [2, 5], [3, 5]]
+    show_on_screen(j_list)
+    e_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [3, 3], [2, 5], [3, 5],
+              [4, 5], [5, 5]]
+    show_on_screen(e_list)
+    r_list = [[1, 1], [2, 1], [3, 1], [4, 1], [2, 2], [4, 2], [1, 3], [2, 3], [3, 3], [4, 3], [2, 4], [5, 4], [2, 5],
+              [5, 5]]
+    show_on_screen(r_list)
+    show_on_screen(e_list)
+    m_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [1, 2], [1, 3], [1, 4], [1, 5], [5, 2], [5, 3], [5, 4], [5, 5],
+              [3, 2]]
+    show_on_screen(m_list)
+    y_list = [[1, 1], [5, 1], [2, 2], [4, 2], [3, 3], [2, 4], [1, 5]]
+    show_on_screen(y_list)
+    unicornhathd.rotation(180)
+
+
+def show_on_screen(pixel_list: list):
+    for element in pixel_list:
+        unicornhathd.set_pixel(element[0], element[1], 235, 202, 30)
+    unicornhathd.show()
+    time.sleep(2.5)
+
+
+if __name__ == '__main__':
+    main()
