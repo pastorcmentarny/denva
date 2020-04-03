@@ -14,12 +14,22 @@ from random import randint
 
 import unicornhathd
 
+BLUE = 'blue'
+
+GREY = 'grey'
+
+GREEN = 'green'
+
+ORANGE = 'orange'
+
+PURPLE = 'purple'
+
 print("""Idle mode:""")
 
 unicornhathd.rotation(180)
 unicornhathd.brightness(0.3)
 
-colors = ['orange', 'green', 'grey', 'blue']  # change generate function too
+colors = [ORANGE, GREEN, GREY, BLUE, PURPLE]  # change generate function too
 
 
 def get_population() -> list:
@@ -39,10 +49,17 @@ grey_rgb = [
 ]
 
 blue_rgb = [
-    [154, 173, 154], [0, 0, 255], [0, 0, 235, ], [0, 0, 220],
+    [154, 173, 154], [0, 0, 255], [0, 0, 235], [0, 0, 220],
     [0, 0, 185], [0, 0, 165], [0, 0, 128], [0, 0, 0],
     [154, 173, 154], [0, 0, 145], [0, 0, 125], [0, 100],
     [0, 0, 80], [0, 0, 60], [0, 0, 40], [0, 0, 0]
+]
+
+purple_rgb = [
+    [154, 173, 154], [160, 32, 240], [144, 30, 220], [128, 28, 200],
+    [112, 26, 180], [96, 24, 160], [80, 16, 120], [0, 0, 0],
+    [154, 173, 154], [100, 12, 140], [80, 10, 120], [68, 8, 100],
+    [60, 6, 80], [40, 4, 60], [30, 2, 40], [0, 0, 0]
 ]
 
 green_rgb = [
@@ -63,16 +80,19 @@ clock = 0
 
 
 def generate_person_of_color(person_color: str):
-    if person_color is 'orange':
+    if person_color is ORANGE:
         shape = orange_rgb
-    elif person_color is 'green':
+    elif person_color is GREEN:
         shape = green_rgb
-    elif person_color is 'grey':
+    elif person_color is GREY:
         shape = grey_rgb
-    elif person_color is 'blue':
+    elif person_color is BLUE:
         shape = blue_rgb
+    elif person_color is PURPLE:
+        shape = purple_rgb
     else:
         shape = []
+
     y = person[1]
     for rgb in shape:
         if (y <= 15) and (y >= 0):
@@ -81,7 +101,7 @@ def generate_person_of_color(person_color: str):
 
 
 def get_random_color() -> str:
-    result = randint(0, len(colors)-1)
+    result = randint(0, len(colors) - 1)
     return colors[result]
 
 
