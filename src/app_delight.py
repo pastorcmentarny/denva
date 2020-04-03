@@ -134,8 +134,16 @@ def main():
         unicornhathd.off()
 
 
+def reset_screen():
+    for x in range(0, 16):
+        for y in range(0, 16):
+            unicornhathd.set_pixel(x, y, 0, 0, 0)
+    unicornhathd.show()
+
+
 def generate_jeremy():
-    unicornhathd.rotation(90)
+    unicornhathd.rotation(270)
+    reset_screen()
     j_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [4, 2], [4, 3], [4, 4], [1, 4], [2, 5], [3, 5]]
     show_on_screen(j_list)
     e_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [3, 3], [2, 5], [3, 5],
