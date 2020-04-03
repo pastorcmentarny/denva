@@ -16,8 +16,34 @@ import unicornhathd
 
 print("""Idle mode:""")
 
-unicornhathd.rotation(90)
-unicornhathd.brightness(0.6)
+unicornhathd.rotation(0)
+unicornhathd.brightness(0.3)
+
+colors = ['orange', 'green', 'grey', 'blue']  # change generate function too
+
+
+def get_population() -> list:
+    people = []
+    for color in colors:
+        people.append([randint(0, 15), 15, color])
+    return people
+
+
+blue_pilled_population = get_population()
+
+grey_rgb = [
+    [154, 173, 154], [255, 255, 255], [235, 235, 235], [220, 220, 220],
+    [185, 185, 185], [165, 165, 165], [128, 128, 128], [0, 0, 0],
+    [154, 173, 154], [145, 145, 145], [125, 125, 125], [100, 100, 100],
+    [80, 80, 80], [60, 60, 60], [40, 40, 40], [0, 0, 0]
+]
+
+blue_rgb = [
+    [154, 173, 154], [0, 0, 255], [0, 0, 235, ], [0, 0, 220],
+    [0, 0, 185], [0, 0, 165], [0, 0, 128], [0, 0, 0],
+    [154, 173, 154], [0, 0, 145], [0, 0, 125], [0, 100],
+    [0, 0, 80], [0, 0, 60], [0, 0, 40], [0, 0, 0]
+]
 
 green_rgb = [
     [154, 173, 154], [0, 255, 0], [0, 235, 0], [0, 220, 0],
@@ -35,14 +61,16 @@ orange_rgb = [
 
 clock = 0
 
-blue_pilled_population = [[randint(0, 15), 15,'orange'],[randint(0, 15), 15,'green']]
 
-
-def generate_person_of_color(person_color:str):
+def generate_person_of_color(person_color: str):
     if person_color is 'orange':
         shape = orange_rgb
     elif person_color is 'green':
         shape = green_rgb
+    elif person_color is 'grey':
+        shape = grey_rgb
+    elif person_color is 'grey':
+        shape = blue_rgb
     else:
         shape = []
     y = person[1]
@@ -51,9 +79,9 @@ def generate_person_of_color(person_color:str):
             unicornhathd.set_pixel(person[0], y, rgb[0], rgb[1], rgb[2])
         y += 1
 
-colors = ['orange','green']
+
 def get_random_color() -> str:
-    result = randint(0,1)
+    result = randint(0, len(colors))
     return colors[result]
 
 
@@ -72,9 +100,9 @@ try:
         clock += 1
 
         if clock % 5 == 0:
-            blue_pilled_population.append([randint(0, 15), 15,get_random_color()])
+            blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
         if clock % 7 == 0:
-            blue_pilled_population.append([randint(0, 15), 15,get_random_color()])
+            blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
 
         while len(blue_pilled_population) > 100:
             blue_pilled_population.pop(0)
