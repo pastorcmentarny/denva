@@ -75,7 +75,7 @@ def draw_image_on_screen(data, app_uptime):
             draw.text((0, 70), "UVA: {}".format(get_description_for.uv(data["uva_index"])), fill="white", font=rr_12)
         else:
             draw.text((0, 28), "eco2: {}".format(data["eco2"]), fill="white", font=rr_12)
-            draw.text((0, 42), "Tvoc: {}".format(iqa_utils.get_iqa_for_tvoc(data["tvoc"])['score']), fill="white",
+            draw.text((0, 42), "Tvoc: {}".format(iqa_utils.iqa_from_tvoc(data["tvoc"])['score']), fill="white",
                       font=rr_12)
             draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])),
                       fill="white", font=rr_12)

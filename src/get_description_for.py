@@ -39,7 +39,7 @@ def brightness(r, g, b) -> str:
 
     if result < 16:
         return 'pitch black'
-    elif 32 <= result < 64:
+    elif 16 <= result < 64:
         return 'very dark'
     elif 64 <= result < 96:
         return 'dark'
@@ -59,9 +59,9 @@ def brightness(r, g, b) -> str:
         logger.warning('weird brightness value: {} for {} {} {}'.format(result, r, g, b))
         return '?'
 
-
+#TODO move it
 def motion(motion_data: dict) -> str:
-    return 'Acc: {:5.1f} {:5.1f} {:5.0f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
+    return 'Acc: {:5.1f} {:5.1f} {:5.1f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
         motion_data['ax'],
         motion_data['ay'],
         motion_data['az'],
@@ -71,3 +71,41 @@ def motion(motion_data: dict) -> str:
         motion_data['mx'],
         motion_data['my'],
         motion_data['mz'])
+
+# move to get_description_for
+# based on https://www.idt.com/eu/en/document/whp/overview-tvoc-and-indoor-air-quality
+def iqa_from_tvoc(tvoc: str) -> dict:
+    result = {
+        'score': 'unknown',
+        'value': 0,
+        'action': 'unknown',
+        'information': 'unknown'
+    }
+    tvoc_value = int(tvoc)
+    if tvoc_value < 150:
+        result['score'] = 'Very Good'
+        result['value'] = tvoc_value
+        result['action'] = 'No action required'
+        result['information'] = 'Clean air'
+    elif tvoc_value < 500:
+        result['score'] = 'Good'
+        result['value'] = tvoc_value
+        result['action'] = 'Ventilation recommended.'
+        result['information'] = 'Good Air Quality'
+    elif tvoc_value < 1500:
+        result['score'] = 'Medium'
+        result['value'] = tvoc_value
+        result['action'] = 'Ventilation required.'
+        result['information'] = 'Air Quality is not good. (Not recommended for exposure for than year)'
+    elif tvoc_value < 5000:
+        result['score'] = 'POOR'
+        result['value'] = tvoc_value
+        result['action'] = 'Ventilate now!'
+        result['information'] = 'Air Quality is POOR. (Not recommended for exposure for than month)'
+    else:
+        result['score'] = 'BAD'
+        result['value'] = tvoc_value
+        result['action'] = 'Use only if unavoidable!'
+        result['information'] = 'Unacceptable Air Quality! Use only if unavoidable and only for short periods.'
+
+    return result

@@ -14,7 +14,7 @@ import logging
 
 import commands
 import data_files
-import iqa_utils
+import get_description_for
 import sensor_log_reader
 import utils
 import config_serivce
@@ -334,7 +334,7 @@ def get_warnings_as_list(data) -> list:
         warnings.append('High CO2 level (Time to open window?): {}'.format(str(eco2)))
         warnings_logger.warning('[cow] High CO2 level (Time to open window?): {}'.format(str(eco2)))
 
-    tvoc = iqa_utils.get_iqa_for_tvoc(data['tvoc'])
+    tvoc = get_description_for.iqa_from_tvoc(data['tvoc'])
     if tvoc['value'] > 5000:
         warnings.append('{} with value {}'.format(tvoc['information'], tvoc['value']))
         warnings_logger.error('[iqe] {} with value {}'.format(tvoc['information'], tvoc['value']))

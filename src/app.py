@@ -130,7 +130,6 @@ def main():
 
         except KeyboardInterrupt:
             ui('request application shut down.. goodbye!')
-            two_led_service.off()
             cleanup_before_exit()
 
 
@@ -149,6 +148,7 @@ def thread_camera():
 
 def cleanup_before_exit():
     # camera moved to server, camera_thread.join()
+    two_led_service.on()
     sys.exit(0)
 
 
@@ -172,5 +172,4 @@ if __name__ == '__main__':
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
         email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
-        two_led_service.on()
         cleanup_before_exit()

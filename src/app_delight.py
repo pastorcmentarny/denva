@@ -16,7 +16,7 @@ import unicornhathd
 
 print("""Idle mode:""")
 
-unicornhathd.rotation(0)
+unicornhathd.rotation(180)
 unicornhathd.brightness(0.3)
 
 colors = ['orange', 'green', 'grey', 'blue']  # change generate function too
@@ -81,7 +81,7 @@ def generate_person_of_color(person_color: str):
 
 
 def get_random_color() -> str:
-    result = randint(0, len(colors))
+    result = randint(0, len(colors)-1)
     return colors[result]
 
 
