@@ -15,21 +15,19 @@ from random import randint
 import unicornhathd
 
 BLUE = 'blue'
-
 GREY = 'grey'
-
 GREEN = 'green'
-
 ORANGE = 'orange'
-
 PURPLE = 'purple'
+RED = 'red'
+YELLOW = 'yellow'
 
 print("""Idle mode:""")
 
 unicornhathd.rotation(180)
 unicornhathd.brightness(0.3)
 
-colors = [ORANGE, GREEN, GREY, BLUE, PURPLE]  # change generate function too
+colors = [ORANGE, GREEN, GREY, BLUE, PURPLE, RED, YELLOW]  # change generate function too
 
 
 def get_population() -> list:
@@ -51,7 +49,7 @@ grey_rgb = [
 blue_rgb = [
     [154, 173, 154], [0, 0, 255], [0, 0, 235], [0, 0, 220],
     [0, 0, 185], [0, 0, 165], [0, 0, 128], [0, 0, 0],
-    [154, 173, 154], [0, 0, 145], [0, 0, 125], [0,0, 100],
+    [154, 173, 154], [0, 0, 145], [0, 0, 125], [0, 0, 100],
     [0, 0, 80], [0, 0, 60], [0, 0, 40], [0, 0, 0]
 ]
 
@@ -67,6 +65,20 @@ green_rgb = [
     [0, 185, 0], [0, 165, 0], [0, 128, 0], [0, 0, 0],
     [154, 173, 154], [0, 145, 0], [0, 125, 0], [0, 100, 0],
     [0, 80, 0], [0, 60, 0], [0, 40, 0], [0, 0, 0]
+]
+
+red_rgb = [
+    [154, 173, 154], [255, 0, 0], [235, 0, 0], [220, 0, 0],
+    [185, 0, 0], [165, 0, 0], [128, 0, 0], [0, 0, 0],
+    [154, 173, 154], [145, 0, 0], [125, 0, 0], [100, 0, 0],
+    [80, 0, 0], [60, 0, 0], [40, 0, 0], [0, 0, 0]
+]
+
+yellow_rgb = [
+    [154, 173, 154], [255, 224, 32], [235, 202, 30], [220, 188, 28],
+    [185, 153, 26], [165, 133, 24], [128, 96, 22], [0, 0, 0],
+    [154, 173, 154], [145, 103, 20], [125, 109, 18], [100, 84, 16],
+    [80, 72, 14], [60, 48, 12], [40, 32, 10], [0, 0, 0]
 ]
 
 orange_rgb = [
@@ -90,6 +102,10 @@ def generate_person_of_color(person_color: str):
         shape = blue_rgb
     elif person_color is PURPLE:
         shape = purple_rgb
+    elif person_color is RED:
+        shape = red_rgb
+    elif person_color is YELLOW:
+        shape = yellow_rgb
     else:
         shape = []
 
