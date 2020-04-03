@@ -142,8 +142,7 @@ def reset_screen():
 
 
 def generate_jeremy():
-    unicornhathd.rotation(270)
-    reset_screen()
+    unicornhathd.rotation(90)
     j_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [4, 2], [4, 3], [4, 4], [1, 4], [2, 5], [3, 5]]
     show_on_screen(j_list)
     e_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [3, 3], [2, 5], [3, 5],
@@ -162,6 +161,7 @@ def generate_jeremy():
 
 
 def show_on_screen(pixel_list: list):
+    reset_screen()
     for element in pixel_list:
         unicornhathd.set_pixel(element[0], element[1], 235, 202, 30)
     unicornhathd.show()
