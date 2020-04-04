@@ -177,34 +177,34 @@ def idle():
 def in_the_warp():
     global clock
 
-    star_count = 32
+    star_count = 25
     star_speed = 0.05
     stars = []
 
     for i in range(0, star_count):
         stars.append((random.uniform(4, 11), random.uniform(4, 11), 0))
-        running = True
-        while running:
-            clock += 1
-            unicornhathd.clear()
 
-            for i in range(0, star_count):
-                stars[i] = (
-                    stars[i][0] + ((stars[i][0] - 8.1) * star_speed),
-                    stars[i][1] + ((stars[i][1] - 8.1) * star_speed),
-                    stars[i][2] + star_speed * 50)
+    running = True
+    while running:
+        unicornhathd.clear()
 
-                if stars[i][0] < 0 or stars[i][1] < 0 or stars[i][0] > 16 or stars[i][1] > 16:
-                    stars[i] = (random.uniform(4, 11), random.uniform(4, 11), 0)
+        for i in range(0, star_count):
+            stars[i] = (
+                stars[i][0] + ((stars[i][0] - 8.1) * star_speed),
+                stars[i][1] + ((stars[i][1] - 8.1) * star_speed),
+                stars[i][2] + star_speed * 50)
 
-                v = stars[i][2]
+            if stars[i][0] < 0 or stars[i][1] < 0 or stars[i][0] > 16 or stars[i][1] > 16:
+                stars[i] = (random.uniform(4, 11), random.uniform(4, 11), 0)
 
-                unicornhathd.set_pixel(stars[i][0], stars[i][1], v, v, v)
+            v = stars[i][2]
 
-            unicornhathd.show()
+            unicornhathd.set_pixel(stars[i][0], stars[i][1], v, v, v)
 
-            if clock % 1000 == 0:
-                running = False
+        unicornhathd.show()
+
+        if clock % 1000 == 0:
+            running = False
 
 
 if __name__ == '__main__':
