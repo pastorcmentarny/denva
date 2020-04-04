@@ -9,6 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import random
 import time
 from random import randint
 
@@ -105,31 +106,27 @@ def get_random_color() -> str:
     return colors[result]
 
 
+def flight_control():
+    """
+    idle
+    go_to_warp
+    warp
+    back to idle
+    arrived to planet
+
+
+    """
+
+
+clock = 0
+
+
 def main():
-    clock = 0
     try:
-        generate_jeremy()
         while True:
-            for person in blue_pilled_population:
-                person_color = person[2]
-                generate_person_of_color(person_color, person)
-                person[1] -= 1
-            unicornhathd.set_pixel(0, 0, randint(0, 255), randint(0, 255), randint(0, 255))
-            unicornhathd.set_pixel(15, 0, randint(0, 255), randint(0, 255), randint(0, 255))
-            unicornhathd.set_pixel(0, 15, randint(0, 255), randint(0, 255), randint(0, 255))
-            unicornhathd.set_pixel(15, 15, randint(0, 255), randint(0, 255), randint(0, 255))
-            unicornhathd.show()
-            time.sleep(0.075)
-            clock += 1
-
-            if clock % 5 == 0:
-                blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
-            if clock % 7 == 0:
-                blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
-
-            while len(blue_pilled_population) > 100:
-                blue_pilled_population.pop(0)
-
+            idle()
+            reset_screen()
+            in_the_warp()
     except KeyboardInterrupt:
         unicornhathd.off()
 
@@ -141,31 +138,73 @@ def reset_screen():
     unicornhathd.show()
 
 
-def generate_jeremy():
-    unicornhathd.rotation(90)
-    j_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [4, 2], [4, 3], [4, 4], [1, 4], [2, 5], [3, 5]]
-    show_on_screen(j_list)
-    e_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [3, 3], [2, 5], [3, 5],
-              [4, 5], [5, 5]]
-    show_on_screen(e_list)
-    r_list = [[1, 1], [2, 1], [3, 1], [4, 1], [2, 2], [4, 2], [1, 3], [2, 3], [3, 3], [4, 3], [2, 4], [5, 4], [2, 5],
-              [5, 5]]
-    show_on_screen(r_list)
-    show_on_screen(e_list)
-    m_list = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [1, 2], [1, 3], [1, 4], [1, 5], [5, 2], [5, 3], [5, 4], [5, 5],
-              [3, 2]]
-    show_on_screen(m_list)
-    y_list = [[1, 1], [5, 1], [2, 2], [4, 2], [3, 3], [2, 4], [1, 5]]
-    show_on_screen(y_list)
-    unicornhathd.rotation(180)
-
-
 def show_on_screen(pixel_list: list):
     reset_screen()
     for element in pixel_list:
         unicornhathd.set_pixel(element[0], element[1], 235, 202, 30)
     unicornhathd.show()
     time.sleep(2.5)
+
+
+def idle():
+    global clock
+    running = True
+    while running:
+        for person in blue_pilled_population:
+            person_color = person[2]
+            generate_person_of_color(person_color, person)
+            person[1] -= 1
+        unicornhathd.set_pixel(0, 0, randint(0, 255), randint(0, 255), randint(0, 255))
+        unicornhathd.set_pixel(15, 0, randint(0, 255), randint(0, 255), randint(0, 255))
+        unicornhathd.set_pixel(0, 15, randint(0, 255), randint(0, 255), randint(0, 255))
+        unicornhathd.set_pixel(15, 15, randint(0, 255), randint(0, 255), randint(0, 255))
+        unicornhathd.show()
+        time.sleep(0.075)
+        clock += 1
+
+        if clock % 5 == 0:
+            blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
+        if clock % 7 == 0:
+            blue_pilled_population.append([randint(0, 15), 15, get_random_color()])
+
+        while len(blue_pilled_population) > 100:
+            blue_pilled_population.pop(0)
+
+        if clock % 1000 == 0:
+            running = False
+
+
+def in_the_warp():
+    global clock
+
+    star_count = 32
+    star_speed = 0.05
+    stars = []
+
+    for i in range(0, star_count):
+        stars.append((random.uniform(4, 11), random.uniform(4, 11), 0))
+        running = True
+        while running:
+            clock += 1
+            unicornhathd.clear()
+
+            for i in range(0, star_count):
+                stars[i] = (
+                    stars[i][0] + ((stars[i][0] - 8.1) * star_speed),
+                    stars[i][1] + ((stars[i][1] - 8.1) * star_speed),
+                    stars[i][2] + star_speed * 50)
+
+                if stars[i][0] < 0 or stars[i][1] < 0 or stars[i][0] > 16 or stars[i][1] > 16:
+                    stars[i] = (random.uniform(4, 11), random.uniform(4, 11), 0)
+
+                v = stars[i][2]
+
+                unicornhathd.set_pixel(stars[i][0], stars[i][1], v, v, v)
+
+            unicornhathd.show()
+
+            if clock % 1000 == 0:
+                running = False
 
 
 if __name__ == '__main__':
