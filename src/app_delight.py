@@ -8,11 +8,34 @@
 * Github:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
+
+
+DESIGN:
+def flight_between_planets():
+
+idle
+go_to_warp
+warp
+back to idle
+arrived to planet
+teleport to planet
+take train trip
+
+
+def train_trip_on_planet():
+'''
+station
+random places
+
+
+'''
+
 """
 import random
 import time
 from random import randint
 
+from delight import engine
 import unicornhathd
 
 BLUE = 'blue'
@@ -106,48 +129,32 @@ def get_random_color() -> str:
     return colors[result]
 
 
-def flight_control():
-    """
-    idle
-    go_to_warp
-    warp
-    back to idle
-    arrived to planet
-
-
-    """
-
-
 clock = 0
 
 
 def main():
     try:
         while True:
-            idle()
-            reset_screen()
+            sub_light_travel()
+            engine.reset_screen()
             in_the_warp()
     except KeyboardInterrupt:
         unicornhathd.off()
 
 
-def reset_screen():
-    for x in range(0, 16):
-        for y in range(0, 16):
-            unicornhathd.set_pixel(x, y, 0, 0, 0)
-    unicornhathd.show()
-
-
 def show_on_screen(pixel_list: list):
-    reset_screen()
+    engine.reset_screen()
     for element in pixel_list:
         unicornhathd.set_pixel(element[0], element[1], 235, 202, 30)
     unicornhathd.show()
     time.sleep(2.5)
 
 
-def idle():
+def sub_light_travel():
     global clock
+
+    print('in sub light ..')
+
     running = True
     while running:
         for person in blue_pilled_population:
@@ -177,8 +184,10 @@ def idle():
 def in_the_warp():
     global clock
 
+    print('in the warp..')
+
     star_count = 25
-    star_speed = 0.05
+    star_speed = 0.025
     stars = []
 
     for i in range(0, star_count):
@@ -187,7 +196,7 @@ def in_the_warp():
     running = True
     while running:
         unicornhathd.clear()
-
+        clock += 1
         for i in range(0, star_count):
             stars[i] = (
                 stars[i][0] + ((stars[i][0] - 8.1) * star_speed),
@@ -203,7 +212,7 @@ def in_the_warp():
 
         unicornhathd.show()
 
-        if clock % 1000 == 0:
+        if clock % 2000 == 0:
             running = False
 
 
