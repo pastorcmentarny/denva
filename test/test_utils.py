@@ -17,6 +17,16 @@ class Test(TestCase):
     def test_get_float_number_from_text_should_return_int_without_text(self):
         self.assertEqual(utils.get_float_number_from_text('2.1'), '2.1')
 
+    def test_to_hex(self):
+        # given
+        expected_result = '#ff800f'
+
+        # when
+        result = utils.to_hex(255, 128, 15)
+
+        # then
+        self.assertEqual(result, expected_result)
+
     def test_convert_list_to_dict(self):
         # given
         example_list = ['one', 'two', 'three']
