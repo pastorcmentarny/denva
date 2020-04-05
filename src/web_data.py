@@ -179,7 +179,7 @@ def log_response_result(response, what: str):
         logger.warning('Response error: {}'.format(whoops))
 
 
-def __get_scale_result_from(city: str, index: int) -> str:
+def _get_scale_result_from(city: str, index: int) -> str:
     if index > 300:
         level = 'Hazardous!'
         advice = 'Stay at home!'
@@ -207,7 +207,7 @@ def get_pollution_for(city: str) -> str:
         index = html_manager.select('.aqivalue')[0].text
         pollution_index = int(index)
         stats_log.info(pollution_index)
-        return __get_scale_result_from(city, pollution_index)
+        return _get_scale_result_from(city, pollution_index)
     except Exception as whoops:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))
         return 'Pollution data N/A'
