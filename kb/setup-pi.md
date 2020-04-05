@@ -4,6 +4,7 @@
 
 ### Set hostname
 ```sudo nano /etc/hostname```
+```sudo nano /etc/hosts```
 for name
 
 ### Disable swap file as I don't need .
@@ -31,7 +32,6 @@ static domain_name_servers=192.168.0.1
 ```
 
 
-
 # Below command fix this problem: Jan  6 23:19:05 raspberrypi CRON[431]: (CRON) info (No MTA installed, discarding  output)
 sudo apt-get install postfix
 
@@ -41,6 +41,3 @@ sudo apt-get autoremove
 
 ## Pi related
 * ``` i2cdetect -y 1``` display list i2c port used on
-
-
-```
