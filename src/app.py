@@ -164,7 +164,7 @@ if __name__ == '__main__':
         # camera moved to server, camera_thread = threading.Thread(target=thread_camera)
         # camera moved to server, camera_thread.start()
         ui("Sensor warming up, please wait...")
-        led_status, counter = air_quality_service.start_measurement()
+        air_quality_service.start_measurement()
         motion_service.sample()
         ui('Sensor needed {} seconds to warm up'.format(counter))
         two_led_service.off()
