@@ -120,8 +120,9 @@ def main():
 
             data['picture_path'] = get_pictures_path()
 
-            email_sender_service.should_send_email(data)
-            email_sender_service.should_send_report_email()
+            # deprecated but i will change settings to send them via config settings
+            #email_sender_service.should_send_email(data)
+            #email_sender_service.should_send_report_email()
 
             remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 
