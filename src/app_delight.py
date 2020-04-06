@@ -27,6 +27,8 @@ import random
 import time
 from random import randint
 
+import config_serivce
+import data_files
 from delight import delight_display
 import unicornhathd
 
@@ -208,4 +210,6 @@ def in_the_warp():
 
 
 if __name__ == '__main__':
+    config_serivce.set_mode_to('delight')
+    data_files.setup_logging()
     main()
