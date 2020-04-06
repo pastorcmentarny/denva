@@ -10,32 +10,24 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 
 
+
+
+
+app_delight
+delight_ui web server,so you can run command from UI
+
+
+idle animation
 DESIGN:
 def flight_between_planets():
 
-idle
-go_to_warp
-warp
-back to idle
-arrived to planet
-teleport to planet
-take train trip
-
-
-def train_trip_on_planet():
-'''
-station
-random places
-
-
-'''
 
 """
 import random
 import time
 from random import randint
 
-from delight import engine
+from delight import delight_display
 import unicornhathd
 
 BLUE = 'blue'
@@ -46,7 +38,6 @@ PURPLE = 'purple'
 RED = 'red'
 YELLOW = 'yellow'
 
-print("""Idle mode:""")
 
 unicornhathd.rotation(180)
 unicornhathd.brightness(0.3)
@@ -136,14 +127,14 @@ def main():
     try:
         while True:
             sub_light_travel()
-            engine.reset_screen()
+            delight_display.reset_screen()
             in_the_warp()
     except KeyboardInterrupt:
         unicornhathd.off()
 
 
 def show_on_screen(pixel_list: list):
-    engine.reset_screen()
+    delight_display.reset_screen()
     for element in pixel_list:
         unicornhathd.set_pixel(element[0], element[1], 235, 202, 30)
     unicornhathd.show()
@@ -153,7 +144,7 @@ def show_on_screen(pixel_list: list):
 def sub_light_travel():
     global clock
 
-    print('in sub light ..')
+    print('Spacedate: {}. Currently, we are in sub space zone..'.format(clock))
 
     running = True
     while running:
@@ -184,7 +175,7 @@ def sub_light_travel():
 def in_the_warp():
     global clock
 
-    print('in the warp..')
+    print('Spacedate: {}. Currently, we are in the warp..'.format(clock))
 
     star_count = 25
     star_speed = 0.025

@@ -2,7 +2,7 @@ import time
 import unicornhathd
 
 
-def show(pixels, speed=0.5):
+def show(pixels, speed:float=0.5):
     for pixel in pixels:
         unicornhathd.set_pixel(pixel[0], pixel[1], pixel[2], pixel[3], pixel[4])
     unicornhathd.show()
