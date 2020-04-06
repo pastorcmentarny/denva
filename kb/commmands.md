@@ -9,3 +9,9 @@
 0.  `sudo apt full-upgrade`
 0.  `sudo apt clean`
 0.  `sudo reboot`
+
+
+## Pi related
+* ``` i2cdetect -y 1``` display list i2c port used on
+* ```sudo apt-get install postfix```
+

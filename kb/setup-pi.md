@@ -1,11 +1,11 @@
-
+### Setup Welcome page after logon
 `/etc/motd` to edit welcome page after login
-`/etc/fstab` to edit mounts to this Pi
+
 
 ### Set hostname
+to set name of the device
 ```sudo nano /etc/hostname```
 ```sudo nano /etc/hosts```
-for name
 
 ### Disable swap file as I don't need .
 It reduces amount write/read of SD card.It is not for performance
@@ -31,13 +31,9 @@ static routers=192.168.0.1
 static domain_name_servers=192.168.0.1
 ```
 
+### Setup mounts and drives
+`/etc/fstab` to edit mounts to this Pi
+`sudo apt-get install ntfs-3g` to use ntfs partition 
+`sudo apt-get autoremove`
 
-# Below command fix this problem: Jan  6 23:19:05 raspberrypi CRON[431]: (CRON) info (No MTA installed, discarding  output)
-sudo apt-get install postfix
 
-
-sudo apt-get install ntfs-3g 
-sudo apt-get autoremove
-
-## Pi related
-* ``` i2cdetect -y 1``` display list i2c port used on
