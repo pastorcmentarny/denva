@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import enviro_service
+import common_service
 import system_data_service
 import utils
 
@@ -12,7 +12,7 @@ class Test(TestCase):
         memory_available_in_mb = system_data_service.get_memory_available_in_mb()
 
         # when
-        result = enviro_service.run_gc()
+        result = common_service.run_gc()
 
         # then
         self.assertEqual(result['memory_before'], memory_available_in_mb)

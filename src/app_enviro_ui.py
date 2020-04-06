@@ -13,15 +13,11 @@ import logging
 
 import sys
 from flask import Flask, jsonify, request
-import averages
+import common_service
 import enviro_service
-import records
-import commands
 import data_files
 import email_sender_service
-import sensor_log_reader
 import config_serivce
-import sensor_warnings
 
 app = Flask(__name__)
 logger = logging.getLogger('server')
@@ -31,60 +27,61 @@ APP_NAME = 'Denva Enviro UI'
 @app.route("/avg")
 def average():
     logger.info('Getting average measurement from today')
-    return jsonify(averages.get_enviro_averages_for_today())
+    return jsonify(enviro_service.get_averages_for_today())
 
 
 @app.route("/gc")
 def gc():
     logger.info('Running GC..')
-    return jsonify(enviro_service.run_gc())
+    return jsonify(common_service.run_gc())
 
 
 @app.route("/hc")
 def healthcheck():
     logger.info('performing healthcheck for Enviro')
-    return jsonify(enviro_service.get_healthcheck(APP_NAME))
+    return jsonify(common_service.get_healthcheck(APP_NAME))
+
 
 @app.route("/log/app")
 def log_app():
     logger.info('Getting application logs for sending as email for Enviro')
-    return jsonify(enviro_service.get_log_app(300))
+    return jsonify(common_service.get_log_app(300))
 
 
 @app.route("/log/app/recent")
 def recent_log_app():
     logger.info('Getting recent application logs for sending as email for Enviro')
-    return jsonify(enviro_service.get_log_app(20))
+    return jsonify(common_service.get_log_app(20))
 
 
 @app.route("/log/hc")
 def log_hc():
     logger.info('Getting recent healthcheck logs for sending as email for Enviro')
-    return jsonify(enviro_service.get_log_hc(300))
+    return jsonify(common_service.get_log_hc(300))
 
 
 @app.route("/log/hc/recent")
 def recent_log_hc():
     logger.info('Getting recent healthcheck logs  for sending as email for Enviro')
-    return jsonify(enviro_service.get_log_ui(20))
+    return jsonify(common_service.get_log_ui(20))
 
 
 @app.route("/log/ui")
 def log_ui():
     logger.info('Getting server ui logs for Enviro')
-    return jsonify(enviro_service.get_log_ui(300))
+    return jsonify(common_service.get_log_ui(300))
 
 
 @app.route("/log/ui/recent")
 def recent_log_ui():
     logger.info('Getting recent server ui logs for sending as email  for Enviro')
-    return jsonify(commands.get_lines_from_path(config_serivce.get_log_path_for('log_ui'), 20))
+    return jsonify(common_service.get_log_ui(20))
 
 
 @app.route("/now")
 def now():
     logger.info('Getting current measurement from Enviro')
-    return jsonify(sensor_log_reader.get_last_enviro_measurement())
+    return jsonify(enviro_service.get_last_measurement())
 
 
 @app.route("/report/yesterday")
@@ -96,25 +93,25 @@ def last_report():
 @app.route("/records")
 def record():
     logger.info('Getting record measurement from today')
-    return jsonify(records.get_enviro_records_for_today())
+    return jsonify(enviro_service.get_records_for_today())
 
 
 @app.route("/system")
 def system():
     logger.info('Getting system information about Enviro')
-    return jsonify(commands.get_system_info())
+    return jsonify(enviro_service.get_system_info())
 
 
 @app.route("/warns/now")
 def current_warns():
     logger.debug('Getting current warnings for Enviro')
-    return jsonify(sensor_warnings.get_current_warnings_for_enviro())
+    return jsonify(enviro_service.get_current_warnings())
 
 
 @app.route("/warns/count")
 def count_warns():
     logger.info('Getting warnings count for Enviro')
-    return jsonify(sensor_warnings.count_warning_today())
+    return jsonify(enviro_service.get_current_warnings_count())
 
 
 @app.route("/")
@@ -130,9 +127,9 @@ if __name__ == '__main__':
 
     try:
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
-    except Exception as e:
-        logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
         email_sender_service.send_error_log_email('web application',
                                                   'you may need reset web application as it looks like web app '
-                                                  'crashes due to {}'.format(e))
+                                                  'crashes due to {}'.format(exception))
         sys.exit(0)

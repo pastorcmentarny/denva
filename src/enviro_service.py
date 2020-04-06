@@ -1,41 +1,44 @@
-import gc
-
+import averages
 import commands
 import config_serivce
-import networkcheck
+import records
 import report_service
 import sensor_log_reader
-import system_data_service
+import sensor_warnings
 
 
-def run_gc() -> dict:
-    return system_data_service.run_gc()
-
-
-def get_current_measurement(host:str):
+# TODO refactor name
+def get_current_measurement(host: str) -> dict:
     measurement = sensor_log_reader.get_last_enviro_measurement()
     measurement['host'] = host
     measurement['system'] = commands.get_system_info()
     return measurement
 
 
-def get_healthcheck(app_name):
-    return {"status": "UP",
-            "app": app_name,
-            "network": networkcheck.network_check(config_serivce.get_options()['inChina'])}
-
-
-def get_log_app(number:int):
-    return commands.get_lines_from_path(config_serivce.get_log_path_for('log_app'), number)
-
-
-def get_log_hc(number:int):
-    return commands.get_lines_from_path(config_serivce.get_log_path_for('log_hc'), number)
-
-
-def get_log_ui(number:int):
-    return commands.get_lines_from_path(config_serivce.get_log_path_for('log_ui'), number)
-
 
 def get_report_for_yesterday():
     return report_service.generate_enviro_report_for_yesterday()
+
+
+def get_system_info():
+    return commands.get_system_info()
+
+
+def get_averages_for_today():
+    return averages.get_enviro_averages_for_today()
+
+
+def get_last_measurement():
+    return sensor_log_reader.get_last_enviro_measurement()
+
+
+def get_records_for_today():
+    return records.get_enviro_records_for_today()
+
+
+def get_current_warnings():
+    return sensor_warnings.get_current_warnings_for_enviro()
+
+
+def get_current_warnings_count():
+    return sensor_warnings.count_warning_today()  # TODO is it right call ?
