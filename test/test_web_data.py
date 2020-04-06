@@ -1,13 +1,13 @@
 from unittest import TestCase
 
-import config_serivce
+import config_service
 import web_data
 
 class Test(TestCase):
 
     # covers tube and trains (avoid to call web twice
     def test_get_status(self):
-        if config_serivce.run_slow_test():
+        if config_service.run_slow_test():
             # when
             result = web_data.get_status()
 
@@ -22,7 +22,7 @@ class Test(TestCase):
 
     #TODO this test failing as service is unavailable due to COVID-19
     def test_get_crime(self):
-        if config_serivce.run_slow_test():
+        if config_service.run_slow_test():
             # when
             result = web_data.get_crime()
 
@@ -35,7 +35,7 @@ class Test(TestCase):
             self.skipTest('running fast test only. test_get_crime skipped.')
 
     def test_get_flood(self):
-        if config_serivce.run_slow_test():
+        if config_service.run_slow_test():
             # when
             result = web_data.get_flood()
 
@@ -48,7 +48,7 @@ class Test(TestCase):
             self.skipTest('running fast test only. test_get_flood skipped.')
 
     def test_get_weather(self):
-        if config_serivce.run_slow_test():
+        if config_service.run_slow_test():
             # when
             result = web_data.get_weather()
 
@@ -61,7 +61,7 @@ class Test(TestCase):
             self.skipTest('running fast test only. test_get_weather skipped.')
 
     def test_get_o2_status(self):
-        if config_serivce.run_slow_test():
+        if config_service.run_slow_test():
             # when
             result = web_data.get_o2_status()
 
@@ -74,7 +74,7 @@ class Test(TestCase):
             self.skipTest('running fast test only. test_get_o2_status skipped.')
 
     def test_get_pollution_for(self):
-        if config_serivce.run_slow_test():
+        if config_service.run_slow_test():
             # when
             result = web_data.get_pollution_for('wroclaw')
 

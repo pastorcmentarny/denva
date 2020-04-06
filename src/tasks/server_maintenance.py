@@ -14,12 +14,12 @@ import os
 import shutil
 from timeit import default_timer as timer
 
-import config_serivce
+import config_service
 
 
 def clean_data_bin():
     print('Cleaning data bin')
-    data_bin_directory = config_serivce.get_path_for_data_bin()
+    data_bin_directory = config_service.get_path_for_data_bin()
     if not os.path.isdir(data_bin_directory):
         print('data bin directory do not exists. Recreating.')
         os.mkdir(data_bin_directory)

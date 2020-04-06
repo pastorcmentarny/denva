@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import config_serivce
+import config_service
 import data_files
 
 
@@ -25,7 +25,7 @@ def get_time_in_days_as_text(event_time: datetime) -> str:
 
 
 def __get_events():
-    return data_files.load_json_data_as_dict_from(config_serivce.get_path_for_personal_events())
+    return data_files.load_json_data_as_dict_from(config_service.get_path_for_personal_events())
 
 
 def get_personal_stats() -> dict:

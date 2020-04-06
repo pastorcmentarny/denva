@@ -18,7 +18,7 @@ import random
 from datetime import datetime
 from pathlib import Path
 
-import config_serivce
+import config_service
 import email_sender_service
 import sensor_log_reader
 import utils
@@ -27,9 +27,9 @@ logger = logging.getLogger('server')
 
 
 def load_cfg() -> dict:
-    if config_serivce.load_cfg()['mode'] == 'dev':
+    if config_service.load_cfg()['mode'] == 'dev':
         path = 'd:\denva\email.json'
-    elif config_serivce.load_cfg()['mode'] == 'server':
+    elif config_service.load_cfg()['mode'] == 'server':
         path = 'e:\denva\email.json'
     else:
         path = '/home/pi/email.json'  # actual cfg is different place
@@ -131,7 +131,7 @@ def store_measurement(data, motion):
 
 
 def setup_logging():
-    path = config_serivce.get_environment_log_path_for()
+    path = config_service.get_environment_log_path_for()
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
@@ -155,7 +155,7 @@ def save_dict_data_as_json(path: str, data: dict):
 
 def backup_information_data(data: dict):
     dt = datetime.now()
-    path = config_serivce.get_path_for_information_backup()
+    path = config_service.get_path_for_information_backup()
     dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path, dt.year, dt.month, dt.day)
     logger.debug('performing information backup using path {}'.format(dir_path))
     Path(dir_path).mkdir(parents=True, exist_ok=True)
@@ -165,7 +165,7 @@ def backup_information_data(data: dict):
 
 # TODO improve convert files to files_list
 def get_random_frame_picture_path():
-    path = config_serivce.load_cfg()['paths']['frame'][config_serivce.get_mode()]
+    path = config_service.load_cfg()['paths']['frame'][config_service.get_mode()]
     files_list = []
     with os.scandir(path) as files:
         for file in files:

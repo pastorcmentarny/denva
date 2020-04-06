@@ -1,5 +1,5 @@
 import commands
-import config_serivce
+import config_service
 import system_data_service
 
 
@@ -11,12 +11,12 @@ def get_healthcheck(app_name: str) -> dict:
             "app": app_name}
 
 def get_log_app(number: int):
-    return commands.get_lines_from_path(config_serivce.get_log_path_for('log_app'), number)
+    return commands.get_lines_from_path(config_service.get_log_path_for('log_app'), number)
 
 
 def get_log_hc(number: int):
-    return commands.get_lines_from_path(config_serivce.get_log_path_for('log_hc'), number)
+    return commands.get_lines_from_path(config_service.get_log_path_for('log_hc'), number)
 
 def get_log_ui(number: int):
-    return commands.get_lines_from_path(config_serivce.get_log_path_for('log_ui'), number)
+    return commands.get_lines_from_path(config_service.get_log_path_for('log_ui'), number)
 

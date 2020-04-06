@@ -17,13 +17,13 @@ import data_files
 import get_description_for
 import sensor_log_reader
 import utils
-import config_serivce
+import config_service
 
 warnings_logger = logging.getLogger('warnings')
 
-shaking_level = config_serivce.load_cfg()['sensors']['motion']['sensitivity']
+shaking_level = config_service.load_cfg()['sensors']['motion']['sensitivity']
 
-config = config_serivce.load_cfg()
+config = config_service.load_cfg()
 
 
 def get_warnings_for(year: str, month: str, day: str) -> list:

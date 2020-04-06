@@ -18,7 +18,7 @@ from datetime import datetime
 
 import app_server_service
 import app_timer
-import config_serivce
+import config_service
 import email_sender_service
 import information_service
 import local_data_gateway
@@ -74,7 +74,7 @@ def main():
     while True:
         counter += 1
         time.sleep(5)
-        if config_serivce.load_cfg()['mode'] == 'server':
+        if config_service.load_cfg()['mode'] == 'server':
             last_picture = webcam_utils.capture_picture()
             if last_picture != "":
                 pictures.append(last_picture)
@@ -87,7 +87,7 @@ def main():
 
 def setup():
     start_time = timer()
-    config_serivce.set_mode_to('server')
+    config_service.set_mode_to('server')
     data_files.setup_logging()
     information.refresh_all()
     end_time = timer()

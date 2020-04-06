@@ -1,12 +1,12 @@
 import random
 
-import config_serivce
+import config_service
 
 words = []
 
 
 def load_dictionary_file() -> list:
-    file_path = config_serivce.get_irregular_verbs_path()
+    file_path = config_service.get_irregular_verbs_path()
     file = open(file_path, 'r', encoding="UTF-8", newline='')
     content = file.readlines()
     for line in content:

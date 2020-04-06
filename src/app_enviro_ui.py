@@ -17,7 +17,7 @@ import common_service
 import enviro_service
 import data_files
 import email_sender_service
-import config_serivce
+import config_service
 
 app = Flask(__name__)
 logger = logging.getLogger('server')
@@ -121,7 +121,7 @@ def get_measurement():
 
 
 if __name__ == '__main__':
-    config_serivce.set_mode_to('enviro')
+    config_service.set_mode_to('enviro')
     data_files.setup_logging()
     logger.info('Starting web server for {}'.format(APP_NAME))
 

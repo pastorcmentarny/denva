@@ -14,7 +14,7 @@ import time
 
 from bh1745 import BH1745
 
-import config_serivce
+import config_service
 
 # Set up light sensor
 bh1745 = BH1745()
@@ -23,7 +23,7 @@ bh1745.set_leds(1)
 
 
 def warn_if_dom_shakes_his_legs(motion):
-    if motion > config_serivce.get_shaking_level():
+    if motion > config_service.get_shaking_level():
         for i in range(5):
             bh1745.set_leds(1)
             time.sleep(0.25)

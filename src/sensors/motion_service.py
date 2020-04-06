@@ -14,7 +14,7 @@ from icm20948 import ICM20948
 
 import time
 
-import config_serivce
+import config_service
 
 imu = ICM20948()
 
@@ -33,7 +33,7 @@ def sample():
 
         v = ay  # Change this axis depending on orientation of breakout
 
-        v *= (config_serivce.get_sensitivity())
+        v *= (config_service.get_sensitivity())
 
         points.append(v)
         if len(points) > 50:

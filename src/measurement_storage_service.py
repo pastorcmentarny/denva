@@ -14,13 +14,13 @@ import logging
 
 import requests
 
-import config_serivce
+import config_service
 
 logger = logging.getLogger('app')
 
 
 def get_url_for(name: str):
-    cfg = config_serivce.load_cfg()
+    cfg = config_service.load_cfg()
     if name == 'enviro':
         return '{}/enviro'.format(cfg['urls']['server'])
     elif name == 'denva':

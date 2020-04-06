@@ -14,7 +14,7 @@ import logging
 import requests
 import time
 
-import config_serivce
+import config_service
 import commands
 import data_files
 import email_sender_service
@@ -115,6 +115,6 @@ def send_email_on_fail(problem: str):
 
 
 if __name__ == '__main__':
-    config_serivce.set_mode_to('hc')
+    config_service.set_mode_to('hc')
     data_files.setup_logging()
     healthcheck_test_runner()

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import config_serivce
+import config_service
 import networkcheck
 
 PERFECT = 'Perfect'
@@ -10,7 +10,7 @@ POOR = 'POOR'
 
 class Test(TestCase):
     def test_network_check_should_return_perfect(self):
-        if config_serivce.run_slow_test():
+        if config_service.run_slow_test():
             # given
             expected_result = {'status': 'Perfect', 'result': '6 of 6 pages were loaded', 'problems': []}
 

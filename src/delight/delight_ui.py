@@ -14,7 +14,7 @@ import logging
 import sys
 from flask import Flask, jsonify
 
-import config_serivce
+import config_service
 import data_files
 import email_sender_service
 from delight import delight_service
@@ -87,7 +87,7 @@ def get_measurement():
 
 
 if __name__ == '__main__':
-    config_serivce.set_mode_to('delight')
+    config_service.set_mode_to('delight')
     data_files.setup_logging()
     logger.info('Starting web server for {}'.format(APP_NAME))
 

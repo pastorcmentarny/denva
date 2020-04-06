@@ -16,7 +16,7 @@ from flask import Flask, jsonify, url_for, request, render_template
 
 import averages
 import commands
-import config_serivce
+import config_service
 import data_files
 import email_sender_service
 import information_service
@@ -141,7 +141,7 @@ def healthcheck():
     logger.info('Getting healthcheck')
     return jsonify({"status": "UP",
                     "app": APP_NAME,
-                    "network": networkcheck.network_check(config_serivce.get_options()['inChina'])})
+                    "network": networkcheck.network_check(config_service.get_options()['inChina'])})
 
 
 @app.route("/ricky")
@@ -186,7 +186,7 @@ def welcome():
 
 
 if __name__ == '__main__':
-    config_serivce.set_mode_to('denva')
+    config_service.set_mode_to('denva')
     data_files.setup_logging()
     logger.info('Starting web server')
 

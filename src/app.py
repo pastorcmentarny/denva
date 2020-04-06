@@ -23,7 +23,7 @@ from PIL import ImageFont
 
 import cl_display
 import commands
-import config_serivce
+import config_service
 import data_files
 import email_sender_service
 import measurement_storage_service
@@ -155,7 +155,7 @@ def cleanup_before_exit():
 
 if __name__ == '__main__':
     global points
-    config_serivce.set_mode_to('denva')
+    config_service.set_mode_to('denva')
     data_files.setup_logging()
     ui('Starting application ... \n Press Ctrl+C to shutdown')
     email_sender_service.send_ip_email('denva')

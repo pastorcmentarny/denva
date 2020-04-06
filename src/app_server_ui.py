@@ -16,7 +16,7 @@ from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import app_server_service
 import commands
-import config_serivce
+import config_service
 import data_files
 import information_service
 import local_data_gateway
@@ -99,7 +99,7 @@ def do_picture():
 def healthcheck():
     return jsonify({"status": "UP",
                     "app": APP_NAME,
-                    "network": networkcheck.network_check(config_serivce.get_options()['inChina'])})
+                    "network": networkcheck.network_check(config_service.get_options()['inChina'])})
 
 
 @app.route("/ricky")
@@ -183,7 +183,7 @@ def welcome():
 
 
 if __name__ == '__main__':
-    config_serivce.set_mode_to('server')
+    config_service.set_mode_to('server')
     data_files.setup_logging()
     logger.info('Starting web server')
 

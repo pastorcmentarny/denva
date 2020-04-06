@@ -1,6 +1,6 @@
 import averages
 import commands
-import config_serivce
+import config_service
 import records
 import report_service
 import sensor_log_reader

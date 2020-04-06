@@ -2,7 +2,7 @@ import gc
 import psutil
 from _datetime import datetime
 
-import config_serivce
+import config_service
 import utils
 
 
@@ -11,7 +11,7 @@ def get_boot_time() -> str:
 
 
 def get_system_disk_space_free():
-    return utils.convert_bytes_to_megabytes(psutil.disk_usage(config_serivce.get_system_drive()).free)
+    return utils.convert_bytes_to_megabytes(psutil.disk_usage(config_service.get_system_drive()).free)
 
 
 # add disk free
@@ -32,10 +32,10 @@ def get_memory_available_in_mb() -> str:
 def get_system_warnings() -> list:
     problems = []
     memory_data = psutil.virtual_memory()
-    memory_threshold = config_serivce.get_memory_available_threshold()
+    memory_threshold = config_service.get_memory_available_threshold()
     if memory_data.available <= memory_threshold:
         problems.append('Memory available is low. Memory left: {} bytes.'.format(memory_data.available))
-    if get_system_disk_space_free() <= config_serivce.get_disk_space_available_threshold():
+    if get_system_disk_space_free() <= config_service.get_disk_space_available_threshold():
         problems.append('Disk free space is low. Free space left: {} MB.'.format(get_system_disk_space_free()))
     return problems
 

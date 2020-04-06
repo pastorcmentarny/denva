@@ -17,7 +17,7 @@ import gc
 import psutil
 import time
 
-import config_serivce
+import config_service
 import data_files
 import error_detector_service
 import local_data_gateway
@@ -100,8 +100,8 @@ def clean():
 def get_current_system_information_for_all_services():
     return {
         'server': system_data_service.get_system_information(),
-        'denva': local_data_gateway.get_data_for('{}/system'.format(config_serivce.load_cfg()["urls"]['denva'])),
-        'enviro': local_data_gateway.get_data_for('{}/system'.format(config_serivce.load_cfg()["urls"]['enviro']))
+        'denva': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['denva'])),
+        'enviro': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro']))
     }
 
 
@@ -119,7 +119,7 @@ def get_links_for_gateway(sensor_only: bool = False) -> dict:
 
 
 def get_links_for(suffix: str, sensor_only: bool = False) -> dict:
-    urls = config_serivce.load_cfg()['urls']
+    urls = config_service.load_cfg()['urls']
     result = {
         'denva': '{}/{}'.format(urls['denva'], suffix),
         'enviro': '{}/{}'.format(urls['enviro'], suffix)
@@ -138,7 +138,7 @@ if __name__ == '__main__':
 
 # TODO improve it
 def get_last_logs_for(log_file_name: str, lines):
-    env = config_serivce.get_mode()
+    env = config_service.get_mode()
     if env == 'dev':
         env_dir = 'd:/denva/logs/'
     else:

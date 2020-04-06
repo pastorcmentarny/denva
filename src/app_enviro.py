@@ -17,7 +17,7 @@ import ST7735
 import sys
 import time
 
-import config_serivce
+import config_service
 import measurement_storage_service
 
 try:
@@ -40,7 +40,7 @@ import random
 import re
 import cl_display
 import commands
-import config_serivce
+import config_service
 import data_files
 import email_sender_service
 import sensor_warnings
@@ -213,7 +213,7 @@ def display_on_screen(measurement: dict):
 
 def get_colour_for_cpu():
     cpu_temp = float(re.sub('[^0-9.]', '', commands.get_cpu_temp()))
-    config = config_serivce.load_cfg()
+    config = config_service.load_cfg()
     if cpu_temp > config['sensor']['cpu_temp_fatal']:
         return ['Fatal', 255, 16, 1]
     elif cpu_temp > config['sensor']['cpu_temp_error']:
@@ -290,7 +290,7 @@ def main():
 
 
 if __name__ == '__main__':
-    config_serivce.set_mode_to('enviro')
+    config_service.set_mode_to('enviro')
     data_files.setup_logging()
     ui('Starting application ... \n Press Ctrl+C to shutdown', True)
     ui('Logs config loaded.\nSending email', True)

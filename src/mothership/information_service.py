@@ -14,7 +14,7 @@ from datetime import datetime
 from timeit import default_timer as timer
 
 import app_timer
-import config_serivce
+import config_service
 import data_files
 import utils
 import web_data
@@ -93,7 +93,7 @@ if __name__ == '__main__':
     try:
         utils.setup_test_logging()
         refresh_all()
-        data_files.save_dict_data_as_json(config_serivce.get_information_path(), information)
+        data_files.save_dict_data_as_json(config_service.get_information_path(), information)
         data_files.backup_information_data(information)
     except Exception as e:
         print(information)
