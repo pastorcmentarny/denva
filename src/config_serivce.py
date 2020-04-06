@@ -61,13 +61,15 @@ settings = {
     "urls": {
         "server": "http://192.168.0.200:5000",
         "denva": "http://192.168.0.201:5000",
-        "enviro": "http://192.168.0.202:5000"
+        "enviro": "http://192.168.0.202:5000",
+        "delight": "http://192.168.0.202:5000"
     },
     "logs": {
         'dev': 'D:\Projects\denva\src\configs\dev_log_config.json',
         'server': 'E:\denva\logs\server_log_config.json',
         'denva': '/home/pi/denva-master/src/configs/log_config.json',
         'enviro': '/home/pi/denva-master/src/configs/log_config.json',
+        'delight': '/home/pi/denva-master/src/configs/log_config.json',
         'hc': '/home/pi/denva-master/src/configs/log_config.json',
         'log_app': '/home/pi/logs/logs.log',
         'log_hc': '/home/pi/logs/healthcheck.log',
@@ -78,7 +80,7 @@ settings = {
         'server': 'E:\denva\src\data\information.json'
     },
     "test": {
-        'slow_test': True
+        'slow_test': False
     }
 }
 
