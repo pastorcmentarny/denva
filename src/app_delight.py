@@ -27,10 +27,13 @@ import random
 import time
 from random import randint
 
-import config_serivce
+import config_service
+import logging
 import data_files
 from delight import delight_display
 import unicornhathd
+
+logger = logging.getLogger('app')
 
 BLUE = 'blue'
 GREY = 'grey'
@@ -146,7 +149,7 @@ def show_on_screen(pixel_list: list):
 def sub_light_travel():
     global clock
 
-    print('Spacedate: {}. Currently, we are in sub space zone..'.format(clock))
+    logger.info('Spacedate: {}. Currently, we are in sub space zone..'.format(clock))
 
     running = True
     while running:
@@ -177,10 +180,10 @@ def sub_light_travel():
 def in_the_warp():
     global clock
 
-    print('Spacedate: {}. Currently, we are in the warp..'.format(clock))
+    logger.info('Spacedate: {}. Currently, we are in the warp..'.format(clock))
 
     star_count = 25
-    star_speed = 0.025
+    star_speed = 0.05
     stars = []
 
     for i in range(0, star_count):
@@ -205,11 +208,13 @@ def in_the_warp():
 
         unicornhathd.show()
 
+        if clock % 50 == 0:
+            star_speed -= 0.001
         if clock % 2000 == 0:
             running = False
 
 
 if __name__ == '__main__':
-    config_serivce.set_mode_to('delight')
+    config_service.set_mode_to('delight')
     data_files.setup_logging()
     main()
