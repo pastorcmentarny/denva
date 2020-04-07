@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from eighttrack import leaderboard_utils
-
+import gobshite_exception
 
 class LeaderboardUtilsTest(TestCase):
     def test_to_deciseconds(self):
@@ -19,3 +19,25 @@ class LeaderboardUtilsTest(TestCase):
 
                 # then
                 self.assertEqual(result, expected_result)
+
+    def test_is_invalid_time(self):
+        # given
+        params_list = [(None, False), ('', False), (' ', False), ('time', False), ('1,2', False), ('1.2.3.4', False),
+                       ('60.0', False), ('0.61.3', False), ('1.F', False), ('-0', False), ('-0.1', False),
+                       ('-1.0', False),
+                       ('-1.2.3', False), ('0', True), ('0.1', True), ('1.0', True), ('1.2.3', True)]
+        for an_input, expected_result in params_list:
+            with self.subTest(msg="Checking to deciseconds() for time {} ".format(an_input)):
+                # when
+                result = leaderboard_utils.is_valid_time(an_input)
+
+                # debug
+                print('for "{}" result is {} and expected result is {}'.format(an_input, result, expected_result))
+
+                # then
+                self.assertEqual(result, expected_result)
+
+    #tag-test-exception
+    def test_to_deciseconds_should_throw_exception_for_invalid_time(self):
+        # when & then
+        self.assertRaises(gobshite_exception.GobshiteException, leaderboard_utils.to_deciseconds,'')
