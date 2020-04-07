@@ -5,7 +5,7 @@ from gobshite_exception import GobshiteException
 # i use decisecond as small unit for measure time for this run
 def to_deciseconds(time: str) -> int:
     if not is_valid_time(time):
-            raise GobshiteException
+        raise GobshiteException
     result = time.split('.')
     print(result)
     if len(result) == 1:
@@ -32,3 +32,13 @@ def is_valid_time(time: str) -> bool:
     if len(result) == 3 and int(result[1]) >= 60:
         return False
     return bool(re.findall('[0-9.]', time))
+
+
+def convert_lap_result_request_to_dict(lap_result: str, result_id: int) -> dict:
+    result = lap_result.split('--')
+    return {
+        'date': result[1],
+        'time': to_deciseconds(result[0]),
+        'lap': int(result[2]),
+        'id': result_id
+    }
