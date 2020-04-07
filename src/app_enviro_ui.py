@@ -99,7 +99,7 @@ def record():
 @app.route("/system")
 def system():
     logger.info('Getting system information about Enviro')
-    return jsonify(enviro_service.get_system_info())
+    return jsonify(common_service.get_system_info())
 
 
 @app.route("/warns/now")
@@ -129,7 +129,7 @@ if __name__ == '__main__':
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        email_sender_service.send_error_log_email('web application',
+        email_sender_service.send_error_log_email(APP_NAME,
                                                   'you may need reset web application as it looks like web app '
                                                   'crashes due to {}'.format(exception))
         sys.exit(0)

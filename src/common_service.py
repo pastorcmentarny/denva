@@ -20,3 +20,6 @@ def get_log_hc(number: int):
 def get_log_ui(number: int):
     return commands.get_lines_from_path(config_service.get_log_path_for('log_ui'), number)
 
+
+def get_system_info():
+    return commands.get_system_info()
