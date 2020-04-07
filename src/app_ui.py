@@ -16,11 +16,11 @@ from flask import Flask, jsonify, url_for, request, render_template
 
 import averages
 import commands
+import common_service
 import config_service
 import data_files
 import email_sender_service
 import information_service
-import networkcheck
 import records
 import report_service
 import sensor_log_reader
@@ -85,7 +85,7 @@ def now():
 @app.route("/system")
 def system():
     logger.info('Getting information about system')
-    return jsonify(commands.get_system_info())
+    return jsonify(common_service.get_system_info())
 
 
 @app.route("/log/system")
@@ -93,41 +93,40 @@ def recent_system_log_app():
     logger.info('Getting system logs')
     return jsonify(commands.get_system_logs(200))
 
-
 @app.route("/log/app")
 def log_app():
-    logger.info('Getting application logs')
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/logs.log', 300))
+    logger.info('Getting application logs for sending as email for Enviro')
+    return jsonify(common_service.get_log_app(300))
 
 
 @app.route("/log/app/recent")
 def recent_log_app():
-    logger.info('Getting recent application logs for sending as email')
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/logs.log', 20))
+    logger.info('Getting recent application logs for sending as email for Enviro')
+    return jsonify(common_service.get_log_app(20))
 
 
 @app.route("/log/hc")
 def log_hc():
-    logger.info('Getting healthcheck logs')
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 300))
+    logger.info('Getting recent healthcheck logs for sending as email for Enviro')
+    return jsonify(common_service.get_log_hc(300))
 
 
 @app.route("/log/hc/recent")
 def recent_log_hc():
-    logger.info('Getting recent healthcheck logs for sending as email')
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 20))
+    logger.info('Getting recent healthcheck logs  for sending as email for Enviro')
+    return jsonify(common_service.get_log_ui(20))
 
 
 @app.route("/log/ui")
 def log_ui():
-    logger.info('Getting server ui logs')
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/server.log', 300))
+    logger.info('Getting server ui logs for Enviro')
+    return jsonify(common_service.get_log_ui(300))
 
 
 @app.route("/log/ui/recent")
 def recent_log_ui():
-    logger.info('Getting recent server ui logs for sending as email')
-    return jsonify(commands.get_lines_from_path('/home/pi/logs/server.log', 20))
+    logger.info('Getting recent server ui logs for sending as email  for Enviro')
+    return jsonify(common_service.get_log_ui(20))
 
 
 @app.route("/report/yesterday")
@@ -138,12 +137,11 @@ def last_report():
 
 @app.route("/hc")
 def healthcheck():
-    logger.info('Getting healthcheck')
-    return jsonify({"status": "UP",
-                    "app": APP_NAME,
-                    "network": networkcheck.network_check(config_service.get_options()['inChina'])})
+    return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
+
+#TODO remove it
 @app.route("/ricky")
 def ricky():
     logger.info('Getting various data about Ricky')
@@ -188,14 +186,14 @@ def welcome():
 if __name__ == '__main__':
     config_service.set_mode_to('denva')
     data_files.setup_logging()
-    logger.info('Starting web server')
+    logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
         healthcheck()
-    except Exception as e:
-        logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
-        email_sender_service.send_error_log_email('web application',
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        email_sender_service.send_error_log_email(APP_NAME,
                                                   'you may need reset web application as it looks like web app '
-                                                  'crashes due to {}'.format(e))
+                                                  'crashes due to {}'.format(exception))
         sys.exit(0)
