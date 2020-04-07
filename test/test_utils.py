@@ -1,4 +1,6 @@
+from datetime import date
 from unittest import TestCase
+from unittest.mock import patch
 
 import utils
 
@@ -41,3 +43,21 @@ class Test(TestCase):
 
         # then
         self.assertEqual(result, expected_result)
+
+    # tag-mock-date
+    def test_get_date_as_folders(self):
+        # given
+        with patch('utils.date') as mock_date:
+            mock_date.today.return_value = date(2006, 6, 6)
+            mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
+
+            # verify that mock works
+            assert utils.date.today() == date(2006, 6, 6)
+
+            expected_result = '\\2006\\06\\06\\'
+
+            # when
+            result = utils.get_date_as_folders()
+
+            # then
+            self.assertEqual(result, expected_result)

@@ -14,6 +14,7 @@ import logging.config
 
 import re
 from datetime import datetime
+from datetime import date
 from datetime import timedelta
 
 stats_log = logging.getLogger('stats')
@@ -24,7 +25,7 @@ def as_3_digit_number(index: int) -> str:
 
 
 def convert_list_to_dict(source: list) -> dict:
-    return {as_3_digit_number(index+1): source[index] for index in range(0, len(source))}
+    return {as_3_digit_number(index + 1): source[index] for index in range(0, len(source))}
 
 
 def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
@@ -72,12 +73,14 @@ def to_hex(r, g, b):
     return '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
 
-#TODO change return from str to float
+# TODO change return from str to float
 def get_float_number_from_text(text: str) -> str:
     return re.sub('[^0-9.]', '', text)
 
+
 def get_int_number_from_text(text: str) -> int:
     return int(re.sub('[^0-9]', '', text))
+
 
 def fix_nulls(data):
     for line in data:
@@ -214,3 +217,11 @@ def setup_test_logging():
 
 def convert_bytes_to_megabytes(size_in_bytes: int) -> int:
     return int(size_in_bytes / 1000 / 1000)
+
+
+def get_date_as_folders() -> str:
+    today = date.today()
+    year = today.year
+    month = today.month
+    day = today.day
+    return "\\{}\\{:02x}\\{:02x}\\".format(year, month, day)
