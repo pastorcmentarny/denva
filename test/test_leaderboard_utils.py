@@ -3,7 +3,7 @@ from unittest import TestCase
 from eighttrack import leaderboard_utils
 import gobshite_exception
 
-class LeaderboardUtilsTest(TestCase):
+class Test(TestCase):
     def test_to_deciseconds(self):
         # given
         scale_params_list = [('0', 0), ('0.1', 1), ('1', 10), ('1.0', 10), ('1.2.3', 623),

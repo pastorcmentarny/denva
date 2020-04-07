@@ -36,3 +36,21 @@ class LeaderboardTestCase(unittest.TestCase):
 
         # then
         self.assertEqual(result, {})
+
+    def test_should_add_result(self):
+        # given
+        id = 7
+        lap_result = '59.59.9--1.1--1'
+        expected_result = {
+            'date': '1.1',
+            'time': 35999,
+            'lap': 1,
+            'id': id
+        }
+
+        # when
+        result = leaderboard.add_result(lap_result)
+
+        # then
+        self.assertEqual(result, id)
+        self.assertEqual(leaderboard.get_result_by_id(id), expected_result)

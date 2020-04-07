@@ -1,3 +1,5 @@
+from eighttrack import leaderboard_utils
+
 results = [
     {
         'date': '1.4',
@@ -41,3 +43,9 @@ def get_result_by_id(result_id:int) -> dict:
 
 def load_results() -> list:
     return results
+
+
+def add_result(lap_result:str) -> int:
+    result_as_dict = leaderboard_utils.convert_lap_result_request_to_dict(lap_result,len(results)+1)
+    results.append(result_as_dict)
+    return len(results)
