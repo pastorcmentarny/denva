@@ -14,7 +14,7 @@ import logging
 import sys
 from flask import Flask, jsonify, request
 import common_service
-import enviro_service
+from denviro import enviro_service
 import data_files
 import email_sender_service
 import config_service

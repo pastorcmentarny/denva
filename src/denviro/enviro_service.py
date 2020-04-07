@@ -20,10 +20,6 @@ def get_report_for_yesterday():
     return report_service.generate_enviro_report_for_yesterday()
 
 
-def get_system_info():
-    return commands.get_system_info()
-
-
 def get_averages_for_today():
     return averages.get_enviro_averages_for_today()
 
