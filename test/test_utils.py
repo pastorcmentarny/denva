@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -58,6 +58,40 @@ class Test(TestCase):
 
             # when
             result = utils.get_date_as_folders()
+
+            # then
+            self.assertEqual(result, expected_result)
+
+    def test_get_timestamp_title_with_time(self):
+        # given
+        with patch('utils.datetime') as mock_date:
+            mock_date.now.return_value = datetime(2006, 6, 6, 10, 10, 10)
+            mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
+
+            # verify that mock works
+            assert utils.datetime.now() == datetime(2006, 6, 6, 10, 10, 10)
+
+            expected_result = '2006-06-06 10:10:10'
+
+            # when
+            result = utils.get_timestamp_title(with_time=True)
+
+            # then
+            self.assertEqual(result, expected_result)
+
+    def test_get_timestamp_title_without_time(self):
+        # given
+        with patch('utils.datetime') as mock_date:
+            mock_date.now.return_value = datetime(2006, 6, 6)
+            mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
+
+            # verify that mock works
+            assert utils.datetime.now() == datetime(2006, 6, 6)
+
+            expected_result = '2006-06-06'
+
+            # when
+            result = utils.get_timestamp_title(with_time=False)
 
             # then
             self.assertEqual(result, expected_result)

@@ -57,8 +57,13 @@ def get_dates_for_last_7_days() -> list:
     return days
 
 
-def get_timestamp_title() -> str:
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def get_timestamp_title(with_time:bool=True) -> str:
+    if with_time:
+        pattern = "%Y-%m-%d %H:%M:%S"
+    else:
+        pattern = "%Y-%m-%d"
+    return datetime.now().strftime(pattern)
 
 
 def get_timestamp_file() -> str:
@@ -218,6 +223,11 @@ def setup_test_logging():
 def convert_bytes_to_megabytes(size_in_bytes: int) -> int:
     return int(size_in_bytes / 1000 / 1000)
 
+def to_multiline(lines:list) ->str:
+    text = ''
+    for line in lines:
+        text += line + '\n'
+    return text
 
 def get_date_as_folders() -> str:
     today = date.today()
