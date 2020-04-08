@@ -183,7 +183,7 @@ def in_the_warp():
     logger.info('Spacedate: {}. Currently, we are in the warp..'.format(clock))
 
     star_count = 25
-    star_speed = 0.05
+    star_speed = 0.01
     stars = []
 
     for i in range(0, star_count):
@@ -208,8 +208,8 @@ def in_the_warp():
 
         unicornhathd.show()
 
-        if clock % 50 == 0:
-            star_speed -= 0.001
+        if clock % 25 == 0:
+            star_speed += 0.001
         if clock % 2000 == 0:
             running = False
 
