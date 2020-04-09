@@ -47,7 +47,8 @@ class Test(TestCase):
         lap_result_from_request = '24.46.2--2.2--1'
         expected_result = {
             'date': '2.2',
-            'time': 14862,
+            'time': '24.46.2',
+            'time_in_ds': 14862,
             'lap': 1,
             'id': 7
         }

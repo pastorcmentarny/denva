@@ -18,6 +18,7 @@ class Test(TestCase):
 
         #debug
         print(result)
+
     def test_get_healthcheck(self):
         # given
         name = 'Denva Delight UI'

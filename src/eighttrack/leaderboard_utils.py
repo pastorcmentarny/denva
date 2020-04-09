@@ -38,7 +38,8 @@ def convert_lap_result_request_to_dict(lap_result: str, result_id: int) -> dict:
     result = lap_result.split('--')
     return {
         'date': result[1],
-        'time': to_deciseconds(result[0]),
+        'time': result[0],
+        'time_in_ds': to_deciseconds(result[0]),
         'lap': int(result[2]),
         'id': result_id
     }

@@ -6,7 +6,7 @@ from eighttrack import leaderboard
 class LeaderboardTestCase(unittest.TestCase):
     def test_load_results(self):
         # given
-        expected_first_result = {'date': '1.4', 'lap': 1, 'time': '24.46.3', 'id': 3}
+        expected_first_result = {'date': '1.4', 'id': 3, 'lap': 1, 'time': '24.46.3', 'time_in_ds': 14863}
         # when
         result = leaderboard.load_results()
         # then
@@ -19,6 +19,7 @@ class LeaderboardTestCase(unittest.TestCase):
         expected_result = {
             'date': '7.4',
             'time': '25.21.9',
+            'time_in_ds': 15219,
             'lap': 1,
             'id': result_id
         }
@@ -43,7 +44,8 @@ class LeaderboardTestCase(unittest.TestCase):
         lap_result = '59.59.9--1.1--1'
         expected_result = {
             'date': '1.1',
-            'time': 35999,
+            'time': '59.59.9',
+            'time_in_ds': 35999,
             'lap': 1,
             'id': id
         }
