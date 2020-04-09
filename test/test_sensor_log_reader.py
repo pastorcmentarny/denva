@@ -40,7 +40,7 @@ class MyTestCase(unittest.TestCase):
         print(result)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_add_row_for_enviro_will_increase_list_to_one(self):
         # given
@@ -68,7 +68,7 @@ class MyTestCase(unittest.TestCase):
         print(result)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
 
 if __name__ == '__main__':

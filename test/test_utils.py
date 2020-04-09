@@ -27,7 +27,7 @@ class Test(TestCase):
         result = utils.to_hex(255, 128, 15)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_convert_list_to_dict(self):
         # given
@@ -42,7 +42,7 @@ class Test(TestCase):
         result = utils.convert_list_to_dict(example_list)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     # tag-mock-date
     def test_get_date_as_folders(self):
@@ -60,7 +60,7 @@ class Test(TestCase):
             result = utils.get_date_as_folders()
 
             # then
-            self.assertEqual(result, expected_result)
+            self.assertEqual(expected_result,result)
 
     def test_get_timestamp_title_with_time(self):
         # given
@@ -77,7 +77,7 @@ class Test(TestCase):
             result = utils.get_timestamp_title(with_time=True)
 
             # then
-            self.assertEqual(result, expected_result)
+            self.assertEqual(expected_result,result)
 
     def test_get_timestamp_title_without_time(self):
         # given
@@ -94,4 +94,4 @@ class Test(TestCase):
             result = utils.get_timestamp_title(with_time=False)
 
             # then
-            self.assertEqual(result, expected_result)
+            self.assertEqual(expected_result,result)

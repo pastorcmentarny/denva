@@ -27,7 +27,7 @@ class LeaderboardTestCase(unittest.TestCase):
         result = leaderboard.get_result_by_id(result_id)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_should_return_None_if_id_do_not_match_when_get_result_by_id(self):
         # given

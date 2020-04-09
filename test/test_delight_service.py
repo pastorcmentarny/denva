@@ -26,4 +26,4 @@ class Test(TestCase):
         # when
         result = delight_service.get_healthcheck(name)
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)

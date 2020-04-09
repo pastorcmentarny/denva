@@ -19,7 +19,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_iqa_from_tvoc_for_clean_air(self):
         # given
@@ -35,7 +35,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_iqa_from_tvoc_for_good_air(self):
         # given
@@ -51,7 +51,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_iqa_from_tvoc_for_medium_air(self):
         # given
@@ -67,7 +67,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_iqa_from_tvoc_for_poor_air(self):
         # given
@@ -83,7 +83,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_invalid_brightness(self):
         # given

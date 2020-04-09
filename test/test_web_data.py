@@ -101,7 +101,7 @@ class Test(TestCase):
                 print(result)
 
                 # then
-                self.assertEqual(result, expected_result)
+                self.assertEqual(expected_result,result)
 
 
 

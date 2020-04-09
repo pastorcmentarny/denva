@@ -33,7 +33,7 @@ class Test(TestCase):
         print(result)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
     def test_get_enviro_records_should_return_records(self):
         # given
@@ -57,4 +57,4 @@ class Test(TestCase):
         print(result)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)

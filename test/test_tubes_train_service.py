@@ -114,4 +114,4 @@ class Test(TestCase):
         result = tubes_train_service.count_tube_problems(problem_list)
 
         # then
-        self.assertTrue(result, expected_result)
+        self.assertTrue(expected_result, result)

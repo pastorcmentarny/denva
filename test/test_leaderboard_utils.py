@@ -18,7 +18,7 @@ class Test(TestCase):
                 print('for {} result is {} and expected result is {}'.format(an_input, result, expected_result))
 
                 # then
-                self.assertEqual(result, expected_result)
+                self.assertEqual(expected_result,result)
 
     def test_is_invalid_time(self):
         # given
@@ -35,7 +35,7 @@ class Test(TestCase):
                 print('for "{}" result is {} and expected result is {}'.format(an_input, result, expected_result))
 
                 # then
-                self.assertEqual(result, expected_result)
+                self.assertEqual(expected_result,result)
 
     #tag-test-exception
     def test_to_deciseconds_should_throw_exception_for_invalid_time(self):

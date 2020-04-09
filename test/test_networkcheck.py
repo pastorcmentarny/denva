@@ -18,7 +18,7 @@ class Test(TestCase):
             result = networkcheck.network_check(False)
 
             # then
-            self.assertEqual(result, expected_result)
+            self.assertEqual(expected_result,result)
 
             # debug
             print(result)

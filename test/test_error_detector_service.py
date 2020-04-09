@@ -31,4 +31,4 @@ class Test(TestCase):
 
         # then
         self.assertEqual(len(result), 2)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
