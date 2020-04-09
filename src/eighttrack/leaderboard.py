@@ -1,4 +1,4 @@
-from eighttrack import leaderboard_utils
+from eighttrack import leaderboard_utils, leaderboard_file
 
 results = [
     {
@@ -47,6 +47,8 @@ def get_result_by_id(result_id: int) -> dict:
             return result
     return {}
 
+def save_results():
+    leaderboard_file.save_leaderboard_to_file(results)
 
 def load_results() -> list:
     return results
@@ -58,11 +60,12 @@ def add_result(lap_result: str) -> int:
     return len(results)
 
 
-def sort_leaderboard_by_time():  # -> list:
-    print(sorted(results, key=lambda index: index['time'], reverse=True))
+def sort_leaderboard_by_time() -> list:
+    return sorted(results, key=lambda index: index['time_in_ds'], reverse=False)
 
+def get_top10() -> list:
+    all_result = sort_leaderboard_by_time()
+    return all_result[:10]
 
 if __name__ == '__main__':
-    for r in results:
-        r = leaderboard_utils.to_deciseconds(r['time'])
-        print(r)
+    save_results()
