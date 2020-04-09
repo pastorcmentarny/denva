@@ -43,3 +43,7 @@ def convert_lap_result_request_to_dict(lap_result: str, result_id: int) -> dict:
         'lap': int(result[2]),
         'id': result_id
     }
+
+
+def convert_result_to_line(result:dict) -> str:
+    return '{};;{};;{};;{};;{}'.format(result['id'],result['date'],result['lap'],result['time'],result['time_in_ds'])

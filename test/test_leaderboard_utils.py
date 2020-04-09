@@ -2,6 +2,8 @@ from unittest import TestCase
 
 from eighttrack import leaderboard_utils
 import gobshite_exception
+import config_test
+
 
 class Test(TestCase):
     def test_to_deciseconds(self):
@@ -18,7 +20,7 @@ class Test(TestCase):
                 print('for {} result is {} and expected result is {}'.format(an_input, result, expected_result))
 
                 # then
-                self.assertEqual(expected_result,result)
+                self.assertEqual(expected_result, result)
 
     def test_is_invalid_time(self):
         # given
@@ -35,26 +37,29 @@ class Test(TestCase):
                 print('for "{}" result is {} and expected result is {}'.format(an_input, result, expected_result))
 
                 # then
-                self.assertEqual(expected_result,result)
+                self.assertEqual(expected_result, result)
 
-    #tag-test-exception
+    # tag-test-exception
     def test_to_deciseconds_should_throw_exception_for_invalid_time(self):
         # when & then
-        self.assertRaises(gobshite_exception.GobshiteException, leaderboard_utils.to_deciseconds,'')
+        self.assertRaises(gobshite_exception.GobshiteException, leaderboard_utils.to_deciseconds, '')
 
     def test_convert_lap_result_request_to_dict(self):
         # given
         lap_result_from_request = '24.46.2--2.2--1'
-        expected_result = {
-            'date': '2.2',
-            'time': '24.46.2',
-            'time_in_ds': 14862,
-            'lap': 1,
-            'id': 7
-        }
+        expected_result = config.result_as_dict
 
         # when
-        result = leaderboard_utils.convert_lap_result_request_to_dict(lap_result_from_request,7)
+        result = leaderboard_utils.convert_lap_result_request_to_dict(lap_result_from_request, 7)
 
         # then
-        self.assertEqual(result,expected_result)
+        self.assertEqual(result, expected_result)
+
+    def test_convert_result_to_line(self):
+        # given
+        lap = config_test.result_as_dict
+        expected_result = config_test.result_as_line_in_file
+        # when
+        result = leaderboard_utils.convert_result_to_line(lap)
+
+        self.assertEqual(expected_result, result)
