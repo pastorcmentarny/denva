@@ -45,5 +45,24 @@ def convert_lap_result_request_to_dict(lap_result: str, result_id: int) -> dict:
     }
 
 
-def convert_result_to_line(result:dict) -> str:
-    return '{};;{};;{};;{};;{}'.format(result['id'],result['date'],result['lap'],result['time'],result['time_in_ds'])
+def convert_result_to_line(result: dict) -> str:
+    return '{};;{};;{};;{};;{}'.format(result['id'], result['date'], result['lap'], result['time'],
+                                       result['time_in_ds'])
+
+
+def convert_results_to_list_of_string(results: list) -> list:
+    result_list = []
+    for result in results:
+        result_list.append(convert_result_to_line(result))
+    return result_list
+
+
+def convert_line_to_result(line: str) -> dict:
+    result_as_list = line.split(';;')
+    return {
+        'date': result_as_list[1],
+        'time': result_as_list[3],
+        'time_in_ds': int(result_as_list[4]),
+        'lap': int(result_as_list[2]),
+        'id': int(result_as_list[0])
+    }

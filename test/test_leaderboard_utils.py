@@ -46,8 +46,8 @@ class Test(TestCase):
 
     def test_convert_lap_result_request_to_dict(self):
         # given
-        lap_result_from_request = '24.46.2--2.2--1'
-        expected_result = config.result_as_dict
+        lap_result_from_request = '24.46.2--2.2.2002--1'
+        expected_result = config_test.result_as_dict
 
         # when
         result = leaderboard_utils.convert_lap_result_request_to_dict(lap_result_from_request, 7)
@@ -62,4 +62,27 @@ class Test(TestCase):
         # when
         result = leaderboard_utils.convert_result_to_line(lap)
 
+        self.assertEqual(expected_result, result)
+
+    def test_convert_results_to_list_of_string(self):
+        # given
+        lap = config_test.result_as_dict
+        laps_list = [lap, lap]
+
+        expected_result = [config_test.result_as_line_in_file, config_test.result_as_line_in_file]
+        # when
+        result = leaderboard_utils.convert_results_to_list_of_string(laps_list)
+
+        # then
+        self.assertEqual(expected_result, result)
+
+    def test_convert_line_to_result(self):
+        # given
+        expected_result = config_test.result_as_dict
+        line = config_test.result_as_line_in_file
+
+        # when
+        result = leaderboard_utils.convert_line_to_result(line)
+
+        # then
         self.assertEqual(expected_result, result)
