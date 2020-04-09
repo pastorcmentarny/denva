@@ -80,13 +80,14 @@ def add_enviro_measurement_to_file(file, data: dict):
                          ])
     file.close()
 
-
+#TODO refactor it as it saves in 2 places
 def store_enviro_measurement(data: dict):
-    local_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
-    add_enviro_measurement_to_file(local_file, data)
     try:
-        server_file = open(sensor_log_reader.get_enviro_sensor_log_file_at_server(), 'a+', newline='')
-        add_enviro_measurement_to_file(server_file, data)
+        local_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
+        add_enviro_measurement_to_file(local_file, data)
+
+        enviro_file = open(sensor_log_reader.get_enviro_sensor_log_file_at_server(), 'a+', newline='')
+        add_enviro_measurement_to_file(enviro_file, data)
         # if flag is true, set to false
     except IOError as exception:
         logger.warning(exception)
@@ -111,7 +112,7 @@ def add_measurement_to_file(file, data: dict, motion):
                          ])
     file.close()
 
-
+#TODO refactor it as it saves in 2 places
 #TODO merge motion with data
 def store_measurement(data, motion):
     try:
@@ -120,11 +121,13 @@ def store_measurement(data, motion):
         logger.warning(exception)
         counter = 0
     logger.debug('storing measurement no.{}'.format(counter))
-    local_file = open(sensor_log_reader.get_sensor_log_file(), 'a+', newline='')
-    add_measurement_to_file(local_file, data, motion)
     try:
+        local_file = open(sensor_log_reader.get_sensor_log_file(), 'a+', newline='')
+        add_measurement_to_file(local_file, data, motion)
+
         server_file = open(sensor_log_reader.get_sensor_log_file_at_server(), 'a+', newline='')
         add_measurement_to_file(server_file, data, motion)
+
         logger.debug('measurement no.{} saved to file.'.format(counter))
     except IOError as exception:
         logger.warning(exception)
