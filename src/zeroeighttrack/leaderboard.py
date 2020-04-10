@@ -46,3 +46,13 @@ if __name__ == '__main__':
 def remove_result_by_id(result_id: int):
     results.pop(result_id-1)
     save_results()
+
+
+def get_position_for_id(result_id):
+    top_leaderboard = sort_leaderboard_by_time()
+    x = {}
+    for rank in top_leaderboard:
+        if rank['id'] == result_id:
+            x = rank
+            break
+    return  top_leaderboard.index(x)+1

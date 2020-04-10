@@ -66,3 +66,9 @@ class LeaderboardTestCase(unittest.TestCase):
 
         # then
         self.assertEqual(len(leaderboard.results), id - 1)
+
+    def test_get_position_for_id(self):
+        # when
+        result = leaderboard.get_position_for_id(4)
+
+        self.assertEqual(1,result)
