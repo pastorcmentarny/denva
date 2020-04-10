@@ -160,6 +160,12 @@ def get_08r_top10():
     return jsonify(app_server_service.get_top_10())
 
 
+@app.route('/all')
+def get_all_08r_results():
+    logging.info('Getting top10 from ZeroEight track leaderboard')
+    return jsonify(app_server_service.get_all_results())
+
+
 @app.route("/")
 def welcome():
     host = request.host_url[:-1]

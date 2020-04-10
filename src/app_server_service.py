@@ -166,3 +166,7 @@ if __name__ == '__main__':
 def get_top_10():
     return leaderboard.get_top10()
 
+
+def get_all_results():
+    return leaderboard.sort_leaderboard_by_time()
+
