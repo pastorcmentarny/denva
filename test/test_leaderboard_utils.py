@@ -6,6 +6,7 @@ import config_test
 
 
 class Test(TestCase):
+    #tag-test-parameterized
     def test_to_deciseconds(self):
         # given
         scale_params_list = [('0', 0), ('0.1', 1), ('1', 10), ('1.0', 10), ('1.2.3', 623),

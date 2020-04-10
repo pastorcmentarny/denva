@@ -2,6 +2,7 @@ from datetime import date, datetime
 from unittest import TestCase
 from unittest.mock import patch
 
+import gobshite_exception
 import utils
 
 
@@ -95,3 +96,27 @@ class Test(TestCase):
 
             # then
             self.assertEqual(expected_result,result)
+
+    def test_convert_time_to_minutes(self):
+        scale_params_list = [('00:00 - Sleep', 0), ('0:00 - Sleep', 0),('1:00 - Sleep', 60),('12:00 - Sleep', 720), ('23:59 - Sleep', 1439)]
+
+        for an_input, expected_result in scale_params_list:
+            with self.subTest(msg="Checking to convert_time_to_minutes() for event {} ".format(an_input)):
+                # when
+                result = utils.convert_time_to_minutes(an_input)
+
+                # debug
+                print('for {} result is {} and expected result is {}'.format(an_input, result, expected_result))
+
+                # then
+                self.assertEqual(expected_result, result)
+
+    def test_convert_time_to_minutes_should_throw_exception_for_invalid_input(self):
+        scale_params_list = ['00:0 - Sleep', '0.00 - Sleep','0:00:01 - Sleep', 'Sleep','a0:0 - Sleep','0:0a - Sleep','0:00','0:00 Sleep',None,'',' ','0000:00 - Sleep','00:0000 - Sleep','24:00 - Sleep','23:61 - Sleep']
+
+        for an_input in scale_params_list:
+            with self.subTest(msg="Checking to convert_time_to_minutes() for event {} should throw exception ".format(an_input)):
+                # when
+                self.assertRaises(gobshite_exception.GobshiteException, utils.convert_time_to_minutes, an_input)
+
+

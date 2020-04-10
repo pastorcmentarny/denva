@@ -17,6 +17,8 @@ from datetime import datetime
 from datetime import date
 from datetime import timedelta
 
+from gobshite_exception import GobshiteException
+
 stats_log = logging.getLogger('stats')
 
 
@@ -57,8 +59,7 @@ def get_dates_for_last_7_days() -> list:
     return days
 
 
-
-def get_timestamp_title(with_time:bool=True) -> str:
+def get_timestamp_title(with_time: bool = True) -> str:
     if with_time:
         pattern = "%Y-%m-%d %H:%M:%S"
     else:
@@ -223,11 +224,13 @@ def setup_test_logging():
 def convert_bytes_to_megabytes(size_in_bytes: int) -> int:
     return int(size_in_bytes / 1000 / 1000)
 
-def to_multiline(lines:list) ->str:
+
+def to_multiline(lines: list) -> str:
     text = ''
     for line in lines:
         text += line + '\n'
     return text
+
 
 def get_date_as_folders() -> str:
     today = date.today()
@@ -235,3 +238,43 @@ def get_date_as_folders() -> str:
     month = today.month
     day = today.day
     return "\\{}\\{:02x}\\{:02x}\\".format(year, month, day)
+
+
+"09:44 - Do nothing"
+
+
+def _is_valid_event_time(event) -> bool:
+    if not event or event.isspace():
+        return False
+    time_with_title_split = event.split(' - ')
+
+    if len(time_with_title_split) > 2 or len(time_with_title_split) < 2:
+        return False
+
+    hour_with_minutes = time_with_title_split[0].split(':')
+    if len(hour_with_minutes) > 2 or len(hour_with_minutes) < 2:
+        return False
+
+    hour = hour_with_minutes[0]
+    minute = hour_with_minutes[1]
+
+    if not hour.isdecimal():
+        return False
+
+    if not minute.strip().isdecimal():
+        return False
+
+    if len(hour) > 2 or len(minute) > 2 or len(minute) < 2:
+        return False
+    if int(hour) >23 or int(minute) > 59:
+        return False
+    return True
+
+
+def convert_time_to_minutes(event: str) -> int:
+    if not _is_valid_event_time(event):
+        raise GobshiteException
+    event_time = event.split(' - ')[0].split(':')
+    hours = int(event_time[0])
+    minutes = int(event_time[1].strip())
+    return hours * 60 + minutes
