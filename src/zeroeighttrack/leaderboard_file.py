@@ -1,8 +1,7 @@
-import csv
+from zeroeighttrack import leaderboard_utils
+from pathlib import Path
 
-from eighttrack import leaderboard_utils
-
-path = '../data/eight_track_results.txt'
+path = Path(__file__).parent / '../data/eight_track_results.txt'
 
 
 def load_leaderboard_from_file() -> list:
@@ -10,9 +9,11 @@ def load_leaderboard_from_file() -> list:
     content = result_file.readlines()
     results_list = []
     for line in content:
-        results_list.append(leaderboard_utils.convert_line_to_result(line))
+        if not line.isspace():
+            results_list.append(leaderboard_utils.convert_line_to_result(line))
 
     return results_list
+
 
 def save_leaderboard_to_file(results: list):
     eight_track_results = open(path, 'w', newline='')

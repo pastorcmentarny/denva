@@ -3,7 +3,7 @@ import sys
 import utils
 
 from unittest import TestCase
-from eighttrack import leaderboard_ui
+from zeroeighttrack import leaderboard_ui
 
 
 class LeaderboardUITest(TestCase):
@@ -26,6 +26,7 @@ class LeaderboardUITest(TestCase):
 Id:2 @ 31.3 [Lap:1]...... 26.21.9 ds.
 Id:1 @ 30.3 [Lap:1]...... 30.53.1 ds.
 -----------------------------------------
+Zeroeight Track Info: Length: 2.6km. Ascent: 55m
 """.format(date)
 
         # when

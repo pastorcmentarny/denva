@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from eighttrack import leaderboard_utils
+from zeroeighttrack import leaderboard_utils
 import gobshite_exception
 import config_test
 
@@ -46,11 +46,11 @@ class Test(TestCase):
 
     def test_convert_lap_result_request_to_dict(self):
         # given
-        lap_result_from_request = '24.46.2--2.2.2002--1'
+        lap_result_from_request = config_test.result_as_request
         expected_result = config_test.result_as_dict
 
         # when
-        result = leaderboard_utils.convert_lap_result_request_to_dict(lap_result_from_request, 7)
+        result = leaderboard_utils.convert_lap_result_request_to_dict(lap_result_from_request, 1)
 
         # then
         self.assertEqual(result, expected_result)
