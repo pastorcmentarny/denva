@@ -128,28 +128,30 @@ def tt_delays_counter():
 
 @app.route("/frame")
 def frame():
+    logger.info('Requesting random picture')
     filename = app_server_service.get_random_frame()
-    print(filename)
+    logger.info('Displaying {}'.format(filename))
     return send_file(filename, mimetype='image/jpeg')
 
 
 @app.route('/denva', methods=['POST'])
 def store_denva_measurement():
-    logging.info('processing denva measurement request')
-    print(request.is_json)
-    logger.info(request.get_json())
-    print(request.get_json())
+    logging.info('Processing denva measurement request with json: {}'.format(request.get_json()))
     return jsonify(success=True)
 
 
 @app.route('/enviro', methods=['POST'])
 def store_enviro_measurement():
-    logging.info('processing enviro measurement request')
-    print(request.is_json)
+    logging.info('Processing enviro measurement request with json: {}'.format(request.get_json()))
     logger.info(request.get_json())
-    print(request.get_json())
     return jsonify(success=True)
 
+
+@app.route('/08r/add') # example: http://192.168.0.14:5000/08r/add?race=59.59.9--1.1.2068--1
+def add_result():
+    result = request.args.get('race')
+    logging.info('Processing enviro measurement request with race info: {}'.format(result))
+    return jsonify(app_server_service.add_result(result))
 
 @app.route("/")
 def welcome():

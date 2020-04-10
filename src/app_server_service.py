@@ -20,6 +20,7 @@ import time
 import config_service
 import data_files
 import error_detector_service
+from zeroeighttrack import leaderboard
 import local_data_gateway
 import mothership.celebrations as celebrations
 import mothership.chinese_dictionary_service as cn
@@ -31,6 +32,7 @@ import mothership.random_irregular_verb as verb
 import system_data_service
 import utils
 import web_data
+import pprint
 
 
 def get_last_updated_page() -> str:
@@ -130,12 +132,6 @@ def get_links_for(suffix: str, sensor_only: bool = False) -> dict:
     return result
 
 
-import pprint
-
-if __name__ == '__main__':
-    pprint.PrettyPrinter(indent=4).pprint(get_links_for_gateway())
-
-
 # TODO improve it
 def get_last_logs_for(log_file_name: str, lines):
     env = config_service.get_mode()
@@ -152,3 +148,16 @@ def run_gc() -> dict:
 
 def get_errors_from_data(data):
     return error_detector_service.get_errors(data)
+
+
+def add_result(data:str) -> dict:
+    result_id =  leaderboard.add_result(data)
+    return {
+        'position' : leaderboard.get_position_for_id(result_id),
+        'result' : leaderboard.get_result_by_id(result_id),
+        'top10' : leaderboard.get_top10()
+    }
+
+
+if __name__ == '__main__':
+    pprint.PrettyPrinter(indent=4).pprint(get_links_for_gateway())
