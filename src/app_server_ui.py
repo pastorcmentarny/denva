@@ -147,11 +147,18 @@ def store_enviro_measurement():
     return jsonify(success=True)
 
 
-@app.route('/08r/add') # example: http://192.168.0.14:5000/08r/add?race=59.59.9--1.1.2068--1
+@app.route('/08r/add')  # example: http://192.168.0.14:5000/08r/add?race=59.59.9--1.1.2068--1
 def add_result():
     result = request.args.get('race')
     logging.info('Processing enviro measurement request with race info: {}'.format(result))
     return jsonify(app_server_service.add_result(result))
+
+
+@app.route('/08r')
+def get_08r_top10():
+    logging.info('Getting top10 from ZeroEight track leaderboard')
+    return jsonify(app_server_service.get_top_10())
+
 
 @app.route("/")
 def welcome():

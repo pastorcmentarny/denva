@@ -161,3 +161,8 @@ def add_result(data:str) -> dict:
 
 if __name__ == '__main__':
     pprint.PrettyPrinter(indent=4).pprint(get_links_for_gateway())
+
+
+def get_top_10():
+    return leaderboard.get_top10()
+
