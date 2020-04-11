@@ -141,6 +141,7 @@
 </nav>
 
 <!-- main part -->
+{% if not message.daily[2] %}
 <div class="row mb-12 text-center darkness">
     <div class="col-md-12">
     <h1><span class="dailytitle">Now: </span><span class="blinking">{{message.daily[0]}}</span></h1><br/>
@@ -151,6 +152,13 @@
         <h2><span class="dailytitle">Next: </span><span class="next-item">{{message.daily[1]}}</span></h2><br/>
     </div>
 </div>
+{% else %}
+<div class="row mb-12 text-center darkness">
+    <div class="col-md-12 text-warning">
+        <b>&#9728; WEEKEND &#9728;</b>
+    </div>
+</div>
+{% endif %}
 
 <div class="row mb-3">
     <div class="col-md-4">

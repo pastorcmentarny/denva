@@ -19,9 +19,9 @@ def get_now_and_next_event(current_time: int) -> list:
         event_in_minutes = utils.convert_time_to_minutes(event)
         if current_time <= event_in_minutes:
             idx = routine.index(event)
-            return [routine[idx - 1], routine[idx]]
+            return [routine[idx - 1], routine[idx], utils.is_weekend_day(datetime.now())]
 
-    return [routine[len(routine) - 1], routine[0]]
+    return [routine[len(routine) - 1], routine[0], utils.is_weekend_day(datetime.now())]
 
 
 
