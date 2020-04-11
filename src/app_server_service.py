@@ -24,6 +24,7 @@ from zeroeighttrack import leaderboard
 import local_data_gateway
 import mothership.celebrations as celebrations
 import mothership.chinese_dictionary_service as cn
+from mothership import daily
 import mothership.good_english_sentence as eng
 import mothership.good_method_name as method
 import mothership.information_service as information
@@ -49,7 +50,8 @@ def get_gateway_data() -> dict:
             'today': get_last_updated_page(),
             'events': personal_events.get_personal_stats(),
             'weather': web_data.get_weather(),
-            'information': information.get_information()
+            'information': information.get_information(),
+            'daily': daily.get_now_and_next_event(datetime.datetime.now().hour * 60 + datetime.datetime.now().minute)
             }
 
 
@@ -150,12 +152,12 @@ def get_errors_from_data(data):
     return error_detector_service.get_errors(data)
 
 
-def add_result(data:str) -> dict:
-    result_id =  leaderboard.add_result(data)
+def add_result(data: str) -> dict:
+    result_id = leaderboard.add_result(data)
     return {
-        'position' : leaderboard.get_position_for_id(result_id),
-        'result' : leaderboard.get_result_by_id(result_id),
-        'top10' : leaderboard.get_top10()
+        'position': leaderboard.get_position_for_id(result_id),
+        'result': leaderboard.get_result_by_id(result_id),
+        'top10': leaderboard.get_top10()
     }
 
 
@@ -169,4 +171,3 @@ def get_top_10():
 
 def get_all_results():
     return leaderboard.sort_leaderboard_by_time()
-

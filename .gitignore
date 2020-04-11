@@ -3,3 +3,4 @@
 /.idea/vcs.xml
 /.idea/*
 src/mothership/personal_stats.py
+/src/data/routine_daily.txt

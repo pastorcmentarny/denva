@@ -12,3 +12,41 @@ span.bad {
     background-color: #F0F0F0;
     color: #CC0000;
 }
+
+.next-item {
+    color: #beee60;
+}
+.blinking {
+    animation: blinkingText 6s infinite;
+}
+
+.darkness {
+    background-color: #000000;
+}
+
+.dailytitle {
+    color: #bdbdbd;
+}
+
+@keyframes blinkingText {
+    0% {
+        color: #ffbf00;
+        background-color: #000;
+    }
+    49% {
+        color: #e0a800;
+        background-color: #000;
+    }
+    60% {
+        color: transparent;
+        background-color: #000;
+    }
+    99% {
+        color: transparent;
+        background-color: #000;
+    }
+    100% {
+        color: #ffbf00;
+        background-color: #000;
+    }
+}
