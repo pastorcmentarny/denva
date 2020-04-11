@@ -278,3 +278,7 @@ def convert_time_to_minutes(event: str) -> int:
     hours = int(event_time[0])
     minutes = int(event_time[1].strip())
     return hours * 60 + minutes
+
+def is_weekend_day(today:datetime) -> bool:
+    day_of_the_week = today.weekday()
+    return day_of_the_week > 4

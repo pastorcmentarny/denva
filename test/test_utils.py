@@ -28,7 +28,7 @@ class Test(TestCase):
         result = utils.to_hex(255, 128, 15)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     def test_convert_list_to_dict(self):
         # given
@@ -43,7 +43,7 @@ class Test(TestCase):
         result = utils.convert_list_to_dict(example_list)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     # tag-mock-date
     def test_get_date_as_folders(self):
@@ -61,7 +61,7 @@ class Test(TestCase):
             result = utils.get_date_as_folders()
 
             # then
-            self.assertEqual(expected_result,result)
+            self.assertEqual(expected_result, result)
 
     def test_get_timestamp_title_with_time(self):
         # given
@@ -78,7 +78,7 @@ class Test(TestCase):
             result = utils.get_timestamp_title(with_time=True)
 
             # then
-            self.assertEqual(expected_result,result)
+            self.assertEqual(expected_result, result)
 
     def test_get_timestamp_title_without_time(self):
         # given
@@ -95,10 +95,11 @@ class Test(TestCase):
             result = utils.get_timestamp_title(with_time=False)
 
             # then
-            self.assertEqual(expected_result,result)
+            self.assertEqual(expected_result, result)
 
     def test_convert_time_to_minutes(self):
-        scale_params_list = [('00:00 - Sleep', 0), ('0:00 - Sleep', 0),('1:00 - Sleep', 60),('12:00 - Sleep', 720), ('23:59 - Sleep', 1439)]
+        scale_params_list = [('00:00 - Sleep', 0), ('0:00 - Sleep', 0), ('1:00 - Sleep', 60), ('12:00 - Sleep', 720),
+                             ('23:59 - Sleep', 1439)]
 
         for an_input, expected_result in scale_params_list:
             with self.subTest(msg="Checking to convert_time_to_minutes() for event {} ".format(an_input)):
@@ -112,11 +113,32 @@ class Test(TestCase):
                 self.assertEqual(expected_result, result)
 
     def test_convert_time_to_minutes_should_throw_exception_for_invalid_input(self):
-        scale_params_list = ['00:0 - Sleep', '0.00 - Sleep','0:00:01 - Sleep', 'Sleep','a0:0 - Sleep','0:0a - Sleep','0:00','0:00 Sleep',None,'',' ','0000:00 - Sleep','00:0000 - Sleep','24:00 - Sleep','23:61 - Sleep']
+        scale_params_list = ['00:0 - Sleep', '0.00 - Sleep', '0:00:01 - Sleep', 'Sleep', 'a0:0 - Sleep', '0:0a - Sleep',
+                             '0:00', '0:00 Sleep', None, '', ' ', '0000:00 - Sleep', '00:0000 - Sleep', '24:00 - Sleep',
+                             '23:61 - Sleep']
 
         for an_input in scale_params_list:
-            with self.subTest(msg="Checking to convert_time_to_minutes() for event {} should throw exception ".format(an_input)):
+            with self.subTest(
+                    msg="Checking to convert_time_to_minutes() for event {} should throw exception ".format(an_input)):
                 # when
                 self.assertRaises(gobshite_exception.GobshiteException, utils.convert_time_to_minutes, an_input)
 
+    def test_is_weekend_day_is_true_for_saturday(self):
+        # given
+        saturday = datetime(2020, 4, 11, 0, 0, 0)
 
+        # when
+        result = utils.is_weekend_day(saturday)
+
+        # then
+        self.assertTrue(result)
+
+    def test_is_weekend_day_is_true_for_monday(self):
+        # given
+        monday = datetime(2020, 4, 13, 0, 0, 0)
+
+        # when
+        result = utils.is_weekend_day(monday)
+
+        # then
+        self.assertFalse(result)
