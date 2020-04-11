@@ -62,7 +62,7 @@ settings = {
         "server": "http://192.168.0.200:5000",
         "denva": "http://192.168.0.201:5000",
         "enviro": "http://192.168.0.202:5000",
-        "delight": "http://192.168.0.202:5000"
+        "delight": "http://192.168.0.203:5000"
     },
     "logs": {
         'dev': 'D:\Projects\denva\src\configs\dev_log_config.json',
