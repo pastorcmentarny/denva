@@ -66,8 +66,8 @@ def log_ui():
     return jsonify(delight_service.get_log_ui(300))
 
 
-@app.route("/log/ui")
-def log_ui():
+@app.route("/log/ui/recent")
+def recent_log_ui():
     logger.info('Getting server ui logs for {}'.format(APP_NAME))
     return jsonify(delight_service.get_log_ui(20))
 

@@ -61,7 +61,7 @@ def get_fasting_warning() -> str:
         return "NO FOOD (INTERMITTENT FASTING PERIOD)"
     elif hour == 10:
         return "NO FOOD (OPTIONAL)"
-    return None
+    return ''
 
 
 def get_all_warnings_page() -> list:
@@ -105,7 +105,8 @@ def get_current_system_information_for_all_services():
     return {
         'server': system_data_service.get_system_information(),
         'denva': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['denva'])),
-        'enviro': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro']))
+        'enviro': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro'])),
+        'delight': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['delight']))
     }
 
 
