@@ -167,7 +167,8 @@ def main():
         cl_display.print_measurement(measurement)
         denviro_display.set_brightness_for_screen(measurement['proximity'])
         data_files.store_enviro_measurement(measurement)
-        measurement_storage_service.send('enviro', measurement)
+        # deprecated but i will change settings to send them via config settings
+        #measurement_storage_service.send('enviro', measurement)
         sensor_warnings.get_current_warnings_for_enviro()
         remaining_time_in_millis = 5 - (float(measurement_time) / 1000)
 

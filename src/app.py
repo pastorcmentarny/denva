@@ -116,7 +116,8 @@ def main():
 
             cl_display.print_measurement(data)
             # display removed mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
-            measurement_storage_service.send('denva', data)
+            # deprecated but i will change settings to send them via config settings
+            # measurement_storage_service.send('denva', data)
 
             data['picture_path'] = get_pictures_path()
 
