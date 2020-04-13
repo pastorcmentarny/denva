@@ -38,7 +38,7 @@ import cl_display
 import commands
 import config_service
 import data_files
-from denviro import denviro_display
+#from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 import email_sender_service
 import sensor_warnings
 import system_data_service
@@ -129,8 +129,11 @@ def get_measurement() -> dict:
 def ui(msg: str, screen: bool = True):
     logger.info(msg)
     print(msg)
+    #FIXME temporary disabled
+    '''
     if screen:
         denviro_display.draw_message(msg)
+    '''
 
 
 def setup():
@@ -158,14 +161,14 @@ def main():
 
         start_time = timer()
         measurement = get_measurement()
-        denviro_display.display_on_screen(measurement)
+        #FIXME temporary disabled  denviro_display.display_on_screen(measurement)
         measurement['cpu_temp'] = commands.get_cpu_temp()
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         measurement['measurement_time'] = measurement_time
         logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
-        denviro_display.set_brightness_for_screen(measurement['proximity'])
+        #FIXME temporary disabled  denviro_display.set_brightness_for_screen(measurement['proximity'])
         data_files.store_enviro_measurement(measurement)
         # deprecated but i will change settings to send them via config settings
         #measurement_storage_service.send('enviro', measurement)
@@ -189,6 +192,6 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt as keyboard_exception:
         logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
-        denviro_display.draw_message('APP crashed.')
+        #FIXME temporary disabled  denviro_display.draw_message('APP crashed.')
         sys.exit(0)
-    denviro_display.draw_message('Goodbye.')
+    #FIXME temporary disabled denviro_display.draw_message('Goodbye.')
