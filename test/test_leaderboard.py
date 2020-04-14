@@ -16,13 +16,13 @@ class LeaderboardTestCase(unittest.TestCase):
 
     def test_should_get_result_by_id(self):
         # given
-        result_id = 6
+        result_id = 7
         expected_result = {
             'date': '7.4.2020',
             'time': '25.21.9',
             'time_in_ds': 15219,
             'lap': 1,
-            'id': result_id
+            'id': result_id, 'distance': 260
         }
         # when
         result = leaderboard.get_result_by_id(result_id)

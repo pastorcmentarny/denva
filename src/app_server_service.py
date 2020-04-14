@@ -172,3 +172,7 @@ def get_top_10():
 
 def get_all_results():
     return leaderboard.sort_leaderboard_by_time()
+
+
+def get_top_10_score():
+    return leaderboard.get_top10_by_score()

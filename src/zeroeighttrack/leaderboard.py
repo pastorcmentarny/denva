@@ -1,4 +1,4 @@
-from zeroeighttrack import leaderboard_utils, leaderboard_file
+from zeroeighttrack import leaderboard_utils, leaderboard_file, leaderboard_score
 
 results = leaderboard_file.load_leaderboard_from_file()
 
@@ -38,13 +38,8 @@ def size() -> int:
     return len(results)
 
 
-if __name__ == '__main__':
-    # add_result('26.55.4--9.4.2020--1')
-    print(sort_leaderboard_by_time())
-
-
 def remove_result_by_id(result_id: int):
-    results.pop(result_id-1)
+    results.pop(result_id - 1)
     save_results()
 
 
@@ -55,4 +50,22 @@ def get_position_for_id(result_id):
         if rank['id'] == result_id:
             x = rank
             break
-    return  top_leaderboard.index(x)+1
+    return top_leaderboard.index(x) + 1
+
+
+# score is calculate dynamically so it will reflect change everytime when algorithm changed
+def get_top10_by_score():
+    score_list = []
+
+    for result in results:
+        if 'distance' not in result:
+            result['distance'] = 260
+        score = leaderboard_score.calculate_score(result['time_in_ds'], result['distance'])
+        result['score'] = score
+        score_list.append(result)
+
+    return sorted(score_list, key=lambda index: index['score'], reverse=False)[:10]
+
+
+if __name__ == '__main__':
+    print(get_top10_by_score())

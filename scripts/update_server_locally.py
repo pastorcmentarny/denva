@@ -1,6 +1,39 @@
-from distutils.dir_util import copy_tree
+import os
+import shutil
+
+import config_service
+import utils
+
+
+FROM = "D:\\Projects\\denva\\src"
+TO = "\\ds-lpd-server\\denva\\src"
+BACKUP = 'D:\\denva\\backup'
 
 '''this script is used to copy project locally to my server'''
 
-result = copy_tree("D:\\Projects\\denva\\src", "\\ds-lpd-server\\denva\\src")
-print(result)
+
+def backup():
+    print('Performing backup..')
+    utils.get_timestamp_title()
+    backup_path = BACKUP + utils.get_date_as_folders()
+    print(backup_path)
+    if not os.path.exists(backup_path):
+        os.makedirs(backup_path)
+
+    print('Coping files')
+    result = shutil.copytree(TO, BACKUP)
+    print('Backup complete. {}'.format(result))
+
+def update():
+    backup()
+    """
+        if os.path.exists(TO):
+
+        shutil.rmtree(TO)
+        result = shutil.copytree(FROM, TO)
+        print(result)
+
+    """
+
+if __name__ == '__main__':
+    update()

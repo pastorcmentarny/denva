@@ -1,4 +1,4 @@
-# Denva - Dom's Environment Analyser
+# Denva - it starts as Dom's Environment Analyser and become denva is a Dom's personal assistant  
 
 This project has inspired by various events in the workplace.
 It measures:
@@ -54,3 +54,5 @@ Server:
 - Server UI __
     - Move 
 
+
+ carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),

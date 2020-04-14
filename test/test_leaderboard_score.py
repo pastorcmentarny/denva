@@ -26,10 +26,10 @@ class ScoreCase(unittest.TestCase):
         print('testing for forgot to lap it case')
 
         # given
-        expected_result = 20300
+        expected_result = 20450
 
         # when
-        result = leaderboard_score.calculate_score(time, 260, True)
+        result = leaderboard_score.calculate_score(time, 0)
 
         # then
         self.assertEqual(expected_result, result)

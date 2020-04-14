@@ -159,6 +159,10 @@ def get_08r_top10():
     logging.info('Getting top10 from ZeroEight track leaderboard')
     return jsonify(app_server_service.get_top_10())
 
+@app.route('/08r/hs')
+def get_08r_top10():
+    logging.info('Getting top10 from ZeroEight track leaderboard')
+    return jsonify(app_server_service.get_top_10_score())
 
 @app.route('/all')
 def get_all_08r_results():

@@ -1,20 +1,22 @@
 import gobshite_exception
 
-def calculate_score(time:int,distance:int,forgot_to_lap:bool=False) -> int:
-    if forgot_to_lap:
-        return time+300
-    print(distance)
+NORMAL_DISTANCE = 260
+
+
+def calculate_score(time: int, distance: int) -> int:
+
+    if distance == 0:
+        return time + 450  # move to config?
 
     if 261 >= distance >= 259:
-        print('in range {}'.format(distance))
         return time
 
     if distance < 259:
-        print(str((260-distance)*(time/260)))
-        return time + ((260-distance)*(260-distance)) + int((260-distance)*(time/260))
+        print(str((NORMAL_DISTANCE - distance) * (time / NORMAL_DISTANCE)))
+        return time + ((NORMAL_DISTANCE - distance) * (NORMAL_DISTANCE - distance)) + int(
+            (NORMAL_DISTANCE - distance) * (time / NORMAL_DISTANCE))
 
     if distance > 261:
-        return time-(distance-260)
+        return time - (distance - NORMAL_DISTANCE)
 
     raise gobshite_exception.GobshiteException
-
