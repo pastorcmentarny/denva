@@ -1,9 +1,11 @@
+from _datetime import datetime
 from pathlib import Path
 
-from _datetime import datetime
 import utils
 
+
 path = Path(__file__).parent / '../data/routine_daily.txt'
+
 
 def load_routine() -> list:
     timetable = []
@@ -12,6 +14,7 @@ def load_routine() -> list:
     for line in content:
         timetable.append(line.rstrip())
     return timetable
+
 
 def get_now_and_next_event(current_time: int) -> list:
     routine = load_routine()
@@ -22,7 +25,6 @@ def get_now_and_next_event(current_time: int) -> list:
             return [routine[idx - 1], routine[idx], utils.is_weekend_day(datetime.now())]
 
     return [routine[len(routine) - 1], routine[0], utils.is_weekend_day(datetime.now())]
-
 
 
 if __name__ == '__main__':

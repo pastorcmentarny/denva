@@ -1,8 +1,11 @@
 import re
+
 from gobshite_exception import GobshiteException
 
-
 # i use decisecond as small unit for measure time for this run
+DISTANCE_KEY = 'distance'
+
+
 def to_deciseconds(time: str) -> int:
     if not is_valid_time(time):
         raise GobshiteException
@@ -42,13 +45,13 @@ def convert_lap_result_request_to_dict(lap_result: str, result_id: int) -> dict:
         'time_in_ds': to_deciseconds(result[0]),
         'lap': int(result[2]),
         'id': result_id,
-        'distance' : result[3]
+        DISTANCE_KEY: int(result[3])
     }
 
 
 def convert_result_to_line(result: dict) -> str:
-    return '{};;{};;{};;{};;{}'.format(result['id'], result['date'], result['lap'], result['time'],
-                                       result['time_in_ds'])
+    return '{};;{};;{};;{};;{};;{}'.format(result['id'], result['date'], result['lap'], result['time'],
+                                           result['time_in_ds'], result[DISTANCE_KEY])
 
 
 def convert_results_to_list_of_string(results: list) -> list:
@@ -65,5 +68,6 @@ def convert_line_to_result(line: str) -> dict:
         'time': result_as_list[3],
         'time_in_ds': int(result_as_list[4]),
         'lap': int(result_as_list[2]),
-        'id': int(result_as_list[0])
+        'id': int(result_as_list[0]),
+        DISTANCE_KEY: int(result_as_list[5])
     }

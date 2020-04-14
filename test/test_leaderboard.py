@@ -3,6 +3,8 @@ import unittest
 import config_test
 from zeroeighttrack import leaderboard
 
+EMPTY_LIST = []
+
 
 class LeaderboardTestCase(unittest.TestCase):
     def test_load_results(self):
@@ -11,7 +13,7 @@ class LeaderboardTestCase(unittest.TestCase):
         # when
         result = leaderboard.load_results()
         # then
-        self.assertEqual(result[0], expected_first_result)
+        self.assertEqual(result[2], expected_first_result)
         self.assertEqual(len(leaderboard.results), len(result))
 
     def test_should_get_result_by_id(self):
@@ -22,7 +24,8 @@ class LeaderboardTestCase(unittest.TestCase):
             'time': '25.21.9',
             'time_in_ds': 15219,
             'lap': 1,
-            'id': result_id, 'distance': 260
+            'id': result_id,
+            'distance': 0
         }
         # when
         result = leaderboard.get_result_by_id(result_id)
@@ -41,24 +44,27 @@ class LeaderboardTestCase(unittest.TestCase):
 
     def test_should_add_result(self):
         # given
-        id = len(leaderboard.results) + 1
-        lap_result = '59.59.9--1.1.2068--1'
-        expected_result = config_test.get_result_with_id(id, 1)
+        new_id = len(leaderboard.results) + 1
+
+        expected_result = config_test.get_result_with_id(new_id, 1)
 
         # when
-        result = leaderboard.add_result(lap_result)
+        result = leaderboard.add_result(config_test.last_result_as_request)
 
         # then
-        self.assertEqual(leaderboard.get_result_by_id(id), expected_result)
-        leaderboard.remove_result_by_id(id)
+        self.assertEqual(leaderboard.get_result_by_id(new_id), expected_result)
+
+        leaderboard.remove_result_by_id(new_id)
+
+        self.assertEqual(EMPTY_LIST, leaderboard.get_position_for_id(new_id))
 
     def test_should_remove_result(self):
         # given
         id = len(leaderboard.results) + 1
-        lap_result = '59.59.9--1.1.2068--9'
-        expected_result = config_test.get_result_with_id(id, 9)
 
-        result_id = leaderboard.add_result(lap_result)
+        expected_result = config_test.get_result_with_id(id, 1)
+
+        result_id = leaderboard.add_result(config_test.last_result_as_request)
         self.assertEqual(leaderboard.get_result_by_id(result_id), expected_result)
 
         # when
@@ -70,5 +76,4 @@ class LeaderboardTestCase(unittest.TestCase):
     def test_get_position_for_id(self):
         # when
         result = leaderboard.get_position_for_id(4)
-
-        self.assertEqual(1,result)
+        self.assertEqual(1, result)

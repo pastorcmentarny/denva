@@ -45,12 +45,11 @@ def remove_result_by_id(result_id: int):
 
 def get_position_for_id(result_id):
     top_leaderboard = sort_leaderboard_by_time()
-    x = {}
+    x = []
     for rank in top_leaderboard:
         if rank['id'] == result_id:
-            x = rank
-            break
-    return top_leaderboard.index(x) + 1
+            return top_leaderboard.index(rank) + 1
+    return []
 
 
 # score is calculate dynamically so it will reflect change everytime when algorithm changed
@@ -69,3 +68,7 @@ def get_top10_by_score():
 
 if __name__ == '__main__':
     print(get_top10_by_score())
+
+
+def is_id_exists(new_id:int):
+    return

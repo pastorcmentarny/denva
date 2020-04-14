@@ -3,23 +3,27 @@ from unittest import TestCase
 from delight import delight_service
 import system_data_service
 import utils
-
+import config_service
 
 class Test(TestCase):
     def test_run_gc(self):
-        # given
-        memory_available_in_mb = system_data_service.get_memory_available_in_mb()
+        if config_service.run_slow_test():
+            # given
+            memory_available_in_mb = system_data_service.get_memory_available_in_mb()
 
-        # when
-        result = delight_service.run_gc()
-        self.assertEqual(result['memory_before'],memory_available_in_mb)
-        self.assertGreaterEqual(utils.get_int_number_from_text(result['memory_after']),utils.get_int_number_from_text(memory_available_in_mb) )
-        self.assertGreaterEqual(result['memory_saved'],0)
+            # when
+            result = delight_service.run_gc()
+            self.assertEqual(result['memory_before'],memory_available_in_mb)
+            self.assertGreaterEqual(utils.get_int_number_from_text(result['memory_after']),utils.get_int_number_from_text(memory_available_in_mb) )
+            self.assertGreaterEqual(result['memory_saved'],0)
 
-        #debug
-        print(result)
+            #debug
+            print(result)
+        else:
+         self.skipTest('running fast test only. test_network_check_should_return_perfect skipped.')
 
-    def test_get_healthcheck(self):
+
+def test_get_healthcheck(self):
         # given
         name = 'Denva Delight UI'
         expected_result = {'app': name, 'status': 'UP'}

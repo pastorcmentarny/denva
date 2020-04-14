@@ -1,12 +1,12 @@
 from unittest import TestCase
 
-from zeroeighttrack import leaderboard_utils
-import gobshite_exception
 import config_test
+import gobshite_exception
+from zeroeighttrack import leaderboard_utils
 
 
 class Test(TestCase):
-    #tag-test-parameterized
+    # tag-test-parameterized
     def test_to_deciseconds(self):
         # given
         scale_params_list = [('0', 0), ('0.1', 1), ('1', 10), ('1.0', 10), ('1.2.3', 623),
@@ -51,7 +51,7 @@ class Test(TestCase):
         expected_result = config_test.result_as_dict
 
         # when
-        result = leaderboard_utils.convert_lap_result_request_to_dict(lap_result_from_request, 1)
+        result = leaderboard_utils.convert_lap_result_request_to_dict(lap_result_from_request, 3)
 
         # then
         self.assertEqual(result, expected_result)
