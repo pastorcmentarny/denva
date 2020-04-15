@@ -10,8 +10,8 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
-
 import sys
+
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import app_server_service
@@ -32,6 +32,52 @@ logger = logging.getLogger('server')
 APP_NAME = 'Server UI'
 
 
+@app.route('/08r/add')  # example: http://192.168.0.14:5000/08r/add?race=59.59.9--1.1.2068--1
+def add_result():
+    result = request.args.get('race')
+    logging.info('Processing enviro measurement request with race info: {}'.format(result))
+    return jsonify(app_server_service.add_result(result))
+
+
+@app.route('/08r/hst')
+def get_08r_top10_time():
+    logging.info('Getting top10 from ZeroEight track leaderboard')
+    return jsonify(app_server_service.get_top_10())
+
+
+@app.route('/08r/hss')
+def get_08r_top10_score():
+    logging.info('Getting top10 from ZeroEight track leaderboard')
+    return jsonify(app_server_service.get_top_10_score())
+
+
+@app.route('/all')
+def get_all_08r_results():
+    logging.info('Getting top10 from ZeroEight track leaderboard')
+    return jsonify(app_server_service.get_all_results())
+
+
+@app.route('/denva', methods=['POST'])
+def store_denva_measurement():
+    logging.info('Processing denva measurement request with json: {}'.format(request.get_json()))
+    return jsonify(success=True)
+
+
+@app.route('/enviro', methods=['POST'])
+def store_enviro_measurement():
+    logging.info('Processing enviro measurement request with json: {}'.format(request.get_json()))
+    logger.info(request.get_json())
+    return jsonify(success=True)
+
+
+@app.route("/frame")
+def frame():
+    logger.info('Requesting random picture')
+    filename = app_server_service.get_random_frame()
+    logger.info('Displaying {}'.format(filename))
+    return send_file(filename, mimetype='image/jpeg')
+
+
 @app.route("/gateway")
 def gateway_page():
     return render_template('gateway.html', message=app_server_service.get_gateway_data())
@@ -41,6 +87,13 @@ def gateway_page():
 def gc():
     logger.info('Running GC..')
     return jsonify(app_server_service.run_gc())
+
+
+@app.route("/hc")
+def healthcheck():
+    return jsonify({"status": "UP",
+                    "app": APP_NAME,
+                    "network": networkcheck.network_check(config_service.get_options()['inChina'])})
 
 
 @app.route("/now")
@@ -89,22 +142,15 @@ def last_report_from_denva_and_enviro():
     return jsonify(report_service.get_reports_from_denva_and_enviro())
 
 
-@app.route("/webcam")
-def do_picture():
-    filename = commands.capture_picture()
-    return send_file(filename, mimetype='image/jpeg')
-
-
-@app.route("/hc")
-def healthcheck():
-    return jsonify({"status": "UP",
-                    "app": APP_NAME,
-                    "network": networkcheck.network_check(config_service.get_options()['inChina'])})
-
-
 @app.route("/ricky")
 def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
+
+
+@app.route("/system")
+def system():
+    logger.info('Getting information about system')
+    return jsonify(system_data_service.get_system_information())
 
 
 @app.route("/tt")
@@ -115,59 +161,15 @@ def tube_trains_status():
     return jsonify(tt_statuses)
 
 
-@app.route("/system")
-def system():
-    logger.info('Getting information about system')
-    return jsonify(system_data_service.get_system_information())
-
-
 @app.route("/tt/delays")
 def tt_delays_counter():
     return jsonify(tubes_train_service.count_tube_problems_today())
 
 
-@app.route("/frame")
-def frame():
-    logger.info('Requesting random picture')
-    filename = app_server_service.get_random_frame()
-    logger.info('Displaying {}'.format(filename))
+@app.route("/webcam")
+def do_picture():
+    filename = commands.capture_picture()
     return send_file(filename, mimetype='image/jpeg')
-
-
-@app.route('/denva', methods=['POST'])
-def store_denva_measurement():
-    logging.info('Processing denva measurement request with json: {}'.format(request.get_json()))
-    return jsonify(success=True)
-
-
-@app.route('/enviro', methods=['POST'])
-def store_enviro_measurement():
-    logging.info('Processing enviro measurement request with json: {}'.format(request.get_json()))
-    logger.info(request.get_json())
-    return jsonify(success=True)
-
-
-@app.route('/08r/add')  # example: http://192.168.0.14:5000/08r/add?race=59.59.9--1.1.2068--1
-def add_result():
-    result = request.args.get('race')
-    logging.info('Processing enviro measurement request with race info: {}'.format(result))
-    return jsonify(app_server_service.add_result(result))
-
-
-@app.route('/08r')
-def get_08r_top10():
-    logging.info('Getting top10 from ZeroEight track leaderboard')
-    return jsonify(app_server_service.get_top_10())
-
-@app.route('/08r/hs')
-def get_08r_top10():
-    logging.info('Getting top10 from ZeroEight track leaderboard')
-    return jsonify(app_server_service.get_top_10_score())
-
-@app.route('/all')
-def get_all_08r_results():
-    logging.info('Getting top10 from ZeroEight track leaderboard')
-    return jsonify(app_server_service.get_all_results())
 
 
 @app.route("/")
