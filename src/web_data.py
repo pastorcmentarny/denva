@@ -119,19 +119,20 @@ def get_flood() -> str:
 
 
 def cleanup_weather_data(weather: str) -> list:
-    logger.debug(weather)
+    print(weather)
     result = weather.split(';')
     result_list = []
     for x in result:
         y = x.split('.')
         for z in y:
-            result_list.append(z.strip())
+            z = z.replace('Maximum ','Max').replace('Minimum ','Min').replace('temperature',' temp.').replace('daytime ','').replace('nighttime ','').replace('degrees Celsius','°C')
+            if z:
+                result_list.append(z.strip())
     result_list.remove('Today')
     return result_list
 
 
-def clean_temp(temp: str) -> str:
-    return temp.replace('\xa0', '').replace('\xc2', '').replace('\xb0', '')[0:(len(temp) - 4)] + '°C'
+
 
 
 def get_weather() -> list:
