@@ -16,9 +16,7 @@ settings = {
         "motion": {
             "shaking": 1000,
             "sensitivity": 8,
-            "noOfFlashes": 5,
-            "kedOnLength": 0.2,
-            "kedOffLength": 0.05
+            "noOfFlashes": 5
         }
     },
     "paths": {
@@ -43,7 +41,8 @@ settings = {
             'dev': "D:\Projects\denva\src\data\dictionary.txt",
             'server': "E:\denva\src\data\dictionary.txt"
         },
-        "server_drive": "D:\\Projects\\denva\\src\\data\\dictionary.txt"
+        "server_drive": "D:\\Projects\\denva\\src\\data\\dictionary.txt",
+        "zeroeight": "",
     },
     "sensor": {
         "cpu_temp_warn": 60,
@@ -147,6 +146,7 @@ def get_irregular_verbs_path() -> str:
     return settings['paths']['base'][mode] + 'data/irregular_verbs.txt'
 
 
+# TODO refactor it
 def get_path_for_information_backup() -> str:
     path = ":\\denva\\"
     if settings['mode'] == 'server':
@@ -156,7 +156,7 @@ def get_path_for_information_backup() -> str:
 
 def set_mode_to(mode: str):
     settings['mode'] = mode
-    if platform.node() == 'DomL5':
+    if platform.node() == 'DomL5' or platform.node() == 'DomAsusG':
         settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
 
@@ -193,3 +193,7 @@ def get_shaking_level():
 
 def get_sensitivity():
     return settings['sensors']['motion']['sensitivity']
+
+
+def get_data_path() -> str:
+    return get_system_drive() + '\\data\\'
