@@ -63,12 +63,10 @@ def get_top10_by_score():
         result['score'] = score
         score_list.append(result)
 
-    return sorted(score_list, key=lambda index: index['score'], reverse=False)[:10]
+    return sorted(score_list, key=lambda index: index['score'], reverse=True)[:10]
 
 
 if __name__ == '__main__':
     print(get_top10_by_score())
 
 
-def is_id_exists(new_id:int):
-    return
