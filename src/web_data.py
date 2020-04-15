@@ -125,7 +125,7 @@ def cleanup_weather_data(weather: str) -> list:
     for x in result:
         y = x.split('.')
         for z in y:
-            result_list.append(z.rstrip())
+            result_list.append(z.strip())
     result_list.remove('Today')
     return result_list
 
