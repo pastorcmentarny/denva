@@ -47,7 +47,7 @@ movable_events = {
     '1025': ['Zmiana czasu z letniego na zimowy'],
 }
 
-all_events = utils.merge_two_dictionaries(events,movable_events)
+all_events = utils.merge_two_dictionaries(events, movable_events)
 
 
 def get_today() -> list:
@@ -88,8 +88,3 @@ def get_next_3_events() -> list:
         day = day + datetime.timedelta(days=1)
         counter = counter + 1
     return next3events
-
-
-# test next 3 events
-if __name__ == '__main__':
-    print(get_next_3_events())

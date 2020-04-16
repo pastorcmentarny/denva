@@ -11,10 +11,9 @@
 """
 import logging
 import logging.config
-
 import re
-from datetime import datetime
 from datetime import date
+from datetime import datetime
 from datetime import timedelta
 
 from gobshite_exception import GobshiteException
@@ -240,9 +239,6 @@ def get_date_as_folders() -> str:
     return "\\{}\\{:02x}\\{:02x}\\".format(year, month, day)
 
 
-"09:44 - Do nothing"
-
-
 def _is_valid_event_time(event) -> bool:
     if not event or event.isspace():
         return False
@@ -266,7 +262,7 @@ def _is_valid_event_time(event) -> bool:
 
     if len(hour) > 2 or len(minute) > 2 or len(minute) < 2:
         return False
-    if int(hour) >23 or int(minute) > 59:
+    if int(hour) > 23 or int(minute) > 59:
         return False
     return True
 
@@ -279,6 +275,7 @@ def convert_time_to_minutes(event: str) -> int:
     minutes = int(event_time[1].strip())
     return hours * 60 + minutes
 
-def is_weekend_day(today:datetime) -> bool:
+
+def is_weekend_day(today: datetime) -> bool:
     day_of_the_week = today.weekday()
     return day_of_the_week > 4
