@@ -20,7 +20,7 @@ import config_service
 import data_files
 import information_service
 import local_data_gateway
-import networkcheck
+from services import networkcheck_service as networkcheck
 import report_service
 import sensor_log_reader
 from services import system_data_service

@@ -99,6 +99,7 @@ def _get_network_status(ok: int) -> str:
     else:
         return DOWN + '!'
 
+
 # use as standalone tool :)
 if __name__ == '__main__':
     data_files.setup_logging()

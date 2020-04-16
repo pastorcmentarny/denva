@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import config_service
-import networkcheck
+from services import networkcheck_service as networkcheck
 
 PERFECT = 'Perfect'
 GOOD = 'Good'
@@ -18,7 +18,7 @@ class Test(TestCase):
             result = networkcheck.network_check(False)
 
             # then
-            self.assertEqual(expected_result,result)
+            self.assertEqual(expected_result, result)
 
             # debug
             print(result)
