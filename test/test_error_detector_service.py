@@ -10,25 +10,30 @@ class Test(TestCase):
             'system': {
                 'server': {
                     'Memory Available': '240MB',
-                    'Disk Free' : '999MB'
+                    'Disk Free': '999MB'
                 },
                 'denva': {
                     'Memory Available': '999MB',
-                    'Free Space' : '999MB',
-                    'Data Free Space' : '999MB'
+                    'Free Space': '999MB',
+                    'Data Free Space': '999MB'
                 },
-                'enviro' : {
+                'enviro': {
                     'Memory Available': '999MB',
-                    'Free Space' : '64MB',
-                    'Data Free Space' : '999MB'
-                }
+                    'Free Space': '64MB',
+                    'Data Free Space': '999MB'
+                },
+                'delight': {
+                    'Memory Available': '128MB',
+                    'Free Space': '64MB'
+                },
             }
         }
 
-        expected_result = ['Memory available on SERVER is VERY LOW.','Free space on disk  ON ENVIRO is VERY LOW.']
+        expected_result = ['Memory available on SERVER is VERY LOW.', 'Free space on disk  ON ENVIRO is VERY LOW.',
+                           'Free space on disk  ON DELIGHT is VERY LOW.']
         # when
         result = error_detector_service.get_errors(data)
 
         # then
-        self.assertEqual(len(result), 2)
-        self.assertEqual(expected_result,result)
+        self.assertEqual(len(result), 3)
+        self.assertEqual(expected_result, result)
