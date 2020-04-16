@@ -196,4 +196,4 @@ def get_sensitivity():
 
 
 def get_data_path() -> str:
-    return get_system_drive() + '\\data\\'
+    return get_system_drive() + '\\denva\\data\\'

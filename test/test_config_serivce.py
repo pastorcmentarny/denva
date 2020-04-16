@@ -31,4 +31,4 @@ class Test(TestCase):
         result = config_service.get_data_path()
 
         # then
-        self.assertEqual("D:\data\\", result)
+        self.assertEqual("D:\\denva\\data\\", result)

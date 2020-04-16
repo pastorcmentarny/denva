@@ -201,7 +201,7 @@ def tail(file_path: str, lines=1) -> list:
 
 def save_list_to_file(data: list, path: str):
     # TODO add validator?
-    with open(path, 'w', encoding='utf-8') as path_file:
+    with open(path, 'w+', encoding='utf-8') as path_file:
         path_file.write('\n'.join(data))
     return None
 

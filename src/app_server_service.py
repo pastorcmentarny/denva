@@ -32,6 +32,7 @@ import mothership.personal_stats as personal_events
 import mothership.random_irregular_verb as verb
 import system_data_service
 import utils
+from services import weather_service
 import web_data
 import pprint
 
@@ -49,7 +50,7 @@ def get_gateway_data() -> dict:
             'calendar': celebrations.get_next_3_events(),
             'today': get_last_updated_page(),
             'events': personal_events.get_personal_stats(),
-            'weather': web_data.get_weather(),
+            'weather': weather_service.get_weather(),
             'information': information.get_information(),
             'daily': daily.get_now_and_next_event(datetime.datetime.now().hour * 60 + datetime.datetime.now().minute)
             }
