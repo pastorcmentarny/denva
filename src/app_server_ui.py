@@ -18,9 +18,8 @@ import app_server_service
 import commands
 import config_service
 import data_files
-import information_service
 import local_data_gateway
-from services import networkcheck_service as networkcheck
+from services import networkcheck_service as networkcheck, information_service
 import report_service
 import sensor_log_reader
 from services import system_data_service
@@ -32,7 +31,7 @@ logger = logging.getLogger('server')
 APP_NAME = 'Server UI'
 
 
-@app.route('/08r/add')  # example: http://192.168.0.14:5000/08r/add?race=59.59.9--1.1.2068--1
+@app.route('/08r/add')  # example: http://192.168.0.14:5000/08r/add?race=59.59.9--1.1.2068--1--260
 def add_result():
     result = request.args.get('race')
     logging.info('Processing enviro measurement request with race info: {}'.format(result))

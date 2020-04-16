@@ -20,7 +20,7 @@ import app_server_service
 import app_timer
 import config_service
 import email_sender_service
-import information_service
+from services import information_service
 import local_data_gateway
 import mothership.information_service as information
 import webcam_utils
