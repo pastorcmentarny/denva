@@ -7,7 +7,7 @@ sentences = [
     "Michael Jackson was taking propofol to sleep, which is like doing chemotherapy because you're tired of shaving "
     "your head. (by Robbie Williams)",
     "Brent Cross Shopping Centre is hell on the earth on saturday.",
-    "Jeremy Clarskon - '(...) to create a vision of pure, what's the word? May and Hammond 'RUBBISH!",
+    "Jeremy Clarkson - '(...) to create a vision of pure, what's the word? May and Hammond 'RUBBISH!",
     "(4B) I shaved off my beard and I went to 'bear & bird' pub to drink a few pints of beer.",
     "I do not have knowledge on that matter.",
     "There've been a few developments.",

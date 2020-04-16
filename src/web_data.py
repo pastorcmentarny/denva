@@ -132,9 +132,6 @@ def cleanup_weather_data(weather: str) -> list:
     return result_list
 
 
-
-
-
 def get_weather() -> list:
     logger.info('weather')
     try:

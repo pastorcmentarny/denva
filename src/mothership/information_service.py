@@ -18,6 +18,7 @@ import config_service
 import data_files
 import utils
 import web_data
+from services import weather_service
 
 logger = logging.getLogger('app')
 
@@ -48,7 +49,7 @@ def refresh_all():
     start_time = timer()
     information['pollution']['tianjin'] = web_data.get_pollution_for('tianjin')
     information['pollution']['wroclaw'] = web_data.get_pollution_for('wroclaw')
-    information['weather'] = web_data.get_weather()
+    information['weather'] = weather_service.get_weather()
     information['crime'] = web_data.get_crime()
     information['o2'] = web_data.get_o2_status()
     information['flood'] = web_data.get_flood()
@@ -86,7 +87,7 @@ def refresh_every_5_minutes():
 def refresh_hourly():
     information['pollution']['tianjin'] = web_data.get_pollution_for('tianjin')
     information['pollution']['wroclaw'] = web_data.get_pollution_for('wroclaw')
-    information['weather'] = web_data.get_weather()
+    information['weather'] = weather_service.get_weather()
 
 
 if __name__ == '__main__':

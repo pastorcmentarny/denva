@@ -10,6 +10,7 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import web_data
+from services import weather_service
 
 information = {
     "crimes": "unknown",
@@ -22,6 +23,6 @@ information = {
 def get_data_about_rickmansworth() -> dict:
     information['crimes'] = web_data.get_crime()
     information['floods'] = web_data.get_flood()
-    information['weather'] = web_data.get_weather()
+    information['weather'] = weather_service.get_weather()
     information['o2'] = web_data.get_o2_status()
     return information
