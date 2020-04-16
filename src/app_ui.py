@@ -19,8 +19,7 @@ import commands
 import common_service
 import config_service
 import data_files
-import email_sender_service
-from services import information_service
+from services import information_service, email_sender_service
 import records
 import report_service
 import sensor_log_reader

@@ -12,7 +12,7 @@
 import logging
 
 import data_files
-import email_sender_service
+from services import email_sender_service
 import report_generator
 import utils
 

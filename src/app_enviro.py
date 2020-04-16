@@ -34,7 +34,7 @@ import commands
 import config_service
 import data_files
 #from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
-import email_sender_service
+from services import email_sender_service
 import sensor_warnings
 
 logger = logging.getLogger('app')

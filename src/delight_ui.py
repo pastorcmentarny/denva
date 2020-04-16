@@ -16,7 +16,7 @@ from flask import Flask, jsonify
 
 import config_service
 import data_files
-import email_sender_service
+from services import email_sender_service
 from delight import delight_service
 
 app = Flask(__name__)

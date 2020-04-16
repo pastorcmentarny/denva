@@ -19,7 +19,7 @@ from datetime import datetime
 from pathlib import Path
 
 import config_service
-import email_sender_service
+from services import email_sender_service
 import sensor_log_reader
 import utils
 

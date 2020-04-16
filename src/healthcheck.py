@@ -17,7 +17,7 @@ import time
 import config_service
 import commands
 import data_files
-import email_sender_service
+from services import email_sender_service
 import sensor_log_reader
 import utils
 

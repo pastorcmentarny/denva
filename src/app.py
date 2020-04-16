@@ -25,8 +25,7 @@ import cl_display
 import commands
 import config_service
 import data_files
-import email_sender_service
-import measurement_storage_service
+from services import email_sender_service
 # display removed import mini_display
 import utils
 from sensors import air_quality_service, environment_service,motion_service, two_led_service, uv_service

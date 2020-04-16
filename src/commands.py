@@ -18,7 +18,7 @@ import subprocess
 import time
 import utils
 
-import email_sender_service
+from services import email_sender_service
 
 logger = logging.getLogger('app')
 
