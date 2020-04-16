@@ -80,7 +80,8 @@ def add_enviro_measurement_to_file(file, data: dict):
                          ])
     file.close()
 
-#TODO refactor it as it saves in 2 places
+
+# TODO refactor it as it saves in 2 places
 def store_enviro_measurement(data: dict):
     try:
         local_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
@@ -112,8 +113,9 @@ def add_measurement_to_file(file, data: dict, motion):
                          ])
     file.close()
 
-#TODO refactor it as it saves in 2 places
-#TODO merge motion with data
+
+# TODO refactor it as it saves in 2 places
+# TODO merge motion with data
 def store_measurement(data, motion):
     try:
         counter = data['measurement_counter']
@@ -144,7 +146,8 @@ def setup_logging():
         logging.basicConfig(level=logging.DEBUG)
         logger.warning('Using default logging due to problem with loading from log: {}'.format(path))
         email_sender_service.send_error_log_email(path,
-                                          'Unable to setup logging due to invalid path {}'.format(path))
+                                                  'Unable to setup logging due to invalid path {}'.format(path))
+
 
 def load_json_data_as_dict_from(path: str) -> dict:
     with open(path, 'r', encoding='utf-8') as json_file:
@@ -194,3 +197,15 @@ def tail(file_path: str, lines=1) -> list:
         block_counter -= 1
 
     return lines_found[-lines:]
+
+
+def save_list_to_file(data: list, path: str):
+    # TODO add validator?
+    with open(path, 'w', encoding='utf-8') as path_file:
+        path_file.write('\n'.join(data))
+    return None
+
+
+def load_weather(path: str):
+    with open(path, 'r', encoding='utf-8') as weather_file:
+        return weather_file.read().splitlines()
