@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import system_data_service
+from services import system_data_service
 
 import utils
 

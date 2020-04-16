@@ -15,9 +15,6 @@ from timeit import default_timer as timer
 import sys
 import time
 
-import config_service
-import measurement_storage_service
-
 try:
     # Transitional fix for breaking change in LTR559
     from ltr559 import LTR559
@@ -32,8 +29,6 @@ from enviroplus import gas
 from subprocess import PIPE, Popen
 
 import logging
-import random
-import re
 import cl_display
 import commands
 import config_service
@@ -41,7 +36,6 @@ import data_files
 #from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 import email_sender_service
 import sensor_warnings
-import system_data_service
 
 logger = logging.getLogger('app')
 

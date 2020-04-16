@@ -30,9 +30,8 @@ import mothership.good_method_name as method
 import mothership.information_service as information
 import mothership.personal_stats as personal_events
 import mothership.random_irregular_verb as verb
-import system_data_service
 import utils
-from services import weather_service
+from services import weather_service, system_data_service
 import web_data
 import pprint
 

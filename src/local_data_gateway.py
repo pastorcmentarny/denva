@@ -1,7 +1,7 @@
 import json
 
 import requests
-import system_data_service
+from services import system_data_service
 import config_service
 
 

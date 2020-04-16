@@ -10,7 +10,7 @@ from PIL import ImageDraw
 from PIL import ImageFont
 
 import commands
-import  system_data_service
+from services import system_data_service
 
 logger = logging.getLogger('app')
 

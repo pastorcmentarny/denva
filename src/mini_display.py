@@ -22,7 +22,7 @@ import commands
 import get_description_for
 import iqa_utils
 import sensor_warnings
-import system_data_service
+from services import system_data_service
 import utils
 import web_data
 
