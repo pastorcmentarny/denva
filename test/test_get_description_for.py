@@ -19,7 +19,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     def test_iqa_from_tvoc_for_clean_air(self):
         # given
@@ -35,7 +35,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     def test_iqa_from_tvoc_for_good_air(self):
         # given
@@ -51,7 +51,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     def test_iqa_from_tvoc_for_medium_air(self):
         # given
@@ -67,7 +67,7 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     def test_iqa_from_tvoc_for_poor_air(self):
         # given
@@ -83,101 +83,94 @@ class MyTestCase(unittest.TestCase):
         result = get_description_for.iqa_from_tvoc(tvoc)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     def test_invalid_brightness(self):
         # given
         brightness_level = 1000
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
-        self.assertEqual(result,'?')
-
+        self.assertEqual(result, '?')
 
     def test_white_brightness(self):
         # given
         brightness_level = 255
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
-        self.assertEqual(result,'white')
+        self.assertEqual(result, 'white')
 
     def test_very_bright_brightness(self):
         # given
         brightness_level = 225
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
-        self.assertEqual(result,'very bright')
-
+        self.assertEqual(result, 'very bright')
 
     def test_bit_bright_brightness(self):
         # given
         brightness_level = 175
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
         self.assertEqual(result, 'bit bright')
-
 
     def test_grey_brightness(self):
         # given
         brightness_level = 150
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
-        self.assertEqual(result,'grey')
-
+        self.assertEqual(result, 'grey')
 
     def test_bit_dark_brightness(self):
         # given
         brightness_level = 100
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
-        self.assertEqual(result,'bit dark')
-
+        self.assertEqual(result, 'bit dark')
 
     def test_dark_brightness(self):
         # given
         brightness_level = 72
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
-        self.assertEqual(result,'dark')
-
+        self.assertEqual(result, 'dark')
 
     def test_very_dark_brightness(self):
         # given
         brightness_level = 24
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
-        self.assertEqual(result,'very dark')
-
+        self.assertEqual(result, 'very dark')
 
     def test_pitch_black_brightness(self):
         # given
         brightness_level = 8
 
         # when
-        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+        result = get_description_for.brightness(brightness_level, brightness_level, brightness_level)
 
         # then
-        self.assertEqual(result,'pitch black')
+        self.assertEqual(result, 'pitch black')

@@ -1,8 +1,6 @@
-import io
-import sys
-import utils
-
 from unittest import TestCase
+
+import utils
 from zeroeighttrack import leaderboard_ui
 
 

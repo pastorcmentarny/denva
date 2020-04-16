@@ -1,9 +1,10 @@
 from unittest import TestCase
 
+import config_service
+import utils
 from delight import delight_service
 from services import system_data_service
-import utils
-import config_service
+
 
 class Test(TestCase):
     def test_run_gc(self):
@@ -13,21 +14,22 @@ class Test(TestCase):
 
             # when
             result = delight_service.run_gc()
-            self.assertEqual(result['memory_before'],memory_available_in_mb)
-            self.assertGreaterEqual(utils.get_int_number_from_text(result['memory_after']),utils.get_int_number_from_text(memory_available_in_mb) )
-            self.assertGreaterEqual(result['memory_saved'],0)
+            self.assertEqual(result['memory_before'], memory_available_in_mb)
+            self.assertGreaterEqual(utils.get_int_number_from_text(result['memory_after']),
+                                    utils.get_int_number_from_text(memory_available_in_mb))
+            self.assertGreaterEqual(result['memory_saved'], 0)
 
-            #debug
+            # debug
             print(result)
         else:
-         self.skipTest('running fast test only. test_network_check_should_return_perfect skipped.')
+            self.skipTest('running fast test only. test_network_check_should_return_perfect skipped.')
 
 
 def test_get_healthcheck(self):
-        # given
-        name = 'Denva Delight UI'
-        expected_result = {'app': name, 'status': 'UP'}
-        # when
-        result = delight_service.get_healthcheck(name)
-        # then
-        self.assertEqual(expected_result,result)
+    # given
+    name = 'Denva Delight UI'
+    expected_result = {'app': name, 'status': 'UP'}
+    # when
+    result = delight_service.get_healthcheck(name)
+    # then
+    self.assertEqual(expected_result, result)

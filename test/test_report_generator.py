@@ -1,5 +1,6 @@
 from unittest import TestCase
 from unittest.mock import Mock
+
 import report_generator
 
 
@@ -34,7 +35,7 @@ class Test(TestCase):
         print(result)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     def test_read_data_as_list_from_csv_file_for_enviro(self):
         # given
@@ -60,4 +61,4 @@ class Test(TestCase):
         print(result)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)

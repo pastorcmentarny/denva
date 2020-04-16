@@ -3,13 +3,12 @@ import unittest
 import sensor_log_reader
 
 DENVA_ROW = ['2020-03-27 16:33:13.050509', '22.81', '1017.13', '27.269', '12946860.59', '#ff869f', 'n/a', '0.0',
-     '0.002591', '166.015625', '0.00732421875', '0.01318359375', '-0.00048828125', '0.5419847328244275',
-     '1.450381679389313', '0.08396946564885496', '-85.2', '29.099999999999998', '-33.75', '1056', '47.0',
-     '744', '476']
-
+             '0.002591', '166.015625', '0.00732421875', '0.01318359375', '-0.00048828125', '0.5419847328244275',
+             '1.450381679389313', '0.08396946564885496', '-85.2', '29.099999999999998', '-33.75', '1056', '47.0',
+             '744', '476']
 
 ENVIRO_ROW = ['2020-03-27 13:44:09.656392', '14.859722079502383', '1017.3365492766806', '12.456811542625449', '24.473',
-     '0', '92.0769230769231', '224.0000000000001', '135.304347826087', '18.0', '27.0', '27.0', '330', '21.6']
+              '0', '92.0769230769231', '224.0000000000001', '135.304347826087', '18.0', '27.0', '27.0', '330', '21.6']
 
 
 class MyTestCase(unittest.TestCase):
@@ -40,7 +39,7 @@ class MyTestCase(unittest.TestCase):
         print(result)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
     def test_add_row_for_enviro_will_increase_list_to_one(self):
         # given
@@ -60,7 +59,6 @@ class MyTestCase(unittest.TestCase):
                            'reduced': '224.00', 'nh3': '135.30', 'pm1': '18.0', 'pm25': '27.0', 'pm10': '27.0',
                            'measurement_time': '330', 'cpu_temp': '21.6'}
 
-
         # when
         result = sensor_log_reader.get_data_row_for_enviro(ENVIRO_ROW)
 
@@ -68,7 +66,7 @@ class MyTestCase(unittest.TestCase):
         print(result)
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
 
 if __name__ == '__main__':

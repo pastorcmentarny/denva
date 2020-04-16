@@ -13,5 +13,3 @@ class EnglishSentenceTests(unittest.TestCase):
 
             # then it is not produce empty result or out of index crash
             self.assertTrue(result)
-
-

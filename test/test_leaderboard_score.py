@@ -1,4 +1,5 @@
 import unittest
+
 from zeroeighttrack import leaderboard_score
 
 time = 20000
