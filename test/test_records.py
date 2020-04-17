@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import records
+from reports import records
 
 
 class Test(TestCase):

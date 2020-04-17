@@ -14,12 +14,10 @@ import logging
 from datetime import datetime
 from datetime import timedelta
 
-import averages
-import records
+from reports import averages, records
 import sensor_warnings
 import tubes_train_service
 import utils
-import web_data
 
 warnings_logger = logging.getLogger('warnings')
 stats_log = logging.getLogger('stats')

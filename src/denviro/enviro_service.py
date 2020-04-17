@@ -1,8 +1,5 @@
-import averages
+from reports import averages, records, report_service
 import commands
-import config_service
-import records
-import report_service
 import sensor_log_reader
 import sensor_warnings
 

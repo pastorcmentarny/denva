@@ -20,7 +20,7 @@ from email.mime.text import MIMEText
 import app_timer
 import commands
 import data_files
-import report_service
+from reports import report_service
 import sensor_warnings
 import utils
 

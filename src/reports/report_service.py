@@ -13,7 +13,7 @@ import logging
 
 import data_files
 from services import email_sender_service
-import report_generator
+from reports import report_generator
 import utils
 
 logger = logging.getLogger('server')

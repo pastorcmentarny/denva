@@ -19,7 +19,7 @@ import commands
 import config_service
 import data_files
 import local_data_gateway
-import report_service
+from reports import report_service
 import sensor_log_reader
 import tubes_train_service
 import web_data

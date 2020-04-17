@@ -14,14 +14,12 @@ import logging
 import sys
 from flask import Flask, jsonify, url_for, request, render_template
 
-import averages
+from reports import averages, records, report_service
 import commands
 import common_service
 import config_service
 import data_files
 from services import information_service, email_sender_service
-import records
-import report_service
 import sensor_log_reader
 import sensor_warnings
 
