@@ -14,7 +14,7 @@ import logging
 import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
-import app_server_service
+from mothership import app_server_service
 import commands
 import config_service
 import data_files

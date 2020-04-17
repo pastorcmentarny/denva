@@ -16,7 +16,7 @@ import time
 import data_files
 from datetime import datetime
 
-import app_server_service
+from mothership import app_server_service
 import app_timer
 import config_service
 from services import information_service, email_sender_service
