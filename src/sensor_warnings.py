@@ -197,7 +197,6 @@ def get_current_warnings_for_enviro() -> dict:
     return warnings
 
 
-
 def count_warnings(warnings) -> dict:
     warning_counter = {
         'the': 0,
