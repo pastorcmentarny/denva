@@ -16,8 +16,8 @@ from flask import Flask, jsonify
 
 import config_service
 import data_files
-from services import email_sender_service
 from delight import delight_service
+from services import email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('server')
@@ -81,8 +81,8 @@ def system():
 @app.route("/")
 def get_measurement():
     return jsonify({
-        'mode' : 'work in progress',
-        'counter' : 0
+        'mode': 'work in progress',
+        'counter': 0
     })
 
 

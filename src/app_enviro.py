@@ -29,7 +29,7 @@ from enviroplus import gas
 from subprocess import PIPE, Popen
 
 import logging
-import cl_display
+from denva import cl_display
 import commands
 import config_service
 import data_files

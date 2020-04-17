@@ -59,7 +59,8 @@ def brightness(r, g, b) -> str:
         logger.warning('weird brightness value: {} for {} {} {}'.format(result, r, g, b))
         return '?'
 
-#TODO move it
+
+# TODO move it
 def motion(motion_data: dict) -> str:
     return 'Acc: {:5.1f} {:5.1f} {:5.1f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
         motion_data['ax'],
@@ -71,6 +72,7 @@ def motion(motion_data: dict) -> str:
         motion_data['mx'],
         motion_data['my'],
         motion_data['mz'])
+
 
 # move to get_description_for
 # based on https://www.idt.com/eu/en/document/whp/overview-tvoc-and-indoor-air-quality

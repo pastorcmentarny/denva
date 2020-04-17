@@ -10,12 +10,15 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import re
+
 import time
 
 import sensor_log_reader
 
+
 def get_records_for_today() -> dict:
     return get_records(sensor_log_reader.load_data_for_today())
+
 
 def get_enviro_records_for_today() -> dict:
     return get_enviro_records(sensor_log_reader.load_data_for_today())
@@ -35,8 +38,8 @@ def get_enviro_records(data_records: list) -> dict:
         'highest_pm25': 0,
         'highest_pm10': 0,
         'measurement_time': {
-            'min' : 100000000,
-            'max' : -1
+            'min': 100000000,
+            'max': -1
         }
     }
 

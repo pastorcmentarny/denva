@@ -10,8 +10,8 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
-import sys
 
+import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import app_server_service
@@ -19,12 +19,12 @@ import commands
 import config_service
 import data_files
 import local_data_gateway
-from services import networkcheck_service as networkcheck, information_service
 import report_service
 import sensor_log_reader
-from services import system_data_service
 import tubes_train_service
 import web_data
+from services import networkcheck_service as networkcheck, information_service
+from services import system_data_service
 
 app = Flask(__name__)
 logger = logging.getLogger('server')

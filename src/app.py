@@ -20,8 +20,7 @@ import sys
 import time
 from PIL import ImageFont
 
-
-import cl_display
+from denva import cl_display
 import commands
 import config_service
 import data_files

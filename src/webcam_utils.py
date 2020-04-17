@@ -1,10 +1,11 @@
-import cv2
-from datetime import datetime
-from timeit import default_timer as timer
-import time
-
 import logging
 import os
+from datetime import datetime
+from timeit import default_timer as timer
+
+import cv2
+import time
+
 import utils
 
 webcam = cv2.VideoCapture(0)
