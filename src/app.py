@@ -25,7 +25,7 @@ import commands
 import config_service
 import data_files
 from services import email_sender_service
-# display removed import mini_display
+# display removed from mothership import mini_display
 import utils
 from sensors import air_quality_service, environment_service,motion_service, two_led_service, uv_service
 
