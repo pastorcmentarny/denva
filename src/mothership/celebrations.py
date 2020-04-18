@@ -6,6 +6,7 @@ events = {
     '0101': ['New year day'],
     '0121': ["Dzien Babci"],
     '0122': ["Dzien Dziadka"],
+    '0123': ["Java was released in 1996"],
     '0308': ["International Women Day"],
     '0312': ['Terry Pratchett passed away'],
     '0320': ['Spring starts'],
