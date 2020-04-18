@@ -19,7 +19,7 @@ import time
 
 import config_service
 import data_files
-import error_detector_service
+from services import error_detector_service
 from zeroeighttrack import leaderboard
 import local_data_gateway
 import mothership.celebrations as celebrations

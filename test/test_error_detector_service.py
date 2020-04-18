@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import error_detector_service
+from services import error_detector_service
 
 
 class Test(TestCase):

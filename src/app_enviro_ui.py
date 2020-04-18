@@ -13,10 +13,9 @@ import logging
 
 import sys
 from flask import Flask, jsonify, request
-import common_service
 from denviro import enviro_service
 import data_files
-from services import email_sender_service
+from services import email_sender_service, common_service
 import config_service
 
 app = Flask(__name__)

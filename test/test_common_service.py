@@ -1,9 +1,8 @@
 from unittest import TestCase
 
-import common_service
 import config_service
 import utils
-from services import system_data_service
+from services import system_data_service, common_service
 
 
 class Test(TestCase):
