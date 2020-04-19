@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import tubes_train_service
+from services import tubes_train_service
 
 
 class Test(TestCase):

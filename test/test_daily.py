@@ -3,7 +3,7 @@ import unittest
 from mothership import daily
 
 
-#TODO convert to paramized test
+# TODO convert to parameterized test
 class DailyTest(unittest.TestCase):
     def test_get_now_and_next_event_should_return_last_from_previous_day_and_first_event_of_day_at_midnight(self):
         # given

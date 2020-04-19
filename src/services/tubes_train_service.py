@@ -29,6 +29,7 @@ def get_stats_file_for_today() -> list:
 def count_tube_color_today() -> dict:
     return count_tube_color(get_stats_file_for_today())
 
+
 # TODO remove it
 def count_tube_color(stats_list) -> dict:
     stats_counter = {

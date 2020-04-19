@@ -16,7 +16,7 @@ from datetime import timedelta
 
 from reports import averages, records
 import sensor_warnings
-import tubes_train_service
+from services import tubes_train_service
 import utils
 
 warnings_logger = logging.getLogger('warnings')

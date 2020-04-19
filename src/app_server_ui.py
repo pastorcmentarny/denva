@@ -21,9 +21,8 @@ import data_files
 import local_data_gateway
 from reports import report_service
 import sensor_log_reader
-import tubes_train_service
 import web_data
-from services import networkcheck_service as networkcheck, information_service
+from services import networkcheck_service as networkcheck, information_service, tubes_train_service
 from services import system_data_service
 
 app = Flask(__name__)
