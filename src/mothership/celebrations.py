@@ -1,6 +1,9 @@
 import datetime
+import logging
 
 import utils
+
+logger = logging.getLogger('server')
 
 events = {
     '0101': ['New year day'],
@@ -62,8 +65,7 @@ def day_left_text(counter: int) -> str:
         return 'tomorrow'
     elif counter > 1:
         return '{} days left'.format(counter)
-    else:
-        print('?')
+    logger.warning('Unsupported day left counter {}'.format(counter))
 
 
 def get_sentence_from_list_of_events(event_list: list) -> str:

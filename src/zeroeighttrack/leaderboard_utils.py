@@ -10,7 +10,6 @@ def to_deciseconds(time: str) -> int:
     if not is_valid_time(time):
         raise GobshiteException
     result = time.split('.')
-    print(result)
     if len(result) == 1:
         return int(time) * 10
     if len(result) == 2:

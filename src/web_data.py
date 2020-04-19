@@ -119,7 +119,6 @@ def get_flood() -> str:
 
 
 def cleanup_weather_data(weather: str) -> list:
-    print(weather)
     result = weather.split(';')
     result_list = []
     for x in result:

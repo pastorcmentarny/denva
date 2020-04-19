@@ -1,8 +1,8 @@
-from _datetime import datetime
 from pathlib import Path
 
-import utils
+from _datetime import datetime
 
+import utils
 
 path = Path(__file__).parent / '../data/routine_daily.txt'
 
@@ -25,7 +25,3 @@ def get_now_and_next_event(current_time: int) -> list:
             return [routine[idx - 1], routine[idx], utils.is_weekend_day(datetime.now())]
 
     return [routine[len(routine) - 1], routine[0], utils.is_weekend_day(datetime.now())]
-
-
-if __name__ == '__main__':
-    print(get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute))

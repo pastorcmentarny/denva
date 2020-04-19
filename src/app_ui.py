@@ -149,7 +149,6 @@ def welcome():
     logger.info('Getting a main page')
     host = request.host_url[:-1]
     page_now = host + str(url_for('now'))
-    print(page_now)
     page_system = host + str(url_for('system'))
     page_avg = host + str(url_for('average'))
     page_records = host + str(url_for('record'))

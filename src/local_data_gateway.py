@@ -1,8 +1,9 @@
 import json
 
 import requests
-from services import system_data_service
+
 import config_service
+from services import system_data_service
 
 
 def get_current_reading_for_denva() -> dict:
@@ -49,7 +50,3 @@ def get_current_warnings_for_all_services() -> dict:
         'enviro': get_data_for(config_service.get_current_warnings_url_for('enviro')),
         'server': system_data_service.get_system_warnings()
     }
-
-
-if __name__ == '__main__':
-    print(get_current_reading_for_denva())

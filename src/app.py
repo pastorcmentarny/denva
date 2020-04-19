@@ -91,7 +91,7 @@ def get_pictures_path():
 def ui(message: str):
     logging.info(message)
     # display removed mini_display.display_information(message)
-    print(message)
+    # print(message)
 
 
 def main():

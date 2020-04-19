@@ -64,9 +64,3 @@ def get_top10_by_score():
         score_list.append(result)
 
     return sorted(score_list, key=lambda index: index['score'], reverse=True)[:10]
-
-
-if __name__ == '__main__':
-    print(get_top10_by_score())
-
-

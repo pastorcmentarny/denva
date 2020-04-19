@@ -2,6 +2,9 @@ from datetime import datetime
 
 import config_service
 import data_files
+import logging
+
+logger = logging.getLogger('server')
 
 
 def convert_to_date_time(happen_at_time: str) -> datetime:
@@ -12,7 +15,7 @@ def convert_to_date_time(happen_at_time: str) -> datetime:
         return datetime(int(date_as_array[0]), int(date_as_array[1]), int(date_as_array[2]),
                         int(date_as_array[3]), int(date_as_array[4]))
     else:
-        print('invalid data:{}'.format(happen_at_time))
+        logger.warning('invalid data:{}'.format(happen_at_time))
         # TODO figure out what to return
 
 

@@ -7,9 +7,7 @@ MAX_SCORE = 26888
 def calculate_score(time: int, distance: int, lap: int) -> int:
     score = MAX_SCORE - time
     if lap > 1:
-        print(score)
         score = int(score + (score / 200) * (lap - 1))
-        print(score)
     if distance == 0:
         return score - 450  # move to config?
 

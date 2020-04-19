@@ -45,7 +45,7 @@ def network_check(in_china: bool = False) -> dict:
 
     for page in pages:
 
-        print('checking connection to :{}'.format(page))
+        logger.info('checking connection to :{}'.format(page))
 
         try:
             response = requests.get(page, headers=headers)
@@ -61,7 +61,6 @@ def network_check(in_china: bool = False) -> dict:
 
     end_time = timer()
     total_time = int(end_time - start_time) * 1000
-    print("it took {} ms to check.".format(total_time))  # in ms
     log_result(problems, status, total_time)
     result = "{} of {} pages were loaded".format(ok, len(pages))
 

@@ -54,8 +54,3 @@ def run_gc():
     result['memory_saved'] = utils.get_int_number_from_text(result['memory_before']) - utils.get_int_number_from_text(
         result['memory_after'])
     return result
-
-
-if __name__ == '__main__':
-    print(get_system_information())
-    print(get_system_warnings())

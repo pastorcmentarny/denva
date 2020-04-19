@@ -14,6 +14,7 @@ import datetime
 import os
 
 import gc
+import logging
 import psutil
 import time
 
@@ -34,6 +35,8 @@ import utils
 from services import weather_service, system_data_service
 import web_data
 import pprint
+
+logger = logging.getLogger('app')
 
 
 def get_last_updated_page() -> str:
@@ -85,7 +88,7 @@ def get_all_warnings_page() -> list:
     data = utils.clean_list_from_nones(data)
 
     end = time.time_ns()
-    print('Execution time: {} ns.'.format((end - start)))
+    logger.info('Execution time: {} ns.'.format((end - start))) #TODO move to stats
 
     return data
 
@@ -94,7 +97,7 @@ def get_random_frame() -> str:
     return data_files.get_random_frame_picture_path()
 
 
-# prototype if works i need systemutils
+#TODO improve it as it is prototype if works i need systemutils
 def clean():
     print(psutil.Process(os.getpid()).memory_info())
     gc.collect()

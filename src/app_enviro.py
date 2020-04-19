@@ -122,7 +122,7 @@ def get_measurement() -> dict:
 
 def ui(msg: str, screen: bool = True):
     logger.info(msg)
-    print(msg)
+    #print(msg)
     #FIXME temporary disabled
     '''
     if screen:
