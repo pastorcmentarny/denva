@@ -165,12 +165,19 @@ def sub_light_travel():
             running = False
 
 
-#TODO prorotype
+# TODO prorotype
 def device_status():
     delight_display.reset_screen()
+    cfg = config_service.load_cfg()
+
     state = status.Status()
 
-    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['server']))
+    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['denva']))
+
+    if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
+        state.set_error()
+    elif utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_warn']:
+        state.set_warn()
 
     if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
         state.set_error()
@@ -182,6 +189,94 @@ def device_status():
     elif utils.get_int_number_from_text(server_data['Free Space']) < 1024:
         state.set_warn()
 
+    if utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
+        state.set_error()
+    elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
+        state.set_warn()
+
+    if state.get_status_as_light_colour() == state.ERROR:
+        color_red = 255
+        color_green = 0
+        color_blue = 0
+    elif state.get_status_as_light_colour() == state.WARN:
+        color_red = 255
+        color_green = 224
+        color_blue = 32
+    else:
+        color_red = 0
+        color_green = 255
+        color_blue = 0
+
+    unicornhathd.set_pixel(1, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(2, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(3, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(1, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(2, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(3, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(1, 15, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(2, 15, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(3, 15, color_red, color_green, color_blue)
+
+    state = status.Status()
+
+    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro']))
+
+    if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
+        state.set_error()
+    elif utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_warn']:
+        state.set_warn()
+
+    if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+        state.set_error()
+    elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+        state.set_warn()
+
+    if utils.get_int_number_from_text(server_data['Free Space']) < 256:
+        state.set_error()
+    elif utils.get_int_number_from_text(server_data['Free Space']) < 1024:
+        state.set_warn()
+
+    if utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
+        state.set_error()
+    elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
+        state.set_warn()
+
+    if state.get_status_as_light_colour() == state.ERROR:
+        color_red = 255
+        color_green = 0
+        color_blue = 0
+    elif state.get_status_as_light_colour() == state.WARN:
+        color_red = 255
+        color_green = 224
+        color_blue = 32
+    else:
+        color_red = 0
+        color_green = 255
+        color_blue = 0
+
+    unicornhathd.set_pixel(5, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(6, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(7, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(5, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(6, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(7, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(5, 15, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(6, 15, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(7, 15, color_red, color_green, color_blue)
+
+    state = status.Status()
+
+    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['server']))
+
+    if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+        state.set_error()
+    elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+        state.set_warn()
+
+    if utils.get_int_number_from_text(server_data['Disk Free']) < 256:
+        state.set_error()
+    elif utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
+        state.set_warn()
 
     if state.get_status_as_light_colour() == state.ERROR:
         color_red = 255
@@ -243,7 +338,7 @@ def device_status():
     unicornhathd.set_pixel(15, 15, color_red, color_green, color_blue)
     unicornhathd.show()
 
-    time.sleep(10)
+    time.sleep(30)
 
 
 def in_the_warp():
