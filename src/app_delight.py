@@ -29,7 +29,9 @@ import unicornhathd
 
 import config_service
 import data_files
-from delight import delight_display
+import utils
+from common import status
+from delight import delight_display, delight_service
 
 logger = logging.getLogger('app')
 
@@ -55,6 +57,7 @@ def get_population() -> list:
 
 
 blue_pilled_population = get_population()
+clock = 0
 
 grey_rgb = [
     [154, 173, 154], [255, 255, 255], [235, 235, 235], [220, 220, 220],
@@ -122,19 +125,6 @@ def get_random_color() -> str:
     return colors[result]
 
 
-clock = 0
-
-
-def main():
-    try:
-        while True:
-            sub_light_travel()
-            delight_display.reset_screen()
-            in_the_warp()
-    except KeyboardInterrupt:
-        unicornhathd.off()
-
-
 def show_on_screen(pixel_list: list):
     delight_display.reset_screen()
     for element in pixel_list:
@@ -174,6 +164,47 @@ def sub_light_travel():
             running = False
 
 
+def device_status():
+    delight_display.reset_screen()
+    state = status.Status()
+
+    system_data = delight_service.get_system_info()
+
+    if utils.get_int_number_from_text(system_data['Memory Available']) < 128:
+        state.set_error()
+    elif utils.get_int_number_from_text(system_data['Memory Available']) < 256:
+        state.set_warn()
+
+    if utils.get_int_number_from_text(system_data['Free Space']) < 128:
+        state.set_error()
+    elif utils.get_int_number_from_text(system_data['Free Space']) < 512:
+        state.set_warn()
+
+    if state.get_status_as_light_colour() == state.ERROR:
+        color_red = 255
+        color_green = 0
+        color_blue = 0
+    elif state.get_status_as_light_colour() == state.WARN:
+        color_red = 255
+        color_green = 224
+        color_blue = 32
+    else:
+        color_red = 0
+        color_green = 255
+        color_blue = 0
+
+    unicornhathd.set_pixel(13, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(14, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(15, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(13, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(14, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(15, 14, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(13, 15, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(14, 15, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(15, 15, color_red, color_green, color_blue)
+    time.sleep(10)
+
+
 def in_the_warp():
     global clock
 
@@ -209,6 +240,18 @@ def in_the_warp():
             star_speed += 0.001
         if clock % 2000 == 0:
             running = False
+
+
+def main():
+    try:
+        while True:
+            status()
+            delight_display.reset_screen()
+            sub_light_travel()
+            delight_display.reset_screen()
+            in_the_warp()
+    except KeyboardInterrupt:
+        unicornhathd.off()
 
 
 if __name__ == '__main__':
