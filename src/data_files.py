@@ -23,7 +23,7 @@ from services import email_sender_service
 import sensor_log_reader
 import utils
 
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 
 
 def load_cfg() -> dict:

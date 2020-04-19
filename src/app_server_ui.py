@@ -30,7 +30,7 @@ logger = logging.getLogger('server')
 APP_NAME = 'Server UI'
 
 
-@app.route('/08r/add')  # example: http://192.168.0.14:5000/08r/add?race=59.59.9--1.1.2068--1--260
+@app.route('/08r/add')  # example: http://192.168.0.200:5000/08r/add?race=59.59.9--1.1.2068--1--260
 def add_result():
     result = request.args.get('race')
     logging.info('Processing enviro measurement request with race info: {}'.format(result))

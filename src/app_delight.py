@@ -10,9 +10,6 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 
 
-
-
-
 app_delight
 delight_ui web server,so you can run command from UI
 
@@ -23,15 +20,16 @@ def flight_between_planets():
 
 
 """
+import logging
 import random
-import time
 from random import randint
 
+import time
+import unicornhathd
+
 import config_service
-import logging
 import data_files
 from delight import delight_display
-import unicornhathd
 
 logger = logging.getLogger('app')
 
@@ -42,7 +40,6 @@ ORANGE = 'orange'
 PURPLE = 'purple'
 RED = 'red'
 YELLOW = 'yellow'
-
 
 unicornhathd.rotation(180)
 unicornhathd.brightness(0.3)

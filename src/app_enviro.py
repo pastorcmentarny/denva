@@ -120,6 +120,7 @@ def get_measurement() -> dict:
     return measurement
 
 
+#TODO remove it
 def ui(msg: str, screen: bool = True):
     logger.info(msg)
     #print(msg)
