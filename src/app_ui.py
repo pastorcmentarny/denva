@@ -14,13 +14,13 @@ import logging
 import sys
 from flask import Flask, jsonify, url_for, request, render_template
 
-from reports import averages, records, report_service
 import commands
 import config_service
 import data_files
-from services import information_service, email_sender_service, common_service
 import sensor_log_reader
 import sensor_warnings
+from reports import averages, records, report_service
+from services import information_service, email_sender_service, common_service
 
 app = Flask(__name__)
 logger = logging.getLogger('server')
@@ -89,6 +89,7 @@ def recent_system_log_app():
     logger.info('Getting system logs')
     return jsonify(commands.get_system_logs(200))
 
+
 @app.route("/log/app")
 def log_app():
     logger.info('Getting application logs for sending as email for Enviro')
@@ -136,8 +137,7 @@ def healthcheck():
     return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
-
-#TODO remove it
+# TODO remove it
 @app.route("/ricky")
 def ricky():
     logger.info('Getting various data about Ricky')
