@@ -15,7 +15,8 @@ def get_system_disk_space_free():
     return utils.convert_bytes_to_megabytes(psutil.disk_usage(config_service.get_system_drive()).free)
 
 
-# add disk free
+#TODO add disk free
+#TODO add cpu temp
 def get_system_information() -> dict:
     return {
         "CPU Speed": '{} MHz'.format(psutil.cpu_freq().current),

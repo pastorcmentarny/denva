@@ -300,7 +300,7 @@ def device_status():
     unicornhathd.set_pixel(9, 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(11, 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(9, 3, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(9, 13, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(11, 13, color_red, color_green, color_blue)
     unicornhathd.set_pixel(10, 13, color_red, color_green, color_blue)
     unicornhathd.set_pixel(11, 13, color_red, color_green, color_blue)
     unicornhathd.set_pixel(9, 14, color_red, color_green, color_blue)
@@ -337,8 +337,8 @@ def device_status():
         color_blue = 0
 
     unicornhathd.set_pixel(13, 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(13, 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(15, 3, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(15, 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(13, 3, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(15, 3, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(13, 13, color_red, color_green, color_blue)
     unicornhathd.set_pixel(14, 13, color_red, color_green, color_blue)
