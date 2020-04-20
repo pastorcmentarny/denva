@@ -23,34 +23,3 @@ class MyTestCase(unittest.TestCase):
 
         # then
         self.assertEqual(len(data), 1)
-
-    def test_add_row_for_enviro_will_increase_list_to_one(self):
-        # given
-        data = []
-
-        # when
-        self.assertEqual(len(data), 0)
-        sensor_log_reader.add_enviro_row(data, ENVIRO_ROW)
-
-        # then
-        self.assertEqual(len(data), 1)
-
-    def test_get_enviro_data_row_should_return_data_row_as_dict(self):
-        # given
-        expected_result = {'timestamp': '2020-03-27 13:44:09.656392', 'temperature': '14.9', 'light': '24.5',
-                           'oxidised': '92.08',
-                           'reduced': '224.00', 'nh3': '135.30', 'pm1': '18.0', 'pm25': '27.0', 'pm10': '27.0',
-                           'measurement_time': '330', 'cpu_temp': '21.6'}
-
-        # when
-        result = sensor_log_reader.get_data_row_for_enviro(ENVIRO_ROW)
-
-        # debug
-        print(result)
-
-        # then
-        self.assertEqual(expected_result, result)
-
-
-if __name__ == '__main__':
-    unittest.main()

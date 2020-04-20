@@ -19,9 +19,10 @@ from datetime import datetime
 from pathlib import Path
 
 import config_service
-from services import email_sender_service
 import sensor_log_reader
 import utils
+from denviro import denviro_sensors_service
+from services import email_sender_service
 
 logger = logging.getLogger('app')
 
@@ -209,3 +210,27 @@ def save_list_to_file(data: list, path: str):
 def load_weather(path: str):
     with open(path, 'r', encoding='utf-8') as weather_file:
         return weather_file.read().splitlines()
+
+
+def load_enviro_data_for_today() -> list:
+    today = datetime.now()
+    return load_enviro_data(today.year, today.month, today.day)
+
+
+def load_enviro_data(year: int, month: int, day: int) -> list:
+    logger.debug('loading enviro sensor data from {} {} {}'.format(day, month, year))
+    sensor_log_file = utils.fix_nulls(
+        open(config_service.get_sensor_log_file_for(year, month, day, 'sensor-enviro-log'), 'r', newline='',
+             encoding='utf-8'))
+    csv_content = csv.reader(sensor_log_file)
+    csv_data = list(csv_content)
+    data = []
+    for index, row in enumerate(csv_data):
+        logger.debug('read csv row no.{}'.format(index))
+        try:
+            row[12] == '?'
+        except IndexError:
+            row.insert(12, 0)  # measurement time
+        denviro_sensors_service.add_enviro_row(data, row)
+    sensor_log_file.close()
+    return data

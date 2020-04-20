@@ -10,18 +10,21 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import re
-import time
 from timeit import default_timer as timer
 
+import time
 
+import data_files
 import sensor_log_reader
 
 
 def get_averages_for_today() -> dict:
     return get_averages(sensor_log_reader.load_data_for_today())
 
+
 def get_enviro_averages_for_today() -> dict:
-    return get_enviro_averages(sensor_log_reader.load_enviro_data_for_today())
+    return get_enviro_averages(data_files.load_enviro_data_for_today())
+
 
 def get_enviro_averages(data_records: list) -> dict:
     start_time = timer()
@@ -33,7 +36,7 @@ def get_enviro_averages(data_records: list) -> dict:
         'nh3': 0,
         'pm1': 0,
         'pm25': 0,
-        'pm10':  0,
+        'pm10': 0,
         'measurement_time': 0
     }
 
@@ -72,7 +75,8 @@ def get_enviro_averages(data_records: list) -> dict:
     else:
         result['info'] = 'No records'
     end_time = timer()
-    result['execution_time'] = str(end_time - start_time) + ' ns.' #TODO FIXME  "execution_time": "0.15859715300007338 ns.",
+    result['execution_time'] = str(
+        end_time - start_time) + ' ns.'  # TODO FIXME  "execution_time": "0.15859715300007338 ns.",
     return result
 
 

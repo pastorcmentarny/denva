@@ -13,16 +13,16 @@ import csv
 import logging
 from datetime import datetime
 
-import commands
 import config_service as config
 import utils
 from denva import denva_sensors_service
+from denviro import denviro_sensors_service
 
 logger = logging.getLogger('server')
 
 
 def get_enviro_sensor_log_file() -> str:
-    return config.PI_PATH + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+    return denviro_sensors_service.get_sensor_log_file()
 
 
 def get_sensor_log_file_at_server() -> str:
@@ -33,43 +33,15 @@ def get_enviro_sensor_log_file_at_server() -> str:
     return config.NETWORK_PATH + 'enviro/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
 
 
-def get_sensor_log_file_for(year: int, month: int, day: int, sensor_filename: str = 'sensor-log') -> str:
-    path = '/home/pi/logs/' + utils.get_filename_from_year_month_day(sensor_filename, 'csv', year, month, day)
-    return path
-
-
 def load_data_for_today() -> list:
     today = datetime.now()
     return load_data(today.year, today.month, today.day)
 
 
-def load_enviro_data_for_today() -> list:
-    today = datetime.now()
-    return load_enviro_data(today.year, today.month, today.day)
-
-
-def load_enviro_data(year: int, month: int, day: int) -> list:
-    logger.debug('loading enviro sensor data from {} {} {}'.format(day, month, year))
-    sensor_log_file = utils.fix_nulls(
-        open(get_sensor_log_file_for(year, month, day, 'sensor-enviro-log'), 'r', newline='', encoding='utf-8'))
-    csv_content = csv.reader(sensor_log_file)
-    csv_data = list(csv_content)
-    data = []
-    for index, row in enumerate(csv_data):
-        logger.debug('read csv row no.{}'.format(index))
-        try:
-            row[12] == '?'
-        except IndexError:
-            row.insert(12, 0)  # measurement time
-        add_enviro_row(data, row)
-    sensor_log_file.close()
-    return data
-
-
 # TODO move this to different place
 def load_data(year: int, month: int, day: int) -> list:
     sensor_log_file = utils.fix_nulls(
-        open(get_sensor_log_file_for(year, month, day), 'r', newline='', encoding='utf-8'))
+        open(config.get_sensor_log_file_for(year, month, day), 'r', newline='', encoding='utf-8'))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
@@ -87,24 +59,6 @@ def load_data(year: int, month: int, day: int) -> list:
         add_row(data, row)
     sensor_log_file.close()
     return data
-
-
-def add_enviro_row(data, row):
-    data.append(
-        {
-            'timestamp': row[0],
-            'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
-            "oxidised": '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
-            'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
-            "nh3": '{:0.2f}'.format(float(row[8])),  # unit = "kO"
-            "pm1": row[9],  # unit = "ug/m3"
-            "pm25": row[10],  # unit = "ug/m3"
-            "pm10": row[11],  # unit = "ug/m3"
-            'cpu_temp': row[13],
-            'light': '{:0.1f}'.format(float(row[4])),
-            'measurement_time': row[12]
-        }
-    )
 
 
 def add_row(data, row):
@@ -137,28 +91,9 @@ def add_row(data, row):
     )
 
 
-def get_data_row_for_enviro(row) -> dict:
-    data_row = {
-        'timestamp': row[0],
-        'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
-        "oxidised": '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
-        'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
-        "nh3": '{:0.2f}'.format(float(row[8])),  # unit = "kO"
-        "pm1": row[9],  # unit = "ug/m3"
-        "pm25": row[10],  # unit = "ug/m3"
-        "pm10": row[11],  # unit = "ug/m3"
-        'measurement_time': row[12],
-        'cpu_temp': row[13],
-        'light': '{:0.1f}'.format(float(row[4])),
-    }
-    return data_row
-
-
 def get_last_measurement() -> dict:
     return denva_sensors_service.get_last_measurement()
 
 
 def get_last_enviro_measurement() -> dict:
-    entry = commands.get_last_line_from_log(get_enviro_sensor_log_file())
-    data = entry.split(',')
-    return get_data_row_for_enviro(data)
+    return denviro_sensors_service.get_last_measurement()

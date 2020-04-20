@@ -10,6 +10,8 @@
 """
 import platform
 
+import utils
+
 settings = {
     "mode": 'dev',
     "sensors": {
@@ -199,3 +201,7 @@ def get_sensitivity():
 
 def get_data_path() -> str:
     return get_system_drive() + '\\denva\\data\\'
+
+def get_sensor_log_file_for(year: int, month: int, day: int, sensor_filename: str = 'sensor-log') -> str:
+    path = '/home/pi/logs/' + utils.get_filename_from_year_month_day(sensor_filename, 'csv', year, month, day)
+    return path

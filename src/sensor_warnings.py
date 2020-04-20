@@ -15,6 +15,7 @@ import logging
 import commands
 import data_files
 import get_description_for
+from denviro import denviro_sensors_service
 import sensor_log_reader
 import utils
 import config_service
@@ -111,7 +112,7 @@ def count_warning_today() -> dict:
 
 # soruce: https://ec.europa.eu/environment/air/quality/standards.htm
 def get_current_warnings_for_enviro() -> dict:
-    data = sensor_log_reader.get_last_enviro_measurement()
+    data = denviro_sensors_service.get_last_measurement()
     warnings = {}
 
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))

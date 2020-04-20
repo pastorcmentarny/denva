@@ -12,7 +12,6 @@ def get_current_measurement(host: str) -> dict:
     return measurement
 
 
-
 def get_report_for_yesterday():
     return report_service.generate_enviro_report_for_yesterday()
 
