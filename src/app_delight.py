@@ -164,8 +164,10 @@ def sub_light_travel():
         if clock % 1000 == 0:
             running = False
 
-def to_x(i:int) -> int:
+
+def to_x(i: int) -> int:
     return 15 - i
+
 
 # TODO prorotype
 def device_status():
@@ -215,15 +217,7 @@ def device_status():
         color_blue = 0
 
     unicornhathd.set_pixel(to_x(1), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(1), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(2), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(3), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(1), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(2), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(3), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(1), 15, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(2), 15, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(3), 15, color_red, color_green, color_blue)
+    set_status_for_device(1, 1, color_red, color_green, color_blue)
 
     state = status.Status()
 
@@ -264,15 +258,7 @@ def device_status():
 
     unicornhathd.set_pixel(to_x(5), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(7), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(5), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(6), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(7), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(5), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(6), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(7), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(5), 15, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(6), 15, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(7), 15, color_red, color_green, color_blue)
+    set_status_for_device(5, 13, color_red, color_green, color_blue)
 
     state = status.Status()
 
@@ -304,15 +290,7 @@ def device_status():
     unicornhathd.set_pixel(to_x(9), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(11), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(9), 3, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(9), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(10), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(11), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(9), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(10), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(11), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(9), 15, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(10), 15, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(11), 15, color_red, color_green, color_blue)
+    set_status_for_device(9, 13, color_red, color_green, color_blue)
 
     state = status.Status()
     system_data = delight_service.get_system_info()
@@ -344,19 +322,28 @@ def device_status():
     unicornhathd.set_pixel(to_x(15), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(13), 3, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(15), 3, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(13), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(14), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(15), 13, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(13), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(14), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(15), 14, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(13), 15, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(14), 15, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(15), 15, color_red, color_green, color_blue)
-    unicornhathd.show()
+    set_status_for_device(13, 13, color_red, color_green, color_blue)
 
-    time.sleep(30)
+    unicornhathd.show()
+    brightnesses = [0.3, 0.4, 0.5, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.2, 0.3]
+    for x in range(0, 3):
+        for b in brightnesses:
+            unicornhathd.brightness(b)
+            time.sleep(1)
+
     unicornhathd.rotation(180)
+
+
+def set_status_for_device(x: int, y: int, color_red: int, color_green: int, color_blue: int):
+    unicornhathd.set_pixel(to_x(x), y, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(x + 1), y, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(x + 2), y, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(x), y + 1, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(x + 1), y + 1, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(x + 2), y + 1, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(x), y + 2, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(x + 1), y + 2, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(x + 2), y + 2, color_red, color_green, color_blue)
 
 
 def in_the_warp():
