@@ -217,7 +217,7 @@ def device_status():
         color_blue = 0
 
     unicornhathd.set_pixel(to_x(1), 1, purple_r, purple_g, purple_b)
-    set_status_for_device(1, 1, color_red, color_green, color_blue)
+    set_status_for_device(1, 13, color_red, color_green, color_blue)
 
     state = status.Status()
 
@@ -324,13 +324,13 @@ def device_status():
     unicornhathd.set_pixel(to_x(15), 3, purple_r, purple_g, purple_b)
     set_status_for_device(13, 13, color_red, color_green, color_blue)
 
-    unicornhathd.show()
+
     brightnesses = [0.3, 0.4, 0.5, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.2, 0.3]
     for x in range(0, 3):
         for b in brightnesses:
             unicornhathd.brightness(b)
             time.sleep(1)
-
+            unicornhathd.show()
     unicornhathd.rotation(180)
 
 
