@@ -203,18 +203,7 @@ def device_status():
     elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
         state.set_warn()
 
-    if state.get_status_as_light_colour() == state.ERROR:
-        color_red = 255
-        color_green = 0
-        color_blue = 0
-    elif state.get_status_as_light_colour() == state.WARN:
-        color_red = 255
-        color_green = 224
-        color_blue = 32
-    else:
-        color_red = 0
-        color_green = 255
-        color_blue = 0
+    color_red, color_green, color_blue = get_state_colour(state)
 
     unicornhathd.set_pixel(to_x(1), 1, purple_r, purple_g, purple_b)
     set_status_for_device(1, 13, color_red, color_green, color_blue)
@@ -243,18 +232,7 @@ def device_status():
     elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
         state.set_warn()
 
-    if state.get_status_as_light_colour() == state.ERROR:
-        color_red = 255
-        color_green = 0
-        color_blue = 0
-    elif state.get_status_as_light_colour() == state.WARN:
-        color_red = 255
-        color_green = 224
-        color_blue = 32
-    else:
-        color_red = 0
-        color_green = 255
-        color_blue = 0
+    color_red, color_green, color_blue = get_state_colour(state)
 
     unicornhathd.set_pixel(to_x(5), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(7), 1, purple_r, purple_g, purple_b)
@@ -274,18 +252,7 @@ def device_status():
     elif utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
         state.set_warn()
 
-    if state.get_status_as_light_colour() == state.ERROR:
-        color_red = 255
-        color_green = 0
-        color_blue = 0
-    elif state.get_status_as_light_colour() == state.WARN:
-        color_red = 255
-        color_green = 224
-        color_blue = 32
-    else:
-        color_red = 0
-        color_green = 255
-        color_blue = 0
+    color_red, color_green, color_blue = get_state_colour(state)
 
     unicornhathd.set_pixel(to_x(9), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(11), 1, purple_r, purple_g, purple_b)
@@ -305,18 +272,7 @@ def device_status():
     elif utils.get_int_number_from_text(system_data['Free Space']) < 512:
         state.set_warn()
 
-    if state.get_status_as_light_colour() == state.ERROR:
-        color_red = 255
-        color_green = 0
-        color_blue = 0
-    elif state.get_status_as_light_colour() == state.WARN:
-        color_red = 255
-        color_green = 224
-        color_blue = 32
-    else:
-        color_red = 0
-        color_green = 255
-        color_blue = 0
+    color_blue, color_green, color_red = get_state_colour(state)
 
     unicornhathd.set_pixel(to_x(13), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(15), 1, purple_r, purple_g, purple_b)
@@ -324,6 +280,12 @@ def device_status():
     unicornhathd.set_pixel(to_x(15), 3, purple_r, purple_g, purple_b)
     set_status_for_device(13, 13, color_red, color_green, color_blue)
 
+    perform_state_animation()
+
+    unicornhathd.rotation(180)
+
+
+def perform_state_animation():
     b1 = [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19]
     b2 = [0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29]
     b3 = [0.30, 0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38, 0.39]
@@ -355,14 +317,27 @@ def device_status():
     b6.reverse()
     brightnesses.extend(b1)
     brightnesses.extend(b2)
-
-    for x in range(0, 3):
+    for x in range(0, 6):
         for b in brightnesses:
             unicornhathd.brightness(b)
-            time.sleep(0.1)
+            time.sleep(0.05)
             unicornhathd.show()
 
-    unicornhathd.rotation(180)
+
+def get_state_colour(state):
+    if state.get_status_as_light_colour() == state.ERROR:
+        color_red = 255
+        color_green = 0
+        color_blue = 0
+    elif state.get_status_as_light_colour() == state.WARN:
+        color_red = 255
+        color_green = 224
+        color_blue = 32
+    else:
+        color_red = 0
+        color_green = 255
+        color_blue = 0
+    return color_red, color_green, color_blue
 
 
 def set_status_for_device(x: int, y: int, color_red: int, color_green: int, color_blue: int):
