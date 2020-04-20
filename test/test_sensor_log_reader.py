@@ -24,23 +24,6 @@ class MyTestCase(unittest.TestCase):
         # then
         self.assertEqual(len(data), 1)
 
-    def test_get_denva_data_row_should_return_data_row_as_dict(self):
-        # given
-        expected_result = {'timestamp': '2020-03-27 16:33:13.050509', 'temp': '22.81', 'pressure': '1017.13',
-                           'humidity': '27.269', 'gas_resistance': '12946860.59', 'colour': '#ff869f', 'aqi': 'n/a',
-                           'uva_index': '0.00', 'uvb_index': '0.00', 'motion': '166.015625', 'ax': '0.01', 'ay': '0.01',
-                           'az': '-0.00', 'gx': '0.54', 'gy': '1.45', 'gz': '0.08', 'mx': '-85.20', 'my': '29.10',
-                           'mz': '-33.75', 'cpu_temp': '47.0', 'eco2': '744', 'tvoc': '476'}
-
-        # when
-        result = sensor_log_reader.get_data_row(DENVA_ROW)
-
-        # debug
-        print(result)
-
-        # then
-        self.assertEqual(expected_result, result)
-
     def test_add_row_for_enviro_will_increase_list_to_one(self):
         # given
         data = []
