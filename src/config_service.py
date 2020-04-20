@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import platform
-
 """
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
@@ -10,6 +8,8 @@ import platform
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import platform
+
 settings = {
     "mode": 'dev',
     "sensors": {
@@ -82,6 +82,8 @@ settings = {
         'slow_test': False
     }
 }
+PI_PATH = '/home/pi/logs/'
+NETWORK_PATH = '/mnt/data/sensors/'
 
 
 def get_log_path_for(log_type: str) -> str:

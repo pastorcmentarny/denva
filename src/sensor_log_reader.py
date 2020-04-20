@@ -10,35 +10,33 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import csv
+import logging
 from datetime import datetime
 
 import commands
-import logging
+import config_service as config
 import utils
-
-PI_PATH = '/home/pi/logs/'
-NETWORK_PATH = '/mnt/data/sensors/'
 
 logger = logging.getLogger('server')
 
 
 def get_sensor_log_file() -> str:
-    return PI_PATH + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+    return config.PI_PATH + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
 def get_enviro_sensor_log_file() -> str:
-    return PI_PATH + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+    return config.PI_PATH + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
 
 
 def get_sensor_log_file_at_server() -> str:
-    return NETWORK_PATH + 'denva/' + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+    return config.NETWORK_PATH + 'denva/' + utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
 def get_enviro_sensor_log_file_at_server() -> str:
-    return NETWORK_PATH + 'enviro/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+    return config.NETWORK_PATH + 'enviro/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
 
 
-def get_sensor_log_file_for(year: int, month: int, day: int,sensor_filename:str = 'sensor-log') -> str:
+def get_sensor_log_file_for(year: int, month: int, day: int, sensor_filename: str = 'sensor-log') -> str:
     path = '/home/pi/logs/' + utils.get_filename_from_year_month_day(sensor_filename, 'csv', year, month, day)
     return path
 
@@ -47,14 +45,16 @@ def load_data_for_today() -> list:
     today = datetime.now()
     return load_data(today.year, today.month, today.day)
 
+
 def load_enviro_data_for_today() -> list:
     today = datetime.now()
     return load_enviro_data(today.year, today.month, today.day)
 
+
 def load_enviro_data(year: int, month: int, day: int) -> list:
-    logger.debug('loading enviro sensor data from {} {} {}'.format(day,month,year))
+    logger.debug('loading enviro sensor data from {} {} {}'.format(day, month, year))
     sensor_log_file = utils.fix_nulls(
-        open(get_sensor_log_file_for(year, month, day,'sensor-enviro-log'), 'r', newline='', encoding='utf-8'))
+        open(get_sensor_log_file_for(year, month, day, 'sensor-enviro-log'), 'r', newline='', encoding='utf-8'))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
@@ -63,12 +63,13 @@ def load_enviro_data(year: int, month: int, day: int) -> list:
         try:
             row[12] == '?'
         except IndexError:
-            row.insert(12, 0) #measurement time
+            row.insert(12, 0)  # measurement time
         add_enviro_row(data, row)
     sensor_log_file.close()
     return data
 
-#TODO move this to different place
+
+# TODO move this to different place
 def load_data(year: int, month: int, day: int) -> list:
     sensor_log_file = utils.fix_nulls(
         open(get_sensor_log_file_for(year, month, day), 'r', newline='', encoding='utf-8'))
@@ -90,7 +91,8 @@ def load_data(year: int, month: int, day: int) -> list:
     sensor_log_file.close()
     return data
 
-def add_enviro_row(data,row):
+
+def add_enviro_row(data, row):
     data.append(
         {
             'timestamp': row[0],
@@ -103,7 +105,7 @@ def add_enviro_row(data,row):
             "pm10": row[11],  # unit = "ug/m3"
             'cpu_temp': row[13],
             'light': '{:0.1f}'.format(float(row[4])),
-            'measurement_time' : row[12]
+            'measurement_time': row[12]
         }
     )
 
