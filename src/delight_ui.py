@@ -17,7 +17,7 @@ from flask import Flask, jsonify
 import config_service
 import data_files
 from delight import delight_service
-from services import email_sender_service
+from services import common_service, email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('server')
@@ -33,7 +33,7 @@ def gc():
 @app.route("/hc")
 def healthcheck():
     logger.info('performing healthcheck for {}'.format(APP_NAME))
-    return jsonify(delight_service.get_healthcheck(APP_NAME))
+    return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
 @app.route("/log/app")
