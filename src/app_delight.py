@@ -183,25 +183,28 @@ def device_status():
 
     server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['denva']))
 
-    if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
+    if 'error' in server_data:
         state.set_error()
-    elif utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_warn']:
-        state.set_warn()
+    else:
+        if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_warn']:
+            state.set_warn()
 
-    if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
-        state.set_error()
-    elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
-        state.set_warn()
+        if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+            state.set_warn()
 
-    if utils.get_int_number_from_text(server_data['Free Space']) < 256:
-        state.set_error()
-    elif utils.get_int_number_from_text(server_data['Free Space']) < 1024:
-        state.set_warn()
+        if utils.get_int_number_from_text(server_data['Free Space']) < 256:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['Free Space']) < 1024:
+            state.set_warn()
 
-    if utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
-        state.set_error()
-    elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
-        state.set_warn()
+        if utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
+            state.set_warn()
 
     color_red, color_green, color_blue = get_state_colour(state)
 
@@ -212,25 +215,28 @@ def device_status():
 
     server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro']))
 
-    if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
+    if 'error' in server_data:
         state.set_error()
-    elif utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_warn']:
-        state.set_warn()
+    else:
+        if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_warn']:
+            state.set_warn()
 
-    if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
-        state.set_error()
-    elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
-        state.set_warn()
+        if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+            state.set_warn()
 
-    if utils.get_int_number_from_text(server_data['Free Space']) < 256:
-        state.set_error()
-    elif utils.get_int_number_from_text(server_data['Free Space']) < 1024:
-        state.set_warn()
+        if utils.get_int_number_from_text(server_data['Free Space']) < 256:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['Free Space']) < 1024:
+            state.set_warn()
 
-    if utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
-        state.set_error()
-    elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
-        state.set_warn()
+        if utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
+            state.set_warn()
 
     color_red, color_green, color_blue = get_state_colour(state)
 
@@ -242,15 +248,18 @@ def device_status():
 
     server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['server']))
 
-    if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+    if 'error' in server_data:
         state.set_error()
-    elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
-        state.set_warn()
+    else:
+        if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+            state.set_warn()
 
-    if utils.get_int_number_from_text(server_data['Disk Free']) < 256:
-        state.set_error()
-    elif utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
-        state.set_warn()
+        if utils.get_int_number_from_text(server_data['Disk Free']) < 256:
+            state.set_error()
+        elif utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
+            state.set_warn()
 
     color_red, color_green, color_blue = get_state_colour(state)
 
