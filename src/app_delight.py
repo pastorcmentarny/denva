@@ -190,6 +190,8 @@ def device_status():
         logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
         state.set_error()
     else:
+        print(utils.get_int_number_from_text(server_data['CPU Temp']))
+        print(cfg['sensor']['cpu_temp_error'])
         if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denva )')
             state.set_error()
@@ -232,6 +234,8 @@ def device_status():
         logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
         state.set_error()
     else:
+        print(utils.get_int_number_from_text(server_data['CPU Temp']))
+        print(cfg['sensor']['cpu_temp_error'])
         if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denviro')
             state.set_error()
