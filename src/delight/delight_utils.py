@@ -2,7 +2,6 @@ import random
 
 
 def get_state_colour(current_state):
-    print(current_state)
     if current_state.get_status_as_light_colour() == 'RED':
         color_red = 255
         color_green = 0

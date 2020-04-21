@@ -22,9 +22,9 @@ def flight_between_planets():
 """
 import logging
 import random
+from datetime import datetime
 from random import randint
 
-from datetime import datetime
 import time
 import unicornhathd
 
@@ -388,7 +388,8 @@ def is_night_mode() -> bool:
 
 def set_status_for_device(x: int, y: int, color_red: int, color_green: int, color_blue: int):
     if is_night_mode():
-        unicornhathd.set_pixel(to_x(delight_utils.get_random_pixel_location_at_night(x)), y + 2, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(delight_utils.get_random_pixel_location_at_night(x)), y + 2, color_red, color_green,
+                               color_blue)
     else:
         unicornhathd.set_pixel(to_x(x), y, color_red, color_green, color_blue)
         unicornhathd.set_pixel(to_x(x + 1), y, color_red, color_green, color_blue)
@@ -449,7 +450,7 @@ def main():
                 delight_display.reset_screen()
                 sub_light_travel()
                 delight_display.reset_screen()
-            in_the_warp()
+                in_the_warp()
     except KeyboardInterrupt:
         unicornhathd.off()
 
