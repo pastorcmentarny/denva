@@ -32,7 +32,7 @@ import data_files
 import local_data_gateway
 import utils
 from common import status
-from delight import delight_display, delight_service
+from delight import delight_display, delight_service, delight_utils
 
 logger = logging.getLogger('app')
 
@@ -206,7 +206,7 @@ def device_status():
         elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
             state.set_warn()
 
-    color_red, color_green, color_blue = get_state_colour(state)
+    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
 
     unicornhathd.set_pixel(to_x(1), 1, purple_r, purple_g, purple_b)
     set_status_for_device(1, 13, color_red, color_green, color_blue)
@@ -238,7 +238,7 @@ def device_status():
         elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
             state.set_warn()
 
-    color_red, color_green, color_blue = get_state_colour(state)
+    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
 
     unicornhathd.set_pixel(to_x(5), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(7), 1, purple_r, purple_g, purple_b)
@@ -261,7 +261,7 @@ def device_status():
         elif utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
             state.set_warn()
 
-    color_red, color_green, color_blue = get_state_colour(state)
+    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
 
     unicornhathd.set_pixel(to_x(9), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(11), 1, purple_r, purple_g, purple_b)
@@ -281,7 +281,7 @@ def device_status():
     elif utils.get_int_number_from_text(system_data['Free Space']) < 512:
         state.set_warn()
 
-    color_blue, color_green, color_red = get_state_colour(state)
+    color_blue, color_green, color_red = delight_utils.get_state_colour(state)
 
     unicornhathd.set_pixel(to_x(13), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(15), 1, purple_r, purple_g, purple_b)
@@ -331,22 +331,6 @@ def perform_state_animation():
             unicornhathd.brightness(b)
             time.sleep(0.05)
             unicornhathd.show()
-
-
-def get_state_colour(state):
-    if state.get_status_as_light_colour() == state.ERROR:
-        color_red = 255
-        color_green = 0
-        color_blue = 0
-    elif state.get_status_as_light_colour() == state.WARN:
-        color_red = 255
-        color_green = 224
-        color_blue = 32
-    else:
-        color_red = 0
-        color_green = 255
-        color_blue = 0
-    return color_red, color_green, color_blue
 
 
 def set_status_for_device(x: int, y: int, color_red: int, color_green: int, color_blue: int):
