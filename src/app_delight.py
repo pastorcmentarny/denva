@@ -24,6 +24,7 @@ import logging
 import random
 from random import randint
 
+from datetime import datetime
 import time
 import unicornhathd
 
@@ -331,7 +332,13 @@ def device_status():
     unicornhathd.set_pixel(to_x(15), 3, purple_r, purple_g, purple_b)
     set_status_for_device(13, 13, color_red, color_green, color_blue)
     logger.info('Delight: {}' + state.get_status_as_light_colour())
-    perform_state_animation()
+
+    if is_night_mode():
+        unicornhathd.brightness(0.1)
+        unicornhathd.show()
+        time.sleep(15)
+    else:
+        perform_state_animation()
 
     unicornhathd.rotation(180)
 
@@ -368,23 +375,30 @@ def perform_state_animation():
     b6.reverse()
     brightnesses.extend(b1)
     brightnesses.extend(b2)
-    for x in range(0, 6):
+    for x in range(0, 10):
         for b in brightnesses:
             unicornhathd.brightness(b)
-            time.sleep(0.05)
             unicornhathd.show()
+            time.sleep(0.025)
+
+
+def is_night_mode() -> bool:
+    return datetime.now().hour >= 22 or datetime.now().hour < 6
 
 
 def set_status_for_device(x: int, y: int, color_red: int, color_green: int, color_blue: int):
-    unicornhathd.set_pixel(to_x(x), y, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(x + 1), y, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(x + 2), y, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(x), y + 1, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(x + 1), y + 1, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(x + 2), y + 1, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(x), y + 2, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(x + 1), y + 2, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(x + 2), y + 2, color_red, color_green, color_blue)
+    if is_night_mode():
+        unicornhathd.set_pixel(to_x(delight_utils.get_random_pixel_location_at_night(x)), y + 2, color_red, color_green, color_blue)
+    else:
+        unicornhathd.set_pixel(to_x(x), y, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(x + 1), y, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(x + 2), y, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(x), y + 1, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(x + 1), y + 1, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(x + 2), y + 1, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(x), y + 2, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(x + 1), y + 2, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(to_x(x + 2), y + 2, color_red, color_green, color_blue)
 
 
 def in_the_warp():
@@ -427,10 +441,14 @@ def in_the_warp():
 def main():
     try:
         while True:
-            device_status()
-            delight_display.reset_screen()
-            sub_light_travel()
-            delight_display.reset_screen()
+            if is_night_mode():
+                device_status()
+                delight_display.reset_screen()
+            else:
+                device_status()
+                delight_display.reset_screen()
+                sub_light_travel()
+                delight_display.reset_screen()
             in_the_warp()
     except KeyboardInterrupt:
         unicornhathd.off()
