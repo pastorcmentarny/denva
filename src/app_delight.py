@@ -190,12 +190,10 @@ def device_status():
         logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        print(utils.get_int_number_from_text(server_data['CPU Temp']))
-        print(cfg['sensor']['cpu_temp_error'])
-        if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
+        if float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denva )')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_warn']:
+        elif float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denva )')
             state.set_warn()
 
@@ -234,12 +232,10 @@ def device_status():
         logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        print(utils.get_int_number_from_text(server_data['CPU Temp']))
-        print(cfg['sensor']['cpu_temp_error'])
-        if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
+        if float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denviro')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_warn']:
+        elif float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denviro')
             state.set_warn()
 
@@ -306,8 +302,13 @@ def device_status():
     # 4.
     state = status.Status()
     system_data = delight_service.get_system_info()
-    # TODO add CPU TEMP
 
+    if float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+        logger.warning('status: RED due to very high cpu temp on Delight')
+        state.set_error()
+    elif float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+        logger.warning('status: ORANGE due to high cpu temp on Delight')
+        state.set_warn()
     if utils.get_int_number_from_text(system_data['Memory Available']) < 128:
         logger.warning('status: RED due to very low memory available on Delight')
         state.set_error()
