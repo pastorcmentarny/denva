@@ -20,7 +20,7 @@ class StatusCase(unittest.TestCase):
         result = s.get_status_as_light_colour()
 
         # then
-        self.assertEqual('YELLOW', result)
+        self.assertEqual('ORANGE', result)
 
     def test_status_is_red(self):
         s = status.Status(0)
@@ -39,7 +39,7 @@ class StatusCase(unittest.TestCase):
         result = s.get_status_as_light_colour()
 
         # then
-        self.assertEqual('YELLOW', result)
+        self.assertEqual('ORANGE', result)
 
     def test_status_set_to_error(self):
         s = status.Status(2)

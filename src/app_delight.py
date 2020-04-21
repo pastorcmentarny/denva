@@ -229,7 +229,7 @@ def device_status():
     server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro']))
 
     if 'error' in server_data:
-        print(server_data)
+        logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
         state.set_error()
     else:
         if utils.get_int_number_from_text(server_data['CPU Temp']) > cfg['sensor']['cpu_temp_error']:
@@ -273,7 +273,7 @@ def device_status():
     server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['server']))
 
     if 'error' in server_data:
-        print(server_data)
+        logger.warning('Unable to get Server status due to {}'.format(server_data['error']))
         state.set_error()
     else:
         # TODO add CPU TEMP

@@ -19,7 +19,7 @@ class Status:
         if self.state == 2:
             return 'GREEN'
         elif self.state == 1:
-            return 'YELLOW'
+            return 'ORANGE'
         elif self.state == 0:
             return 'RED'
         else:
