@@ -9,6 +9,10 @@ def get_sensor_log_file():
     return config.PI_PATH + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
 
 
+def get_sensor_log_file_at_server() -> str:
+    return config.NETWORK_PATH + 'enviro/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+
+
 def get_last_measurement():
     entry = commands.get_last_line_from_log(get_sensor_log_file())
     data = entry.split(',')

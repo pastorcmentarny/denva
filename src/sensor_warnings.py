@@ -9,16 +9,16 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import re
 import logging
+import re
 
 import commands
+import config_service
 import data_files
 import get_description_for
-from denviro import denviro_sensors_service
-import sensor_log_reader
 import utils
-import config_service
+from denva import denva_sensors_service
+from denviro import denviro_sensors_service
 
 warnings_logger = logging.getLogger('warnings')
 
@@ -37,7 +37,7 @@ def get_warnings_for_today() -> list:
 
 
 def get_current_warnings() -> dict:
-    data = sensor_log_reader.get_last_measurement()
+    data = denva_sensors_service.get_last_measurement()
     return get_warnings(data)
 
 

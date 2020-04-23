@@ -13,15 +13,16 @@ import re
 
 import time
 
-import sensor_log_reader
+import data_files
+from denva import denva_sensors_service
 
 
 def get_records_for_today() -> dict:
-    return get_records(sensor_log_reader.load_data_for_today())
+    return get_records(denva_sensors_service.load_data_for_today())
 
 
 def get_enviro_records_for_today() -> dict:
-    return get_enviro_records(sensor_log_reader.load_data_for_today())
+    return get_enviro_records(data_files.load_enviro_data_for_today())
 
 
 def get_enviro_records(data_records: list) -> dict:

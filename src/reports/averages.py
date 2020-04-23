@@ -13,13 +13,12 @@ import re
 from timeit import default_timer as timer
 
 import time
-
+from denva import denva_sensors_service
 import data_files
-import sensor_log_reader
 
 
 def get_averages_for_today() -> dict:
-    return get_averages(sensor_log_reader.load_data_for_today())
+    return get_averages(denva_sensors_service.load_data_for_today())
 
 
 def get_enviro_averages_for_today() -> dict:

@@ -37,7 +37,7 @@ def get_current_logs_for_all_services() -> dict:
 
 def get_data_for(url: str) -> dict:
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=0.25)
         response.raise_for_status()
         return json.loads(response.text)
     except Exception as whoops:

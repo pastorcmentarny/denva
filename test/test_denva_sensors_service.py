@@ -25,3 +25,15 @@ class DenvaSensorsServiceTests(unittest.TestCase):
 
         # then
         self.assertEqual(expected_result, result)
+
+    def test_add_row_for_denva_will_increase_list_to_one(self):
+        # given
+        data = []
+
+        # when
+        self.assertEqual(len(data), 0)
+        denva_sensors_service.add_row(data, DENVA_ROW)
+
+        # then
+        self.assertEqual(len(data), 1)
+

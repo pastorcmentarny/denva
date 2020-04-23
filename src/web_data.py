@@ -124,7 +124,8 @@ def cleanup_weather_data(weather: str) -> list:
     for x in result:
         y = x.split('.')
         for z in y:
-            z = z.replace('Maximum ','Max').replace('Minimum ','Min').replace('temperature',' temp.').replace('daytime ','').replace('nighttime ','').replace('degrees Celsius','°C')
+            z = z.replace('Maximum ', 'Max').replace('Minimum ', 'Min').replace('temperature', ' temp.').replace(
+                'daytime ', '').replace('nighttime ', '').replace('degrees Celsius', '°C')
             if z:
                 result_list.append(z.strip())
     result_list.remove('Today')
@@ -207,4 +208,3 @@ def get_pollution_for(city: str) -> str:
     except Exception as whoops:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))
         return 'Pollution data N/A'
-

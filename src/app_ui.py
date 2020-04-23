@@ -17,7 +17,7 @@ from flask import Flask, jsonify, url_for, request, render_template
 import commands
 import config_service
 import data_files
-import sensor_log_reader
+from denva import denva_sensors_service
 import sensor_warnings
 from reports import averages, records, report_service
 from services import information_service, email_sender_service, common_service
@@ -30,7 +30,7 @@ APP_NAME = 'Denva UI'
 @app.route("/stats")
 def stats():
     logger.info('Get all stats for today')
-    return jsonify(sensor_log_reader.load_data_for_today())
+    return jsonify(denva_sensors_service.load_data_for_today())
 
 
 @app.route("/records")
@@ -75,7 +75,7 @@ def specific_day_warns():
 @app.route("/now")
 def now():
     logger.info('Getting last measurement')
-    return jsonify(sensor_log_reader.get_last_measurement())
+    return jsonify(denva_sensors_service.get_last_measurement())
 
 
 @app.route("/system")

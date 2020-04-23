@@ -19,8 +19,8 @@ from datetime import datetime
 from pathlib import Path
 
 import config_service
-import sensor_log_reader
 import utils
+from denva import denva_sensors_service
 from denviro import denviro_sensors_service
 from services import email_sender_service
 
@@ -85,10 +85,10 @@ def add_enviro_measurement_to_file(file, data: dict):
 # TODO refactor it as it saves in 2 places
 def store_enviro_measurement(data: dict):
     try:
-        local_file = open(sensor_log_reader.get_enviro_sensor_log_file(), 'a+', newline='')
+        local_file = open(denviro_sensors_service.get_sensor_log_file(), 'a+', newline='')
         add_enviro_measurement_to_file(local_file, data)
 
-        enviro_file = open(sensor_log_reader.get_enviro_sensor_log_file_at_server(), 'a+', newline='')
+        enviro_file = open(denviro_sensors_service.get_sensor_log_file_at_server(), 'a+', newline='')
         add_enviro_measurement_to_file(enviro_file, data)
         # if flag is true, set to false
     except IOError as exception:
@@ -125,10 +125,10 @@ def store_measurement(data, motion):
         counter = 0
     logger.debug('storing measurement no.{}'.format(counter))
     try:
-        local_file = open(sensor_log_reader.get_sensor_log_file(), 'a+', newline='')
+        local_file = open(denva_sensors_service.get_sensor_log_file(), 'a+', newline='')
         add_measurement_to_file(local_file, data, motion)
 
-        server_file = open(sensor_log_reader.get_sensor_log_file_at_server(), 'a+', newline='')
+        server_file = open(denva_sensors_service.get_sensor_log_file_at_server(), 'a+', newline='')
         add_measurement_to_file(server_file, data, motion)
 
         logger.debug('measurement no.{} saved to file.'.format(counter))
@@ -210,6 +210,29 @@ def save_list_to_file(data: list, path: str):
 def load_weather(path: str):
     with open(path, 'r', encoding='utf-8') as weather_file:
         return weather_file.read().splitlines()
+
+
+# TODO move this to different place
+def load_data(year: int, month: int, day: int) -> list:
+    sensor_log_file = utils.fix_nulls(
+        open(config_service.get_sensor_log_file_for(year, month, day), 'r', newline='', encoding='utf-8'))
+    csv_content = csv.reader(sensor_log_file)
+    csv_data = list(csv_content)
+    data = []
+    for row in csv_data:
+        try:
+            row[19] == '?'
+        except IndexError:
+            row.insert(19, '?')
+            row.insert(20, '?')
+        try:
+            row[21] == '?'
+        except IndexError:
+            row.insert(21, '?')
+            row.insert(22, '?')
+        denva_sensors_service.add_row(data, row)
+    sensor_log_file.close()
+    return data
 
 
 def load_enviro_data_for_today() -> list:

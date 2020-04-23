@@ -18,7 +18,7 @@ import config_service
 import commands
 import data_files
 from services import email_sender_service
-import sensor_log_reader
+from denva import denva_sensors_service
 import utils
 
 logger = logging.getLogger('hc')
@@ -42,7 +42,7 @@ def capture_photo_is_older_than_5_minutes():
 
 
 def measurement_is_older_than_5_minutes():
-    row = sensor_log_reader.get_last_measurement()
+    row = denva_sensors_service.get_last_measurement()
     timestamp = row['timestamp']
     return utils.is_timestamp_older_than_5_minutes(timestamp)
 

@@ -14,14 +14,13 @@ import logging
 import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
-from mothership import app_server_service
 import commands
 import config_service
 import data_files
 import local_data_gateway
-from reports import report_service
-import sensor_log_reader
 import web_data
+from mothership import app_server_service
+from reports import report_service
 from services import networkcheck_service as networkcheck, information_service, tubes_train_service
 from services import system_data_service
 
@@ -92,11 +91,6 @@ def healthcheck():
     return jsonify({"status": "UP",
                     "app": APP_NAME,
                     "network": networkcheck.network_check(config_service.get_options()['inChina'])})
-
-
-@app.route("/now")
-def now():
-    return jsonify(sensor_log_reader.get_last_measurement())
 
 
 @app.route("/log/app")
