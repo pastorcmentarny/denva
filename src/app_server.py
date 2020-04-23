@@ -22,7 +22,7 @@ import config_service
 from services import information_service, email_sender_service
 import local_data_gateway
 import mothership.information_service as information
-import webcam_utils
+from mothership import webcam_service
 
 logger = logging.getLogger('app')
 
@@ -74,7 +74,7 @@ def main():
         counter += 1
         time.sleep(5)
         if config_service.load_cfg()['mode'] == 'server':
-            last_picture = webcam_utils.capture_picture()
+            last_picture = webcam_service.capture_picture()
             if last_picture != "":
                 pictures.append(last_picture)
                 if len(pictures) > 5:
