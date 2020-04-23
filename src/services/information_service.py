@@ -9,7 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import web_data
+from gateways import web_data_gateway
 from services import weather_service
 
 information = {
@@ -21,8 +21,8 @@ information = {
 
 
 def get_data_about_rickmansworth() -> dict:
-    information['crimes'] = web_data.get_crime()
-    information['floods'] = web_data.get_flood()
+    information['crimes'] = web_data_gateway.get_crime()
+    information['floods'] = web_data_gateway.get_flood()
     information['weather'] = weather_service.get_weather()
-    information['o2'] = web_data.get_o2_status()
+    information['o2'] = web_data_gateway.get_o2_status()
     return information

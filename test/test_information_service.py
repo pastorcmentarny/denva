@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-import web_data
+from gateways import web_data_gateway
 from services import information_service, weather_service
 
 
@@ -21,10 +21,10 @@ class InformationServiceTest(TestCase):
             "Pollen: High"
         ]
         o2_data = "None of the cell sites close to your location currently has any reported outages."
-        web_data.get_crime = Mock(return_value=crime_data)
-        web_data.get_flood = Mock(return_value=flood_data)
+        web_data_gateway.get_crime = Mock(return_value=crime_data)
+        web_data_gateway.get_flood = Mock(return_value=flood_data)
         weather_service.get_weather = Mock(return_value=weather_data)
-        web_data.get_o2_status = Mock(return_value=o2_data)
+        web_data_gateway.get_o2_status = Mock(return_value=o2_data)
 
         expected_result = {
 

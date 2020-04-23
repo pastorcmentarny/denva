@@ -20,7 +20,7 @@ from mothership import app_server_service
 import app_timer
 import config_service
 from services import information_service, email_sender_service
-import local_data_gateway
+from gateways import local_data_gateway
 import mothership.information_service as information
 from mothership import webcam_service
 

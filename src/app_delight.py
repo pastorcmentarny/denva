@@ -30,7 +30,7 @@ import unicornhathd
 
 import config_service
 import data_files
-import local_data_gateway
+from gateways import local_data_gateway
 import utils
 from common import status
 from delight import delight_display, delight_service, delight_utils

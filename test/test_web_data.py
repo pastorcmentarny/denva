@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import config_service
-import web_data
+from gateways import web_data_gateway
 
 
 class Test(TestCase):
@@ -10,7 +10,7 @@ class Test(TestCase):
     def test_get_status(self):
         if config_service.run_slow_test():
             # when
-            result = web_data.get_status()
+            result = web_data_gateway.get_status()
 
             # debug
             print(result)
@@ -25,7 +25,7 @@ class Test(TestCase):
     def test_get_crime(self):
         if config_service.run_slow_test():
             # when
-            result = web_data.get_crime()
+            result = web_data_gateway.get_crime()
 
             # debug
             print(result)
@@ -38,7 +38,7 @@ class Test(TestCase):
     def test_get_flood(self):
         if config_service.run_slow_test():
             # when
-            result = web_data.get_flood()
+            result = web_data_gateway.get_flood()
 
             # debug
             print(result)
@@ -51,7 +51,7 @@ class Test(TestCase):
     def test_get_weather(self):
         if config_service.run_slow_test():
             # when
-            result = web_data.get_weather()
+            result = web_data_gateway.get_weather()
 
             # debug
             print(result)
@@ -64,7 +64,7 @@ class Test(TestCase):
     def test_get_o2_status(self):
         if config_service.run_slow_test():
             # when
-            result = web_data.get_o2_status()
+            result = web_data_gateway.get_o2_status()
 
             # debug
             print(result)
@@ -77,7 +77,7 @@ class Test(TestCase):
     def test_get_pollution_for(self):
         if config_service.run_slow_test():
             # when
-            result = web_data.get_pollution_for('wroclaw')
+            result = web_data_gateway.get_pollution_for('wroclaw')
 
             # debug
             print(result)
@@ -98,7 +98,7 @@ class Test(TestCase):
         for input, expected_result in scale_params_list:
             with self.subTest(msg="Checking _get_scale_result_from() for scale {} ".format(input)):
                 # when
-                result = web_data._get_scale_result_from('aberystwyth', input)
+                result = web_data_gateway._get_scale_result_from('aberystwyth', input)
 
                 # debug
                 print(result)
@@ -120,7 +120,7 @@ Pollen: High."""
                            'UV: Moderate', 'Pollution: Moderate', 'Pollen: High']
 
         # when
-        result = web_data.cleanup_weather_data(weather)
+        result = web_data_gateway.cleanup_weather_data(weather)
 
         # then
         self.assertEqual(expected_result, result)

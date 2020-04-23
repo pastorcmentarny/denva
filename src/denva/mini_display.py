@@ -24,7 +24,7 @@ import iqa_utils
 import sensor_warnings
 from services import system_data_service
 import utils
-import web_data
+from gateways import web_data_gateway
 
 logger = logging.getLogger('app')
 
@@ -59,7 +59,7 @@ def draw_image_on_screen(data, app_uptime):
             y += 14
             draw.text((0, y), warning, fill="white", font=rr_12)
     elif cycle % 6 == 1:
-        statuses = web_data.get_status()
+        statuses = web_data_gateway.get_status()
         draw.text((0, 0), "Train & Tubes", fill="white", font=rr_14)
         y = 2
         for status in statuses:

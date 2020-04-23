@@ -1,6 +1,6 @@
 import unittest
 
-import local_data_gateway
+from gateways import local_data_gateway
 
 
 class LocalDataGatewayTests(unittest.TestCase):

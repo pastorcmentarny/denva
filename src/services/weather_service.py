@@ -2,7 +2,7 @@ import config_service
 import os
 import logging
 import data_files
-import web_data
+from gateways import web_data_gateway
 import app_timer
 from datetime import datetime
 
@@ -27,13 +27,13 @@ def get_weather() -> list:
     log_info('Getting weather')
     if not os.path.exists(weather_file):
         log_info('File not exists. Getting weather from the web')
-        weather_data = web_data.get_weather()
+        weather_data = web_data_gateway.get_weather()
     else:
         log_info('loading data from the file')
         weather_data = data_files.load_weather(weather_file)
         if is_weather_data_expired(weather_data[len(weather_data) - 1]):
             log_info('weather in the file is out of date, Getting weather from the web')
-            weather_data = web_data.get_weather()
+            weather_data = web_data_gateway.get_weather()
         else:
             log_info('returning weather from the file')
             return weather_data

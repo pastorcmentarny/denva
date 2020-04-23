@@ -18,7 +18,7 @@ import commands
 import config_service
 import data_files
 import local_data_gateway
-import web_data
+import web_data_gateway
 from mothership import app_server_service
 from reports import report_service
 from services import networkcheck_service as networkcheck, information_service, tubes_train_service
@@ -148,7 +148,7 @@ def system():
 @app.route("/tt")
 def tube_trains_status():
     tt_statuses = {
-        "Train & Trains": web_data.get_status()
+        "Train & Trains": web_data_gateway.get_status()
     }
     return jsonify(tt_statuses)
 

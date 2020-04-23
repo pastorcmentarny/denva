@@ -22,7 +22,6 @@ import config_service
 import data_files
 from services import error_detector_service
 from zeroeighttrack import leaderboard
-import local_data_gateway
 import mothership.celebrations as celebrations
 import mothership.chinese_dictionary_service as cn
 from mothership import daily
@@ -33,7 +32,7 @@ import mothership.personal_stats as personal_events
 import mothership.random_irregular_verb as verb
 import utils
 from services import weather_service, system_data_service
-import web_data
+from gateways import web_data_gateway, local_data_gateway
 import pprint
 
 logger = logging.getLogger('app')
@@ -71,13 +70,13 @@ def get_all_warnings_page() -> list:
     start = time.time_ns()
     data = []
 
-    tube = web_data.get_tube(False)
+    tube = web_data_gateway.get_tube(False)
     if tube == ["Tube data N/A"]:
         data.append("Tube data N/A")
     elif tube != 'Good Service' or tube != 'Service Closed':
         data.append(tube)
 
-    train = web_data.get_train()
+    train = web_data_gateway.get_train()
     if train == 'Train data N/A':
         data.append('Train data N/A')
     elif train != "Good service":

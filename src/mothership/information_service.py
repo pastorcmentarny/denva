@@ -15,7 +15,7 @@ from timeit import default_timer as timer
 
 import app_timer
 import data_files
-import web_data
+from gateways import web_data_gateway
 from services import weather_service
 
 logger = logging.getLogger('app')
@@ -45,14 +45,14 @@ def get_information():
 
 def refresh_all():
     start_time = timer()
-    information['pollution']['tianjin'] = web_data.get_pollution_for('tianjin')
-    information['pollution']['wroclaw'] = web_data.get_pollution_for('wroclaw')
+    information['pollution']['tianjin'] = web_data_gateway.get_pollution_for('tianjin')
+    information['pollution']['wroclaw'] = web_data_gateway.get_pollution_for('wroclaw')
     information['weather'] = weather_service.get_weather()
-    information['crime'] = web_data.get_crime()
-    information['o2'] = web_data.get_o2_status()
-    information['flood'] = web_data.get_flood()
-    information['tube'] = web_data.get_tube(False)
-    information['train'] = web_data.get_train()
+    information['crime'] = web_data_gateway.get_crime()
+    information['o2'] = web_data_gateway.get_o2_status()
+    information['flood'] = web_data_gateway.get_flood()
+    information['tube'] = web_data_gateway.get_tube(False)
+    information['train'] = web_data_gateway.get_train()
     end_time = timer()
     information['measurement_time'] = str(int((end_time - start_time) * 1000))  # in ms
 
@@ -78,11 +78,11 @@ def should_refresh():
 
 
 def refresh_every_5_minutes():
-    information['tube'] = web_data.get_tube(False)
-    information['train'] = web_data.get_train()
+    information['tube'] = web_data_gateway.get_tube(False)
+    information['train'] = web_data_gateway.get_train()
 
 
 def refresh_hourly():
-    information['pollution']['tianjin'] = web_data.get_pollution_for('tianjin')
-    information['pollution']['wroclaw'] = web_data.get_pollution_for('wroclaw')
+    information['pollution']['tianjin'] = web_data_gateway.get_pollution_for('tianjin')
+    information['pollution']['wroclaw'] = web_data_gateway.get_pollution_for('wroclaw')
     information['weather'] = weather_service.get_weather()
