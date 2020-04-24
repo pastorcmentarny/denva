@@ -9,7 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-from utils import dom_utils
+from common import dom_utils
 
 
 def print_measurement(data, left_width=20, right_width=6):

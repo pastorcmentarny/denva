@@ -29,10 +29,9 @@ import time
 import unicornhathd
 
 import config_service
-from gateways import local_data_gateway
-from utils import data_files, dom_utils
-from common import status
+from common import data_files, dom_utils, status
 from delight import delight_display, delight_service, delight_utils
+from gateways import local_data_gateway
 
 logger = logging.getLogger('app')
 
