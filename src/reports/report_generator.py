@@ -14,10 +14,11 @@ import logging
 from datetime import datetime
 from datetime import timedelta
 
+from denva import denva_sensors_service
 from reports import averages, records
-import sensor_warnings
+from services import sensor_warnings_service
 from services import tubes_train_service
-import utils
+from utils import dom_utils
 
 warnings_logger = logging.getLogger('warnings')
 stats_log = logging.getLogger('stats')
@@ -139,9 +140,9 @@ def generate_for(date: datetime) -> dict:
         data = load_data(year, month, day)
         report['measurement_counter'] = len(data)
         report['report_date'] = "{}.{}'{}".format(day, month, year)
-        warnings = sensor_warnings.get_warnings_for(year, month, day)
+        warnings = sensor_warnings_service.get_warnings_for(year, month, day)
         report['warning_counter'] = len(warnings)
-        report['warnings'] = sensor_warnings.count_warnings(warnings)
+        report['warnings'] = denva_sensors_service.count_warnings(warnings)
         report['records'] = records.get_records(data)
         report['avg'] = averages.get_averages(data)
         report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month, day) # move to separate function
@@ -216,9 +217,9 @@ def load_enviro_data(year, month, day) -> list:
 
 
 def read_data_as_list_from_csv_file(day, month, year, log_file_name:str) -> list:
-    path = utils.get_filename_from_year_month_day(log_file_name, 'csv', year, month, day)
-    sensor_log_file = utils.fix_nulls(open('/home/pi/logs/' + path, 'r',
-                                           newline=''))
+    path = dom_utils.get_filename_from_year_month_day(log_file_name, 'csv', year, month, day)
+    sensor_log_file = dom_utils.fix_nulls(open('/home/pi/logs/' + path, 'r',
+                                               newline=''))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     sensor_log_file.close()
@@ -246,7 +247,7 @@ def generate_enviro_report_for_yesterday() -> dict:
         data = load_enviro_data(year, month, day)
         evniro_report['measurement_counter'] = len(data)
         evniro_report['report_date'] = "{}.{}'{}".format(day, month, year)
-        warnings = sensor_warnings.get_warnings_for(year, month, day)
+        warnings = sensor_warnings_service.get_warnings_for(year, month, day)
         evniro_report['warning_counter'] = len(warnings)
         evniro_report['avg'] = averages.get_enviro_averages(data)
         evniro_report['records'] = records.get_enviro_records(data)

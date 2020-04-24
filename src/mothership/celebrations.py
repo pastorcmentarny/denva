@@ -1,7 +1,7 @@
 import datetime
 import logging
 
-import utils
+from utils import dom_utils
 
 logger = logging.getLogger('server')
 
@@ -51,11 +51,11 @@ movable_events = {
     '1025': ['Zmiana czasu z letniego na zimowy'],
 }
 
-all_events = utils.merge_two_dictionaries(events, movable_events)
+all_events = dom_utils.merge_two_dictionaries(events, movable_events)
 
 
 def get_today() -> list:
-    return all_events.get(utils.get_timestamp_key(), [])
+    return all_events.get(dom_utils.get_timestamp_key(), [])
 
 
 def day_left_text(counter: int) -> str:
@@ -85,7 +85,7 @@ def get_next_3_events() -> list:
     day = datetime.datetime.now()
     counter = 0
     while len(next3events) < 3:
-        event = all_events.get(utils.get_timestamp_key(day))
+        event = all_events.get(dom_utils.get_timestamp_key(day))
         if event is not None:
             next3events.append('{} ({})'.format(get_sentence_from_list_of_events(event), day_left_text(counter)))
         day = day + datetime.timedelta(days=1)

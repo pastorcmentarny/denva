@@ -1,10 +1,11 @@
-import config_service
-import os
 import logging
-import data_files
-from gateways import web_data_gateway
-import app_timer
+import os
 from datetime import datetime
+
+import config_service
+from common import app_timer
+from gateways import web_data_gateway
+from utils import data_files
 
 weather_file = config_service.get_data_path() + 'weather.txt'
 logger_app = logging.getLogger('app')
@@ -46,10 +47,11 @@ def get_weather() -> list:
 
 # FIXME due to crap design
 def log_info(msg: str):
-    #logger_app.info(msg)
+    # logger_app.info(msg)
     logger_server.info(msg)
+
 
 # FIXME due to crap design
 def log_error(msg: str):
-    #logger_app.warning(msg)
+    # logger_app.warning(msg)
     logger_server.warning(msg)

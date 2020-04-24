@@ -15,11 +15,10 @@ import requests
 import time
 
 import config_service
-import commands
-import data_files
+from utils import data_files, commands, dom_utils
 from services import email_sender_service
 from denva import denva_sensors_service
-import utils
+
 
 logger = logging.getLogger('hc')
 
@@ -38,13 +37,13 @@ reasons = []
 
 def capture_photo_is_older_than_5_minutes():
     filename = commands.get_last_photo_filename()
-    return utils.is_file_older_than_5_minutes(filename)
+    return dom_utils.is_file_older_than_5_minutes(filename)
 
 
 def measurement_is_older_than_5_minutes():
     row = denva_sensors_service.get_last_measurement()
     timestamp = row['timestamp']
-    return utils.is_timestamp_older_than_5_minutes(timestamp)
+    return dom_utils.is_timestamp_older_than_5_minutes(timestamp)
 
 
 def healthcheck_test_runner():

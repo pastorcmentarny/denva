@@ -19,7 +19,7 @@ from datetime import datetime
 from pathlib import Path
 
 import config_service
-import utils
+from utils import dom_utils
 from denva import denva_sensors_service
 from denviro import denviro_sensors_service
 from services import email_sender_service
@@ -108,7 +108,7 @@ def add_measurement_to_file(file, data: dict, motion):
                          motion['gx'], motion['gy'], motion['gz'],
                          motion['mx'], motion['my'], motion['mz'],
                          data['measurement_time'],
-                         utils.get_float_number_from_text(data['cpu_temp']),
+                         dom_utils.get_float_number_from_text(data['cpu_temp']),
                          data['eco2'],
                          data['tvoc'],
                          ])
@@ -166,7 +166,7 @@ def backup_information_data(data: dict):
     dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path, dt.year, dt.month, dt.day)
     logger.debug('performing information backup using path {}'.format(dir_path))
     Path(dir_path).mkdir(parents=True, exist_ok=True)
-    dir_path += "information-backup." + utils.get_timestamp_file() + ".json"
+    dir_path += "information-backup." + dom_utils.get_timestamp_file() + ".json"
     save_dict_data_as_json(dir_path, data)
 
 
@@ -214,7 +214,7 @@ def load_weather(path: str):
 
 # TODO move this to different place
 def load_data(year: int, month: int, day: int) -> list:
-    sensor_log_file = utils.fix_nulls(
+    sensor_log_file = dom_utils.fix_nulls(
         open(config_service.get_sensor_log_file_for(year, month, day), 'r', newline='', encoding='utf-8'))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
@@ -242,7 +242,7 @@ def load_enviro_data_for_today() -> list:
 
 def load_enviro_data(year: int, month: int, day: int) -> list:
     logger.debug('loading enviro sensor data from {} {} {}'.format(day, month, year))
-    sensor_log_file = utils.fix_nulls(
+    sensor_log_file = dom_utils.fix_nulls(
         open(config_service.get_sensor_log_file_for(year, month, day, 'sensor-enviro-log'), 'r', newline='',
              encoding='utf-8'))
     csv_content = csv.reader(sensor_log_file)

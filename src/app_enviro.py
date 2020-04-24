@@ -30,12 +30,12 @@ from subprocess import PIPE, Popen
 
 import logging
 from denva import cl_display
-import commands
+from utils import commands
 import config_service
-import data_files
-#from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
+from utils import data_files
+# from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import email_sender_service
-import sensor_warnings
+from services import sensor_warnings_service
 
 logger = logging.getLogger('app')
 
@@ -120,11 +120,11 @@ def get_measurement() -> dict:
     return measurement
 
 
-#TODO remove it
+# TODO remove it
 def ui(msg: str, screen: bool = True):
     logger.info(msg)
-    #print(msg)
-    #FIXME temporary disabled
+    # print(msg)
+    # FIXME temporary disabled
     '''
     if screen:
         denviro_display.draw_message(msg)
@@ -156,18 +156,18 @@ def main():
 
         start_time = timer()
         measurement = get_measurement()
-        #FIXME temporary disabled  denviro_display.display_on_screen(measurement)
+        # FIXME temporary disabled  denviro_display.display_on_screen(measurement)
         measurement['cpu_temp'] = commands.get_cpu_temp()
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         measurement['measurement_time'] = measurement_time
         logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
-        #FIXME temporary disabled  denviro_display.set_brightness_for_screen(measurement['proximity'])
+        # FIXME temporary disabled  denviro_display.set_brightness_for_screen(measurement['proximity'])
         data_files.store_enviro_measurement(measurement)
         # deprecated but i will change settings to send them via config settings
-        #measurement_storage_service.send('enviro', measurement)
-        sensor_warnings.get_current_warnings_for_enviro()
+        # measurement_storage_service.send('enviro', measurement)
+        sensor_warnings_service.get_current_warnings_for_enviro()
         remaining_time_in_millis = 5 - (float(measurement_time) / 1000)
 
         if remaining_time_in_millis > 0:
@@ -187,6 +187,6 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt as keyboard_exception:
         logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
-        #FIXME temporary disabled  denviro_display.draw_message('APP crashed.')
+        # FIXME temporary disabled  denviro_display.draw_message('APP crashed.')
         sys.exit(0)
-    #FIXME temporary disabled denviro_display.draw_message('Goodbye.')
+    # FIXME temporary disabled denviro_display.draw_message('Goodbye.')

@@ -6,7 +6,7 @@ from timeit import default_timer as timer
 import cv2
 import time
 
-import utils
+from utils import dom_utils
 
 webcam = cv2.VideoCapture(0)
 logger = logging.getLogger('server')
@@ -22,7 +22,7 @@ def capture_picture() -> str:
         if not os.path.isdir(path):
             logger.info('creating folder for {}'.format(path))
             os.makedirs(path)
-        date = utils.get_timestamp_file()
+        date = dom_utils.get_timestamp_file()
         photo_path = '{}\\{}.jpg'.format(path, date)
         logger.info(photo_path)
         check, frame = webcam.read()

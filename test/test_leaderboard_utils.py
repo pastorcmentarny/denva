@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import config_test
-import gobshite_exception
+from common import gobshite_exception
 from zeroeighttrack import leaderboard_utils
 
 

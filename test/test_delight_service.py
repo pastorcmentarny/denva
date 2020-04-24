@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import config_service
-import utils
+from utils import dom_utils
 from delight import delight_service
 from services import system_data_service
 
@@ -15,8 +15,8 @@ class Test(TestCase):
             # when
             result = delight_service.run_gc()
             self.assertEqual(result['memory_before'], memory_available_in_mb)
-            self.assertGreaterEqual(utils.get_int_number_from_text(result['memory_after']),
-                                    utils.get_int_number_from_text(memory_available_in_mb))
+            self.assertGreaterEqual(dom_utils.get_int_number_from_text(result['memory_after']),
+                                    dom_utils.get_int_number_from_text(memory_available_in_mb))
             self.assertGreaterEqual(result['memory_saved'], 0)
 
             # debug

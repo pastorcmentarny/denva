@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import utils
+from utils import dom_utils
 from zeroeighttrack import leaderboard_ui
 
 
@@ -8,7 +8,7 @@ class LeaderboardUITest(TestCase):
 
     def test_show_on_cli(self):
         # given
-        date = utils.get_timestamp_title(False)
+        date = dom_utils.get_timestamp_title(False)
         data = [{
             'date': '31.3',
             'time': '26.21.9',
@@ -31,4 +31,4 @@ Zeroeight Track Info: Length: 2.6km. Ascent: 55m
         result = leaderboard_ui.generate_highscore_as_text(data)
 
         # then
-        self.assertEqual(utils.to_multiline(result), expected_result)  # Now works as before.
+        self.assertEqual(dom_utils.to_multiline(result), expected_result)  # Now works as before.

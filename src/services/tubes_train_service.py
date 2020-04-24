@@ -9,12 +9,11 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import data_files
-import utils
+from utils import data_files, dom_utils
 
 
 def get_stats_file_for(year: str, month: str, day: str) -> list:
-    date = utils.get_filename_for_stats(year, month, day)
+    date = dom_utils.get_filename_for_stats(year, month, day)
     return data_files.load_stats('/home/pi/logs/' + date)
 
 

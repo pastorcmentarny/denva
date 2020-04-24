@@ -1,16 +1,15 @@
 from datetime import datetime
 
-import commands
 import config_service as config
-import utils
+from utils import commands, dom_utils
 
 
 def get_sensor_log_file():
-    return config.PI_PATH + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+    return config.PI_PATH + dom_utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
 
 
 def get_sensor_log_file_at_server() -> str:
-    return config.NETWORK_PATH + 'enviro/' + utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
+    return config.NETWORK_PATH + 'enviro/' + dom_utils.get_date_as_filename('sensor-enviro-log', 'csv', datetime.now())
 
 
 def get_last_measurement():

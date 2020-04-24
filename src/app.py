@@ -20,14 +20,12 @@ import sys
 import time
 from PIL import ImageFont
 
-from denva import cl_display
-import commands
 import config_service
-import data_files
-from services import email_sender_service
+from denva import cl_display
 # display removed from mothership import mini_display
-import utils
-from sensors import air_quality_service, environment_service,motion_service, two_led_service, uv_service
+from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service
+from services import email_sender_service
+from utils import data_files, commands, dom_utils
 
 bus = smbus.SMBus(1)
 
@@ -37,7 +35,6 @@ rr_14 = ImageFont.truetype(rr_path, 14)
 
 samples = []
 pictures = []
-
 
 logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
@@ -55,7 +52,7 @@ def get_data_from_measurement() -> dict:
     tvoc = air_quality_service.get_tvoc_measurement_as_string()
 
     r, g, b = two_led_service.get_measurement()
-    colour = utils.to_hex(r, g, b)
+    colour = dom_utils.to_hex(r, g, b)
     motion = motion_service.get_motion()
     two_led_service.warn_if_dom_shakes_his_legs(motion)
 
@@ -120,8 +117,8 @@ def main():
             data['picture_path'] = get_pictures_path()
 
             # deprecated but i will change settings to send them via config settings
-            #email_sender_service.should_send_email(data)
-            #email_sender_service.should_send_report_email()
+            # email_sender_service.should_send_email(data)
+            # email_sender_service.should_send_report_email()
 
             remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import config_service
-import data_files
+from utils import data_files
 import logging
 
 logger = logging.getLogger('server')

@@ -1,9 +1,7 @@
 import os
 import shutil
 
-import config_service
-import utils
-
+from utils import dom_utils
 
 FROM = "D:\\Projects\\denva\\src"
 TO = "\\ds-lpd-server\\denva\\src"
@@ -14,8 +12,8 @@ BACKUP = 'D:\\denva\\backup'
 
 def backup():
     print('Performing backup..')
-    utils.get_timestamp_title()
-    backup_path = BACKUP + utils.get_date_as_folders()
+    dom_utils.get_timestamp_title()
+    backup_path = BACKUP + dom_utils.get_date_as_folders()
     print(backup_path)
     if not os.path.exists(backup_path):
         os.makedirs(backup_path)

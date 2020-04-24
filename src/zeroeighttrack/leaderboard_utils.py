@@ -1,6 +1,6 @@
 import re
 
-from gobshite_exception import GobshiteException
+from common.gobshite_exception import GobshiteException
 
 # i use decisecond as small unit for measure time for this run
 DISTANCE_KEY = 'distance'

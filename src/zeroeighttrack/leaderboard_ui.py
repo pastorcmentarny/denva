@@ -1,9 +1,9 @@
-import utils
+from utils import dom_utils
 
 
 def generate_highscore_as_text(results: list, left_width=25, right_width=6) -> list:
     lines = []
-    title = 'Current Highscore Table {}'.format(utils.get_timestamp_title(with_time=False))
+    title = 'Current Highscore Table {}'.format(dom_utils.get_timestamp_title(with_time=False))
     lines.append(title.center(left_width + right_width, "-"))
     for result in results:
         lines.append(get_result_for(result, left_width, right_width))

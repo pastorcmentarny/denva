@@ -16,7 +16,7 @@ import re
 import psutil
 import subprocess
 import time
-import utils
+from utils import dom_utils
 
 from services import email_sender_service
 
@@ -51,7 +51,7 @@ def capture_picture() -> str:
         if not os.path.isdir(path):
             logger.info('creating folder for {}'.format(path))
             os.makedirs(path)
-        date = utils.get_timestamp_file()
+        date = dom_utils.get_timestamp_file()
         photo_path = "/mnt/data/photos/{}/{}.jpg".format(date_path, date)
         cmd = "fswebcam -r 1280x960 --no-banner {}".format(photo_path)
         subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -110,7 +110,7 @@ def get_system_info() -> dict:
         'CPU Temp': get_cpu_temp(),
         'IP': get_ip(),
         'Uptime': get_uptime(),
-        "Memory Available": '{} MB'.format(utils.convert_bytes_to_megabytes(psutil.virtual_memory().available)),
+        "Memory Available": '{} MB'.format(dom_utils.convert_bytes_to_megabytes(psutil.virtual_memory().available)),
         'Free Space': '{} MB'.format(get_space_available()),
         'Data Free Space': '{} MB'.format(get_data_space_available())
     }
@@ -130,7 +130,7 @@ def get_data_space_available():
 
 def get_lines_from_path(path: str, lines: int) -> dict:
     text = str(subprocess.check_output(['tail', '-n', str(lines), path]).strip(), "utf-8").split('\n')
-    return utils.convert_list_to_dict(text)
+    return dom_utils.convert_list_to_dict(text)
 
 
 def get_last_line_from_log(path: str) -> str:

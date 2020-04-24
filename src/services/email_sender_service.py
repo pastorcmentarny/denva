@@ -17,12 +17,12 @@ from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-import app_timer
-import commands
-import data_files
+from common import app_timer
 from reports import report_service
-import sensor_warnings
-import utils
+from services import sensor_warnings_service
+from utils import commands
+from utils import data_files
+from utils import dom_utils
 
 logger = logging.getLogger('app')
 
@@ -35,7 +35,7 @@ def should_send_email(data):
     email_data = data
     if app_timer.is_time_to_send_email(send_denva_email_cooldown):
         logger.info('Collecting data')
-        email_data['warnings'] = sensor_warnings.get_warnings_as_list(email_data)
+        email_data['warnings'] = sensor_warnings_service.get_warnings_as_list(email_data)
         email_data['system'] = commands.get_system_info()
         email_data['log'] = commands.get_lines_from_path('/home/pi/logs/logs.log', 10)
         email_data['healthcheck'] = commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 10)
@@ -76,7 +76,7 @@ def send(data: dict, subject: str):
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
-        msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
+        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
 
         '''taking picture for email disabled as it is used by server app now
@@ -111,7 +111,7 @@ def send_error_log_email(what: str, message: str):
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
-        msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
+        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
 
@@ -138,7 +138,7 @@ def send_ip_email(device: str):
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
-        msg['Subject'] = '{} @ {}'.format(subject, utils.get_timestamp_title())
+        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
 

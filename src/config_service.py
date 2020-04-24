@@ -10,7 +10,7 @@
 """
 import platform
 
-import utils
+from utils import dom_utils
 
 settings = {
     "mode": 'dev',
@@ -204,5 +204,5 @@ def get_data_path() -> str:
 
 
 def get_sensor_log_file_for(year: int, month: int, day: int, sensor_filename: str = 'sensor-log') -> str:
-    path = '/home/pi/logs/' + utils.get_filename_from_year_month_day(sensor_filename, 'csv', year, month, day)
+    path = '/home/pi/logs/' + dom_utils.get_filename_from_year_month_day(sensor_filename, 'csv', year, month, day)
     return path

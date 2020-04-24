@@ -16,7 +16,7 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 
-from gobshite_exception import GobshiteException
+from common.gobshite_exception import GobshiteException
 
 stats_log = logging.getLogger('stats')
 

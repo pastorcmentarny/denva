@@ -4,7 +4,7 @@ import gc
 import psutil
 
 import config_service
-import utils
+from utils import dom_utils
 
 
 def get_boot_time() -> str:
@@ -12,7 +12,7 @@ def get_boot_time() -> str:
 
 
 def get_system_disk_space_free():
-    return utils.convert_bytes_to_megabytes(psutil.disk_usage(config_service.get_system_drive()).free)
+    return dom_utils.convert_bytes_to_megabytes(psutil.disk_usage(config_service.get_system_drive()).free)
 
 
 #TODO add disk free
@@ -27,7 +27,7 @@ def get_system_information() -> dict:
 
 
 def get_memory_available_in_mb() -> str:
-    return '{}MB'.format(utils.convert_bytes_to_megabytes(psutil.virtual_memory().available))
+    return '{}MB'.format(dom_utils.convert_bytes_to_megabytes(psutil.virtual_memory().available))
 
 
 # TODO use this for all services not only server
@@ -52,6 +52,6 @@ def run_gc():
     gc.collect()
 
     result['memory_after'] = get_memory_available_in_mb()
-    result['memory_saved'] = utils.get_int_number_from_text(result['memory_before']) - utils.get_int_number_from_text(
+    result['memory_saved'] = dom_utils.get_int_number_from_text(result['memory_before']) - dom_utils.get_int_number_from_text(
         result['memory_after'])
     return result

@@ -1,12 +1,12 @@
+from denviro import denviro_sensors_service
 from reports import averages, records, report_service
-import commands
-import sensor_log_reader
-import sensor_warnings
+from utils import commands
+from services import sensor_warnings_service
 
 
 # TODO refactor name
 def get_current_measurement(host: str) -> dict:
-    measurement = sensor_log_reader.get_last_enviro_measurement()
+    measurement = denviro_sensors_service.get_last_measurement()
     measurement['host'] = host
     measurement['system'] = commands.get_system_info()
     return measurement
@@ -21,7 +21,7 @@ def get_averages_for_today():
 
 
 def get_last_measurement():
-    return sensor_log_reader.get_last_enviro_measurement()
+    return denviro_sensors_service.get_last_measurement()
 
 
 def get_records_for_today():
@@ -29,8 +29,8 @@ def get_records_for_today():
 
 
 def get_current_warnings():
-    return sensor_warnings.get_current_warnings_for_enviro()
+    return sensor_warnings_service.get_current_warnings_for_enviro()
 
 
 def get_current_warnings_count():
-    return sensor_warnings.count_warning_today()  # TODO is it right call ?
+    return sensor_warnings_service.count_warning_today()  # TODO is it right call ?

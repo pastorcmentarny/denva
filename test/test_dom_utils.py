@@ -2,30 +2,30 @@ from datetime import date, datetime
 from unittest import TestCase
 from unittest.mock import patch
 
-import gobshite_exception
-import utils
+from common import gobshite_exception
+from utils import dom_utils
 
 
 class Test(TestCase):
 
     def test_get_int_number_from_text(self):
-        self.assertEqual(utils.get_int_number_from_text('250MB'), 250)
+        self.assertEqual(dom_utils.get_int_number_from_text('250MB'), 250)
 
     def test_get_int_number_from_text_should_return_int_without_text(self):
-        self.assertEqual(utils.get_int_number_from_text('125'), 125)
+        self.assertEqual(dom_utils.get_int_number_from_text('125'), 125)
 
     def test_get_float_number_from_text(self):
-        self.assertEqual(utils.get_float_number_from_text('2.1 kB'), '2.1')
+        self.assertEqual(dom_utils.get_float_number_from_text('2.1 kB'), '2.1')
 
     def test_get_float_number_from_text_should_return_int_without_text(self):
-        self.assertEqual(utils.get_float_number_from_text('2.1'), '2.1')
+        self.assertEqual(dom_utils.get_float_number_from_text('2.1'), '2.1')
 
     def test_to_hex(self):
         # given
         expected_result = '#ff800f'
 
         # when
-        result = utils.to_hex(255, 128, 15)
+        result = dom_utils.to_hex(255, 128, 15)
 
         # then
         self.assertEqual(expected_result, result)
@@ -40,7 +40,7 @@ class Test(TestCase):
         }
 
         # when
-        result = utils.convert_list_to_dict(example_list)
+        result = dom_utils.convert_list_to_dict(example_list)
 
         # then
         self.assertEqual(expected_result, result)
@@ -48,51 +48,51 @@ class Test(TestCase):
     # tag-mock-date
     def test_get_date_as_folders(self):
         # given
-        with patch('utils.date') as mock_date:
+        with patch('utils.dom_utils.date') as mock_date:
             mock_date.today.return_value = date(2006, 6, 6)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
             # verify that mock works
-            assert utils.date.today() == date(2006, 6, 6)
+            assert dom_utils.date.today() == date(2006, 6, 6)
 
             expected_result = '\\2006\\06\\06\\'
 
             # when
-            result = utils.get_date_as_folders()
+            result = dom_utils.get_date_as_folders()
 
             # then
             self.assertEqual(expected_result, result)
 
     def test_get_timestamp_title_with_time(self):
         # given
-        with patch('utils.datetime') as mock_date:
+        with patch('utils.dom_utils.datetime') as mock_date:
             mock_date.now.return_value = datetime(2006, 6, 6, 10, 10, 10)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
             # verify that mock works
-            assert utils.datetime.now() == datetime(2006, 6, 6, 10, 10, 10)
+            assert dom_utils.datetime.now() == datetime(2006, 6, 6, 10, 10, 10)
 
             expected_result = '2006-06-06 10:10:10'
 
             # when
-            result = utils.get_timestamp_title(with_time=True)
+            result = dom_utils.get_timestamp_title(with_time=True)
 
             # then
             self.assertEqual(expected_result, result)
 
     def test_get_timestamp_title_without_time(self):
         # given
-        with patch('utils.datetime') as mock_date:
+        with patch('utils.dom_utils.datetime') as mock_date:
             mock_date.now.return_value = datetime(2006, 6, 6)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
             # verify that mock works
-            assert utils.datetime.now() == datetime(2006, 6, 6)
+            assert dom_utils.datetime.now() == datetime(2006, 6, 6)
 
             expected_result = '2006-06-06'
 
             # when
-            result = utils.get_timestamp_title(with_time=False)
+            result = dom_utils.get_timestamp_title(with_time=False)
 
             # then
             self.assertEqual(expected_result, result)
@@ -104,7 +104,7 @@ class Test(TestCase):
         for an_input, expected_result in scale_params_list:
             with self.subTest(msg="Checking to convert_time_to_minutes() for event {} ".format(an_input)):
                 # when
-                result = utils.convert_time_to_minutes(an_input)
+                result = dom_utils.convert_time_to_minutes(an_input)
 
                 # debug
                 print('for {} result is {} and expected result is {}'.format(an_input, result, expected_result))
@@ -121,14 +121,14 @@ class Test(TestCase):
             with self.subTest(
                     msg="Checking to convert_time_to_minutes() for event {} should throw exception ".format(an_input)):
                 # when
-                self.assertRaises(gobshite_exception.GobshiteException, utils.convert_time_to_minutes, an_input)
+                self.assertRaises(gobshite_exception.GobshiteException, dom_utils.convert_time_to_minutes, an_input)
 
     def test_is_weekend_day_is_true_for_saturday(self):
         # given
         saturday = datetime(2020, 4, 11, 0, 0, 0)
 
         # when
-        result = utils.is_weekend_day(saturday)
+        result = dom_utils.is_weekend_day(saturday)
 
         # then
         self.assertTrue(result)
@@ -138,7 +138,7 @@ class Test(TestCase):
         monday = datetime(2020, 4, 13, 0, 0, 0)
 
         # when
-        result = utils.is_weekend_day(monday)
+        result = dom_utils.is_weekend_day(monday)
 
         # then
         self.assertFalse(result)

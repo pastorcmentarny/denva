@@ -1,4 +1,4 @@
-import gobshite_exception
+from common import gobshite_exception
 
 NORMAL_DISTANCE = 260
 MAX_SCORE = 26888

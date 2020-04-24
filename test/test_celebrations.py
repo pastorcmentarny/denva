@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock
 
-import utils
+from utils import dom_utils
 from mothership import celebrations
 
 
@@ -21,7 +21,7 @@ class CelebrationsTests(unittest.TestCase):
     def test_get_today_with_event(self):
         # given
         timestamp_key = '0401'
-        utils.get_timestamp_key = Mock(return_value=timestamp_key)
+        dom_utils.get_timestamp_key = Mock(return_value=timestamp_key)
 
         # when
         result = celebrations.get_today()
@@ -35,7 +35,7 @@ class CelebrationsTests(unittest.TestCase):
     def test_get_today_without_event(self):
         # given
         timestamp_key = '0416'
-        utils.get_timestamp_key = Mock(return_value=timestamp_key)
+        dom_utils.get_timestamp_key = Mock(return_value=timestamp_key)
 
         # when
         result = celebrations.get_today()

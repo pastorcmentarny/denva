@@ -11,29 +11,28 @@
 """
 
 import datetime
+import logging
 import os
+import pprint
 
 import gc
-import logging
 import psutil
 import time
 
 import config_service
-import data_files
-from services import error_detector_service
-from zeroeighttrack import leaderboard
 import mothership.celebrations as celebrations
 import mothership.chinese_dictionary_service as cn
-from mothership import daily
 import mothership.good_english_sentence as eng
 import mothership.good_method_name as method
 import mothership.information_service as information
 import mothership.personal_stats as personal_events
 import mothership.random_irregular_verb as verb
-import utils
-from services import weather_service, system_data_service
 from gateways import web_data_gateway, local_data_gateway
-import pprint
+from mothership import daily
+from services import error_detector_service
+from services import weather_service, system_data_service
+from utils import data_files, dom_utils
+from zeroeighttrack import leaderboard
 
 logger = logging.getLogger('app')
 
@@ -84,10 +83,10 @@ def get_all_warnings_page() -> list:
 
     data.append(get_fasting_warning())
 
-    data = utils.clean_list_from_nones(data)
+    data = dom_utils.clean_list_from_nones(data)
 
     end = time.time_ns()
-    logger.info('Execution time: {} ns.'.format((end - start))) #TODO move to stats
+    logger.info('Execution time: {} ns.'.format((end - start)))  # TODO move to stats
 
     return data
 
@@ -96,7 +95,7 @@ def get_random_frame() -> str:
     return data_files.get_random_frame_picture_path()
 
 
-#TODO improve it as it is prototype if works i need systemutils
+# TODO improve it as it is prototype if works i need systemutils
 def clean():
     print(psutil.Process(os.getpid()).memory_info())
     gc.collect()

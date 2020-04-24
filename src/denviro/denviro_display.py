@@ -1,4 +1,3 @@
-import config_service
 import logging
 import os
 import random
@@ -9,8 +8,9 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-import commands
+import config_service
 from services import system_data_service
+from utils import commands
 
 logger = logging.getLogger('app')
 
@@ -32,8 +32,9 @@ img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 14)
 
+
 def display_on_screen(measurement: dict):
-    global cycle
+    global cycle #FIXME
     draw.rectangle((0, 0, 160, 80), fill="black")
     color1 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
     color2 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
@@ -70,13 +71,14 @@ def display_on_screen(measurement: dict):
     draw.text((0, 0), line1, font=font, fill=(color1[1], color1[2], color1[3]))
     draw.text((0, 16), line2, font=font, fill=(color2[1], color2[2], color2[3]))
     draw.text((0, 32), line3, font=font, fill=(color3[1], color3[2], color2[3]))
-    #shade_of_grey = random.randrange(128, 255, 1)
-    #draw.text((0, 48), line4, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
+    # shade_of_grey = random.randrange(128, 255, 1)
+    # draw.text((0, 48), line4, font=font, fill=(shade_of_grey, shade_of_grey, shade_of_grey))
     st7735.display(img)
     cycle += 1
 
+
 def set_brightness_for_screen(proximity):
-    global on
+    global on #FIXME
     if proximity > 1000:
         on = not on
         if on:
@@ -85,6 +87,7 @@ def set_brightness_for_screen(proximity):
         else:
             logger.info('switching OFF backlight')
             st7735.set_backlight(0)
+
 
 def draw_message(msg: str):
     draw.rectangle((0, 0, 160, 80), fill="black")
@@ -121,4 +124,3 @@ def get_colour(level: float) -> list:
         return ['Hazardous', 116, 0, 179]
     else:
         return ['Deadly?', 30, 30, 30]
-

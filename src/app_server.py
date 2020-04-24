@@ -9,20 +9,21 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-from timeit import default_timer as timer
 import logging
+from datetime import datetime
+from timeit import default_timer as timer
+
 import sys
 import time
-import data_files
-from datetime import datetime
 
-from mothership import app_server_service
-import app_timer
 import config_service
-from services import information_service, email_sender_service
-from gateways import local_data_gateway
 import mothership.information_service as information
+from common import app_timer
+from gateways import local_data_gateway
+from mothership import app_server_service
 from mothership import webcam_service
+from services import information_service, email_sender_service
+from utils import data_files
 
 logger = logging.getLogger('app')
 
@@ -42,9 +43,9 @@ def should_send_report_email():
             'enviro': local_data_gateway.get_current_reading_for_enviro()
         },
             'report': {
-                'denva' : local_data_gateway.get_yesterday_report_for_denva(),
-                'enviro' : local_data_gateway.get_yesterday_report_for_enviro(),
-                'rickmansworth' : information_service.get_data_about_rickmansworth(),
+                'denva': local_data_gateway.get_yesterday_report_for_denva(),
+                'enviro': local_data_gateway.get_yesterday_report_for_enviro(),
+                'rickmansworth': information_service.get_data_about_rickmansworth(),
             }
         }
         end_time = timer()

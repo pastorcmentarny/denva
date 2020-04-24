@@ -14,11 +14,9 @@ import logging
 import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
-import commands
 import config_service
-import data_files
-import local_data_gateway
-import web_data_gateway
+from utils import data_files, commands
+from gateways import local_data_gateway, web_data_gateway
 from mothership import app_server_service
 from reports import report_service
 from services import networkcheck_service as networkcheck, information_service, tubes_train_service

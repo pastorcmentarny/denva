@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import utils
+from utils import dom_utils
 from services import system_data_service
 
 
@@ -18,7 +18,7 @@ class Test(TestCase):
 
         # then
         self.assertEqual(len(result), 4)
-        self.assertGreaterEqual(utils.get_int_number_from_text(result['CPU Speed']), 200)
-        self.assertGreaterEqual(utils.get_int_number_from_text(result['Memory Available']), 200)
-        self.assertGreaterEqual(utils.get_int_number_from_text(result['Disk Free']), 200)
+        self.assertGreaterEqual(dom_utils.get_int_number_from_text(result['CPU Speed']), 200)
+        self.assertGreaterEqual(dom_utils.get_int_number_from_text(result['Memory Available']), 200)
+        self.assertGreaterEqual(dom_utils.get_int_number_from_text(result['Disk Free']), 200)
         self.assertTrue(result['Uptime'])

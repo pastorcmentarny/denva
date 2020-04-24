@@ -2,7 +2,7 @@ from datetime import datetime
 from datetime import timedelta
 from unittest import TestCase
 
-import app_timer
+from common import app_timer
 
 
 class Test(TestCase):

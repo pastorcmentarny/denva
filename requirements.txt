@@ -1,4 +1,4 @@
-enviroplus
+enviroplus==0.0.3
 bme280
 pms5003
 veml6075
@@ -6,9 +6,9 @@ bme680
 sgp30
 bh1745
 requests==2.23.0
-beautifulsoup4==4.8.2
-flask==1.1.1
-pillow==7.0.0
+beautifulsoup4==4.9.0
+flask==1.1.2
+pillow==7.1.1
 watchdog==0.10.2
-opencv-python==4.2.0.32
+opencv-python==4.2.0.34
 psutil==5.7.0

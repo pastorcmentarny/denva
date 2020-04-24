@@ -74,7 +74,6 @@ def motion(motion_data: dict) -> str:
         motion_data['mz'])
 
 
-# move to get_description_for
 # based on https://www.idt.com/eu/en/document/whp/overview-tvoc-and-indoor-air-quality
 def iqa_from_tvoc(tvoc: str) -> dict:
     result = {

@@ -29,9 +29,8 @@ import time
 import unicornhathd
 
 import config_service
-import data_files
 from gateways import local_data_gateway
-import utils
+from utils import data_files, dom_utils
 from common import status
 from delight import delight_display, delight_service, delight_utils
 
@@ -191,31 +190,31 @@ def device_status():
         logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        if float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denva )')
             state.set_error()
-        elif float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denva )')
             state.set_warn()
 
-        if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
             logger.warning('status: RED due to very low memory available on Denva')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
             logger.warning('status: ORANGE due to low memory available on Denva')
             state.set_warn()
 
-        if utils.get_int_number_from_text(server_data['Free Space']) < 256:
+        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
             logger.warning('status: RED due to very low free space on Denva')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['Free Space']) < 1024:
+        elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
             logger.warning('status: ORANGE due to low free space on Denva')
             state.set_warn()
 
-        if utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
+        if dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
             logger.warning('status: RED due to very low data free space on Denva')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
+        elif dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
             logger.warning('status: ORANGE due to low data free space on Denva')
             state.set_warn()
 
@@ -233,31 +232,31 @@ def device_status():
         logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        if float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denviro')
             state.set_error()
-        elif float(utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denviro')
             state.set_warn()
 
-        if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
             logger.warning('status: RED due to very low memory available on Denviro')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
             logger.warning('status: ORANGE due to low memory available on Denviro')
             state.set_warn()
 
-        if utils.get_int_number_from_text(server_data['Free Space']) < 256:
+        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
             logger.warning('status: RED due to very low free space on Denviro')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['Free Space']) < 1024:
+        elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
             logger.warning('status: ORANGE due to low free space on Denviro')
             state.set_warn()
 
-        if utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
+        if dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
             logger.warning('status: RED due to very low data free space on Denviro')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
+        elif dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
             logger.warning('status: ORANGE due to low data free space on Denviro')
             state.set_warn()
 
@@ -278,17 +277,17 @@ def device_status():
         state.set_error()
     else:
         # TODO add CPU TEMP
-        if utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
             logger.warning('status: RED due to very low memory available on Server')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
             logger.warning('status: ORANGE due to low memory available on Server')
             state.set_warn()
 
-        if utils.get_int_number_from_text(server_data['Disk Free']) < 256:
+        if dom_utils.get_int_number_from_text(server_data['Disk Free']) < 256:
             logger.warning('status: RED due to very low disk free space on Server')
             state.set_error()
-        elif utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
+        elif dom_utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
             logger.warning('status: RED due to low disk free space on Server')
             state.set_warn()
 
@@ -304,23 +303,23 @@ def device_status():
     state = status.Status()
     delight_data = delight_service.get_system_info()
 
-    if float(utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+    if float(dom_utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
         logger.warning('status: RED due to very high cpu temp on Delight')
         state.set_error()
-    elif float(utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+    elif float(dom_utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
         logger.warning('status: ORANGE due to high cpu temp on Delight')
         state.set_warn()
-    if utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
+    if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
         logger.warning('status: RED due to very low memory available on Delight')
         state.set_error()
-    elif utils.get_int_number_from_text(delight_data['Memory Available']) < 256:
+    elif dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 256:
         logger.warning('status: ORANGE due to low memory available on Delight')
         state.set_warn()
 
-    if utils.get_int_number_from_text(delight_data['Free Space']) < 128:
+    if dom_utils.get_int_number_from_text(delight_data['Free Space']) < 128:
         logger.warning('status: RED due to very low free space on Delight')
         state.set_error()
-    elif utils.get_int_number_from_text(delight_data['Free Space']) < 512:
+    elif dom_utils.get_int_number_from_text(delight_data['Free Space']) < 512:
         logger.warning('status: ORANGE due to low free space on Delight')
         state.set_warn()
 

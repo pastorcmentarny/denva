@@ -18,12 +18,12 @@ from PIL import ImageFont
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
 
-import commands
-import get_description_for
-import iqa_utils
-import sensor_warnings
+from utils import commands, get_description_for
+
+
+from services import sensor_warnings_service
 from services import system_data_service
-import utils
+from utils import dom_utils
 from gateways import web_data_gateway
 
 logger = logging.getLogger('app')
@@ -48,7 +48,7 @@ def display_information(message: str):
 
 def draw_image_on_screen(data, app_uptime):
     global cycle
-    warnings_list = sensor_warnings.get_warnings_as_list(data)
+    warnings_list = sensor_warnings_service.get_warnings_as_list(data)
     img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (128, 128)], fill="black")
@@ -71,11 +71,11 @@ def draw_image_on_screen(data, app_uptime):
         if cycle % 2 == 0:
             draw.text((0, 28), "Humidity: {}".format(data["humidity"]), fill="white", font=rr_12)
             draw.text((0, 42), "Motion: {:05.02f}".format(data["motion"]), fill="white", font=rr_12)
-            draw.text((0, 56), "Colour: {}".format(utils.get_color_name(data["colour"])), fill="white", font=rr_12)
+            draw.text((0, 56), "Colour: {}".format(dom_utils.get_color_name(data["colour"])), fill="white", font=rr_12)
             draw.text((0, 70), "UVA: {}".format(get_description_for.uv(data["uva_index"])), fill="white", font=rr_12)
         else:
             draw.text((0, 28), "eco2: {}".format(data["eco2"]), fill="white", font=rr_12)
-            draw.text((0, 42), "Tvoc: {}".format(iqa_utils.iqa_from_tvoc(data["tvoc"])['score']), fill="white",
+            draw.text((0, 42), "Tvoc: {}".format(get_description_for.iqa_from_tvoc(data["tvoc"])['score']), fill="white",
                       font=rr_12)
             draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])),
                       fill="white", font=rr_12)
