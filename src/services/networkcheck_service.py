@@ -3,7 +3,7 @@ from timeit import default_timer as timer
 
 import requests
 
-from utils import data_files
+from common import data_files
 
 PERFECT = 'Perfect'
 GOOD = 'Good'

@@ -1,4 +1,4 @@
-from utils import dom_utils
+from common import dom_utils
 
 
 def get_errors(data: dict) -> list:

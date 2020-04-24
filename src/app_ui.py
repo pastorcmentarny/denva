@@ -19,8 +19,7 @@ from denva import denva_service, denva_sensors_service
 from reports import averages, records, report_service
 from services import information_service, email_sender_service, common_service
 from services import sensor_warnings_service
-from utils import commands
-from utils import data_files
+from common import data_files, commands
 
 app = Flask(__name__)
 logger = logging.getLogger('server')

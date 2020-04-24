@@ -18,7 +18,7 @@ from denva import denva_sensors_service
 from reports import averages, records
 from services import sensor_warnings_service
 from services import tubes_train_service
-from utils import dom_utils
+from common import dom_utils
 
 warnings_logger = logging.getLogger('warnings')
 stats_log = logging.getLogger('stats')

@@ -15,7 +15,7 @@ import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import config_service
-from utils import data_files, commands
+from common import data_files, commands
 from gateways import local_data_gateway, web_data_gateway
 from mothership import app_server_service
 from reports import report_service

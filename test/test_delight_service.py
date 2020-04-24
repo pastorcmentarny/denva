@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import config_service
-from utils import dom_utils
+from common import dom_utils
 from delight import delight_service
 from services import system_data_service
 

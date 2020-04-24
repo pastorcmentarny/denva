@@ -1,4 +1,4 @@
-from utils import dom_utils
+from common import dom_utils
 
 
 def generate_highscore_as_text(results: list, left_width=25, right_width=6) -> list:

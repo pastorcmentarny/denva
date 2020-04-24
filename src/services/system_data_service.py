@@ -4,7 +4,7 @@ import gc
 import psutil
 
 import config_service
-from utils import dom_utils
+from common import dom_utils
 
 
 def get_boot_time() -> str:

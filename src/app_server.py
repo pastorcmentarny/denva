@@ -18,12 +18,11 @@ import time
 
 import config_service
 import mothership.information_service as information
-from common import app_timer
+from common import app_timer, data_files
 from gateways import local_data_gateway
 from mothership import app_server_service
 from mothership import webcam_service
 from services import information_service, email_sender_service
-from utils import data_files
 
 logger = logging.getLogger('app')
 

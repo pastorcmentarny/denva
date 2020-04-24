@@ -1,7 +1,7 @@
 import datetime
 import logging
 
-from utils import dom_utils
+from common import dom_utils
 
 logger = logging.getLogger('server')
 

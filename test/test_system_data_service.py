@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from utils import dom_utils
+from common import dom_utils
 from services import system_data_service
 
 

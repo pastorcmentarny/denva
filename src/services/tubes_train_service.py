@@ -9,7 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-from utils import data_files, dom_utils
+from common import data_files, dom_utils
 
 
 def get_stats_file_for(year: str, month: str, day: str) -> list:

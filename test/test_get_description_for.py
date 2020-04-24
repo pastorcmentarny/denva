@@ -1,6 +1,6 @@
 import unittest
 
-from utils import get_description_for
+from common import get_description_for
 
 
 class MyTestCase(unittest.TestCase):

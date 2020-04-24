@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock
 
-from utils import dom_utils
+from common import dom_utils
 from mothership import celebrations
 
 

@@ -15,7 +15,7 @@ import re
 import config_service
 from denva import denva_sensors_service
 from denviro import denviro_sensors_service
-from utils import commands, dom_utils, get_description_for, data_files
+from common import commands, dom_utils, get_description_for, data_files
 
 warnings_logger = logging.getLogger('warnings')
 

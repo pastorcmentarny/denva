@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from utils import dom_utils
+from common import dom_utils
 from zeroeighttrack import leaderboard_ui
 
 

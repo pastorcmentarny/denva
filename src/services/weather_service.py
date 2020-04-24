@@ -3,9 +3,8 @@ import os
 from datetime import datetime
 
 import config_service
-from common import app_timer
+from common import app_timer, data_files
 from gateways import web_data_gateway
-from utils import data_files
 
 weather_file = config_service.get_data_path() + 'weather.txt'
 logger_app = logging.getLogger('app')

@@ -2,7 +2,7 @@ from pathlib import Path
 
 from _datetime import datetime
 
-from utils import dom_utils
+from common import dom_utils
 
 path = Path(__file__).parent / '../data/routine_daily.txt'
 

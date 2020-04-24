@@ -2,8 +2,7 @@ from datetime import date, datetime
 from unittest import TestCase
 from unittest.mock import patch
 
-from common import gobshite_exception
-from utils import dom_utils
+from common import gobshite_exception, dom_utils
 
 
 class Test(TestCase):
@@ -48,7 +47,7 @@ class Test(TestCase):
     # tag-mock-date
     def test_get_date_as_folders(self):
         # given
-        with patch('utils.dom_utils.date') as mock_date:
+        with patch('common.dom_utils.date') as mock_date:
             mock_date.today.return_value = date(2006, 6, 6)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
@@ -65,7 +64,7 @@ class Test(TestCase):
 
     def test_get_timestamp_title_with_time(self):
         # given
-        with patch('utils.dom_utils.datetime') as mock_date:
+        with patch('common.dom_utils.datetime') as mock_date:
             mock_date.now.return_value = datetime(2006, 6, 6, 10, 10, 10)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
@@ -82,7 +81,7 @@ class Test(TestCase):
 
     def test_get_timestamp_title_without_time(self):
         # given
-        with patch('utils.dom_utils.datetime') as mock_date:
+        with patch('common.dom_utils.datetime') as mock_date:
             mock_date.now.return_value = datetime(2006, 6, 6)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 

@@ -20,9 +20,7 @@ from email.mime.text import MIMEText
 from common import app_timer
 from reports import report_service
 from services import sensor_warnings_service
-from utils import commands
-from utils import data_files
-from utils import dom_utils
+from common import commands, data_files, dom_utils
 
 logger = logging.getLogger('app')
 

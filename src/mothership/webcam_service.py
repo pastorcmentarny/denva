@@ -6,7 +6,7 @@ from timeit import default_timer as timer
 import cv2
 import time
 
-from utils import dom_utils
+from common import dom_utils
 
 webcam = cv2.VideoCapture(0)
 logger = logging.getLogger('server')

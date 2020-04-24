@@ -19,7 +19,7 @@ from datetime import datetime
 from pathlib import Path
 
 import config_service
-from utils import dom_utils
+from common import dom_utils
 from denva import denva_sensors_service
 from denviro import denviro_sensors_service
 from services import email_sender_service

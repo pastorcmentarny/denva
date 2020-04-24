@@ -10,7 +10,7 @@
 """
 import platform
 
-from utils import dom_utils
+from common import dom_utils
 
 settings = {
     "mode": 'dev',
@@ -81,7 +81,7 @@ settings = {
         'server': 'E:\denva\src\data\information.json'
     },
     "test": {
-        'slow_test': False
+        'slow_test': True
     }
 }
 PI_PATH = '/home/pi/logs/'

@@ -16,7 +16,7 @@ import re
 import psutil
 import subprocess
 import time
-from utils import dom_utils
+from common import dom_utils
 
 from services import email_sender_service
 

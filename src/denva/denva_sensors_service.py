@@ -1,8 +1,7 @@
 from datetime import datetime
 import re
 import config_service as config
-from utils import data_files, commands
-from utils import dom_utils
+from common import data_files, commands, dom_utils
 
 
 def load_data_for_today() -> list:

@@ -30,9 +30,8 @@ from subprocess import PIPE, Popen
 
 import logging
 from denva import cl_display
-from utils import commands
 import config_service
-from utils import data_files
+from common import data_files, commands
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import email_sender_service
 from services import sensor_warnings_service

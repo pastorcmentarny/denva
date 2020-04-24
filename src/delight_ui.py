@@ -15,7 +15,7 @@ import sys
 from flask import Flask, jsonify
 
 import config_service
-from utils import data_files
+from common import data_files
 from delight import delight_service
 from services import common_service, email_sender_service
 

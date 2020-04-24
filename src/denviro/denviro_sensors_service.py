@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import config_service as config
-from utils import commands, dom_utils
+from common import commands, dom_utils
 
 
 def get_sensor_log_file():
