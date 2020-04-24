@@ -15,7 +15,7 @@ import requests
 import time
 
 import config_service
-from utils import data_files, commands, dom_utils
+from common import data_files, commands, dom_utils
 from services import email_sender_service
 from denva import denva_sensors_service
 

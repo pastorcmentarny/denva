@@ -25,7 +25,7 @@ from denva import cl_display
 # display removed from mothership import mini_display
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service
 from services import email_sender_service
-from utils import data_files, commands, dom_utils
+from common import data_files, commands, dom_utils
 
 bus = smbus.SMBus(1)
 
