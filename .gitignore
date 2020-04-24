@@ -5,3 +5,4 @@
 src/mothership/personal_stats.py
 /src/data/routine_daily.txt
 /venv/
+/output/
