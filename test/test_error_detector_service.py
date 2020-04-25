@@ -37,3 +37,171 @@ class Test(TestCase):
         # then
         self.assertEqual(len(result), 3)
         self.assertEqual(expected_result, result)
+
+    def test_bug_0001(self):
+        """KeyError: 'Memory Available' due to data not populated"""
+
+        # given
+        data = {
+            'system': {
+                'server': {
+                    'Memory Available': '999MB',
+                    'Disk Free': '999MB'
+                },
+                'denva': {
+                    'Memory Available': '999MB',
+                    'Free Space': '999MB',
+                    'Data Free Space': '999MB'
+                },
+                'enviro': {
+                    'Free Space': '999MB',
+                    'Data Free Space': '999MB'
+                },
+                'delight': {
+                    'Memory Available': '999MB',
+                    'Free Space': '999MB'
+                },
+            }
+        }
+
+        expected_result = ['Enviro data is missing.']
+        # when
+        result = error_detector_service.get_errors(data)
+
+        # then
+        self.assertEqual(len(result), 1)
+        self.assertEqual(expected_result, result)
+
+    def test_get_error_for_no_data(self):
+        # given
+        data = {}
+
+        expected_result = ['No data.']
+        # when
+        result = error_detector_service.get_errors(data)
+
+        # then
+        self.assertEqual(len(result), 1)
+        self.assertEqual(expected_result, result)
+
+
+def test_get_error_for_missing_server(self):
+    # given
+    data = {
+        'system': {
+            'server': {},
+            'denva': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB',
+                'Data Free Space': '999MB'
+            },
+            'enviro': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB',
+                'Data Free Space': '999MB'
+            },
+            'delight': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB'
+            },
+        }
+    }
+
+    expected_result = ['Server data is missing.']
+    # when
+    result = error_detector_service.get_errors(data)
+
+    # then
+    self.assertEqual(len(result), 1)
+    self.assertEqual(expected_result, result)
+
+
+def test_get_error_for_missing_denva(self):
+    # given
+    data = {
+        'system': {
+            'server': {
+                'Memory Available': '999MB',
+                'Disk Free': '999MB'
+            },
+            'denva': {},
+            'enviro': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB',
+                'Data Free Space': '999MB'
+            },
+            'delight': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB'
+            },
+        }
+    }
+
+    expected_result = ['Denva data is missing.']
+    # when
+    result = error_detector_service.get_errors(data)
+
+    # then
+    self.assertEqual(len(result), 1)
+    self.assertEqual(expected_result, result)
+
+
+def test_get_error_for_missing_enviro(self):
+    # given
+    data = {
+        'system': {
+            'server': {
+                'Memory Available': '999MB',
+                'Disk Free': '999MB'
+            },
+            'denva': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB',
+                'Data Free Space': '999MB'
+            },
+            'enviro': {},
+            'delight': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB'
+            },
+        }
+    }
+
+    expected_result = ['Enviro data is missing.']
+    # when
+    result = error_detector_service.get_errors(data)
+
+    # then
+    self.assertEqual(len(result), 1)
+    self.assertEqual(expected_result, result)
+
+
+def test_get_error_for_missing_delight(self):
+    # given
+    data = {
+        'system': {
+            'server': {
+                'Memory Available': '999MB',
+                'Disk Free': '999MB'
+            },
+            'denva': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB',
+                'Data Free Space': '999MB'
+            },
+            'enviro': {
+                'Memory Available': '999MB',
+                'Free Space': '999MB',
+                'Data Free Space': '999MB'
+            },
+            'delight': {},
+        }
+    }
+
+    expected_result = ['Delight data is missing.']
+    # when
+    result = error_detector_service.get_errors(data)
+
+    # then
+    self.assertEqual(len(result), 1)
+    self.assertEqual(expected_result, result)
