@@ -141,3 +141,31 @@ class Test(TestCase):
 
         # then
         self.assertFalse(result)
+
+    def test_get_date_as_filename(self):
+        # given
+        random_time = datetime(2020, 1, 2, 3, 4, 5)
+        expected_result = 'zeroeight-results-2020-01-02.txt'
+
+        # when
+        result = dom_utils.get_date_as_filename('zeroeight-results', 'txt', random_time)
+
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(expected_result, result)
+
+    def test_get_date_with_time_as_filename(self):
+        # given
+        random_time = datetime(2020, 4, 11, 12, 13, 14)
+        expected_result = 'zeroeight-results-2020-04-11-121314.txt'
+
+        # when
+        result = dom_utils.get_date_with_time_as_filename('zeroeight-results', 'txt', random_time)
+
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(expected_result, result)
