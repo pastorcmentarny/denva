@@ -8,8 +8,8 @@ def get_state_colour(current_state):
         color_blue = 0
     elif current_state.get_status_as_light_colour() == 'ORANGE':
         color_red = 255
-        color_green = 224
-        color_blue = 32
+        color_green = 110
+        color_blue = 0
     else:
         color_red = 0
         color_green = 255
