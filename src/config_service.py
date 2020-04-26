@@ -81,7 +81,7 @@ settings = {
         'server': 'E:\denva\src\data\information.json'
     },
     "test": {
-        'slow_test': True
+        'slow_test': False
     }
 }
 PI_PATH = '/home/pi/logs/'

@@ -13,8 +13,7 @@ import logging
 from datetime import datetime
 from timeit import default_timer as timer
 
-from common import app_timer
-from utils import data_files
+from common import app_timer, data_files
 from gateways import web_data_gateway
 from services import weather_service
 
