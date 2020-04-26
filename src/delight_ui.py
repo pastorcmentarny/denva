@@ -88,7 +88,7 @@ def get_measurement():
 
 if __name__ == '__main__':
     config_service.set_mode_to('delight')
-    data_files.setup_logging()
+    data_files.setup_logging('ui')
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:

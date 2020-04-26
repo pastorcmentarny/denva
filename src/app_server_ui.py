@@ -193,7 +193,7 @@ def welcome():
 
 if __name__ == '__main__':
     config_service.set_mode_to('server')
-    data_files.setup_logging('app')
+    data_files.setup_logging('ui')
     logger.info('Starting web server')
 
     try:

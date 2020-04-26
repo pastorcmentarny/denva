@@ -37,13 +37,13 @@ class Test(TestCase):
         # given
         scale_params_list = [('denva', 'app', '/home/pi/denva-master/src/configs/log_app_config.json'),
                              ('denva', 'ui', '/home/pi/denva-master/src/configs/log_ui_config.json'),
-                             ('dev', 'app', 'D:\Projects\denva\src\configs\dev_log_app_config.json'),
-                             ('dev', 'ui', 'D:\Projects\denva\src\configs\dev_log_ui_config.json'),
-                             ('server', 'app', 'E:\denva\src\configs\mothership_log_app_config.json'),
-                             ('server', 'ui', 'E:\denva\src\configs\mothership_log_ui_config.json')]
+                             ('dev', 'app', 'D:\GitHub\denva\src\configs\dev_log_app_config.json'),
+                             ('dev', 'ui', 'D:\GitHub\denva\src\configs\dev_log_ui_config.json'),
+                             ('server', 'app', 'E:\denva\src\configs\server_log_app_config.json'),
+                             ('server', 'ui', 'E:\denva\src\configs\server_log_ui_config.json')]
 
         for mode, an_input, expected_result in scale_params_list:
-            with self.subTest(msg="Checking to get_environment_log_path_for() for case {} ".format(an_input)):
+            with self.subTest(msg="Checking to get_environment_log_path_for() for mode {} & app type {} ".format(mode, an_input)):
                 # given
                 config_service.load_cfg()['mode'] = mode
                 # when
