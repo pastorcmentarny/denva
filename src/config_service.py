@@ -179,6 +179,7 @@ def get_disk_space_available_threshold():
 
 def get_system_drive() -> str:
     mode = get_mode()
+    print(mode)
     if mode == 'dev':
         return 'D:'
     elif mode == 'server':
