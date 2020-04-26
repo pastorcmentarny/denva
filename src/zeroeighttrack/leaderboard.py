@@ -1,3 +1,4 @@
+from services import backup_service
 from zeroeighttrack import leaderboard_utils, leaderboard_file, leaderboard_score
 
 results = leaderboard_file.load_leaderboard_from_file()
@@ -20,6 +21,7 @@ def load_results() -> list:
 
 def add_result(lap_result: str) -> int:
     result_as_dict = leaderboard_utils.convert_lap_result_request_to_dict(lap_result, len(results) + 1)
+    backup_service.backup_result(results)
     results.append(result_as_dict)
     leaderboard_file.save_leaderboard_to_file(results)
     return len(results)

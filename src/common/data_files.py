@@ -170,6 +170,19 @@ def backup_information_data(data: dict):
     save_dict_data_as_json(dir_path, data)
 
 
+def backup_results_data(results: list):
+    dt = datetime.now()
+    path = config_service.get_path_for_information_backup()
+    dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path, dt.year, dt.month, dt.day)
+    logger.debug('performing information backup using path {}'.format(dir_path))
+    Path(dir_path).mkdir(parents=True, exist_ok=True)
+    dir_path += "results-backup." + dom_utils.get_timestamp_file() + ".txt"
+    eight_track_results = open(path, 'w', newline='')
+    for result in results:
+        eight_track_results.write(leaderboard_utils.convert_result_to_line(result))
+        eight_track_results.write('\n')
+    eight_track_results.close()
+
 # TODO improve convert files to files_list
 def get_random_frame_picture_path():
     path = config_service.load_cfg()['paths']['frame'][config_service.get_mode()]
