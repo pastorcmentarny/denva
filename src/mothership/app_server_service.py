@@ -31,7 +31,7 @@ from gateways import web_data_gateway, local_data_gateway
 from mothership import daily
 from services import error_detector_service
 from services import weather_service, system_data_service
-from utils import data_files, dom_utils
+from common import data_files, dom_utils
 from zeroeighttrack import leaderboard
 
 logger = logging.getLogger('app')
