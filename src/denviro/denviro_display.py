@@ -9,8 +9,8 @@ from PIL import ImageDraw
 from PIL import ImageFont
 
 import config_service
+from common import commands
 from services import system_data_service
-from utils import commands
 
 logger = logging.getLogger('app')
 
@@ -34,7 +34,7 @@ font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 14)
 
 
 def display_on_screen(measurement: dict):
-    global cycle #FIXME
+    global cycle  # FIXME
     draw.rectangle((0, 0, 160, 80), fill="black")
     color1 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
     color2 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
@@ -78,7 +78,7 @@ def display_on_screen(measurement: dict):
 
 
 def set_brightness_for_screen(proximity):
-    global on #FIXME
+    global on  # FIXME
     if proximity > 1000:
         on = not on
         if on:

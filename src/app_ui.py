@@ -22,7 +22,7 @@ from services import sensor_warnings_service
 from common import data_files, commands
 
 app = Flask(__name__)
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 APP_NAME = 'Denva UI'
 
 
@@ -179,7 +179,7 @@ def welcome():
 
 if __name__ == '__main__':
     config_service.set_mode_to('denva')
-    data_files.setup_logging()
+    data_files.setup_logging('app')
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:

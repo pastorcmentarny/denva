@@ -18,13 +18,10 @@ from PIL import ImageFont
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
 
-from utils import commands, get_description_for
-
-
+from common import commands, get_description_for, dom_utils
+from gateways import web_data_gateway
 from services import sensor_warnings_service
 from services import system_data_service
-from utils import dom_utils
-from gateways import web_data_gateway
 
 logger = logging.getLogger('app')
 
@@ -75,7 +72,8 @@ def draw_image_on_screen(data, app_uptime):
             draw.text((0, 70), "UVA: {}".format(get_description_for.uv(data["uva_index"])), fill="white", font=rr_12)
         else:
             draw.text((0, 28), "eco2: {}".format(data["eco2"]), fill="white", font=rr_12)
-            draw.text((0, 42), "Tvoc: {}".format(get_description_for.iqa_from_tvoc(data["tvoc"])['score']), fill="white",
+            draw.text((0, 42), "Tvoc: {}".format(get_description_for.iqa_from_tvoc(data["tvoc"])['score']),
+                      fill="white",
                       font=rr_12)
             draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data["r"], data["g"], data["b"])),
                       fill="white", font=rr_12)

@@ -87,7 +87,7 @@ def main():
 def setup():
     start_time = timer()
     config_service.set_mode_to('server')
-    data_files.setup_logging()
+    data_files.setup_logging('app')
     information.refresh_all()
     end_time = timer()
     logger.info('Setup took {} ms.'.format(int((end_time - start_time) * 1000)))

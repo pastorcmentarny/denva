@@ -9,7 +9,7 @@ import time
 from common import dom_utils
 
 webcam = cv2.VideoCapture(0)
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 step = 0.1
 
 

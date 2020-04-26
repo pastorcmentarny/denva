@@ -23,7 +23,7 @@ from services import networkcheck_service as networkcheck, information_service, 
 from services import system_data_service
 
 app = Flask(__name__)
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 APP_NAME = 'Server UI'
 
 
@@ -193,7 +193,7 @@ def welcome():
 
 if __name__ == '__main__':
     config_service.set_mode_to('server')
-    data_files.setup_logging()
+    data_files.setup_logging('app')
     logger.info('Starting web server')
 
     try:

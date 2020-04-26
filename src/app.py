@@ -152,7 +152,7 @@ def cleanup_before_exit():
 if __name__ == '__main__':
     global points
     config_service.set_mode_to('denva')
-    data_files.setup_logging()
+    data_files.setup_logging('app')
     ui('Starting application ... \n Press Ctrl+C to shutdown')
     email_sender_service.send_ip_email('denva')
     try:

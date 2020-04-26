@@ -20,7 +20,7 @@ from delight import delight_service
 from services import common_service, email_sender_service
 
 app = Flask(__name__)
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 APP_NAME = 'Denva Delight UI'
 
 

@@ -455,5 +455,5 @@ def main():
 
 if __name__ == '__main__':
     config_service.set_mode_to('delight')
-    data_files.setup_logging()
+    data_files.setup_logging('app')
     main()

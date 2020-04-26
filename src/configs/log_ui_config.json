@@ -9,23 +9,23 @@
   "handlers": {
     "console": {
       "class": "logging.StreamHandler",
-      "level": "WARN",
+      "level": "DEBUG",
       "formatter": "simple",
       "stream": "ext://sys.stdout"
     },
     "log_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
-      "filename": "e:/denva/logs/logs.log",
+      "filename": "/home/pi/logs/server.log",
       "when": "midnight",
       "encoding": "utf8"
     },
     "warnings_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "DEBUG",
       "formatter": "simple",
-      "filename": "e:/denva/logs/warnings.log",
+      "filename": "/home/pi/logs/warnings.log",
       "when": "midnight",
       "encoding": "utf8"
     },
@@ -33,15 +33,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "e:/denva/logs/stats.log",
-      "when": "midnight",
-      "encoding": "utf8"
-    },
-    "server_file_handler": {
-      "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
-      "formatter": "simple",
-      "filename": "e:/denva/logs/server.log",
+      "filename": "/home/pi/logs/stats.log",
       "when": "midnight",
       "encoding": "utf8"
     },
@@ -49,14 +41,14 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "e:/denva/logs/healthcheck.log",
+      "filename": "/home/pi/logs/healthcheck.log",
       "when": "midnight",
       "encoding": "utf8"
     }
   },
   "loggers": {
     "app": {
-      "level": "INFO",
+      "level": "DEBUG",
       "handlers": [
         "log_file_handler"
       ],
@@ -66,13 +58,6 @@
       "level": "INFO",
       "handlers": [
         "warnings_file_handler"
-      ],
-      "propagate": false
-    },
-    "server": {
-      "level": "INFO",
-      "handlers": [
-        "server_file_handler"
       ],
       "propagate": false
     },
@@ -92,7 +77,7 @@
     }
   },
   "root": {
-    "level": "WARN",
+    "level": "DEBUG",
     "handlers": [
       "console"
     ]

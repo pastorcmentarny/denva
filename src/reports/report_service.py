@@ -15,7 +15,7 @@ from reports import report_generator
 from services import email_sender_service
 from common import data_files, dom_utils
 
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 
 
 def generate_enviro_report_for_yesterday() -> dict:

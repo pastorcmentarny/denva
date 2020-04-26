@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "simple": {
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    }
+  },
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "level": "WARN",
+      "formatter": "simple",
+      "stream": "ext://sys.stdout"
+    },
+    "log_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "e:/denva/logs/logs.log",
+      "when": "midnight",
+      "encoding": "utf8"
+    },
+    "warnings_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "e:/denva/logs/warnings.log",
+      "when": "midnight",
+      "encoding": "utf8"
+    },
+    "stats_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "e:/denva/logs/stats.log",
+      "when": "midnight",
+      "encoding": "utf8"
+    },
+    "healthcheck_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "e:/denva/logs/healthcheck.log",
+      "when": "midnight",
+      "encoding": "utf8"
+    }
+  },
+  "loggers": {
+    "app": {
+      "level": "INFO",
+      "handlers": [
+        "log_file_handler"
+      ],
+      "propagate": false
+    },
+    "warnings": {
+      "level": "INFO",
+      "handlers": [
+        "warnings_file_handler"
+      ],
+      "propagate": false
+    },
+    "stats": {
+      "level": "INFO",
+      "handlers": [
+        "stats_file_handler"
+      ],
+      "propagate": false
+    },
+    "hc": {
+      "level": "INFO",
+      "handlers": [
+        "healthcheck_file_handler"
+      ],
+      "propagate": false
+    }
+  },
+  "root": {
+    "level": "WARN",
+    "handlers": [
+      "console"
+    ]
+  }
+}

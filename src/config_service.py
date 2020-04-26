@@ -66,11 +66,16 @@ settings = {
         "delight": "http://192.168.0.203:5000"
     },
     "logs": {
-        'dev': 'D:\Projects\denva\src\configs\dev_log_config.json',
-        'server': 'E:\denva\src\configs\server_log_config.json',
-        'denva': '/home/pi/denva-master/src/configs/log_config.json',
-        'enviro': '/home/pi/denva-master/src/configs/log_config.json',
-        'delight': '/home/pi/denva-master/src/configs/log_config.json',
+        'dev_app': 'D:\GitHub\denva\src\configs\dev_log_app_config.json',
+        'dev_ui': 'D:\GitHub\denva\src\configs\dev_log_ui_config.json',
+        'server_app': 'E:\denva\src\configs\server_log_app_config.json',
+        'server_ui': 'E:\denva\src\configs\server_log_ui_config.json',
+        'denva_app': '/home/pi/denva-master/src/configs/log_app_config.json',
+        'denva_ui': '/home/pi/denva-master/src/configs/log_ui_config.json',
+        'denviro_app': '/home/pi/denva-master/src/configs/log_app_config.json',
+        'denviro_ui': '/home/pi/denva-master/src/configs/log_ui_config.json',
+        'delight_app': '/home/pi/denva-master/src/configs/log_app_config.json',
+        'delight_ui': '/home/pi/denva-master/src/configs/log_ui_config.json',
         'hc': '/home/pi/denva-master/src/configs/log_config.json',
         'log_app': '/home/pi/logs/logs.log',
         'log_hc': '/home/pi/logs/healthcheck.log',
@@ -92,9 +97,13 @@ def get_log_path_for(log_type: str) -> str:
     return settings['logs'][log_type]
 
 
-def get_environment_log_path_for() -> str:
+def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
-    return settings['logs'][env_type]
+    if env_type == 'dev':
+        return settings['logs']['dev_' + where]
+    if env_type == 'server':
+        return settings['logs']['server_' + where]
+    return settings['logs']['{}_{}'.format(env_type, where)]
 
 
 def get_information_path() -> str:

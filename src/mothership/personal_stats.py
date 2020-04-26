@@ -4,7 +4,7 @@ import config_service
 from common import data_files
 import logging
 
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 
 
 def convert_to_date_time(happen_at_time: str) -> datetime:

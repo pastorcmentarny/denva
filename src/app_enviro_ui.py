@@ -19,7 +19,7 @@ from services import email_sender_service, common_service
 import config_service
 
 app = Flask(__name__)
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 APP_NAME = 'Denva Enviro UI'
 
 
@@ -120,8 +120,8 @@ def get_measurement():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('enviro')
-    data_files.setup_logging()
+    config_service.set_mode_to('denviro')
+    data_files.setup_logging('ui')
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:

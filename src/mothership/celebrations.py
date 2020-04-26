@@ -3,7 +3,7 @@ import logging
 
 from common import dom_utils
 
-logger = logging.getLogger('server')
+logger = logging.getLogger('app')
 
 events = {
     '0101': ['New year day'],

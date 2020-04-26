@@ -136,8 +136,8 @@ def store_measurement(data, motion):
         logger.warning(exception)
 
 
-def setup_logging():
-    path = config_service.get_environment_log_path_for()
+def setup_logging(where: str):
+    path = config_service.get_environment_log_path_for(where)
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
@@ -182,6 +182,7 @@ def backup_results_data(results: list):
         eight_track_results.write(leaderboard_utils.convert_result_to_line(result))
         eight_track_results.write('\n')
     eight_track_results.close()
+
 
 # TODO improve convert files to files_list
 def get_random_frame_picture_path():

@@ -17,7 +17,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "DEBUG",
       "formatter": "simple",
-      "filename": "d:/denva/logs/logs.log",
+      "filename": "d:/denva/logs/server.log",
       "when": "midnight",
       "encoding": "utf8"
     },
@@ -34,14 +34,6 @@
       "level": "DEBUG",
       "formatter": "simple",
       "filename": "d:/denva/logs/stats.log",
-      "when": "midnight",
-      "encoding": "utf8"
-    },
-    "server_file_handler": {
-      "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "DEBUG",
-      "formatter": "simple",
-      "filename": "d:/denva/logs/server.log",
       "when": "midnight",
       "encoding": "utf8"
     },
@@ -67,14 +59,6 @@
       "level": "DEBUG",
       "handlers": [
         "warnings_file_handler"
-      ],
-      "propagate": false
-    },
-    "server": {
-      "level": "DEBUG",
-      "handlers": [
-        "server_file_handler",
-        "console"
       ],
       "propagate": false
     },

@@ -17,7 +17,7 @@ from timeit import default_timer as timer
 import sys
 from PIL import Image
 
-from utils import data_files
+from common import data_files
 
 logger = logging.getLogger('server')
 deleted = 0

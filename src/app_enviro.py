@@ -174,8 +174,8 @@ def main():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('enviro')
-    data_files.setup_logging()
+    config_service.set_mode_to('denviro')
+    data_files.setup_logging('app')
     ui('Starting application ... \n Press Ctrl+C to shutdown', True)
     ui('Logs config loaded.\nSending email', True)
     email_sender_service.send_ip_email('Denva Enviro+')
