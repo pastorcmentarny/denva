@@ -165,7 +165,6 @@ def do_picture():
 @app.route("/")
 def welcome():
     host = request.host_url[:-1]
-    page_now = host + str(url_for('now'))
     page_tube_trains = host + str(url_for('tube_trains_status'))
     page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
     page_recent_log_app = host + str(url_for('recent_log_app'))
@@ -174,7 +173,6 @@ def welcome():
     page_frame = host + str(url_for('frame'))
     page_webcam = host + str(url_for('do_picture'))
     data = {
-        'page_now': page_now,
         'page_tube_trains': page_tube_trains,
         'page_tt_delays_counter': page_tt_delays_counter,
         'page_recent_log_app': page_recent_log_app,
