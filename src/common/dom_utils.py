@@ -19,7 +19,7 @@ from datetime import timedelta
 from common.gobshite_exception import GobshiteException
 
 stats_log = logging.getLogger('stats')
-
+logger = logging.getLogger('app')
 
 def as_3_digit_number(index: int) -> str:
     return f"{index:03d}"
@@ -283,3 +283,13 @@ def convert_time_to_minutes(event: str) -> int:
 def is_weekend_day(today: datetime) -> bool:
     day_of_the_week = today.weekday()
     return day_of_the_week > 4
+
+
+def log_error_count(errors):
+    number_of_errors = len(errors)
+    if number_of_errors >= 2:
+        logger.error('Found {} error(s).'.format(len(errors)))
+    elif number_of_errors > 0:
+        logger.warning('Found {} error(s).'.format(len(errors)))
+    else:
+        logger.debug('No errors found.')
