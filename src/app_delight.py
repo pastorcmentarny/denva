@@ -44,7 +44,8 @@ RED = 'red'
 YELLOW = 'yellow'
 
 unicornhathd.rotation(180)
-unicornhathd.brightness(0.3)
+DEFAULT_BRIGHTNESS_LEVEL = 0.3
+unicornhathd.brightness(DEFAULT_BRIGHTNESS_LEVEL)
 
 colors = [ORANGE, GREEN, GREY, BLUE, PURPLE, RED, YELLOW]  # change generate function too
 
@@ -58,6 +59,7 @@ def get_population() -> list:
 
 blue_pilled_population = get_population()
 clock = 0
+cycle = 0
 
 grey_rgb = [
     [154, 173, 154], [255, 255, 255], [235, 235, 235], [220, 220, 220],
@@ -135,8 +137,9 @@ def show_on_screen(pixel_list: list):
 
 def sub_light_travel():
     global clock
-
-    logger.info('Spacedate: {}. Currently, we are in sub space zone..'.format(clock))
+    global cycle
+    cycle += 1
+    logger.info('Spacedate: {}. Currently, we are in sub space zone..'.format(cycle))
 
     running = True
     while running:
@@ -169,8 +172,21 @@ def to_x(i: int) -> int:
 
 
 # TODO prototype
+def update_blink(blink, state) -> bool:
+    if blink:
+        return blink
+    elif state != 0:
+        logger.debug('Set animation to blinking')
+        return True
+    return False
+
+
 def device_status():
-    logger.info('checking devices status...')
+    global cycle
+    cycle += 1
+    logger.info('checking devices status... (Cycle: {})'.format(cycle))
+
+    blink = False
     # 1. denva, 2. denviro, 3. server, 4. delight
     unicornhathd.rotation(270)
 
@@ -218,7 +234,7 @@ def device_status():
             state.set_warn()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-
+    update_blink(blink, state.state)
     unicornhathd.set_pixel(to_x(1), 1, purple_r, purple_g, purple_b)
     set_status_for_device(1, 13, color_red, color_green, color_blue)
     logger.info('Denva: {}' + state.get_status_as_light_colour())
@@ -260,6 +276,7 @@ def device_status():
             state.set_warn()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
+    update_blink(blink, state.state)
 
     unicornhathd.set_pixel(to_x(5), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(7), 1, purple_r, purple_g, purple_b)
@@ -291,6 +308,7 @@ def device_status():
             state.set_warn()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
+    update_blink(blink, state.state)
 
     unicornhathd.set_pixel(to_x(9), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(11), 1, purple_r, purple_g, purple_b)
@@ -323,6 +341,7 @@ def device_status():
         state.set_warn()
 
     color_blue, color_green, color_red = delight_utils.get_state_colour(state)
+    update_blink(blink, state.state)
 
     unicornhathd.set_pixel(to_x(13), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(15), 1, purple_r, purple_g, purple_b)
@@ -336,7 +355,12 @@ def device_status():
         unicornhathd.show()
         time.sleep(15)
     else:
-        perform_state_animation()
+        if blink:
+            perform_state_animation()
+        else:
+            unicornhathd.brightness(DEFAULT_BRIGHTNESS_LEVEL)
+            unicornhathd.show()
+            time.sleep(15)
 
     unicornhathd.rotation(180)
 
@@ -348,7 +372,7 @@ def perform_state_animation():
     b4 = [0.40, 0.41, 0.42, 0.43, 0.44, 0.45, 0.46, 0.47, 0.48, 0.49]
     b5 = [0.50, 0.51, 0.52, 0.53, 0.54, 0.55, 0.56, 0.57, 0.58, 0.59]
     b6 = [0.60, 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69]
-    brightnesses = [0.3]
+    brightnesses = [DEFAULT_BRIGHTNESS_LEVEL]
     brightnesses.extend(b3)
     brightnesses.extend(b4)
     brightnesses.extend(b5)
@@ -402,8 +426,9 @@ def set_status_for_device(x: int, y: int, color_red: int, color_green: int, colo
 
 def in_the_warp():
     global clock
-
-    logger.info('Spacedate: {}. Currently, we are in the warp..'.format(clock))
+    global cycle
+    cycle += 1
+    logger.info('Spacedate: {}. Currently, we are in the warp..'.format(cycle))
 
     star_count = 25
     star_speed = 0.01
