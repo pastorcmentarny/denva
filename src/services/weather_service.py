@@ -11,7 +11,11 @@ logger = logging.getLogger('app')
 
 def save_weather_to_file(weather_data: list, weather_file: str):
     now = datetime.now()
-    weather_data.append(str('{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)))
+    weather_timestamp = str('{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+
+    logger.info('Saving updated weather to file using timestamp: {}'.format(weather_timestamp))
+
+    weather_data.append(weather_timestamp)
     data_files.save_list_to_file(weather_data, weather_file)
 
 
@@ -22,8 +26,8 @@ def is_weather_data_expired(date: str) -> bool:
 
 
 def get_weather() -> list:
-    weather_file = config_service.get_data_path() + 'weather.txt'
     logger.info('Getting weather')
+    weather_file = config_service.get_data_path() + 'weather.txt'
     if not os.path.exists(weather_file):
         logger.info('File not exists. Getting weather from the web')
         weather_data = web_data_gateway.get_weather()
@@ -31,13 +35,14 @@ def get_weather() -> list:
         logger.info('loading data from the file')
         weather_data = data_files.load_weather(weather_file)
         if is_weather_data_expired(weather_data[len(weather_data) - 1]):
-            logger.info('weather in the file is out of date, Getting weather from the web')
+            logger.info('Weather in the file is out of date, Getting weather from the web')
             weather_data = web_data_gateway.get_weather()
         else:
             logger.info('returning weather from the file')
             return weather_data
     if weather_data != ['Weather data N/A']:
         save_weather_to_file(weather_data, weather_file)
+        logger.info('returning updated weather')
         return weather_data
     logger.error('Something went badly wrong')
     return ['Weather data N/A']

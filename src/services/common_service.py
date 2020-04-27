@@ -1,6 +1,6 @@
 import config_service
-from services import system_data_service
 from common import commands
+from services import system_data_service
 
 
 def run_gc() -> dict:

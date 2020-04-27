@@ -133,6 +133,7 @@ def cleanup_weather_data(weather: str) -> list:
 
 
 def get_weather() -> list:
+    logger.info('Getting weather data..')
     try:
         response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
         response.encoding = "utf-8"

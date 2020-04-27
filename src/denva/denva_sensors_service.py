@@ -140,7 +140,7 @@ def get_warnings(data) -> dict:
         warnings['tvoc'] = 'Air Quality BAD: {}'.format(data['tvoc'])
     elif int(data['tvoc']) > 1500:
         warnings['tvoc'] = 'Air Quality POOR: {}'.format(data['tvoc'])
-
+    dom_utils.log_error_count(warnings)
     return warnings
 
 

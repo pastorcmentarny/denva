@@ -8,7 +8,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_get_state_colour(self):
         # given
-        scale_params_list = [(0, (255, 0, 0)), (1, (255, 224, 32)), (2, (0, 255, 0))]
+        scale_params_list = [(0, (255, 0, 0)), (1, (255, 110, 0)), (2, (0, 255, 0))]
 
         for an_input, expected_result in scale_params_list:
             with self.subTest(msg="Checking to get_state_colour() for  {} ".format(an_input)):

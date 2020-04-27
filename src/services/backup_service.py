@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -7,9 +8,13 @@ import config_service
 from common import dom_utils
 from zeroeighttrack import leaderboard_utils
 
+logger = logging.getLogger('app')
+
 
 def backup_result(results: list):
     dt = datetime.now()
+    logger.info('Backing result to file (currently there are {} results) '.format(len(results)))
+
     dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(config_service.get_path_for_information_backup(), dt.year,
                                                        dt.month, dt.day)
     Path(dir_path).mkdir(parents=True, exist_ok=True)

@@ -206,5 +206,5 @@ def get_warnings_as_list(data) -> list:
     elif tvoc['value'] > 1500:
         warnings.append('{} with value {}'.format(tvoc['information'], tvoc['value']))
         warnings_logger.warning('[iqw] {} with value {}'.format(tvoc['information'], tvoc['value']))
-
+    dom_utils.log_error_count(warnings)
     return warnings

@@ -1,4 +1,8 @@
+import logging
+
 from common import dom_utils
+
+logger = logging.getLogger('app')
 
 
 def get_errors(data: dict) -> list:
@@ -45,5 +49,8 @@ def get_errors(data: dict) -> list:
             errors.append('Free space on disk  ON DELIGHT is VERY LOW.')
     else:
         errors.append('Delight data is missing.')
-
+    dom_utils.log_error_count(errors)
     return errors
+
+
+

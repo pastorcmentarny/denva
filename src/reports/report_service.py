@@ -50,6 +50,6 @@ def generate_for_yesterday() -> dict:
         logger.error('Unable to generate report due to {}.Returning empty report'.format(e), exc_info=True)
         return {'error': str(e)}
 
-
+#TODO implement it
 def get_reports_from_denva_and_enviro():
     return None
