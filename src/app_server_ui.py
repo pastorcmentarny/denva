@@ -172,21 +172,8 @@ def welcome():
     page_ricky = host + str(url_for('ricky'))
     page_frame = host + str(url_for('frame'))
     page_webcam = host + str(url_for('do_picture'))
-    data = {
-        'page_tube_trains': page_tube_trains,
-        'page_tt_delays_counter': page_tt_delays_counter,
-        'page_recent_log_app': page_recent_log_app,
-        'page_frame': page_frame,
-        'page_webcam': page_webcam,
-        'page_ricky': page_ricky,
-        'page_gateway': page_gateway,
-        'warnings': local_data_gateway.get_current_warnings_for_all_services(),
-        'denva': local_data_gateway.get_current_reading_for_denva(),
-        'enviro': local_data_gateway.get_current_reading_for_enviro(),
-        'system': app_server_service.get_current_system_information_for_all_services(),
-        'links': app_server_service.get_links_for_gateway(),
-    }
-    data['errors'] = app_server_service.get_errors_from_data(data)
+    data = app_server_service.get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky, page_tt_delays_counter,
+                             page_tube_trains, page_webcam)
 
     return render_template('dashboard-server.html', message=data)
 
