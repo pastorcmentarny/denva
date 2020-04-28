@@ -80,6 +80,7 @@ def add_row(data, row):
     )
 
 def get_warnings(data) -> dict:
+    print(data)
     warnings = {}
     if type(data['temp']) is not float:
         data['temp'] = float(data['temp'])
@@ -115,13 +116,15 @@ def get_warnings(data) -> dict:
 
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
-    if data['cpu_temp'] > config['sensor']['cpu_temp_fatal']:
+    sensor_config_data = config.load_cfg()
+
+    if data['cpu_temp'] > sensor_config_data['sensor']['cpu_temp_fatal']:
         warnings['cpu_temp'] = 'CPU temperature is too high [cthf]. Current temperature is: {}'.format(
             str(data['cpu_temp']))
-    elif data['cpu_temp'] > config['sensor']['cpu_temp_error']:
+    elif data['cpu_temp'] > sensor_config_data['sensor']['cpu_temp_error']:
         warnings['cpu_temp'] = 'CPU temperature is very high [cthe]. Current temperature is: {}'.format(
             str(data['cpu_temp']))
-    elif data['cpu_temp'] > config['sensor']['cpu_temp_warn']:
+    elif data['cpu_temp'] > sensor_config_data['sensor']['cpu_temp_warn']:
         warnings['cpu_temp'] = 'CPU temperature is high [cthw]. Current temperature is: {}'.format(
             str(data['cpu_temp']))
 
