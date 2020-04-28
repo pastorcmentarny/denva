@@ -26,7 +26,8 @@ def get_current_logs_for_all_services() -> dict:
     return {
         'app': {
             'denva': get_data_for('{}/log/app/recent'.format(config_service.load_cfg()["urls"]['denva'])),
-            'enviro': get_data_for('{}/log/app/recent'.format(config_service.load_cfg()["urls"]['enviro']))
+            'enviro': get_data_for('{}/log/app/recent'.format(config_service.load_cfg()["urls"]['enviro'])),
+            'delight': get_data_for('{}/log/app/recent'.format(config_service.load_cfg()["urls"]['delight']))
         },
         'hc': {
             'denva': get_data_for('{}/log/hc/recent'.format(config_service.load_cfg()["urls"]['denva'])),
@@ -48,5 +49,6 @@ def get_current_warnings_for_all_services() -> dict:
     return {
         'denva': get_data_for(config_service.get_current_warnings_url_for('denva')),
         'enviro': get_data_for(config_service.get_current_warnings_url_for('enviro')),
+        'delight': system_data_service.get_system_warnings(),
         'server': system_data_service.get_system_warnings()
     }
