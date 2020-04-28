@@ -18,24 +18,12 @@ import config_service
 from common import data_files, commands
 from denva import denva_service, denva_sensors_service
 from reports import averages, records
-from services import email_sender_service, common_service
-from services import sensor_warnings_service
+from reports import report_service
+from services import email_sender_service, common_service, sensor_warnings_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
 APP_NAME = 'Denva UI'
-
-
-@app.route("/stats")
-def stats():
-    logger.info('Get all stats for today')
-    return jsonify(denva_service.get_all_stats_for_today())
-
-
-@app.route("/records")
-def record():
-    logger.info('Getting record measurement from today')
-    return jsonify(records.get_records_for_today())
 
 
 @app.route("/avg")
@@ -44,43 +32,9 @@ def average():
     return jsonify(averages.get_averages_for_today())
 
 
-@app.route("/warns")
-def today_warns():
-    logger.info('Getting all warnings from today')
-    return jsonify(sensor_warnings_service.get_warnings_for_today())
-
-
-@app.route("/warns/now")
-def current_warns():
-    logger.info('Getting current warnings')
-    return jsonify(sensor_warnings_service.get_current_warnings())
-
-
-@app.route("/warns/count")
-def count_warns():
-    logger.info('Getting warnings count')
-    return jsonify(denva_sensors_service.count_warnings(sensor_warnings_service.get_warnings_for_today()))
-
-
-@app.route("/warns/date")
-def specific_day_warns():
-    year = request.args.get('year')
-    month = request.args.get('month')
-    day = request.args.get('day')
-    logger.info('Getting warnings for {}.{}.{}'.format(day, month, year))
-    return jsonify(sensor_warnings_service.get_warnings_for(year, month, day))
-
-
-@app.route("/now")
-def now():
-    logger.info('Getting last measurement')
-    return jsonify(denva_sensors_service.get_last_measurement())
-
-
-@app.route("/system")
-def system():
-    logger.info('Getting information about system')
-    return jsonify(common_service.get_system_info())
+@app.route("/hc")
+def healthcheck():
+    return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
 @app.route("/log/system")
@@ -125,9 +79,61 @@ def recent_log_ui():
     return jsonify(common_service.get_log_ui(20))
 
 
-@app.route("/hc")
-def healthcheck():
-    return jsonify(common_service.get_healthcheck(APP_NAME))
+@app.route("/now")
+def now():
+    logger.info('Getting last measurement')
+    return jsonify(denva_sensors_service.get_last_measurement())
+
+
+@app.route("/report/yesterday")
+def last_report():
+    logger.info('Getting report for yesterday')
+    return jsonify(report_service.generate_for_yesterday())
+
+
+@app.route("/records")
+def record():
+    logger.info('Getting record measurement from today')
+    return jsonify(records.get_records_for_today())
+
+
+@app.route("/stats")
+def stats():
+    logger.info('Get all stats for today')
+    return jsonify(denva_service.get_all_stats_for_today())
+
+
+@app.route("/system")
+def system():
+    logger.info('Getting information about system')
+    return jsonify(common_service.get_system_info())
+
+
+@app.route("/warns")
+def today_warns():
+    logger.info('Getting all warnings from today')
+    return jsonify(sensor_warnings_service.get_warnings_for_today())
+
+
+@app.route("/warns/now")
+def current_warns():
+    logger.info('Getting current warnings')
+    return jsonify(sensor_warnings_service.get_current_warnings())
+
+
+@app.route("/warns/count")
+def count_warns():
+    logger.info('Getting warnings count')
+    return jsonify(denva_sensors_service.count_warnings(sensor_warnings_service.get_warnings_for_today()))
+
+
+@app.route("/warns/date")
+def specific_day_warns():
+    year = request.args.get('year')
+    month = request.args.get('month')
+    day = request.args.get('day')
+    logger.info('Getting warnings for {}.{}.{}'.format(day, month, year))
+    return jsonify(sensor_warnings_service.get_warnings_for(year, month, day))
 
 
 @app.route("/")
