@@ -462,8 +462,18 @@ def in_the_warp():
             running = False
 
 
+def startup():
+    unicornhathd.brightness(1.0)
+    for x in range(0, 16):
+        for y in range(0, 16):
+            unicornhathd.set_pixel(x, y, 255, 255, 255)
+    unicornhathd.show()
+    time.sleep(13)
+
+
 def main():
     try:
+        startup()
         while True:
             if is_night_mode():
                 device_status()
