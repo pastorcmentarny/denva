@@ -463,7 +463,7 @@ def in_the_warp():
 
 
 def startup():
-    unicornhathd.brightness(1.0)
+    unicornhathd.brightness(0.9)
     for x in range(0, 16):
         for y in range(0, 16):
             unicornhathd.set_pixel(x, y, 255, 255, 255)
