@@ -15,11 +15,11 @@ import sys
 from flask import Flask, jsonify, url_for, request, render_template
 
 import config_service
-from denva import denva_service, denva_sensors_service
-from reports import averages, records, report_service
-from services import information_service, email_sender_service, common_service
-from services import sensor_warnings_service
 from common import data_files, commands
+from denva import denva_service, denva_sensors_service
+from reports import averages, records
+from services import email_sender_service, common_service
+from services import sensor_warnings_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -125,22 +125,9 @@ def recent_log_ui():
     return jsonify(common_service.get_log_ui(20))
 
 
-@app.route("/report/yesterday")
-def last_report():
-    logger.info('Getting report for yesterday')
-    return jsonify(report_service.generate_for_yesterday())
-
-
 @app.route("/hc")
 def healthcheck():
     return jsonify(common_service.get_healthcheck(APP_NAME))
-
-
-# TODO remove it
-@app.route("/ricky")
-def ricky():
-    logger.info('Getting various data about Ricky')
-    return jsonify(information_service.get_data_about_rickmansworth())
 
 
 @app.route("/")
@@ -155,10 +142,8 @@ def welcome():
     page_warns = host + str(url_for('today_warns'))
     page_warns_now = host + str(url_for('current_warns'))
     page_warns_count = host + str(url_for('count_warns'))
-    page_last_report = host + str(url_for('last_report'))
     page_recent_log_app = host + str(url_for('log_app'))
     page_recent_log_hc = host + str(url_for('log_hc'))
-    page_ricky = host + str(url_for('ricky'))
     data = {
         'page_now': page_now,
         'page_system': page_system,
@@ -168,10 +153,8 @@ def welcome():
         'page_warns': page_warns,
         'page_warns_now': page_warns_now,
         'page_warns_count': page_warns_count,
-        'page_last_report': page_last_report,
         'page_recent_log_app': page_recent_log_app,
-        'page_recent_log_hc': page_recent_log_hc,
-        'page_ricky': page_ricky
+        'page_recent_log_hc': page_recent_log_hc
     }
 
     return render_template('dashboard.html', message=data)

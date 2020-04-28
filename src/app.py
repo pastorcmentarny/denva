@@ -21,11 +21,11 @@ import time
 from PIL import ImageFont
 
 import config_service
+from common import data_files, commands, dom_utils
 from denva import cl_display
 # display removed from mothership import mini_display
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service
 from services import email_sender_service
-from common import data_files, commands, dom_utils
 
 bus = smbus.SMBus(1)
 
@@ -85,12 +85,6 @@ def get_pictures_path():
     return pictures_path
 
 
-def ui(message: str):
-    logging.info(message)
-    # display removed mini_display.display_information(message)
-    # print(message)
-
-
 def main():
     measurement_counter = 0
     two_led_service.led_startup_show()
@@ -110,15 +104,8 @@ def main():
             logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
 
             cl_display.print_measurement(data)
-            # display removed mini_display.draw_image_on_screen(data, app_timer.get_app_uptime(app_startup_time))
-            # deprecated but i will change settings to send them via config settings
-            # measurement_storage_service.send('denva', data)
 
             data['picture_path'] = get_pictures_path()
-
-            # deprecated but i will change settings to send them via config settings
-            # email_sender_service.should_send_email(data)
-            # email_sender_service.should_send_report_email()
 
             remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 
@@ -126,25 +113,11 @@ def main():
                 time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
 
         except KeyboardInterrupt:
-            ui('request application shut down.. goodbye!')
+            logging.info('request application shut down.. goodbye!')
             cleanup_before_exit()
 
 
-''' #camera moved to server,
-def thread_camera():
-    logger.info('Starting taking picture thread..', exc_info=True)
-    while True:
-        time.sleep(5)
-        last_picture = commands.capture_picture()
-        if last_picture != "":
-            pictures.append(last_picture)
-            if len(pictures) > 5:
-                pictures.pop(0)
-'''
-
-
 def cleanup_before_exit():
-    # camera moved to server, camera_thread.join()
     two_led_service.on()
     sys.exit(0)
 
@@ -153,17 +126,16 @@ if __name__ == '__main__':
     global points
     config_service.set_mode_to('denva')
     data_files.setup_logging('app')
-    ui('Starting application ... \n Press Ctrl+C to shutdown')
+    logging.info('Starting application ... \n Press Ctrl+C to shutdown')
     email_sender_service.send_ip_email('denva')
     try:
-        ui('Mounting network drives')
+        logging.info('Mounting network drives')
         commands.mount_all_drives()
-        # camera moved to server, camera_thread = threading.Thread(target=thread_camera)
-        # camera moved to server, camera_thread.start()
-        ui("Sensor warming up, please wait...")
+
+        logging.info("Sensor warming up, please wait...")
         air_quality_service.start_measurement()
         motion_service.sample()
-        ui('Sensor needed {} seconds to warm up'.format(counter))
+        logging.info('Sensor needed {} seconds to warm up'.format(counter))
         two_led_service.off()
         main()
     except Exception as e:
