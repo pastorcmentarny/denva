@@ -18,9 +18,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from common import app_timer
+from common import commands, data_files, dom_utils
 from reports import report_service
 from services import sensor_warnings_service
-from common import commands, data_files, dom_utils
 
 logger = logging.getLogger('app')
 

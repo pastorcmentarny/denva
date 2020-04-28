@@ -4,6 +4,7 @@ from timeit import default_timer as timer
 import requests
 
 from common import data_files
+from gateways import web_data_gateway
 
 PERFECT = 'Perfect'
 GOOD = 'Good'
@@ -43,20 +44,7 @@ def network_check(in_china: bool = False) -> dict:
 
     start_time = timer()
 
-    for page in pages:
-
-        logger.info('checking connection to :{}'.format(page))
-
-        try:
-            response = requests.get(page, headers=headers)
-
-            if response.status_code == 200:
-                ok += 1
-            else:
-                response.raise_for_status()
-        except Exception as whoops:
-            logger.warning('Response error: {}'.format(whoops))
-            problems.append(whoops)
+    ok = web_data_gateway.check_pages(headers, ok, pages, problems)
     status = _get_network_status(ok)
 
     end_time = timer()

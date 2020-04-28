@@ -107,21 +107,4 @@ class Test(TestCase):
                 # then
                 self.assertEqual(expected_result, result)
 
-    def test_cleanup_weather_data(self):
-        # given
-        weather = """Today.
-Maximum daytime temperature: 18 degrees Celsius;
-Minimum nighttime temperature: 5 degrees Celsius.
-Clear.
-Sunrise: 06:05; Sunset: 20:00.
-UV: Moderate;
-Pollution: Moderate;
-Pollen: High."""
-        expected_result = ['Max temp.: 18 °C', 'Min temp.: 5 °C', 'Clear', 'Sunrise: 06:05', 'Sunset: 20:00',
-                           'UV: Moderate', 'Pollution: Moderate', 'Pollen: High']
 
-        # when
-        result = web_data_gateway.cleanup_weather_data(weather)
-
-        # then
-        self.assertEqual(expected_result, result)

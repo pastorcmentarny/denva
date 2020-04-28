@@ -22,7 +22,7 @@ logger = logging.getLogger('app')
 def get_train() -> str:
     logger.info('Getting Chiltern Railways data..')
     try:
-        response = requests.get('https://www.nationalrail.co.uk/service_disruptions/indicator.aspx')
+        response = requests.get('https://www.nationalrail.co.uk/service_disruptions/indicator.aspx', timeout=5)
         log_response_result(response, 'trains')
         train_status = ''
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
@@ -41,7 +41,7 @@ def get_train() -> str:
 def get_tube(online: bool):
     logger.info('Getting tube data..')
     try:
-        response = requests.get('https://api.tfl.gov.uk/line/mode/tube/status')
+        response = requests.get('https://api.tfl.gov.uk/line/mode/tube/status', timeout=5)
         log_response_result(response, 'tube')
 
         data = json.loads(response.text)
@@ -81,7 +81,7 @@ def get_status() -> list:
 def get_crime() -> str:
     logger.info('Getting Crime data..')
     try:
-        response = requests.get('https://www.police.uk/hertfordshire/C02/crime/')
+        response = requests.get('https://www.police.uk/hertfordshire/C02/crime/', timeout=5)
         log_response_result(response, 'crime')
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
@@ -98,7 +98,8 @@ def get_crime() -> str:
 def get_flood() -> str:
     logger.info('Getting Flood data..')
     try:
-        response = requests.get('https://flood-warning-information.service.gov.uk/warnings?location=Rickmansworth')
+        response = requests.get('https://flood-warning-information.service.gov.uk/warnings?location=Rickmansworth',
+                                timeout=5)
         log_response_result(response, 'flood')
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
@@ -118,24 +119,10 @@ def get_flood() -> str:
         return 'Flood data N/A'
 
 
-def cleanup_weather_data(weather: str) -> list:
-    result = weather.split(';')
-    result_list = []
-    for x in result:
-        y = x.split('.')
-        for z in y:
-            z = z.replace('Maximum ', 'Max').replace('Minimum ', 'Min').replace('temperature', ' temp.').replace(
-                'daytime ', '').replace('nighttime ', '').replace('degrees Celsius', '°C')
-            if z:
-                result_list.append(z.strip())
-    result_list.remove('Today')
-    return result_list
-
-
-def get_weather() -> list:
+def get_weather() -> str:
     logger.info('Getting weather data..')
     try:
-        response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg')
+        response = requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg', timeout=5)
         response.encoding = "utf-8"
         log_response_result(response, 'weather')
 
@@ -143,7 +130,7 @@ def get_weather() -> list:
 
         weather = html_manager.select('#tabDay0')[0].find('div').text
         stats_log.info(weather)
-        return cleanup_weather_data(weather)
+        return weather
     except Exception as whoops:
         logger.error('Unable to get weather data due to: {}'.format(whoops))
         return ['Weather data N/A']
@@ -152,7 +139,8 @@ def get_weather() -> list:
 def get_o2_status() -> str:
     try:
         response = requests.get(
-            'https://status.o2.co.uk/api/care/2010-11-22/outages/near/radius/-1/lon/-0.5057294/lat/51.6367404/service/0/operator/0/ctype/10/address/wd38ql/customer/e1kGKHRsWmAycFN9JH4rdhsxE1gBXHlRdC0/auth/A5FDC03C:::620B3907?uuid=8d40762059154803b6dee4391394666c&browser_uuid=4a9f19cbf4fb488e8ba81e6994e89731&id=0b1b8c44-6800-9e4d-61a3-4935d46b5bc1')
+            'https://status.o2.co.uk/api/care/2010-11-22/outages/near/radius/-1/lon/-0.5057294/lat/51.6367404/service/0/operator/0/ctype/10/address/wd38ql/customer/e1kGKHRsWmAycFN9JH4rdhsxE1gBXHlRdC0/auth/A5FDC03C:::620B3907?uuid=8d40762059154803b6dee4391394666c&browser_uuid=4a9f19cbf4fb488e8ba81e6994e89731&id=0b1b8c44-6800-9e4d-61a3-4935d46b5bc1',
+            timeout=5)
         html_manager = bs4.BeautifulSoup(response.text, "html.parser")
         log_response_result(response, "o2")
         o2_data = json.loads(str(html_manager))
@@ -195,7 +183,7 @@ def _get_scale_result_from(city: str, index: int) -> str:
 def get_pollution_for(city: str) -> str:
     logger.info('weather')
     try:
-        response = requests.get('https://aqicn.org/city/{}/'.format(city))
+        response = requests.get('https://aqicn.org/city/{}/'.format(city), timeout=5)
         response.encoding = "utf-8"
         log_response_result(response, 'weather')
 
@@ -208,3 +196,23 @@ def get_pollution_for(city: str) -> str:
     except Exception as whoops:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))
         return 'Pollution data N/A'
+
+
+def check_pages(headers, ok, pages, problems):
+    # TODO move to web_data_gateway
+    for page in pages:
+
+        logger.info('checking connection to :{}'.format(page))
+
+        try:
+            response = requests.get(page, headers=headers, timeout=5)
+
+            if response.status_code == 200:
+                ok += 1
+            else:
+                response.raise_for_status()
+        except Exception as whoops:
+            logger.warning('Response error: {}'.format(whoops))
+            problems.append(whoops)
+
+    return ok

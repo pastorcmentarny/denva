@@ -31,12 +31,14 @@ def get_weather() -> list:
     if not os.path.exists(weather_file):
         logger.info('File not exists. Getting weather from the web')
         weather_data = web_data_gateway.get_weather()
+        weather_data = cleanup_weather_data(weather_data)
     else:
         logger.info('loading data from the file')
         weather_data = data_files.load_weather(weather_file)
         if is_weather_data_expired(weather_data[len(weather_data) - 1]):
             logger.info('Weather in the file is out of date, Getting weather from the web')
             weather_data = web_data_gateway.get_weather()
+            weather_data = cleanup_weather_data(weather_data)
         else:
             logger.info('returning weather from the file')
             return weather_data
@@ -46,3 +48,17 @@ def get_weather() -> list:
         return weather_data
     logger.error('Something went badly wrong')
     return ['Weather data N/A']
+
+
+def cleanup_weather_data(weather: str) -> list:
+    result = weather.split(';')
+    result_list = []
+    for x in result:
+        y = x.split('.')
+        for z in y:
+            z = z.replace('Maximum ', 'Max').replace('Minimum ', 'Min').replace('temperature', ' temp.').replace(
+                'daytime ', '').replace('nighttime ', '').replace('degrees Celsius', '°C')
+            if z:
+                result_list.append(z.strip())
+    result_list.remove('Today')
+    return result_list
