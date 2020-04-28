@@ -6,14 +6,14 @@ from reports import records
 class Test(TestCase):
     def test_get_denva_records_should_return_records(self):
         data = [
-            {'timestamp': '2020-03-27 16:33:13.050509', 'temperature': '22.81', 'pressure': '1017.13',
+            {'timestamp': '2020-03-27 16:33:13.050509', 'temp': '22.81', 'pressure': '1017.13',
              'humidity': '27.269',
              'gas_resistance': '12946860.59', 'colour': '#ff869f', 'aqi': 'n/a', 'uva_index': '0.0',
              'uvb_index': '0.002591', 'motion': '166.015625', 'ax': '0.00732421875', 'ay': '0.01318359375',
              'az': '-0.00048828125', 'gx': '0.5419847328244275', 'gy': '1.450381679389313', 'gz': '0.08396946564885496',
              'mx': '-85.2', 'my': '29.099999999999998', 'mz': '-33.75', 'measurement_time': '1056', 'cpu_temp': '47.0',
              'eco2': '744', 'tvoc': '476'},
-            {'timestamp': '2020-03-27 16:33:21.516359', 'temperature': '22.82', 'pressure': '1017.14',
+            {'timestamp': '2020-03-27 16:33:21.516359', 'temp': '22.82', 'pressure': '1017.14',
              'humidity': '27.162',
              'gas_resistance': '12946860.59', 'colour': '#ff869f', 'aqi': 'n/a', 'uva_index': '0.0',
              'uvb_index': '0.002591', 'motion': '146.484375', 'ax': '0.0009765625', 'ay': '0.0078125',
