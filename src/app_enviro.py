@@ -16,7 +16,6 @@ import sys
 import time
 
 from bme280 import BME280
-from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
 from enviroplus import gas
 from subprocess import PIPE, Popen
 
@@ -26,12 +25,11 @@ import config_service
 from common import data_files, commands
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import email_sender_service, sensor_warnings_service
-from sensors import light_proximity_service
+from sensors import light_proximity_service, particulate_matter_service
 
 logger = logging.getLogger('app')
 
 bme280 = BME280()
-pms5003 = PMS5003()
 
 message = ""
 top_pos = 25
@@ -79,23 +77,7 @@ def get_nh3():
 
 
 def get_measurement() -> dict:
-    global pms5003
-    p_1 = 0
-    p_2 = 0
-    p_10 = 0
-
-    try:
-        pms_data = pms5003.read()
-    except pmsReadTimeoutError as exception:
-        logger.warning("Failed to read PMS5003 due to: {}".format(exception), exc_info=True)
-        logger.info('Restarting sensor.. (it will takes ... 5 seconds')
-        pms5003 = PMS5003()
-        time.sleep(5)
-    else:
-        p_1 = float(pms_data.pm_ug_per_m3(1.0))
-        p_2 = float(pms_data.pm_ug_per_m3(2.5))
-        p_10 = float(pms_data.pm_ug_per_m3(10))
-
+    p_1, p_2, p_10 = particulate_matter_service.get_measurement()
     measurement = {"temperature": get_temperature(),  # unit = "C"
                    "pressure": bme280.get_pressure(),  # unit = "hPa"
                    "humidity": bme280.get_humidity(),  # unit = "%"
