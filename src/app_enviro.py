@@ -15,14 +15,6 @@ from timeit import default_timer as timer
 import sys
 import time
 
-try:
-    # Transitional fix for breaking change in LTR559
-    from ltr559 import LTR559
-
-    ltr559 = LTR559()
-except ImportError:
-    import ltr559
-
 from bme280 import BME280
 from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
 from enviroplus import gas
@@ -33,8 +25,8 @@ from denva import cl_display
 import config_service
 from common import data_files, commands
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
-from services import email_sender_service
-from services import sensor_warnings_service
+from services import email_sender_service, sensor_warnings_service
+from sensors import light_proximity_service
 
 logger = logging.getLogger('app')
 
@@ -107,8 +99,8 @@ def get_measurement() -> dict:
     measurement = {"temperature": get_temperature(),  # unit = "C"
                    "pressure": bme280.get_pressure(),  # unit = "hPa"
                    "humidity": bme280.get_humidity(),  # unit = "%"
-                   "light": ltr559.get_lux(),  # unit = "Lux"
-                   "proximity": ltr559.get_proximity(),
+                   "light": light_proximity_service.get_illuminance(),  # unit = "Lux"
+                   "proximity": light_proximity_service.get_proximity(),
                    "oxidised": get_oxidising(),  # "oxidised"    unit = "kO"
                    "reduced": get_reducing(),  # unit = "kO"
                    "nh3": get_nh3(),  # unit = "kO"
