@@ -31,9 +31,11 @@ email_cooldown = datetime.now()
 denva_report_email_cooldown = datetime.now()
 
 
-# TODO fix it to ensure send report only once
 def should_send_report_email():
     global denva_report_email_cooldown
+    if data_files.is_report_file_exists():
+        logger.info('Report already sent.')
+        return
     if app_timer.is_time_to_run_every_6_hours(denva_report_email_cooldown):
         logger.info('Preparing to send denva report email')
         start_time = timer()

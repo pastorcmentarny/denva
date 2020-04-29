@@ -17,7 +17,7 @@ import os.path
 import random
 from datetime import datetime
 from pathlib import Path
-
+from zeroeighttrack import leaderboard_utils
 import config_service
 from common import dom_utils
 from denva import denva_sensors_service
@@ -39,7 +39,8 @@ def load_cfg() -> dict:
 
 
 def save_report_at_server(report: dict):
-    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(), dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
+    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+                                      dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
     logger.info('Saving report to {}'.format(report_file_path))
     with open(report_file_path, 'w+', encoding='utf-8') as report_file:
         json.dump(report, report_file, ensure_ascii=False, indent=4)
@@ -278,3 +279,9 @@ def load_enviro_data(year: int, month: int, day: int) -> list:
         denviro_sensors_service.add_enviro_row(data, row)
     sensor_log_file.close()
     return data
+
+
+def is_report_file_exists() -> bool:
+    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+                                      dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
+    return os.path.exists(report_file_path)
