@@ -14,11 +14,11 @@ import logging
 from datetime import datetime
 from datetime import timedelta
 
+from common import dom_utils
 from denva import denva_sensors_service
 from reports import averages, records
 from services import sensor_warnings_service
 from services import tubes_train_service
-from common import dom_utils
 
 warnings_logger = logging.getLogger('warnings')
 stats_log = logging.getLogger('stats')
@@ -145,7 +145,8 @@ def generate_for(date: datetime) -> dict:
         report['warnings'] = denva_sensors_service.count_warnings(warnings)
         report['records'] = records.get_records(data)
         report['avg'] = averages.get_averages(data)
-        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month, day) # move to separate function
+        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month,
+                                                                               day)  # move to separate function
         return report
     except:
         logger.error("Unable to generate  report.", exc_info=True)
@@ -153,7 +154,7 @@ def generate_for(date: datetime) -> dict:
 
 
 def load_data(year, month, day) -> list:
-    csv_data = read_data_as_list_from_csv_file(day, month, year,'sensor-log')
+    csv_data = read_data_as_list_from_csv_file(day, month, year, 'sensor-log')
     data = []
     for row in csv_data:
         try:
@@ -197,26 +198,27 @@ def load_data(year, month, day) -> list:
         )
     return data
 
+
 def load_enviro_data(year, month, day) -> list:
-    csv_data = read_data_as_list_from_csv_file(day, month, year,'sensor-enviro-log')
+    csv_data = read_data_as_list_from_csv_file(day, month, year, 'sensor-enviro-log')
     data = []
     for row in csv_data:
         data.append({
-            'timestamp' : row[0],
-            'temperature' : '{:0.1f}'.format(float(row[1])),  # unit = "C"
-            'light' : '{:0.1f}'.format(float(row[4])),
-            "oxidised" : '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
-            'reduced' : '{:0.2f}'.format(float(row[7])),  # unit = "kO"
-            "nh3" : '{:0.2f}'.format(float(row[8])),  # unit = "kO"
-            "pm1" : row[9],  # unit = "ug/m3"
-            "pm25" : row[10],  # unit = "ug/m3"
-            "pm10" :  row[11],  # unit = "ug/m3"
-            "measurement_time" :  row[12],
+            'timestamp': row[0],
+            'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
+            'light': '{:0.1f}'.format(float(row[4])),
+            "oxidised": '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+            'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
+            "nh3": '{:0.2f}'.format(float(row[8])),  # unit = "kO"
+            "pm1": row[9],  # unit = "ug/m3"
+            "pm25": row[10],  # unit = "ug/m3"
+            "pm10": row[11],  # unit = "ug/m3"
+            "measurement_time": row[12],
         })
     return data
 
 
-def read_data_as_list_from_csv_file(day, month, year, log_file_name:str) -> list:
+def read_data_as_list_from_csv_file(day, month, year, log_file_name: str) -> list:
     path = dom_utils.get_filename_from_year_month_day(log_file_name, 'csv', year, month, day)
     sensor_log_file = dom_utils.fix_nulls(open('/home/pi/logs/' + path, 'r',
                                                newline=''))
@@ -228,7 +230,7 @@ def read_data_as_list_from_csv_file(day, month, year, log_file_name:str) -> list
 
 def generate_enviro_report_for_yesterday() -> dict:
     yesterday = datetime.now() - timedelta(days=1)
-    evniro_report ={}
+    evniro_report = {}
 
     try:
         # is below 2 lines looks stupid? yes, because it is
@@ -254,5 +256,4 @@ def generate_enviro_report_for_yesterday() -> dict:
         return evniro_report
     except Exception as exception:
         logger.error("Unable to generate  report.", exc_info=True)
-        return {'error' : exception}
-
+        return {'error': exception}

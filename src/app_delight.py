@@ -468,7 +468,7 @@ def startup():
         for y in range(0, 16):
             unicornhathd.set_pixel(x, y, 255, 255, 255)
     unicornhathd.show()
-    time.sleep(13)
+    time.sleep(5)
 
 
 def main():
