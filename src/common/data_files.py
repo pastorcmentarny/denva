@@ -38,6 +38,13 @@ def load_cfg() -> dict:
         return json.load(email_config)
 
 
+def save_report_at_server(report: dict):
+    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(), dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
+    logger.info('Saving report to {}'.format(report_file_path))
+    with open(report_file_path, 'w+', encoding='utf-8') as report_file:
+        json.dump(report, report_file, ensure_ascii=False, indent=4)
+
+
 def save_report(report: dict, file: str):
     report_file_path = '/home/pi/reports/{}'.format(file)
     logger.info('Saving report to {}'.format(report_file_path))

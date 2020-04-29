@@ -43,7 +43,8 @@ class Test(TestCase):
                              ('server', 'ui', 'E:\denva\src\configs\server_log_ui_config.json')]
 
         for mode, an_input, expected_result in scale_params_list:
-            with self.subTest(msg="Checking to get_environment_log_path_for() for mode {} & app type {} ".format(mode, an_input)):
+            with self.subTest(
+                    msg="Checking to get_environment_log_path_for() for mode {} & app type {} ".format(mode, an_input)):
                 # given
                 config_service.load_cfg()['mode'] = mode
                 # when
@@ -51,3 +52,31 @@ class Test(TestCase):
 
                 # then
                 self.assertEqual(expected_result, result)
+
+    def test_get_report_path_at_server_for_dev(self):
+        # given
+        config_service.settings['mode'] = 'dev'
+        expected_result = "d:\\denva\\data\\reports\\"
+
+        # when
+        result = config_service.get_report_path_at_server()
+
+        # then
+        self.assertEqual(expected_result, result)
+
+        # after
+        config_service.set_mode_to('dev')
+
+    def test_get_report_path_at_server_for_server(self):
+        # given
+        config_service.settings['mode'] = 'server'
+        expected_result = "e:\\denva\\data\\reports\\"
+
+        # when
+        result = config_service.get_report_path_at_server()
+
+        # then
+        self.assertEqual(expected_result, result)
+
+        # after
+        config_service.set_mode_to('dev')

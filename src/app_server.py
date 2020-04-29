@@ -50,6 +50,7 @@ def should_send_report_email():
         end_time = timer()
         logger.info('It took {} ms to generate data'.format(int((end_time - start_time) * 1000)))
         email_sender_service.send(email_data, 'Report (via server)')
+        data_files.save_report_at_server(email_data)
         denva_report_email_cooldown = datetime.now()
 
 

@@ -216,3 +216,12 @@ def get_data_path() -> str:
 def get_sensor_log_file_for(year: int, month: int, day: int, sensor_filename: str = 'sensor-log') -> str:
     path = '/home/pi/logs/' + dom_utils.get_filename_from_year_month_day(sensor_filename, 'csv', year, month, day)
     return path
+
+
+def get_report_path_at_server():
+    path = ''
+    if get_mode() == 'dev':
+        path = "d:\\denva\\data\\reports\\"
+    elif get_mode() == 'server':
+        path = "e:\\denva\\data\\reports\\"
+    return path
