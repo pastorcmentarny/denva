@@ -1,3 +1,4 @@
+from datetime import datetime
 from unittest import TestCase
 from unittest.mock import Mock
 
@@ -48,3 +49,47 @@ class InformationServiceTest(TestCase):
 
         # then
         self.assertEqual(expected_result, result)
+
+    def test_is_rickmansworth_data_expired_is_true(self):
+        # given
+        expired_date = '2019-12-19'
+
+        # when
+        result = information_service.is_rickmansworth_data_expired(expired_date)
+
+        # then
+        self.assertTrue(result)
+
+    def test_is_rickmansworth_data_expired_if_date_is_missing(self):
+        # given
+        expired_date = None
+
+        # when
+        result = information_service.is_rickmansworth_data_expired(expired_date)
+
+        # then
+        self.assertTrue(result)
+
+    def test_is_rickmansworth_data_expired_if_date_is_with_time(self):
+        # given
+        expired_date = '2019-12-19-10-11-12'
+
+        # when
+        result = information_service.is_rickmansworth_data_expired(expired_date)
+
+        # then
+        self.assertTrue(result)
+
+    def test_is_rickmansworth_data_expired_is_false_for_valid_data(self):
+        # given
+        today = datetime.now()
+        today_date_as_text = '{}-{}-{}'.format(today.year, today.month, today.day)
+
+        # when
+        result = information_service.is_rickmansworth_data_expired(today_date_as_text)
+
+        # debug
+        print(result)
+
+        # then
+        self.assertFalse(result)

@@ -17,7 +17,7 @@ from gateways import local_data_gateway
 from mothership import app_server_service
 from reports import report_generator
 from services import email_sender_service
-from services.information_service import information
+from services import information_service as information
 
 logger = logging.getLogger('app')
 

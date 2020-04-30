@@ -290,3 +290,9 @@ def is_report_file_exists() -> bool:
     report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
                                       dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
     return os.path.exists(report_file_path)
+
+
+def load_ricky(path: str):
+    with open(path, 'r', encoding='utf-8') as ricky_data:
+        return json.load(ricky_data)
+
