@@ -13,12 +13,13 @@ import csv
 import logging
 from datetime import datetime
 from datetime import timedelta
+from timeit import default_timer as timer
 
 from common import dom_utils
 from denva import denva_sensors_service
+from gateways import local_data_gateway
 from reports import averages, records
-from services import sensor_warnings_service
-from services import tubes_train_service
+from services import information_service, sensor_warnings_service, tubes_train_service
 
 warnings_logger = logging.getLogger('warnings')
 stats_log = logging.getLogger('stats')
@@ -257,3 +258,21 @@ def generate_enviro_report_for_yesterday() -> dict:
     except Exception as exception:
         logger.error("Unable to generate  report.", exc_info=True)
         return {'error': exception}
+
+
+def generate():
+    logger.info('Preparing to send denva report email')
+    start_time = timer()
+    email_data = {'now': {
+        'denva': local_data_gateway.get_current_reading_for_denva(),
+        'enviro': local_data_gateway.get_current_reading_for_enviro()
+    },
+        'report': {
+            'denva': local_data_gateway.get_yesterday_report_for_denva(),
+            'enviro': local_data_gateway.get_yesterday_report_for_enviro(),
+            'rickmansworth': information_service.get_data_about_rickmansworth(),
+        }
+    }
+    end_time = timer()
+    logger.info('It took {} ms to generate data'.format(int((end_time - start_time) * 1000)))
+    return email_data

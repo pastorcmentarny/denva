@@ -16,7 +16,7 @@ from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import config_service
 from common import data_files, commands
-from gateways import local_data_gateway, web_data_gateway
+from gateways import web_data_gateway
 from mothership import app_server_service
 from reports import report_service
 from services import networkcheck_service as networkcheck, information_service, tubes_train_service
@@ -172,8 +172,8 @@ def welcome():
     page_ricky = host + str(url_for('ricky'))
     page_frame = host + str(url_for('frame'))
     page_webcam = host + str(url_for('do_picture'))
-    data = app_server_service.get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky, page_tt_delays_counter,
-                             page_tube_trains, page_webcam)
+    data = app_server_service.get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
+                                                page_tt_delays_counter, page_tube_trains, page_webcam)
 
     return render_template('dashboard-server.html', message=data)
 

@@ -17,12 +17,13 @@ import os.path
 import random
 from datetime import datetime
 from pathlib import Path
-from zeroeighttrack import leaderboard_utils
+
 import config_service
 from common import dom_utils
 from denva import denva_sensors_service
 from denviro import denviro_sensors_service
 from services import email_sender_service
+from zeroeighttrack import leaderboard_utils
 
 logger = logging.getLogger('app')
 
@@ -39,11 +40,15 @@ def load_cfg() -> dict:
 
 
 def save_report_at_server(report: dict):
-    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
-                                      dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
-    logger.info('Saving report to {}'.format(report_file_path))
-    with open(report_file_path, 'w+', encoding='utf-8') as report_file:
-        json.dump(report, report_file, ensure_ascii=False, indent=4)
+    try:
+        report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+                                          dom_utils.get_date_as_filename('report', 'json',
+                                                                         dom_utils.get_yesterday_date()))
+        logger.info('Saving report to {}'.format(report_file_path))
+        with open(report_file_path, 'w+', encoding='utf-8') as report_file:
+            json.dump(report, report_file, ensure_ascii=False, indent=4)
+    except Exception as e:
+        logger.error('Unable to save report due to {}'.format(e))
 
 
 def save_report(report: dict, file: str):

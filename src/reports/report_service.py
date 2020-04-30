@@ -10,10 +10,14 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
+from datetime import datetime
 
+from common import data_files, dom_utils, app_timer
+from gateways import local_data_gateway
+from mothership import app_server_service
 from reports import report_generator
 from services import email_sender_service
-from common import data_files, dom_utils
+from services.information_service import information
 
 logger = logging.getLogger('app')
 
@@ -49,3 +53,23 @@ def generate_for_yesterday() -> dict:
     except Exception as e:
         logger.error('Unable to generate report due to {}.Returning empty report'.format(e), exc_info=True)
         return {'error': str(e)}
+
+
+def create_and_store_it_if_needed(report_generation_cooldown):
+    if data_files.is_report_file_exists():
+        logger.info('Report already sent.')
+        return report_generation_cooldown
+    if app_timer.is_time_to_run_every_6_hours(report_generation_cooldown):
+        email_data = report_generator.generate()
+        email_sender_service.send(email_data, 'Report (via server)')
+        data_files.save_report_at_server(email_data)
+        return datetime.now()
+
+
+def create_for_current_measurements():
+    return {'information': information.get_information(),
+            'denva': local_data_gateway.get_current_reading_for_denva(),
+            'enviro': local_data_gateway.get_current_reading_for_enviro(),
+            'warnings': local_data_gateway.get_current_warnings_for_all_services(),
+            'logs': local_data_gateway.get_current_logs_for_all_services(),
+            'system': app_server_service.get_current_system_information_for_all_services()}
