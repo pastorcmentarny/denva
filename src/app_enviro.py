@@ -10,22 +10,21 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
+import logging
+from subprocess import PIPE, Popen
 from timeit import default_timer as timer
 
 import sys
 import time
-
 from bme280 import BME280
 from enviroplus import gas
-from subprocess import PIPE, Popen
 
-import logging
-from denva import cl_display
 import config_service
 from common import data_files, commands
+from denva import cl_display
+from sensors import light_proximity_service, noise_service, particulate_matter_service
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import email_sender_service, sensor_warnings_service
-from sensors import light_proximity_service, particulate_matter_service
 
 logger = logging.getLogger('app')
 
@@ -76,6 +75,11 @@ def get_nh3():
     return data.nh3 / 1000
 
 
+def get_noise():
+    low, mid, high, amp = noise_service.get_noise_measurement()
+    return 'low: {}, mid: {}, high: {}, amp: {}'.format(low, mid, high, amp)
+
+
 def get_measurement() -> dict:
     p_1, p_2, p_10 = particulate_matter_service.get_measurement()
     measurement = {"temperature": get_temperature(),  # unit = "C"
@@ -93,31 +97,20 @@ def get_measurement() -> dict:
     return measurement
 
 
-# TODO remove it
-def ui(msg: str, screen: bool = True):
-    logger.info(msg)
-    # print(msg)
-    # FIXME temporary disabled
-    '''
-    if screen:
-        denviro_display.draw_message(msg)
-    '''
-
-
 def setup():
     global temps
     global cpu_temps
     warm_up_measurement_counter = 10
-    ui("Starting up... Warming up sensors")
+    logger.info("Starting up... Warming up sensors")
     start_time = timer()
     cpu_temps = [get_cpu_temperature()] * warm_up_measurement_counter
     temps = [get_temperature()] * warm_up_measurement_counter
     end_time = timer()
-    ui('It took {} ms.\nMounting drives...'.format(int((end_time - start_time) * 1000)))
+    logger.info('It took {} ms.\nMounting drives...'.format(int((end_time - start_time) * 1000)))
     start_time = timer()
     commands.mount_all_drives('enviro')
     end_time = timer()
-    ui('It took {} ms.'.format(int((end_time - start_time) * 1000)))
+    logger.info('It took {} ms.'.format(int((end_time - start_time) * 1000)))
 
 
 def main():
@@ -125,7 +118,7 @@ def main():
     setup()
     while True:
         measurement_counter += 1
-        ui('Measurement No.{}'.format(measurement_counter), False)
+        logger.info('Measurement No.{}'.format(measurement_counter))
 
         start_time = timer()
         measurement = get_measurement()
@@ -136,7 +129,7 @@ def main():
         measurement['measurement_time'] = measurement_time
         logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
-        # FIXME temporary disabled  denviro_display.set_brightness_for_screen(measurement['proximity'])
+        logger.warning(noise_service.get_noise_measurement())
         data_files.store_enviro_measurement(measurement)
         # deprecated but i will change settings to send them via config settings
         # measurement_storage_service.send('enviro', measurement)
@@ -150,10 +143,10 @@ def main():
 if __name__ == '__main__':
     config_service.set_mode_to('denviro')
     data_files.setup_logging('app')
-    ui('Starting application ... \n Press Ctrl+C to shutdown', True)
-    ui('Logs config loaded.\nSending email', True)
+    logger.info('Starting application ... \n Press Ctrl+C to shutdown')
+    logger.info('Logs config loaded.\nSending email')
     email_sender_service.send_ip_email('Denva Enviro+')
-    ui('Email sent.\nRunning application', True)
+    logger.info('Email sent.\nRunning application')
 
     try:
         commands.mount_all_drives()
@@ -162,4 +155,3 @@ if __name__ == '__main__':
         logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
         # FIXME temporary disabled  denviro_display.draw_message('APP crashed.')
         sys.exit(0)
-    # FIXME temporary disabled denviro_display.draw_message('Goodbye.')
