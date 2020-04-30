@@ -80,7 +80,6 @@ def add_row(data, row):
     )
 
 def get_warnings(data) -> dict:
-    print(data)
     warnings = {}
     if type(data['temp']) is not float:
         data['temp'] = float(data['temp'])

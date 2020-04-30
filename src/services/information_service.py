@@ -14,7 +14,7 @@ import os
 from datetime import datetime
 
 import config_service
-from common import data_files, dom_utils
+from common import data_files
 from gateways import web_data_gateway
 from services import weather_service
 
@@ -79,8 +79,3 @@ def get_data_from_web():
     information['floods'] = web_data_gateway.get_flood()
     information['weather'] = weather_service.get_weather()
     information['o2'] = web_data_gateway.get_o2_status()
-
-
-if __name__ == '__main__':
-    dom_utils.setup_test_logging()
-    print(get_data_about_rickmansworth())

@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 import gc
@@ -15,8 +16,8 @@ def get_system_disk_space_free():
     return dom_utils.convert_bytes_to_megabytes(psutil.disk_usage(config_service.get_system_drive()).free)
 
 
-#TODO add disk free
-#TODO add cpu temp
+# TODO add disk free
+# TODO add cpu temp
 def get_system_information() -> dict:
     return {
         "CPU Speed": '{} MHz'.format(psutil.cpu_freq().current),
@@ -46,12 +47,14 @@ def run_gc():
     result = {
         'memory_before': get_memory_available_in_mb(),
         'memory_after': '',
-        'memory_saved': ''
+        'memory_saved': '',
+        'memory_info_before': psutil.Process(os.getpid()).memory_info()
     }
-
     gc.collect()
 
     result['memory_after'] = get_memory_available_in_mb()
-    result['memory_saved'] = dom_utils.get_int_number_from_text(result['memory_before']) - dom_utils.get_int_number_from_text(
+    result['memory_saved'] = dom_utils.get_int_number_from_text(
+        result['memory_before']) - dom_utils.get_int_number_from_text(
         result['memory_after'])
+    result['memory_info_after'] = psutil.Process(os.getpid()).memory_info()
     return result

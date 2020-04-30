@@ -95,13 +95,6 @@ def get_random_frame() -> str:
     return data_files.get_random_frame_picture_path()
 
 
-# TODO improve it as it is prototype if works i need systemutils
-def clean():
-    print(psutil.Process(os.getpid()).memory_info())
-    gc.collect()
-    print(psutil.Process(os.getpid()).memory_info())
-
-
 def get_current_system_information_for_all_services():
     return {
         'server': system_data_service.get_system_information(),
