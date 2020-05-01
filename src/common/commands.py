@@ -87,6 +87,13 @@ def get_cpu_temp():
     return str(subprocess.check_output(['/opt/vc/bin/vcgencmd', 'measure_temp']), "utf-8") \
         .strip().replace('temp=', '')
 
+#TODO remove it
+"""
+def get_cpu_temperature() -> float:
+    process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE, universal_newlines=True)
+    output, _error = process.communicate()
+    return float(output[output.index('=') + 1:output.rindex("'")])
+"""
 
 def get_ip() -> str:
     text = str(subprocess.check_output(['ifconfig', 'wlan0']), "utf-8")

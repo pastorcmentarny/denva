@@ -212,17 +212,17 @@ def get_random_frame_picture_path():
 def tail(file_path: str, lines=1) -> list:
     lines_found = []
     block_counter = -1
-    file = open(file_path)
-    while len(lines_found) < lines:
-        try:
-            file.seek(block_counter * 4098, os.SEEK_END)
-        except IOError:
-            file.seek(0)
-            lines_found = file.readlines()
-            break
+    with open(file_path) as file:
+        while len(lines_found) < lines:
+            try:
+                file.seek(block_counter * 4098, os.SEEK_END)
+            except IOError:
+                file.seek(0)
+                lines_found = file.readlines()
+                break
 
-        lines_found = file.readlines()
-        block_counter -= 1
+            lines_found = file.readlines()
+            block_counter -= 1
 
     return lines_found[-lines:]
 

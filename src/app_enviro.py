@@ -11,53 +11,31 @@
 """
 
 import logging
-from subprocess import PIPE, Popen
 from timeit import default_timer as timer
 
 import sys
 import time
-from bme280 import BME280
 from enviroplus import gas
 
 import config_service
 from common import data_files, commands
 from denva import cl_display
-from sensors import light_proximity_service, noise_service, particulate_matter_service
+from sensors import humidity_bme_service, light_proximity_service, noise_service, particulate_matter_service
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import email_sender_service, sensor_warnings_service
 
 logger = logging.getLogger('app')
 
-bme280 = BME280()
 
 message = ""
 top_pos = 25
-factor = 0.8
 delay = 0.5  # Debounce the proximity tap
 mode = 0  # The starting mode
 last_page = 0
 light = 1
 values = {}
-temps = []
-cpu_temps = []
 cycle = 0
 on = True
-
-
-def get_cpu_temperature() -> float:
-    process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE, universal_newlines=True)
-    output, _error = process.communicate()
-    return float(output[output.index('=') + 1:output.rindex("'")])
-
-
-def get_temperature() -> int:
-    global temps
-    cpu_temp = get_cpu_temperature()
-    # Smooth out with some averaging to decrease jitter
-    temps = temps[1:] + [cpu_temp]
-    avg_cpu_temp = sum(cpu_temps) / float(len(cpu_temps))
-    raw_temp = bme280.get_temperature()
-    return raw_temp - ((avg_cpu_temp - raw_temp) / factor)
 
 
 def get_oxidising():
@@ -82,9 +60,9 @@ def get_noise():
 
 def get_measurement() -> dict:
     p_1, p_2, p_10 = particulate_matter_service.get_measurement()
-    measurement = {"temperature": get_temperature(),  # unit = "C"
-                   "pressure": bme280.get_pressure(),  # unit = "hPa"
-                   "humidity": bme280.get_humidity(),  # unit = "%"
+    measurement = {"temperature": humidity_bme_service.get_temperature(),  # unit = "C"
+                   "pressure": humidity_bme_service.get_pressure(),  # unit = "hPa"
+                   "humidity": humidity_bme_service.get_humidity(),  # unit = "%"
                    "light": light_proximity_service.get_illuminance(),  # unit = "Lux"
                    "proximity": light_proximity_service.get_proximity(),
                    "oxidised": get_oxidising(),  # "oxidised"    unit = "kO"
@@ -103,8 +81,8 @@ def setup():
     warm_up_measurement_counter = 10
     logger.info("Starting up... Warming up sensors")
     start_time = timer()
-    cpu_temps = [get_cpu_temperature()] * warm_up_measurement_counter
-    temps = [get_temperature()] * warm_up_measurement_counter
+    cpu_temps = [commands.get_cpu_temp()] * warm_up_measurement_counter
+    temps = [humidity_bme_service.get_temperature()] * warm_up_measurement_counter
     end_time = timer()
     logger.info('It took {} ms.\nMounting drives...'.format(int((end_time - start_time) * 1000)))
     start_time = timer()

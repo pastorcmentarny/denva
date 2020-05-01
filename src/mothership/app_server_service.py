@@ -10,13 +10,8 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
-import datetime
+from datetime import datetime
 import logging
-import os
-import pprint
-
-import gc
-import psutil
 import time
 
 import config_service
@@ -38,7 +33,7 @@ logger = logging.getLogger('app')
 
 
 def get_last_updated_page() -> str:
-    now = datetime.datetime.now()
+    now = datetime.now()
     return "{}.{}'{} - {}:{}".format(now.day, now.month, now.year, now.hour, now.minute)
 
 
@@ -52,13 +47,13 @@ def get_gateway_data() -> dict:
             'events': personal_events.get_personal_stats(),
             'weather': weather_service.get_weather(),
             'information': information.get_information(),
-            'daily': daily.get_now_and_next_event(datetime.datetime.now().hour * 60 + datetime.datetime.now().minute)
+            'daily': daily.get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute)
             }
 
 
 def get_fasting_warning() -> str:
-    hour = datetime.datetime.now().hour
-    if hour >= 19 or hour <= 11:
+    hour = datetime.now().hour
+    if hour >= 19 or hour <= 12:
         return "NO FOOD (INTERMITTENT FASTING PERIOD)"
     elif hour == 10:
         return "NO FOOD (OPTIONAL)"
@@ -154,10 +149,6 @@ def add_result(data: str) -> dict:
         'result': leaderboard.get_result_by_id(result_id),
         'top10': leaderboard.get_top10()
     }
-
-
-if __name__ == '__main__':
-    pprint.PrettyPrinter(indent=4).pprint(get_links_for_gateway())
 
 
 def get_top_10():

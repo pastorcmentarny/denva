@@ -61,7 +61,6 @@ def store_denva_measurement():
 @app.route('/enviro', methods=['POST'])
 def store_enviro_measurement():
     logging.info('Processing enviro measurement request with json: {}'.format(request.get_json()))
-    logger.info(request.get_json())
     return jsonify(success=True)
 
 
@@ -129,7 +128,7 @@ def recent_log_ui():
 
 @app.route("/report/yesterday")
 def last_report_from_denva_and_enviro():
-    return jsonify(report_service.get_reports_from_denva_and_enviro())
+    return jsonify(report_service.generate_for_yesterday())
 
 
 @app.route("/ricky")
@@ -184,6 +183,7 @@ if __name__ == '__main__':
     logger.info('Starting web server')
 
     try:
+        app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
         healthcheck()
     except Exception as e:
