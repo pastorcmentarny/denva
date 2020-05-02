@@ -46,7 +46,7 @@ class InformationServiceTest(TestCase):
 
         # when
         result = information_service.get_data_about_rickmansworth()
-
+        result.pop('date')  # date is not part of the test
         # then
         self.assertEqual(expected_result, result)
 
@@ -62,7 +62,7 @@ class InformationServiceTest(TestCase):
 
     def test_is_rickmansworth_data_expired_if_date_is_missing(self):
         # given
-        expired_date = None
+        expired_date = ''
 
         # when
         result = information_service.is_rickmansworth_data_expired(expired_date)
