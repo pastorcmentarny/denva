@@ -15,6 +15,9 @@ logger = logging.getLogger('app')
 
 
 def uv(uv_index):
+    if uv_index < 0:
+        logger.warning('weird uv value: {}'.format(uv_index))
+        return "UNKNOWN"
     if uv_index == 0:
         return "NONE"
     elif uv_index < 3:
@@ -23,13 +26,10 @@ def uv(uv_index):
         return "MEDIUM"
     elif 6 <= uv_index < 8:
         return "HIGH"
-    elif 8 <= uv_index < 11:
+    elif 8 <= uv_index <= 11:
         return "VERY HIGH"
-    elif uv_index > 11:
-        return "EXTREME"
     else:
-        logger.warning('weird uv value: {}'.format(uv_index))
-        return "UNKNOWN"
+        return "EXTREME"
 
 
 def brightness(r, g, b) -> str:

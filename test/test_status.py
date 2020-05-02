@@ -50,6 +50,13 @@ class StatusCase(unittest.TestCase):
         # then
         self.assertEqual('RED', s.get_status_as_light_colour())
 
+    def test_status_unknown(self):
+        s = status.Status(-1)
+
+        result = s.get_status_as_light_colour()
+
+        self.assertEqual('UNKNOWN',result)
+
     def test_status_do_not_set_to_warn_if_status_is_set_to_error(self):
         s = status.Status(2)
         s.set_error()

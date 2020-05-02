@@ -24,3 +24,4 @@ class Status:
             return 'RED'
         else:
             print('UNKNOWN STATE {}'.format(self.state))
+            return 'UNKNOWN'

@@ -115,6 +115,18 @@ class MyTestCase(unittest.TestCase):
         # then
         self.assertEqual(result, 'very bright')
 
+
+    def test_bright_brightness(self):
+        # given
+        brightness_level = 200
+        expected_result = 'bright'
+
+        # when
+        result = get_description_for.brightness(brightness_level,brightness_level,brightness_level)
+
+        # then
+        self.assertEqual(expected_result,result)
+
     def test_bit_bright_brightness(self):
         # given
         brightness_level = 175
@@ -177,7 +189,8 @@ class MyTestCase(unittest.TestCase):
 
     def test_uv(self):
         # given
-        scale_params_list = [(0, 'NONE'), (2, 'LOW'), (5, 'MEDIUM'), (7, 'HIGH'), (10, 'VERY HIGH'), (20, 'EXTREME')]
+        scale_params_list = [(0, 'NONE'), (2, 'LOW'), (5, 'MEDIUM'), (7, 'HIGH'), (10, 'VERY HIGH'),
+                             (20, 'EXTREME'),(-1,"UNKNOWN")]
 
         for an_input, expected_result in scale_params_list:
             with self.subTest(msg="Checking to get desciption for uv with value {} ".format(an_input)):
