@@ -12,7 +12,7 @@
 from datetime import datetime
 
 
-def get_app_uptime(app_startup_time) -> str:
+def get_app_uptime(app_startup_time: datetime) -> str:
     time_now = datetime.now()
     duration = time_now - app_startup_time
     duration_in_s = duration.total_seconds()
@@ -32,27 +32,27 @@ def get_app_uptime(app_startup_time) -> str:
     return uptime[:-1]
 
 
-def is_time_to_send_report_email(previous_update_time) -> bool:
+def is_time_to_send_report_email(previous_update_time: datetime) -> bool:
     return is_it_time(previous_update_time, 6 * 60 * 60)
 
 
-def is_time_to_send_email(previous_update_time) -> bool:
+def is_time_to_send_email(previous_update_time: datetime) -> bool:
     return is_time_to_run_every_5_minutes(previous_update_time)
 
 
-def is_time_to_run_every_5_minutes(previous_update_time) -> bool:
+def is_time_to_run_every_5_minutes(previous_update_time: datetime) -> bool:
     return is_it_time(previous_update_time, 5 * 60)
 
 
-def is_time_to_run_every_hour(previous_update_time) -> bool:
+def is_time_to_run_every_hour(previous_update_time: datetime) -> bool:
     return is_it_time(previous_update_time, 60 * 60)
 
 
-def is_time_to_run_every_6_hours(previous_update_time) -> bool:
+def is_time_to_run_every_6_hours(previous_update_time: datetime) -> bool:
     return is_it_time(previous_update_time, 6 * 60 * 60)
 
 
-def is_it_time(previous_update_time, time_difference) -> bool:
+def is_it_time(previous_update_time: datetime, time_difference: int) -> bool:
     time_now = datetime.now()
     duration = time_now - previous_update_time
     duration_in_s = duration.total_seconds()
