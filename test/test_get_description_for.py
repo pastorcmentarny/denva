@@ -174,3 +174,40 @@ class MyTestCase(unittest.TestCase):
 
         # then
         self.assertEqual(result, 'pitch black')
+
+    def test_uv(self):
+        # given
+        scale_params_list = [(0, 'NONE'), (2, 'LOW'), (5, 'MEDIUM'), (7, 'HIGH'), (10, 'VERY HIGH'), (20, 'EXTREME')]
+
+        for an_input, expected_result in scale_params_list:
+            with self.subTest(msg="Checking to get desciption for uv with value {} ".format(an_input)):
+                # when
+                result = get_description_for.uv(an_input)
+
+                # debug
+                print('for {} result is {} and expected result is {}'.format(an_input, result, expected_result))
+
+                # then
+                self.assertEqual(expected_result, result)
+
+    def test_motion(self):
+        # given
+        motion_data = {
+            'ax': 1.12,
+            'ay': 1.13,
+            'az': 1.14,
+            'gx': 1.15,
+            'gy': 1.16,
+            'gz': 1.17,
+            'mx': 1.18,
+            'my': 1.19,
+            'mz': 1.20
+        }
+
+        expected_result = 'Acc:   1.1   1.1   1.1 Gyro:   1.1   1.2   1.2 Mag:   1.2   1.2   1.2'
+
+        # when
+        result = get_description_for.motion(motion_data)
+
+        # then
+        self.assertEqual(expected_result, result)

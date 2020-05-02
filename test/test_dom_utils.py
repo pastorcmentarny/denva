@@ -169,3 +169,65 @@ class Test(TestCase):
 
         # then
         self.assertEqual(expected_result, result)
+
+    def test_fix_nulls(self):
+        # given
+        data = ['\0', ':)', '\n', '']
+        expected_result = ['', ':)', '\n', '']
+
+        # when
+        result = dom_utils.fix_nulls(data)
+
+        result = list(result)
+
+        # then
+        self.assertEquals(expected_result, result)
+
+    def test_clean_list_from_nones(self):
+        # given
+        test_list = [None, '', None, ':)']
+        expected_result = ['', ':)']
+
+        # when
+        result = dom_utils.clean_list_from_nones(test_list)
+
+        # then
+        self.assertEqual(expected_result, result)
+
+    def test_get_color_name_return_yellow(self):
+        # given
+        expected_result = 'Yellow'
+
+        # when
+        result = dom_utils.get_color_name('#FFFF00')
+
+        # then
+        self.assertEqual(expected_result, result)
+
+    def test_get_color_name_return_hex(self):
+        # given
+        expected_result = '#123456'
+
+        # when
+        result = dom_utils.get_color_name('#123456')
+
+        # then
+        self.assertEqual(expected_result, result)
+
+
+    def test_get_timestamp_file(self):
+        # given
+        with patch('common.dom_utils.datetime') as mock_date:
+            mock_date.now.return_value = datetime(2006, 6, 6, 1, 2, 3)
+            mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
+
+            # verify that mock works
+            assert dom_utils.datetime.now() == datetime(2006, 6, 6, 1, 2, 3)
+
+            expected_result = "20060606-010203"
+
+            # when
+            result = dom_utils.get_timestamp_file()
+
+            # then
+            self.assertEqual(expected_result, result)
