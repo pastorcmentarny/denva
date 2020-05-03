@@ -32,7 +32,7 @@ class Test(TestCase):
         expected_result = ['Memory available on SERVER is VERY LOW.', 'Free space on disk  ON ENVIRO is VERY LOW.',
                            'Free space on disk  ON DELIGHT is VERY LOW.']
         # when
-        result = error_detector_service.get_errors(data)
+        result = error_detector_service.get_errors_from_data(data)
 
         # then
         self.assertEqual(len(result), 3)
@@ -66,7 +66,7 @@ class Test(TestCase):
 
         expected_result = ['Enviro data is missing.']
         # when
-        result = error_detector_service.get_errors(data)
+        result = error_detector_service.get_errors_from_data(data)
 
         # then
         self.assertEqual(len(result), 1)
@@ -78,7 +78,7 @@ class Test(TestCase):
 
         expected_result = ['No data.']
         # when
-        result = error_detector_service.get_errors(data)
+        result = error_detector_service.get_errors_from_data(data)
 
         # then
         self.assertEqual(len(result), 1)
@@ -109,7 +109,7 @@ def test_get_error_for_missing_server(self):
 
     expected_result = ['Server data is missing.']
     # when
-    result = error_detector_service.get_errors(data)
+    result = error_detector_service.get_errors_from_data(data)
 
     # then
     self.assertEqual(len(result), 1)
@@ -139,7 +139,7 @@ def test_get_error_for_missing_denva(self):
 
     expected_result = ['Denva data is missing.']
     # when
-    result = error_detector_service.get_errors(data)
+    result = error_detector_service.get_errors_from_data(data)
 
     # then
     self.assertEqual(len(result), 1)
@@ -169,7 +169,7 @@ def test_get_error_for_missing_enviro(self):
 
     expected_result = ['Enviro data is missing.']
     # when
-    result = error_detector_service.get_errors(data)
+    result = error_detector_service.get_errors_from_data(data)
 
     # then
     self.assertEqual(len(result), 1)
@@ -200,7 +200,7 @@ def test_get_error_for_missing_delight(self):
 
     expected_result = ['Delight data is missing.']
     # when
-    result = error_detector_service.get_errors(data)
+    result = error_detector_service.get_errors_from_data(data)
 
     # then
     self.assertEqual(len(result), 1)

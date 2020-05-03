@@ -1,14 +1,24 @@
 import logging
-
+from gateways import local_data_gateway
 from common import dom_utils
 
 logger = logging.getLogger('app')
 
 
-def get_errors(data: dict) -> list:
+def get_errors_from_data(data: dict) -> list:
     errors = []
     if 'system' not in data:
         return ['No data.']
+
+    hc_result = local_data_gateway.get_all_healthcheck_from_all_services()
+    if hc_result['denva'] == 'DOWN':
+        errors.append('Healthcheck failed for Denva')
+    if hc_result['enviro'] == 'DOWN':
+        errors.append('Healthcheck failed for Denviro')
+    if hc_result['server'] == 'DOWN':
+        errors.append('Healthcheck failed for Server')
+    if hc_result['delight'] == 'DOWN':
+        errors.append('Healthcheck failed for Delight')
 
     server_data = data['system']['server']
     if 'server' in data['system'] and 'Memory Available' in server_data:

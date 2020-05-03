@@ -54,3 +54,18 @@ def get_current_warnings_for_all_services() -> dict:
         'delight': system_data_service.get_system_warnings(),
         'server': system_data_service.get_system_warnings()
     }
+
+
+def get_all_healthcheck_from_all_services() -> dict:
+    services = ['denva', 'enviro', 'server', 'delight']
+    result = {}
+    for service in services:
+        result[service] = _get_hc_result(service)
+    return result
+
+
+def _get_hc_result(service: str):
+    hc_result = get_data_for('{}/hc'.format(config_service.load_cfg()["urls"][service]))
+    if 'error' in hc_result:
+        return 'DOWN'
+    return 'UP'

@@ -139,7 +139,7 @@ def run_gc() -> dict:
 
 
 def get_errors_from_data(data):
-    return error_detector_service.get_errors(data)
+    return error_detector_service.get_errors_from_data(data)
 
 
 def add_result(data: str) -> dict:
