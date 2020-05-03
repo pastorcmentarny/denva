@@ -19,7 +19,7 @@ from common import data_files, commands
 from gateways import web_data_gateway
 from mothership import app_server_service
 from reports import report_service
-from services import networkcheck_service as networkcheck, information_service, tubes_train_service
+from services import information_service, tubes_train_service
 from services import system_data_service
 
 app = Flask(__name__)
@@ -85,9 +85,7 @@ def gc():
 
 @app.route("/hc")
 def healthcheck():
-    return jsonify({"status": "UP",
-                    "app": APP_NAME,
-                    "network": networkcheck.network_check(config_service.get_options()['inChina'])})
+    return jsonify({"status": "UP", "app": APP_NAME})
 
 
 @app.route("/log/app")
