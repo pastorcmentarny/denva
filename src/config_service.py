@@ -19,6 +19,9 @@ settings = {
             "shaking": 1000,
             "sensitivity": 8,
             "noOfFlashes": 5
+        },
+        "bme": {
+            "warm_up": 10
         }
     },
     "paths": {
@@ -86,7 +89,7 @@ settings = {
         'server': 'E:\denva\src\data\information.json'
     },
     "test": {
-        'slow_test': True
+        'slow_test': False
     }
 }
 PI_PATH = '/home/pi/logs/'
@@ -224,3 +227,7 @@ def get_report_path_at_server():
     elif get_mode() == 'server':
         path = "e:\\denva\\data\\reports\\"
     return path
+
+
+def get_warm_up_measurement_counter():
+    return settings['sensors']['bme']['warm_up']

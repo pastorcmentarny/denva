@@ -76,13 +76,9 @@ def get_measurement() -> dict:
 
 
 def setup():
-    global temps
-    global cpu_temps
-    warm_up_measurement_counter = 10
     logger.info("Starting up... Warming up sensors")
     start_time = timer()
-    cpu_temps = [commands.get_cpu_temp()] * warm_up_measurement_counter
-    temps = [humidity_bme_service.get_temperature()] * warm_up_measurement_counter
+    humidity_bme_service.warm_up()
     end_time = timer()
     logger.info('It took {} ms.\nMounting drives...'.format(int((end_time - start_time) * 1000)))
     start_time = timer()

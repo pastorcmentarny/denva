@@ -1,11 +1,18 @@
 from bme280 import BME280
 from common import commands
-
+import config_service
 bme280 = BME280()
 
 cpu_temps = []
 factor = 0.8
 temps = []
+
+
+def warm_up():
+    global cpu_temps
+    global temps
+    cpu_temps = [commands.get_cpu_temp()] * config_service.get_warm_up_measurement_counter()
+    temps = [get_temperature()] * config_service.get_warm_up_measurement_counter()
 
 
 def get_temperature() -> int:
