@@ -69,7 +69,7 @@ def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datet
 
 
 def create_for_current_measurements():
-    return {'information': information.get_information(),
+    return {'information': information.get_data_about_rickmansworth(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
