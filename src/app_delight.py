@@ -175,7 +175,7 @@ def to_x(i: int) -> int:
 def update_blink(blink, state) -> bool:
     if blink:
         return blink
-    elif state != 0:
+    elif state != 2:
         logger.debug('Set animation to blinking')
         return True
     return False
