@@ -1,6 +1,8 @@
 from bme280 import BME280
-from common import commands
+
 import config_service
+from common import commands
+
 bme280 = BME280()
 
 cpu_temps = []
@@ -11,14 +13,13 @@ temps = []
 def warm_up():
     global cpu_temps
     global temps
-    cpu_temps = [commands.get_cpu_temp()] * config_service.get_warm_up_measurement_counter()
+    cpu_temps = [commands.get_cpu_temp_as_number()] * config_service.get_warm_up_measurement_counter()
     temps = [get_temperature()] * config_service.get_warm_up_measurement_counter()
 
 
 def get_temperature() -> int:
     global temps
-    cpu_temp = commands.get_cpu_temp()
-    # Smooth out with some averaging to decrease jitter
+    cpu_temp = commands.get_cpu_temp_as_number()
     temps = temps[1:] + [cpu_temp]
     avg_cpu_temp = sum(cpu_temps) / float(len(cpu_temps))
     raw_temp = bme280.get_temperature()

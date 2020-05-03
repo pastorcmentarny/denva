@@ -9,15 +9,16 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-from datetime import datetime
 import logging
 import os
 import re
-import psutil
 import subprocess
-import time
-from common import dom_utils
+from datetime import datetime
 
+import psutil
+import time
+
+from common import dom_utils
 from services import email_sender_service
 
 logger = logging.getLogger('app')
@@ -83,9 +84,13 @@ def get_cpu_speed():
     return output + ' Mhz'
 
 
-def get_cpu_temp():
+def get_cpu_temp() -> str:
     return str(subprocess.check_output(['/opt/vc/bin/vcgencmd', 'measure_temp']), "utf-8") \
         .strip().replace('temp=', '')
+
+
+def get_cpu_temp_as_number() -> float:
+    return float(dom_utils.get_float_number_from_text(get_cpu_temp()))
 
 
 def get_ip() -> str:
