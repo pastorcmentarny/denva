@@ -14,6 +14,7 @@ sentences = [
     "I am not a teacher, nor do I wish to become one.",  # from ST TNG
     "It was destined to fail. (by Tim Dillon in PowerfulJRE)",
     'The medicine is imperfect science. (by Dr. Mikhail "Dr. Mike" Varshavski)'
+    "i am not very fashion conscious (by James May in Vietnam Special)"
 ]
 
 
