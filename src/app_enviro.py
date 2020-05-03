@@ -26,7 +26,6 @@ from services import email_sender_service, sensor_warnings_service
 
 logger = logging.getLogger('app')
 
-
 message = ""
 top_pos = 25
 delay = 0.5  # Debounce the proximity tap
@@ -103,8 +102,12 @@ def main():
         measurement['measurement_time'] = measurement_time
         logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
-        logger.warning(noise_service.get_noise_measurement())
+
+        # FIXME do not work due to “sounddevice.PortAudioError: Error querying device -1" error
+        # logger.warning(noise_service.get_noise_measurement())
+
         data_files.store_enviro_measurement(measurement)
+
         # deprecated but i will change settings to send them via config settings
         # measurement_storage_service.send('enviro', measurement)
         sensor_warnings_service.get_current_warnings_for_enviro()
