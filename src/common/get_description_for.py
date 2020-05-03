@@ -32,9 +32,9 @@ def uv(uv_index):
         return "EXTREME"
 
 
-def brightness(r, g, b) -> str:
-    max_value = max(r, g, b)
-    mid = (r + g + b) / 3
+def brightness(red, green, blue) -> str:
+    max_value = max(red, green, blue)
+    mid = (red + green + blue) / 3
     result = (max_value + mid) / 2
 
     if result < 16:
@@ -56,11 +56,10 @@ def brightness(r, g, b) -> str:
     elif 240 <= result < 256:
         return 'white'
     else:
-        logger.warning('weird brightness value: {} for {} {} {}'.format(result, r, g, b))
+        logger.warning('weird brightness value: {} for {} {} {}'.format(result, red, green, blue))
         return '?'
 
 
-# TODO move it
 def motion(motion_data: dict) -> str:
     return 'Acc: {:5.1f} {:5.1f} {:5.1f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
         motion_data['ax'],

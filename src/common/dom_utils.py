@@ -21,6 +21,7 @@ from common.gobshite_exception import GobshiteException
 stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
 
+
 def as_3_digit_number(index: int) -> str:
     return f"{index:03d}"
 

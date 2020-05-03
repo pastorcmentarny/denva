@@ -184,7 +184,7 @@ def update_blink(blink, state) -> bool:
 def device_status():
     global cycle
     cycle += 1
-    logger.info('checking devices status... (Cycle: {})'.format(cycle))
+    logger.info('Checking devices status... (Cycle: {})'.format(cycle))
 
     blink = False
     # 1. denva, 2. denviro, 3. server, 4. delight
@@ -234,7 +234,7 @@ def device_status():
             state.set_warn()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    update_blink(blink, state.state)
+    blink = update_blink(blink, state.state)
     unicornhathd.set_pixel(to_x(1), 1, purple_r, purple_g, purple_b)
     set_status_for_device(1, 13, color_red, color_green, color_blue)
     logger.info('Denva: {}' + state.get_status_as_light_colour())
@@ -276,7 +276,7 @@ def device_status():
             state.set_warn()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    update_blink(blink, state.state)
+    blink = update_blink(blink, state.state)
 
     unicornhathd.set_pixel(to_x(5), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(7), 1, purple_r, purple_g, purple_b)
@@ -308,7 +308,7 @@ def device_status():
             state.set_warn()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    update_blink(blink, state.state)
+    blink = update_blink(blink, state.state)
 
     unicornhathd.set_pixel(to_x(9), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(11), 1, purple_r, purple_g, purple_b)
@@ -341,7 +341,7 @@ def device_status():
         state.set_warn()
 
     color_blue, color_green, color_red = delight_utils.get_state_colour(state)
-    update_blink(blink, state.state)
+    blink = update_blink(blink, state.state)
 
     unicornhathd.set_pixel(to_x(13), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(15), 1, purple_r, purple_g, purple_b)
