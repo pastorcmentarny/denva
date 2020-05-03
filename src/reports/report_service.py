@@ -55,15 +55,17 @@ def generate_for_yesterday() -> dict:
         return {'error': str(e)}
 
 
-def create_and_store_it_if_needed(report_generation_cooldown):
+def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datetime:
     if data_files.is_report_file_exists():
         logger.info('Report already sent.')
         return report_generation_cooldown
-    if app_timer.is_time_to_run_every_6_hours(report_generation_cooldown):
+    if app_timer.is_time_to_send_report_email(report_generation_cooldown):
+        logger.info('Sending report')
         email_data = report_generator.generate()
         email_sender_service.send(email_data, 'Report (via server)')
         data_files.save_report_at_server(email_data)
         return datetime.now()
+    return report_generation_cooldown
 
 
 def create_for_current_measurements():
