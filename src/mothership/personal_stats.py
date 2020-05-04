@@ -4,6 +4,8 @@ import config_service
 from common import data_files
 import logging
 
+from common.gobshite_exception import GobshiteException
+
 logger = logging.getLogger('app')
 
 
@@ -16,7 +18,7 @@ def convert_to_date_time(happen_at_time: str) -> datetime:
                         int(date_as_array[3]), int(date_as_array[4]))
     else:
         logger.warning('invalid data:{}'.format(happen_at_time))
-        # TODO figure out what to return
+        raise GobshiteException('passed crap data {}'.format(happen_at_time))
 
 
 def get_time_in_days_as_text(event_time: datetime) -> str:
