@@ -48,7 +48,7 @@ def run_gc():
         'memory_before': get_memory_available_in_mb(),
         'memory_after': '',
         'memory_saved': '',
-        'memory_info_before': psutil.Process(os.getpid()).memory_info()
+        'memory_info_before': psutil.Process(os.getpid()).memory_full_info()
     }
     gc.collect()
 
@@ -56,5 +56,5 @@ def run_gc():
     result['memory_saved'] = dom_utils.get_int_number_from_text(
         result['memory_before']) - dom_utils.get_int_number_from_text(
         result['memory_after'])
-    result['memory_info_after'] = psutil.Process(os.getpid()).memory_info()
+    result['memory_info_after'] = psutil.Process(os.getpid()).memory_full_info()
     return result
