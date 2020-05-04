@@ -237,7 +237,7 @@ def device_status():
     blink = update_blink(blink, state.state)
     unicornhathd.set_pixel(to_x(1), 1, purple_r, purple_g, purple_b)
     set_status_for_device(1, 13, color_red, color_green, color_blue)
-    logger.info('Denva: {}' + state.get_status_as_light_colour())
+    logger.info('Denva: {}'.format(state.get_status_as_light_colour()))
 
     # 2.
     state = status.Status()
@@ -281,7 +281,7 @@ def device_status():
     unicornhathd.set_pixel(to_x(5), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(7), 1, purple_r, purple_g, purple_b)
     set_status_for_device(5, 13, color_red, color_green, color_blue)
-    logger.info('Denviro: {}' + state.get_status_as_light_colour())
+    logger.info('Denviro: {}'.format(state.get_status_as_light_colour()))
 
     # 3.
     state = status.Status()
@@ -314,7 +314,7 @@ def device_status():
     unicornhathd.set_pixel(to_x(11), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(9), 3, purple_r, purple_g, purple_b)
     set_status_for_device(9, 13, color_red, color_green, color_blue)
-    logger.info('Server: {}' + state.get_status_as_light_colour())
+    logger.info('Server: {}'.format(state.get_status_as_light_colour()))
 
     # 4.
     state = status.Status()
@@ -348,7 +348,7 @@ def device_status():
     unicornhathd.set_pixel(to_x(13), 3, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(to_x(15), 3, purple_r, purple_g, purple_b)
     set_status_for_device(13, 13, color_red, color_green, color_blue)
-    logger.info('Delight: {}' + state.get_status_as_light_colour())
+    logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
 
     if is_night_mode():
         unicornhathd.brightness(0.1)
