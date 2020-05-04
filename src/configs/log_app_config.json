@@ -33,7 +33,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "/home/pi/logs/stats.log",
+      "filename": "/home/pi/logs/stats_app.log",
       "when": "midnight",
       "encoding": "utf8"
     },
