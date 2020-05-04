@@ -55,6 +55,11 @@ def get_yesterday_date() -> datetime:
     return today - timedelta(days=1)
 
 
+def get_two_days_ago_date() -> datetime:
+    today = datetime.now()
+    return today - timedelta(days=2)
+
+
 def get_dates_for_last_7_days() -> list:
     today = datetime.now()
     days = []
