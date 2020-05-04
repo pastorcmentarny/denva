@@ -40,7 +40,7 @@ def generate_for_yesterday() -> dict:
     logger.info('Getting report for yesterday...')
     path = dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date())
     try:
-        if data_files.check_if_report_was_generated(path):
+        if d.check_if_report_was_generated(path):
             logger.info('Report was generated. Getting report from file.')
             return data_files.load_report(path)
         else:
@@ -75,3 +75,27 @@ def create_for_current_measurements():
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'logs': local_data_gateway.get_current_logs_for_all_services(),
             'system': app_server_service.get_current_system_information_for_all_services()}
+
+
+def get_last_two_days_report_difference() -> dict:
+    two_days_exists = data_files.is_report_file_exists_for(dom_utils.get_two_days_ago_date())
+    yesterday_ago = data_files.is_report_file_exists_for(dom_utils.get_yesterday_date())
+
+    if not two_days_exists or not yesterday_ago:
+        return {
+            'error': 'Unable to generate difference between because at least one of the report do not exists.'
+                     'Reports:2 days ago: {}. Yesterday: {}'.format(two_days_exists, yesterday_ago)
+        }
+
+    two_days_ago = data_files.load_report_on_server_on(dom_utils.get_two_days_ago_date())
+    one_day_ago = data_files.load_report_on_server_on(dom_utils.get_yesterday_date())
+    return report_generator.compare_two_reports(two_days_ago,one_day_ago)
+
+
+def get_yesterday_report_from_server():
+    yesterday = dom_utils.get_yesterday_date()
+    logger.info('Getting report for: {}'.format(yesterday))
+    if not data_files.is_report_file_exists():
+        logger.info('Report is not generated. Creating now.')
+        create_and_store_it_if_needed(yesterday)
+    return data_files.load_report_on_server_on(yesterday)

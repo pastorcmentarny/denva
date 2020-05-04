@@ -126,7 +126,7 @@ def recent_log_ui():
 
 @app.route("/report/yesterday")
 def last_report_from_denva_and_enviro():
-    return jsonify(report_service.generate_for_yesterday())
+    return jsonify(report_service.get_yesterday_report_from_server())
 
 
 @app.route("/ricky")

@@ -58,8 +58,18 @@ def save_report(report: dict, file: str):
         json.dump(report, report_file, ensure_ascii=False, indent=4)
 
 
+# report on Pi
 def load_report(report_date: str) -> dict:
     report_file_path = '/home/pi/reports/{}'.format(report_date)
+    logger.info('Loading report from {}'.format(report_file_path))
+    with open(report_file_path, 'r') as report_file:
+        return json.load(report_file)
+
+
+def load_report_on_server_on(report_date: datetime):
+    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+                                      dom_utils.get_date_as_filename('report', 'json',
+                                                                     report_date))
     logger.info('Loading report from {}'.format(report_file_path))
     with open(report_file_path, 'r') as report_file:
         return json.load(report_file)
@@ -292,7 +302,12 @@ def is_report_file_exists() -> bool:
     return os.path.exists(report_file_path)
 
 
+def is_report_file_exists_for(report_date: datetime) -> bool:
+    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+                                      dom_utils.get_date_as_filename('report', 'json', report_date))
+    return os.path.exists(report_file_path)
+
+
 def load_ricky(path: str):
     with open(path, 'r', encoding='utf-8') as ricky_data:
         return json.load(ricky_data)
-
