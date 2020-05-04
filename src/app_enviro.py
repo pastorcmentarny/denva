@@ -15,12 +15,13 @@ from timeit import default_timer as timer
 
 import sys
 import time
-from enviroplus import gas
+
 
 import config_service
 from common import data_files, commands
 from denva import cl_display
-from sensors import humidity_bme_service, light_proximity_service, noise_service, particulate_matter_service
+from sensors import gas_service, humidity_bme_service, light_proximity_service, noise_service
+from sensors import particulate_matter_service
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import email_sender_service, sensor_warnings_service
 
@@ -37,21 +38,6 @@ cycle = 0
 on = True
 
 
-def get_oxidising():
-    data = gas.read_all()
-    return data.oxidising / 1000
-
-
-def get_reducing():
-    data = gas.read_all()
-    return data.reducing / 1000
-
-
-def get_nh3():
-    data = gas.read_all()
-    return data.nh3 / 1000
-
-
 def get_noise():
     low, mid, high, amp = noise_service.get_noise_measurement()
     return 'low: {}, mid: {}, high: {}, amp: {}'.format(low, mid, high, amp)
@@ -64,9 +50,9 @@ def get_measurement() -> dict:
                    "humidity": humidity_bme_service.get_humidity(),  # unit = "%"
                    "light": light_proximity_service.get_illuminance(),  # unit = "Lux"
                    "proximity": light_proximity_service.get_proximity(),
-                   "oxidised": get_oxidising(),  # "oxidised"    unit = "kO"
-                   "reduced": get_reducing(),  # unit = "kO"
-                   "nh3": get_nh3(),  # unit = "kO"
+                   "oxidised": gas_service.get_oxidising(),  # "oxidised"    unit = "kO"
+                   "reduced": gas_service.get_reducing(),  # unit = "kO"
+                   "nh3": gas_service.get_nh3(),  # unit = "kO"
                    "pm1": p_1,  # unit = "ug/m3"
                    "pm25": p_2,  # unit = "ug/m3"
                    "pm10": p_10}  # unit = "ug/m3"
