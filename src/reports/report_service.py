@@ -60,7 +60,7 @@ def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datet
         logger.info('Report already sent.')
         return report_generation_cooldown
     if app_timer.is_time_to_send_report_email(report_generation_cooldown):
-        logger.info('Sending report')
+        logger.info('Generating report')
         email_data = report_generator.generate()
         email_sender_service.send(email_data, 'Report (via server)')
         data_files.save_report_at_server(email_data)

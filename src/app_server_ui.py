@@ -129,6 +129,11 @@ def last_report_from_denva_and_enviro():
     return jsonify(report_service.get_yesterday_report_from_server())
 
 
+@app.route("/report/diff")
+def report_comparison_for_last_two_days():
+    return jsonify(report_service.get_last_two_days_report_difference())
+
+
 @app.route("/ricky")
 def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())

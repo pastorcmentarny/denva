@@ -276,3 +276,243 @@ def generate():
     end_time = timer()
     logger.info('It took {} ms to generate data'.format(int((end_time - start_time) * 1000)))
     return email_data
+
+
+def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
+    try:
+        denva_avg_cpu_temperature = float(older_report['report']['denva']['avg']['cpu_temperature']) - float(
+            newer_report['report']['denva']['avg']['cpu_temperature'])
+        denva_avg_humidity = float(older_report['report']['denva']['avg']['humidity']) - float(
+            newer_report['report']['denva']['avg']['humidity'])
+        denva_avg_motion = float(older_report['report']['denva']['avg']['motion']) - float(
+            newer_report['report']['denva']['avg']['motion'])
+        denva_avg_pressure = float(older_report['report']['denva']['avg']['pressure']) - float(
+            newer_report['report']['denva']['avg']['pressure'])
+        denva_avg_temperature = float(older_report['report']['denva']['avg']['temperature']) - float(
+            newer_report['report']['denva']['avg']['temperature'])
+        denva_avg_uva = float(older_report['report']['denva']['avg']['uva']) - float(
+            newer_report['report']['denva']['avg']['uva'])
+        denva_avg_uvb = float(older_report['report']['denva']['avg']['uvb']) - float(
+            newer_report['report']['denva']['avg']['uvb'])
+
+        denva_records_biggest_motion = float(older_report['report']['denva']['records']['biggest_motion']) - float(
+            newer_report['report']['denva']['records']['biggest_motion'])
+
+        denva_records_cpu_temperature_max = float(
+            older_report['report']['denva']['records']['cpu_temperature']['max']) - float(
+            newer_report['report']['denva']['records']['cpu_temperature']['max'])
+        denva_records_cpu_temperature_min = float(
+            older_report['report']['denva']['records']['cpu_temperature']['min']) - float(
+            newer_report['report']['denva']['records']['cpu_temperature']['min'])
+
+        denva_records_highest_eco2 = int(older_report['report']['denva']['records']['highest_eco2']) - int(
+            newer_report['report']['denva']['records']['highest_eco2'])
+        denva_records_highest_tvoc = int(older_report['report']['denva']['records']['highest_tvoc']) - int(
+            newer_report['report']['denva']['records']['highest_tvoc'])
+
+        denva_records_cpu_humidity_max = float(older_report['report']['denva']['records']['humidity']['max']) - float(
+            newer_report['report']['denva']['records']['humidity']['max'])
+        denva_records_cpu_humidity_min = float(older_report['report']['denva']['records']['humidity']['min']) - float(
+            newer_report['report']['denva']['records']['humidity']['min'])
+
+        denva_records_uva_max = float(older_report['report']['denva']['records']['max_uv_index']['uva']) - float(
+            newer_report['report']['denva']['records']['max_uv_index']['uva'])
+        denva_records_uvb_max = float(older_report['report']['denva']['records']['max_uv_index']['uvb']) - float(
+            newer_report['report']['denva']['records']['max_uv_index']['uvb'])
+
+        denva_records_pressure_max = float(older_report['report']['denva']['records']['pressure']['max']) - float(
+            newer_report['report']['denva']['records']['pressure']['max'])
+        denva_records_pressure_min = float(older_report['report']['denva']['records']['pressure']['min']) - float(
+            newer_report['report']['denva']['records']['pressure']['min'])
+
+        denva_records_temperature_max = float(older_report['report']['denva']['records']['temperature']['max']) - float(
+            newer_report['report']['denva']['records']['temperature']['max'])
+        denva_records_temperature_min = float(older_report['report']['denva']['records']['temperature']['min']) - float(
+            newer_report['report']['denva']['records']['temperature']['min'])
+
+        warnings_cow = int(older_report['report']['denva']['warnings']['cow']) - int(
+            newer_report['report']['denva']['warnings']['cow'])
+        warnings_cthe = int(older_report['report']['denva']['warnings']['cthe']) - int(
+            newer_report['report']['denva']['warnings']['cthe'])
+        warnings_cthf = int(older_report['report']['denva']['warnings']['cthf']) - int(
+            newer_report['report']['denva']['warnings']['cthf'])
+        warnings_cthw = int(older_report['report']['denva']['warnings']['cthw']) - int(
+            newer_report['report']['denva']['warnings']['cthw'])
+        warnings_dfsl = int(older_report['report']['denva']['warnings']['dfsl']) - int(
+            newer_report['report']['denva']['warnings']['dfsl'])
+        warnings_dsl = int(older_report['report']['denva']['warnings']['dsl']) - int(
+            newer_report['report']['denva']['warnings']['dsl'])
+        warnings_fsl = int(older_report['report']['denva']['warnings']['fsl']) - int(
+            newer_report['report']['denva']['warnings']['fsl'])
+        warnings_hhe = int(older_report['report']['denva']['warnings']['hhe']) - int(
+            newer_report['report']['denva']['warnings']['hhe'])
+        warnings_hhw = int(older_report['report']['denva']['warnings']['hhw']) - int(
+            newer_report['report']['denva']['warnings']['hhw'])
+        warnings_hle = int(older_report['report']['denva']['warnings']['hle']) - int(
+            newer_report['report']['denva']['warnings']['hle'])
+        warnings_hlw = int(older_report['report']['denva']['warnings']['hlw']) - int(
+            newer_report['report']['denva']['warnings']['hlw'])
+        warnings_iqe = int(older_report['report']['denva']['warnings']['iqe']) - int(
+            newer_report['report']['denva']['warnings']['iqe'])
+        warnings_iqw = int(older_report['report']['denva']['warnings']['iqw']) - int(
+            newer_report['report']['denva']['warnings']['iqw'])
+        warnings_the = int(older_report['report']['denva']['warnings']['the']) - int(
+            newer_report['report']['denva']['warnings']['the'])
+        warnings_thw = int(older_report['report']['denva']['warnings']['thw']) - int(
+            newer_report['report']['denva']['warnings']['thw'])
+        warnings_tle = int(older_report['report']['denva']['warnings']['tle']) - int(
+            newer_report['report']['denva']['warnings']['tle'])
+        warnings_tlw = int(older_report['report']['denva']['warnings']['tlw']) - int(
+            newer_report['report']['denva']['warnings']['tlw'])
+        warnings_uvaw = int(older_report['report']['denva']['warnings']['uvaw']) - int(
+            newer_report['report']['denva']['warnings']['uvaw'])
+        warnings_uvbw = int(older_report['report']['denva']['warnings']['uvbw']) - int(
+            newer_report['report']['denva']['warnings']['uvbw'])
+
+        enviro_avg_light = float(older_report['report']['enviro']['avg']['light']) - float(
+            newer_report['report']['enviro']['avg']['light'])
+        enviro_avg_nh3 = float(older_report['report']['enviro']['avg']['nh3']) - float(
+            newer_report['report']['enviro']['avg']['nh3'])
+        enviro_avg_oxidised = float(older_report['report']['enviro']['avg']['oxidised']) - float(
+            newer_report['report']['enviro']['avg']['oxidised'])
+        enviro_avg_pm1 = float(older_report['report']['enviro']['avg']['pm1']) - float(
+            newer_report['report']['enviro']['avg']['pm1'])
+        enviro_avg_pm25 = float(older_report['report']['enviro']['avg']['pm25']) - float(
+            newer_report['report']['enviro']['avg']['pm25'])
+        enviro_avg_pm10 = float(older_report['report']['enviro']['avg']['pm10']) - float(
+            newer_report['report']['enviro']['avg']['pm10'])
+        enviro_avg_reduced = float(older_report['report']['enviro']['avg']['reduced']) - float(
+            newer_report['report']['enviro']['avg']['reduced'])
+        enviro_avg_temperature = float(older_report['report']['enviro']['avg']['temperature']) - float(
+            newer_report['report']['enviro']['avg']['temperature'])
+
+        enviro_records_light = float(older_report['report']['enviro']['records']['highest_light']) - float(
+            newer_report['report']['enviro']['records']['highest_light'])
+        # TODO add nh3 enviro_records_nh3 = float(older_report['report']['enviro']['records']['highest_nh3']) - float(newer_report['report']['enviro']['records']['highest_nh3'])
+        enviro_records_oxidised = float(older_report['report']['enviro']['records']['highest_oxidised']) - float(
+            newer_report['report']['enviro']['records']['highest_oxidised'])
+        enviro_records_pm1 = float(older_report['report']['enviro']['records']['highest_pm1']) - float(
+            newer_report['report']['enviro']['records']['highest_pm1'])
+        enviro_records_pm25 = float(older_report['report']['enviro']['records']['highest_pm25']) - float(
+            newer_report['report']['enviro']['records']['highest_pm25'])
+        enviro_records_pm10 = float(older_report['report']['enviro']['records']['highest_pm10']) - float(
+            newer_report['report']['enviro']['records']['highest_pm10'])
+        enviro_records_reduced = float(older_report['report']['enviro']['records']['highest_reduced']) - float(
+            newer_report['report']['enviro']['records']['highest_reduced'])
+        enviro_records_temperature_max = float(
+            older_report['report']['enviro']['records']['temperature']['max']) - float(
+            newer_report['report']['enviro']['records']['temperature']['max'])
+        enviro_records_temperature_min = float(
+            older_report['report']['enviro']['records']['temperature']['min']) - float(
+            newer_report['report']['enviro']['records']['temperature']['min'])
+
+        diffferences = {
+            "reports": {
+                'first report': older_report['report']['denva']['report_date'],
+                'second report': newer_report['report']['denva']['report_date'],
+            },
+            "denva": {
+                "avg": {
+                    "cpu_temperature": "{:.2f}".format(denva_avg_cpu_temperature),
+                    "humidity": "{:.2f}".format(denva_avg_humidity),
+                    "motion": "{:.2f}".format(denva_avg_motion),
+                    "pressure": "{:.2f}".format(denva_avg_pressure),
+                    "temperature": "{:.2f}".format(denva_avg_temperature),
+                    "uva": "{:.2f}".format(denva_avg_uva),
+                    "uvb": "{:.2f}".format(denva_avg_uvb),
+                },
+                "records": {
+                    "biggest_motion": denva_records_biggest_motion,
+                    "cpu_temperature": {
+                        "max": "{:.2f}".format(denva_records_cpu_temperature_max),
+                        "min": "{:.2f}".format(denva_records_cpu_temperature_min)
+                    },
+                    "highest_eco2": denva_records_highest_eco2,
+                    "highest_tvoc": denva_records_highest_tvoc,
+                    "humidity": {
+                        "max": "{:.2f}".format(denva_records_cpu_humidity_max),
+                        "min": "{:.2f}".format(denva_records_cpu_humidity_min)
+                    },
+                    "max_uv_index": {
+                        "uva": "{:.2f}".format(denva_records_uva_max),
+                        "uvb": "{:.2f}".format(denva_records_uvb_max)
+                    },
+                    "pressure": {
+                        "max": "{:.2f}".format(denva_records_pressure_max),
+                        "min": "{:.2f}".format(denva_records_pressure_min)
+                    },
+                    "temperature": {
+                        "max": "{:.2f}".format(denva_records_temperature_max),
+                        "min": "{:.2f}".format(denva_records_temperature_min)
+                    }
+                },
+                "tube": {
+                    "delays": {
+                        "BakerlooTotalTime": "0 seconds.",
+                        "CentralTotalTime": "0 seconds.",
+                        "CircleTotalTime": "0 seconds.",
+                        "DistrictTotalTime": "0 seconds.",
+                        "HammersmithTotalTime": "0 seconds.",
+                        "JubileeTotalTime": "0 seconds.",
+                        "MetropolitanTotalTime": "0 seconds.",
+                        "NorthernTotalTime": "0 seconds.",
+                        "PiccadillyTotalTime": "0 seconds.",
+                        "VictoriaTotalTime": "0 seconds.",
+                        "WaterlooTotalTime": "0 seconds."
+                    }
+                },
+                "warnings": {
+                    "cow": warnings_cow,
+                    "cthe": warnings_cthe,
+                    "cthf": warnings_cthf,
+                    "cthw": warnings_cthw,
+                    "dfsl": warnings_dfsl,
+                    "dsl": warnings_dsl,
+                    "fsl": warnings_fsl,
+                    "hhe": warnings_hhe,
+                    "hhw": warnings_hhw,
+                    "hle": warnings_hle,
+                    "hlw": warnings_hlw,
+                    "iqe": warnings_iqe,
+                    "iqw": warnings_iqw,
+                    "the": warnings_the,
+                    "thw": warnings_thw,
+                    "tle": warnings_tle,
+                    "tlw": warnings_tlw,
+                    "uvaw": warnings_uvaw,
+                    "uvbw": warnings_uvbw
+                }
+            },
+            "enviro": {
+                "avg": {
+                    "light": "{:.1f}".format(enviro_avg_light),
+                    "nh3": "{:.1f}".format(enviro_avg_nh3),
+                    "oxidised": "{:.1f}".format(enviro_avg_oxidised),
+                    "pm1": "{:.1f}".format(enviro_avg_pm1),
+                    "pm25": "{:.1f}".format(enviro_avg_pm25),
+                    "pm10": "{:.1f}".format(enviro_avg_pm10),
+                    "reduced": "{:.1f}".format(enviro_avg_reduced),
+                    "temperature": "{:.1f}".format(enviro_avg_temperature),
+                },
+                "records": {
+                    "highest_light": "{:.1f}".format(enviro_records_light),
+                    "highest_nh3": "TO ADD",  # TODO add nh3
+                    "highest_oxidised": "{:.1f}".format(enviro_records_oxidised),
+                    "highest_pm1": "{:.1f}".format(enviro_records_pm1),
+                    "highest_pm10": "{:.1f}".format(enviro_records_pm10),
+                    "highest_pm25": "{:.1f}".format(enviro_records_pm25),
+                    "highest_reduced": "{:.1f}".format(enviro_records_reduced),
+                    "temperature": {
+                        "max": "{:.1f}".format(enviro_records_temperature_max),
+                        "min": "{:.1f}".format(enviro_records_temperature_min)
+                    }
+                }
+            }
+        }
+        return diffferences
+    except Exception as e:
+        msg = 'Unable to compare two reports due to:'
+        logger.warning('{} {}'.format(msg, e), exc_info=True)
+        return {
+            'error': '{} {}'.format(msg, e)
+        }
