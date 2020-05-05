@@ -41,16 +41,22 @@ class Test(TestCase):
         # given
         data = [
             {'timestamp': '2020-03-27 13:44:09.656392', 'temperature': '14.8', 'light': '24.5', 'oxidised': '92.08',
-             'reduced': '224.00', 'nh3': '135.30', 'pm1': '18.0', 'pm25': '27.0', 'pm10': '27.0',
+             'reduced': '224.00', 'nh3': '235.31', 'pm1': '18.0', 'pm25': '27.0', 'pm10': '27.0',
              'measurement_time': '330'},
             {'timestamp': '2020-03-27 13:44:55.500674', 'temperature': '15.0', 'light': '30.7', 'oxidised': '92.43',
              'reduced': '224.00', 'nh3': '135.30', 'pm1': '19.0', 'pm25': '30.0', 'pm10': '29.0',
              'measurement_time': '335'}]
-        expected_result = {'temperature': {'min': '14.8', 'max': '15.0'}, 'highest_light': '30.7',
-                           'highest_oxidised': '92.43', 'highest_reduced': '224.00', 'highest_pm1': '19.0',
-                           'highest_pm25': '30.0', 'highest_pm10': '29.0',
-                           'measurement_time': {'min': '330', 'max': '335'}, 'log entries counter': 2,
-                           'execution_time': '0 ns.'}
+        expected_result = {'execution_time': '0 ns.',
+                           'highest_light': '30.7',
+                           'highest_nh3': '235.31',
+                           'highest_oxidised': '92.43',
+                           'highest_pm1': '19.0',
+                           'highest_pm10': '29.0',
+                           'highest_pm25': '30.0',
+                           'highest_reduced': '224.00',
+                           'log entries counter': 2,
+                           'measurement_time': {'max': '335', 'min': '330'},
+                           'temperature': {'max': '15.0', 'min': '14.8'}}
 
         # when
         result = records.get_enviro_records(data)

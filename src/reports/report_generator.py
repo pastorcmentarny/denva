@@ -388,7 +388,12 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
 
         enviro_records_light = float(older_report['report']['enviro']['records']['highest_light']) - float(
             newer_report['report']['enviro']['records']['highest_light'])
-        # TODO add nh3 enviro_records_nh3 = float(older_report['report']['enviro']['records']['highest_nh3']) - float(newer_report['report']['enviro']['records']['highest_nh3'])
+
+        #TODO remove it in June2020
+        if 'highest_nh3' in older_report['report']['enviro']['records'] and 'highest_nh3' in newer_report['report']['enviro']['records']:
+            enviro_records_nh3 = float(older_report['report']['enviro']['records']['highest_nh3']) - float(newer_report['report']['enviro']['records']['highest_nh3'])
+        else:
+            enviro_records_nh3 = 0.0
         enviro_records_oxidised = float(older_report['report']['enviro']['records']['highest_oxidised']) - float(
             newer_report['report']['enviro']['records']['highest_oxidised'])
         enviro_records_pm1 = float(older_report['report']['enviro']['records']['highest_pm1']) - float(
@@ -496,7 +501,7 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
                 },
                 "records": {
                     "highest_light": "{:.1f}".format(enviro_records_light),
-                    "highest_nh3": "TO ADD",  # TODO add nh3
+                    "highest_nh3": enviro_records_nh3,
                     "highest_oxidised": "{:.1f}".format(enviro_records_oxidised),
                     "highest_pm1": "{:.1f}".format(enviro_records_pm1),
                     "highest_pm10": "{:.1f}".format(enviro_records_pm10),

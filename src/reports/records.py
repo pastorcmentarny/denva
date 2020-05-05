@@ -35,6 +35,7 @@ def get_enviro_records(data_records: list) -> dict:
         'highest_light': 0,
         'highest_oxidised': 0,
         'highest_reduced': 0,
+        'highest_nh3': 0,
         'highest_pm1': 0,
         'highest_pm25': 0,
         'highest_pm10': 0,
@@ -52,6 +53,9 @@ def get_enviro_records(data_records: list) -> dict:
 
         if float(data_record['light']) > float(result['highest_light']):
             result['highest_light'] = data_record['light']
+
+        if float(data_record['nh3']) > float(result['highest_nh3']):
+            result['highest_nh3'] = data_record['nh3']
 
         if float(data_record['oxidised']) > float(result['highest_oxidised']):
             result['highest_oxidised'] = data_record['oxidised']
