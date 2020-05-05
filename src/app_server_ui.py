@@ -160,7 +160,7 @@ def tt_delays_counter():
 
 @app.route("/webcam")
 def do_picture():
-    filename = commands.capture_picture()
+    filename = app_server_service.get_picture()
     return send_file(filename, mimetype='image/jpeg')
 
 

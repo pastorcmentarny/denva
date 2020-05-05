@@ -18,7 +18,7 @@ def capture_picture() -> str:
     try:
         start_time = timer()
         date_path = datetime.now().strftime("%Y\\%m\\%d")
-        path = "F:\\cctv\\{}\\".format(date_path)
+        path = "E:\\cctv\\{}\\".format(date_path)
         if not os.path.isdir(path):
             logger.info('creating folder for {}'.format(path))
             os.makedirs(path)
@@ -33,7 +33,7 @@ def capture_picture() -> str:
         logger.info('picture saved at {}'.format(photo_path))
         end_time = timer()
         total_time = str(int((end_time - start_time) * 1000))  # in ms
-        logger.info('it took {} milliseconds to measure it.'.format(total_time))
+        logger.info('it took {} ms to generate picture.'.format(total_time))
         return photo_path
     except Exception as e:
         logger.warning('Something went badly wrong\n{}'.format(e), exc_info=True)
