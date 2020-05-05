@@ -5,7 +5,7 @@ import requests
 import config_service
 from services import system_data_service
 
-ONE_MINUTE_TIMEOUT = 60
+REPORT_TIMEOUT = 150
 
 
 def get_current_reading_for_denva() -> dict:
@@ -17,11 +17,11 @@ def get_current_reading_for_enviro() -> dict:
 
 
 def get_yesterday_report_for_denva() -> dict:
-    return get_data_for('{}/report/yesterday'.format(config_service.load_cfg()["urls"]['denva']), ONE_MINUTE_TIMEOUT)
+    return get_data_for('{}/report/yesterday'.format(config_service.load_cfg()["urls"]['denva']), REPORT_TIMEOUT)
 
 
 def get_yesterday_report_for_enviro() -> dict:
-    return get_data_for('{}/report/yesterday'.format(config_service.load_cfg()["urls"]['enviro']), ONE_MINUTE_TIMEOUT)
+    return get_data_for('{}/report/yesterday'.format(config_service.load_cfg()["urls"]['enviro']), REPORT_TIMEOUT)
 
 
 def get_current_logs_for_all_services() -> dict:
