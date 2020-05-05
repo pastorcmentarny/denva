@@ -48,13 +48,16 @@ def run_gc():
         'memory_before': get_memory_available_in_mb(),
         'memory_after': '',
         'memory_saved': '',
-        'memory_info_before': psutil.Process(os.getpid()).memory_full_info()
+        'memory_info_before': str(psutil.Process(os.getpid()).memory_full_info()),
+        'gc_stats_before': gc.get_stats()
     }
+    gc.set_debug(gc.DEBUG_UNCOLLECTABLE | gc.DEBUG_SAVEALL)
     gc.collect()
 
     result['memory_after'] = get_memory_available_in_mb()
     result['memory_saved'] = dom_utils.get_int_number_from_text(
         result['memory_before']) - dom_utils.get_int_number_from_text(
         result['memory_after'])
-    result['memory_info_after'] = psutil.Process(os.getpid()).memory_full_info()
+    result['memory_info_after'] = str(psutil.Process(os.getpid()).memory_full_info())
+    result['gc_stats_after'] = gc.get_stats()
     return result
