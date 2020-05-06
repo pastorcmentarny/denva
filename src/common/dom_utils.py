@@ -109,7 +109,12 @@ def is_file_older_than_5_minutes(filename: str) -> bool:
     hour = int(filename[9:11])
     minut = int(filename[11:13])
     second = int(filename[13:15])
-
+    print(year)
+    print(month)
+    print(day)
+    print(hour)
+    print(month)
+    print(second )
     last = datetime(year, month, day, hour, minut, second)
     now = datetime.now()
     time_delta = now - last
@@ -291,7 +296,7 @@ def is_weekend_day(today: datetime) -> bool:
     return day_of_the_week > 4
 
 
-def log_error_count(errors):
+def log_error_count(errors:list):
     number_of_errors = len(errors)
     if number_of_errors >= 2:
         logger.error('Found {} error(s).'.format(len(errors)))

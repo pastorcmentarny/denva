@@ -1,5 +1,6 @@
+import logging
 from datetime import date, datetime
-from unittest import TestCase
+from unittest import TestCase, mock
 from unittest.mock import patch
 
 from common import gobshite_exception, dom_utils
@@ -214,7 +215,6 @@ class Test(TestCase):
         # then
         self.assertEqual(expected_result, result)
 
-
     def test_get_timestamp_file(self):
         # given
         with patch('common.dom_utils.datetime') as mock_date:
@@ -231,3 +231,13 @@ class Test(TestCase):
 
             # then
             self.assertEqual(expected_result, result)
+
+    # tag-test-logger
+    @patch('logging.Logger.debug')
+    def test_log_error_count_should_log_no_errors(self, mock_logger):
+
+        # when
+        dom_utils.log_error_count([])
+
+        # then
+        mock_logger.assert_called_with('No errors found.')
