@@ -15,7 +15,7 @@ import re
 import config_service
 from denva import denva_sensors_service
 from denviro import denviro_sensors_service
-from common import commands, dom_utils, get_description_for, data_files
+from common import commands, dom_utils, get_description_for, data_files, loggy
 
 warnings_logger = logging.getLogger('warnings')
 
@@ -206,5 +206,5 @@ def get_warnings_as_list(data) -> list:
     elif tvoc['value'] > 1500:
         warnings.append('{} with value {}'.format(tvoc['information'], tvoc['value']))
         warnings_logger.warning('[iqw] {} with value {}'.format(tvoc['information'], tvoc['value']))
-    dom_utils.log_error_count(warnings)
+    loggy.log_error_count(warnings)
     return warnings

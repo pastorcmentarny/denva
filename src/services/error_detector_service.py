@@ -1,6 +1,6 @@
 import logging
 from gateways import local_data_gateway
-from common import dom_utils
+from common import dom_utils, loggy
 
 logger = logging.getLogger('app')
 
@@ -59,7 +59,7 @@ def get_errors_from_data(data: dict) -> list:
             errors.append('Free space on disk  ON DELIGHT is VERY LOW.')
     else:
         errors.append('Delight data is missing.')
-    dom_utils.log_error_count(errors)
+    loggy.log_error_count(errors)
     return errors
 
 

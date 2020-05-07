@@ -1,7 +1,7 @@
 from datetime import datetime
 import re
 import config_service as config
-from common import data_files, commands, dom_utils
+from common import data_files, commands, dom_utils, loggy
 
 
 def load_data_for_today() -> list:
@@ -142,7 +142,7 @@ def get_warnings(data) -> dict:
         warnings['tvoc'] = 'Air Quality BAD: {}'.format(data['tvoc'])
     elif int(data['tvoc']) > 1500:
         warnings['tvoc'] = 'Air Quality POOR: {}'.format(data['tvoc'])
-    dom_utils.log_error_count(warnings)
+    loggy.log_error_count(warnings)
     return warnings
 
 

@@ -18,7 +18,7 @@ import time
 
 import config_service
 import mothership.information_service as information
-from common import app_timer, data_files
+from common import app_timer, data_files, loggy
 from mothership import webcam_service
 from reports import report_service
 from services import email_sender_service
@@ -61,8 +61,7 @@ def setup():
     config_service.set_mode_to('server')
     data_files.setup_logging('app')
     information.refresh_all()
-    end_time = timer()
-    logger.info('Setup took {} ms.'.format(int((end_time - start_time) * 1000)))
+    loggy.log_time('Mothership App Setup', timer(), start_time)
 
 
 if __name__ == '__main__':
