@@ -150,11 +150,11 @@
                     {% for an_error in message.errors %}
                         <li class="mb-1 text-danger">{{ an_error }}</li>
                     {% endfor %}
-                    {% for denva in message.warnings.denva %}
-                        <li class="mb-1 text-warning">{{ denva }}</li>
+                    {% for _, value in message.warnings.denva.items() %}
+                        <li class="mb-1 text-warning">{{ value }}</li>
                     {% endfor %}
-                    {% for enviro in message.warnings.enviro %}
-                        <li class="mb-1 text-warning">{{ enviro }}</li>
+                    {% for _, value in message.warnings.enviro.items() %}
+                        <li class="mb-1 text-warning">{{ value }}</li>
                     {% endfor %}
                     {% for server in message.warnings.server %}
                         <li class="mb-1 text-danger">{{ server }}</li>
