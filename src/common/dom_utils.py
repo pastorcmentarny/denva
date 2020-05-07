@@ -296,11 +296,7 @@ def is_weekend_day(today: datetime) -> bool:
     return day_of_the_week > 4
 
 
-def log_error_count(errors:list):
-    number_of_errors = len(errors)
-    if number_of_errors >= 2:
-        logger.error('Found {} error(s).'.format(len(errors)))
-    elif number_of_errors > 0:
-        logger.warning('Found {} error(s).'.format(len(errors)))
-    else:
-        logger.debug('No errors found.')
+
+
+def log_time(what:str,start,end):
+    pass
