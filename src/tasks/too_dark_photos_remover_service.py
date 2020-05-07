@@ -9,15 +9,15 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import datetime
 import logging
 import os
 from collections import Counter
 from timeit import default_timer as timer
 
-import sys
 from PIL import Image
 
-from common import data_files
+from common import dom_utils
 
 logger = logging.getLogger('server')
 deleted = 0
@@ -25,14 +25,13 @@ ignored = 0
 errors = 0
 
 
-def get_all_photos_for() -> list:
-    args = sys.argv[1:]
-    path = "F:\\cctv\\{}\\{}\\{}\\".format(args[0], args[1], args[2])
-    logger.info("Generating list of files to process for {}.{}'{}".format(args[2], args[1], args[0]))
+def get_all_photos_for(year: str, month: str, day: str) -> list:
+    path = "E:\\cctv\\{}\\{}\\{}\\".format(year, month, day)
+    logger.info("Generating list of files to process for {}.{}'{}".format(day, month, year))
     photos = []
     for root, dirs, files in os.walk(path):
         for filename in files:
-            photos.append(filename)
+            photos.append(path + filename)
     logger.info("Collected {} file(s) to process.".format(len(photos)))
     return photos
 
@@ -84,15 +83,20 @@ def check_is_pixel_too_dark(pixel) -> bool:
 
 
 def setup():
-    data_files.setup_logging()
+    dom_utils.setup_test_logging()
 
 
-def main():
+def process_for_yesterday():
+    yesterday = datetime.datetime.now() + datetime.timedelta(days=-1)
+    process_for_date(str(yesterday.year), '{:02d}'.format(yesterday.month), '{:02d}'.format(yesterday.day))
+
+
+def process_for_date(year: str, month: str, day: str):
     global deleted
     global ignored
     global errors
     logger.info('Starting a server app')
-    all_photos = get_all_photos_for()
+    all_photos = get_all_photos_for(year, month, day)
 
     all_start_time = timer()
 
@@ -114,4 +118,8 @@ def main():
 
 if __name__ == '__main__':
     setup()
-    main()
+    """
+    args = sys.argv[1:]
+    process_for_date(args[0], args[1], args[2])
+    """
+    process_for_yesterday()
