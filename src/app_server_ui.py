@@ -17,7 +17,7 @@ from flask import Flask, jsonify, url_for, send_file, request, render_template
 import config_service
 from common import data_files
 from gateways import web_data_gateway
-from mothership import app_server_service
+from mothership import app_server_service, webcam_service
 from reports import report_service
 from services import information_service, tubes_train_service
 from services import system_data_service
@@ -160,7 +160,7 @@ def tt_delays_counter():
 
 @app.route("/webcam")
 def do_picture():
-    filename = app_server_service.get_picture()
+    filename = webcam_service.capture_picture()
     return send_file(filename, mimetype='image/jpeg')
 
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-
+import os
 import logging
+import shutil
 from datetime import datetime
 from pathlib import Path
 
@@ -26,3 +27,23 @@ def backup_result(results: list):
         eight_track_results.write('\n')
     eight_track_results.close()
     return path
+
+
+def backup_pi_data():
+    # copy logs ,reports to
+    source = '\\\\DS-LPD-SERVER\\denva\\data\\'
+    destination = 'D:\\denva\\backup\\test\\'
+    for folderName, subFolders, filenames in os.walk(source):
+        print('The current folder is ' + folderName)
+
+        for subFolder in subFolders:
+            print('SUBFOLDER OF ' + folderName + ': ' + subFolder)
+        for filename in filenames:
+            print('FILE INSIDE ' + folderName + ': ' + filename)
+            result = shutil.copy(folderName +  "\\" + filename, destination)
+            print(result)
+        print('')
+
+
+if __name__ == '__main__':
+    backup_pi_data()

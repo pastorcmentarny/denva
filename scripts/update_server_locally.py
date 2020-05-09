@@ -1,16 +1,14 @@
 import os
 import shutil
 
-from utils import dom_utils
+from common import dom_utils
 
-FROM = "D:\\Projects\\denva\\src"
-TO = "\\ds-lpd-server\\denva\\src"
-BACKUP = 'D:\\denva\\backup'
-
-'''this script is used to copy project locally to my server'''
+FROM = "D:\\GitHub\\denva\\src\\"
+TO = '\\\\DS-LPD-SERVER\\denva\\src\\'
+BACKUP = '\\\\DS-LPD-SERVER\\denva\\backup\\project\\'
 
 
-def backup():
+def update_server():
     print('Performing backup..')
     dom_utils.get_timestamp_title()
     backup_path = BACKUP + dom_utils.get_date_as_folders()
@@ -18,20 +16,21 @@ def backup():
     if not os.path.exists(backup_path):
         os.makedirs(backup_path)
 
-    print('Coping files')
-    result = shutil.copytree(TO, BACKUP)
-    print('Backup complete. {}'.format(result))
 
-def update():
-    backup()
-    """
-        if os.path.exists(TO):
+    # copy logs ,reports to
+    source = '\\\\DS-LPD-SERVER\\denva\\data\\'
+    destination = 'D:\\denva\\backup\\test\\'
+    for folderName, subFolders, filenames in os.walk(source):
+        print('The current folder is ' + folderName)
 
-        shutil.rmtree(TO)
-        result = shutil.copytree(FROM, TO)
-        print(result)
+        for subFolder in subFolders:
+            print('SUBFOLDER OF ' + folderName + ': ' + subFolder)
+        for filename in filenames:
+            print('FILE INSIDE ' + folderName + ': ' + filename)
+            result = shutil.copy(folderName +  "\\" + filename, destination)
+            print(result)
+        print('')
 
-    """
 
 if __name__ == '__main__':
-    update()
+    update_server()

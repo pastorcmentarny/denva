@@ -4,12 +4,12 @@
 `history > commands_history.txt` - save history of commands to file
 
 
-# Update Pi
+# Update Pi 
 0.  `sudo apt update`
 0.  `sudo apt full-upgrade`
 0.  `sudo apt clean`
 0.  `sudo reboot`
-
+0.  `pip install --upgrade pip'`
 
 ## Pi related
 * ``` i2cdetect -y 1``` display list i2c port used on

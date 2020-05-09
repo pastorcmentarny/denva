@@ -51,6 +51,15 @@ def reminders():
               "After that update this method to next year :)")
 
 
+def backup_pictures_from_previous_day():
+    # if folder exists , finish
+    # create a folder
+    # count files in folder
+    # copy pictures
+    # log result
+    pass
+
+
 if __name__ == '__main__':
     clean()
     reminders()

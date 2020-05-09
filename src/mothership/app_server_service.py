@@ -25,7 +25,7 @@ import mothership.personal_stats as personal_events
 import mothership.random_irregular_verb as verb
 from common import data_files, dom_utils
 from gateways import web_data_gateway, local_data_gateway
-from mothership import daily, webcam_service
+from mothership import daily
 from services import error_detector_service
 from services import weather_service, system_data_service
 from zeroeighttrack import leaderboard
@@ -200,8 +200,3 @@ def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
             'links': get_links_for_gateway()
         }
     return data
-
-
-def get_picture():
-    logger.info('Create picture from webcam')
-    return webcam_service.capture_picture()
