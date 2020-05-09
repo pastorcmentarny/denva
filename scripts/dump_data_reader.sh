@@ -1,8 +1,10 @@
-DATA_DIR_DATE=$(date +'%m/%d/%Y')
+#!/usr/bin/env bash
+
+DATA_DIR_DATE=$(date +'%Y/%m/%d')
 DATA_PATH="/home/pi/data/${DATA_DIR_DATE}"
-FILE_NAME="aircrafts.txt"
+FILE_NAME="aircraft.txt"
 echo "$DATA_PATH"
-sudo mkdir "$DATA_PATH"
+sudo mkdir -p "$DATA_PATH"
 cd $DATA_PATH
 touch "$FILE_NAME"
 nc 192.168.0.201 30003 >>"$DATA_PATH/$FILE_NAME"
