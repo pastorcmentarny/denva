@@ -1,4 +1,5 @@
 #!/bin/bash
+
     FILE=/home/pi/denva-master/data/dictionary.txt
 
     cd /home/pi/denva-master/data/

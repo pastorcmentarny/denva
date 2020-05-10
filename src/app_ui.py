@@ -15,9 +15,10 @@ import sys
 from flask import Flask, jsonify, url_for, request, render_template
 
 import config_service
-from common import data_files, commands
+from common import commands
 from denva import denva_service
-from services import email_sender_service, common_service
+from services import common_service
+from sensors import aircraft_radar_sensor
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -133,6 +134,11 @@ def specific_day_warns():
     day = args.get('day')
     logger.info('Getting warnings for {}.{}.{}'.format(day, month, year))
     return jsonify(denva_service.get_warnings_for(year, month, day))
+
+
+@app.route("/flights")
+def flights_today():
+    return jsonify(aircraft_radar_sensor.get_all_airplanes())
 
 
 @app.route("/")
