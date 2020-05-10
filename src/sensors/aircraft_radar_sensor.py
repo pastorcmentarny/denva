@@ -1,20 +1,28 @@
+import os
 from datetime import datetime
 from timeit import default_timer as timer
 
-from common import loggy
+from common import dom_utils, loggy
 
 
-def get_all_airplanes() -> dict:
+def get_airplane_for_today():
+    get_all_airplanes_for(datetime.now())
+
+
+def get_airplane_for_yesterday():
+    get_all_airplanes_for(dom_utils.get_yesterday_date())
+
+
+def get_all_airplanes_for(date: datetime) -> dict:
     start_time = timer()
-    today = datetime.now()
-    path = f"/home/pi/data/{today.year}/{today.month:02d}/{today.day:02d}/aircraft.txt"
-    # if os.path.exists(path) if not ,return 'not exists'
+    path = f"/home/pi/data/{date.year}/{date.month:02d}/{date.day:02d}/aircraft.txt"
+    if not os.path.exists(path):
+        return {'error': 'no file with airplane detected found.'}
     file = open(path, 'r', newline='')
     detected_entries = file.readlines()
     all_aircraft = []
     for row in detected_entries:
         row = row.split(',')
-        print(row)
         if row[10] != '':
             all_aircraft.append(row[10].strip())
     result_as_set = set(all_aircraft)

@@ -40,7 +40,7 @@ def generate_for_yesterday() -> dict:
     logger.info('Getting report for yesterday...')
     path = dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date())
     try:
-        if d.check_if_report_was_generated(path):
+        if data_files.check_if_report_was_generated(path):
             logger.info('Report was generated. Getting report from file.')
             return data_files.load_report(path)
         else:
