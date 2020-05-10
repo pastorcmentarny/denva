@@ -15,10 +15,10 @@ import sys
 from flask import Flask, jsonify, url_for, request, render_template
 
 import config_service
-from common import commands
+from common import commands, data_files
 from denva import denva_service
-from services import common_service
 from sensors import aircraft_radar_sensor
+from services import common_service, email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
