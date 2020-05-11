@@ -163,7 +163,7 @@ def get_system_logs(number: int) -> dict:
 def is_dump_active():  # -> bool:
     try:
         cmd = f'ps -aux | grep "sudo /home/pi/denva-master/scripts/dump_data_reader.sh" | grep -v grep'
-        result = subprocess.check_output(cmd)
+        result = subprocess.check_output(cmd, shell = True)
         return result
     except Exception as e:
         return {'error', 'Unable to execute command due to: {}'.format(e)}

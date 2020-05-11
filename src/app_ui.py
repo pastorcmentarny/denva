@@ -143,7 +143,7 @@ def specific_day_warns():
 
 @app.route("/flights")
 def flights_today():
-    return jsonify(aircraft_radar_sensor.get_all_airplanes())
+    return jsonify(aircraft_radar_sensor.get_airplane_for_today())
 
 
 @app.route("/")
