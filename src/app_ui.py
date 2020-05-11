@@ -37,7 +37,7 @@ def healthcheck():
 
 
 @app.route("/hc/ar")
-def healthcheck():
+def healthcheck_ar():
     return jsonify(denva_service.check_aircraft_radar())
 
 
