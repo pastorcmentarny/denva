@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from timeit import default_timer as timer
 
-from common import dom_utils, loggy
+from common import dom_utils, loggy, commands
 
 
 def get_airplane_for_today():
@@ -29,3 +29,10 @@ def get_all_airplanes_for(date: datetime) -> dict:
     all_aircraft = (list(result_as_set))
     loggy.log_time('Getting airplane measurement', start_time, timer())
     return {'flights': all_aircraft}
+
+
+def check_hc():
+    return {
+        'dump': commands.is_dump_active(),
+        'digest': commands.is_dump_digest_active()
+    }

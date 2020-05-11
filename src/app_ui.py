@@ -36,6 +36,11 @@ def healthcheck():
     return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
+@app.route("/hc/ar")
+def healthcheck():
+    return jsonify(denva_service.check_aircraft_radar())
+
+
 @app.route("/log/system")
 def recent_system_log_app():
     logger.info('Getting system logs')

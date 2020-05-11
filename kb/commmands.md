@@ -15,3 +15,6 @@
 * ``` i2cdetect -y 1``` display list i2c port used on
 * ```sudo apt-get install postfix```
 
+# check if process is running
+ps -aux | grep "nc 192.168.0.201 30003" | grep -v grep
+ps -aux | grep "sudo /home/pi/denva-master/scripts/dump_data_reader.sh" | grep -v grep

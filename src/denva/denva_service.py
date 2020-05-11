@@ -1,7 +1,7 @@
 from denva import denva_sensors_service
 from reports import averages, records, report_service
 from services import sensor_warnings_service
-
+from sensors import aircraft_radar_sensor
 
 def get_all_stats_for_today():
     return denva_sensors_service.load_data_for_today()
@@ -37,3 +37,7 @@ def get_last_measurement_from_sensor():
 
 def get_last_report():
     return report_service.generate_for_yesterday()
+
+
+def check_aircraft_radar() -> dict:
+    return aircraft_radar_sensor.check_hc()

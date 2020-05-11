@@ -158,3 +158,18 @@ def reboot(reason: str):
 
 def get_system_logs(number: int) -> dict:
     return get_lines_from_path('/var/log/syslog', number)
+
+
+def is_dump_active():  # -> bool:
+    try:
+        cmd = f'ps -aux | grep "sudo /home/pi/denva-master/scripts/dump_data_reader.sh" | grep -v grep'
+        result = subprocess.check_output(cmd)
+        return result
+    except Exception as e:
+        return {'error', 'Unable to execute command due to: {}'.format(e)}
+
+
+def is_dump_digest_active():  # -> bool:
+    cmd = "ps aux | grep 'nc 192.168.0.201' | grep -v grep"
+    result = subprocess.check_output(cmd)
+    return result
