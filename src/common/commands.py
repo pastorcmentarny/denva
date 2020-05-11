@@ -160,16 +160,22 @@ def get_system_logs(number: int) -> dict:
     return get_lines_from_path('/var/log/syslog', number)
 
 
-def is_dump_active():  # -> bool:
+def is_dump_active():
     try:
         cmd = f'ps -aux | grep "./dump1090 --net --net-http-port 16601 --metric --quiet" | grep -v grep'
         result = subprocess.check_output(cmd, shell = True)
-        return result
+        logger.debug('Dump1090 is UP. Result {}'.format(result))
+        return "UP"
     except Exception as e:
-        return {'error', 'Unable to execute command due to: {}'.format(e)}
+        logger.error('Dump1090 is DOWN due to {}'.format(e))
+        return "DOWN "
 
 
-def is_dump_digest_active():  # -> bool:
-    cmd = "ps aux | grep 'nc 192.168.0.201' | grep -v grep"
-    result = subprocess.check_output(cmd)
-    return result
+def is_dump_digest_active():
+    try:
+        cmd = f"ps -aux | grep 'nc 192.168.0.201' | grep -v grep"
+        result = subprocess.check_output(cmd)
+        return "UP {}".format(result)
+    except Exception as e:
+        logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
+        return "DOWN "
