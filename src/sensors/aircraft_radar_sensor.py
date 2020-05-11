@@ -1,16 +1,21 @@
+import logging
 import os
 from datetime import datetime
 from timeit import default_timer as timer
 
 from common import dom_utils, loggy, commands
 
+logger = logging.getLogger('app')
+
 
 def get_airplane_for_today():
-    get_all_airplanes_for(datetime.now())
+    logger.info('Getting all flights with flights name today')
+    return get_all_airplanes_for(datetime.now())
 
 
 def get_airplane_for_yesterday():
-    get_all_airplanes_for(dom_utils.get_yesterday_date())
+    logger.info('Getting all flights with flights name yesterday')
+    return get_all_airplanes_for(dom_utils.get_yesterday_date())
 
 
 def get_all_airplanes_for(date: datetime) -> dict:

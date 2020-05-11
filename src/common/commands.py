@@ -162,7 +162,7 @@ def get_system_logs(number: int) -> dict:
 
 def is_dump_active():  # -> bool:
     try:
-        cmd = f'ps -aux | grep "sudo /home/pi/denva-master/scripts/dump_data_reader.sh" | grep -v grep'
+        cmd = f'ps -aux | grep "./dump1090 --net --net-http-port 16601 --metric --quiet" | grep -v grep'
         result = subprocess.check_output(cmd, shell = True)
         return result
     except Exception as e:
