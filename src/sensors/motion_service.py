@@ -10,9 +10,8 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
-from icm20948 import ICM20948
-
 import time
+from icm20948 import ICM20948
 
 import config_service
 

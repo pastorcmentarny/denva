@@ -1,6 +1,6 @@
 import logging
-import time
 
+import time
 from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
 
 logger = logging.getLogger('app')

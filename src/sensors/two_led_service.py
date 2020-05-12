@@ -11,7 +11,6 @@
 """
 
 import time
-
 from bh1745 import BH1745
 
 import config_service
