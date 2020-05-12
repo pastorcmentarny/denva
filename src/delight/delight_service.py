@@ -1,6 +1,7 @@
 import config_service
-from services import system_data_service
 from common import commands
+from gateways import local_data_gateway
+from services import system_data_service
 
 
 def run_gc() -> dict:
@@ -21,3 +22,8 @@ def get_log_ui(number: int):
 
 def get_system_info():
     return commands.get_system_info()
+
+
+def get_hc_for_radar():
+    return local_data_gateway.get_data_for(config_service.get_radar_hc_url(), 2)
+

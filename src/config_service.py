@@ -231,3 +231,7 @@ def get_report_path_at_server():
 
 def get_warm_up_measurement_counter():
     return settings['sensors']['bme']['warm_up']
+
+
+def get_radar_hc_url() -> str:
+    return settings["urls"]["denva"] + "/hc/ar"

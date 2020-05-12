@@ -350,6 +350,28 @@ def device_status():
     set_status_for_device(13, 13, color_red, color_green, color_blue)
     logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
 
+    # 5. Aircraft Radar/ Digest
+    state = status.Status()
+    radar_data = delight_service.get_hc_for_radar()
+
+    if radar_data["dump"] != 'UP':
+        logger.warning('status: RED due to Dump is DOWN')
+        state.set_error()
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
+    unicornhathd.set_pixel(to_x(1), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(1), 10, color_red, color_green, color_blue)
+
+    state = status.Status()
+
+    if radar_data["digest"] != 'UP':
+        logger.warning('status: RED due to Data Digest is DOWN')
+        state.set_error()
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
+    unicornhathd.set_pixel(to_x(3), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(3), 10, color_red, color_green, color_blue)
+
     if is_night_mode():
         unicornhathd.brightness(0.1)
         unicornhathd.show()
