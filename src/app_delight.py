@@ -187,7 +187,7 @@ def device_status():
     logger.info('Checking devices status... (Cycle: {})'.format(cycle))
 
     blink = False
-    # 1. denva, 2. denviro, 3. server, 4. delight
+    # 1. denva, 2. denviro, 3. server, 4. delight 5. radar
     unicornhathd.rotation(270)
 
     delight_display.reset_screen()
@@ -351,8 +351,9 @@ def device_status():
     logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
 
     # 5. Aircraft Radar/ Digest
-    state = status.Status()
     radar_data = delight_service.get_hc_for_radar()
+
+    state = status.Status()
 
     if radar_data["dump"] != 'UP':
         logger.warning('status: RED due to Dump is DOWN')
@@ -361,6 +362,7 @@ def device_status():
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
     unicornhathd.set_pixel(to_x(1), 9, color_red, color_green, color_blue)
     unicornhathd.set_pixel(to_x(1), 10, color_red, color_green, color_blue)
+    logger.info('Dump daemon: {}'.format(state.get_status_as_light_colour()))
 
     state = status.Status()
 
@@ -371,6 +373,7 @@ def device_status():
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
     unicornhathd.set_pixel(to_x(3), 9, color_red, color_green, color_blue)
     unicornhathd.set_pixel(to_x(3), 10, color_red, color_green, color_blue)
+    logger.info('Data digest: {}'.format(state.get_status_as_light_colour()))
 
     if is_night_mode():
         unicornhathd.brightness(0.1)
@@ -382,7 +385,7 @@ def device_status():
         else:
             unicornhathd.brightness(DEFAULT_BRIGHTNESS_LEVEL)
             unicornhathd.show()
-            time.sleep(15)
+            time.sleep(30)
 
     unicornhathd.rotation(180)
 
@@ -419,7 +422,7 @@ def perform_state_animation():
     b6.reverse()
     brightnesses.extend(b1)
     brightnesses.extend(b2)
-    for x in range(0, 10):
+    for x in range(0, 15):
         for b in brightnesses:
             unicornhathd.brightness(b)
             unicornhathd.show()
