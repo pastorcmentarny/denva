@@ -171,7 +171,6 @@ def to_x(i: int) -> int:
     return 15 - i
 
 
-# TODO prototype
 def update_blink(blink, state) -> bool:
     if blink:
         return blink

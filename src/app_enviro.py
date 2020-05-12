@@ -20,7 +20,7 @@ import time
 import config_service
 from common import data_files, commands
 from denva import cl_display
-from sensors import gas_service, humidity_bme_service, light_proximity_service, noise_service
+from sensors import gas_service, humidity_bme_service, light_proximity_service
 from sensors import particulate_matter_service
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import email_sender_service, sensor_warnings_service
@@ -39,8 +39,8 @@ on = True
 
 
 def get_noise():
-    low, mid, high, amp = noise_service.get_noise_measurement()
-    return 'low: {}, mid: {}, high: {}, amp: {}'.format(low, mid, high, amp)
+    #low, mid, high, amp = noise_service.get_noise_measurement()
+    return '' #low: {}, mid: {}, high: {}, amp: {}'.format(low, mid, high, amp)
 
 
 def get_measurement() -> dict:
