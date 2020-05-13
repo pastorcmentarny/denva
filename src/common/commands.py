@@ -163,19 +163,20 @@ def get_system_logs(number: int) -> dict:
 def is_dump_active():
     try:
         cmd = f'ps -aux | grep "./dump1090 --net --net-http-port 16601 --metric --quiet" | grep -v grep'
-        result = subprocess.check_output(cmd, shell = True)
+        result = subprocess.check_output(cmd, shell=True)
         logger.debug('Dump1090 is UP. Result {}'.format(result))
         return "UP"
     except Exception as e:
         logger.error('Dump1090 is DOWN due to {}'.format(e))
-        return "DOWN "
+        return "DOWN"
 
 
 def is_dump_digest_active():
     try:
         cmd = f"ps -aux | grep 'nc 192.168.0.201' | grep -v grep"
-        result = subprocess.check_output(cmd)
-        return "UP {}".format(result)
+        result = subprocess.check_output(cmd, shell=True)
+        logger.debug('Result {}'.format(result))
+        return "UP".format(result)
     except Exception as e:
         logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
-        return "DOWN "
+        return "DOWN"
