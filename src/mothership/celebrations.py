@@ -19,6 +19,7 @@ events = {
     '0501': ['Labour Day'],
     '0502': ['Dzień Flagi Rzeczpospolitej Polskiej'],
     '0503': ['Święto Konstytucji 3 Maja'],
+    '0509': ['Dzień Unii Europejskiej'],
     '0526': ['Mother day'],
     '0601': ['Children day'],
     '0620': ['Summer starts', 'Longest day in the year'],
