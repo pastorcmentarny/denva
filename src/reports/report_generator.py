@@ -146,11 +146,10 @@ def generate_for(date: datetime) -> dict:
         report['warnings'] = denva_sensors_service.count_warnings(warnings)
         report['records'] = records.get_records(data)
         report['avg'] = averages.get_averages(data)
-        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month,
-                                                                               day)  # move to separate function
+#Move to server        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month,                                                                       day)  # move to separate function
         return report
-    except:
-        logger.error("Unable to generate  report.", exc_info=True)
+    except Exception as e:
+        logger.error("Unable to generate  report due to {}".format(e), exc_info=True)
         return {}
 
 
