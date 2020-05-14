@@ -133,7 +133,7 @@ def get_weather() -> str:
         return weather
     except Exception as whoops:
         logger.error('Unable to get weather data due to: {}'.format(whoops))
-        return ['Weather data N/A']
+        return 'Weather data N/A'
 
 
 def get_o2_status() -> str:
@@ -199,7 +199,6 @@ def get_pollution_for(city: str) -> str:
 
 
 def check_pages(headers, ok, pages, problems):
-    # TODO move to web_data_gateway
     for page in pages:
 
         logger.info('checking connection to :{}'.format(page))
