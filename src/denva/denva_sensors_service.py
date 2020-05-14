@@ -79,6 +79,7 @@ def add_row(data, row):
         }
     )
 
+
 def get_warnings(data) -> dict:
     warnings = {}
     if type(data['temp']) is not float:
