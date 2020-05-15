@@ -18,15 +18,11 @@ from gateways import local_data_gateway
 logger = logging.getLogger('ddd')
 
 refresh_rate_in_seconds = 15
-airport_raw_data = "D:\\denva\\data\\{}".format(dom_utils.get_date_as_filename("aircraft", "txt", datetime.now()))
-airport_processed_data = "D:\\denva\\data\\{}".format(
-    dom_utils.get_date_as_filename("aircraft-processed", "csv", datetime.now()))
 
 
 def counter():
-    with open(airport_processed_data) as csv_file:
-        aircraft_csv = csv.reader(csv_file)
-        aircraft_data = list(aircraft_csv)
+    aircraft_data = aircraft_storage.load_processed_data()
+    if aircraft_data:
         print("Data size: {}".format(len(aircraft_data)))
         flights = []
         for aircraft_row in aircraft_data:

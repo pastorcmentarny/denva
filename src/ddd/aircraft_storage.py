@@ -35,3 +35,15 @@ def save_processed_data(result):
                                          ])
     except Exception as exception:
         logger.error('Unable to save processed reading due to {}'.format(exception), exc_info=True)
+
+
+def load_processed_data() -> list:
+    airport_processed_data = "D:\\denva\\data\\{}".format(
+        dom_utils.get_date_as_filename("aircraft-processed", "csv", datetime.now()))
+    try:
+        with open(airport_processed_data) as csv_file:
+            aircraft_csv = csv.reader(csv_file)
+            return list(aircraft_csv)
+    except Exception as exception:
+        logger.error('Unable to save processed reading due to {}'.format(exception), exc_info=True)
+        return []
