@@ -39,29 +39,35 @@ def counter():
 
 
 def digest():
+    errors = 0
     while True:
         start_time = timer()
 
         result = local_data_gateway.get_data_for("http://192.168.0.201:16601/data.json", 5)
 
-        print(result)
-        with open(airport_raw_data, 'a+', encoding='utf-8') as aircraft_raw_file:
-            json.dump(result, aircraft_raw_file, ensure_ascii=False, indent=4)
+        if 'error' in result:
+            logger.error(result['error'])
+            errors += 1
+            print('Errors: {}'.format(errors))
+        else:
+            with open(airport_raw_data, 'a+', encoding='utf-8') as aircraft_raw_file:
+                json.dump(result, aircraft_raw_file, ensure_ascii=False, indent=4)
 
-        timestamp = datetime.now()
-        with open(airport_processed_data, 'a+', encoding='utf-8', newline='') as aircraft_processed_file:
-            csv_writer = csv.writer(aircraft_processed_file)
+            timestamp = datetime.now()
+            with open(airport_processed_data, 'a+', encoding='utf-8', newline='') as aircraft_processed_file:
+                csv_writer = csv.writer(aircraft_processed_file)
 
-            for entry in result:
-                if entry['flight'] != '':
-                    csv_writer.writerow([timestamp,
-                                         entry['hex'], entry['squawk'], entry['flight'].strip(), entry['lat'],
-                                         entry['lon'], entry['validposition'], entry['altitude'],
-                                         entry['vert_rate'], entry['track'], entry['validtrack'],
-                                         entry['speed'], entry['messages'], entry['seen']
-                                         ])
+                for entry in result:
+                    if entry['flight'] != '':
+                        csv_writer.writerow([timestamp,
+                                             entry['hex'], entry['squawk'], entry['flight'].strip(), entry['lat'],
+                                             entry['lon'], entry['validposition'], entry['altitude'],
+                                             entry['vert_rate'], entry['track'], entry['validtrack'],
+                                             entry['speed'], entry['messages'], entry['seen']
+                                             ])
+            counter()
         end_time = timer()
-        counter()
+
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         logger.debug('It took {} milliseconds to process.'.format(measurement_time))
 
@@ -73,4 +79,9 @@ def digest():
 
 if __name__ == '__main__':
     dom_utils.setup_test_logging()
-    digest()
+    try:
+        digest()
+    except Exception as keyboard_exception:
+        logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
+
+
