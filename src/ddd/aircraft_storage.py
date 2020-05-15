@@ -12,9 +12,9 @@ logger = logging.getLogger('ddd')
 
 def save_raw_reading(reading):
     data_path = config_service.get_directory_path_for_aircraft()
-    date_as_folders = dom_utils.get_date_as_folders()
-    Path("{}{}".format(data_path, date_as_folders)).mkdir(parents=True, exist_ok=True)
-    airport_raw_data = "{}{}{}".format(data_path, date_as_folders,
+    date_as_folders = dom_utils.get_date_as_folders_linux()
+    Path("{}/{}".format(data_path, date_as_folders)).mkdir(parents=True, exist_ok=True)
+    airport_raw_data = "{}/{}{}".format(data_path, date_as_folders,
                                        dom_utils.get_date_as_filename("aircraft", "txt", datetime.now()))
     try:
         with open(airport_raw_data, 'a+', encoding='utf-8') as aircraft_raw_file:
@@ -25,9 +25,9 @@ def save_raw_reading(reading):
 
 def save_processed_data(result):
     data_path = config_service.get_directory_path_for_aircraft()
-    date_as_folders = dom_utils.get_date_as_folders()
-    Path("{}{}".format(data_path,date_as_folders)).mkdir(parents=True, exist_ok=True)
-    airport_processed_data = "{}{}{}".format(data_path, date_as_folders,
+    date_as_folders = dom_utils.get_date_as_folders_linux()
+    Path("{}/{}".format(data_path,date_as_folders)).mkdir(parents=True, exist_ok=True)
+    airport_processed_data = "{}/{}{}".format(data_path, date_as_folders,
                                              dom_utils.get_date_as_filename("aircraft-processed", "csv",
                                                                             datetime.now()))
     timestamp = datetime.now()
@@ -49,8 +49,8 @@ def save_processed_data(result):
 
 def load_processed_data() -> list:
     data_path = config_service.get_directory_path_for_aircraft()
-    date_as_folders = dom_utils.get_date_as_folders()
-    airport_processed_data = "{}{}{}".format(data_path, date_as_folders,
+    date_as_folders = dom_utils.get_date_as_folders_linux()
+    airport_processed_data = "{}/{}{}".format(data_path, date_as_folders,
                                              dom_utils.get_date_as_filename("aircraft-processed", "csv",
                                                                             datetime.now()))
     try:

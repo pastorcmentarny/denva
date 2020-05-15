@@ -254,6 +254,14 @@ def get_date_as_folders() -> str:
     return "\\{}\\{:02d}\\{:02d}\\".format(year, month, day)
 
 
+def get_date_as_folders_linux() -> str:
+    today = date.today()
+    year = today.year
+    month = today.month
+    day = today.day
+    return "{}/{:02d}/{:02d}/".format(year, month, day)
+
+
 def _is_valid_event_time(event) -> bool:
     if not event or event.isspace():
         return False
