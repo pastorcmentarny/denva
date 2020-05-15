@@ -38,7 +38,7 @@ def get_current_logs_for_all_services() -> dict:
     }
 
 
-def get_data_for(url: str, timeout: int = 3) -> dict:
+def get_data_for(url: str, timeout: int = 3): # ->list or dict
     try:
         response = requests.get(url, timeout=timeout)
         response.raise_for_status()
