@@ -251,7 +251,7 @@ def get_date_as_folders() -> str:
     year = today.year
     month = today.month
     day = today.day
-    return "\\{}\\{:02x}\\{:02x}\\".format(year, month, day)
+    return "\\{}\\{:02d}\\{:02d}\\".format(year, month, day)
 
 
 def _is_valid_event_time(event) -> bool:
@@ -294,9 +294,3 @@ def convert_time_to_minutes(event: str) -> int:
 def is_weekend_day(today: datetime) -> bool:
     day_of_the_week = today.weekday()
     return day_of_the_week > 4
-
-
-
-
-def log_time(what:str,start,end):
-    pass
