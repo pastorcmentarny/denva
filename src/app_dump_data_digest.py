@@ -1,42 +1,31 @@
-"""
-[
-{"hex":"471f6f", "squawk":"0000", "flight":"", "lat":0.000000, "lon":0.000000, "validposition":0, "altitude":4975,  "vert_rate":1920,"track":69, "validtrack":1,"speed":190, "messages":3, "seen":231},
-{"hex":"3c65c8", "squawk":"2565", "flight":"", "lat":0.000000, "lon":0.000000, "validposition":0, "altitude":0,  "vert_rate":-576,"track":89, "validtrack":1,"speed":127, "messages":4, "seen":248}
-]
-"""
-import csv
 import logging
-from datetime import datetime
 from timeit import default_timer as timer
 
 import time
 
 from common import dom_utils
-from ddd import aircraft_storage
+from ddd import aircraft_storage, aircraft_stats
 from gateways import local_data_gateway
 
 logger = logging.getLogger('ddd')
 
 refresh_rate_in_seconds = 15
+max_latency = 200
 
 
-def counter():
+def display_stats():
     aircraft_data = aircraft_storage.load_processed_data()
-    if aircraft_data:
-        print("Data size: {}".format(len(aircraft_data)))
-        flights = []
-        for aircraft_row in aircraft_data:
-            if len(aircraft_row) > 3:
-                flights.append(aircraft_row[3])
-        flights = set(flights)
-        flights = list(flights)
-        print("Found: {}".format(len(flights)))
-        print(flights)
+    logger.info(aircraft_stats.count_aircraft_found(aircraft_data))
+    logger.info(aircraft_stats.get_flights_found(aircraft_data))
 
 
 def digest():
-    errors = 0
+    # load and save them to file for stats
+    counter = 0
+    errors = 0  # add when error was happen last time
+    warnings = 0
     while True:
+        counter += 1
         start_time = timer()
 
         result = local_data_gateway.get_data_for("http://192.168.0.201:16601/data.json", 5)
@@ -47,14 +36,24 @@ def digest():
             print('Errors: {}'.format(errors))
         else:
             aircraft_storage.save_raw_reading(result)
-
             aircraft_storage.save_processed_data(result)
-            counter()
+
         end_time = timer()
 
-        measurement_time = str(int((end_time - start_time) * 1000))  # in ms
-        logger.debug('It took {} milliseconds to process.'.format(measurement_time))
+        measurement = int((end_time - start_time) * 1000)
+        measurement_time = str(measurement)  # in ms
 
+        if measurement > max_latency:
+            warnings += 1
+            logger.warning("Measurement {} was slow.It took {} ms".format(counter, measurement))
+
+        display_stats()
+
+        logger.info('Measurement no. {} It took {} milliseconds to process.'
+                    ' Errors: {}. Warnings: {}'.format(counter,
+                                                       measurement_time,
+                                                       errors,
+                                                       warnings))
         remaining_time = refresh_rate_in_seconds - (float(measurement_time) / 1000)
 
         if remaining_time > 0:
