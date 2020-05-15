@@ -81,7 +81,8 @@ if __name__ == '__main__':
     dom_utils.setup_test_logging()
     try:
         digest()
-    except Exception as keyboard_exception:
-        logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
-
+    except KeyboardInterrupt as keyboard_exception:
+        logger.warning('Request to shutdown{}'.format(keyboard_exception), exc_info=True)
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
 
