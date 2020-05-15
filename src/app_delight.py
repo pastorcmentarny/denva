@@ -496,23 +496,31 @@ def startup():
 
 
 def main():
-    try:
-        startup()
-        while True:
-            if is_night_mode():
-                device_status()
-                delight_display.reset_screen()
-            else:
-                device_status()
-                delight_display.reset_screen()
-                sub_light_travel()
-                delight_display.reset_screen()
-                in_the_warp()
-    except KeyboardInterrupt:
-        unicornhathd.off()
+    while True:
+        if is_night_mode():
+            device_status()
+            delight_display.reset_screen()
+        else:
+            device_status()
+            delight_display.reset_screen()
+            sub_light_travel()
+            delight_display.reset_screen()
+            in_the_warp()
 
 
 if __name__ == '__main__':
     config_service.set_mode_to('delight')
     data_files.setup_logging('app')
-    main()
+    try:
+        logger.info('Starting application ...')
+        main()
+    except KeyboardInterrupt as keyboard_exception:
+        logger.error('Request to shutdown{}'.format(keyboard_exception), exc_info=True)
+        unicornhathd.off()
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        unicornhathd.brightness(0.2)
+        for coordinate_x in range(0, 16):
+            for coordinate_y in range(0, 16):
+                unicornhathd.set_pixel(coordinate_x, coordinate_y, 255, 0, 0)
+        unicornhathd.show()
