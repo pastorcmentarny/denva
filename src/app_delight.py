@@ -354,7 +354,7 @@ def device_status():
 
     state = status.Status()
 
-    if radar_data["dump"] != 'UP':
+    if 'dump' not in radar_data or radar_data["dump"] != 'UP':
         logger.warning('status: RED due to Dump is DOWN')
         state.set_error()
 
@@ -365,7 +365,7 @@ def device_status():
 
     state = status.Status()
 
-    if radar_data["digest"] != 'UP':
+    if 'digest' not in radar_data or radar_data["digest"] != 'UP':
         logger.warning('status: RED due to Data Digest is DOWN')
         state.set_error()
 
