@@ -62,8 +62,8 @@ def digest():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('delight')
-    data_files.setup_logging('app')
+    config_service.set_mode_to('ddd')
+    data_files.setup_logging('ddd')
     try:
         digest()
     except KeyboardInterrupt as keyboard_exception:

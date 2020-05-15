@@ -82,7 +82,8 @@ settings = {
         'hc': '/home/pi/denva-master/src/configs/log_config.json',
         'log_app': '/home/pi/logs/logs.log',
         'log_hc': '/home/pi/logs/healthcheck.log',
-        'log_ui': '/home/pi/logs/server.log'
+        'log_ui': '/home/pi/logs/server.log',
+        'ddd': '/home/pi/logs/log_ddd_config.log'
     },
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',
@@ -106,6 +107,8 @@ def get_environment_log_path_for(where: str) -> str:
         return settings['logs']['dev_' + where]
     if env_type == 'server':
         return settings['logs']['server_' + where]
+    if env_type == 'ddd':
+        return settings['logs']['ddd']
     return settings['logs']['{}_{}'.format(env_type, where)]
 
 
