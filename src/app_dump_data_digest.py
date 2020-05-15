@@ -18,13 +18,27 @@ from gateways import local_data_gateway
 logger = logging.getLogger('app')
 
 refresh_rate_in_seconds = 15
+airport_raw_data = "D:\\denva\\data\\{}".format(dom_utils.get_date_as_filename("aircraft", "txt", datetime.now()))
+airport_processed_data = "D:\\denva\\data\\{}".format(
+    dom_utils.get_date_as_filename("aircraft-processed", "csv", datetime.now()))
+
+
+def counter():
+    with open(airport_processed_data) as csv_file:
+        aircraft_csv = csv.reader(csv_file)
+        aircraft_data = list(aircraft_csv)
+        print("Data size: {}".format(len(aircraft_data)))
+        flights = []
+        for aircraft_row in aircraft_data:
+            if len(aircraft_row) > 3:
+                flights.append(aircraft_row[3])
+        flights = set(flights)
+        flights = list(flights)
+        print("Found: {}".format(len(flights)))
+        print(flights)
 
 
 def digest():
-    airport_raw_data = "D:\\denva\\data\\{}".format(dom_utils.get_date_as_filename("aircraft", "txt", datetime.now()))
-    airport_processed_data = "D:\\denva\\data\\{}".format(
-        dom_utils.get_date_as_filename("aircraft-processed", "csv", datetime.now()))
-
     while True:
         start_time = timer()
 
@@ -39,15 +53,15 @@ def digest():
             csv_writer = csv.writer(aircraft_processed_file)
 
             for entry in result:
-                csv_writer.writerow([timestamp,
-                                     entry['hex'], entry['squawk'], entry['flight'].strip(), entry['lat'],
-                                     entry['lon'], entry['validposition'], entry['altitude'],
-                                     entry['vert_rate'], entry['track'], entry['validtrack'],
-                                     entry['speed'], entry['messages'], entry['seen']
-                                     ])
-
+                if entry['flight'] != '':
+                    csv_writer.writerow([timestamp,
+                                         entry['hex'], entry['squawk'], entry['flight'].strip(), entry['lat'],
+                                         entry['lon'], entry['validposition'], entry['altitude'],
+                                         entry['vert_rate'], entry['track'], entry['validtrack'],
+                                         entry['speed'], entry['messages'], entry['seen']
+                                         ])
         end_time = timer()
-
+        counter()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         logger.debug('It took {} milliseconds to process.'.format(measurement_time))
 
