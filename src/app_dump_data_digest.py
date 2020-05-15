@@ -3,7 +3,8 @@ from timeit import default_timer as timer
 
 import time
 
-from common import dom_utils
+import config_service
+from common import data_files
 from ddd import aircraft_storage, aircraft_stats
 from gateways import local_data_gateway
 
@@ -48,12 +49,12 @@ def digest():
             logger.warning("Measurement {} was slow.It took {} ms".format(counter, measurement))
 
         display_stats()
-
-        logger.info('Measurement no. {} It took {} milliseconds to process.'
-                    ' Errors: {}. Warnings: {}'.format(counter,
-                                                       measurement_time,
-                                                       errors,
-                                                       warnings))
+        msg = 'Measurement no. {} It took {} milliseconds to process. Errors: {}. Warnings: {}'.format(counter,
+                                                                                                       measurement_time,
+                                                                                                       errors,
+                                                                                                       warnings)
+        print(msg)
+        logger.info(msg)
         remaining_time = refresh_rate_in_seconds - (float(measurement_time) / 1000)
 
         if remaining_time > 0:
@@ -61,7 +62,8 @@ def digest():
 
 
 if __name__ == '__main__':
-    dom_utils.setup_test_logging()
+    config_service.set_mode_to('delight')
+    data_files.setup_logging('app')
     try:
         digest()
     except KeyboardInterrupt as keyboard_exception:

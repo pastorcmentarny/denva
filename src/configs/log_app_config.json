@@ -44,6 +44,14 @@
       "filename": "/home/pi/logs/healthcheck.log",
       "when": "midnight",
       "encoding": "utf8"
+    },
+    "ddd_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "/home/pi/logs/ddd.log",
+      "when": "midnight",
+      "encoding": "utf8"
     }
   },
   "loggers": {
@@ -72,6 +80,13 @@
       "level": "INFO",
       "handlers": [
         "healthcheck_file_handler"
+      ],
+      "propagate": false
+    },
+    "ddd": {
+      "level": "INFO",
+      "handlers": [
+        "ddd_file_handler"
       ],
       "propagate": false
     }

@@ -107,9 +107,7 @@ if __name__ == '__main__':
     config_service.set_mode_to('denviro')
     data_files.setup_logging('app')
     logger.info('Starting application ... \n Press Ctrl+C to shutdown')
-    logger.info('Logs config loaded.\nSending email')
     email_sender_service.send_ip_email('Denva Enviro+')
-    logger.info('Email sent.\nRunning application')
 
     try:
         commands.mount_all_drives()

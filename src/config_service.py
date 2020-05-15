@@ -235,3 +235,10 @@ def get_warm_up_measurement_counter():
 
 def get_radar_hc_url() -> str:
     return settings["urls"]["denva"] + "/hc/ar"
+
+
+def get_directory_path_for_aircraft():
+    if get_mode() == 'dev':
+        return "D:\\denva\\data"
+    else:
+        return '/home/pi/data'
