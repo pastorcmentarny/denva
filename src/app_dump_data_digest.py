@@ -5,7 +5,6 @@
 ]
 """
 import csv
-import json
 import logging
 from datetime import datetime
 from timeit import default_timer as timer
@@ -13,9 +12,10 @@ from timeit import default_timer as timer
 import time
 
 from common import dom_utils
+from ddd import aircraft_storage
 from gateways import local_data_gateway
 
-logger = logging.getLogger('app')
+logger = logging.getLogger('ddd')
 
 refresh_rate_in_seconds = 15
 airport_raw_data = "D:\\denva\\data\\{}".format(dom_utils.get_date_as_filename("aircraft", "txt", datetime.now()))
@@ -50,21 +50,9 @@ def digest():
             errors += 1
             print('Errors: {}'.format(errors))
         else:
-            with open(airport_raw_data, 'a+', encoding='utf-8') as aircraft_raw_file:
-                json.dump(result, aircraft_raw_file, ensure_ascii=False, indent=4)
+            aircraft_storage.save_raw_reading(result)
 
-            timestamp = datetime.now()
-            with open(airport_processed_data, 'a+', encoding='utf-8', newline='') as aircraft_processed_file:
-                csv_writer = csv.writer(aircraft_processed_file)
-
-                for entry in result:
-                    if entry['flight'] != '':
-                        csv_writer.writerow([timestamp,
-                                             entry['hex'], entry['squawk'], entry['flight'].strip(), entry['lat'],
-                                             entry['lon'], entry['validposition'], entry['altitude'],
-                                             entry['vert_rate'], entry['track'], entry['validtrack'],
-                                             entry['speed'], entry['messages'], entry['seen']
-                                             ])
+            aircraft_storage.save_processed_data(result)
             counter()
         end_time = timer()
 
@@ -85,4 +73,3 @@ if __name__ == '__main__':
         logger.warning('Request to shutdown{}'.format(keyboard_exception), exc_info=True)
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-
