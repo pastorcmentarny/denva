@@ -2,6 +2,7 @@ import logging
 
 import config_service
 from common import commands
+from ddd import aircraft_storage, aircraft_stats
 from gateways import local_data_gateway
 from services import system_data_service
 
@@ -37,3 +38,11 @@ def get_hc_for_radar():
             'digest': 'DOWN'
         }
     return response
+
+
+def get_flights_for_today() -> dict:
+    data = aircraft_storage.load_processed_data()
+    return {
+        'detected': aircraft_stats.count_aircraft_found(data),
+        'flights': aircraft_stats.count_aircraft_found(data)
+    }
