@@ -44,5 +44,5 @@ def get_flights_for_today() -> dict:
     data = aircraft_storage.load_processed_data()
     return {
         'detected': aircraft_stats.count_aircraft_found(data),
-        'flights': aircraft_stats.count_aircraft_found(data)
+        'flights': aircraft_stats.get_flights_found(data)
     }
