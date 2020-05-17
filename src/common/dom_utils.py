@@ -314,3 +314,7 @@ def convert_time_to_minutes(event: str) -> int:
 def is_weekend_day(today: datetime) -> bool:
     day_of_the_week = today.weekday()
     return day_of_the_week > 4
+
+
+def to_datetime(source: date) -> datetime:
+    return datetime.combine(source, datetime.min.time())
