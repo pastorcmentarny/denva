@@ -61,7 +61,7 @@ def load_processed_data_for(specified_data: date) -> list:
     date_as_folders = dom_utils.get_date_as_folders_for(specified_data)
     airport_processed_data = "{}/{}{}".format(data_path, date_as_folders,
                                               dom_utils.get_date_as_filename("aircraft-processed", "csv",
-                                                                             datetime.now()))
+                                                                             dom_utils.to_datetime(specified_data)))
     try:
         with open(airport_processed_data) as csv_file:
             aircraft_csv = csv.reader(csv_file)
