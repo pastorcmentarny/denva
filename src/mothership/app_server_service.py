@@ -39,6 +39,8 @@ def get_last_updated_page() -> str:
 
 
 def get_gateway_data() -> dict:
+    weather_response = weather_service.get_weather()
+    weather_response = weather_response[:len(weather_response)]
     return {'chinese': cn.get_random_chinese_word(),
             'english': eng.get_random_english_sentence(),
             'verb': verb.get_random_irregular_verb(),
@@ -46,7 +48,7 @@ def get_gateway_data() -> dict:
             'calendar': celebrations.get_next_3_events(),
             'today': get_last_updated_page(),
             'events': personal_events.get_personal_stats(),
-            'weather': weather_service.get_weather(),
+            'weather': weather_response,
             'information': information.get_information(),
             'daily': daily.get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute)
             }
