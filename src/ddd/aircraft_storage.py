@@ -1,6 +1,7 @@
 import csv
 import json
 import logging
+from datetime import date
 from datetime import datetime
 from pathlib import Path
 
@@ -15,7 +16,7 @@ def save_raw_reading(reading):
     date_as_folders = dom_utils.get_date_as_folders_linux()
     Path("{}/{}".format(data_path, date_as_folders)).mkdir(parents=True, exist_ok=True)
     airport_raw_data = "{}/{}{}".format(data_path, date_as_folders,
-                                       dom_utils.get_date_as_filename("aircraft", "txt", datetime.now()))
+                                        dom_utils.get_date_as_filename("aircraft", "txt", datetime.now()))
     try:
         with open(airport_raw_data, 'a+', encoding='utf-8') as aircraft_raw_file:
             json.dump(reading, aircraft_raw_file, ensure_ascii=False, indent=4)
@@ -26,10 +27,10 @@ def save_raw_reading(reading):
 def save_processed_data(result):
     data_path = config_service.get_directory_path_for_aircraft()
     date_as_folders = dom_utils.get_date_as_folders_linux()
-    Path("{}/{}".format(data_path,date_as_folders)).mkdir(parents=True, exist_ok=True)
+    Path("{}/{}".format(data_path, date_as_folders)).mkdir(parents=True, exist_ok=True)
     airport_processed_data = "{}/{}{}".format(data_path, date_as_folders,
-                                             dom_utils.get_date_as_filename("aircraft-processed", "csv",
-                                                                            datetime.now()))
+                                              dom_utils.get_date_as_filename("aircraft-processed", "csv",
+                                                                             datetime.now()))
     timestamp = datetime.now()
     try:
         with open(airport_processed_data, 'a+', encoding='utf-8', newline='') as aircraft_processed_file:
@@ -48,11 +49,19 @@ def save_processed_data(result):
 
 
 def load_processed_data() -> list:
+    return load_processed_data_for(date.today())
+
+
+def load_processed_for_yesterday() -> list:
+    return load_processed_data_for(dom_utils.get_yesterday_date_as_date())
+
+
+def load_processed_data_for(specified_data: date) -> list:
     data_path = config_service.get_directory_path_for_aircraft()
-    date_as_folders = dom_utils.get_date_as_folders_linux()
+    date_as_folders = dom_utils.get_date_as_folders_for(specified_data)
     airport_processed_data = "{}/{}{}".format(data_path, date_as_folders,
-                                             dom_utils.get_date_as_filename("aircraft-processed", "csv",
-                                                                            datetime.now()))
+                                              dom_utils.get_date_as_filename("aircraft-processed", "csv",
+                                                                             datetime.now()))
     try:
         with open(airport_processed_data) as csv_file:
             aircraft_csv = csv.reader(csv_file)

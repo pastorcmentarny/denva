@@ -50,9 +50,17 @@ def get_filename_for_stats(year, month, day):
     return f"stats.log.{year}-{month:02d}-{day:02d}"
 
 
+# TODO rename it to datetime
 def get_yesterday_date() -> datetime:
     today = datetime.now()
     return today - timedelta(days=1)
+
+
+# TODO rename it to date
+def get_yesterday_date_as_date() -> date:
+    today = datetime.now()
+    yesterday = today - timedelta(days=1)
+    return yesterday.date()
 
 
 def get_two_days_ago_date() -> datetime:
@@ -114,7 +122,7 @@ def is_file_older_than_5_minutes(filename: str) -> bool:
     print(day)
     print(hour)
     print(month)
-    print(second )
+    print(second)
     last = datetime(year, month, day, hour, minut, second)
     now = datetime.now()
     time_delta = now - last
@@ -255,7 +263,11 @@ def get_date_as_folders() -> str:
 
 
 def get_date_as_folders_linux() -> str:
-    today = date.today()
+    return get_date_as_folders_for(date.today())
+
+
+def get_date_as_folders_for(specified_data: date):
+    today = specified_data
     year = today.year
     month = today.month
     day = today.day
