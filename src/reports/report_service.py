@@ -72,6 +72,7 @@ def create_for_current_measurements():
     return {'information': information.get_data_about_rickmansworth(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
+            'aircraft': local_data_gateway.get_current_reading_for_aircraft(),
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'logs': local_data_gateway.get_current_logs_for_all_services(),
             'system': app_server_service.get_current_system_information_for_all_services()}
@@ -89,7 +90,7 @@ def get_last_two_days_report_difference() -> dict:
 
     two_days_ago = data_files.load_report_on_server_on(dom_utils.get_two_days_ago_date())
     one_day_ago = data_files.load_report_on_server_on(dom_utils.get_yesterday_date())
-    return report_generator.compare_two_reports(two_days_ago,one_day_ago)
+    return report_generator.compare_two_reports(two_days_ago, one_day_ago)
 
 
 def get_yesterday_report_from_server():

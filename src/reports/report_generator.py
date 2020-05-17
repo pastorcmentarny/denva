@@ -264,7 +264,8 @@ def generate():
     start_time = timer()
     email_data = {'now': {
         'denva': local_data_gateway.get_current_reading_for_denva(),
-        'enviro': local_data_gateway.get_current_reading_for_enviro()
+        'enviro': local_data_gateway.get_current_reading_for_enviro(),
+        'aircraft': local_data_gateway.get_current_reading_for_aircraft()
     },
         'report': {
             'denva': local_data_gateway.get_yesterday_report_for_denva(),
