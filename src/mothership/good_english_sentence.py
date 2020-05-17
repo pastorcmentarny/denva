@@ -15,7 +15,10 @@ sentences = [
     "It was destined to fail. (by Tim Dillon in PowerfulJRE)",
     "The medicine is imperfect science. (by Dr. Mikhail 'Dr. Mike' Varshavski)",
     "Commander William T. Riker: A blind man teaching an android how to paint? ",
-    "i am not very fashion conscious (by James May in Vietnam Special)"
+    "I am not very fashion conscious. (by James May in Vietnam Special)",
+    "Compromise is a mutual dissatisfaction.",
+    "Firstly, if you end up reading this book and not liking it, I'm sorry. It is impossible to produce something that will be liked by everyone. (From the book  'The Idiot brain' by Dean Burnett).",
+    "Science is the work of humans. (...) Humans are messy, chaotic and illogical creatures (...) and much of science reflects this.(From the book  'The Idiot brain' by Dean Burnett)."
 ]
 
 
