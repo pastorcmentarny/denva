@@ -26,7 +26,7 @@ import mothership.random_irregular_verb as verb
 from common import data_files, dom_utils
 from gateways import web_data_gateway, local_data_gateway
 from mothership import daily
-from services import error_detector_service
+from services import error_detector_service, radar_service
 from services import weather_service, system_data_service
 from zeroeighttrack import leaderboard
 
@@ -179,6 +179,7 @@ def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
+            'aircraft': radar_service.get_aircraft_detected_today_count(),
             'system': get_current_system_information_for_all_services(),
             'links': get_links_for_gateway(),
         }
@@ -196,6 +197,7 @@ def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
             'warnings': {},
             'denva': {},
             'enviro': {},
+            'aircraft': {},
             'system': {},
             'links': get_links_for_gateway()
         }

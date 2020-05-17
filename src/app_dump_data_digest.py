@@ -4,7 +4,7 @@ from timeit import default_timer as timer
 import time
 
 import config_service
-from common import data_files
+from common import data_files, dom_utils
 from ddd import aircraft_storage, aircraft_stats
 from gateways import local_data_gateway
 
@@ -53,7 +53,6 @@ def digest():
                                                                                                        measurement_time,
                                                                                                        errors,
                                                                                                        warnings)
-        print(msg)
         logger.info(msg)
         remaining_time = refresh_rate_in_seconds - (float(measurement_time) / 1000)
 
@@ -62,6 +61,7 @@ def digest():
 
 
 if __name__ == '__main__':
+    #dom_utils.setup_test_logging()
     config_service.set_mode_to('ddd')
     data_files.setup_logging('ddd')
     try:

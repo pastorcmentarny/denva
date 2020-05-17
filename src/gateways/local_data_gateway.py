@@ -38,7 +38,7 @@ def get_current_logs_for_all_services() -> dict:
     }
 
 
-def get_data_for(url: str, timeout: int = 3): # ->list or dict
+def get_data_for(url: str, timeout: int = 3):  # ->list or dict
     try:
         response = requests.get(url, timeout=timeout)
         response.raise_for_status()
@@ -69,3 +69,7 @@ def _get_hc_result(service: str):
     if 'error' in hc_result:
         return 'DOWN'
     return 'UP'
+
+
+def get_current_reading_for_aircraft():
+    return get_data_for('{}/flights/today'.format(config_service.load_cfg()["urls"]['delight']))
