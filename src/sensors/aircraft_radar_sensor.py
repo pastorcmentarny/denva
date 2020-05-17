@@ -38,6 +38,5 @@ def get_all_airplanes_for(date: datetime) -> dict:
 
 def check_hc():
     return {
-        'dump': commands.is_dump_active(),
-        'digest': commands.is_dump_digest_active()
+        'dump': commands.is_dump_active()
     }

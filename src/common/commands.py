@@ -173,7 +173,7 @@ def is_dump_active():
 
 def is_dump_digest_active():
     try:
-        cmd = f"ps -aux | grep 'nc 192.168.0.201' | grep -v grep"
+        cmd = f"ps -aux | grep app_dump_data_digest.py | grep -v grep"
         result = subprocess.check_output(cmd, shell=True)
         logger.debug('Result {}'.format(result))
         return "UP".format(result)

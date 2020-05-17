@@ -30,13 +30,17 @@ def get_system_info():
 
 
 def get_hc_for_radar():
-    response = local_data_gateway.get_data_for(config_service.get_radar_hc_url(), 2)
-    if 'error' in response:
+    response = {
+        'dump': 'DOWN',
+        'digest': commands.is_dump_digest_active()
+    }
+    dump_response = local_data_gateway.get_data_for(config_service.get_radar_hc_url(), 2)
+
+    if 'error' in dump_response:
         logger.warning(response['error'])
-        return {
-            'dump': 'DOWN',
-            'digest': 'DOWN'
-        }
+    else:
+        response['dump'] = 'UP'
+
     return response
 
 
