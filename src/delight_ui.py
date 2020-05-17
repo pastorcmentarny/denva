@@ -23,10 +23,17 @@ app = Flask(__name__)
 logger = logging.getLogger('app')
 APP_NAME = 'Denva Delight UI'
 
+
 @app.route("/flights/today")
 def flights_today():
-    logger.info('Running GC for {}'.format(APP_NAME))
+    logger.info('Getting flights detected today')
     return jsonify(delight_service.get_flights_for_today())
+
+
+@app.route("/flights/yesterday")
+def flights_yesterday():
+    logger.info('Getting flights detected yesterday')
+    return jsonify(delight_service.get_flights_for_yesterday())
 
 
 @app.route("/gc")

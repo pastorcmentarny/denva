@@ -270,6 +270,7 @@ def generate():
         'report': {
             'denva': local_data_gateway.get_yesterday_report_for_denva(),
             'enviro': local_data_gateway.get_yesterday_report_for_enviro(),
+            'aircraft' : local_data_gateway.get_yesterday_report_for_aircraft(),
             'rickmansworth': information_service.get_data_about_rickmansworth(),
         }
     }

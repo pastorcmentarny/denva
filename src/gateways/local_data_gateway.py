@@ -73,3 +73,7 @@ def _get_hc_result(service: str):
 
 def get_current_reading_for_aircraft():
     return get_data_for('{}/flights/today'.format(config_service.load_cfg()["urls"]['delight']))
+
+
+def get_yesterday_report_for_aircraft():
+    return get_data_for('{}/flights/yesterday'.format(config_service.load_cfg()["urls"]['delight']))
