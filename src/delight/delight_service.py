@@ -37,7 +37,7 @@ def get_hc_for_radar():
     dump_response = local_data_gateway.get_data_for(config_service.get_radar_hc_url(), 2)
 
     if 'error' in dump_response:
-        logger.warning(response['error'])
+        logger.warning(dump_response['error'])
     else:
         response['dump'] = 'UP'
 
