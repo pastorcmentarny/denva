@@ -33,7 +33,7 @@ def generate_enviro_report_for_yesterday() -> dict:
         logger.info('Generating report')
         report = report_generator.generate_enviro_report_for_yesterday()
         email_sender_service.send(report, 'Report')
-        data_files.save_report(report, dom_utils.get_date_as_filename('report-enviro', 'json', yesterday))
+        return data_files.save_report(report, dom_utils.get_date_as_filename('report-enviro', 'json', yesterday))
 
 
 def generate_for_yesterday() -> dict:
