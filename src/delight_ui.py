@@ -92,10 +92,7 @@ def system():
 
 @app.route("/")
 def get_measurement():
-    return jsonify({
-        'mode': 'work in progress',
-        'counter': 0
-    })
+    return jsonify(delight_service.get_flights_for_today())
 
 
 if __name__ == '__main__':
@@ -104,7 +101,7 @@ if __name__ == '__main__':
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:
-        app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+        app.run(host='0.0.0.0', debug=True)
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
         email_sender_service.send_error_log_email(APP_NAME,
