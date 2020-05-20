@@ -19,7 +19,7 @@ from common import dom_utils
 from denva import denva_sensors_service
 from gateways import local_data_gateway
 from reports import averages, records
-from services import information_service, sensor_warnings_service, tubes_train_service
+from services import information_service, sensor_warnings_service
 
 warnings_logger = logging.getLogger('warnings')
 stats_log = logging.getLogger('stats')
@@ -146,7 +146,7 @@ def generate_for(date: datetime) -> dict:
         report['warnings'] = denva_sensors_service.count_warnings(warnings)
         report['records'] = records.get_records(data)
         report['avg'] = averages.get_averages(data)
-#Move to server        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month,                                                                       day)  # move to separate function
+        # Move to server        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month,                                                                       day)  # move to separate function
         return report
     except Exception as e:
         logger.error("Unable to generate  report due to {}".format(e), exc_info=True)
@@ -270,7 +270,7 @@ def generate():
         'report': {
             'denva': local_data_gateway.get_yesterday_report_for_denva(),
             'enviro': local_data_gateway.get_yesterday_report_for_enviro(),
-            'aircraft' : local_data_gateway.get_yesterday_report_for_aircraft(),
+            'aircraft': local_data_gateway.get_yesterday_report_for_aircraft(),
             'rickmansworth': information_service.get_data_about_rickmansworth(),
         }
     }
@@ -390,9 +390,15 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
         enviro_records_light = float(older_report['report']['enviro']['records']['highest_light']) - float(
             newer_report['report']['enviro']['records']['highest_light'])
 
-        #TODO remove it in June2020
-        if 'highest_nh3' in older_report['report']['enviro']['records'] and 'highest_nh3' in newer_report['report']['enviro']['records']:
-            enviro_records_nh3 = float(older_report['report']['enviro']['records']['highest_nh3']) - float(newer_report['report']['enviro']['records']['highest_nh3'])
+        aircraft_count_difference = int(
+            older_report['report']['aircraft']['detected']) - int(
+            newer_report['report']['aircraft']['detected'])
+
+        # TODO remove it in June2020
+        if 'highest_nh3' in older_report['report']['enviro']['records'] and 'highest_nh3' in \
+                newer_report['report']['enviro']['records']:
+            enviro_records_nh3 = float(older_report['report']['enviro']['records']['highest_nh3']) - float(
+                newer_report['report']['enviro']['records']['highest_nh3'])
         else:
             enviro_records_nh3 = 0.0
         enviro_records_oxidised = float(older_report['report']['enviro']['records']['highest_oxidised']) - float(
@@ -412,7 +418,7 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
             older_report['report']['enviro']['records']['temperature']['min']) - float(
             newer_report['report']['enviro']['records']['temperature']['min'])
 
-        diffferences = {
+        differences = {
             "reports": {
                 'first report': older_report['report']['denva']['report_date'],
                 'second report': newer_report['report']['denva']['report_date'],
@@ -513,9 +519,12 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
                         "min": "{:.1f}".format(enviro_records_temperature_min)
                     }
                 }
+            },
+            "aircraft": {
+                "count": aircraft_count_difference
             }
         }
-        return diffferences
+        return differences
     except Exception as e:
         msg = 'Unable to compare two reports due to:'
         logger.warning('{} {}'.format(msg, e), exc_info=True)
