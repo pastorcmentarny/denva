@@ -40,7 +40,6 @@ settings = {
             "dev": "D:\\denva\\events.json",
             "server": "E:\\denva\\events.json"
         },
-        "bin": "D:\\ds-lpd-server\\data-bin\\",
         "cctv-backup": ["D:\\ds-lpd-server\\cctv", "D:\\ds-lpd-server\\backup"],
         "chinese-dictionary": {
             'dev': "D:\Projects\denva\src\data\dictionary.txt",

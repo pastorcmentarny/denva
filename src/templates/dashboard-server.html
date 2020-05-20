@@ -69,16 +69,28 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    D links
+                    Delight links
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <h6 class="dropdown-header">Delight</h6>
+                    <a class="dropdown-item" href="{{ message.links.logApp.delight }}">Delight App logs</a>
+                    <a class="dropdown-item" href="{{ message.links.logHc.delight }}">Delight Health logs</a>
+                    <a class="dropdown-item" href="{{ message.links.logUi.delight }}">Delight UI logs</a>
+                    <a class="dropdown-item" href="http://192.168.0.203:5000/log/radar">Radar logs</a>
+                    <a class="dropdown-item" href="http://192.168.0.203:5000/flights/today">Flights detected</a>
+                    <div class="dropdown-divider"></div>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Server links
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ message.page_last_report }}">Report for yesterday</a>
-                    <a class="dropdown-item" href="#">Report for last week</a>
-                    <a class="dropdown-item" href="#">Report for last month</a>
                     <a class="dropdown-item" href="{{ message.links.logApp.server }}">Server's App logs</a>
                     <a class="dropdown-item" href="{{ message.links.logHc.server }}">Server's Health logs</a>
                     <a class="dropdown-item" href="{{ message.links.logUi.server }}">Server's UI logs</a>
-
                 </div>
             </li>
         </ul>
@@ -110,14 +122,14 @@
                     <ul class="list-unstyled mt-3 mb-4">
                         <li><strong class="d-inline-block text-success">Server(LP)</strong></li>
                         <li class="small"><b>CPU Speed:</b>{{ message.system.server["CPU Speed"] }}</li>
-                        <li class="small"><b>Memory Available:</b>{{ message.system.server["Memory Available"] }}</li>
+                        <li class="small"><b>RAM Available:</b>{{ message.system.server["Memory Available"] }}</li>
                         <li class="small"><b>Disk Free:</b>{{ message.system.server["Disk Free"] }}</li>
                         <li class="small"><b>Uptime:</b>{{ message.system.server["Uptime"] }}</li>
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Denva(Pi4)</strong></li>
                         <li class="small"><b>CPU Speed : </b>{{ message.system.denva["CPU Speed"] }}</li>
                         <li class="small"><b>CPU Temp : </b>{{ message.system.denva["CPU Temp"] }}</li>
-                        <li class="small"><b>Memory Available : </b>{{ message.system.denva["Memory Available"] }}</li>
+                        <li class="small"><b>RAM Available : </b>{{ message.system.denva["Memory Available"] }}</li>
                         <li class="small"><b>Free Space : </b>{{ message.system.denva["Free Space"] }}</li>
                         <li class="small"><b>Data Free Space : </b>{{ message.system.denva["Data Free Space"] }}</li>
                         <li class="small"><b>Uptime : </b>{{ message.system.denva["Uptime"] }}</li>
