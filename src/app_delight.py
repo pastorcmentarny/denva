@@ -195,7 +195,7 @@ def device_status():
     purple_g = 32
     purple_b = 240
 
-    # 1.
+    # 1. DENVA
     state = status.Status()
     logger.info('Getting status for denva..')
     server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['denva']))
@@ -238,7 +238,7 @@ def device_status():
     set_status_for_device(1, 13, color_red, color_green, color_blue)
     logger.info('Denva: {}'.format(state.get_status_as_light_colour()))
 
-    # 2.
+    # 2. DENVIRO
     state = status.Status()
     server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro']))
 
@@ -282,7 +282,7 @@ def device_status():
     set_status_for_device(5, 13, color_red, color_green, color_blue)
     logger.info('Denviro: {}'.format(state.get_status_as_light_colour()))
 
-    # 3.
+    # 3. MOTHERSHIP SERVER
     state = status.Status()
 
     server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['server']))
@@ -291,7 +291,6 @@ def device_status():
         logger.warning('Unable to get Server status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        # TODO add CPU TEMP
         if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
             logger.warning('status: RED due to very low memory available on Server')
             state.set_error()
@@ -315,29 +314,33 @@ def device_status():
     set_status_for_device(9, 13, color_red, color_green, color_blue)
     logger.info('Server: {}'.format(state.get_status_as_light_colour()))
 
-    # 4.
+    # 4. DELIGHT
     state = status.Status()
-    delight_data = delight_service.get_system_info()
+    try:
+        delight_data = delight_service.get_system_info()
 
-    if float(dom_utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
-        logger.warning('status: RED due to very high cpu temp on Delight')
-        state.set_error()
-    elif float(dom_utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
-        logger.warning('status: ORANGE due to high cpu temp on Delight')
-        state.set_warn()
-    if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
-        logger.warning('status: RED due to very low memory available on Delight')
-        state.set_error()
-    elif dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 256:
-        logger.warning('status: ORANGE due to low memory available on Delight')
-        state.set_warn()
+        if float(dom_utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+            logger.warning('status: RED due to very high cpu temp on Delight')
+            state.set_error()
+        elif float(dom_utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+            logger.warning('status: ORANGE due to high cpu temp on Delight')
+            state.set_warn()
+        if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
+            logger.warning('status: RED due to very low memory available on Delight')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 256:
+            logger.warning('status: ORANGE due to low memory available on Delight')
+            state.set_warn()
 
-    if dom_utils.get_int_number_from_text(delight_data['Free Space']) < 128:
-        logger.warning('status: RED due to very low free space on Delight')
+        if dom_utils.get_int_number_from_text(delight_data['Free Space']) < 128:
+            logger.warning('status: RED due to very low free space on Delight')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(delight_data['Free Space']) < 512:
+            logger.warning('status: ORANGE due to low free space on Delight')
+            state.set_warn()
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
         state.set_error()
-    elif dom_utils.get_int_number_from_text(delight_data['Free Space']) < 512:
-        logger.warning('status: ORANGE due to low free space on Delight')
-        state.set_warn()
 
     color_blue, color_green, color_red = delight_utils.get_state_colour(state)
     blink = update_blink(blink, state.state)
@@ -349,7 +352,7 @@ def device_status():
     set_status_for_device(13, 13, color_red, color_green, color_blue)
     logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
 
-    # 5. Aircraft Radar/ Digest
+    # 5. DUMP (Aircraft Radar/ Digest)
     radar_data = delight_service.get_hc_for_radar()
 
     state = status.Status()
@@ -499,7 +502,6 @@ def main():
     while True:
         if is_night_mode():
             device_status()
-            delight_display.reset_screen()
         else:
             device_status()
             delight_display.reset_screen()
