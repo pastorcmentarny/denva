@@ -163,7 +163,7 @@ def sub_light_travel():
         while len(blue_pilled_population) > 100:
             blue_pilled_population.pop(0)
 
-        if clock % 1000 == 0:
+        if clock % 500 == 0:
             running = False
 
 
