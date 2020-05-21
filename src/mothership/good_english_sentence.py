@@ -18,13 +18,13 @@ sentences = [
     "I am not very fashion conscious. (by James May in Vietnam Special)",
     "Compromise is a mutual dissatisfaction.",
     "I can't talk with you right now as somebody is wrong in the comment on the internet.",
+    "Sons like put shit on fire. (by Jon Rogan)",
     "Firstly, if you end up reading this book and not liking it, I'm sorry. It is impossible to produce something that will be liked by everyone. ('The Idiot brain' by Dean Burnett).",
     "Science is the work of humans. (...) Humans are messy, chaotic and illogical creatures (...) and much of science reflects this.('The Idiot brain' by Dean Burnett).",
     "The mechanics that allow us to think and reason and contemplate didn't exist millions of years ago. The first fish to crawl onto land aeons ago wasn't racked with self-doubt, thinking, 'Why am I doing this? I can't breathe up here, and I don't even have any legs, whatever they are.  ('The Idiot brain' by Dean Burnett).",
     "Sleep involves doing nothing literally, lying down and not being conscious. How complicated could it possibly be?   ('The Idiot brain' by Dean Burnett).",
     "If you can't retrieve a memory, it's as good as not being there at all. It's like when you can't find your gloves; you've still got gloves, they still exist, but you've got cold hands anyway. ('The Idiot brain' by Dean Burnett).",
-    "Brain never shuts down completely, partly because it has several ... the sleep state, but mostly because if it did shut down completely we'd be dead. ('The Idiot brain' by Dean Burnett)",
-    ""
+    "Brain never shuts down completely, partly because it has several ... the sleep state, but mostly because if it did shut down completely we'd be dead. ('The Idiot brain' by Dean Burnett)"
 ]
 
 
