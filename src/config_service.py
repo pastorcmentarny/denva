@@ -70,6 +70,7 @@ settings = {
     "logs": {
         'dev_app': 'D:\GitHub\denva\src\configs\dev_log_app_config.json',
         'dev_ui': 'D:\GitHub\denva\src\configs\dev_log_ui_config.json',
+        'dev_ddd': 'D:\GitHub\denva\src\configs\dev_log_app_config.json',
         'server_app': 'E:\denva\src\configs\server_log_app_config.json',
         'server_ui': 'E:\denva\src\configs\server_log_ui_config.json',
         'denva_app': '/home/pi/denva-master/src/configs/log_app_config.json',
@@ -102,12 +103,16 @@ def get_log_path_for(log_type: str) -> str:
 
 def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
+    if where == 'ddd':
+        if env_type == 'dev':
+            return settings['logs']['dev_' + where]
+        else:
+            return settings['logs']['dev_' + where]
+
     if env_type == 'dev':
         return settings['logs']['dev_' + where]
     if env_type == 'server':
         return settings['logs']['server_' + where]
-    if env_type == 'ddd':
-        return settings['logs']['ddd']
     return settings['logs']['{}_{}'.format(env_type, where)]
 
 
