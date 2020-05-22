@@ -16,7 +16,6 @@ from timeit import default_timer as timer
 import sys
 import time
 
-
 import config_service
 from common import data_files, commands
 from denva import cl_display
@@ -39,8 +38,8 @@ on = True
 
 
 def get_noise():
-    #low, mid, high, amp = noise_service.get_noise_measurement()
-    return '' #low: {}, mid: {}, high: {}, amp: {}'.format(low, mid, high, amp)
+    # low, mid, high, amp = noise_service.get_noise_measurement()
+    return ''  # low: {}, mid: {}, high: {}, amp: {}'.format(low, mid, high, amp)
 
 
 def get_measurement() -> dict:
@@ -77,7 +76,7 @@ def main():
     setup()
     while True:
         measurement_counter += 1
-        logger.info('Measurement No.{}'.format(measurement_counter))
+        logger.debug('Measurement No.{}'.format(measurement_counter))
 
         start_time = timer()
         measurement = get_measurement()
@@ -99,6 +98,9 @@ def main():
         sensor_warnings_service.get_current_warnings_for_enviro()
         remaining_time_in_millis = 5 - (float(measurement_time) / 1000)
 
+        if measurement_time > config_service.max_latency(fast=False):
+            logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
+
         if remaining_time_in_millis > 0:
             time.sleep(remaining_time_in_millis)
 
@@ -114,5 +116,4 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt as keyboard_exception:
         logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
-        # FIXME temporary disabled  denviro_display.draw_message('APP crashed.')
         sys.exit(0)

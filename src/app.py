@@ -98,6 +98,9 @@ def main():
 
         remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 
+        if measurement_time > config_service.max_latency(fast=False):
+            logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
+
         if remaining_of_five_s > 0:
             time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
 

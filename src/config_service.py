@@ -65,7 +65,12 @@ settings = {
         "server": "http://192.168.0.200:5000",
         "denva": "http://192.168.0.201:5000",
         "enviro": "http://192.168.0.202:5000",
-        "delight": "http://192.168.0.203:5000"
+        "delight": "http://192.168.0.203:5000",
+        "dump1090_data": "http://192.168.0.201:16601/data.json"
+    },
+    "latency": {
+        "max": 200,
+        "max-slow": 1000
     },
     "logs": {
         'dev_app': 'D:\GitHub\denva\src\configs\dev_log_app_config.json',
@@ -249,3 +254,13 @@ def get_directory_path_for_aircraft():
         return "D:\\denva\\data"
     else:
         return '/home/pi/data'
+
+
+def get_url_for_dump1090():
+    return settings["urls"]["dump1090_data"]
+
+
+def max_latency(fast: bool = True):
+    if fast:
+        return settings["latency"]["max"]
+    return settings["latency"]["max-slow"]
