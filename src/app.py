@@ -9,7 +9,6 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import logging
 import logging.config
 import os
 from datetime import datetime
@@ -23,7 +22,6 @@ from PIL import ImageFont
 import config_service
 from common import data_files, commands, dom_utils
 from denva import cl_display
-# display removed from mothership import mini_display
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service
 from services import email_sender_service
 
@@ -76,45 +74,32 @@ def get_data_from_measurement() -> dict:
     }
 
 
-def get_pictures_path():
-    pictures_path = []
-    if len(pictures) > 2:
-        pictures_path = [pictures[0], pictures[-1]]
-    elif len(pictures) == 1:
-        pictures_path = [pictures[0]]
-    return pictures_path
-
-
 def main():
     measurement_counter = 0
     two_led_service.led_startup_show()
     while True:
-        try:
-            measurement_counter += 1
-            logger.debug('getting measurement no.{}'.format(measurement_counter))
-            start_time = timer()
-            data = get_data_from_measurement()
-            data['cpu_temp'] = commands.get_cpu_temp()
-            end_time = timer()
+        measurement_counter += 1
+        logger.debug('Getting measurement no.{}'.format(measurement_counter))
+        start_time = timer()
+        data = get_data_from_measurement()
+        data['cpu_temp'] = commands.get_cpu_temp()
 
-            measurement_time = str(int((end_time - start_time) * 1000))  # in ms
-            data['measurement_counter'] = measurement_counter
-            data['measurement_time'] = measurement_time
-            data_files.store_measurement(data, motion_service.get_current_motion_difference())
-            logger.debug('it took ' + str(measurement_time) + ' microseconds to measure it.')
+        end_time = timer()
+        measurement_time = int((end_time - start_time) * 1000)  # in ms
 
-            cl_display.print_measurement(data)
+        logger.info('Measurement no. {} took {} milliseconds to measure it.'
+                    .format(measurement_counter, measurement_time))
 
-            data['picture_path'] = get_pictures_path()
+        data['measurement_counter'] = measurement_counter
+        data['measurement_time'] = str(measurement_time)
+        data_files.store_measurement(data, motion_service.get_current_motion_difference())
 
-            remaining_of_five_s = 5 - (float(measurement_time) / 1000)
+        cl_display.print_measurement(data)
 
-            if remaining_of_five_s > 0:
-                time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
+        remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 
-        except KeyboardInterrupt:
-            logging.info('request application shut down.. goodbye!')
-            cleanup_before_exit()
+        if remaining_of_five_s > 0:
+            time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
 
 
 def cleanup_before_exit():
@@ -138,8 +123,11 @@ if __name__ == '__main__':
         logging.info('Sensor needed {} seconds to warm up'.format(counter))
         two_led_service.off()
         main()
-    except Exception as e:
-        print('Whoops. '.format(e))
-        logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
-        email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
+    except KeyboardInterrupt:
+        logging.info('request application shut down.. goodbye!')
+        cleanup_before_exit()
+    except Exception as exception:
+        print('Whoops. '.format(exception))
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(exception))
         cleanup_before_exit()
