@@ -231,13 +231,3 @@ class Test(TestCase):
 
             # then
             self.assertEqual(expected_result, result)
-
-    # tag-test-logger
-    @patch('logging.Logger.debug')
-    def test_log_error_count_should_log_no_errors(self, mock_logger):
-
-        # when
-        dom_utils.log_error_count([])
-
-        # then
-        mock_logger.assert_called_with('No errors found.')

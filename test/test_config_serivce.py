@@ -5,6 +5,9 @@ import config_service
 
 class Test(TestCase):
     def test_get_irregular_verbs_path(self):
+        # given
+        config_service.set_mode_to('dev')
+
         # when
         result = config_service.get_irregular_verbs_path()
 
@@ -18,7 +21,6 @@ class Test(TestCase):
         # then
         self.assertEqual(result, 1000)
 
-    # TODO change it if i want run autotest on the server device
     def test_set_mode_to(self):
         # when
         config_service.set_mode_to('server')
@@ -40,7 +42,9 @@ class Test(TestCase):
                              ('dev', 'app', 'D:\GitHub\denva\src\configs\dev_log_app_config.json'),
                              ('dev', 'ui', 'D:\GitHub\denva\src\configs\dev_log_ui_config.json'),
                              ('server', 'app', 'E:\denva\src\configs\server_log_app_config.json'),
-                             ('server', 'ui', 'E:\denva\src\configs\server_log_ui_config.json')]
+                             ('server', 'ui', 'E:\denva\src\configs\server_log_ui_config.json'),
+                             ('dev', 'ddd', 'D:\GitHub\denva\src\configs\dev_log_app_config.json'),
+                             ('ddd', 'ddd', 'D:\GitHub\denva\src\configs\dev_log_app_config.json')]
 
         for mode, an_input, expected_result in scale_params_list:
             with self.subTest(
