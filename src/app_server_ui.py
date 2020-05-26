@@ -19,8 +19,7 @@ from common import data_files
 from gateways import web_data_gateway
 from mothership import app_server_service, webcam_service
 from reports import report_service
-from services import information_service, tubes_train_service
-from services import system_data_service
+from services import email_sender_service, information_service, tubes_train_service, system_data_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -191,7 +190,6 @@ if __name__ == '__main__':
         healthcheck()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
-        '''email_sender_service.send_error_log_email('web application',
-                                                  'you may need reset web application as it looks like web app '
-                                                  'crashes due to {}'.format(e))'''
-        sys.exit(0)
+        email_sender_service.send_error_log_email('Mothership UI',
+                                                  'Mothership UI crashes due to {}'.format(e))
+        sys.exit(1)

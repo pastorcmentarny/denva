@@ -71,6 +71,5 @@ if __name__ == '__main__':
         main()
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
-        email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(e))
-
-    sys.exit(0)
+        email_sender_service.send_error_log_email("Mothership App", "Application crashed due to {}.".format(e))
+        sys.exit(1)
