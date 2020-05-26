@@ -40,11 +40,14 @@ def get_current_logs_for_all_services() -> dict:
 
 def get_data_for(url: str, timeout: int = 3):  # ->list or dict
     try:
-        response = requests.get(url, timeout=timeout)
-        response.raise_for_status()
-        return json.loads(response.text)
+        with requests.get(url, timeout=timeout) as response:
+            response.raise_for_status()
+            data_response = response.text
+            return json.loads(data_response)
     except Exception as whoops:
         return {'error': 'There was a problem: {}'.format(whoops)}
+    finally:
+        response.close()
 
 
 def get_current_warnings_for_all_services() -> dict:
