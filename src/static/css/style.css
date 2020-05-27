@@ -1,21 +1,27 @@
 span.good {
-    background-color: #FAFAFA;
+    background-color: #FfFfFf;
     color: #00EE00;
 }
 
 span.warn {
-    background-color: #F6F6F6;
+    background-color: #FeFeFe;
     color: #f7a133;
 }
 
 span.bad {
-    background-color: #F0F0F0;
+    background-color: #fdfdfd;
     color: #CC0000;
+}
+
+span.info {
+    background-color: #fdfdfd;
+    color: #088Fa7;
 }
 
 .next-item {
     color: #beee60;
 }
+
 .blinking {
     animation: blinkingText 6s infinite;
 }

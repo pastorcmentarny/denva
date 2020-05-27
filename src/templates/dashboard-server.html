@@ -221,7 +221,13 @@
             </div>
             <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><strong>Aircraft</strong> : {{ message.aircraft }}</li>
+                    {% if '↓' in message.aircraft %}
+                        <li><strong>Aircraft</strong> : <span class="bad">{{ message.aircraft }}</span></li>
+                    {% elif '↑' in message.aircraft %}
+                        <li><strong>Aircraft</strong> : <span class="good">{{ message.aircraft }}</span></li>
+                    {% else %}
+                        <li><strong>Aircraft</strong> : <span class="info">{{ message.aircraft }}</span></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
