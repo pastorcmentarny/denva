@@ -61,7 +61,7 @@ def setup():
     config_service.set_mode_to('server')
     data_files.setup_logging('app')
     information.refresh_all()
-    loggy.log_time('Mothership App Setup', timer(), start_time)
+    loggy.log_time('Mothership App Setup', start_time, timer())
 
 
 if __name__ == '__main__':
