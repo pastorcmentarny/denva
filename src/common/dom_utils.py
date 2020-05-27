@@ -240,6 +240,7 @@ def merge_two_dictionaries(first: dict, second: dict) -> dict:
 
 def setup_test_logging():
     logging.basicConfig(level=logging.DEBUG)
+    logging.captureWarnings(True)
     logging.debug('Running test logging')
 
 

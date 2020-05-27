@@ -165,9 +165,11 @@ def setup_logging(where: str):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
         logging.config.dictConfig(config)
+        logging.captureWarnings(True)
         logger.info('logs loaded from {}'.format(path))
     else:
         logging.basicConfig(level=logging.DEBUG)
+        logging.captureWarnings(True)
         logger.warning('Using default logging due to problem with loading from log: {}'.format(path))
         email_sender_service.send_error_log_email(path,
                                                   'Unable to setup logging due to invalid path {}'.format(path))
