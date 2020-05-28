@@ -28,7 +28,8 @@ photo_dir = ''
 
 
 def mount_all_drives(device: str = 'denva'):
-    logger.info('mounting external partion for pictures')
+    logger.info('mounting external partition for pictures')
+
     try:
         if device == 'denva':
             logger.info('Mounting local data partition..')
@@ -70,23 +71,40 @@ def capture_picture() -> str:
     return ""
 
 
+# TODO remove it
 def get_cpu_speed():
     cmd = "find /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq -type f | xargs cat | sort | uniq -c"
-    ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    output = ps.communicate()[0]
-    output = str(output)
-    output = output.strip()[4:len(output) - 3].strip()[2:]  # i am sorry ..
+    with subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as ps:
+        output = ps.communicate()[0]
+        output = str(output)
+        output = output.strip()[4:len(output) - 3].strip()[2:]  # i am sorry ..
+
+        try:
+            ps.kill()
+        except Exception as exception:
+            logger.warning('Process for get_cpu_speed() have NOT being assassinated due to :{}'.format(exception),
+                           exc_info=True)
+
     try:
         output = str(float(output) / 1000)
     except ValueError:
         logger.warning(output)
         return 'CPU: variable speed'
+
     return output + ' Mhz'
 
 
 def get_cpu_temp() -> str:
-    return str(subprocess.check_output(['/opt/vc/bin/vcgencmd', 'measure_temp']), "utf-8") \
-        .strip().replace('temp=', '')
+    cmd = '/opt/vc/bin/vcgencmd measure_temp'
+    with subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as ps:
+        output = ps.communicate()[0]
+        try:
+            ps.kill()
+        except Exception as exception:
+            logger.warning('Process for get_cpu_speed() have NOT being assassinated due to :{}'.format(exception),
+                           exc_info=True)
+
+        return str(output).strip().replace('temp=', '')
 
 
 def get_cpu_temp_as_number() -> float:
@@ -94,10 +112,7 @@ def get_cpu_temp_as_number() -> float:
 
 
 def get_ip() -> str:
-    text = str(subprocess.check_output(['ifconfig', 'wlan0']), "utf-8")
-    start, end = text.find('inet'), text.find('netmask')
-    result = text[start + 4: end]
-    return result.strip()
+    return dom_utils.get_ip()
 
 
 def get_uptime() -> str:
@@ -122,15 +137,17 @@ def get_system_info() -> dict:
 
 
 def get_space_available():
-    p = subprocess.Popen("df / -m --output=avail", stdout=subprocess.PIPE, shell=True)
-    result, _ = p.communicate()
-    return re.sub('[^0-9.]', '', str(result).strip())
+    with subprocess.Popen("df / -m --output=avail", stdout=subprocess.PIPE, shell=True) as p:
+        result, _ = p.communicate()
+        p.kill()
+        return re.sub('[^0-9.]', '', str(result).strip())
 
 
 def get_data_space_available():
-    p = subprocess.Popen("df /mnt/data -m --output=avail", stdout=subprocess.PIPE, shell=True)
-    result, _ = p.communicate()
-    return re.sub('[^0-9.]', '', str(result).strip())
+    with subprocess.Popen("df /mnt/data -m --output=avail", stdout=subprocess.PIPE, shell=True) as p:
+        result, _ = p.communicate()
+        p.kill()
+        return re.sub('[^0-9.]', '', str(result).strip())
 
 
 def get_lines_from_path(path: str, lines: int) -> dict:
@@ -146,9 +163,10 @@ def get_last_line_from_log(path: str) -> str:
 def get_last_photo_filename() -> str:
     current_time = datetime.now()
     cmd = f"ls /mnt/data/photos/{current_time.year}/{current_time.month:02d}/{current_time.day:02d}/ -rt | tail -1"
-    ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    result = ps.communicate()[0]
-    return str(result, 'utf-8')
+    with subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as ps:
+        result = ps.communicate()[0]
+        ps.kill()
+        return str(result, 'utf-8')
 
 
 def reboot(reason: str):
