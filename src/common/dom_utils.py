@@ -12,6 +12,7 @@
 import logging
 import logging.config
 import re
+import socket
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
@@ -319,3 +320,7 @@ def is_weekend_day(today: datetime) -> bool:
 
 def to_datetime(source: date) -> datetime:
     return datetime.combine(source, datetime.min.time())
+
+
+def get_ip() -> str:
+    return socket.gethostbyname(socket.gethostname())
