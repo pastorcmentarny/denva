@@ -46,8 +46,6 @@ def get_data_for(url: str, timeout: int = 3):  # ->list or dict
             return json.loads(data_response)
     except Exception as whoops:
         return {'error': 'There was a problem: {}'.format(whoops)}
-    finally:
-        response.close()
 
 
 def get_current_warnings_for_all_services() -> dict:
