@@ -156,8 +156,8 @@ def get_lines_from_path(path: str, lines: int) -> dict:
 
 
 def get_last_line_from_log(path: str) -> str:
-    text = str(subprocess.check_output(['tail', '-n', "1", path]).strip(), "utf-8")
-    return text
+    with subprocess.check_output(['tail', '-n', "1", path]) as output:
+        return str(output, "utf-8").strip()
 
 
 def get_last_photo_filename() -> str:
@@ -181,9 +181,9 @@ def get_system_logs(number: int) -> dict:
 def is_dump_active():
     try:
         cmd = f'ps -aux | grep "./dump1090 --net --net-http-port 16601 --metric --quiet" | grep -v grep'
-        result = subprocess.check_output(cmd, shell=True)
-        logger.debug('Dump1090 is UP. Result {}'.format(result))
-        return "UP"
+        with subprocess.check_output(cmd, shell=True) as result:
+            logger.debug('Dump1090 is UP. Result {}'.format(result))
+            return "UP"
     except Exception as e:
         logger.error('Dump1090 is DOWN due to {}'.format(e))
         return "DOWN"
@@ -192,9 +192,9 @@ def is_dump_active():
 def is_dump_digest_active():
     try:
         cmd = f"ps -aux | grep app_dump_data_digest.py | grep -v grep"
-        result = subprocess.check_output(cmd, shell=True)
-        logger.debug('Result {}'.format(result))
-        return "UP".format(result)
+        with subprocess.check_output(cmd, shell=True) as result:
+            logger.debug('Result {}'.format(result))
+            return "UP".format(result)
     except Exception as e:
         logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
         return "DOWN"
