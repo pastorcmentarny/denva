@@ -186,6 +186,7 @@ if __name__ == '__main__':
 
     try:
         app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+        app.config['JSON_AS_ASCII'] = False
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
         healthcheck()
     except Exception as e:

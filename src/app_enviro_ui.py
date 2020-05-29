@@ -13,10 +13,11 @@ import logging
 
 import sys
 from flask import Flask, jsonify, request
-from denviro import enviro_service
-from common import data_files
-from services import email_sender_service, common_service
+
 import config_service
+from common import data_files
+from denviro import enviro_service
+from services import email_sender_service, common_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -125,6 +126,8 @@ if __name__ == '__main__':
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:
+        app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+        app.config['JSON_AS_ASCII'] = False
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)

@@ -101,6 +101,8 @@ if __name__ == '__main__':
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:
+        app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+        app.config['JSON_AS_ASCII'] = False
         app.run(host='0.0.0.0', debug=True)
     except Exception as e:
         logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
