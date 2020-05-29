@@ -93,8 +93,6 @@ def get_crime() -> str:
     except Exception as whoops:
         logger.error('Unable to get crime data due to : %s' % whoops)
         return 'Crime data N/A'
-    finally:
-        response.close()
 
 
 def get_flood() -> str:
@@ -104,8 +102,6 @@ def get_flood() -> str:
                           timeout=5) as response:
             log_response_result(response, 'flood')
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
-
-            response.close()
 
             severe_flood_warnings = html_manager.select('#severe-flood-warnings')[0].text.replace(
                 'Severe flood warnings',
@@ -122,8 +118,6 @@ def get_flood() -> str:
     except Exception as whoops:
         logger.error('Unable to get flood data due to : %s' % whoops)
         return 'Flood data N/A'
-    finally:
-        response.close()
 
 
 def get_weather() -> str:
@@ -135,16 +129,12 @@ def get_weather() -> str:
 
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
-            response.close()
-
             weather = html_manager.select('#tabDay0')[0].find('div').text
             stats_log.info(weather)
             return weather
     except Exception as whoops:
         logger.error('Unable to get weather data due to: {}'.format(whoops))
         return 'Weather data N/A'
-    finally:
-        response.close()
 
 
 def get_o2_status() -> str:
@@ -154,8 +144,6 @@ def get_o2_status() -> str:
                 timeout=5) as response:
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
-            response.close()
-
             log_response_result(response, "o2")
             o2_data = json.loads(str(html_manager))
             status = o2_data['outage_script_txt']
@@ -164,8 +152,6 @@ def get_o2_status() -> str:
     except Exception as whoops:
         logger.error('Unable to get o2 data due to: {}'.format(whoops))
         return 'o2 data N/A'
-    finally:
-        response.close()
 
 
 def log_response_result(response, what: str):
@@ -205,8 +191,6 @@ def get_pollution_for(city: str) -> str:
 
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
-            response.close()
-
             index = html_manager.select('.aqivalue')[0].text
             pollution_index = int(index)
             stats_log.info(pollution_index)
@@ -214,13 +198,10 @@ def get_pollution_for(city: str) -> str:
     except Exception as whoops:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))
         return 'Pollution data N/A'
-    finally:
-        response.close()
 
 
 def check_pages(headers, ok, pages, problems):
     for page in pages:
-
         logger.info('checking connection to :{}'.format(page))
 
         try:
@@ -233,6 +214,5 @@ def check_pages(headers, ok, pages, problems):
         except Exception as whoops:
             logger.warning('Response error: {}'.format(whoops))
             problems.append(whoops)
-        finally:
-            response.close()
+
     return ok
