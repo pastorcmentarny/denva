@@ -18,7 +18,7 @@ def capture_picture() -> str:
     try:
         start_time = timer()
         date_path = datetime.now().strftime("%Y\\%m\\%d")
-        path = "E:\\cctv\\{}\\".format(date_path)
+        path = "E:\\cctv\\{}".format(date_path)
         if not os.path.isdir(path):
             logger.info('creating folder for {}'.format(path))
             os.makedirs(path)
