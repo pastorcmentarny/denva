@@ -44,7 +44,7 @@ def capture_picture() -> str:
     global camera
     try:
         date_as_folders = dom_utils.get_date_as_folders_linux()
-        path = Path("{}/{}".format("e:/cctv/", date_as_folders))
+        path = Path("{}/{}".format("/home/pi/data/", date_as_folders))
 
         if not path.exists():
             print('Path {} do not exist. Creating missing path.'.format(path))
