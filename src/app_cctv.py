@@ -53,8 +53,8 @@ def capture_picture() -> str:
         file = dom_utils.get_date_with_time_as_filename("cctv", "jpg", datetime.now())
 
         photo_path = Path('{}/{}'.format(path, file))
-        logger.debug('using path {}'.format(photo_path))
-        camera.capture(photo_path)
+        logger.info('using path {}'.format(photo_path))
+        camera.capture(str(photo_path))
         return photo_path
     except Exception as e:
         logger.warning('Something went badly wrong\n{}'.format(e), exc_info=True)
