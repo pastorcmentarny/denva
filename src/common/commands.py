@@ -46,31 +46,6 @@ def mount_all_drives(device: str = 'denva'):
         logger.warning('Something went badly wrong..', exc_info=True)
 
 
-def capture_picture() -> str:
-    try:
-        date_path = datetime.now().strftime("%Y/%m/%d")
-        path = "/mnt/data/photos/{}/".format(date_path)
-        if not os.path.isdir(path):
-            logger.info('creating folder for {}'.format(path))
-            os.makedirs(path)
-        date = dom_utils.get_timestamp_file()
-        photo_path = "/mnt/data/photos/{}/{}.jpg".format(date_path, date)
-        cmd = "fswebcam -r 1280x960 --no-banner {}".format(photo_path)
-        subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        total_time = step
-        while not os.path.exists(photo_path):
-            time.sleep(step)
-            total_time += step
-        time.sleep(0.25)
-        logger.info('it took {:.1f} seconds to capture picture'.format(total_time))
-        return photo_path
-    except Exception as e:
-        logger.warning('Something went badly wrong\n{}'.format(e), exc_info=True)
-        email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
-    logger.warning('No path returned due to previous error.')
-    return ""
-
-
 # TODO remove it
 def get_cpu_speed():
     cmd = "find /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_cur_freq -type f | xargs cat | sort | uniq -c"
