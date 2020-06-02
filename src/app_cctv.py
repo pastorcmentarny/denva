@@ -98,6 +98,7 @@ def main():
 
         if app_timer.is_time_to_run_every_15_minutes(email_cooldown):
             email_sender_service.send_picture(last_picture, measurement_counter)
+            email_cooldown = datetime.now()
 
 
 if __name__ == '__main__':
