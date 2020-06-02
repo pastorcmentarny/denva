@@ -11,6 +11,7 @@
 """
 
 import logging
+from fractions import Fraction
 from pathlib import Path
 from datetime import datetime
 
@@ -68,6 +69,12 @@ def main():
     global email_cooldown
     logger.info('Starting up camera')
     sleep(WARM_UP_TIME)
+    # test night mode
+    camera.shutter_speed = 3000000
+    camera.iso = 800
+    sleep(30)
+    # test night mode
+
     camera.start_preview()
     logger.info('Camera is on.')
 
