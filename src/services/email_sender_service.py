@@ -11,9 +11,11 @@
 """
 import json
 import logging
+import os
 import smtplib
 from datetime import datetime
-# from email.mime.image import MIMEImage
+
+from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -64,11 +66,6 @@ def send(data: dict, subject: str):
 
         msg = MIMEMultipart()
 
-        '''taking picture for email disabled as it is used by server app now
-        pictures_path = []
-        if subject == 'Measurement':
-            pictures_path = data['picture_path']'''
-
         data = json.dumps(data, indent=2, sort_keys=True)
         message = "Below is a json with a data:\n {}".format(str(data))
 
@@ -77,13 +74,35 @@ def send(data: dict, subject: str):
         msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
         msg.attach(MIMEText(message, 'plain'))
 
-        '''taking picture for email disabled as it is used by server app now
-            if subject == 'Measurement':
-            for picture in pictures_path:
-                if picture != "":
-                    img_data = open(picture, 'rb').read()
-                    image = MIMEImage(img_data, name=os.path.basename(picture))
-                    msg.attach(image)'''
+        smtp_server.send_message(msg, cfg['user'], cfg['user'])
+        del msg
+        smtp_server.quit()
+        logger.info('Email sent.')
+    except Exception as e:
+        logger.error('Unable to send email due to {}'.format(e), exc_info=True)
+
+
+def send_picture(picture_path: str, pict_no: int):
+    cfg = data_files.load_cfg()
+    subject = "CCTV"
+    logger.info('Sending email for {}'.format(subject))
+    try:
+        smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
+        smtp_server.starttls()
+        smtp_server.login(cfg['user'], cfg['pass'])
+
+        msg = MIMEMultipart()
+
+        message = "This is picture from PI Camera no. {} from path".format(pict_no, picture_path)
+
+        msg['From'] = cfg['user']
+        msg['To'] = cfg['user']
+        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
+        msg.attach(MIMEText(message, 'plain'))
+
+        img_data = open(picture_path, 'rb').read()
+        image = MIMEImage(img_data, name=os.path.basename(picture_path))
+        msg.attach(image)
 
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
         del msg
@@ -91,7 +110,6 @@ def send(data: dict, subject: str):
         logger.info('Email sent.')
     except Exception as e:
         logger.error('Unable to send email due to {}'.format(e), exc_info=True)
-        send_error_log_email("sending email", "Unable to send {} email due to {}.".format(subject, e))
 
 
 def send_error_log_email(what: str, message: str):

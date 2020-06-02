@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "simple": {
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    }
+  },
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "stream": "ext://sys.stdout"
+    },
+    "cctv_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "/home/pi/logs/cctv.log",
+      "when": "midnight",
+      "encoding": "utf8"
+    }
+  },
+  "loggers": {
+    "app": {
+      "level": "DEBUG",
+      "handlers": [
+        "cctv_file_handler"
+      ],
+      "propagate": false
+    },
+    "warnings": {
+      "level": "INFO",
+      "handlers": [
+        "cctv_file_handler"
+      ],
+      "propagate": false
+    },
+    "stats": {
+      "level": "INFO",
+      "handlers": [
+        "cctv_file_handler"
+      ],
+      "propagate": false
+    },
+    "hc": {
+      "level": "INFO",
+      "handlers": [
+        "cctv_file_handler"
+      ],
+      "propagate": false
+    },
+    "cctv": {
+      "level": "INFO",
+      "handlers": [
+        "cctv_file_handler"
+      ],
+      "propagate": false
+    }
+  },
+  "root": {
+    "level": "DEBUG",
+    "handlers": [
+      "console"
+    ]
+  }
+}

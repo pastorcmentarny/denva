@@ -42,7 +42,7 @@ settings = {
         },
         "cctv-backup": ["D:\\ds-lpd-server\\cctv", "D:\\ds-lpd-server\\backup"],
         "chinese-dictionary": {
-            'dev': "D:\Projects\denva\src\data\dictionary.txt",
+            'dev': "D:\Github\denva\src\data\dictionary.txt",
             'server': "E:\denva\src\data\dictionary.txt"
         },
         "server_drive": "D:\\Projects\\denva\\src\\data\\dictionary.txt",
@@ -88,7 +88,8 @@ settings = {
         'log_app': '/home/pi/logs/logs.log',
         'log_hc': '/home/pi/logs/healthcheck.log',
         'log_ui': '/home/pi/logs/server.log',
-        'ddd': '/home/pi/denva-master/src/configs/log_ddd_config.log'
+        'ddd': '/home/pi/denva-master/src/configs/log_ddd_config.log',
+        'cctv': '/home/pi/denva-master/src/configs/log_cctv_config.json'
     },
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',
@@ -108,6 +109,9 @@ def get_log_path_for(log_type: str) -> str:
 
 def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
+    if where == 'cctv':
+        return settings['logs']['cctv']
+
     if where == 'ddd':
         if env_type == 'dev':
             return settings['logs']['dev_' + where]
