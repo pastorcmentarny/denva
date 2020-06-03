@@ -70,11 +70,6 @@ def main():
     global email_cooldown
     logger.info('Starting up camera')
     sleep(WARM_UP_TIME)
-    # test night mode
-    # camera.shutter_speed = 3000000
-    # camera.iso = 800
-    # sleep(30)
-    # test night mode
 
     camera.start_preview()
     camera.resolution = (1280, 720)  # 3280x2464, 3280x2464,1920x1080,1640x1232, 1640x922,1280x720, 640x480
@@ -85,8 +80,6 @@ def main():
         measurement_counter += 1
         logger.info('Capturing photo no.{}'.format(measurement_counter))
 
-        time.sleep(5)
-
         start_time = timer()
 
         last_picture = capture_picture()
@@ -94,14 +87,14 @@ def main():
         end_time = timer()
         measurement_time = int((end_time - start_time) * 1000)  # in ms
 
-        remaining_of_five_s = 5 - (float(measurement_time) / 1000)
-        if measurement_time > config_service.max_latency():
+        remaining_time = 4 - (float(measurement_time) / 1000)
+        if measurement_time > config_service.max_latency(fast=False):
             logger.warning("Measurement {} was slow. It took {} ms.".format(measurement_counter, measurement_time))
         else:
             logger.debug("It took {} ms.".format(measurement_time))
 
-        if remaining_of_five_s > 0:
-            time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
+        if remaining_time > 0:
+            time.sleep(remaining_time)
 
         if measurement_counter == 1:
             email_sender_service.send_picture(last_picture, measurement_counter)
