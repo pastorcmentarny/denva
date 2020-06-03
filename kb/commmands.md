@@ -3,6 +3,8 @@
 `cat /etc/os-release` - display version of os
 `history > commands_history.txt` - save history of commands to file
 
+# Run it before turn it off Pi
+```sudo halt```
 
 # Update Pi 
 0.  `sudo apt update`
