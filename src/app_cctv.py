@@ -83,7 +83,7 @@ def main():
         start_time = timer()
 
         last_picture = capture_picture()
-        too_dark_photos_remover_service.is_photo_mostly_black(last_picture,with_summary=False)
+        #too_dark_photos_remover_service.is_photo_mostly_black(last_picture,with_summary=False)
         end_time = timer()
         measurement_time = int((end_time - start_time) * 1000)  # in ms
 
