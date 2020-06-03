@@ -26,7 +26,6 @@ from services import email_sender_service
 
 logger = logging.getLogger('app')
 
-pictures = []
 camera = PiCamera()
 WARM_UP_TIME = 1
 email_cooldown = datetime.now()
@@ -42,22 +41,25 @@ def reset_camera():
 
 def capture_picture() -> str:
     global camera
+    date_as_folders = dom_utils.get_date_as_folders_linux()
+    path = Path("{}/{}".format("/home/pi/data/", date_as_folders))
+
     try:
-        date_as_folders = dom_utils.get_date_as_folders_linux()
-        path = Path("{}/{}".format("/home/pi/data/", date_as_folders))
 
         if not path.exists():
-            print('Path {} do not exist. Creating missing path.'.format(path))
+            logger.info('Path {} do not exist. Creating missing path.'.format(path))
             Path(path).mkdir(parents=True, exist_ok=True)
 
         file = dom_utils.get_date_with_time_as_filename("cctv", "jpg", datetime.now())
 
         photo_path = Path('{}/{}'.format(path, file))
-        logger.info('using path {}'.format(photo_path))
+
+        logger.debug('using path {}'.format(photo_path))
+
         camera.capture(str(photo_path))
         return photo_path
     except Exception as e:
-        logger.warning('Something went badly wrong\n{}'.format(e), exc_info=True)
+        logger.warning('Unable to capture picture to {} due to {}'.format(path, e), exc_info=True)
         email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
         reset_camera()
     logger.warning('No path returned due to previous error.')
@@ -81,24 +83,22 @@ def main():
     measurement_counter = 0
     while True:
         measurement_counter += 1
-        logger.info('Getting photo no.{}'.format(measurement_counter))
+        logger.info('Capturing photo no.{}'.format(measurement_counter))
 
         time.sleep(5)
 
         start_time = timer()
 
         last_picture = capture_picture()
-        if last_picture != "":
-            pictures.append(last_picture)
-            if len(pictures) > 5:
-                pictures.pop(0)
 
         end_time = timer()
         measurement_time = int((end_time - start_time) * 1000)  # in ms
 
         remaining_of_five_s = 5 - (float(measurement_time) / 1000)
-        if measurement_time > config_service.max_latency(fast=False):
-            logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
+        if measurement_time > config_service.max_latency():
+            logger.warning("Measurement {} was slow. It took {} ms.".format(measurement_counter, measurement_time))
+        else:
+            logger.debug("It took {} ms.".format(measurement_time))
 
         if remaining_of_five_s > 0:
             time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
