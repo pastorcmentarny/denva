@@ -36,7 +36,7 @@ def get_all_photos_for(year: str, month: str, day: str) -> list:
     return photos
 
 
-def is_photo_mostly_black(file):
+def is_photo_mostly_black(file,with_summary:bool=True):
     global deleted
     global ignored
     global errors
@@ -73,7 +73,8 @@ def is_photo_mostly_black(file):
         except Exception as e:
             logger.error('Unable to process {} file due to {}'.format(file, e))
             errors += 1
-    logger.info(str(dark_pixels) + ' out of ' + str(total_pixels) + ' is dark. (' + str(too_dark) + '%)')
+    if with_summary:
+        logger.info(str(dark_pixels) + ' out of ' + str(total_pixels) + ' is dark. (' + str(too_dark) + '%)')
 
 
 def check_is_pixel_too_dark(pixel) -> bool:
