@@ -45,7 +45,7 @@ def is_time_to_run_every_5_minutes(previous_update_time: datetime) -> bool:
 
 
 def is_time_to_run_every_15_minutes(previous_update_time: datetime) -> bool:
-    return is_it_time(previous_update_time, 5 * 60)
+    return is_it_time(previous_update_time, 15 * 60)
 
 
 def is_time_to_run_every_hour(previous_update_time: datetime) -> bool:
