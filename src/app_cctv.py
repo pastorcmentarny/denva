@@ -11,14 +11,13 @@
 """
 
 import logging
-from fractions import Fraction
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+from timeit import default_timer as timer
 
+import time
 from picamera import PiCamera
 from time import sleep
-import time
-from timeit import default_timer as timer
 
 import config_service
 from common import data_files, app_timer
@@ -76,6 +75,7 @@ def main():
     # test night mode
 
     camera.start_preview()
+    camera.resolution = (1280, 720)  # 3280x2464, 3280x2464,1920x1080,1640x1232, 1640x922,1280x720, 640x480
     logger.info('Camera is on.')
 
     measurement_counter = 0
@@ -105,7 +105,7 @@ def main():
 
         if measurement_counter == 1:
             email_sender_service.send_picture(last_picture, measurement_counter)
-            
+
         if app_timer.is_time_to_run_every_15_minutes(email_cooldown):
             email_sender_service.send_picture(last_picture, measurement_counter)
             email_cooldown = datetime.now()
