@@ -70,9 +70,9 @@ def main():
     logger.info('Starting up camera')
     sleep(WARM_UP_TIME)
     # test night mode
-    camera.shutter_speed = 3000000
-    camera.iso = 800
-    sleep(30)
+    # camera.shutter_speed = 3000000
+    # camera.iso = 800
+    # sleep(30)
     # test night mode
 
     camera.start_preview()
@@ -103,6 +103,9 @@ def main():
         if remaining_of_five_s > 0:
             time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
 
+        if measurement_counter == 1:
+            email_sender_service.send_picture(last_picture, measurement_counter)
+            
         if app_timer.is_time_to_run_every_15_minutes(email_cooldown):
             email_sender_service.send_picture(last_picture, measurement_counter)
             email_cooldown = datetime.now()
