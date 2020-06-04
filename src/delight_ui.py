@@ -12,7 +12,7 @@
 import logging
 
 import sys
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 import config_service
 from common import data_files
@@ -46,6 +46,19 @@ def gc():
 def healthcheck():
     logger.info('performing healthcheck for {}'.format(APP_NAME))
     return jsonify(common_service.get_healthcheck(APP_NAME))
+
+
+@app.route("/shc/update")
+def update_system_healthcheck_for():
+    logger.info('updating healthcheck')
+    delight_service.update_hc_for(request.get_json())
+    return jsonify(common_service.get_healthcheck(APP_NAME))
+
+
+@app.route("/shc/get")
+def get_system_healthcheck_for():
+    logger.info('updating healthcheck')
+    return jsonify(delight_service.get_system_hc())
 
 
 @app.route("/log/app")
@@ -98,6 +111,7 @@ def get_measurement():
 if __name__ == '__main__':
     config_service.set_mode_to('delight')
     data_files.setup_logging('ui')
+    delight_service.reset_hc()
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:
