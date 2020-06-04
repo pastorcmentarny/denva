@@ -324,3 +324,9 @@ def to_datetime(source: date) -> datetime:
 
 def get_ip() -> str:
     return socket.gethostbyname(socket.gethostname())
+
+
+def to_int(number_as_string: str) -> int:
+    if number_as_string == '' or (number_as_string is None) or number_as_string == '00' or number_as_string == '0':
+        return 0
+    return int(number_as_string.lstrip('0'))

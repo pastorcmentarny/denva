@@ -1,6 +1,5 @@
-import logging
 from datetime import date, datetime
-from unittest import TestCase, mock
+from unittest import TestCase
 from unittest.mock import patch
 
 from common import gobshite_exception, dom_utils
@@ -231,3 +230,15 @@ class Test(TestCase):
 
             # then
             self.assertEqual(expected_result, result)
+
+    def test_to_int_cases(self):
+        params_list = [['1', 1], ['20', 20], ['31', 31], ['04', 4], ['0005', 5], ['060', 60], ['00', 0], ['0', 0],
+                       ['', 0]]
+
+        for an_input, expected_result in params_list:
+            with self.subTest(msg="Checking to convert_time_to_minutes() for event {} ".format(an_input)):
+                # when
+                result = dom_utils.to_int(an_input)
+
+                # then
+                self.assertEqual(expected_result, result)
