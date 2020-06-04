@@ -1,9 +1,12 @@
 import json
+import logging
 
 import requests
 
 import config_service
 from services import system_data_service
+
+logger = logging.getLogger('app')
 
 REPORT_TIMEOUT = 150
 
@@ -78,3 +81,19 @@ def get_current_reading_for_aircraft():
 
 def get_yesterday_report_for_aircraft():
     return get_data_for('{}/flights/yesterday'.format(config_service.load_cfg()["urls"]['delight']))
+
+
+def post_healthcheck_beat(device: str, app_type: str):
+    url = config_service.get_system_hc_url()
+    json_data = {'device': device, 'app_type': app_type}
+    try:
+        with requests.post(url, json=json_data, timeout=1) as response:
+            response.json()
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
+
+
+if __name__ == '__main__':
+    post_healthcheck_beat('denva', 'app')

@@ -19,6 +19,7 @@ import time
 import config_service
 from common import data_files, commands
 from denva import cl_display
+from gateways import local_data_gateway
 from sensors import gas_service, humidity_bme_service, light_proximity_service
 from sensors import particulate_matter_service
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
@@ -64,7 +65,7 @@ def setup():
     start_time = timer()
     humidity_bme_service.warm_up()
     end_time = timer()
-    logger.info('It took {} ms.\nMounting drives...'.format(int((end_time - start_time) * 1000)))
+    logger.info('It took {} ms. Mounting drives...'.format(int((end_time - start_time) * 1000)))
     start_time = timer()
     commands.mount_all_drives('enviro')
     end_time = timer()
@@ -95,7 +96,10 @@ def main():
 
         # deprecated but i will change settings to send them via config settings
         # measurement_storage_service.send('enviro', measurement)
+
         sensor_warnings_service.get_current_warnings_for_enviro()
+        if measurement_counter % 2 == 0:
+            local_data_gateway.post_healthcheck_beat('denviro', 'app')
         remaining_time_in_millis = 5 - (float(measurement_time) / 1000)
 
         if measurement_time > config_service.max_latency(fast=False):

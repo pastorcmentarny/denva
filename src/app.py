@@ -22,6 +22,7 @@ from PIL import ImageFont
 import config_service
 from common import data_files, commands, dom_utils
 from denva import cl_display
+from gateways import local_data_gateway
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service
 from services import email_sender_service
 
@@ -95,6 +96,9 @@ def main():
         data_files.store_measurement(data, motion_service.get_current_motion_difference())
 
         cl_display.print_measurement(data)
+
+        if measurement_counter % 2 == 0:
+            local_data_gateway.post_healthcheck_beat('denva', 'app')
 
         remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 

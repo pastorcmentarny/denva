@@ -502,12 +502,18 @@ def main():
     while True:
         if is_night_mode():
             device_status()
+            local_data_gateway.post_healthcheck_beat('server', 'app')
         else:
+            local_data_gateway.post_healthcheck_beat('server', 'app')
             device_status()
             delight_display.reset_screen()
+            local_data_gateway.post_healthcheck_beat('server', 'app')
             sub_light_travel()
             delight_display.reset_screen()
+            local_data_gateway.post_healthcheck_beat('server', 'app')
             in_the_warp()
+
+
 
 
 if __name__ == '__main__':

@@ -254,6 +254,10 @@ def get_radar_hc_url() -> str:
     return settings["urls"]["denva"] + "/hc/ar"
 
 
+def get_system_hc_url() -> str:
+    return settings["urls"]["delight"] + "/shc/update"
+
+
 def get_directory_path_for_aircraft() -> str:
     if get_mode() == 'dev':
         return "D:\\denva\\data"

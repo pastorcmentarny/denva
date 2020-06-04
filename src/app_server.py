@@ -19,6 +19,7 @@ import time
 import config_service
 import mothership.information_service as information
 from common import app_timer, data_files, loggy
+from gateways import local_data_gateway
 from mothership import webcam_service
 from reports import report_service
 from services import email_sender_service
@@ -51,6 +52,8 @@ def main():
                 pictures.append(last_picture)
                 if len(pictures) > 5:
                     pictures.pop(0)
+        if counter % 2 == 0:
+            local_data_gateway.post_healthcheck_beat('denva', 'app')
         information.should_refresh()
         should_send_email()
         report_generation_cooldown = report_service.create_and_store_it_if_needed(report_generation_cooldown)
