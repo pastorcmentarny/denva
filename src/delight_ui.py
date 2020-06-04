@@ -48,10 +48,10 @@ def healthcheck():
     return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
-@app.route("/shc/update",methods=['POST'])
+@app.route("/shc/update", methods=['POST'])
 def update_system_healthcheck_for():
-    logger.info('updating healthcheck')
-    delight_service.update_hc_for(request.get_json())
+    logger.info('updating healthcheck {}'.format(request.get_json(force=True)))
+    delight_service.update_hc_for(request.get_json(force=True))
     return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
