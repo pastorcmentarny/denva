@@ -181,7 +181,7 @@ def load_json_data_as_dict_from(path: str) -> dict:
 
 
 def save_dict_data_as_json(path: str, data: dict):
-    with open(path, 'w', encoding='utf-8') as path_file:
+    with open(path, "w+", encoding='utf-8') as path_file:
         json.dump(data, path_file, ensure_ascii=False, indent=4)
 
 

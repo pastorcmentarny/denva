@@ -9,6 +9,7 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import platform
+from pathlib import Path
 
 from common import dom_utils
 
@@ -253,7 +254,7 @@ def get_radar_hc_url() -> str:
     return settings["urls"]["denva"] + "/hc/ar"
 
 
-def get_directory_path_for_aircraft():
+def get_directory_path_for_aircraft() -> str:
     if get_mode() == 'dev':
         return "D:\\denva\\data"
     else:
@@ -268,3 +269,12 @@ def max_latency(fast: bool = True):
     if fast:
         return settings["latency"]["max"]
     return settings["latency"]["max-slow"]
+
+
+def get_system_hc() -> str:
+    if get_mode() == 'dev':
+        file = "D:\\denva\\data"
+    else:
+        file = '/home/pi/data'
+
+    return str(Path('{}/hc.json'.format(file)))
