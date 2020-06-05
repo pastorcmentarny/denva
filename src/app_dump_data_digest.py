@@ -38,6 +38,9 @@ def digest():
         else:
             aircraft_storage.save_raw_reading(result)
             aircraft_storage.save_processed_data(result)
+            if counter % 2 == 0:
+                local_data_gateway.post_healthcheck_beat('other', 'radar')
+
 
         end_time = timer()
 
@@ -48,6 +51,9 @@ def digest():
             warnings += 1
             logger.warning("Measurement {} was slow.It took {} ms".format(counter, measurement))
 
+
+        if counter % 2 == 0:
+            local_data_gateway.post_healthcheck_beat('other', 'digest')
         display_stats()
         msg = 'Measurement no. {} It took {} milliseconds to process. Errors: {}. Warnings: {}'.format(counter,
                                                                                                        measurement_time,

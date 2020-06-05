@@ -22,6 +22,7 @@ from time import sleep
 import config_service
 from common import data_files, app_timer
 from common import dom_utils
+from gateways import local_data_gateway
 from services import email_sender_service
 from tasks import too_dark_photos_remover_service
 logger = logging.getLogger('app')
@@ -102,6 +103,8 @@ def main():
         if app_timer.is_time_to_run_every_15_minutes(email_cooldown):
             email_sender_service.send_picture(last_picture, measurement_counter)
             email_cooldown = datetime.now()
+        if measurement_counter % 2 == 0:
+            local_data_gateway.post_healthcheck_beat('other', 'cctv')
 
 
 if __name__ == '__main__':
