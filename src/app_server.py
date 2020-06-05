@@ -53,7 +53,7 @@ def main():
                 if len(pictures) > 5:
                     pictures.pop(0)
         if counter % 2 == 0:
-            local_data_gateway.post_healthcheck_beat('denva', 'app')
+            local_data_gateway.post_healthcheck_beat('server', 'app')
         information.should_refresh()
         should_send_email()
         report_generation_cooldown = report_service.create_and_store_it_if_needed(report_generation_cooldown)
