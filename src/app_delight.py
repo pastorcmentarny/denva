@@ -32,6 +32,7 @@ import config_service
 from common import data_files, dom_utils, status
 from delight import delight_display, delight_service, delight_utils
 from gateways import local_data_gateway
+from systemhc import system_health_prototype
 
 logger = logging.getLogger('app')
 
@@ -204,6 +205,7 @@ def device_status():
         logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
         state.set_error()
     else:
+        system_health_prototype.update_hc_for('denva', 'ui')
         if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denva )')
             state.set_error()
@@ -246,6 +248,7 @@ def device_status():
         logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
         state.set_error()
     else:
+        system_health_prototype.update_hc_for('denviro', 'ui')
         if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denviro')
             state.set_error()
@@ -291,6 +294,7 @@ def device_status():
         logger.warning('Unable to get Server status due to {}'.format(server_data['error']))
         state.set_error()
     else:
+        system_health_prototype.update_hc_for('server', 'ui')
         if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
             logger.warning('status: RED due to very low memory available on Server')
             state.set_error()
@@ -341,6 +345,9 @@ def device_status():
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
         state.set_error()
+    delight_ui_response = local_data_gateway.get_data_for('{}/hc'.format(config_service.load_cfg()["urls"]['delight']))
+    if not 'error' in delight_ui_response:
+        system_health_prototype.update_hc_for('delight', 'ui')
 
     color_blue, color_green, color_red = delight_utils.get_state_colour(state)
     blink = update_blink(blink, state.state)
@@ -502,18 +509,16 @@ def main():
     while True:
         if is_night_mode():
             device_status()
-            local_data_gateway.post_healthcheck_beat('server', 'app')
+            local_data_gateway.post_healthcheck_beat('delight', 'app')
         else:
-            local_data_gateway.post_healthcheck_beat('server', 'app')
+            local_data_gateway.post_healthcheck_beat('delight', 'app')
             device_status()
             delight_display.reset_screen()
-            local_data_gateway.post_healthcheck_beat('server', 'app')
+            local_data_gateway.post_healthcheck_beat('delight', 'app')
             sub_light_travel()
             delight_display.reset_screen()
-            local_data_gateway.post_healthcheck_beat('server', 'app')
+            local_data_gateway.post_healthcheck_beat('delight', 'app')
             in_the_warp()
-
-
 
 
 if __name__ == '__main__':
