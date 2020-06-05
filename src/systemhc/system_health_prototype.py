@@ -22,11 +22,14 @@ def load() -> dict:
 
 
 def update_hc_for(device: str, app_type: str):
-    data = load()
-    now = datetime.now()
-    data[device][app_type] = str(
-        '{}{:02d}{:02d}{:02d}{:02d}{:02d}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
-    save(data)
+    try:
+        data = load()
+        now = datetime.now()
+        data[device][app_type] = str(
+            '{}{:02d}{:02d}{:02d}{:02d}{:02d}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+        save(data)
+    except Exception as exception:
+        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
 
 
 def to_timestamp(now: datetime) -> str:
@@ -61,7 +64,7 @@ def update_to_now_for_all():
             'cctv': to_timestamp(now),
             'radar': to_timestamp(now),
             'digest': to_timestamp(now),
-    
+
         }
     }
     save(system)
@@ -81,6 +84,7 @@ def is_up(device: str, app_type: str) -> str:
     except Exception as exception:
         logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
         return "UNKNOWN"
+
 
 def get_status(previous_datetime):
     if app_timer.is_it_time(previous_datetime, 60):
@@ -116,7 +120,6 @@ def get_system_healthcheck():
 
         }
     }
-
 
 
 if __name__ == '__main__':
