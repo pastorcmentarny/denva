@@ -534,15 +534,18 @@ def in_the_warp():
 
 
 def startup():
-    unicornhathd.brightness(0.9)
-    for x in range(0, 16):
-        for y in range(0, 16):
-            unicornhathd.set_pixel(x, y, 255, 255, 255)
-    unicornhathd.show()
-    time.sleep(5)
+    b = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]
+    c = [[185, 185, 185],[0, 0, 185],[128, 28, 200],[0, 185, 0],[255,255,255],[185, 0, 0],[185, 153, 26],[185, 80, 0]]
+    c = random.shuffle(c)
+    for count in range(0,8):
+        unicornhathd.brightness(b[count])
+        set_all_pixel_to(c[count][0],c[count][1],c[count][2])
+        unicornhathd.show()
+        time.sleep(0.5)
 
 
 def main():
+    startup()
     while True:
         if is_night_mode():
             device_status()
@@ -558,6 +561,12 @@ def main():
             in_the_warp()
 
 
+def set_all_pixel_to(red: int, green: int, blue: int):
+    for coordinate_x in range(0, 16):
+        for coordinate_y in range(0, 16):
+            unicornhathd.set_pixel(coordinate_x, coordinate_y, red, green, blue)
+
+
 if __name__ == '__main__':
     config_service.set_mode_to('delight')
     data_files.setup_logging('app')
@@ -570,7 +579,5 @@ if __name__ == '__main__':
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
         unicornhathd.brightness(0.2)
-        for coordinate_x in range(0, 16):
-            for coordinate_y in range(0, 16):
-                unicornhathd.set_pixel(coordinate_x, coordinate_y, 255, 0, 0)
+        set_all_pixel_to(255, 0, 0)
         unicornhathd.show()
