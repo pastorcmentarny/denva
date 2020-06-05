@@ -164,7 +164,7 @@ def sub_light_travel():
         while len(blue_pilled_population) > 100:
             blue_pilled_population.pop(0)
 
-        if clock % 500 == 0:
+        if clock % 125 == 0:
             running = False
 
 
@@ -369,8 +369,7 @@ def device_status():
         state.set_error()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    unicornhathd.set_pixel(to_x(1), 9, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(1), 10, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(2), 2, color_red, color_green, color_blue)
     logger.info('Dump daemon: {}'.format(state.get_status_as_light_colour()))
 
     state = status.Status()
@@ -380,9 +379,68 @@ def device_status():
         state.set_error()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    unicornhathd.set_pixel(to_x(3), 9, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(3), 10, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(14), 2, color_red, color_green, color_blue)
+
     logger.info('Data digest: {}'.format(state.get_status_as_light_colour()))
+
+    system_health_status = system_health_prototype.get_system_healthcheck()
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['denva','app'])
+    unicornhathd.set_pixel(to_x(1), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(2), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(3), 9, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['denva','ui'])
+    unicornhathd.set_pixel(to_x(1), 12, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(2), 12, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(3), 12, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['denviro','app'])
+    unicornhathd.set_pixel(to_x(5), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(6), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(7), 9, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['denviro','ui'])
+    unicornhathd.set_pixel(to_x(5), 12, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(6), 12, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(7), 12, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['server','app'])
+    unicornhathd.set_pixel(to_x(9), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(10), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(11), 9, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['server','ui'])
+    unicornhathd.set_pixel(to_x(9), 12, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(10), 12, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(11), 12, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['delight','app'])
+    unicornhathd.set_pixel(to_x(13), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(14), 9, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(15), 9, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['delight','ui'])
+    unicornhathd.set_pixel(to_x(13), 12, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(14), 12, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(15), 12, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other','cctv'])
+    unicornhathd.set_pixel(to_x(1), 5, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(2), 5, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(3), 5, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other','digest'])
+    unicornhathd.set_pixel(to_x(13), 7, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(14), 7, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(15), 7, color_red, color_green, color_blue)
+
+    color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other','radar'])
+    unicornhathd.set_pixel(to_x(1), 7, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(2), 7, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(3), 7, color_red, color_green, color_blue)
+
+
 
     if is_night_mode():
         unicornhathd.brightness(0.1)
@@ -447,9 +505,6 @@ def set_status_for_device(x: int, y: int, color_red: int, color_green: int, colo
         unicornhathd.set_pixel(to_x(delight_utils.get_random_pixel_location_at_night(x)), y + 2, color_red, color_green,
                                color_blue)
     else:
-        unicornhathd.set_pixel(to_x(x), y, color_red, color_green, color_blue)
-        unicornhathd.set_pixel(to_x(x + 1), y, color_red, color_green, color_blue)
-        unicornhathd.set_pixel(to_x(x + 2), y, color_red, color_green, color_blue)
         unicornhathd.set_pixel(to_x(x), y + 1, color_red, color_green, color_blue)
         unicornhathd.set_pixel(to_x(x + 1), y + 1, color_red, color_green, color_blue)
         unicornhathd.set_pixel(to_x(x + 2), y + 1, color_red, color_green, color_blue)
