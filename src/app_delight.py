@@ -410,19 +410,19 @@ def device_status():
     set_status_for_device(13, 10, color_red, color_green, color_blue)
 
     color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other']['cctv'])
-    unicornhathd.set_pixel(to_x(1), 5, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(2), 5, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(3), 5, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(1), 4, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(2), 4, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(3), 4, color_red, color_green, color_blue)
 
     color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other']['digest'])
-    unicornhathd.set_pixel(to_x(13), 7, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(14), 7, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(15), 7, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(13), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(14), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(15), 6, color_red, color_green, color_blue)
 
     color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other']['radar'])
-    unicornhathd.set_pixel(to_x(1), 7, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(2), 7, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(3), 7, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(1), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(2), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(to_x(3), 6, color_red, color_green, color_blue)
 
     if is_night_mode():
         unicornhathd.brightness(0.1)
