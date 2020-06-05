@@ -534,12 +534,12 @@ def in_the_warp():
 
 
 def startup():
-    b = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]
-    c = [[185, 185, 185],[0, 0, 185],[128, 28, 200],[0, 185, 0],[255,255,255],[185, 0, 0],[185, 153, 26],[185, 80, 0]]
-    c = random.shuffle(c)
+    brightness_list = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]
+    colour_list = [[185, 185, 185],[0, 0, 185],[128, 28, 200],[0, 185, 0],[255,255,255],[185, 0, 0],[185, 153, 26],[185, 80, 0]]
+    random.shuffle(colour_list)
     for count in range(0,8):
-        unicornhathd.brightness(b[count])
-        set_all_pixel_to(c[count][0],c[count][1],c[count][2])
+        unicornhathd.brightness(brightness_list[count])
+        set_all_pixel_to(colour_list[count][0],colour_list[count][1],colour_list[count][2])
         unicornhathd.show()
         time.sleep(0.5)
 
