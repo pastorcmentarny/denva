@@ -102,7 +102,7 @@ def main():
             local_data_gateway.post_healthcheck_beat('denviro', 'app')
         remaining_time_in_millis = 5 - (float(measurement_time) / 1000)
 
-        if measurement_time > config_service.max_latency(fast=False):
+        if int(measurement_time) > config_service.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
 
         if remaining_time_in_millis > 0:
