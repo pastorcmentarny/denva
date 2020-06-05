@@ -17,12 +17,12 @@ def get_state_colour(current_state):
     return color_red, color_green, color_blue
 
 
-def get_state_colour_for_hc(current_state):
+def get_state_colour_for_hc(current_state: str):
     if current_state == 'DOWN':
         color_red = 255
         color_green = 0
         color_blue = 0
-    elif current_state.get_status_as_light_colour() == 'WARN':
+    elif current_state == 'WARN':
         color_red = 255
         color_green = 110
         color_blue = 0
