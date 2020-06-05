@@ -18,7 +18,11 @@ def get_state_colour(current_state):
 
 
 def get_state_colour_for_hc(current_state: str):
-    if current_state == 'DOWN':
+    if current_state == 'UNKNOWN':
+        color_red = 64
+        color_green = 64
+        color_blue = 64
+    elif current_state == 'DOWN':
         color_red = 255
         color_green = 0
         color_blue = 0
