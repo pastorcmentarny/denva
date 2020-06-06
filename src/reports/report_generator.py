@@ -272,7 +272,8 @@ def generate():
             'enviro': local_data_gateway.get_yesterday_report_for_enviro(),
             'aircraft': local_data_gateway.get_yesterday_report_for_aircraft(),
             'rickmansworth': information_service.get_data_about_rickmansworth(),
-        }
+        },
+        'status': local_data_gateway.get_data_for('http://192.168.0.203:5000/shc/get', 3)
     }
     end_time = timer()
     logger.info('It took {} ms to generate data'.format(int((end_time - start_time) * 1000)))
