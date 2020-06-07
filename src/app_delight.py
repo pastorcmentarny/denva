@@ -554,8 +554,8 @@ def get_neighbours(x, y, z):
 p = 0.01
 f = 0.0005
 
-tree = [0, 255, 0]  # select randomly between green, purple, blue
-burning = [255, 0, 0]  # red, orange
+tree = [0, 255, 0]
+burning = [255, 0, 0]
 space = [0, 0, 0]
 
 trees = [[160, 32, 240], [0, 255, 0], [255, 255, 255]]
