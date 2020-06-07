@@ -547,19 +547,27 @@ avg_size = scale
 
 def get_neighbours(x, y, z):
     return [(x2, y2) for x2 in range(x - (z - 1), x + z) for y2 in range(y - (z - 1), y + z) if (
-                -1 < x < forest_width and -1 < y < forest_height and (x != x2 or y != y2) and (
-                    0 <= x2 < forest_width) and (0 <= y2 < forest_height))]
+            -1 < x < forest_width and -1 < y < forest_height and (x != x2 or y != y2) and (
+            0 <= x2 < forest_width) and (0 <= y2 < forest_height))]
 
 
 p = 0.01
 f = 0.0005
 
-tree = [0, 255, 0] # select randomly between green, purple, blue
-burning = [255, 0, 0] # red, orange
+tree = [0, 255, 0]  # select randomly between green, purple, blue
+burning = [255, 0, 0]  # red, orange
 space = [0, 0, 0]
+
+trees = [[160, 32, 240], [0, 255, 0], [255, 255, 255]]
+burning_colour = [[255, 0, 0], [255, 110, 0], [64, 64, 64]]
 
 
 def initialise_forest():
+    global tree
+    global burning
+    idx = random.randint(0, 2)
+    tree = trees[idx]
+    burning = burning_colour[idx]
     initial_trees = 0.55
     forest = [[tree if random.random() <= initial_trees else space for x in range(forest_width)] for y in
               range(forest_height)]
@@ -644,6 +652,8 @@ def main():
             local_data_gateway.post_healthcheck_beat('delight', 'app')
         else:
             local_data_gateway.post_healthcheck_beat('delight', 'app')
+            in_the_forest()
+            delight_display.reset_screen()
             device_status()
             delight_display.reset_screen()
             local_data_gateway.post_healthcheck_beat('delight', 'app')
