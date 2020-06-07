@@ -16,7 +16,7 @@ def get_system_disk_space_free():
     return dom_utils.convert_bytes_to_megabytes(psutil.disk_usage(config_service.get_system_drive()).free)
 
 
-#Used for server only, Pi use commands.get_system_info(
+# Used for server only, Pi use commands.get_system_info(
 def get_system_information() -> dict:
     return {
         "CPU Speed": '{} MHz'.format(psutil.cpu_freq().current),

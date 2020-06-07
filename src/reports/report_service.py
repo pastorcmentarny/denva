@@ -58,7 +58,7 @@ def generate_for_yesterday() -> dict:
 
 def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datetime:
     if data_files.is_report_file_exists():
-        logger.info('Report already sent.')
+        logger.debug('Report already sent.')
         return report_generation_cooldown
     if app_timer.is_time_to_send_report_email(report_generation_cooldown):
         logger.info('Generating report')

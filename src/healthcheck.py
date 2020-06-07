@@ -9,16 +9,16 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-from datetime import datetime
 import logging
+from datetime import datetime
+
 import requests
 import time
 
 import config_service
 from common import data_files, commands, dom_utils
-from services import email_sender_service
 from denva import denva_sensors_service
-
+from services import email_sender_service
 
 logger = logging.getLogger('hc')
 

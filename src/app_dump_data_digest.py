@@ -1,3 +1,15 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+* Author Dominik Symonowicz
+* WWW:	https://dominiksymonowicz.com/welcome
+* IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
+* Github:	https://github.com/pastorcmentarny
+* Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
+* LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
+"""
+
 import logging
 from timeit import default_timer as timer
 
@@ -11,7 +23,6 @@ from gateways import local_data_gateway
 logger = logging.getLogger('ddd')
 
 refresh_rate_in_seconds = 15
-
 
 
 def display_stats():
@@ -41,7 +52,6 @@ def digest():
             if counter % 2 == 0:
                 local_data_gateway.post_healthcheck_beat('other', 'radar')
 
-
         end_time = timer()
 
         measurement = int((end_time - start_time) * 1000)
@@ -50,7 +60,6 @@ def digest():
         if measurement > config_service.max_latency():
             warnings += 1
             logger.warning("Measurement {} was slow.It took {} ms".format(counter, measurement))
-
 
         if counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('other', 'digest')

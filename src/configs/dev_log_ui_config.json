@@ -25,7 +25,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "DEBUG",
       "formatter": "simple",
-      "filename": "d:/denva/logs/warnings.log",
+      "filename": "D:/denva/logs/warnings.log",
       "when": "midnight",
       "encoding": "utf8"
     },
@@ -33,7 +33,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "DEBUG",
       "formatter": "simple",
-      "filename": "d:/denva/logs/stats_ui.log",
+      "filename": "D:/denva/logs/stats_ui.log",
       "when": "midnight",
       "encoding": "utf8"
     },

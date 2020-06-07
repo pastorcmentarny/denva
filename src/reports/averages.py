@@ -13,8 +13,9 @@ import re
 from timeit import default_timer as timer
 
 import time
-from denva import denva_sensors_service
+
 from common import data_files
+from denva import denva_sensors_service
 
 
 def get_averages_for_today() -> dict:

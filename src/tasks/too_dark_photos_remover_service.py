@@ -36,7 +36,7 @@ def get_all_photos_for(year: str, month: str, day: str) -> list:
     return photos
 
 
-def is_photo_mostly_black(file,with_summary:bool=True):
+def is_photo_mostly_black(file, with_summary: bool = True):
     global deleted
     global ignored
     global errors

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import logging
+import os
 import shutil
 from datetime import datetime
 from pathlib import Path
@@ -40,7 +40,7 @@ def backup_pi_data():
             print('SUBFOLDER OF ' + folderName + ': ' + subFolder)
         for filename in filenames:
             print('FILE INSIDE ' + folderName + ': ' + filename)
-            result = shutil.copy(folderName +  "\\" + filename, destination)
+            result = shutil.copy(folderName + "\\" + filename, destination)
             print(result)
         print('')
 

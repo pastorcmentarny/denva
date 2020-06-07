@@ -98,8 +98,10 @@ def main():
         # measurement_storage_service.send('enviro', measurement)
 
         sensor_warnings_service.get_current_warnings_for_enviro()
+
         if measurement_counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('denviro', 'app')
+
         remaining_time_in_millis = 5 - (float(measurement_time) / 1000)
 
         if int(measurement_time) > config_service.max_latency(fast=False):

@@ -1,8 +1,8 @@
 function displayGreetings() {
     "use strict";
-  let date = new Date();
-  let hour = date.getHours();
-  if (hour > 19) {
+    let date = new Date();
+    let hour = date.getHours();
+    if (hour > 19) {
         display("Good Evening to You");
     } else if (hour > 16) {
         display("Good afernoon to You");

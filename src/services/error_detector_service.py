@@ -1,6 +1,7 @@
 import logging
-from gateways import local_data_gateway
+
 from common import dom_utils, loggy
+from gateways import local_data_gateway
 
 logger = logging.getLogger('app')
 
@@ -61,6 +62,3 @@ def get_errors_from_data(data: dict) -> list:
         errors.append('Delight data is missing.')
     loggy.log_error_count(errors)
     return errors
-
-
-

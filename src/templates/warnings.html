@@ -29,9 +29,9 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
 
-    <script type=text/javascript src="{{url_for('static', filename='scripts.js') }}"></script>
-    <script type=text/javascript src="{{url_for('static', filename='fasting.js') }}"></script>
-    <script type=text/javascript src="{{url_for('static', filename='copyright.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='fasting.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='copyright.js') }}"></script>
 </head>
 <body>
 
@@ -53,7 +53,7 @@
             <div class="card-body">
                 <ul class="list-unstyled mt-2 mb-2">
                     {% for n in message.warnings %}
-                    <li>{{n}}</li>
+                        <li>{{ n }}</li>
                     {% endfor %}
                 </ul>
             </div>

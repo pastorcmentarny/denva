@@ -10,13 +10,11 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
-import os
 import re
 import subprocess
 from datetime import datetime
 
 import psutil
-import time
 
 from common import dom_utils
 from services import email_sender_service

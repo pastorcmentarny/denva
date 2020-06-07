@@ -10,14 +10,11 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
-import json
-import urllib.request
-import requests
 import random
-import ssl
+
+import requests
+
 import config_service
-from requests.adapters import HTTPAdapter
-from urllib3 import PoolManager
 
 words = []
 
@@ -43,9 +40,6 @@ def get_random_chinese_word() -> dict:
     return words[random.randint(0, len(words) - 1)]
 
 
-
-
-
 '''
 class MyAdapter(HTTPAdapter):
     def init_poolmanager(self, connections, maxsize, block):
@@ -54,6 +48,7 @@ class MyAdapter(HTTPAdapter):
                                        block=block,
                                        ssl_version=ssl.PROTOCOL_TLSv1_2)
 '''
+
 
 # it works only for bigger files by design
 def get_chinese_dictionary_from_github() -> list:
@@ -65,8 +60,9 @@ def get_chinese_dictionary_from_github() -> list:
     #    print(s.get(path))
 
     headers = requests.utils.default_headers()
-    headers['User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    response = requests.get(path,headers=headers)
+    headers[
+        'User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+    response = requests.get(path, headers=headers)
 
     try:
         response.raise_for_status()
@@ -75,14 +71,14 @@ def get_chinese_dictionary_from_github() -> list:
         return ['Error: {}'.format(whoops)]
 
 
-#TODO finish it
+# TODO finish it
 def save_dictionary(github):
     pass
 
-#TODO finish it
+
+# TODO finish it
 def update_dictionary_if_needed():
     github = get_chinese_dictionary_from_github()
     local = load_dictionary_file()
     if len(github) > len(local):
         save_dictionary(github)
-

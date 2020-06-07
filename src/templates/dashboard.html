@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"/>
 
-    <script type=text/javascript src="{{url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
-    <script type=text/javascript src="{{url_for('static', filename='scripts.js') }}"></script>
-    <script type=text/javascript src="{{url_for('static', filename='fasting.js') }}"></script>
-    <script type=text/javascript src="{{url_for('static', filename='copyright.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='fasting.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='copyright.js') }}"></script>
 </head>
 <body>
 
@@ -25,11 +25,11 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><a href="{{message.page_now}}">Page now</a></li>
-                    <li><a href="{{message.page_system}}">System</a></li>
-                    <li><a href="{{message.page_avg}}">Averages</a></li>
-                    <li><a href="{{message.page_records}}">Records</a></li>
-                    <li><a href="{{message.page_stats}}">Stats</a></li>
+                    <li><a href="{{ message.page_now }}">Page now</a></li>
+                    <li><a href="{{ message.page_system }}">System</a></li>
+                    <li><a href="{{ message.page_avg }}">Averages</a></li>
+                    <li><a href="{{ message.page_records }}">Records</a></li>
+                    <li><a href="{{ message.page_stats }}">Stats</a></li>
                 </ul>
             </div>
         </div>
@@ -39,9 +39,9 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><a href="{{message.page_warns}}">All Warnings today</a></li>
-                    <li><a href="{{message.page_warns_now}}">Current warnings</a></li>
-                    <li><a href="{{message.page_warns_count}}">Warnings count</a></li>
+                    <li><a href="{{ message.page_warns }}">All Warnings today</a></li>
+                    <li><a href="{{ message.page_warns_now }}">Current warnings</a></li>
+                    <li><a href="{{ message.page_warns_count }}">Warnings count</a></li>
                 </ul>
             </div>
         </div>
@@ -51,10 +51,10 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><a href="{{message.page_last_report}}">Report for yesterday</a></li>
+                    <li><a href="{{ message.page_last_report }}">Report for yesterday</a></li>
                     <li>Report for last week</li>
                     <li>Report for last month</li>
-                    <li><a href="{{message.page_ricky}}">Ricky report</a></li>
+                    <li><a href="{{ message.page_ricky }}">Ricky report</a></li>
                 </ul>
             </div>
         </div>
@@ -71,8 +71,8 @@
             <div class="col-3 col-md">
                 <h5>Logs</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a href="{{message.page_recent_log_app}}">Recent App logs</a></li>
-                    <li><a href="{{message.page_recent_log_hc}}">Healthcheck logs</a></li>
+                    <li><a href="{{ message.page_recent_log_app }}">Recent App logs</a></li>
+                    <li><a href="{{ message.page_recent_log_hc }}">Healthcheck logs</a></li>
                 </ul>
             </div>
         </div>
