@@ -65,7 +65,7 @@ def capture_picture() -> str:
         camera.capture(str(photo_path))
         if too_dark_photos_remover_service.is_photo_mostly_black(file, with_summary=False):
             logger.warning("Picture {} was too dark and it will be removed")
-            os.remove(file)
+            os.remove(photo_path)
             if os.path.exists(file):
                 logger.warning('{} NOT deleted.'.format(file))
             else:
