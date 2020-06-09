@@ -13,6 +13,7 @@ import datetime
 import logging
 import os
 from collections import Counter
+from pathlib import Path
 from timeit import default_timer as timer
 
 from PIL import Image
@@ -26,7 +27,8 @@ errors = 0
 
 
 def get_all_photos_for(year: str, month: str, day: str) -> list:
-    path = "E:\\cctv\\{}\\{}\\{}\\".format(year, month, day)
+    #TODO move to config_service path = "E:\\cctv\\{}\\{}\\{}\\".format(year, month, day)
+    path = str(Path("/home/pi/data/{}/{}/{}/".format(year, month, day)))
     logger.info("Generating list of files to process for {}.{}'{}".format(day, month, year))
     photos = []
     for root, dirs, files in os.walk(path):
@@ -84,7 +86,9 @@ def check_is_pixel_too_dark(pixel) -> bool:
 
 
 def setup():
-    dom_utils.setup_test_logging()
+    logging.basicConfig(level=logging.DEBUG)
+    logging.captureWarnings(True)
+    logging.debug('Running test logging')
 
 
 def process_for_yesterday():
@@ -105,11 +109,11 @@ def process_for_date(year: str, month: str, day: str):
         start_time = timer()
         is_photo_mostly_black(file)
         end_time = timer()
-        logger.info(file + ' took ' + str(int((end_time - start_time) * 1000)) + 'milliseconds to process.')  # in ms
+        logger.info(file + ' took ' + str(int((end_time - start_time) * 1000)) + 'ms to process.')  # in ms
 
     all_end_time = timer()
     total_time = int((all_end_time - all_start_time) * 1000)
-    logger.info('it took {} milliseconds to process all files.'.format(total_time))  # in ms
+    logger.info('it took {} ms to process all files.'.format(total_time))  # in ms
 
     logger.info(
         'DONE!'

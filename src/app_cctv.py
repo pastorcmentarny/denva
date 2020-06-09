@@ -11,6 +11,7 @@
 """
 
 import logging
+import os
 from datetime import datetime
 from pathlib import Path
 from timeit import default_timer as timer
@@ -24,6 +25,10 @@ from common import data_files, app_timer
 from common import dom_utils
 from gateways import local_data_gateway
 from services import email_sender_service
+from tasks import too_dark_photos_remover_service
+
+EMPTY = ''
+
 
 logger = logging.getLogger('app')
 
@@ -58,13 +63,20 @@ def capture_picture() -> str:
         logger.debug('using path {}'.format(photo_path))
 
         camera.capture(str(photo_path))
+        if too_dark_photos_remover_service.is_photo_mostly_black(file, with_summary=False):
+            logger.warning("Picture {} was too dark and it will be removed")
+            os.remove(file)
+            if os.path.exists(file):
+                logger.warning('{} NOT deleted.'.format(file))
+            else:
+                return EMPTY
         return photo_path
     except Exception as e:
         logger.warning('Unable to capture picture to {} due to {}'.format(path, e), exc_info=True)
         email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
         reset_camera()
     logger.warning('No path returned due to previous error.')
-    return ""
+    return EMPTY
 
 
 def main():
@@ -73,7 +85,7 @@ def main():
     sleep(WARM_UP_TIME)
 
     camera.start_preview()
-    camera.resolution = (1280, 720)  # 3280x2464, 3280x2464,1920x1080,1640x1232, 1640x922,1280x720, 640x480
+    camera.resolution = (640, 480)  # 3280x2464, 3280x2464,1920x1080,1640x1232, 1640x922,1280x720, 640x480
     logger.info('Camera is on.')
 
     measurement_counter = 0
@@ -82,13 +94,15 @@ def main():
         logger.info('Capturing photo no.{}'.format(measurement_counter))
 
         start_time = timer()
+        last_picture = EMPTY
+        captured_picture_path = capture_picture()
+        if captured_picture_path != EMPTY:
+            last_picture = captured_picture_path
 
-        last_picture = capture_picture()
-        # too_dark_photos_remover_service.is_photo_mostly_black(last_picture,with_summary=False)
         end_time = timer()
         measurement_time = int((end_time - start_time) * 1000)  # in ms
 
-        remaining_time = 4 - (float(measurement_time) / 1000)
+        remaining_time = 5 - (float(measurement_time) / 1000)
         if measurement_time > config_service.max_latency(fast=False):
             logger.warning("Measurement {} was slow. It took {} ms.".format(measurement_counter, measurement_time))
         else:
@@ -97,10 +111,10 @@ def main():
         if remaining_time > 0:
             time.sleep(remaining_time)
 
-        if measurement_counter == 1:
+        if measurement_counter == 1 and last_picture != EMPTY:
             email_sender_service.send_picture(last_picture, measurement_counter)
 
-        if app_timer.is_time_to_run_every_15_minutes(email_cooldown):
+        if app_timer.is_time_to_run_every_15_minutes(email_cooldown) and last_picture != EMPTY:
             email_sender_service.send_picture(last_picture, measurement_counter)
             email_cooldown = datetime.now()
         if measurement_counter % 2 == 0:
