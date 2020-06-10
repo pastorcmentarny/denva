@@ -555,18 +555,22 @@ p = 0.01
 f = 0.0005
 
 tree = [0, 255, 0]
+start_burning = [235, 101, 0]
 burning = [255, 0, 0]
 space = [0, 0, 0]
 
 trees = [[160, 32, 240], [0, 255, 0], [255, 255, 255]]
-burning_colour = [[255, 0, 0], [255, 110, 0], [64, 64, 64]]
+start_burning_trees = [[160, 32, 240], [235, 101, 0], [128, 128, 128]]
+burning_colour = [[255, 110, 0], [255, 0, 0],  [48, 48, 48]]
 
 
 def initialise_forest():
     global tree
     global burning
+    global start_burning
     idx = random.randint(0, 2)
     tree = trees[idx]
+    start_burning = start_burning_trees[idx]
     burning = burning_colour[idx]
     initial_trees = 0.55
     forest = [[tree if random.random() <= initial_trees else space for x in range(forest_width)] for y in
@@ -578,14 +582,16 @@ def update_forest(forest):
     new_forest = [[space for x in range(forest_width)] for y in range(forest_height)]
     for x in range(forest_width):
         for y in range(forest_height):
-            if forest[x][y] == burning:
+            if forest[x][y] == start_burning:
+                new_forest[x][y] = burning
+            elif forest[x][y] == burning:
                 new_forest[x][y] = space
             #            elif forest[x][y] == space:
             #                new_forest[x][y] = tree if random.random() <= p else space
             elif forest[x][y] == tree:
                 neighbours = get_neighbours(x, y, hood_size)
                 new_forest[x][y] = (burning if any(
-                    [forest[n[0]][n[1]] == burning for n in neighbours]) or random.random() <= f else tree)
+                    [forest[n[0]][n[1]] == burning for n in neighbours]) or random.random() <= f else tree) #TODO change it
     return new_forest
 
 
