@@ -100,7 +100,7 @@ def get_uptime() -> str:
 def get_system_info() -> dict:
     return {
         'CPU Speed': get_cpu_speed(),
-        'CPU Temp': get_cpu_temp(),
+        'CPU Temp': '{} °C'.format(get_cpu_temp_as_number()).encode('utf-8'),
         'IP': get_ip(),
         'Uptime': get_uptime(),
         "Memory Available": '{} MB'.format(dom_utils.convert_bytes_to_megabytes(psutil.virtual_memory().available)),
