@@ -23,14 +23,14 @@ def save(data: dict):
     try:
         data_files.save_dict_data_as_json(config_service.get_system_hc(), data)
     except Exception as exception:
-        logger.error('Unable to save system healthcheck due to {}'.format(exception), exc_info=True)
+        logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
 
 
 def load() -> dict:
     try:
         return data_files.load_json_data_as_dict_from(config_service.get_system_hc())
     except Exception as exception:
-        logger.error('Unable to load system healthcheck due to {}'.format(exception), exc_info=True)
+        logger.error('Unable to load file with system healthcheck as due to {}'.format(exception), exc_info=True)
 
 
 def update_hc_for(device: str, app_type: str):
