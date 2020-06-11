@@ -128,7 +128,7 @@
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Denva(Pi4)</strong></li>
                         <li class="small"><b>CPU Speed : </b>{{ message.system.denva["CPU Speed"] }}</li>
-                        <li class="small"><b>CPU Temp : </b>{{ message.system.denva["CPU Temp"] }}</li>
+                        <li class="small"><b>CPU Temp : </b>{{ message.system.denva["CPU Temp"].replace('Â','') }}</li>
                         <li class="small"><b>RAM Available : </b>{{ message.system.denva["Memory Available"] }}</li>
                         <li class="small"><b>Free Space : </b>{{ message.system.denva["Free Space"] }}</li>
                         <li class="small"><b>Data Free Space : </b>{{ message.system.denva["Data Free Space"] }}</li>
@@ -136,7 +136,7 @@
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Denvira(Pi3)</strong></li>
                         <li class="small"><b>CPU Speed : </b>{{ message.system.enviro["CPU Speed"] }}</li>
-                        <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"] }}</li>
+                        <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"].replace('Â','') }}</li>
                         <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}</li>
                         <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
                         <li class="small"><b>Data Free Space : </b>{{ message.system.enviro["Data Free Space"] }}</li>
@@ -144,7 +144,7 @@
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Delight(KanoPi3)</strong></li>
                         <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
-                        <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"] }}</li>
+                        <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}</li>
                         <li class="small"><b>RAM Available : </b>{{ message.system.delight["Memory Available"] }}</li>
                         <li class="small"><b>Free Space : </b>{{ message.system.delight["Free Space"] }}</li>
                         <li class="small"><b>Uptime : </b>{{ message.system.delight["Uptime"] }}</li>
@@ -221,13 +221,27 @@
             </div>
             <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
-                    {% if '↓' in message.aircraft %}
-                        <li><strong>Aircraft</strong> : <span class="bad">{{ message.aircraft }}</span></li>
-                    {% elif '↑' in message.aircraft %}
-                        <li><strong>Aircraft</strong> : <span class="good">{{ message.aircraft }}</span></li>
+                    <!-- add if ... message.aircraft exists do it .. otherwise display n/a-->
+
+                    {% if '↓' in message.aircraft.detected %}
+                        <li><strong>Aircraft</strong> : <span class="bad">{{ message.aircraft.detected }}</span></li>
+                    {% elif '↑' in message.aircraft.detected %}
+                        <li><strong>Aircraft</strong> : <span class="good">{{ message.aircraft.detected }}</span></li>
                     {% else %}
-                        <li><strong>Aircraft</strong> : <span class="info">{{ message.aircraft }}</span></li>
+                        <li><strong>Aircraft</strong> : <span class="info">{{ message.aircraft.detected }}</span></li>
                     {% endif %}
+
+
+                    <li><b>Fastest Flight</b></li>
+                    {% if '↓' in message.aircraft.detected %}
+                        <li>{{ message.aircraft.stats.fastest.speed * 1.852}}</li>
+                    {% else %}
+                        <li>0</li>
+                    {% endif %}
+                    <li>{{ message.aircraft.stats.fastest.flight  | join(", ") }}</li>
+                    <li><b>Highest Flight</b></li>
+                    <li>{{ message.aircraft.stats.highest.altitude }}</li>
+                    <li>{{message.aircraft.stats.highest.flight | join(", ") }}</li>
                 </ul>
             </div>
         </div>
