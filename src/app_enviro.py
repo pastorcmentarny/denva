@@ -94,9 +94,6 @@ def main():
 
         data_files.store_enviro_measurement(measurement)
 
-        # deprecated but i will change settings to send them via config settings
-        # measurement_storage_service.send('enviro', measurement)
-
         sensor_warnings_service.get_current_warnings_for_enviro()
 
         if measurement_counter % 2 == 0:
@@ -121,5 +118,5 @@ if __name__ == '__main__':
         commands.mount_all_drives()
         main()
     except KeyboardInterrupt as keyboard_exception:
-        logger.error('Something went badly wrong\n{}'.format(keyboard_exception), exc_info=True)
+        logger.error('Something went badly wrong. {}'.format(keyboard_exception), exc_info=True)
         sys.exit(0)

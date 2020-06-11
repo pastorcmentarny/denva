@@ -30,12 +30,7 @@ def warm_up():
 
 
 def get_temperature() -> int:
-    global temps
-    cpu_temp = commands.get_cpu_temp_as_number()
-    temps = temps[1:] + [cpu_temp]
-    avg_cpu_temp = sum(cpu_temps) / float(len(cpu_temps))
-    raw_temp = bme280.get_temperature()
-    return raw_temp - ((avg_cpu_temp - raw_temp) / factor)
+    return bme280.get_temperature()
 
 
 def get_pressure():
@@ -46,6 +41,7 @@ def get_humidity():
     return bme280.get_humidity()
 
 
+# TODO add altitude
 # TODO provide sea level pressure
 def get_altitude():
     return bme280.get_altitude()
