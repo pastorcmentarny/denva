@@ -6,7 +6,8 @@ def get_aircraft_detected_today_count():
     if 'error' in result:
         return 'Unknown'
     else:
-        return get_count_difference_to_yesterday(int(result["detected"]))
+        result["detected"] = get_count_difference_to_yesterday(int(result["detected"]))
+        return result
 
 
 def get_count_difference_to_yesterday(count: int) -> str:
