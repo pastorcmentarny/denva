@@ -360,25 +360,6 @@ def device_status():
     set_status_for_device(13, 13, color_red, color_green, color_blue)
     logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
 
-    # 5. DUMP (Aircraft Radar/ Digest)
-    radar_data = delight_service.get_hc_for_radar()
-
-    state = status.Status()
-
-    if 'dump' not in radar_data or radar_data["dump"] != 'UP':
-        logger.warning('status: RED due to Dump is DOWN')
-        state.set_error()
-
-    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    unicornhathd.set_pixel(to_x(2), 2, color_red, color_green, color_blue)
-    logger.info('Dump daemon: {}'.format(state.get_status_as_light_colour()))
-
-    state = status.Status()
-
-    if 'digest' not in radar_data or radar_data["digest"] != 'UP':
-        logger.warning('status: RED due to Data Digest is DOWN')
-        state.set_error()
-
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
     unicornhathd.set_pixel(to_x(14), 2, color_red, color_green, color_blue)
 
@@ -561,7 +542,7 @@ space = [0, 0, 0]
 
 trees = [[160, 32, 240], [0, 255, 0], [255, 255, 255]]
 start_burning_trees = [[160, 32, 240], [235, 101, 0], [128, 128, 128]]
-burning_colour = [[255, 110, 0], [255, 0, 0],  [48, 48, 48]]
+burning_colour = [[255, 110, 0], [255, 0, 0], [48, 48, 48]]
 
 
 def initialise_forest():
@@ -586,12 +567,11 @@ def update_forest(forest):
                 new_forest[x][y] = burning
             elif forest[x][y] == burning:
                 new_forest[x][y] = space
-            #            elif forest[x][y] == space:
-            #                new_forest[x][y] = tree if random.random() <= p else space
             elif forest[x][y] == tree:
                 neighbours = get_neighbours(x, y, hood_size)
                 new_forest[x][y] = (burning if any(
-                    [forest[n[0]][n[1]] == burning for n in neighbours]) or random.random() <= f else tree) #TODO change it
+                    [forest[n[0]][n[1]] == burning for n in
+                     neighbours]) or random.random() <= f else tree)  # TODO change it
     return new_forest
 
 
