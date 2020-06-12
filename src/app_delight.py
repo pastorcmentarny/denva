@@ -327,7 +327,7 @@ def device_status():
         if float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Delight')
             state.set_error()
-        elif float(dom_utils.get_float_number_from_text(delight_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor']['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Delight')
             state.set_warn()
         if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
