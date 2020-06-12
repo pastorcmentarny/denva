@@ -256,7 +256,7 @@
                     {% endif %}
 
                     <li><b>Fastest Flight</b></li>
-                    {% if '↓' in message.aircraft.detected %}
+                    {% if message.aircraft.detected %}
                         <li>{{ (message.aircraft.stats.fastest.speed * 1.852)| int }} km/h</li>
                     {% else %}
                         <li>0</li>
