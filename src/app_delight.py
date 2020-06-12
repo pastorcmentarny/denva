@@ -360,11 +360,6 @@ def device_status():
     set_status_for_device(13, 13, color_red, color_green, color_blue)
     logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
 
-    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    unicornhathd.set_pixel(to_x(14), 2, color_red, color_green, color_blue)
-
-    logger.info('Data digest: {}'.format(state.get_status_as_light_colour()))
-
     system_health_status = system_health_prototype.get_system_healthcheck()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['denva']['app'])
