@@ -121,33 +121,58 @@
                 <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4">
                         <li><strong class="d-inline-block text-success">Server(LP)</strong></li>
-                        <li class="small"><b>CPU Speed:</b>{{ message.system.server["CPU Speed"] }}</li>
-                        <li class="small"><b>RAM Available:</b>{{ message.system.server["Memory Available"] }}</li>
-                        <li class="small"><b>Disk Free:</b>{{ message.system.server["Disk Free"] }}</li>
-                        <li class="small"><b>Uptime:</b>{{ message.system.server["Uptime"] }}</li>
+                        {% if  message.system.server %}
+                            <li class="small"><b>CPU Speed:</b>{{ message.system.server["CPU Speed"] }}</li>
+                            <li class="small"><b>RAM Available:</b>{{ message.system.server["Memory Available"] }}</li>
+                            <li class="small"><b>Disk Free:</b>{{ message.system.server["Disk Free"] }}</li>
+                            <li class="small"><b>Uptime:</b>{{ message.system.server["Uptime"] }}</li>
+                        {% else %}
+                            <li><span class="bad">No Server data :(</span></li>
+                        {% endif %}
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Denva(Pi4)</strong></li>
-                        <li class="small"><b>CPU Speed : </b>{{ message.system.denva["CPU Speed"] }}</li>
-                        <li class="small"><b>CPU Temp : </b>{{ message.system.denva["CPU Temp"].replace('Â','') }}</li>
-                        <li class="small"><b>RAM Available : </b>{{ message.system.denva["Memory Available"] }}</li>
-                        <li class="small"><b>Free Space : </b>{{ message.system.denva["Free Space"] }}</li>
-                        <li class="small"><b>Data Free Space : </b>{{ message.system.denva["Data Free Space"] }}</li>
-                        <li class="small"><b>Uptime : </b>{{ message.system.denva["Uptime"] }}</li>
+                        {% if  message.system.denva %}
+                            <li class="small"><b>CPU Speed : </b>{{ message.system.denva["CPU Speed"] }}</li>
+                            <li class="small"><b>CPU Temp : </b>{{ message.system.denva["CPU Temp"].replace('Â','') }}
+                            </li>
+                            <li class="small"><b>RAM Available : </b>{{ message.system.denva["Memory Available"] }}</li>
+                            <li class="small"><b>Free Space : </b>{{ message.system.denva["Free Space"] }}</li>
+                            <li class="small"><b>Data Free Space : </b>{{ message.system.denva["Data Free Space"] }}
+                            </li>
+                            <li class="small"><b>Uptime : </b>{{ message.system.denva["Uptime"] }}</li>
+                        {% else %}
+                            <li><span class="bad">No Denva data :(</span></li>
+                        {% endif %}
+
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Denvira(Pi3)</strong></li>
-                        <li class="small"><b>CPU Speed : </b>{{ message.system.enviro["CPU Speed"] }}</li>
-                        <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"].replace('Â','') }}</li>
-                        <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}</li>
-                        <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
-                        <li class="small"><b>Data Free Space : </b>{{ message.system.enviro["Data Free Space"] }}</li>
-                        <li class="small"><b>Uptime : </b>{{ message.system.enviro["Uptime"] }}</li>
+                        {% if  message.system.enviro["CPU Temp"] %}
+                            <li class="small"><b>CPU Speed : </b>{{ message.system.enviro["CPU Speed"] }}</li>
+                            <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"].replace('Â','') }}
+                            </li>
+                            <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}
+                            </li>
+                            <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
+                            <li class="small"><b>Data Free Space : </b>{{ message.system.enviro["Data Free Space"] }}
+                            </li>
+                            <li class="small"><b>Uptime : </b>{{ message.system.enviro["Uptime"] }}</li>
+                        {% else %}
+                            <li><span class="bad">No Denvira data :(</span></li>
+                        {% endif %}
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Delight(KanoPi3)</strong></li>
-                        <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
-                        <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}</li>
-                        <li class="small"><b>RAM Available : </b>{{ message.system.delight["Memory Available"] }}</li>
-                        <li class="small"><b>Free Space : </b>{{ message.system.delight["Free Space"] }}</li>
-                        <li class="small"><b>Uptime : </b>{{ message.system.delight["Uptime"] }}</li>
+                        {% if  message.system.delight %}
+                            <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
+                            <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}
+                            </li>
+                            <li class="small"><b>RAM Available : </b>{{ message.system.delight["Memory Available"] }}
+                            </li>
+                            <li class="small"><b>Free Space : </b>{{ message.system.delight["Free Space"] }}</li>
+                            <li class="small"><b>Uptime : </b>{{ message.system.delight["Uptime"] }}</li>
+                        {% else %}
+                            <li><span class="bad">No Delight data :(</span></li>
+                        {% endif %}
+
                         <li>_</li>
                     </ul>
                 </div>
@@ -232,13 +257,13 @@
 
                     <li><b>Fastest Flight</b></li>
                     {% if '↓' in message.aircraft.detected %}
-                        <li>{{ message.aircraft.stats.fastest.speed * 1.852}}</li>
+                        <li>{{ (message.aircraft.stats.fastest.speed * 1.852)| int }} km/h</li>
                     {% else %}
                         <li>0</li>
                     {% endif %}
                     <li>{{ message.aircraft.stats.fastest.flight  | join(", ") }}</li>
                     <li><b>Highest Flight</b></li>
-                    <li>{{ message.aircraft.stats.highest.altitude }}</li>
+                    <li>{{ (message.aircraft.stats.highest.altitude / 3.281)|int }} km</li>
                     <li>{{ message.aircraft.stats.highest.flight  | join(", ") }}</li>
                 </ul>
             </div>
