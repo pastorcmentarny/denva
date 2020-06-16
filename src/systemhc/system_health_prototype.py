@@ -99,7 +99,7 @@ def is_up(device: str, app_type: str) -> str:
 
 
 def get_status(previous_datetime):
-    if app_timer.is_it_time(previous_datetime, 60):
+    if app_timer.is_it_time(previous_datetime, 2 * 60):
         if app_timer.is_it_time(previous_datetime, 5 * 60):
             return 'DOWN'
         else:
