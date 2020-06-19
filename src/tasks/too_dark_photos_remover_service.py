@@ -43,7 +43,7 @@ def is_photo_mostly_black(file, with_summary: bool = True):
     global ignored
     global errors
     if os.path.splitext(file)[-1].lower() != ".jpg":
-        logger.warning('{} is not a photo. Ignore it.')
+        logger.warning('{} is not a photo. Ignore it.'.format(file))
         ignored += 1
         return
 
