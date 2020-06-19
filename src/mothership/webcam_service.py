@@ -38,7 +38,7 @@ def capture_picture() -> str:
     try:
         start_time = timer()
         date_as_folders = dom_utils.get_date_as_folders_linux()
-        path = Path("{}/{}".format("e:/cctv/", date_as_folders))
+        path = Path("{}/{}".format("e:/sky/", date_as_folders))
 
         if not path.exists():
             print('creating')
