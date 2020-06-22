@@ -37,3 +37,5 @@ static domain_name_servers=192.168.0.1
 `sudo apt-get autoremove`
 
 
+## add ability to connect to Remote Desktop
+`sudo apt-get install xrdp`
