@@ -31,7 +31,8 @@ events = {
     '0501': ['Labour Day'],
     '0502': ['Dzień Flagi Rzeczpospolitej Polskiej'],
     '0503': ['Święto Konstytucji 3 Maja'],
-    '0509': ['Dzień Unii Europejskiej'],
+    '0509': ['European Union Day'],
+    '0523': ['Java language anniversary'],
     '0526': ['Mother day'],
     '0601': ['Children day'],
     '0620': ['Summer starts', 'Longest day in the year'],
@@ -88,8 +89,8 @@ def get_sentence_from_list_of_events(event_list: list) -> str:
         return '{} and {}'.format(event_list[0], event_list[1])
     elif len(event_list) > 2:
         sentence = ''
-        for x in event_list[0:len(event_list) - 1]:
-            sentence = sentence + x + " "
+        for an_event in event_list[0:len(event_list) - 1]:
+            sentence = sentence + an_event + " "
         return '{}and {}'.format(sentence, event_list[len(event_list) - 1])
 
 
