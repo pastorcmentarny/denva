@@ -79,5 +79,5 @@ def load_processed_data_for(specified_data: date) -> list:
             aircraft_csv = csv.reader(csv_file)
             return list(aircraft_csv)
     except Exception as exception:
-        logger.error('Unable to save processed reading due to {}'.format(exception), exc_info=True)
+        logger.error('Unable to load processed reading due to {}'.format(exception), exc_info=True)
         return []
