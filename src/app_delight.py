@@ -640,6 +640,8 @@ def main():
             sub_light_travel()
             delight_display.reset_screen()
             local_data_gateway.post_healthcheck_beat('delight', 'app')
+            device_status()
+            delight_display.reset_screen()
             in_the_forest()
             delight_display.reset_screen()
             local_data_gateway.post_healthcheck_beat('delight', 'app')
