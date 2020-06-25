@@ -25,13 +25,12 @@ import random
 from datetime import datetime
 from random import randint
 
-import numpy  # try to get replace it
 import time
 import unicornhathd
 
 import config_service
 from common import data_files, dom_utils, status
-from delight import delight_display, delight_service, delight_utils, ui_utils
+from delight import delight_display, delight_service, delight_utils, ui_utils, forest
 from gateways import local_data_gateway
 from systemhc import system_health_prototype
 
@@ -508,108 +507,6 @@ def in_the_warp():
             running = False
 
 
-scale = 3
-
-width, height = unicornhathd.get_shape()
-
-forest_width = width * scale
-forest_height = height * scale
-
-hood_size = 3
-avg_size = scale
-
-
-def get_neighbours(x, y, z):
-    return [(x2, y2) for x2 in range(x - (z - 1), x + z) for y2 in range(y - (z - 1), y + z) if (
-            -1 < x < forest_width and -1 < y < forest_height and (x != x2 or y != y2) and (
-            0 <= x2 < forest_width) and (0 <= y2 < forest_height))]
-
-
-p = 0.01
-f = 0.0005
-
-tree = [0, 255, 0]
-start_burning = [235, 101, 0]
-burning = [255, 0, 0]
-space = [0, 0, 0]
-
-trees = [[160, 32, 240], [0, 255, 0], [255, 255, 255]]
-start_burning_trees = [[112, 26, 180], [235, 101, 0], [128, 128, 128]]
-burning_colour = [[255, 110, 0], [255, 0, 0], [48, 48, 48]]
-
-
-def initialise_forest():
-    global tree
-    global burning
-    global start_burning
-    idx = random.randint(0, 2)
-    tree = trees[idx]
-    start_burning = start_burning_trees[idx]
-    burning = burning_colour[idx]
-    initial_trees = 0.55
-    forest = [[tree if random.random() <= initial_trees else space for x in range(forest_width)] for y in
-              range(forest_height)]
-    return forest
-
-
-def update_forest(forest):
-    new_forest = [[space for x in range(forest_width)] for y in range(forest_height)]
-    for x in range(forest_width):
-        for y in range(forest_height):
-            if forest[x][y] == start_burning:
-                new_forest[x][y] = burning
-            elif forest[x][y] == burning:
-                new_forest[x][y] = space
-            elif forest[x][y] == tree:
-                neighbours = get_neighbours(x, y, hood_size)
-                new_forest[x][y] = (burning if any(
-                    [forest[n[0]][n[1]] == burning for n in
-                     neighbours]) or random.random() <= f else tree)  # TODO change it
-    return new_forest
-
-
-def average_forest(forest):
-    avg_forest = [[space for x in range(width)] for y in range(height)]
-
-    for i, x in enumerate(range(1, forest_width, scale)):
-        for j, y in enumerate(range(1, forest_height, scale)):
-            neighbours = get_neighbours(x, y, avg_size)
-            red = int(numpy.mean([forest[n[0]][n[1]][0] for n in neighbours]))
-            green = int(numpy.mean([forest[n[0]][n[1]][1] for n in neighbours]))
-            blue = int(numpy.mean([forest[n[0]][n[1]][2] for n in neighbours]))
-            avg_forest[i][j] = [red, green, blue]
-
-    return avg_forest
-
-
-def show_forest(forest):
-    avg_forest = average_forest(forest)
-
-    for x in range(width):
-        for y in range(height):
-            r, g, b = avg_forest[x][y]
-            unicornhathd.set_pixel(x, y, int(r), int(g), int(b))
-
-    unicornhathd.show()
-
-
-def quit_if_burnt(forest):
-    for x in range(forest_width):
-        for y in range(forest_height):
-            if forest[x][y] != space:
-                return True  # it still burning
-    return False
-
-
-def in_the_forest():
-    forest = initialise_forest()
-    burnt = True
-    while burnt:
-        show_forest(forest)
-        forest = update_forest(forest)
-        burnt = quit_if_burnt(forest)
-
-
 def startup():
     brightness_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
     colour_list = [[185, 185, 185], [0, 0, 185], [128, 28, 200], [0, 185, 0], [255, 255, 255], [185, 0, 0],
@@ -624,7 +521,7 @@ def startup():
 
 def main():
     startup()
-    in_the_forest()
+    forest.in_the_forest()
     while True:
         if is_night_mode():
             device_status()
@@ -640,7 +537,7 @@ def main():
             local_data_gateway.post_healthcheck_beat('delight', 'app')
             device_status()
             delight_display.reset_screen()
-            in_the_forest()
+            forest.in_the_forest()
             delight_display.reset_screen()
             local_data_gateway.post_healthcheck_beat('delight', 'app')
             in_the_warp()
