@@ -31,7 +31,7 @@ import unicornhathd
 
 import config_service
 from common import data_files, dom_utils, status
-from delight import delight_display, delight_service, delight_utils
+from delight import delight_display, delight_service, delight_utils, ui_utils
 from gateways import local_data_gateway
 from systemhc import system_health_prototype
 
@@ -169,10 +169,6 @@ def sub_light_travel():
             running = False
 
 
-def to_x(i: int) -> int:
-    return 15 - i
-
-
 def update_blink(blink, state) -> bool:
     if blink:
         return blink
@@ -237,7 +233,7 @@ def device_status():
 
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
     blink = update_blink(blink, state.state)
-    unicornhathd.set_pixel(to_x(1), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(1), 1, purple_r, purple_g, purple_b)
     set_status_for_device(1, 13, color_red, color_green, color_blue)
     logger.info('Denva: {}'.format(state.get_status_as_light_colour()))
 
@@ -281,8 +277,8 @@ def device_status():
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
     blink = update_blink(blink, state.state)
 
-    unicornhathd.set_pixel(to_x(5), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(7), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(5), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(7), 1, purple_r, purple_g, purple_b)
     set_status_for_device(5, 13, color_red, color_green, color_blue)
     logger.info('Denviro: {}'.format(state.get_status_as_light_colour()))
 
@@ -313,9 +309,9 @@ def device_status():
     color_red, color_green, color_blue = delight_utils.get_state_colour(state)
     blink = update_blink(blink, state.state)
 
-    unicornhathd.set_pixel(to_x(9), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(11), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(9), 3, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(9), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(11), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(9), 3, purple_r, purple_g, purple_b)
     set_status_for_device(9, 13, color_red, color_green, color_blue)
     logger.info('Server: {}'.format(state.get_status_as_light_colour()))
 
@@ -327,7 +323,8 @@ def device_status():
         if float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Delight')
             state.set_error()
-        elif float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor']['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor'][
+            'cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Delight')
             state.set_warn()
         if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
@@ -353,10 +350,10 @@ def device_status():
     color_blue, color_green, color_red = delight_utils.get_state_colour(state)
     blink = update_blink(blink, state.state)
 
-    unicornhathd.set_pixel(to_x(13), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(15), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(13), 3, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(to_x(15), 3, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(13), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(15), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(13), 3, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(15), 3, purple_r, purple_g, purple_b)
     set_status_for_device(13, 13, color_red, color_green, color_blue)
     logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
 
@@ -387,19 +384,19 @@ def device_status():
     set_status_for_device(13, 10, color_red, color_green, color_blue)
 
     color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other']['cctv'])
-    unicornhathd.set_pixel(to_x(1), 4, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(2), 4, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(3), 4, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(1), 4, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(2), 4, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(3), 4, color_red, color_green, color_blue)
 
     color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other']['digest'])
-    unicornhathd.set_pixel(to_x(13), 6, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(14), 6, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(15), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(13), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(14), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(15), 6, color_red, color_green, color_blue)
 
     color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['other']['radar'])
-    unicornhathd.set_pixel(to_x(1), 6, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(2), 6, color_red, color_green, color_blue)
-    unicornhathd.set_pixel(to_x(3), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(1), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(2), 6, color_red, color_green, color_blue)
+    unicornhathd.set_pixel(ui_utils.to_x(3), 6, color_red, color_green, color_blue)
 
     if is_night_mode():
         unicornhathd.brightness(0.1)
@@ -461,15 +458,15 @@ def is_night_mode() -> bool:
 
 def set_status_for_device(x: int, y: int, color_red: int, color_green: int, color_blue: int):
     if is_night_mode():
-        unicornhathd.set_pixel(to_x(delight_utils.get_random_pixel_location_at_night(x)), y + 2, color_red, color_green,
+        unicornhathd.set_pixel(ui_utils.to_x(delight_utils.get_random_pixel_location_at_night(x)), y + 2, color_red, color_green,
                                color_blue)
     else:
-        unicornhathd.set_pixel(to_x(x), y + 1, color_red, color_green, color_blue)
-        unicornhathd.set_pixel(to_x(x + 1), y + 1, color_red, color_green, color_blue)
-        unicornhathd.set_pixel(to_x(x + 2), y + 1, color_red, color_green, color_blue)
-        unicornhathd.set_pixel(to_x(x), y + 2, color_red, color_green, color_blue)
-        unicornhathd.set_pixel(to_x(x + 1), y + 2, color_red, color_green, color_blue)
-        unicornhathd.set_pixel(to_x(x + 2), y + 2, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(ui_utils.to_x(x), y + 1, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(ui_utils.to_x(x + 1), y + 1, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(ui_utils.to_x(x + 2), y + 1, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(ui_utils.to_x(x), y + 2, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(ui_utils.to_x(x + 1), y + 2, color_red, color_green, color_blue)
+        unicornhathd.set_pixel(ui_utils.to_x(x + 2), y + 2, color_red, color_green, color_blue)
 
 
 def in_the_warp():
@@ -504,9 +501,9 @@ def in_the_warp():
 
         unicornhathd.show()
 
-        if clock % 25 == 0:
+        if clock % 50 == 0:
             star_speed += 0.001
-        if clock % 2000 == 0:
+        if clock % 4000 == 0:
             running = False
 
 
@@ -664,7 +661,10 @@ if __name__ == '__main__':
         logger.error('Request to shutdown{}'.format(keyboard_exception), exc_info=True)
         unicornhathd.off()
     except Exception as exception:
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        logger.error('Something went wrong\n{}'.format(exception), exc_info=True)
         unicornhathd.brightness(0.2)
         set_all_pixel_to(255, 0, 0)
         unicornhathd.show()
+    except BaseException as disaster:
+        logger.fatal('Shit hit the fan and application died badly because {}'.format(disaster), exc_info=True)
+        unicornhathd.off()
