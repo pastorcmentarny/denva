@@ -458,7 +458,8 @@ def is_night_mode() -> bool:
 
 def set_status_for_device(x: int, y: int, color_red: int, color_green: int, color_blue: int):
     if is_night_mode():
-        unicornhathd.set_pixel(ui_utils.to_x(delight_utils.get_random_pixel_location_at_night(x)), y + 2, color_red, color_green,
+        unicornhathd.set_pixel(ui_utils.to_x(delight_utils.get_random_pixel_location_at_night(x)), y + 2, color_red,
+                               color_green,
                                color_blue)
     else:
         unicornhathd.set_pixel(ui_utils.to_x(x), y + 1, color_red, color_green, color_blue)
@@ -616,7 +617,7 @@ def startup():
     random.shuffle(colour_list)
     for count in range(0, 8):
         unicornhathd.brightness(brightness_list[count])
-        set_all_pixel_to(colour_list[count][0], colour_list[count][1], colour_list[count][2])
+        ui_utils.set_all_pixel_to(colour_list[count][0], colour_list[count][1], colour_list[count][2])
         unicornhathd.show()
         time.sleep(0.5)
 
@@ -645,12 +646,6 @@ def main():
             in_the_warp()
 
 
-def set_all_pixel_to(red: int, green: int, blue: int):
-    for coordinate_x in range(0, 16):
-        for coordinate_y in range(0, 16):
-            unicornhathd.set_pixel(coordinate_x, coordinate_y, red, green, blue)
-
-
 if __name__ == '__main__':
     config_service.set_mode_to('delight')
     data_files.setup_logging('app')
@@ -663,7 +658,7 @@ if __name__ == '__main__':
     except Exception as exception:
         logger.error('Something went wrong\n{}'.format(exception), exc_info=True)
         unicornhathd.brightness(0.2)
-        set_all_pixel_to(255, 0, 0)
+        ui_utils.set_all_pixel_to(255, 0, 0, unicornhathd)
         unicornhathd.show()
     except BaseException as disaster:
         logger.fatal('Shit hit the fan and application died badly because {}'.format(disaster), exc_info=True)
