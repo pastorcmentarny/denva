@@ -84,3 +84,11 @@ class Test(TestCase):
 
         # after
         config_service.set_mode_to('dev')
+
+    def test_get_default_brightness_for_delight_display_is_in_range(self):
+        # when
+        result = config_service.get_default_brightness_for_delight_display()
+
+        # then
+        self.assertGreaterEqual(result, 0.1)
+        self.assertLessEqual(result, 1)

@@ -23,6 +23,9 @@ settings = {
         },
         "bme": {
             "warm_up": 10
+        },
+        "unicornhd": {
+            "default_brightness": 0.3
         }
     },
     "paths": {
@@ -282,3 +285,7 @@ def get_system_hc() -> str:
         file = '/home/pi/data'
 
     return str(Path('{}/hc.json'.format(file)))
+
+
+def get_default_brightness_for_delight_display():
+    return settings["sensors"]["unicornhd"]["default_brightness"]
