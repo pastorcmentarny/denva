@@ -173,8 +173,8 @@ def set_delight_status(cfg):
     update_blink(state.state)
     unicornhathd.set_pixel(ui_utils.to_x(13), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(ui_utils.to_x(15), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(13), 3, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(15), 3, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(13), 2, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(15), 2, purple_r, purple_g, purple_b)
     set_status_for_device(13, 13, color_red, color_green, color_blue)
     logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
 
@@ -205,7 +205,7 @@ def set_mothership_status():
     update_blink(state.state)
     unicornhathd.set_pixel(ui_utils.to_x(9), 1, purple_r, purple_g, purple_b)
     unicornhathd.set_pixel(ui_utils.to_x(11), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(9), 3, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(9), 2, purple_r, purple_g, purple_b)
     set_status_for_device(9, 13, color_red, color_green, color_blue)
     logger.info('Server: {}'.format(state.get_status_as_light_colour()))
 
