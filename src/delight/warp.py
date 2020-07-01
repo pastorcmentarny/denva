@@ -1,10 +1,10 @@
 import logging
 import random
+
 logger = logging.getLogger('app')
 
 
-def in_the_warp(unicornhathd,clock,cycle):
-
+def in_the_warp(unicornhathd, clock, cycle):
     cycle += 1
     logger.info('Spacedate: {}. Currently, we are in the warp..'.format(cycle))
 

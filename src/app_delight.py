@@ -42,6 +42,11 @@ unicornhathd.brightness(DEFAULT_BRIGHTNESS_LEVEL)
 clock = 0
 cycle = 0
 
+blink = False
+purple_r = 160
+purple_g = 32
+purple_b = 240
+
 
 def show_on_screen(pixel_list: list):
     delight_display.reset_screen()
@@ -51,7 +56,7 @@ def show_on_screen(pixel_list: list):
     time.sleep(2.5)
 
 
-def update_blink(blink, state) -> bool:
+def update_blink(state) -> bool:
     if blink:
         return blink
     elif state != 2:
@@ -65,179 +70,16 @@ def device_status():
     cycle += 1
     logger.info('Checking devices status... (Cycle: {})'.format(cycle))
 
-    blink = False
     # 1. denva, 2. denviro, 3. server, 4. delight 5. radar
     unicornhathd.rotation(270)
 
     delight_display.reset_screen()
     cfg = config_service.load_cfg()
-    purple_r = 160
-    purple_g = 32
-    purple_b = 240
 
-    # 1. DENVA
-    state = status.Status()
-    logger.info('Getting status for denva..')
-    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['denva']))
-
-    if 'error' in server_data:
-        logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
-        state.set_error()
-    else:
-        system_health_prototype.update_hc_for('denva', 'ui')
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
-            logger.warning('status: RED due to very high cpu temp on Denva )')
-            state.set_error()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
-            logger.warning('status: ORANGE due to high cpu temp on Denva )')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
-            logger.warning('status: RED due to very low memory available on Denva')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
-            logger.warning('status: ORANGE due to low memory available on Denva')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
-            logger.warning('status: RED due to very low free space on Denva')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
-            logger.warning('status: ORANGE due to low free space on Denva')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
-            logger.warning('status: RED due to very low data free space on Denva')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
-            logger.warning('status: ORANGE due to low data free space on Denva')
-            state.set_warn()
-
-    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    blink = update_blink(blink, state.state)
-    unicornhathd.set_pixel(ui_utils.to_x(1), 1, purple_r, purple_g, purple_b)
-    set_status_for_device(1, 13, color_red, color_green, color_blue)
-    logger.info('Denva: {}'.format(state.get_status_as_light_colour()))
-
-    # 2. DENVIRO
-    state = status.Status()
-    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro']))
-
-    if 'error' in server_data:
-        logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
-        state.set_error()
-    else:
-        system_health_prototype.update_hc_for('denviro', 'ui')
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
-            logger.warning('status: RED due to very high cpu temp on Denviro')
-            state.set_error()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
-            logger.warning('status: ORANGE due to high cpu temp on Denviro')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
-            logger.warning('status: RED due to very low memory available on Denviro')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
-            logger.warning('status: ORANGE due to low memory available on Denviro')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
-            logger.warning('status: RED due to very low free space on Denviro')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
-            logger.warning('status: ORANGE due to low free space on Denviro')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
-            logger.warning('status: RED due to very low data free space on Denviro')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
-            logger.warning('status: ORANGE due to low data free space on Denviro')
-            state.set_warn()
-
-    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    blink = update_blink(blink, state.state)
-
-    unicornhathd.set_pixel(ui_utils.to_x(5), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(7), 1, purple_r, purple_g, purple_b)
-    set_status_for_device(5, 13, color_red, color_green, color_blue)
-    logger.info('Denviro: {}'.format(state.get_status_as_light_colour()))
-
-    # 3. MOTHERSHIP SERVER
-    state = status.Status()
-
-    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['server']))
-
-    if 'error' in server_data:
-        logger.warning('Unable to get Server status due to {}'.format(server_data['error']))
-        state.set_error()
-    else:
-        system_health_prototype.update_hc_for('server', 'ui')
-        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
-            logger.warning('status: RED due to very low memory available on Server')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
-            logger.warning('status: ORANGE due to low memory available on Server')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Disk Free']) < 256:
-            logger.warning('status: RED due to very low disk free space on Server')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
-            logger.warning('status: RED due to low disk free space on Server')
-            state.set_warn()
-
-    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
-    blink = update_blink(blink, state.state)
-
-    unicornhathd.set_pixel(ui_utils.to_x(9), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(11), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(9), 3, purple_r, purple_g, purple_b)
-    set_status_for_device(9, 13, color_red, color_green, color_blue)
-    logger.info('Server: {}'.format(state.get_status_as_light_colour()))
-
-    # 4. DELIGHT
-    state = status.Status()
-    try:
-        delight_data = delight_service.get_system_info()
-
-        if float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor']['cpu_temp_error']:
-            logger.warning('status: RED due to very high cpu temp on Delight')
-            state.set_error()
-        elif float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor'][
-            'cpu_temp_warn']:
-            logger.warning('status: ORANGE due to high cpu temp on Delight')
-            state.set_warn()
-        if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
-            logger.warning('status: RED due to very low memory available on Delight')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 256:
-            logger.warning('status: ORANGE due to low memory available on Delight')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(delight_data['Free Space']) < 128:
-            logger.warning('status: RED due to very low free space on Delight')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(delight_data['Free Space']) < 512:
-            logger.warning('status: ORANGE due to low free space on Delight')
-            state.set_warn()
-    except Exception as exception:
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        state.set_error()
-    delight_ui_response = local_data_gateway.get_data_for('{}/hc'.format(config_service.load_cfg()["urls"]['delight']))
-    if not 'error' in delight_ui_response:
-        system_health_prototype.update_hc_for('delight', 'ui')
-
-    color_blue, color_green, color_red = delight_utils.get_state_colour(state)
-    blink = update_blink(blink, state.state)
-
-    unicornhathd.set_pixel(ui_utils.to_x(13), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(15), 1, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(13), 3, purple_r, purple_g, purple_b)
-    unicornhathd.set_pixel(ui_utils.to_x(15), 3, purple_r, purple_g, purple_b)
-    set_status_for_device(13, 13, color_red, color_green, color_blue)
-    logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
+    set_denva_status(cfg)
+    set_denviro_status(cfg)
+    set_mothership_status()
+    set_delight_status(cfg)
 
     system_health_status = system_health_prototype.get_system_healthcheck()
 
@@ -293,6 +135,169 @@ def device_status():
             time.sleep(30)
 
     unicornhathd.rotation(180)
+
+
+def set_delight_status(cfg):
+    # 4. DELIGHT
+    state = status.Status()
+    try:
+        delight_data = delight_service.get_system_info()
+
+        if float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor']['cpu_temp_error']:
+            logger.warning('status: RED due to very high cpu temp on Delight')
+            state.set_error()
+        elif float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor'][
+            'cpu_temp_warn']:
+            logger.warning('status: ORANGE due to high cpu temp on Delight')
+            state.set_warn()
+        if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
+            logger.warning('status: RED due to very low memory available on Delight')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 256:
+            logger.warning('status: ORANGE due to low memory available on Delight')
+            state.set_warn()
+
+        if dom_utils.get_int_number_from_text(delight_data['Free Space']) < 128:
+            logger.warning('status: RED due to very low free space on Delight')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(delight_data['Free Space']) < 512:
+            logger.warning('status: ORANGE due to low free space on Delight')
+            state.set_warn()
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        state.set_error()
+    delight_ui_response = local_data_gateway.get_data_for('{}/hc'.format(config_service.load_cfg()["urls"]['delight']))
+    if not 'error' in delight_ui_response:
+        system_health_prototype.update_hc_for('delight', 'ui')
+    color_blue, color_green, color_red = delight_utils.get_state_colour(state)
+    update_blink(state.state)
+    unicornhathd.set_pixel(ui_utils.to_x(13), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(15), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(13), 3, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(15), 3, purple_r, purple_g, purple_b)
+    set_status_for_device(13, 13, color_red, color_green, color_blue)
+    logger.info('Delight: {}'.format(state.get_status_as_light_colour()))
+
+
+def set_mothership_status():
+    # 3. MOTHERSHIP SERVER
+    state = status.Status()
+    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['server']))
+    if 'error' in server_data:
+        logger.warning('Unable to get Server status due to {}'.format(server_data['error']))
+        state.set_error()
+    else:
+        system_health_prototype.update_hc_for('server', 'ui')
+        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+            logger.warning('status: RED due to very low memory available on Server')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+            logger.warning('status: ORANGE due to low memory available on Server')
+            state.set_warn()
+
+        if dom_utils.get_int_number_from_text(server_data['Disk Free']) < 256:
+            logger.warning('status: RED due to very low disk free space on Server')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(server_data['Disk Free']) < 1024:
+            logger.warning('status: RED due to low disk free space on Server')
+            state.set_warn()
+    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
+    update_blink(state.state)
+    unicornhathd.set_pixel(ui_utils.to_x(9), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(11), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(9), 3, purple_r, purple_g, purple_b)
+    set_status_for_device(9, 13, color_red, color_green, color_blue)
+    logger.info('Server: {}'.format(state.get_status_as_light_colour()))
+
+
+def set_denviro_status(cfg):
+    # 2. DENVIRO
+    state = status.Status()
+    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro']))
+    if 'error' in server_data:
+        logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
+        state.set_error()
+    else:
+        system_health_prototype.update_hc_for('denviro', 'ui')
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+            logger.warning('status: RED due to very high cpu temp on Denviro')
+            state.set_error()
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+            logger.warning('status: ORANGE due to high cpu temp on Denviro')
+            state.set_warn()
+
+        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+            logger.warning('status: RED due to very low memory available on Denviro')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+            logger.warning('status: ORANGE due to low memory available on Denviro')
+            state.set_warn()
+
+        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
+            logger.warning('status: RED due to very low free space on Denviro')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
+            logger.warning('status: ORANGE due to low free space on Denviro')
+            state.set_warn()
+
+        if dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
+            logger.warning('status: RED due to very low data free space on Denviro')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
+            logger.warning('status: ORANGE due to low data free space on Denviro')
+            state.set_warn()
+    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
+    update_blink(state.state)
+    unicornhathd.set_pixel(ui_utils.to_x(5), 1, purple_r, purple_g, purple_b)
+    unicornhathd.set_pixel(ui_utils.to_x(7), 1, purple_r, purple_g, purple_b)
+    set_status_for_device(5, 13, color_red, color_green, color_blue)
+    logger.info('Denviro: {}'.format(state.get_status_as_light_colour()))
+    return blink
+
+
+def set_denva_status(cfg):
+    # 1. DENVA
+    state = status.Status()
+    logger.info('Getting status for denva..')
+    server_data = local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['denva']))
+    if 'error' in server_data:
+        logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
+        state.set_error()
+    else:
+        system_health_prototype.update_hc_for('denva', 'ui')
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+            logger.warning('status: RED due to very high cpu temp on Denva )')
+            state.set_error()
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+            logger.warning('status: ORANGE due to high cpu temp on Denva )')
+            state.set_warn()
+
+        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
+            logger.warning('status: RED due to very low memory available on Denva')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
+            logger.warning('status: ORANGE due to low memory available on Denva')
+            state.set_warn()
+
+        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
+            logger.warning('status: RED due to very low free space on Denva')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
+            logger.warning('status: ORANGE due to low free space on Denva')
+            state.set_warn()
+
+        if dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
+            logger.warning('status: RED due to very low data free space on Denva')
+            state.set_error()
+        elif dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
+            logger.warning('status: ORANGE due to low data free space on Denva')
+            state.set_warn()
+    color_red, color_green, color_blue = delight_utils.get_state_colour(state)
+    update_blink(state.state)
+    unicornhathd.set_pixel(ui_utils.to_x(1), 1, purple_r, purple_g, purple_b)
+    set_status_for_device(1, 13, color_red, color_green, color_blue)
+    logger.info('Denva: {}'.format(state.get_status_as_light_colour()))
+    return blink
 
 
 def perform_state_animation():
@@ -352,7 +357,6 @@ def set_status_for_device(x: int, y: int, color_red: int, color_green: int, colo
         unicornhathd.set_pixel(ui_utils.to_x(x + 2), y + 2, color_red, color_green, color_blue)
 
 
-
 def startup():
     brightness_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
     colour_list = [[185, 185, 185], [0, 0, 185], [128, 28, 200], [0, 185, 0], [255, 255, 255], [185, 0, 0],
@@ -360,14 +364,14 @@ def startup():
     random.shuffle(colour_list)
     for count in range(0, 8):
         unicornhathd.brightness(brightness_list[count])
-        ui_utils.set_all_pixel_to(colour_list[count][0], colour_list[count][1], colour_list[count][2])
+        ui_utils.set_all_pixel_to(colour_list[count][0], colour_list[count][1], colour_list[count][2],unicornhathd)
         unicornhathd.show()
         time.sleep(0.5)
 
 
 def main():
     startup()
-    forest.in_the_forest()
+    forest.in_the_forest(unicornhathd)
     while True:
         if is_night_mode():
             device_status()
@@ -386,7 +390,7 @@ def main():
             forest.in_the_forest(unicornhathd)
             delight_display.reset_screen()
             local_data_gateway.post_healthcheck_beat('delight', 'app')
-            warp.in_the_warp(unicornhathd,clock,cycle)
+            warp.in_the_warp(unicornhathd, clock, cycle)
 
 
 if __name__ == '__main__':
