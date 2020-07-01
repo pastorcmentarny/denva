@@ -29,7 +29,7 @@ import unicornhathd
 
 import config_service
 from common import data_files, dom_utils, status
-from delight import delight_display, delight_service, delight_utils, ui_utils, forest, sub_light
+from delight import delight_display, delight_service, delight_utils, ui_utils, forest, sub_light, warp
 from gateways import local_data_gateway
 from systemhc import system_health_prototype
 
@@ -352,43 +352,6 @@ def set_status_for_device(x: int, y: int, color_red: int, color_green: int, colo
         unicornhathd.set_pixel(ui_utils.to_x(x + 2), y + 2, color_red, color_green, color_blue)
 
 
-def in_the_warp():
-    global clock
-    global cycle
-    cycle += 1
-    logger.info('Spacedate: {}. Currently, we are in the warp..'.format(cycle))
-
-    star_count = 25
-    star_speed = 0.01
-    stars = []
-
-    for i in range(0, star_count):
-        stars.append((random.uniform(4, 11), random.uniform(4, 11), 0))
-
-    running = True
-    while running:
-        unicornhathd.clear()
-        clock += 1
-        for i in range(0, star_count):
-            stars[i] = (
-                stars[i][0] + ((stars[i][0] - 8.1) * star_speed),
-                stars[i][1] + ((stars[i][1] - 8.1) * star_speed),
-                stars[i][2] + star_speed * 50)
-
-            if stars[i][0] < 0 or stars[i][1] < 0 or stars[i][0] > 16 or stars[i][1] > 16:
-                stars[i] = (random.uniform(4, 11), random.uniform(4, 11), 0)
-
-            v = stars[i][2]
-
-            unicornhathd.set_pixel(stars[i][0], stars[i][1], v, v, v)
-
-        unicornhathd.show()
-
-        if clock % 50 == 0:
-            star_speed += 0.001
-        if clock % 4000 == 0:
-            running = False
-
 
 def startup():
     brightness_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
@@ -423,7 +386,7 @@ def main():
             forest.in_the_forest(unicornhathd)
             delight_display.reset_screen()
             local_data_gateway.post_healthcheck_beat('delight', 'app')
-            in_the_warp()
+            warp.in_the_warp(unicornhathd,clock,cycle)
 
 
 if __name__ == '__main__':
