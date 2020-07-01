@@ -153,7 +153,7 @@
                         {% endif %}
                         <li>_</li>
                         <li><strong class="d-inline-block mb-2 text-success">Delight(KanoPi3)</strong></li>
-                        {% if  message.system.delight %}
+                        {% if  "CPU Temp" in message.system.delight %}
                             <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
                             <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}
                             </li>
