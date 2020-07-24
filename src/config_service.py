@@ -16,6 +16,10 @@ from common import dom_utils
 settings = {
     "mode": 'dev',
     "sensors": {
+        "cameras": {
+          "cctv": False,
+          "sky": False
+        },
         "motion": {
             "shaking": 1000,
             "sensitivity": 8,
@@ -289,3 +293,9 @@ def get_system_hc() -> str:
 
 def get_default_brightness_for_delight_display():
     return settings["sensors"]["unicornhd"]["default_brightness"]
+
+def is_cctv_camera_on() -> bool:
+    return settings["sensors"]["cameras"]["cctv"]
+
+def is_sky_camera_on() -> bool:
+    return settings["sensors"]["cameras"]["sky"]

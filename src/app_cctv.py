@@ -90,7 +90,7 @@ def main():
     logger.info('Camera is on.')
 
     measurement_counter = 0
-    while True:
+    while config_service.is_sky_camera_on():
         measurement_counter += 1
         logger.info('Capturing photo no.{}'.format(measurement_counter))
 

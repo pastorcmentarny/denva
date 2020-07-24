@@ -92,3 +92,23 @@ class Test(TestCase):
         # then
         self.assertGreaterEqual(result, 0.1)
         self.assertLessEqual(result, 1)
+
+    def test_get_sky_camera_settings(self):
+        # when
+        result = config_service.is_sky_camera_on()
+
+        # then
+        self.assertTrue(isinstance(result, bool))
+
+        # debug
+        print(result)
+
+    def test_get_cctv_camera_settings(self):
+        # when
+        result = config_service.is_cctv_camera_on()
+
+        # then
+        self.assertTrue(isinstance(result, bool))
+
+        # debug
+        print(result)

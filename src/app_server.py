@@ -46,7 +46,7 @@ def main():
     while True:
         counter += 1
         time.sleep(5)
-        if config_service.load_cfg()['mode'] == 'server':
+        if config_service.load_cfg()['mode'] == 'server' and config_service.is_cctv_camera_on():
             last_picture = webcam_service.capture_picture()
             if last_picture != "":
                 pictures.append(last_picture)
