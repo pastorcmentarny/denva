@@ -29,7 +29,6 @@ from tasks import too_dark_photos_remover_service
 
 EMPTY = ''
 
-
 logger = logging.getLogger('app')
 
 camera = PiCamera()
@@ -51,7 +50,6 @@ def capture_picture() -> str:
     path = Path("{}/{}".format("/home/pi/data/", date_as_folders))
 
     try:
-
         if not path.exists():
             logger.info('Path {} do not exist. Creating missing path.'.format(path))
             Path(path).mkdir(parents=True, exist_ok=True)
@@ -73,8 +71,8 @@ def capture_picture() -> str:
         return photo_path
     except Exception as e:
         logger.warning('Unable to capture picture to {} due to {}'.format(path, e), exc_info=True)
-        #email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
-        #TODO sent error to status
+        # email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
+        # TODO sent error to status
         reset_camera()
     logger.warning('No path returned due to previous error.')
     return EMPTY
