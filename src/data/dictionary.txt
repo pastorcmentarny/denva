@@ -64,7 +64,7 @@
 ;;64;;女儿;;nǚ'ér;;5;;daughter;;córka;;family~~hsk1;;none;;2;;
 ;;65;;早上;;zǎoshang;;-1;;early morning;; wczesny ranek;;day_parts;;none;;1;;
 ;;66;;上午;;shàngwǔ;;7;;morning;;ranek;;hsk1~~day_parts;;none;;2;;
-;;67;;午;;wǔ;;4;;noon;;południe;;day_parts;;none;;1;;
+;;67;;刻;;kè;;-1;;quarter(time);;kwadrans;;noun~~datetime;;none;;7;;
 ;;68;;下午;;xiàwǔ;;7;;afternoon;;popołudnie;;hsk1~~day_parts;;none;;2;;
 ;;69;;晚上;;wǎnshang;;-1;;evening;;wieczór;;day_parts;;none;;1;;
 ;;70;;开车;;kāichē;;-1;;car;;samochód;;transport;;none;;1;;
@@ -336,7 +336,7 @@
 ;;336;;名字;;míngzi;;12;;name(of a person,thing);;nazywać;;hsk1~~introduction;;none;;1;;
 ;;337;;桌子;;zhuōzi;;13;;table,desk;;stół;;hsk1~~house~~room;;none;;1;;
 ;;338;;住;;zhù;;7;;to live;;mieszkać;;hsk1;;none;;2;;
-;;339;;中午;;zhōngwǔ;;8;;noon,midday;;południe;;hsk1~~day_parts;;none;;1;;
+;;339;;中午;;zhōngwǔ;;8;;noon,midday;;południe;;hsk1~~day_parts;;午(wǔ,noon,południe);;1;;
 ;;340;;中国;;Zhōngguó;;12;;China;;Chiny;;hsk1~~country;;none;;1;;
 ;;341;;这儿;;zhèr;;10;;here;;tutaj;;hsk1;;none;;2;;
 ;;342;;这;;zhè;;8;;this;;ten;;hsk1~~pronoun;;none;;2;;
@@ -1262,4 +1262,5 @@
 ;;1262;;屁;;pì;;-1;;fart;;pierdnięcie;;noun~~verb;;emission of gas from your 'bottom';;8;;
 ;;1263;;多目的;;duōmùdì;;19;;multi-purpose;;wielo zadaniowe;;other;;none;;7;;
 ;;1264;;惊讶;;jīngyà;;17;;amazing,astonished,to surprise;;niesamowite;;zdumiewiające;;hsk6;;none;;6;;
-;;1265;;刻;;kè;;-1;;quarter(time);;kwadrans;;noun~~datetime;;none;;7;;
+;;1265;;急救;;jíjiù;;-1;;first aid;;pierwsza pomoc;;health;;none;;6;;
+;;1266;;复活节;;fùhuójié;;-1;;Easter;;wielkanoc;;holiday;;none;;8;;
