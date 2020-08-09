@@ -71,6 +71,7 @@ def load_processed_for_yesterday() -> list:
     return load_processed_data_for(dom_utils.get_yesterday_date_as_date())
 
 
+# add validator for loaded
 def load_processed_data_for(specified_data: date) -> list:
     data_path = config_service.get_directory_path_for_aircraft()
     date_as_folders = dom_utils.get_date_as_folders_for(specified_data)
