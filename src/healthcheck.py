@@ -115,5 +115,5 @@ def send_email_on_fail(problem: str):
 
 if __name__ == '__main__':
     config_service.set_mode_to('hc')
-    data_files.setup_logging()
+    data_files.setup_logging() #FIXME
     healthcheck_test_runner()

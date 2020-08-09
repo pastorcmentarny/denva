@@ -105,6 +105,8 @@ def post_healthcheck_beat(device: str, app_type: str):
         logger.warning(
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
+def post_service_of(device: str, app_type: str,status:bool ):
+    pass
 
 if __name__ == '__main__':
     post_healthcheck_beat('denva', 'app')

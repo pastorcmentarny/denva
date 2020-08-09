@@ -38,6 +38,43 @@ def get_all_photos_for(year: str, month: str, day: str) -> list:
     return photos
 
 
+def remove_if_too_dark(file) -> bool:
+    if os.path.splitext(file)[-1].lower() != ".jpg":
+        logger.warning('{} is not a photo. Ignore it.')
+        return
+
+    im = Image.open(file)  # Can be many different formats.
+    total_pixels = im.width * im.height
+    pix = im.load()
+
+    counter = []
+
+    for x in range(0, im.width):
+        for y in range(0, im.height):
+            counter.append(pix[x, y])
+
+    result = Counter(counter)
+    dark_pixels = 0
+    for d in result.items():
+        if check_is_pixel_too_dark(d[0]):
+            dark_pixels += d[1]
+    too_dark = dark_pixels / total_pixels * 100
+    if too_dark > 95:
+        logger.info(file + 'is too dark and need to be deleted.')
+        try:
+            os.remove(file)
+            if os.path.exists(file):
+                logger.warning('{} NOT deleted.'.format(file))
+                return True
+            else:
+                logger.info("{} deleted.".format(file))
+                return True
+        except Exception as e:
+            logger.error('Unable to process {} file due to {}'.format(file, e))
+            return True
+    else:
+        return False
+
 def is_photo_mostly_black(file, with_summary: bool = True):
     global deleted
     global ignored
