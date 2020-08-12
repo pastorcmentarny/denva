@@ -145,6 +145,7 @@ def get_last_photo_filename() -> str:
 def reboot(reason: str):
     logger.warning("Rebooting device due to: {}".format(reason))
     subprocess.check_output(['sudo', 'reboot'])
+    return "Rebooting.."
 
 
 def get_system_logs(number: int) -> dict:

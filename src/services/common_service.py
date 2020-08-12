@@ -26,3 +26,7 @@ def get_log_ui(number: int):
 
 def get_system_info():
     return commands.get_system_info()
+
+
+def reboot_device():
+    return commands.reboot('Requested by UI')

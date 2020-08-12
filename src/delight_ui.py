@@ -97,6 +97,12 @@ def recent_log_ui():
     return jsonify(delight_service.get_log_ui(20))
 
 
+@app.route("/reboot")
+def record():
+    logger.info('Getting record measurement from today')
+    return jsonify(common_service.reboot_device())
+
+
 @app.route("/system")
 def system():
     logger.info('Getting system information for {}'.format(APP_NAME))
