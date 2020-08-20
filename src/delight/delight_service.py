@@ -86,3 +86,7 @@ def reset_hc():
 
 def get_system_hc():
     return system_health_prototype.get_system_healthcheck()
+
+
+def get_ping_test_results():
+    return commands.get_ping_results()

@@ -120,6 +120,13 @@ def get_measurement():
     return jsonify(delight_service.get_flights_for_today())
 
 
+# TODO improve it
+@app.route("/test")
+def get_ping_test():
+    logger.info("Running ping test")
+    return jsonify(delight_service.get_ping_test_results())
+
+
 if __name__ == '__main__':
     config_service.set_mode_to('delight')
     data_files.setup_logging('ui')
