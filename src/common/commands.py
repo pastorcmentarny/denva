@@ -85,7 +85,13 @@ def get_cpu_temp_as_number() -> float:
 
 
 def get_ip() -> str:
-    return dom_utils.get_ip()
+    cmd = """hostname -I | awk '{print $1}'"""
+    try:
+        result = subprocess.check_output(cmd, shell=True)
+        return str(result.strip(), "utf-8")
+    except Exception as e:
+        logger.error('Unable to get IP (Network down?) due to {}'.format(e))
+        return "ERROR"
 
 
 def get_uptime() -> str:
@@ -167,19 +173,20 @@ def is_dump_digest_active():
     try:
         cmd = f"ps -aux | grep app_dump_data_digest.py | grep -v grep"
         result = subprocess.check_output(cmd, shell=True)
-        logger.debug('Result {}'.format(result))
-        return "UP".format(result)
+        logger.info('Result {}'.format(result))
+        return "UP"
     except Exception as e:
         logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
         return "DOWN"
 
 
+# TODO test 5 website and all Pi (and maybe laptops)
 def get_ping_results() -> str:
     cmd = """ping -qc 1 google.com 2>&1 | awk -F'/' 'END{ print (/^rtt/? "PASS "$5" ms":"FAIL") }'"""
     try:
         result = subprocess.check_output(cmd, shell=True)
         logger.debug('Ping {}'.format(result))
-        return str(result)
+        return str(result.strip(), "utf-8")
     except Exception as e:
         logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
         return "ERROR"
