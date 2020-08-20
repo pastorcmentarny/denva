@@ -172,3 +172,14 @@ def is_dump_digest_active():
     except Exception as e:
         logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
         return "DOWN"
+
+
+def get_ping_results() -> str:
+    cmd = """ping -qc 1 google.com 2>&1 | awk -F'/' 'END{ print (/^rtt/? "PASS "$5" ms":"FAIL") }'"""
+    try:
+        result = subprocess.check_output(cmd, shell=True)
+        logger.debug('Ping {}'.format(result))
+        return str(result)
+    except Exception as e:
+        logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
+        return "ERROR"
