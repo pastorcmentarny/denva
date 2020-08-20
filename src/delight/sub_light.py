@@ -1,7 +1,6 @@
-from random import randint
 import logging
 import time
-
+from random import randint
 
 logger = logging.getLogger('app')
 
@@ -66,7 +65,7 @@ def get_random_color() -> str:
     return colors[result]
 
 
-def generate_person_of_color(person_color: str, person: list,unicornhathd):
+def generate_person_of_color(person_color: str, person: list, unicornhathd):
     if person_color is ORANGE:
         shape = orange_rgb
     elif person_color is GREEN:
@@ -91,7 +90,7 @@ def generate_person_of_color(person_color: str, person: list,unicornhathd):
         y += 1
 
 
-def sub_light_travel(unicornhathd,clock,cycle):
+def sub_light_travel(unicornhathd, clock, cycle):
     cycle += 1
     logger.info('Spacedate: {}. Currently, we are in sub space zone..'.format(cycle))
 
@@ -99,7 +98,7 @@ def sub_light_travel(unicornhathd,clock,cycle):
     while running:
         for person in blue_pilled_population:
             person_color = person[2]
-            generate_person_of_color(person_color, person)
+            generate_person_of_color(person_color, person, unicornhathd)
             person[1] -= 1
         unicornhathd.set_pixel(0, 0, randint(0, 255), randint(0, 255), randint(0, 255))
         unicornhathd.set_pixel(15, 0, randint(0, 255), randint(0, 255), randint(0, 255))
@@ -119,4 +118,3 @@ def sub_light_travel(unicornhathd,clock,cycle):
 
         if clock % 125 == 0:
             running = False
-
