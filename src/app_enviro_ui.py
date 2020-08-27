@@ -86,7 +86,7 @@ def now():
 
 @app.route("/reboot")
 def record():
-    logger.info('Getting record measurement from today')
+    logger.info('Reboot Enviro UI')
     return jsonify(common_service.reboot_device())
 
 
