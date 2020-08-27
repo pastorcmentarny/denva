@@ -17,6 +17,7 @@ import requests
 
 stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
+ENCODING = 'utf-8'
 
 
 def get_train() -> str:
@@ -124,7 +125,7 @@ def get_weather() -> str:
     logger.info('Getting weather data..')
     try:
         with requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg', timeout=5) as response:
-            response.encoding = "utf-8"
+            response.encoding = ENCODING
             log_response_result(response, 'weather')
 
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
@@ -186,7 +187,7 @@ def get_pollution_for(city: str) -> str:
     logger.info('weather')
     try:
         with requests.get('https://aqicn.org/city/{}/'.format(city), timeout=5) as response:
-            response.encoding = "utf-8"
+            response.encoding = ENCODING
             log_response_result(response, 'weather')
 
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
@@ -198,6 +199,20 @@ def get_pollution_for(city: str) -> str:
     except Exception as whoops:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))
         return 'Pollution data N/A'
+
+
+def get_iss_location() -> dict:
+    url = 'http://api.open-notify.org/iss-now.json'
+    logger.info(f'Getting data about ISS location from {url}')
+    try:
+        with requests.get(url, timeout=5) as response:
+            response.encoding = ENCODING
+            log_response_result(response, 'ISS')
+            print(json.loads(response.text))
+            return json.loads(response.text)
+    except Exception as whoops:
+        logger.error('Unable to get ISS location data due to: {}'.format(whoops))
+        return {'error': 'ISS location data N/A'}
 
 
 def check_pages(headers, ok, pages, problems):
