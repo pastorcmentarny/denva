@@ -10,6 +10,15 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
+# colors
+SNOW_COLOR = [255, 255, 255]
+TRACK_COLOR = [64, 64, 64]
+TRAIN_STATION_COLOR = [102, 51, 0]
+
 
 def train_trip_on_planet():
     pass
+
+
+if __name__ == '__main__':
+    train_trip_on_planet()  # run prototype
