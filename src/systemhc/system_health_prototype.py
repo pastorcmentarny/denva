@@ -27,10 +27,13 @@ def save(data: dict):
 
 
 def load() -> dict:
+    system_hc_path = config_service.get_system_hc()
     try:
-        return data_files.load_json_data_as_dict_from(config_service.get_system_hc())
+        return data_files.load_json_data_as_dict_from(system_hc_path)
     except Exception as exception:
-        logger.error('Unable to load file with system healthcheck as due to {}'.format(exception), exc_info=True)
+        logger.error(
+            'Unable to load file with system healthcheck as due to {} using path {}'.format(exception, system_hc_path),
+            exc_info=True)
 
 
 def update_hc_for(device: str, app_type: str):
@@ -132,12 +135,3 @@ def get_system_healthcheck():
 
         }
     }
-
-
-if __name__ == '__main__':
-    config_service.set_mode_to('dev')
-    print(get_system_healthcheck())
-    update_to_now_for_all()
-    result = load()
-    print(get_system_healthcheck())
-    print(result)
