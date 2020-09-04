@@ -1,6 +1,6 @@
 import unittest
 
-from mothership import daily
+from denvapa import daily
 
 
 # TODO convert to parameterized test

@@ -1,6 +1,6 @@
 import unittest
 
-from mothership import good_english_sentence
+from denvapa import good_english_sentence
 
 
 class EnglishSentenceTests(unittest.TestCase):

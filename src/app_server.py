@@ -17,10 +17,10 @@ import sys
 import time
 
 import config_service
-import mothership.information_service as information
+import denvapa.information_service as information
 from common import app_timer, data_files, loggy
 from gateways import local_data_gateway
-from mothership import webcam_service
+from denvapa import webcam_service
 from reports import report_service
 from services import email_sender_service
 

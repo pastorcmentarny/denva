@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import Mock
 
 from common import dom_utils
-from mothership import celebrations
+from denvapa import celebrations
 
 
 class CelebrationsTests(unittest.TestCase):

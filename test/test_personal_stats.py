@@ -3,7 +3,7 @@ import unittest
 from datetime import datetime
 
 from common.gobshite_exception import GobshiteException
-from mothership import personal_stats
+from denvapa import personal_stats
 
 class PersonalStatsTests(unittest.TestCase):
     def test_convert_to_date_time_for_date(self):

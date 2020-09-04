@@ -16,16 +16,16 @@ from datetime import datetime
 import time
 
 import config_service
-import mothership.celebrations as celebrations
-import mothership.chinese_dictionary_service as cn
-import mothership.good_english_sentence as eng
-import mothership.good_method_name as method
-import mothership.information_service as information
-import mothership.personal_stats as personal_events
-import mothership.random_irregular_verb as verb
+import denvapa.celebrations as celebrations
+import denvapa.chinese_dictionary_service as cn
+import denvapa.good_english_sentence as eng
+import denvapa.good_method_name as method
+import denvapa.information_service as information
+import denvapa.personal_stats as personal_events
+import denvapa.random_irregular_verb as verb
 from common import data_files, dom_utils
 from gateways import web_data_gateway, local_data_gateway
-from mothership import daily
+from denvapa import daily
 from services import error_detector_service, radar_service
 from services import weather_service, system_data_service
 from zeroeighttrack import leaderboard
