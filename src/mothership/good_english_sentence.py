@@ -42,7 +42,8 @@ sentences = [
     "You know for as long I can remember I had memories. (by Colin Mochrie)",
     "This is how I know that JP is a streamer on the another level. I got the email from the Microsoft with 'would you like a code'. I am like OMG 'Thank you me for blessing me with this influencer status' and then I found out that actually, I am getting lowest level of shit, because JP getting boxes of stuff' - Garry Whitta",
     "If you can't retrieve a memory, it's as good as not being there at all. It's like when you can't find your gloves; you've still got gloves, they still exist, but you've got cold hands anyway.",
-    "Thank you. You definitely change the way I think about this. I appreciate that you take time and effort for this well-articulated thoughts. (Andy Stumpf)"
+    "Thank you. You definitely change the way I think about this. I appreciate that you take time and effort for this well-articulated thoughts. (Andy Stumpf)",
+    "CAPS LOCK – Preventing Login Since 1980."
 ]
 
 
