@@ -30,3 +30,7 @@ def get_system_info():
 
 def reboot_device():
     return commands.reboot('Requested by UI')
+
+
+def stop_device(app_name: str):
+    return commands.halt(app_name)

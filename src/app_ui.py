@@ -31,6 +31,12 @@ def average():
     return jsonify(denva_service.get_averages())
 
 
+@app.route("/halt")
+def record():
+    logger.info('Stopping Denviro Pi')
+    return jsonify(common_service.stop_device(APP_NAME))
+
+
 @app.route("/hc")
 def healthcheck():
     return jsonify(common_service.get_healthcheck(APP_NAME))

@@ -36,6 +36,12 @@ def gc():
     return jsonify(common_service.run_gc())
 
 
+@app.route("/halt")
+def record():
+    logger.info('Stopping Denviro Pi')
+    return jsonify(common_service.stop_device(APP_NAME))
+
+
 @app.route("/hc")
 def healthcheck():
     logger.info('performing healthcheck for Enviro')
