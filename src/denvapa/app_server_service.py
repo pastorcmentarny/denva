@@ -212,3 +212,9 @@ def stop_all_devices():
     local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['delight']))
     return {'result' : 'All devices stopped'}
 
+
+def reboot_all_devices():
+    local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['denva']))
+    local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['enviro']))
+    local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['delight']))
+    return {'result' : 'All devices starting to reboot'}

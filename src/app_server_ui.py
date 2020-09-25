@@ -63,6 +63,12 @@ def stop_all_devices():
     return jsonify(app_server_service.stop_all_devices())
 
 
+@app.route('/reboot-all')
+def stop_all_devices():
+    logging.info('Rebooting all PI devices.')
+    return jsonify(app_server_service.reboot_all_devices())
+
+
 @app.route('/enviro', methods=['POST'])
 def store_enviro_measurement():
     logging.info('Processing enviro measurement request with json: {}'.format(request.get_json()))
