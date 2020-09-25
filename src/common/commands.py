@@ -154,6 +154,12 @@ def reboot(reason: str):
     return "Rebooting.."
 
 
+def halt(device: str):
+    logger.warning("Halting {} device for safe shutdown".format(device))
+    subprocess.check_output(['sudo', 'halt'])
+    return "Stopping.."
+
+
 def get_system_logs(number: int) -> dict:
     return get_lines_from_path('/var/log/syslog', number)
 
