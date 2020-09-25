@@ -204,3 +204,11 @@ def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
             'links': get_links_for_gateway()
         }
     return data
+
+
+def stop_all_devices():
+    local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['denva']))
+    local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['enviro']))
+    local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['delight']))
+    return {'result' : 'All devices stopped'}
+
