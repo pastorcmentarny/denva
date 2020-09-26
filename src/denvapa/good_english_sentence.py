@@ -43,7 +43,9 @@ sentences = [
     "This is how I know that JP is a streamer on the another level. I got the email from the Microsoft with 'would you like a code'. I am like OMG 'Thank you me for blessing me with this influencer status' and then I found out that actually, I am getting lowest level of shit, because JP getting boxes of stuff' - Garry Whitta",
     "If you can't retrieve a memory, it's as good as not being there at all. It's like when you can't find your gloves; you've still got gloves, they still exist, but you've got cold hands anyway.",
     "Thank you. You definitely change the way I think about this. I appreciate that you take time and effort for this well-articulated thoughts. (Andy Stumpf)",
-    "CAPS LOCK – Preventing Login Since 1980."
+    "CAPS LOCK – Preventing Login Since 1980.",
+    "It is a testimony to the power of taking intelligent risks, even when they don't quite work as intended.",
+    "How to deal with the never-ending shit barrage of the human experience?"
 ]
 
 
