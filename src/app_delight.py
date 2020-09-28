@@ -143,11 +143,11 @@ def set_delight_status(cfg):
     try:
         delight_data = delight_service.get_system_info()
 
-        if float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor']['cpu_temp_error']:
+        cpu_temp = str(delight_data['CPU Temp'])
+        if float(dom_utils.get_float_number_from_text(cpu_temp)) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Delight')
             state.set_error()
-        elif float(dom_utils.get_float_number_from_text(str(delight_data['CPU Temp']))) > cfg['sensor'][
-            'cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(cpu_temp)) > cfg['sensor']['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Delight')
             state.set_warn()
         if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
@@ -156,7 +156,6 @@ def set_delight_status(cfg):
         elif dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 256:
             logger.warning('status: ORANGE due to low memory available on Delight')
             state.set_warn()
-
         if dom_utils.get_int_number_from_text(delight_data['Free Space']) < 128:
             logger.warning('status: RED due to very low free space on Delight')
             state.set_error()
@@ -300,8 +299,6 @@ def set_denva_status(cfg):
     return blink
 
 
-
-
 def is_night_mode() -> bool:
     return datetime.now().hour >= 22 or datetime.now().hour < 6
 
@@ -327,7 +324,7 @@ def startup():
     random.shuffle(colour_list)
     for count in range(0, 8):
         unicornhathd.brightness(brightness_list[count])
-        ui_utils.set_all_pixel_to(colour_list[count][0], colour_list[count][1], colour_list[count][2],unicornhathd)
+        ui_utils.set_all_pixel_to(colour_list[count][0], colour_list[count][1], colour_list[count][2], unicornhathd)
         unicornhathd.show()
         time.sleep(0.5)
 

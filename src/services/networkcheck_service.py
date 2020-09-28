@@ -3,8 +3,10 @@ from timeit import default_timer as timer
 
 import requests
 
-from common import data_files
+from common import dom_utils
 from gateways import web_data_gateway
+
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
 PERFECT = 'Perfect'
 GOOD = 'Good'
@@ -39,8 +41,7 @@ def network_check(in_china: bool = False) -> dict:
             'https://google.com/',
         ]
     headers = requests.utils.default_headers()
-    headers[
-        'User-Agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+    headers['User-Agent'] = USER_AGENT
 
     start_time = timer()
 
@@ -89,5 +90,5 @@ def _get_network_status(ok: int) -> str:
 
 # use as standalone tool :)
 if __name__ == '__main__':
-    data_files.setup_logging()
+    dom_utils.setup_test_logging()
     network_check()
