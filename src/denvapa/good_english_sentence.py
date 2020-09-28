@@ -45,7 +45,8 @@ sentences = [
     "Thank you. You definitely change the way I think about this. I appreciate that you take time and effort for this well-articulated thoughts. (Andy Stumpf)",
     "CAPS LOCK – Preventing Login Since 1980.",
     "It is a testimony to the power of taking intelligent risks, even when they don't quite work as intended.",
-    "How to deal with the never-ending shit barrage of the human experience?"
+    "How to deal with the never-ending shit barrage of the human experience?",
+    "The company admitted it would 'continue to improve the overall experience' via those never-ending patches we've all come to know and love over the years."
 ]
 
 
