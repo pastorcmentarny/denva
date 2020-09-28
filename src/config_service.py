@@ -120,6 +120,9 @@ def get_environment_log_path_for(where: str) -> str:
     if where == 'cctv':
         return settings['logs']['cctv']
 
+    if where == 'hc':
+        return settings['logs']['hc']
+
     if where == 'ddd':
         if env_type == 'dev':
             return settings['logs']['dev_' + where]
