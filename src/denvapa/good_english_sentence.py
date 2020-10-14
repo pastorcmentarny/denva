@@ -46,7 +46,8 @@ sentences = [
     "CAPS LOCK – Preventing Login Since 1980.",
     "It is a testimony to the power of taking intelligent risks, even when they don't quite work as intended.",
     "How to deal with the never-ending shit barrage of the human experience?",
-    "The company admitted it would 'continue to improve the overall experience' via those never-ending patches we've all come to know and love over the years."
+    "The company admitted it would 'continue to improve the overall experience' via those never-ending patches we've all come to know and love over the years.",
+    "I am not sure if this knowledge will enrich me in any meaningful way."
 ]
 
 
