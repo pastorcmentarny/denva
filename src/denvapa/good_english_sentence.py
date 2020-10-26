@@ -48,7 +48,10 @@ sentences = [
     "How to deal with the never-ending shit barrage of the human experience?",
     "The company admitted it would 'continue to improve the overall experience' via those never-ending patches we've all come to know and love over the years.",
     "I am not sure if this knowledge will enrich me in any meaningful way.",
-    "The parents and grandparents are the heroes of our society."
+    "The parents and grandparents are the heroes of our society.",
+    "Do you know what time it is? It's tomorrow!",
+    "The art of giving a shit.",
+    "How bad 'bad' gets."
 ]
 
 
