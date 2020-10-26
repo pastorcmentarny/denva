@@ -76,7 +76,7 @@
                     <a href="https://www.cgm.pl/news/" class="dropdown-item">CGM</a>
                 </div>
             </li>
-            >
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="blog" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">My projects</a>
@@ -171,19 +171,178 @@
         </div>
     </div>
 {% endif %}
+<div class="row mb-12 text-center">
+    <div class="col-md-12">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">WARNINGS</h4>
+        </div>
+        <div class="card-body ">
+            <ul class="list-unstyled mt-3 mb-4">
+                {% for an_error in message.errors %}
+                    <li class="mb-1 text-danger">{{ an_error }}</li>
+                {% endfor %}
+                {% if  message.warnings.denva %}
+                    {% for _, value in message.warnings.denva.items() %}
+                        <li class="mb-1 text-warning">{{ value }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li><span class="bad">No Data for Denva :(</span></li>
+                {% endif %}
+                {% if  message.warnings.enviro %}
+                    {% for _, value in message.warnings.enviro.items() %}
+                        <li class="mb-1 text-warning">{{ value }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li><span class="bad">No Data for Denviro :(</span></li>
+                {% endif %}
+                {% for server in message.warnings.server %}
+                    <li class="mb-1 text-danger">{{ server }}</li>
+                {% endfor %}
+            </ul>
+        </div>    </div>
+</div>
+
+
 
 <div class="row mb-3">
+    <!-- SYSTEM STATUS -->
     <div class="col-md-4">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-            <div class="col p-4 d-flex flex-column position-static">
-                <h3 class="mb-0">Status</h3>
+        <div class="card-body">
+            <ui class="list-unstyled mt-3 mb-4">
+                <strong class="d-inline-block text-success">Weather</strong>
                 {% for weather_sentence in message.weather %}
-                    <div class="mb-1 text-primary">{{ weather_sentence }}</div>
+                    <li class="small">{{ weather_sentence }}</li>
                 {% endfor %}
+            </ui>
+            <ul class="list-unstyled mt-3 mb-4">
+                <li><strong class="d-inline-block text-success">Server(LP)</strong></li>
+                {% if  message.system.server %}
+                    <li class="small"><b>CPU Speed:</b>{{ message.system.server["CPU Speed"] }}</li>
+                    <li class="small"><b>RAM Available:</b>{{ message.system.server["Memory Available"] }}</li>
+                    <li class="small"><b>Disk Free:</b>{{ message.system.server["Disk Free"] }}</li>
+                    <li class="small"><b>Uptime:</b>{{ message.system.server["Uptime"] }}</li>
+                {% else %}
+                    <li><span class="bad">No Server data :(</span></li>
+                {% endif %}
+                <li>_</li>
+                <li><strong class="d-inline-block mb-2 text-success">Denva(Pi4)</strong></li>
+                {% if  message.system.denva %}
+                    <li class="small"><b>CPU Speed : </b>{{ message.system.denva["CPU Speed"] }}</li>
+                    <li class="small"><b>CPU Temp : </b>{{ message.system.denva["CPU Temp"].replace('Â','') }}
+                    </li>
+                    <li class="small"><b>RAM Available : </b>{{ message.system.denva["Memory Available"] }}</li>
+                    <li class="small"><b>Free Space : </b>{{ message.system.denva["Free Space"] }}</li>
+                    <li class="small"><b>Data Free Space : </b>{{ message.system.denva["Data Free Space"] }}
+                    </li>
+                    <li class="small"><b>Uptime : </b>{{ message.system.denva["Uptime"] }}</li>
+                {% else %}
+                    <li><span class="bad">No Denva data :(</span></li>
+                {% endif %}
 
-            </div>
+                <li>_</li>
+                <li><strong class="d-inline-block mb-2 text-success">Denvira(Pi3)</strong></li>
+                {% if  message.system.enviro and message.system.enviro["CPU Temp"] %}
+                    <li class="small"><b>CPU Speed : </b>{{ message.system.enviro["CPU Speed"] }}</li>
+                    <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"].replace('Â','') }}
+                    </li>
+                    <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}
+                    </li>
+                    <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
+                    <li class="small"><b>Data Free Space : </b>{{ message.system.enviro["Data Free Space"] }}
+                    </li>
+                    <li class="small"><b>Uptime : </b>{{ message.system.enviro["Uptime"] }}</li>
+                {% else %}
+                    <li><span class="bad">No Denvira data :(</span></li>
+                {% endif %}
+                <li>_</li>
+                <li><strong class="d-inline-block mb-2 text-success">Delight(KanoPi3)</strong></li>
+                {% if  "CPU Temp" in message.system.delight %}
+                    <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
+                    <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}
+                    </li>
+                    <li class="small"><b>RAM Available : </b>{{ message.system.delight["Memory Available"] }}
+                    </li>
+                    <li class="small"><b>Free Space : </b>{{ message.system.delight["Free Space"] }}</li>
+                    <li class="small"><b>Uptime : </b>{{ message.system.delight["Uptime"] }}</li>
+                {% else %}
+                    <li><span class="bad">No Delight data :(</span></li>
+                {% endif %}
+                <li>_</li>
+            </ul>
         </div>
     </div>
+    <div class="col-md-4">
+        <!-- READINGS -->
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">DENVA</h4>
+        </div>
+        <div class="card-body small">
+            <ul class="list-unstyled mt-3 mb-4">
+                <li><strong>temp</strong> : {{ message.denva.temp }}</li>
+                <li><strong>pressure</strong> : {{ message.denva.pressure }}</li>
+                <li><strong>humidity</strong> : {{ message.denva.humidity }}</li>
+                <li><strong>colour</strong> : {{ message.denva.colour }}</li>
+                <li><strong>uva_index</strong> : {{ message.denva.uva_index }}</li>
+                <li><strong>uvb_index</strong> : {{ message.denva.uvb_index }}</li>
+                <li><strong>motion</strong> : {{ message.denva.motion }}</li>
+                <li><strong>ax</strong> : {{ message.denva.ax }}</li>
+                <li><strong>ay</strong> : {{ message.denva.ay }}</li>
+                <li><strong>az</strong> : {{ message.denva.az }}</li>
+                <li><strong>gx</strong> : {{ message.denva.gx }}</li>
+                <li><strong>gy</strong> : {{ message.denva.gy }}</li>
+                <li><strong>gz</strong> : {{ message.denva.gz }}</li>
+                <li><strong>mx</strong> : {{ message.denva.mx }}</li>
+                <li><strong>my</strong> : {{ message.denva.my }}</li>
+                <li><strong>mz</strong> : {{ message.denva.mz }}</li>
+                <li><strong>eco2</strong> : {{ message.denva.eco2 }}</li>
+                <li><strong>tvoc</strong> : {{ message.denva.tvoc }}</li>
+            </ul>
+        </div>
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">ENVIRO</h4>
+        </div>
+        <div class="card-body small">
+            <ul class="list-unstyled mt-3 mb-4">
+                <li><strong>temperature</strong> : {{ message.enviro.temperature }}</li>
+                <li><strong>oxidised</strong> : {{ message.enviro.oxidised }}</li>
+                <li><strong>reduced</strong> : {{ message.enviro.reduced }}</li>
+                <li><strong>nh3</strong> : {{ message.enviro.nh3 }}</li>
+                <li><strong>pm1</strong> : {{ message.enviro.pm1 }}</li>
+                <li><strong>pm25</strong> : {{ message.enviro.pm25 }}</li>
+                <li><strong>pm10</strong> : {{ message.enviro.pm10 }}</li>
+            </ul>
+        </div>
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">RADAR</h4>
+        </div>
+        <div class="card-body small">
+            <ul class="list-unstyled mt-3 mb-4">
+                {% if '↓' in message.aircraft.detected %}
+                    <li><strong>Aircraft</strong> : <span class="bad">{{ message.aircraft.detected }}</span></li>
+                {% elif '↑' in message.aircraft.detected %}
+                    <li><strong>Aircraft</strong> : <span class="good">{{ message.aircraft.detected }}</span></li>
+                {% else %}
+                    <li><strong>Aircraft</strong> : <span class="info">{{ message.aircraft.detected }}</span></li>
+                {% endif %}
+
+                <li><b>Fastest Flight</b></li>
+                {% if message.aircraft.detected %}
+                    <li>{{ (message.aircraft.stats.fastest.speed * 1.852)| int }} km/h</li>
+                {% else %}
+                    <li>0</li>
+                {% endif %}
+                {% if message.aircraft.stats and message.aircraft.stats.fastest %}
+                    <li>{{ message.aircraft.stats.fastest.flight  | join(", ") }}</li>
+                {% endif %}
+                {% if message.aircraft.stats and message.aircraft.stats.highest %}
+                    <li><b>Highest Flight</b></li>
+                    <li>{{ (message.aircraft.stats.highest.altitude / 3.281)|int }} km</li>
+                    <li>{{ message.aircraft.stats.highest.flight  | join(", ") }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
     <div class="col-md-4">
         <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
@@ -203,8 +362,6 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
         <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-4 d-flex flex-column position-static">
                 <strong class="d-inline-block mb-2 text-danger">Chinese</strong>
@@ -235,8 +392,8 @@
         </div>
     </div>
 </div>
-&nbsp;/|&nbsp;Dm'S 2020<br/>/ |\<br/><br/>
 
+<script type="text/javascript">displayTitle();</script>
 
 <!-- all scritps -->
 </body>
