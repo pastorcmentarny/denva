@@ -10,7 +10,7 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
-
+import datetime
 import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
@@ -165,6 +165,8 @@ def do_picture():
 
 @app.route("/hq") # prototype
 def hq():
+    start = datetime.datetime.now()
+
     host = request.host_url[:-1]
     page_tube_trains = host + str(url_for('tube_trains_status'))
     page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
@@ -179,6 +181,12 @@ def hq():
     extra_data = app_server_service.get_gateway_data()
     all_data = dict(data)
     all_data.update(extra_data)
+
+    stop = datetime.datetime.now()
+
+    delta = stop - start
+    time = int(delta.total_seconds() * 1000)
+    logger.info(f'It took {time} ms.')
     return render_template('hq.html', message=all_data)
 
 
