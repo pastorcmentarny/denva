@@ -20,6 +20,8 @@ from services import system_data_service
 logger = logging.getLogger('app')
 
 REPORT_TIMEOUT = 150
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
 
 
 def get_current_reading_for_denva() -> dict:
@@ -98,7 +100,7 @@ def post_healthcheck_beat(device: str, app_type: str):
     url = config_service.get_system_hc_url()
     json_data = {'device': device, 'app_type': app_type}
     try:
-        with requests.post(url, json=json_data, timeout=1) as response:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
             response.json()
             response.raise_for_status()
     except Exception as whoops:
@@ -106,7 +108,7 @@ def post_healthcheck_beat(device: str, app_type: str):
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
-def post_service_of(device: str, app_type: str, status:bool):
+def post_service_of(device: str, app_type: str, status: bool):
     print(f'{device}/{app_type} set status to {status} ')
     # TODO finish it!
 
