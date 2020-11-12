@@ -43,7 +43,7 @@ def gc():
 
 
 @app.route("/halt")
-def record():
+def halt():
     logger.info('Stopping Denviro Pi')
     return jsonify(common_service.stop_device(APP_NAME))
 
@@ -104,7 +104,7 @@ def recent_log_ui():
 
 
 @app.route("/reboot")
-def record():
+def reboot():
     logger.info('Getting record measurement from today')
     return jsonify(common_service.reboot_device())
 
