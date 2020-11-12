@@ -51,7 +51,14 @@ sentences = [
     "The parents and grandparents are the heroes of our society.",
     "Do you know what time it is? It's tomorrow!",
     "The art of giving a shit.",
-    "How bad 'bad' gets."
+    "How bad 'bad' gets.",
+    "Developers are often  worse than networking people. Show me a developer who isn’t crashing production systems, and I’ll show you one who can’t fog a mirror. Or more likely, is on vacation.",
+    "It is just one person who knows threading in java and that's is NOT YOU! - John R",
+    "Arguing that you don’t care about the right to privacy because you have nothing to hide is no different from saying you don’t care about free speech because you have nothing to say. — EDWARD SNOWDEN",
+    "Burnout is the car crash you don’t see coming. – Stacey King Gordon",
+    "Seeing an opportunity, some pioneer plants got together and said, “Let’s go!” and migrated up onto land. But once the plants got out of the water, they discovered something they never had to deal with in the ocean: gravity",
+    "That's incredibly gone. Is it?",
+    "I don’t know the future better than anyone else."
 ]
 
 
