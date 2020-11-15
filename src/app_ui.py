@@ -160,33 +160,7 @@ def flights_today():
 
 @app.route("/")
 def welcome():
-    logger.info('Getting a main page')
-    host = request.host_url[:-1]
-    page_now = host + str(url_for('now'))
-    page_system = host + str(url_for('system'))
-    page_avg = host + str(url_for('average'))
-    page_records = host + str(url_for('record'))
-    page_stats = host + str(url_for('stats'))
-    page_warns = host + str(url_for('today_warns'))
-    page_warns_now = host + str(url_for('current_warns'))
-    page_warns_count = host + str(url_for('count_warns'))
-    page_recent_log_app = host + str(url_for('log_app'))
-    page_recent_log_hc = host + str(url_for('log_hc'))
-    data = {
-        'page_now': page_now,
-        'page_system': page_system,
-        'page_avg': page_avg,
-        'page_records': page_records,
-        'page_stats': page_stats,
-        'page_warns': page_warns,
-        'page_warns_now': page_warns_now,
-        'page_warns_count': page_warns_count,
-        'page_recent_log_app': page_recent_log_app,
-        'page_recent_log_hc': page_recent_log_hc
-    }
-
-    return render_template('dashboard.html', message=data)
-
+    return jsonify(denva_service.get_last_measurement_from_sensor())
 
 if __name__ == '__main__':
     config_service.set_mode_to('denva')
