@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -54,17 +53,17 @@ events = {
     '1231': ['New year Eve'],
 }
 
-# TODO update it by end of 2020
+# DO NOT FORGOT TO UPDATE BY END OF 2021
 movable_events = {
-    '0124': ["Chinese new year"],
-    '0329': ['Zmiana czasu z zimowego na letni'],
-    '0410': ['Good Friday'],
-    '0412': ['Easter'],
-    '0413': ['Easter Monday'],
-    '0508': ['Early May Bank Holiday'],
-    '0525': ['Late May Bank Holiday'],
-    '0831': ['Late Summer Bank Holiday'],
-    '1025': ['Zmiana czasu z letniego na zimowy'],
+    '0212': ["Chinese new year"],
+    '0328': ['Sumertime +1hr :('],
+    '0402': ['Good Friday'],
+    '0404': ['Easter'],
+    '0405': ['Easter Monday'],
+    '0503': ['Early May Bank Holiday'],
+    '0531': ['Late May Bank Holiday'],
+    '0830': ['Late Summer Bank Holiday'],
+    '1031': ['Wintertime -1hr :)'],
 }
 
 all_events = dom_utils.merge_two_dictionaries(events, movable_events)
