@@ -42,6 +42,7 @@ events = {
     '0930': ['Dzień Chłopaka'],
     '1101': ['Wszystkich Świętych'],
     '1102': ['Dzień zaduszny'],
+    '1107': ['Hug a Bear Day'],
     '1111': ['Narodowe święto Niepodległości'],
     '1129': ['Andrzejki'],
     '1204': ['Barborka (Dzień Górnika)'],
@@ -53,6 +54,7 @@ events = {
     '1231': ['New year Eve'],
 }
 
+# TODO update it by end of 2020
 movable_events = {
     '0124': ["Chinese new year"],
     '0329': ['Zmiana czasu z zimowego na letni'],
