@@ -58,7 +58,8 @@ sentences = [
     "Burnout is the car crash you don’t see coming. – Stacey King Gordon",
     "Seeing an opportunity, some pioneer plants got together and said, “Let’s go!” and migrated up onto land. But once the plants got out of the water, they discovered something they never had to deal with in the ocean: gravity",
     "That's incredibly gone. Is it?",
-    "I don’t know the future better than anyone else."
+    "I don’t know the future better than anyone else.",
+    "Ms Nowell, 19, from Winchester, Hampshire, told the BBC the interview left her feeling like 'the only atheist in a gigantic monastery'."
 ]
 
 
