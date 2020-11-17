@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -11,9 +10,8 @@
 """
 
 import logging
-from datetime import datetime
-
 import time
+from datetime import datetime
 
 import config_service
 import denvapa.celebrations as celebrations
@@ -23,9 +21,10 @@ import denvapa.good_method_name as method
 import denvapa.information_service as information
 import denvapa.personal_stats as personal_events
 import denvapa.random_irregular_verb as verb
+import denvapa.rules_service as rules
 from common import data_files, dom_utils
-from gateways import web_data_gateway, local_data_gateway
 from denvapa import daily
+from gateways import web_data_gateway, local_data_gateway
 from services import error_detector_service, radar_service
 from services import weather_service, system_data_service
 from zeroeighttrack import leaderboard
@@ -50,7 +49,8 @@ def get_gateway_data() -> dict:
             'events': personal_events.get_personal_stats(),
             'weather': weather_response,
             'information': information.get_information(),
-            'daily': daily.get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute)
+            'daily': daily.get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute),
+            'rule': rules.get_random_rule()
             }
 
 
@@ -210,11 +210,11 @@ def stop_all_devices():
     local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['denva']))
     local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['enviro']))
     local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['delight']))
-    return {'result' : 'All devices stopped'}
+    return {'result': 'All devices stopped'}
 
 
 def reboot_all_devices():
     local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['denva']))
     local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['enviro']))
     local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['delight']))
-    return {'result' : 'All devices starting to reboot'}
+    return {'result': 'All devices starting to reboot'}

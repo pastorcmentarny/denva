@@ -9,15 +9,16 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import logging
 import datetime
+import logging
 import sys
+
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import config_service
 from common import data_files
-from gateways import web_data_gateway
 from denvapa import app_server_service, webcam_service
+from gateways import web_data_gateway
 from reports import report_service
 from services import email_sender_service, information_service, tubes_train_service, system_data_service
 
@@ -64,7 +65,7 @@ def stop_all_devices():
 
 
 @app.route('/reboot-all')
-def stop_all_devices():
+def reboot_all_devices():
     logging.info('Rebooting all PI devices.')
     return jsonify(app_server_service.reboot_all_devices())
 
@@ -175,7 +176,7 @@ def do_picture():
     return send_file(filename, mimetype='image/jpeg')
 
 
-@app.route("/hq") # prototype
+@app.route("/hq")  # prototype
 def hq():
     start = datetime.datetime.now()
 
