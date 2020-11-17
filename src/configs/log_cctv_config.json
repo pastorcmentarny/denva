@@ -19,7 +19,8 @@
       "formatter": "simple",
       "filename": "/home/pi/logs/cctv.log",
       "when": "midnight",
-      "encoding": "utf8"
+      "encoding": "utf8",
+      "backupCount": 30
     }
   },
   "loggers": {

@@ -19,7 +19,8 @@
       "formatter": "simple",
       "filename": "d:/denva/logs/stats.log",
       "when": "midnight",
-      "encoding": "utf8"
+      "encoding": "utf8",
+      "backupCount": 30
     }
   },
   "loggers": {
