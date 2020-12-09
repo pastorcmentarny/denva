@@ -176,7 +176,7 @@ def do_picture():
     return send_file(filename, mimetype='image/jpeg')
 
 
-@app.route("/hq")  # prototype
+@app.route("/hq")
 def hq():
     start = datetime.datetime.now()
 
@@ -205,17 +205,7 @@ def hq():
 
 @app.route("/")
 def welcome():
-    host = request.host_url[:-1]
-    page_tube_trains = host + str(url_for('tube_trains_status'))
-    page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
-    page_recent_log_app = host + str(url_for('recent_log_app'))
-    page_gateway = host + str(url_for('gateway_page'))
-    page_ricky = host + str(url_for('ricky'))
-    page_frame = host + str(url_for('frame'))
-    page_webcam = host + str(url_for('do_picture'))
-    data = app_server_service.get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
-                                                page_tt_delays_counter, page_tube_trains, page_webcam)
-    return render_template('dashboard-server.html', message=data)
+    return hq()  # redirect
 
 
 if __name__ == '__main__':

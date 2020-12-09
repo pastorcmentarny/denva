@@ -233,12 +233,12 @@
     <!-- SYSTEM STATUS -->
     <div class="col-md-4">
         <div class="card-body">
-            <ui class="list-unstyled mt-3 mb-4">
+            <ul class="list-unstyled mt-3 mb-4">
                 <strong class="d-inline-block text-success">Weather</strong>
                 {% for weather_sentence in message.weather %}
                     <li class="small">{{ weather_sentence }}</li>
                 {% endfor %}
-            </ui>
+            </ul>
             <ul class="list-unstyled mt-3 mb-4">
                 <li><strong class="d-inline-block text-success">Server(LP) {3}</strong></li>
                 {% if  message.system.server %}
@@ -423,9 +423,7 @@
         </div>
     </div>
 </div>
-
+<!-- all scripts -->
 <script type="text/javascript">displayTitle();</script>
-
-<!-- all scritps -->
 </body>
 </html>
