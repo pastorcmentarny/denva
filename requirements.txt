@@ -9,10 +9,12 @@ requests==2.25.0
 beautifulsoup4==4.9.3
 flask==1.1.2
 pillow==7.2.0
-watchdog==0.10.3
+watchdog==0.10.4
 opencv-python==4.4.0.46
 psutil==5.7.3
 picamera==1.13
 ltr559==0.1.1
-urllib3==1.26.1
+urllib3==1.26.2
 numpy==1.19.4
+mote==0.0.4
+pynput==1.7.1
