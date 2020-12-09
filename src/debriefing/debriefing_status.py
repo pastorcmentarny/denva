@@ -1,3 +1,4 @@
+import random
 import time
 
 from mote import Mote
@@ -88,40 +89,67 @@ def purple_alert():
             mote.show()
 
 
-def knight_rider():
+def knight_rider(red: int, green: int, blue: int):
     mote.clear()
     mote.set_brightness(0.2)
     for times in range(10):
         for i in range(0, 16):
             mote.clear()
             for c in range(1, 5):
-                mote.set_pixel(c, i, 75, 0, 130, 0.4)
+                mote.set_pixel(c, i, red, green, blue, 0.4)
                 if i > 0:
-                    mote.set_pixel(c, i-1, 75, 0, 130, 0.3)
+                    mote.set_pixel(c, i - 1, red, green, blue, 0.3)
                 if i > 1:
-                    mote.set_pixel(c, i-2, 50, 0, 85, 0.2)
+                    mote.set_pixel(c, i - 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
                 if i > 2:
-                    mote.set_pixel(c, i-3, 50, 0, 85, 0.1)
+                    mote.set_pixel(c, i - 3, int(red / 2), int(green / 2), int(blue / 2), 0.1)
             mote.show()
             time.sleep(0.1)
 
         for i in range(15, -1, -1):
             mote.clear()
             for c in range(1, 5):
-                mote.set_pixel(c, i, 75, 0, 130, 0.4)
+                mote.set_pixel(c, i, red, green, blue, 0.4)
                 if i < 15:
-                    mote.set_pixel(c, i+1, 75, 0, 130, 0.3)
+                    mote.set_pixel(c, i + 1, red, green, blue, 0.3)
                 if i < 14:
-                    mote.set_pixel(c, i+2, 50, 0, 85, 0.2)
+                    mote.set_pixel(c, i + 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
                 if i < 13:
-                    mote.set_pixel(c, i+3, 50, 0, 85, 0.1)
+                    mote.set_pixel(c, i + 3, int(red / 2), int(green / 2), int(blue / 2), 0.1)
             mote.show()
             time.sleep(0.1)
 
 
+def christmas_mode():
+    mote.clear()
+    mote.set_brightness(0.2)
+    for times in range(100):
+        speed = (random.randint(0, 20) / 100) + 0.01
+        xmas_snow_colors = [[255, 0, 0], [0, 255, 0], [255, 255, 255]]
+        red, green, blue = xmas_snow_colors[random.randint(0, len(xmas_snow_colors) - 1)]
+        line = random.randint(1, 4)
+        for i in range(0, 16):
+            mote.clear()
+            mote.set_pixel(line, i, red, green, blue, 0.4)
+            if i > 0:
+                mote.set_pixel(line, i - 1, red, green, blue, 0.3)
+            if i > 1:
+                mote.set_pixel(line, i - 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
+            if i > 2:
+                mote.set_pixel(line, i - 3, int(red / 4), int(green / 4), int(blue / 4), 0.1)
+            mote.show()
+            time.sleep(speed)
+
+
 def run():
+    xmas_counter = 1
+    anti_xmas_counter = 1
+    christmas_mode()
     while True:
-        knight_rider()
+        knight_rider(255, 0, 0)
+        knight_rider(0, 255, 0)
+        knight_rider(144, 70, 0)
+        knight_rider(75, 0, 130)
         red_alert()
         yellow_alert()
         purple_alert()
@@ -129,6 +157,13 @@ def run():
         change_to(0, 255, 0)
         change_to(144, 70, 0)
         change_to(75, 0, 130)
+        if bool(random.getrandbits(1)):
+            print(f'Xmas l i g h t time ... Xmas :{xmas_counter} vs Anti: {anti_xmas_counter}')
+            xmas_counter = xmas_counter + 1
+            christmas_mode()
+        else:
+            print(f'No luck with xmas light this time :( ... Xmas :{xmas_counter} vs Anti: {anti_xmas_counter}')
+            anti_xmas_counter = anti_xmas_counter + 1
 
 
 if __name__ == '__main__':
