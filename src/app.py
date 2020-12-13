@@ -12,6 +12,7 @@
 import logging.config
 import os
 from datetime import datetime
+import random
 from timeit import default_timer as timer
 
 import smbus
@@ -25,6 +26,8 @@ from denva import cl_display
 from gateways import local_data_gateway
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service
 from services import email_sender_service
+from ltp305 import LTP305
+display = LTP305()
 
 bus = smbus.SMBus(1)
 
@@ -74,6 +77,17 @@ def get_data_from_measurement() -> dict:
         "tvoc": tvoc,
     }
 
+def red():
+    for x in range(0,5):
+        for y in range(0,7):
+            display.set_pixel(x, y, True)
+            display.set_pixel(x+5, y, False)
+
+def green():
+    for x in range(0,5):
+        for y in range(0,7):
+            display.set_pixel(x, y, False)
+            display.set_pixel(x+5, y, True)
 
 def main():
     measurement_counter = 0
@@ -84,7 +98,6 @@ def main():
         start_time = timer()
         data = get_data_from_measurement()
         data['cpu_temp'] = commands.get_cpu_temp()
-
         end_time = timer()
         measurement_time = int((end_time - start_time) * 1000)  # in ms
 
@@ -104,6 +117,11 @@ def main():
 
         if measurement_time > config_service.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
+
+        if bool(random.getrandbits(1)):
+            green()
+        else:
+            red()
 
         if remaining_of_five_s > 0:
             time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
