@@ -25,7 +25,7 @@ class DailyTest(unittest.TestCase):
         # then
         self.assertEqual(expected_result, result[0:2])
 
-    def test_get_now_and_next_event(self):
+    def  test_get_now_and_next_event(self):
         # given
         expected_result = ['22:00 - RELAX', '22:25 - plan next day']
 

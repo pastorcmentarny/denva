@@ -27,7 +27,7 @@ errors = 0
 
 
 def get_all_photos_for(year: str, month: str, day: str) -> list:
-    #TODO move to config_service path = "E:\\cctv\\{}\\{}\\{}\\".format(year, month, day)
+    # TODO move to config_service path = "E:\\cctv\\{}\\{}\\{}\\".format(year, month, day)
     path = str(Path("/home/pi/data/{}/{}/{}/".format(year, month, day)))
     logger.info("Generating list of files to process for {}.{}'{}".format(day, month, year))
     photos = []
@@ -74,6 +74,7 @@ def remove_if_too_dark(file) -> bool:
             return True
     else:
         return False
+
 
 def is_photo_mostly_black(file, with_summary: bool = True):
     global deleted

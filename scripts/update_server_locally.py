@@ -16,7 +16,6 @@ def update_server():
     if not os.path.exists(backup_path):
         os.makedirs(backup_path)
 
-
     # copy logs ,reports to
     source = '\\\\DS-LPD-SERVER\\denva\\data\\'
     destination = 'D:\\denva\\backup\\test\\'
@@ -27,7 +26,7 @@ def update_server():
             print('SUBFOLDER OF ' + folderName + ': ' + subFolder)
         for filename in filenames:
             print('FILE INSIDE ' + folderName + ': ' + filename)
-            result = shutil.copy(folderName +  "\\" + filename, destination)
+            result = shutil.copy(folderName + "\\" + filename, destination)
             print(result)
         print('')
 
