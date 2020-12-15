@@ -22,7 +22,7 @@ sentences = [
     "Jeremy Clarkson - '(...) to create a vision of pure ... what's the word? May and Hammond: RUBBISH!",
     "(4B) I shaved off my beard and I went to 'bear & bird' pub to drink a few pints of beer.",
     "I do not have knowledge on that matter.",
-    "There've been a few developments.",
+    "They've been a few developments.",
     "I am not a teacher, nor do I wish to become one.",  # from ST TNG
     "It was destined to fail. (by Tim Dillon in PowerfulJRE)",
     "The medicine is imperfect science. (by Dr. Mikhail 'Dr. Mike' Varshavski)",
@@ -60,7 +60,10 @@ sentences = [
     "That's incredibly gone. Is it?",
     "I don’t know the future better than anyone else.",
     "Ms Nowell, 19, from Winchester, Hampshire, told the BBC the interview left her feeling like 'the only atheist in a gigantic monastery'.",
-    "Sleep involves doing literally nothing, lying down and not being conscious. How complicated could it possibly be?"
+    "Sleep involves doing literally nothing, lying down and not being conscious. How complicated could it possibly be?",
+    "Brain never shuts down completely, partly because it has several roles in maintaining the sleep state, but mostly because if it did shutdown completely, we'd be dead.",
+    "My final apology is based on the fact that a former colleague of mine once told me that i'd get a book published ' when hell freezes over'. Sorry to Satan. It must be very inconvenient for you.",
+    "Some animals, such as jellyfish and sponges, don't show any sign of sleeping, but they don't even have brains so you can't trust them to do much of anything."
 ]
 
 
