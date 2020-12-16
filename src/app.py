@@ -96,7 +96,7 @@ def blinking_red():
 
 def end_of_red_timer():
     for end_timer in range(3, 0, -1):
-        display.set_character(0, end_timer)
+        display.set_character(0, str(end_timer))
         display.show()
         time.sleep(0.2)
 
