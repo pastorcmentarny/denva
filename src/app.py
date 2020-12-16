@@ -19,16 +19,14 @@ from timeit import default_timer as timer
 
 import smbus
 from PIL import ImageFont
-from ltp305 import LTP305
 
 import config_service
 from common import data_files, commands, dom_utils
 from denva import cl_display
 from gateways import local_data_gateway
-from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service
+from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service, \
+    led_matrix_service
 from services import email_sender_service
-
-display = LTP305()
 
 bus = smbus.SMBus(1)
 
@@ -79,53 +77,6 @@ def get_data_from_measurement() -> dict:
     }
 
 
-def change_red_to(switch: bool):
-    for x in range(0, 5):
-        for y in range(0, 7):
-            display.set_pixel(x, y, switch)
-    display.show()
-
-
-def blinking_red():
-    for _ in range(0, 3):
-        change_red_to(True)
-        time.sleep(0.2)
-        change_red_to(False)
-        time.sleep(0.2)
-
-
-def end_of_red_timer():
-    for end_timer in range(3, -1, -1):
-        display.set_character(0, str(end_timer))
-        display.show()
-        if end_timer == 0:
-            time.sleep(0.30)
-        else:
-            time.sleep(0.20)
-
-
-def set_red():
-    for x in range(0, 5):
-        for y in range(0, 7):
-            display.set_pixel(x, y, True)
-            display.set_pixel(x + 5, y, False)
-
-
-def red():
-    set_red()
-    blinking_red()
-    set_red()
-    end_of_red_timer()
-    set_green()
-
-
-def set_green():
-    for x in range(0, 5):
-        for y in range(0, 7):
-            display.set_pixel(x, y, False)
-            display.set_pixel(x + 5, y, True)
-
-
 def main():
     measurement_counter = 0
     two_led_service.led_startup_show()
@@ -156,10 +107,10 @@ def main():
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
 
         if bool(random.getrandbits(1)):
-            set_green()
+            led_matrix_service.set_green()
         else:
-            red()
-        display.show()
+            led_matrix_service.red()
+        led_matrix_service.update_led_matrix()
 
         if remaining_of_five_s > 0:
             time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
@@ -167,6 +118,7 @@ def main():
 
 def cleanup_before_exit():
     two_led_service.on()
+    led_matrix_service.set_red()
     sys.exit(0)
 
 
