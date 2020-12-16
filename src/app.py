@@ -11,14 +11,15 @@
 """
 import logging.config
 import os
-from datetime import datetime
 import random
+import sys
+import time
+from datetime import datetime
 from timeit import default_timer as timer
 
 import smbus
-import sys
-import time
 from PIL import ImageFont
+from ltp305 import LTP305
 
 import config_service
 from common import data_files, commands, dom_utils
@@ -26,7 +27,7 @@ from denva import cl_display
 from gateways import local_data_gateway
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service
 from services import email_sender_service
-from ltp305 import LTP305
+
 display = LTP305()
 
 bus = smbus.SMBus(1)
@@ -77,17 +78,20 @@ def get_data_from_measurement() -> dict:
         "tvoc": tvoc,
     }
 
+
 def red():
-    for x in range(0,5):
-        for y in range(0,7):
+    for x in range(0, 5):
+        for y in range(0, 7):
             display.set_pixel(x, y, True)
-            display.set_pixel(x+5, y, False)
+            display.set_pixel(x + 5, y, False)
+
 
 def green():
-    for x in range(0,5):
-        for y in range(0,7):
+    for x in range(0, 5):
+        for y in range(0, 7):
             display.set_pixel(x, y, False)
-            display.set_pixel(x+5, y, True)
+            display.set_pixel(x + 5, y, True)
+
 
 def main():
     measurement_counter = 0
@@ -122,6 +126,7 @@ def main():
             green()
         else:
             red()
+        display.show()
 
         if remaining_of_five_s > 0:
             time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
