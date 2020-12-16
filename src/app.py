@@ -89,25 +89,33 @@ def change_red_to(switch: bool):
 def blinking_red():
     for _ in range(0, 3):
         change_red_to(True)
-        time.sleep(0.1)
+        time.sleep(0.2)
         change_red_to(False)
-        time.sleep(0.1)
-
-
-def end_of_red_timer():
-    for end_timer in range(3, 0, -1):
-        display.set_character(0, str(end_timer))
-        display.show()
         time.sleep(0.2)
 
 
-def red():
-    blinking_red()
+def end_of_red_timer():
+    for end_timer in range(3, -1, -1):
+        display.set_character(0, str(end_timer))
+        display.show()
+        if end_timer == 0:
+            time.sleep(0.30)
+        else:
+            time.sleep(0.20)
+
+
+def set_red():
     for x in range(0, 5):
         for y in range(0, 7):
             display.set_pixel(x, y, True)
             display.set_pixel(x + 5, y, False)
+
+
+def red():
+    blinking_red()
+    set_red()
     end_of_red_timer()
+    set_red()
 
 
 def green():
