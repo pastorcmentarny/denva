@@ -35,23 +35,23 @@ settings = {
     "paths": {
         "base": {
             'dev': 'D:\Projects\denva\src\\',
-            'server': 'E:\denva\src\\'
+            'server': 'd:\denva\src\\'
         },
         "frame": {
             'dev': 'D:\ds-lpd-server\cctv\\1',
-            'server': 'E:\\frame\\'
+            'server': 'd:\\frame\\'
         },
         "backup": "D:\\denva\\backup\\",
         "photosPath": "/mnt/data/photos/",
         "tubeAndTrainsPath": "D:\\denva\\data\\tubetrains\\",
         "events": {
             "dev": "D:\\denva\\events.json",
-            "server": "E:\\denva\\events.json"
+            "server": "d:\\denva\\events.json"
         },
         "cctv-backup": ["D:\\ds-lpd-server\\cctv", "D:\\ds-lpd-server\\backup"],
         "chinese-dictionary": {
             'dev': "D:\Github\denva\src\data\dictionary.txt",
-            'server': "E:\denva\src\data\dictionary.txt"
+            'server': "d:\denva\src\data\dictionary.txt"
         },
         "server_drive": "D:\\Projects\\denva\\src\\data\\dictionary.txt",
         "zeroeight": "",
@@ -84,8 +84,8 @@ settings = {
         'dev_app': 'D:\GitHub\denva\src\configs\dev_log_app_config.json',
         'dev_ui': 'D:\GitHub\denva\src\configs\dev_log_ui_config.json',
         'dev_ddd': 'D:\GitHub\denva\src\configs\dev_log_app_config.json',
-        'server_app': 'E:\denva\src\configs\server_log_app_config.json',
-        'server_ui': 'E:\denva\src\configs\server_log_ui_config.json',
+        'server_app': 'd:\denva\src\configs\server_log_app_config.json',
+        'server_ui': 'd:\denva\src\configs\server_log_ui_config.json',
         'denva_app': '/home/pi/denva-master/src/configs/log_app_config.json',
         'denva_ui': '/home/pi/denva-master/src/configs/log_ui_config.json',
         'denviro_app': '/home/pi/denva-master/src/configs/log_app_config.json',
@@ -101,7 +101,7 @@ settings = {
     },
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',
-        'server': 'E:\denva\src\data\information.json'
+        'server': 'd:\denva\src\data\information.json'
     },
     "test": {
         'slow_test': False
@@ -252,7 +252,7 @@ def get_report_path_at_server():
     if get_mode() == 'dev':
         path = "d:\\denva\\data\\reports\\"
     elif get_mode() == 'server':
-        path = "e:\\denva\\data\\reports\\"
+        path = "d:\\denva\\data\\reports\\"
     return path
 
 

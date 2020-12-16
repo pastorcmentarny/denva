@@ -27,7 +27,7 @@ errors = 0
 
 
 def get_all_photos_for(year: str, month: str, day: str) -> list:
-    # TODO move to config_service path = "E:\\cctv\\{}\\{}\\{}\\".format(year, month, day)
+    # TODO move to config_service path = "d:\\cctv\\{}\\{}\\{}\\".format(year, month, day)
     path = str(Path("/home/pi/data/{}/{}/{}/".format(year, month, day)))
     logger.info("Generating list of files to process for {}.{}'{}".format(day, month, year))
     photos = []

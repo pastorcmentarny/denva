@@ -17,7 +17,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "e:/denva/logs/logs.log",
+      "filename": "d:/denva/logs/logs.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -26,7 +26,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "e:/denva/logs/warnings.log",
+      "filename": "d:/denva/logs/warnings.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -35,7 +35,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "e:/denva/logs/stats.log",
+      "filename": "d:/denva/logs/stats.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -44,7 +44,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "e:/denva/logs/healthcheck.log",
+      "filename": "d:/denva/logs/healthcheck.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30

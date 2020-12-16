@@ -41,8 +41,8 @@ class Test(TestCase):
                              ('denva', 'ui', '/home/pi/denva-master/src/configs/log_ui_config.json'),
                              ('dev', 'app', 'D:\GitHub\denva\src\configs\dev_log_app_config.json'),
                              ('dev', 'ui', 'D:\GitHub\denva\src\configs\dev_log_ui_config.json'),
-                             ('server', 'app', 'E:\denva\src\configs\server_log_app_config.json'),
-                             ('server', 'ui', 'E:\denva\src\configs\server_log_ui_config.json'),
+                             ('server', 'app', 'd:\denva\src\configs\server_log_app_config.json'),
+                             ('server', 'ui', 'd:\denva\src\configs\server_log_ui_config.json'),
                              ('dev', 'ddd', 'D:\GitHub\denva\src\configs\dev_log_app_config.json'),
                              ('ddd', 'ddd', 'D:\GitHub\denva\src\configs\dev_log_app_config.json')]
 
@@ -74,7 +74,7 @@ class Test(TestCase):
     def test_get_report_path_at_server_for_server(self):
         # given
         config_service.settings['mode'] = 'server'
-        expected_result = "e:\\denva\\data\\reports\\"
+        expected_result = "d:\\denva\\data\\reports\\"
 
         # when
         result = config_service.get_report_path_at_server()
