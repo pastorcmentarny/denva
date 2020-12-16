@@ -79,11 +79,35 @@ def get_data_from_measurement() -> dict:
     }
 
 
+def change_red_to(switch: bool):
+    for x in range(0, 5):
+        for y in range(0, 7):
+            display.set_pixel(x, y, switch)
+    display.show()
+
+
+def blinking_red():
+    for _ in range(0, 3):
+        change_red_to(True)
+        time.sleep(0.1)
+        change_red_to(False)
+        time.sleep(0.1)
+
+
+def end_of_red_timer():
+    for end_timer in range(3, 0, -1):
+        display.set_character(0, end_timer)
+        display.show()
+        time.sleep(0.2)
+
+
 def red():
+    blinking_red()
     for x in range(0, 5):
         for y in range(0, 7):
             display.set_pixel(x, y, True)
             display.set_pixel(x + 5, y, False)
+    end_of_red_timer()
 
 
 def green():
