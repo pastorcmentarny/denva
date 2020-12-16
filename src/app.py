@@ -112,13 +112,14 @@ def set_red():
 
 
 def red():
+    set_red()
     blinking_red()
     set_red()
     end_of_red_timer()
-    set_red()
+    set_green()
 
 
-def green():
+def set_green():
     for x in range(0, 5):
         for y in range(0, 7):
             display.set_pixel(x, y, False)
@@ -155,7 +156,7 @@ def main():
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
 
         if bool(random.getrandbits(1)):
-            green()
+            set_green()
         else:
             red()
         display.show()
