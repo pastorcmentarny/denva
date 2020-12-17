@@ -10,9 +10,9 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
-
 import sys
-from flask import Flask, jsonify, url_for, request, render_template
+
+from flask import Flask, jsonify, request
 
 import config_service
 from common import commands, data_files
@@ -32,7 +32,7 @@ def average():
 
 
 @app.route("/halt")
-def record():
+def halt():
     logger.info('Stopping Denviro Pi')
     return jsonify(common_service.stop_device(APP_NAME))
 
@@ -161,6 +161,7 @@ def flights_today():
 @app.route("/")
 def welcome():
     return jsonify(denva_service.get_last_measurement_from_sensor())
+
 
 if __name__ == '__main__':
     config_service.set_mode_to('denva')
