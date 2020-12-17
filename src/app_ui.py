@@ -102,13 +102,13 @@ def last_report():
 
 
 @app.route("/reboot")
-def record():
-    logger.info('Getting record measurement from today')
+def reboot():
+    logger.info('Rebooting device')
     return jsonify(common_service.reboot_device())
 
 
 @app.route("/records")
-def record():
+def records():
     logger.info('Getting record measurement from today')
     return jsonify(denva_service.get_records_for_today())
 
