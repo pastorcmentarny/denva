@@ -86,19 +86,22 @@ def update_to_now_for_all():
 
 
 def is_up(device: str, app_type: str) -> str:
-    try:
-        system = load()
-        previous = system[device][app_type]
+    if config_service.is_sky_camera_on():
+        try:
+            system = load()
+            previous = system[device][app_type]
 
-        previous_datetime = datetime(dom_utils.to_int(previous[0:4]), dom_utils.to_int(previous[4:6]),
-                                     dom_utils.to_int(previous[6:8]),
-                                     dom_utils.to_int(previous[8:10]), dom_utils.to_int(previous[10:12]),
-                                     dom_utils.to_int(previous[12:14]))
+            previous_datetime = datetime(dom_utils.to_int(previous[0:4]), dom_utils.to_int(previous[4:6]),
+                                         dom_utils.to_int(previous[6:8]),
+                                         dom_utils.to_int(previous[8:10]), dom_utils.to_int(previous[10:12]),
+                                         dom_utils.to_int(previous[12:14]))
 
-        return get_status(previous_datetime)
-    except Exception as exception:
-        logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
-        return "UNKNOWN"
+            return get_status(previous_datetime)
+        except Exception as exception:
+            logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
+            return "UNKNOWN"
+    else:
+        return "OFF"
 
 
 def get_status(previous_datetime):
