@@ -8,17 +8,6 @@
 * Github:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
-
-
-app_delight
-delight_ui web server,so you can run command from UI
-
-
-idle animation
-DESIGN:
-def flight_between_planets():
-
-
 """
 import logging
 import random

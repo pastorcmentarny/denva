@@ -12,13 +12,13 @@
 
 import logging
 import os
+import time
 from datetime import datetime
 from pathlib import Path
+from time import sleep
 from timeit import default_timer as timer
 
-import time
 from picamera import PiCamera
-from time import sleep
 
 import config_service
 from common import data_files, app_timer
@@ -126,7 +126,10 @@ if __name__ == '__main__':
     logging.info('Starting application ...')
     email_sender_service.send_ip_email('CCTV APP')
     try:
-        main()
+        if config_service.is_sky_camera_on():
+            main()
+        else:
+            logger.warning('Camera disabled.')
     except KeyboardInterrupt:
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
     except Exception as exception:
