@@ -86,22 +86,19 @@ def update_to_now_for_all():
 
 
 def is_up(device: str, app_type: str) -> str:
-    if config_service.is_sky_camera_on():
-        try:
-            system = load()
-            previous = system[device][app_type]
+    try:
+        system = load()
+        previous = system[device][app_type]
 
-            previous_datetime = datetime(dom_utils.to_int(previous[0:4]), dom_utils.to_int(previous[4:6]),
-                                         dom_utils.to_int(previous[6:8]),
-                                         dom_utils.to_int(previous[8:10]), dom_utils.to_int(previous[10:12]),
-                                         dom_utils.to_int(previous[12:14]))
+        previous_datetime = datetime(dom_utils.to_int(previous[0:4]), dom_utils.to_int(previous[4:6]),
+                                     dom_utils.to_int(previous[6:8]),
+                                     dom_utils.to_int(previous[8:10]), dom_utils.to_int(previous[10:12]),
+                                     dom_utils.to_int(previous[12:14]))
 
-            return get_status(previous_datetime)
-        except Exception as exception:
-            logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
-            return "UNKNOWN"
-    else:
-        return "OFF"
+        return get_status(previous_datetime)
+    except Exception as exception:
+        logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
+        return "UNKNOWN"
 
 
 def get_status(previous_datetime):
@@ -111,6 +108,13 @@ def get_status(previous_datetime):
         else:
             return 'WARN'
     return 'UP'
+
+
+def is_camera_up(device: str, app_type: str):
+    if config_service.is_sky_camera_on():
+        is_up(device, app_type)
+    else:
+        return 'OFF'
 
 
 def get_system_healthcheck():
@@ -132,7 +136,7 @@ def get_system_healthcheck():
             'ui': is_up('server', 'ui')
         },
         'other': {
-            'cctv': is_up('other', 'cctv'),
+            'cctv': is_camera_up('other', 'cctv'),
             'radar': is_up('other', 'radar'),
             'digest': is_up('other', 'digest'),
 
