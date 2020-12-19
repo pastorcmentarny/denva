@@ -21,6 +21,10 @@ def get_state_colour(current_state):
         color_red = 255
         color_green = 110
         color_blue = 0
+    elif current_state == 'OFF':
+        color_red = 0
+        color_green = 0
+        color_blue = 127
     else:
         color_red = 0
         color_green = 255
@@ -33,10 +37,6 @@ def get_state_colour_for_hc(current_state: str):
         color_red = 64
         color_green = 64
         color_blue = 64
-    elif current_state == 'OFF':
-        color_red = 0
-        color_green = 0
-        color_blue = 127
     elif current_state == 'DOWN':
         color_red = 255
         color_green = 0
@@ -45,6 +45,10 @@ def get_state_colour_for_hc(current_state: str):
         color_red = 255
         color_green = 110
         color_blue = 0
+    elif current_state == 'OFF':
+        color_red = 0
+        color_green = 0
+        color_blue = 127
     else:
         color_red = 0
         color_green = 255

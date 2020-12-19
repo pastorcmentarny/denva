@@ -117,6 +117,13 @@ def is_camera_up(device: str, app_type: str):
         return 'OFF'
 
 
+def is_radar_up(device: str, app_type: str):
+    if config_service.is_radar_on():
+        is_up(device, app_type)
+    else:
+        return 'OFF'
+
+
 def get_system_healthcheck():
     return {
         'denva': {
@@ -137,7 +144,7 @@ def get_system_healthcheck():
         },
         'other': {
             'cctv': is_camera_up('other', 'cctv'),
-            'radar': is_up('other', 'radar'),
+            'radar': is_radar_up('other', 'radar'),
             'digest': is_up('other', 'digest'),
 
         }

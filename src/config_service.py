@@ -17,8 +17,8 @@ settings = {
     "mode": 'dev',
     "sensors": {
         "cameras": {
-          "cctv": False,
-          "sky": False
+            "cctv": False,
+            "sky": False
         },
         "motion": {
             "shaking": 1000,
@@ -30,7 +30,8 @@ settings = {
         },
         "unicornhd": {
             "default_brightness": 0.3
-        }
+        },
+        "radar": False
     },
     "paths": {
         "base": {
@@ -308,3 +309,7 @@ def is_cctv_camera_on() -> bool:
 
 def is_sky_camera_on() -> bool:
     return settings["sensors"]["cameras"]["sky"]
+
+
+def is_radar_on():
+    return settings["sensors"]["radar"]
