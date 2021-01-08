@@ -3,7 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 from unittest import TestCase
 
-from systemhc import system_health_prototype
+from systemhc import system_health_check_service
 
 
 class SystemHealthTest(TestCase):
@@ -19,7 +19,7 @@ class SystemHealthTest(TestCase):
         for an_input, expected_result in params_list:
             with self.subTest(msg=" get_status() for {} should return {}".format(an_input, expected_result)):
                 # when
-                result = system_health_prototype.get_status(an_input)
+                result = system_health_check_service.get_status(an_input)
 
                 # then
                 self.assertEqual(expected_result, result)
@@ -32,7 +32,7 @@ class SystemHealthTest(TestCase):
                            'other': {'cctv': 'DOWN', 'radar': 'DOWN', 'digest': 'DOWN'}}
 
         # when
-        result = system_health_prototype.get_system_healthcheck()
+        result = system_health_check_service.get_system_healthcheck()
 
         # then
         self.assertEqual(expected_result, result)
@@ -42,10 +42,10 @@ class SystemHealthTest(TestCase):
         expected_result = {'denva': {'app': 'UP', 'ui': 'UP'}, 'denviro': {'app': 'UP', 'ui': 'UP'},
                            'delight': {'app': 'UP', 'ui': 'UP'}, 'server': {'app': 'UP', 'ui': 'UP'},
                            'other': {'cctv': 'UP', 'radar': 'UP', 'digest': 'UP'}}
-        system_health_prototype.update_to_now_for_all()
+        system_health_check_service.update_to_now_for_all()
         # when
 
-        result = system_health_prototype.get_system_healthcheck()
+        result = system_health_check_service.get_system_healthcheck()
 
         # then
         self.assertEqual(expected_result, result)

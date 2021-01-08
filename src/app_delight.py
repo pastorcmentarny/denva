@@ -20,7 +20,7 @@ import config_service
 from common import data_files, dom_utils, status
 from delight import delight_display, delight_service, delight_utils, ui_utils, forest, sub_light, warp
 from gateways import local_data_gateway
-from systemhc import system_health_prototype
+from systemhc import system_health_check_service
 
 logger = logging.getLogger('app')
 
@@ -70,7 +70,7 @@ def device_status():
     set_mothership_status()
     set_delight_status(cfg)
 
-    system_health_status = system_health_prototype.get_system_healthcheck()
+    system_health_status = system_health_check_service.get_system_healthcheck()
 
     color_red, color_green, color_blue = delight_utils.get_state_colour_for_hc(system_health_status['denva']['app'])
     set_status_for_device(1, 7, color_red, color_green, color_blue)
@@ -156,7 +156,7 @@ def set_delight_status(cfg):
         state.set_error()
     delight_ui_response = local_data_gateway.get_data_for('{}/hc'.format(config_service.load_cfg()["urls"]['delight']))
     if not 'error' in delight_ui_response:
-        system_health_prototype.update_hc_for('delight', 'ui')
+        system_health_check_service.update_hc_for('delight', 'ui')
     color_blue, color_green, color_red = delight_utils.get_state_colour(state)
     update_blink(state.state)
     unicornhathd.set_pixel(ui_utils.to_x(13), 1, purple_r, purple_g, purple_b)
@@ -175,7 +175,7 @@ def set_mothership_status():
         logger.warning('Unable to get Server status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        system_health_prototype.update_hc_for('server', 'ui')
+        system_health_check_service.update_hc_for('server', 'ui')
         if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
             logger.warning('status: RED due to very low memory available on Server')
             state.set_error()
@@ -206,7 +206,7 @@ def set_denviro_status(cfg):
         logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        system_health_prototype.update_hc_for('denviro', 'ui')
+        system_health_check_service.update_hc_for('denviro', 'ui')
         if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denviro')
             state.set_error()
@@ -252,7 +252,7 @@ def set_denva_status(cfg):
         logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        system_health_prototype.update_hc_for('denva', 'ui')
+        system_health_check_service.update_hc_for('denva', 'ui')
         if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denva )')
             state.set_error()

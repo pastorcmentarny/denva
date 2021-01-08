@@ -17,7 +17,7 @@ from common import commands
 from ddd import aircraft_storage, aircraft_stats
 from gateways import local_data_gateway
 from services import system_data_service
-from systemhc import system_health_prototype
+from systemhc import system_health_check_service
 
 logger = logging.getLogger('app')
 
@@ -77,15 +77,15 @@ def get_flights_for_yesterday():
 
 def update_hc_for(data: dict):
     # TODO validate it
-    system_health_prototype.update_hc_for(data['device'], data['app_type'])
+    system_health_check_service.update_hc_for(data['device'], data['app_type'])
 
 
 def reset_hc():
-    system_health_prototype.update_to_now_for_all()
+    system_health_check_service.update_to_now_for_all()
 
 
 def get_system_hc():
-    return system_health_prototype.get_system_healthcheck()
+    return system_health_check_service.get_system_healthcheck()
 
 
 def get_ping_test_results():
