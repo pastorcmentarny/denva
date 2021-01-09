@@ -1,5 +1,6 @@
 import random
 import time
+from datetime import datetime
 
 from mote import Mote
 
@@ -144,8 +145,8 @@ def christmas_mode():
 def run():
     xmas_counter = 1
     anti_xmas_counter = 1
-    christmas_mode()
     while True:
+        party_mode()
         knight_rider(255, 0, 0)
         knight_rider(0, 255, 0)
         knight_rider(144, 70, 0)
@@ -164,6 +165,25 @@ def run():
         else:
             print(f'No luck with xmas light this time :( ... Xmas :{xmas_counter} vs Anti: {anti_xmas_counter}')
             anti_xmas_counter = anti_xmas_counter + 1
+
+
+def is_default_fasting_time() -> bool:
+    return datetime.now().hour > 18 or datetime.now().hour <= 12
+
+
+def is_night_mode() -> bool:
+    return datetime.now().hour >= 22 or datetime.now().hour < 6
+
+
+def party_mode():
+    mote.set_brightness(0.6)
+    for times in range(1000):
+        for led_index in range(0, 16):
+            for led_line in range(1, 5):
+                mote.set_pixel(led_line, led_index, random.randint(0, 256), random.randint(0, 256),
+                               random.randint(0, 256))
+        mote.show()
+        time.sleep(0.05)
 
 
 if __name__ == '__main__':
