@@ -3,7 +3,7 @@ Two modes:
 * auto - running default schedule
 * manual - read file and do action
 """
-
+import traceback
 from datetime import datetime
 
 import mote_lighting
@@ -33,11 +33,12 @@ def is_stand_up() -> bool:
 
 
 if __name__ == '__main__':
+
     try:
         while True:
             if is_night_mode():
                 mote_lighting.night_mode()
-            if is_stand_up():
+            elif is_stand_up():
                 mote_lighting.party_mode()
             elif is_busy_at_work():
                 mote_lighting.red_alert()
@@ -46,4 +47,5 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print('Received request application to shut down.. goodbye!')
     except Exception as exception:
-        print('Whoops. '.format(exception))
+        print('Whoops. {}'.format(exception))
+        traceback.print_exc()

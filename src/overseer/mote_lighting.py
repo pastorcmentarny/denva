@@ -13,20 +13,26 @@ mote.clear()
 mote.set_brightness(0.4)
 
 RED = [255, 0, 0]
+ORANGE = [144, 77, 0]
 GREEN = [0, 255, 0]
 BLUE = [0, 0, 255]
 PURPLE = [75, 0, 130]
 WHITE = [255, 255, 255]
 BLACK = [1, 1, 1]
+BROWN = [160, 96, 64]
 
 colors = {
     'red': RED,
+    'orange': ORANGE,
     'green': GREEN,
     'blue': BLUE,
     'purple': PURPLE,
     'white': WHITE,
-    'black': BLACK
+    'black': BLACK,
+    'brown': BROWN,
 }
+
+colors_names = ['red', 'orange', 'green', 'blue', 'purple', 'white', 'black', 'brown']
 
 
 def set_busy_mode():
@@ -138,6 +144,20 @@ def daydream():
 
 
 def night_mode():
-    mote.set_brightness(0.1)
+    for i in range(3):
+        color = colors_names[random.randint(0, len(colors_names) - 1)]
+        selected_color = colors.get(color)
+        mote.set_pixel(random.randint(1, 4), random.randint(0, 15), selected_color[0], selected_color[1],
+                       selected_color[2],
+                       0.6)
 
-    return None
+    for led_index in range(0, 16):
+        for led_line in range(1, 5):
+            pixel = mote.get_pixel(led_line, led_index)
+            if pixel[3] <= 0.1:
+                mote.set_pixel(led_line, led_index, 0, 0, 0, 0)
+            else:
+                mote.set_pixel(led_line, led_index, pixel[0], pixel[1], pixel[2], (pixel[3] - 0.1))
+
+    mote.show()
+    time.sleep(1)
