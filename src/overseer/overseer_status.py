@@ -33,9 +33,9 @@ def is_stand_up() -> bool:
 
 
 if __name__ == '__main__':
-
     try:
         while True:
+            mote_lighting.display_fasting_status()
             if is_night_mode():
                 mote_lighting.night_mode()
             elif is_stand_up():

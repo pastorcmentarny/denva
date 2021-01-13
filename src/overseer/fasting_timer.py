@@ -2,11 +2,16 @@ from datetime import datetime
 
 
 def get_timer_for_fasting() -> int:
-    return 0
+    if datetime.now().hour < 12:
+        return 12 - 1 - datetime.now().hour
+    else:
+        time_left = 12 - 1 + (24 - datetime.now().hour)
+        return 16 if time_left > 16 else time_left
 
 
-def get_timer_for_eating () -> int:
-    return 0
+def get_timer_for_eating() -> int:
+    if is_default_fasting_time():
+        return 0
 
 
 def is_default_fasting_time() -> bool:
@@ -19,3 +24,7 @@ def is_night_mode() -> bool:
 
 def is_busy() -> bool:
     return True
+
+
+if __name__ == '__main__':
+    print(get_timer_for_fasting())

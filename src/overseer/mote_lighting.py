@@ -3,6 +3,8 @@ import time
 
 from mote import Mote
 
+import fasting_timer
+
 mote = Mote()
 mote.configure_channel(1, 16, False)
 mote.configure_channel(2, 16, False)
@@ -140,24 +142,58 @@ def knight_rider(red: int, green: int, blue: int):
 
 
 def daydream():
-    knight_rider(PURPLE[0], PURPLE[1], PURPLE[2])
+    color = colors_names[random.randint(0, len(colors_names) - 1)]
+    if color in ['red', 'black']:
+        color = 'purple'
+    selected_color = colors.get(color)
+    knight_rider(selected_color[0], selected_color[1], selected_color[2])
 
 
 def night_mode():
-    for i in range(3):
-        color = colors_names[random.randint(0, len(colors_names) - 1)]
-        selected_color = colors.get(color)
-        mote.set_pixel(random.randint(1, 4), random.randint(0, 15), selected_color[0], selected_color[1],
-                       selected_color[2],
-                       0.6)
+    for _ in range(60):
+        for _ in range(2):
+            color = colors_names[random.randint(0, len(colors_names) - 1)]
+            selected_color = colors.get(color)
+            mote.set_pixel(random.randint(1, 4), random.randint(0, 15), selected_color[0], selected_color[1],
+                           selected_color[2],
+                           0.4)
+
+        for led_index in range(0, 16):
+            for led_line in range(1, 5):
+                pixel = mote.get_pixel(led_line, led_index)
+                if pixel[3] <= 0.1:
+                    mote.set_pixel(led_line, led_index, 0, 0, 0, 0)
+                else:
+                    mote.set_pixel(led_line, led_index, pixel[0], pixel[1], pixel[2], (pixel[3] - 0.1))
+
+        mote.show()
+        time.sleep(1)
+
+
+def display_fasting_status():
+    mote.clear()
+    leds = 0
+    all_pixels = RED
+    time_left_pixels = ORANGE
+    if fasting_timer.is_default_fasting_time():
+        all_pixels = ORANGE
+        time_left_pixels = GREEN
+        leds = fasting_timer.get_timer_for_fasting()
+    else:
+        leds = fasting_timer.get_timer_for_eating()
 
     for led_index in range(0, 16):
-        for led_line in range(1, 5):
-            pixel = mote.get_pixel(led_line, led_index)
-            if pixel[3] <= 0.1:
-                mote.set_pixel(led_line, led_index, 0, 0, 0, 0)
-            else:
-                mote.set_pixel(led_line, led_index, pixel[0], pixel[1], pixel[2], (pixel[3] - 0.1))
-
+        mote.set_pixel(1, led_index, all_pixels[0], all_pixels[1], all_pixels[2], 0.2)
+    for led_index in range(0, leds):
+        mote.set_pixel(1, led_index, time_left_pixels[0], time_left_pixels[1], time_left_pixels[2], 0.3)
     mote.show()
-    time.sleep(1)
+    time.sleep(0.25)
+
+    for _ in range(10):
+        mote.set_pixel(1, leds, all_pixels[0], all_pixels[1], all_pixels[2], 0.2)
+        mote.show()
+        time.sleep(0.25)
+        mote.set_pixel(1, leds, time_left_pixels[0], time_left_pixels[1], time_left_pixels[2], 0.3)
+        mote.show()
+        time.sleep(0.25)
+    mote.clear()
