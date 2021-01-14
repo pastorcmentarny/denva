@@ -7,7 +7,6 @@ import traceback
 from datetime import datetime
 from pathlib import Path
 
-import config_service
 import mote_lighting
 
 
@@ -38,7 +37,7 @@ modes = ['red', 'yellow', 'party', 'dream']
 
 
 def override_mode() -> str:
-    status_file = Path(config_service.get_overseer_mode_file_path())
+    status_file = Path(r"D:\overseer_mode.txt")  # config_service.get_overseer_mode_file_path())
     try:
         f = open(status_file)
         result = f.read()
@@ -73,7 +72,7 @@ if __name__ == '__main__':
         while True:
             counter += 1
             print(f'counter: {counter}')
-            if counter % 5 == 0:
+            if counter % 5 == 1:
                 mote_lighting.display_fasting_status()
             mode = override_mode()
             if is_in_override(mode):

@@ -317,4 +317,4 @@ def is_radar_on():
     return settings["sensors"]["radar"]
 
 def get_overseer_mode_file_path():
-    return settings["paths"][""]
+    return settings["paths"]["overseer_mode"]
