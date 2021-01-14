@@ -2,6 +2,7 @@
 
 `cat /etc/os-release` - display version of os
 `history > commands_history.txt` - save history of commands to file
+`pgrep -af python` - display all python processes running
 
 # Run it before turn it off Pi
 
