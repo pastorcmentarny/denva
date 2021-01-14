@@ -76,6 +76,11 @@ def store_enviro_measurement():
     return jsonify(success=True)
 
 
+@app.route("/focus")
+def focus():
+    return render_template('hq.html', message={})
+
+
 @app.route("/frame")
 def frame():
     logger.info('Requesting random picture')
