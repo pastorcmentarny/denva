@@ -56,6 +56,7 @@ settings = {
         },
         "server_drive": "D:\\Projects\\denva\\src\\data\\dictionary.txt",
         "zeroeight": "",
+        "overseer_mode" : r"D:\overseer_mode.txt"
     },
     "sensor": {
         "cpu_temp_warn": 60,
@@ -194,7 +195,7 @@ def get_irregular_verbs_path() -> str:
 def get_path_for_information_backup() -> str:
     path = ":\\denva\\"
     if settings['mode'] == 'server':
-        return 'e' + path
+        return 'd' + path
     return 'd' + path
 
 
@@ -217,12 +218,13 @@ def get_disk_space_available_threshold():
     return settings['system']['free_space']
 
 
+# TODO refactor it
 def get_system_drive() -> str:
     mode = get_mode()
     if mode == 'dev':
         return 'D:'
     elif mode == 'server':
-        return 'E:'
+        return 'D:'
     else:
         return '/'
 
@@ -313,3 +315,6 @@ def is_sky_camera_on() -> bool:
 
 def is_radar_on():
     return settings["sensors"]["radar"]
+
+def get_overseer_mode_file_path():
+    return settings["paths"][""]

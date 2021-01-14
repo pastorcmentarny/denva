@@ -15,13 +15,16 @@ mote.clear()
 mote.set_brightness(0.4)
 
 RED = [255, 0, 0]
-ORANGE = [144, 77, 0]
+ORANGE = [224, 64, 0]
 GREEN = [0, 255, 0]
 BLUE = [0, 0, 255]
 PURPLE = [75, 0, 130]
 WHITE = [255, 255, 255]
 BLACK = [1, 1, 1]
 BROWN = [160, 96, 64]
+YELLOW = [255, 255, 0]
+CYAN = [0, 255, 255]
+MAGENTA = [255, 0, 255]
 
 colors = {
     'red': RED,
@@ -32,9 +35,12 @@ colors = {
     'white': WHITE,
     'black': BLACK,
     'brown': BROWN,
+    'yellow': YELLOW,
+    'cyan': CYAN,
+    'magenta': MAGENTA
 }
 
-colors_names = ['red', 'orange', 'green', 'blue', 'purple', 'white', 'black', 'brown']
+colors_names = ['red', 'orange', 'green', 'blue', 'purple', 'white', 'black', 'brown', 'yellow', 'cyan', 'magenta']
 
 
 def set_busy_mode():
@@ -54,25 +60,6 @@ def change_to(red: int, green: int, blue: int):
         for led_line in range(1, 5):
             mote.set_pixel(led_line, led_index, red, green, blue)
     mote.show()
-
-
-def red_alert():
-    mote.set_brightness(0)
-    for i in range(0, 16):
-        for c in range(1, 5):
-            mote.set_pixel(c, i, 255, 0, 0)
-
-    for counter in range(0, 5):
-        for b in range(0, 100):
-            brightness = b / 100
-            mote.set_brightness(brightness)
-            time.sleep(0.02)
-            mote.show()
-        for d in range(99, -1, -1):
-            brightness = d / 100
-            mote.set_brightness(brightness)
-            time.sleep(0.02)
-            mote.show()
 
 
 def default_mode():
@@ -97,23 +84,24 @@ def default_mode():
 
 
 def party_mode():
-    mote.set_brightness(0.6)
+    blink_speed = 0.02
+    mote.set_brightness(0.4)
     for times in range(1000):
         for led_index in range(0, 16):
             for led_line in range(1, 5):
                 mote.set_pixel(led_line, led_index, random.randint(0, 256), random.randint(0, 256),
                                random.randint(0, 256))
         mote.show()
-        time.sleep(0.02)
+        time.sleep(blink_speed)
         set_color_for('black')
         mote.show()
-        time.sleep(0.02)
+        time.sleep(blink_speed)
 
 
 def knight_rider(red: int, green: int, blue: int):
     mote.clear()
     mote.set_brightness(0.2)
-    for times in range(10):
+    for times in range(5):
         for line_index in range(0, 16):
             mote.clear()
             for line_led in range(1, 5):
@@ -171,29 +159,60 @@ def night_mode():
 
 
 def display_fasting_status():
+    blink_speed = 0.4
     mote.clear()
     leds = 0
     all_pixels = RED
     time_left_pixels = ORANGE
     if fasting_timer.is_default_fasting_time():
-        all_pixels = ORANGE
-        time_left_pixels = GREEN
+        all_pixels = GREEN
+        time_left_pixels = YELLOW
         leds = fasting_timer.get_timer_for_fasting()
     else:
         leds = fasting_timer.get_timer_for_eating()
-
+    if leds >= 16:
+        leds = 15
     for led_index in range(0, 16):
         mote.set_pixel(1, led_index, all_pixels[0], all_pixels[1], all_pixels[2], 0.2)
     for led_index in range(0, leds):
         mote.set_pixel(1, led_index, time_left_pixels[0], time_left_pixels[1], time_left_pixels[2], 0.3)
     mote.show()
-    time.sleep(0.25)
+    time.sleep(blink_speed)
 
     for _ in range(10):
         mote.set_pixel(1, leds, all_pixels[0], all_pixels[1], all_pixels[2], 0.2)
         mote.show()
-        time.sleep(0.25)
+        time.sleep(blink_speed)
         mote.set_pixel(1, leds, time_left_pixels[0], time_left_pixels[1], time_left_pixels[2], 0.3)
         mote.show()
-        time.sleep(0.25)
+        time.sleep(blink_speed)
     mote.clear()
+
+
+def red_alert():
+    display_alert_for('red')
+
+
+def yellow_alert():
+    display_alert_for('yellow')
+
+
+def display_alert_for(color: str):
+    selected_color = colors.get(color)
+
+    mote.set_brightness(0)
+    for led_index in range(0, 16):
+        for line_led in range(1, 5):
+            mote.set_pixel(line_led, led_index, selected_color[0], selected_color[1], selected_color[2])
+
+    for counter in range(0, 5):
+        for b in range(0, 100):
+            brightness = b / 100
+            mote.set_brightness(brightness)
+            time.sleep(0.02)
+            mote.show()
+        for d in range(99, -1, -1):
+            brightness = d / 100
+            mote.set_brightness(brightness)
+            time.sleep(0.02)
+            mote.show()
