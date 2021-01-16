@@ -1,3 +1,3 @@
 
 require "keybow"
-require "layouts/dom_layouts"
+require "layouts/dom_layout"
