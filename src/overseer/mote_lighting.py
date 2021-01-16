@@ -137,6 +137,27 @@ def daydream():
     knight_rider(selected_color[0], selected_color[1], selected_color[2])
 
 
+def rain():
+    mote.clear()
+    mote.set_brightness(0.2)
+    for times in range(100):
+        speed = (random.randint(0, 20) / 100) + 0.01
+        xmas_snow_colors = [RED, ORANGE, GREEN, BLUE, PURPLE, WHITE, BLACK, BROWN, YELLOW, CYAN, MAGENTA]
+        red, green, blue = xmas_snow_colors[random.randint(0, len(xmas_snow_colors) - 1)]
+        line = random.randint(1, 4)
+        for i in range(0, 16):
+            mote.clear()
+            mote.set_pixel(line, i, red, green, blue, 0.4)
+            if i > 0:
+                mote.set_pixel(line, i - 1, red, green, blue, 0.3)
+            if i > 1:
+                mote.set_pixel(line, i - 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
+            if i > 2:
+                mote.set_pixel(line, i - 3, int(red / 4), int(green / 4), int(blue / 4), 0.1)
+            mote.show()
+            time.sleep(speed)
+
+
 def night_mode():
     for _ in range(60):
         for _ in range(2):

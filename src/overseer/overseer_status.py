@@ -33,7 +33,7 @@ def is_stand_up() -> bool:
         return False
 
 
-modes = ['red', 'yellow', 'party', 'dream']
+modes = ['red', 'yellow', 'party', 'dream', 'rain']
 
 
 def override_mode() -> str:
@@ -62,6 +62,8 @@ def set_manual_mode(a_mode):
         mote_lighting.yellow_alert()
     elif a_mode == 'dream':
         mote_lighting.daydream()
+    elif a_mode == 'rain':
+        mote_lighting.rain()
     else:
         print(f'WARNING! Unknown mode: {a_mode}')
 

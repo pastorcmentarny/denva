@@ -16,7 +16,7 @@ def get_timer_for_eating() -> int:
         leds = 19 - 1 - datetime.now().hour
         leds *= 2
         if datetime.now().minute < 30:
-            leds +=1
+            leds += 1
         return leds
 
 
