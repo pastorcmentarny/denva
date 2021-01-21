@@ -37,7 +37,7 @@ def gc():
 
 
 @app.route("/halt")
-def record():
+def halt():
     logger.info('Stopping Denviro Pi')
     return jsonify(common_service.stop_device(APP_NAME))
 
