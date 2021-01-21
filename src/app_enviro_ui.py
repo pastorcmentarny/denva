@@ -91,7 +91,7 @@ def now():
 
 
 @app.route("/reboot")
-def record():
+def reboot():
     logger.info('Reboot Enviro UI')
     return jsonify(common_service.reboot_device())
 
