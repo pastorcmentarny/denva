@@ -17,15 +17,17 @@ mote.set_brightness(0.4)
 RED = [255, 0, 0]
 ORANGE = [224, 64, 0]
 GREEN = [0, 255, 0]
+YELLOW_GREEN = [153, 204, 0]
 BLUE = [0, 0, 255]
 PURPLE = [75, 0, 130]
 WHITE = [255, 255, 255]
 BLACK = [1, 1, 1]
-BROWN = [160, 96, 64]
+BROWN = [160, 96, 32]
 YELLOW = [255, 255, 0]
 CYAN = [0, 255, 255]
-MAGENTA = [255, 0, 255]
-
+MAGENTA = [192, 0, 192]
+FLAME = [242, 85, 44]
+PARADISE = [144, 222, 227]
 colors = {
     'red': RED,
     'orange': ORANGE,
@@ -37,10 +39,14 @@ colors = {
     'brown': BROWN,
     'yellow': YELLOW,
     'cyan': CYAN,
-    'magenta': MAGENTA
+    'magenta': MAGENTA,
+    'yellow_green': YELLOW_GREEN,
+    'flame': FLAME,
+    'paradise': PARADISE
 }
 
-colors_names = ['red', 'orange', 'green', 'blue', 'purple', 'white', 'black', 'brown', 'yellow', 'cyan', 'magenta']
+colors_names = ['red', 'orange', 'green', 'blue', 'purple', 'white', 'black', 'brown', 'yellow', 'cyan', 'magenta',
+                'yellow_green', 'flame', 'paradise']
 
 
 def set_busy_mode():
@@ -142,8 +148,10 @@ def rain():
     mote.set_brightness(0.2)
     for times in range(100):
         speed = (random.randint(0, 20) / 100) + 0.01
-        xmas_snow_colors = [RED, ORANGE, GREEN, BLUE, PURPLE, WHITE, BLACK, BROWN, YELLOW, CYAN, MAGENTA]
-        red, green, blue = xmas_snow_colors[random.randint(0, len(xmas_snow_colors) - 1)]
+        rain_colors = [RED, ORANGE, GREEN, BLUE, PURPLE, WHITE, BLACK, BROWN, YELLOW, CYAN, MAGENTA, YELLOW_GREEN,
+                       FLAME, PARADISE]
+
+        red, green, blue = rain_colors[random.randint(0, len(rain_colors) - 1)]
         line = random.randint(1, 4)
         for i in range(0, 16):
             mote.clear()
@@ -183,11 +191,11 @@ def display_fasting_status():
     blink_speed = 0.4
     mote.clear()
     leds = 0
-    all_pixels = RED
-    time_left_pixels = ORANGE
+    all_pixels = BLUE
+    time_left_pixels = PURPLE
     if fasting_timer.is_default_fasting_time():
-        all_pixels = GREEN
-        time_left_pixels = YELLOW
+        all_pixels = RED
+        time_left_pixels = ORANGE
         leds = fasting_timer.get_timer_for_fasting()
     else:
         leds = fasting_timer.get_timer_for_eating()
