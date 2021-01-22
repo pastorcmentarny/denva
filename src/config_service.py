@@ -56,7 +56,7 @@ settings = {
         },
         "server_drive": "D:\\Projects\\denva\\src\\data\\dictionary.txt",
         "zeroeight": "",
-        "overseer_mode" : r"D:\overseer_mode.txt"
+        "overseer_mode": r"D:\overseer_mode.txt"
     },
     "sensor": {
         "cpu_temp_warn": 60,
@@ -119,6 +119,8 @@ def get_log_path_for(log_type: str) -> str:
 
 def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
+    if where == 'overseer':
+        return settings['logs']['server_app']
     if where == 'cctv':
         return settings['logs']['cctv']
 
@@ -315,6 +317,7 @@ def is_sky_camera_on() -> bool:
 
 def is_radar_on():
     return settings["sensors"]["radar"]
+
 
 def get_overseer_mode_file_path():
     return settings["paths"]["overseer_mode"]
