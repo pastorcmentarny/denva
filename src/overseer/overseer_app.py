@@ -88,8 +88,8 @@ if __name__ == '__main__':
                     mote_lighting.red_alert()
                 else:
                     mote_lighting.daydream()
-    except KeyboardInterrupt:
-        print('Received request application to shut down.. goodbye!')
+    except KeyboardInterrupt as quit_exception:
+        print('Received request application to shut down.. goodbye. {}'.format(quit_exception))
     except Exception as exception:
         print('Whoops. {}'.format(exception))
         traceback.print_exc()
