@@ -115,9 +115,9 @@ def knight_rider(red: int, green: int, blue: int):
                 if line_index > 0:
                     mote.set_pixel(line_led, line_index - 1, red, green, blue, 0.3)
                 if line_index > 1:
-                    mote.set_pixel(line_led, line_index - 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
+                    mote.set_pixel(line_led, line_index - 2, int(red / 2), int(green / 2), int(blue / 2), 0.25)
                 if line_index > 2:
-                    mote.set_pixel(line_led, line_index - 3, int(red / 2), int(green / 2), int(blue / 2), 0.1)
+                    mote.set_pixel(line_led, line_index - 3, int(red / 2), int(green / 2), int(blue / 2), 0.2)
             mote.show()
             time.sleep(0.1)
 
@@ -128,9 +128,9 @@ def knight_rider(red: int, green: int, blue: int):
                 if line_index < 15:
                     mote.set_pixel(line_led, line_index + 1, red, green, blue, 0.3)
                 if line_index < 14:
-                    mote.set_pixel(line_led, line_index + 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
+                    mote.set_pixel(line_led, line_index + 2, int(red / 2), int(green / 2), int(blue / 2), 0.25)
                 if line_index < 13:
-                    mote.set_pixel(line_led, line_index + 3, int(red / 2), int(green / 2), int(blue / 2), 0.1)
+                    mote.set_pixel(line_led, line_index + 3, int(red / 2), int(green / 2), int(blue / 2), 0.2)
             mote.show()
             time.sleep(0.1)
 
