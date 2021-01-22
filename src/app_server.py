@@ -10,17 +10,17 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
-from datetime import datetime
-from timeit import default_timer as timer
-
 import sys
 import time
+import traceback
+from datetime import datetime
+from timeit import default_timer as timer
 
 import config_service
 import denvapa.information_service as information
 from common import app_timer, data_files, loggy
-from gateways import local_data_gateway
 from denvapa import webcam_service
+from gateways import local_data_gateway
 from reports import report_service
 from services import email_sender_service
 
@@ -72,7 +72,15 @@ if __name__ == '__main__':
     setup()
     try:
         main()
-    except Exception as e:
-        logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
-        email_sender_service.send_error_log_email("Mothership App", "Application crashed due to {}.".format(e))
+    except KeyboardInterrupt as keyboard_exception:
+        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        logging.info('Received request application to shut down.. goodbye!', exc_info=True)
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        email_sender_service.send_error_log_email("Mothership App", "Application crashed due to {}.".format(exception))
         sys.exit(1)
+    except BaseException as disaster:
+        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        print(msg)
+        traceback.print_exc()
+        logger.fatal(msg, exc_info=True)

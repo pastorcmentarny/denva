@@ -10,8 +10,9 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
-
 import sys
+import traceback
+
 from flask import Flask, jsonify, request
 
 import config_service
@@ -137,9 +138,17 @@ if __name__ == '__main__':
         app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
         app.config['JSON_AS_ASCII'] = False
         app.run(host='0.0.0.0', debug=True)
-    except Exception as e:
-        logger.error('Something went badly wrong\n{}'.format(e), exc_info=True)
+    except KeyboardInterrupt as keyboard_exception:
+        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        logging.info('Received request application to shut down.. goodbye!', exc_info=True)
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
         email_sender_service.send_error_log_email(APP_NAME,
                                                   'you may need reset web application as it looks like web app '
-                                                  'crashes due to {}'.format(e))
+                                                  'crashes due to {}'.format(exception))
         sys.exit(0)
+    except BaseException as disaster:
+        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        print(msg)
+        traceback.print_exc()
+        logger.fatal(msg, exc_info=True)

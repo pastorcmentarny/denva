@@ -13,12 +13,11 @@
 import logging
 import os
 import time
+import traceback
 from datetime import datetime
 from pathlib import Path
 from time import sleep
 from timeit import default_timer as timer
-
-from picamera import PiCamera
 
 import config_service
 from common import data_files, app_timer
@@ -31,7 +30,15 @@ EMPTY = ''
 
 logger = logging.getLogger('app')
 
-camera = PiCamera()
+try:
+    from picamera import PiCamera
+
+    camera = PiCamera()
+    local_data_gateway.post_device_off('other', 'cctv')
+except Exception as exception:
+    logger.error('Unable to use camera due to {}'.format(exception), exc_info=True)
+    email_sender_service.send_error_log_email("CCTV APP", "Application crashed due to {}.".format(exception))
+
 WARM_UP_TIME = 1
 email_cooldown = datetime.now()
 
@@ -130,9 +137,15 @@ if __name__ == '__main__':
             main()
         else:
             logger.warning('Camera disabled.')
-    except KeyboardInterrupt:
+    except KeyboardInterrupt as keyboard_exception:
+        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
     except Exception as exception:
         print('Whoops. '.format(exception))
         logger.error('Something went badly wrong. {}'.format(exception), exc_info=True)
         email_sender_service.send_error_log_email("CCTV APP", "Application crashed due to {}.".format(exception))
+    except BaseException as disaster:
+        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        print(msg)
+        traceback.print_exc()
+        logger.fatal(msg, exc_info=True)

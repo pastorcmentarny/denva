@@ -10,10 +10,11 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
+import time
+import traceback
 from datetime import datetime
 
 import requests
-import time
 
 import config_service
 from common import data_files, commands, dom_utils
@@ -114,6 +115,15 @@ def send_email_on_fail(problem: str):
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('hc')
-    data_files.setup_logging('hc')
-    healthcheck_test_runner()
+    try:
+        config_service.set_mode_to('hc')
+        data_files.setup_logging('hc')
+        healthcheck_test_runner()
+    except KeyboardInterrupt as keyboard_exception:
+        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        logging.info('Received request application to shut down.. goodbye!', exc_info=True)
+    except BaseException as disaster:
+        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        print(msg)
+        traceback.print_exc()
+        logger.fatal(msg, exc_info=True)

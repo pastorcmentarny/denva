@@ -11,10 +11,10 @@
 """
 
 import logging
-from timeit import default_timer as timer
-
 import sys
 import time
+import traceback
+from timeit import default_timer as timer
 
 import config_service
 from common import data_files, commands
@@ -118,5 +118,17 @@ if __name__ == '__main__':
         commands.mount_all_drives()
         main()
     except KeyboardInterrupt as keyboard_exception:
-        logger.error('Something went badly wrong. {}'.format(keyboard_exception), exc_info=True)
+        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        logging.info('Received request application to shut down.. goodbye!', exc_info=True)
         sys.exit(0)
+    except Exception as exception:
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        email_sender_service.send_error_log_email('Denviro UI',
+                                                  'Denviro UI crashes due to {}'.format(exception))
+        sys.exit(1)
+    except BaseException as disaster:
+        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        print(msg)
+        traceback.print_exc()
+        logger.fatal(msg, exc_info=True)
+

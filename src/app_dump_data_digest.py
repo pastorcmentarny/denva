@@ -11,9 +11,9 @@
 """
 
 import logging
-from timeit import default_timer as timer
-
 import time
+import traceback
+from timeit import default_timer as timer
 
 import config_service
 from common import data_files
@@ -84,3 +84,8 @@ if __name__ == '__main__':
         logger.warning('Requesting shutdown: {}'.format(keyboard_exception), exc_info=True)
     except Exception as exception:
         logger.error('Something went badly wrong: {}'.format(exception), exc_info=True)
+    except BaseException as disaster:
+        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        print(msg)
+        traceback.print_exc()
+        logger.fatal(msg, exc_info=True)
