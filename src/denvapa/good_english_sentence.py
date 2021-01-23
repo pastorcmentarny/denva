@@ -63,7 +63,8 @@ sentences = [
     "Sleep involves doing literally nothing, lying down and not being conscious. How complicated could it possibly be?",
     "Brain never shuts down completely, partly because it has several roles in maintaining the sleep state, but mostly because if it did shutdown completely, we'd be dead.",
     "My final apology is based on the fact that a former colleague of mine once told me that i'd get a book published ' when hell freezes over'. Sorry to Satan. It must be very inconvenient for you.",
-    "Some animals, such as jellyfish and sponges, don't show any sign of sleeping, but they don't even have brains so you can't trust them to do much of anything."
+    "Some animals, such as jellyfish and sponges, don't show any sign of sleeping, but they don't even have brains so you can't trust them to do much of anything.",
+    "What's the ROI* on hugging your mom? {*ROI - Return of Investment}"
 ]
 
 
