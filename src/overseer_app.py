@@ -9,8 +9,8 @@ import traceback
 from datetime import datetime
 from pathlib import Path
 
-import config_service
-import mote_lighting
+from src import config_service
+from overseer import mote_lighting
 from common import data_files
 from services import email_sender_service
 
