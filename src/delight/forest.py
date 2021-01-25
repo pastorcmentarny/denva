@@ -42,8 +42,8 @@ def show_forest(forest, unicornhathd, width, height):
 
     for x in range(width):
         for y in range(height):
-            r, g, b = avg_forest[x][y]
-            unicornhathd.set_pixel(x, y, int(r), int(g), int(b))
+            red, green, blue = avg_forest[x][y]
+            unicornhathd.set_pixel(x, y, int(red), int(green), int(blue))
 
     unicornhathd.show()
 
@@ -57,37 +57,37 @@ def initialise_forest():
     start_burning = start_burning_trees[idx]
     burning = burning_colour[idx]
     initial_trees = 0.55
-    forest = [[tree if random.random() <= initial_trees else space for x in range(forest_width)] for y in
+    forest = [[tree if random.random() <= initial_trees else space for _ in range(forest_width)] for _ in
               range(forest_height)]
     return forest
 
 
 def update_forest(forest):
-    new_forest = [[space for x in range(forest_width)] for y in range(forest_height)]
-    for x in range(forest_width):
-        for y in range(forest_height):
-            if forest[x][y] == start_burning:
-                new_forest[x][y] = burning
-            elif forest[x][y] == burning:
-                new_forest[x][y] = space
-            elif forest[x][y] == tree:
-                neighbours = get_neighbours(x, y, hood_size)
-                new_forest[x][y] = (burning if any(
+    new_forest = [[space for _ in range(forest_width)] for _ in range(forest_height)]  # FIXME REMOVE IT?
+    for width in range(forest_width):
+        for height in range(forest_height):
+            if forest[width][height] == start_burning:
+                new_forest[width][height] = burning
+            elif forest[width][height] == burning:
+                new_forest[width][height] = space
+            elif forest[width][height] == tree:
+                neighbours = get_neighbours(width, height, hood_size)
+                new_forest[width][height] = (burning if any(
                     [forest[n[0]][n[1]] == burning for n in
                      neighbours]) or random.random() <= f else tree)  # TODO change it
     return new_forest
 
 
 def quit_if_burnt(forest):
-    for x in range(forest_width):
-        for y in range(forest_height):
-            if forest[x][y] != space:
+    for width in range(forest_width):
+        for height in range(forest_height):
+            if forest[width][height] != space:
                 return True  # it still burning
     return False
 
 
 def average_forest(forest, width, height):
-    avg_forest = [[space for x in range(width)] for y in range(height)]
+    avg_forest = [[space for _ in range(width)] for _ in range(height)]
 
     for i, x in enumerate(range(1, forest_width, scale)):
         for j, y in enumerate(range(1, forest_height, scale)):
