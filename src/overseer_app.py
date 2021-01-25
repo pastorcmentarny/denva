@@ -81,7 +81,7 @@ def app_loop():
     while True:
         counter += 1
         print(f'counter: {counter}')
-        if counter % 5 == 1:
+        if counter % 10 == 1:
             mote_lighting.display_fasting_status()
         mode = override_mode()
         if is_in_override(mode):
