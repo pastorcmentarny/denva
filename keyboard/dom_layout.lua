@@ -11,7 +11,7 @@ function setup()
     keybow.set_pixel(3, 192, 64, 0)
     keybow.set_pixel(4, 192, 64, 0)
     keybow.set_pixel(5, 192, 64, 0)
-    keybow.set_pixel(6, 192, 64, 0)
+    keybow.set_pixel(6, 159, 255, 47)
     keybow.set_pixel(7, 75, 0, 130)
     keybow.set_pixel(8, 128, 0, 128)
     keybow.set_pixel(9, 128, 0, 0)
@@ -19,21 +19,51 @@ function setup()
     keybow.set_pixel(11, 0, 0, 128)
 end
 
--- Standard number pad mapping --
-
--- Key mappings --
-
 function handle_key_00(pressed)
-    if pressed then
-        keybow.set_modifier(keybow.LEFT_META, keybow.KEY_DOWN)
-        keybow.tap_key("r", pressed)
-        keybow.set_modifier(keybow.LEFT_META, keybow.KEY_UP)
+    for index = 1, 10 do
+        keybow.sleep(200)
+        keybow.set_pixel(0, 255, 255, 255)
+        keybow.sleep(200)
+        keybow.set_pixel(0, 192, 64, 0)
     end
+
+    keybow.set_pixel(0, 192, 64, 0)
+    keybow.set_pixel(1, 192, 64, 0)
+    keybow.set_pixel(2, 192, 64, 0)
+    keybow.set_pixel(3, 192, 64, 0)
+    keybow.set_pixel(4, 192, 64, 0)
+    keybow.set_pixel(5, 192, 64, 0)
+    keybow.set_pixel(6, 159, 255, 47)
+    keybow.set_pixel(7, 75, 0, 130)
+    keybow.set_pixel(8, 128, 0, 128)
+    keybow.set_pixel(9, 128, 0, 0)
+    keybow.set_pixel(10, 128, 128, 0)
+    keybow.set_pixel(11, 0, 0, 128)
+
 end
 
 function handle_key_01(pressed)
-    keybow.set_pixel(1, 255, 255, 0)
-    keybow.set_key(".", pressed)
+    for index = 1, 11 do
+        keybow.set_pixel(index, 0, 0, 0)
+    end
+
+    for index = 1, 10 do
+        keybow.sleep(200)
+        keybow.set_pixel(0, 0, 0, 0)
+        keybow.sleep(200)
+        keybow.set_pixel(0, 192, 64, 0)
+    end
+
+    keybow.sleep(200)
+    keybow.set_pixel(0, 0, 0, 0)
+    keybow.sleep(200)
+    keybow.set_pixel(0, 128, 48, 0)
+    keybow.sleep(200)
+    keybow.set_pixel(0, 96, 32, 0)
+    keybow.sleep(200)
+    keybow.set_pixel(0, 64, 24, 0)
+    keybow.sleep(200)
+    keybow.set_pixel(0, 0, 0, 0)
 end
 
 function handle_key_02(pressed)
@@ -53,7 +83,17 @@ function handle_key_05(pressed)
 end
 
 function handle_key_06(pressed)
-    keybow.set_key("4", pressed)
+    keybow.set_pixel(6, 32, 32, 32)
+    win_snippets.run("cmd")
+    keybow.sleep(100)
+    keybow.text("python  D:\\denva\\src\\overseer\\manual_status_override.py borg")
+    keybow.sleep(300)
+    keybow.tap_enter()
+    keybow.set_pixel(6, 64, 64, 64)
+    keybow.text("exit")
+    keybow.tap_enter()
+    keybow.sleep(500)
+    keybow.set_pixel(6, 159, 255, 47)
 end
 
 function handle_key_07(pressed)
@@ -95,7 +135,7 @@ function handle_key_09(pressed)
     keybow.text("exit")
     keybow.tap_enter()
     keybow.sleep(500)
-    keybow.set_pixel(9, 0, 0, 128)
+    keybow.set_pixel(9, 0, 128, 0)
 end
 
 function handle_key_10(pressed)
