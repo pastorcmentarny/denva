@@ -226,6 +226,22 @@ def yellow_alert():
     display_alert_for('yellow')
 
 
+def borg():
+    print('We are the Borg. Resistance is futile')
+    blink_speed = 0.02
+    mote.set_brightness(0.4)
+    for times in range(1000):
+        for led_index in range(0, 16):
+            for led_line in range(1, 5):
+                mote.set_pixel(led_line, led_index, random.randint(0, 256), random.randint(0, 256),
+                               random.randint(0, 256))
+        mote.show()
+        time.sleep(blink_speed)
+        set_color_for('black')
+        mote.show()
+        time.sleep(blink_speed)
+
+
 def display_alert_for(color: str):
     selected_color = colors.get(color)
 

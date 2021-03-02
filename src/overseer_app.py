@@ -9,10 +9,22 @@ import traceback
 from datetime import datetime
 from pathlib import Path
 
-from src import config_service
-from overseer import mote_lighting
 from common import data_files
+from overseer import mote_lighting
 from services import email_sender_service
+from src import config_service
+
+MODE_BORG = 'borg'
+
+MODE_RAIN = 'rain'
+
+MODE_DREAM = 'dream'
+
+MODE_PARTY = 'party'
+
+MODE_YELLOW_COLOR = 'yellow'
+
+MODE_RED_COLOR = 'red'
 
 logger = logging.getLogger('overseer')
 APP_NAME = 'Overseer'
@@ -41,7 +53,7 @@ def is_stand_up() -> bool:
         return False
 
 
-modes = ['red', 'yellow', 'party', 'dream', 'rain']
+modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG]
 
 
 def override_mode() -> str:
@@ -64,14 +76,16 @@ def is_in_override(a_mode):
 
 def set_manual_mode(manual_mode):
     logger.info(f'Setting mode to {manual_mode}')
-    if manual_mode == 'red':
+    if manual_mode == MODE_RED_COLOR:
         mote_lighting.red_alert()
-    elif manual_mode == 'yellow':
+    elif manual_mode == MODE_YELLOW_COLOR:
         mote_lighting.yellow_alert()
-    elif manual_mode == 'dream':
+    elif manual_mode == MODE_DREAM:
         mote_lighting.daydream()
-    elif manual_mode == 'rain':
+    elif manual_mode == MODE_RAIN:
         mote_lighting.rain()
+    elif manual_mode == MODE_BORG:
+        mote_lighting.borg()
     else:
         logger.warning(f'WARNING! Unknown mode: {manual_mode}')
 
