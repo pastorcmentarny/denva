@@ -25,14 +25,19 @@ from denviro import denviro_sensors_service
 from services import email_sender_service
 from zeroeighttrack import leaderboard_utils
 
+ENCODING = 'utf-8'
+UNKNOWN = '?'
+
 logger = logging.getLogger('app')
+
+report_dir = '/home/pi/reports'
 
 
 def load_cfg() -> dict:
     if config_service.load_cfg()['mode'] == 'dev':
-        path = 'd:\denva\email.json'
+        path = r'd:\denva\email.json'
     elif config_service.load_cfg()['mode'] == 'server':
-        path = 'd:\denva\email.json'
+        path = r'd:\denva\email.json'
     else:
         path = '/home/pi/email.json'  # actual cfg is different place
     with open(path, 'r') as email_config:
@@ -45,22 +50,22 @@ def save_report_at_server(report: dict):
                                           dom_utils.get_date_as_filename('report', 'json',
                                                                          dom_utils.get_yesterday_date()))
         logger.info('Saving report to {}'.format(report_file_path))
-        with open(report_file_path, 'w+', encoding='utf-8') as report_file:
+        with open(report_file_path, 'w+', encoding=ENCODING) as report_file:
             json.dump(report, report_file, ensure_ascii=False, indent=4)
-    except Exception as e:
-        logger.error('Unable to save report due to {}'.format(e))
+    except Exception as exception:
+        logger.error('Unable to save report due to {}'.format(exception))
 
 
 def save_report(report: dict, file: str):
-    report_file_path = '/home/pi/reports/{}'.format(file)
+    report_file_path = '{}/{}'.format(report_dir, file)
     logger.info('Saving report to {}'.format(report_file_path))
-    with open(report_file_path, 'w+', encoding='utf-8') as report_file:
+    with open(report_file_path, 'w+', encoding=ENCODING) as report_file:
         json.dump(report, report_file, ensure_ascii=False, indent=4)
 
 
 # report on Pi
 def load_report(report_date: str) -> dict:
-    report_file_path = '/home/pi/reports/{}'.format(report_date)
+    report_file_path = '{}/{}'.format(report_dir, report_date)
     logger.info('Loading report from {}'.format(report_file_path))
     with open(report_file_path, 'r') as report_file:
         return json.load(report_file)
@@ -89,7 +94,7 @@ def load_stats(path: str) -> list:
 
 
 def check_if_report_was_generated(report_date: str) -> bool:
-    path = '/home/pi/reports/{}'.format(report_date)
+    path = '{}/{}'.format(report_dir, report_date)
     return os.path.isfile(path)
 
 
@@ -176,32 +181,33 @@ def setup_logging(where: str):
 
 
 def load_json_data_as_dict_from(path: str) -> dict:
-    with open(path, 'r', encoding='utf-8') as json_file:
+    with open(path, 'r', encoding=ENCODING) as json_file:
         return json.load(json_file)
 
 
 def save_dict_data_as_json(path: str, data: dict):
-    with open(path, "w+", encoding='utf-8') as path_file:
+    with open(path, "w+", encoding=ENCODING) as path_file:
         json.dump(data, path_file, ensure_ascii=False, indent=4)
 
 
 def backup_information_data(data: dict):
-    dt = datetime.now()
-    path = config_service.get_path_for_information_backup()
-    dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path, dt.year, dt.month, dt.day)
-    logger.debug('performing information backup using path {}'.format(dir_path))
-    Path(dir_path).mkdir(parents=True, exist_ok=True)
-    dir_path += "information-backup." + dom_utils.get_timestamp_file() + ".json"
+    dir_path = create_backup_dir_path_for("information-backup.", ".json")
     save_dict_data_as_json(dir_path, data)
 
 
-def backup_results_data(results: list):
+def create_backup_dir_path_for(dir_name: str, suffix: str):
     dt = datetime.now()
     path = config_service.get_path_for_information_backup()
     dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path, dt.year, dt.month, dt.day)
     logger.debug('performing information backup using path {}'.format(dir_path))
     Path(dir_path).mkdir(parents=True, exist_ok=True)
-    dir_path += "results-backup." + dom_utils.get_timestamp_file() + ".txt"
+    dir_path += dir_name + dom_utils.get_timestamp_file() + suffix
+    return dir_path
+
+
+def backup_results_data(results: list):
+    create_backup_dir_path_for("results-backup.", ".txt")
+    path = config_service.get_path_for_information_backup()
     eight_track_results = open(path, 'w', newline='')
     for result in results:
         eight_track_results.write(leaderboard_utils.convert_result_to_line(result))
@@ -241,34 +247,34 @@ def tail(file_path: str, lines=1) -> list:
 
 def save_list_to_file(data: list, path: str):
     # TODO add validator?
-    with open(path, 'w+', encoding='utf-8') as path_file:
+    with open(path, 'w+', encoding=ENCODING) as path_file:
         path_file.write('\n'.join(data))
     return None
 
 
 def load_weather(path: str):
-    with open(path, 'r', encoding='utf-8') as weather_file:
+    with open(path, 'r', encoding=ENCODING) as weather_file:
         return weather_file.read().splitlines()
 
 
 # TODO move this to different place
 def load_data(year: int, month: int, day: int) -> list:
     sensor_log_file = dom_utils.fix_nulls(
-        open(config_service.get_sensor_log_file_for(year, month, day), 'r', newline='', encoding='utf-8'))
+        open(config_service.get_sensor_log_file_for(year, month, day), 'r', newline='', encoding=ENCODING))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
     for row in csv_data:
         try:
-            row[19] == '?'
+            row[19] == UNKNOWN
         except IndexError:
-            row.insert(19, '?')
-            row.insert(20, '?')
+            row.insert(19, UNKNOWN)
+            row.insert(20, UNKNOWN)
         try:
-            row[21] == '?'
+            row[21] == UNKNOWN
         except IndexError:
-            row.insert(21, '?')
-            row.insert(22, '?')
+            row.insert(21, UNKNOWN)
+            row.insert(22, UNKNOWN)
         denva_sensors_service.add_row(data, row)
     sensor_log_file.close()
     return data
@@ -283,14 +289,14 @@ def load_enviro_data(year: int, month: int, day: int) -> list:
     logger.debug('loading enviro sensor data from {} {} {}'.format(day, month, year))
     sensor_log_file = dom_utils.fix_nulls(
         open(config_service.get_sensor_log_file_for(year, month, day, 'sensor-enviro-log'), 'r', newline='',
-             encoding='utf-8'))
+             encoding=ENCODING))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
     for index, row in enumerate(csv_data):
         logger.debug('read csv row no.{}'.format(index))
         try:
-            row[12] == '?'
+            row[12] == UNKNOWN
         except IndexError:
             row.insert(12, 0)  # measurement time
         denviro_sensors_service.add_enviro_row(data, row)
@@ -311,5 +317,5 @@ def is_report_file_exists_for(report_date: datetime) -> bool:
 
 
 def load_ricky(path: str):
-    with open(path, 'r', encoding='utf-8') as ricky_data:
+    with open(path, 'r', encoding=ENCODING) as ricky_data:
         return json.load(ricky_data)
