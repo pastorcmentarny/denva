@@ -21,6 +21,10 @@ def get_state_colour(current_state):
         color_red = 255
         color_green = 110
         color_blue = 0
+    elif current_state == 'REBOOT':
+        color_red = 255
+        color_green = 229
+        color_blue = 124
     elif current_state == 'OFF':
         color_red = 0
         color_green = 0
@@ -45,6 +49,10 @@ def get_state_colour_for_hc(current_state: str):
         color_red = 255
         color_green = 110
         color_blue = 0
+    elif current_state == 'REBOOT':
+        color_red = 255
+        color_green = 229
+        color_blue = 124
     elif current_state == 'OFF':
         color_red = 0
         color_green = 0
