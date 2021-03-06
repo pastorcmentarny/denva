@@ -41,7 +41,7 @@ class SystemHealthTest(TestCase):
         # given
         expected_result = {'denva': {'app': 'UP', 'ui': 'UP'}, 'denviro': {'app': 'UP', 'ui': 'UP'},
                            'delight': {'app': 'UP', 'ui': 'UP'}, 'server': {'app': 'UP', 'ui': 'UP'},
-                           'other': {'cctv': 'UP', 'radar': 'UP', 'digest': 'UP'}}
+                           'other': {'cctv': 'OFF', 'radar': 'OFF', 'digest': 'UP'}}
         system_health_check_service.update_to_now_for_all()
         # when
 

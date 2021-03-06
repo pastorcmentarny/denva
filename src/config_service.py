@@ -203,7 +203,7 @@ def get_path_for_information_backup() -> str:
 
 def set_mode_to(mode: str):
     settings['mode'] = mode
-    if platform.node() == 'DomL5' or platform.node() == 'DomAsusG':
+    if platform.node() in ['DomL5' , 'DomAsusG' , 'DOM-DESKTOP']:
         settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
 
@@ -271,6 +271,10 @@ def get_radar_hc_url() -> str:
 
 def get_system_hc_url() -> str:
     return settings["urls"]["delight"] + "/shc/update"
+
+
+def get_system_hc_reboot_url() -> str:
+    return settings["urls"]["delight"] + "/shc/reboot"
 
 
 def get_service__hc_url() -> str:
