@@ -141,7 +141,7 @@ def generate_for(date: datetime) -> dict:
         data = load_data(year, month, day)
         report['measurement_counter'] = len(data)
         report['report_date'] = "{}.{}'{}".format(day, month, year)
-        warnings = sensor_warnings_service.get_warnings_for(year, month, day)
+        warnings = sensor_warnings_service.get_warnings_for(str(year), str(month), str(day))
         report['warning_counter'] = len(warnings)
         report['warnings'] = denva_sensors_service.count_warnings(warnings)
         report['records'] = records.get_records(data)
@@ -249,7 +249,7 @@ def generate_enviro_report_for_yesterday() -> dict:
         data = load_enviro_data(year, month, day)
         evniro_report['measurement_counter'] = len(data)
         evniro_report['report_date'] = "{}.{}'{}".format(day, month, year)
-        warnings = sensor_warnings_service.get_warnings_for(year, month, day)
+        warnings = sensor_warnings_service.get_warnings_for(str(year), str(month), str(day))
         evniro_report['warning_counter'] = len(warnings)
         evniro_report['avg'] = averages.get_enviro_averages(data)
         evniro_report['records'] = records.get_enviro_records(data)
@@ -526,9 +526,9 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
             }
         }
         return differences
-    except Exception as e:
+    except Exception as exception:
         msg = 'Unable to compare two reports due to:'
-        logger.warning('{} {}'.format(msg, e), exc_info=True)
+        logger.warning('{} {}'.format(msg, exception), exc_info=True)
         return {
-            'error': '{} {}'.format(msg, e)
+            'error': '{} {}'.format(msg, exception)
         }
