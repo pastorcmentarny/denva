@@ -58,11 +58,13 @@ movable_events = {
     '0212': ["Chinese new year"],
     '0328': ['Sumertime +1hr :('],
     '0402': ['Good Friday'],
-    '0404': ['Easter'],
+    '0404': ['Easter', 'Święto Qingming'],
     '0405': ['Easter Monday'],
     '0503': ['Early May Bank Holiday'],
     '0531': ['Late May Bank Holiday'],
+    '0614': ['Święto Smoczych Łodzi '],
     '0830': ['Late Summer Bank Holiday'],
+    '0921': ['Święto Środka Jesieni'],
     '1031': ['Wintertime -1hr :)'],
 }
 
