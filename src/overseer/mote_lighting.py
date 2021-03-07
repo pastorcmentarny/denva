@@ -148,20 +148,20 @@ def rain():
     mote.set_brightness(0.2)
     for times in range(100):
         speed = (random.randint(0, 20) / 100) + 0.01
-        rain_colors = [RED, ORANGE, GREEN, BLUE, PURPLE, WHITE, BLACK, BROWN, YELLOW, CYAN, MAGENTA, YELLOW_GREEN,
+        rain_colors = [ORANGE, GREEN, BLUE, PURPLE, WHITE, BLACK, BROWN, YELLOW, CYAN, MAGENTA, YELLOW_GREEN,
                        FLAME, PARADISE]
 
         red, green, blue = rain_colors[random.randint(0, len(rain_colors) - 1)]
         line = random.randint(1, 4)
-        for i in range(0, 16):
+        for index in range(0, 16):
             mote.clear()
-            mote.set_pixel(line, i, red, green, blue, 0.4)
-            if i > 0:
-                mote.set_pixel(line, i - 1, red, green, blue, 0.3)
-            if i > 1:
-                mote.set_pixel(line, i - 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
-            if i > 2:
-                mote.set_pixel(line, i - 3, int(red / 4), int(green / 4), int(blue / 4), 0.1)
+            mote.set_pixel(line, index, red, green, blue, 0.4)
+            if index > 0:
+                mote.set_pixel(line, index - 1, red, green, blue, 0.3)
+            if index > 1:
+                mote.set_pixel(line, index - 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
+            if index > 2:
+                mote.set_pixel(line, index - 3, int(red / 4), int(green / 4), int(blue / 4), 0.1)
             mote.show()
             time.sleep(speed)
 

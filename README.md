@@ -12,19 +12,39 @@ This project has inspired by various events in the workplace. It measures:
 - Humidity (The humidity can affect productivity)
 - Brightness and colour (to check how dark is in the office at night)
 - The UV index ( I used this at home, so then I know do I need lots of UV cream or not.
-
-I am planning to add:
-
-- Indoor air quality
-- dBm measurement
+- Pollution & Indoor air quality
 
 Design choices
-
 - Mono-repo
+- Trunk Based Development 
+- Python 3
 
-This project is written in Python 3 and uses:
+# DESIGN
 
-On Denva device:
+## Denva App
+  - _Get all sensor data_
+  - _Send all data to server_
+  - _Store all data locally_
+
+
+## Enviro App
+  - _Get all sensor data_
+  - _Send all data to server_
+  - _Store all data locally_
+
+
+## Delight App
+  - 
+
+## Server App
+  - _Send email with data every 5 minutes_
+  - _Remove all images that are black_
+  - Server CAMERA APP _Python app that making photos_
+
+
+# Hardware used:
+
+## On Denva device:
 
 - Raspberry Pi 4 (4GB)
 - Pimoroni Breakout Garden HAT
@@ -32,41 +52,29 @@ On Denva device:
 - BME680 Breakout - Air Quality, Temperature, Pressure, Humidity Sensor
 - ICM20948 9DoF Motion Sensor Breakout
 - VEML6075 UVA/B Sensor Breakout
--
 
-On Denviro device:
+
+## On Denviro device:
 
 - Raspberry Pi 3 Model B+
 - Enviro+
 - PMS 5003 to measure pollution
 
-On Delight device:
+
+## On Delight device:
 
 - Raspberry Pi 3 Model (Kano)
 - Unicorn HAT HD
 
-Server:
+
+## Server:
 
 - LattePanda Delta 432 with WD Blue SN500
 - Logitech Logitech C525
 - Anker USB 3.0 AK-A7507011
+- 
+- Mote (Controller  + 4 APA102 RGB LED strips) - for status
 
-## DESIGN
-
-- Denva App
-    - _Get all sensor data_
-    - _Send all data to server_
-    - _Store all data locally_
-
-- Enviro App
-    - _Get all sensor data_
-    - _Send all data to server_
-    - _Store all data locally_
-
-- Server App
-    - _Send email with data every 5 minutes_
-    - _Remove all images that are black_
-- Server CAMERA APP _Python app that making photos_
 
 
 - Server UI __
@@ -74,8 +82,7 @@ Server:
 
 carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
 
-resources:
-
+# Resources:
 0. https://www.idt.com/eu/en/document/whp/overview-tvoc-and-indoor-air-quality
 0. https://www.epa.gov/sites/production/files/2014-05/documents/zell-aqi.pdf
 
