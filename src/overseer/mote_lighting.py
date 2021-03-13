@@ -3,7 +3,21 @@ import time
 
 from mote import Mote
 
-import fasting_timer
+# import fasting_timer
+PARADISE = 'paradise'
+FLAME = 'flame'
+YELLOW_GREEN = 'yellow_green'
+MAGENTA = 'magenta'
+CYAN = 'cyan'
+YELLOW = 'yellow'
+BROWN = 'brown'
+BLACK = 'black'
+WHITE = 'white'
+PURPLE = 'purple'
+BLUE = 'blue'
+GREEN = 'green'
+ORANGE = 'orange'
+RED = 'red'
 
 mote = Mote()
 mote.configure_channel(1, 16, False)
@@ -14,43 +28,43 @@ mote.configure_channel(4, 16, False)
 mote.clear()
 mote.set_brightness(0.4)
 
-RED = [255, 0, 0]
-ORANGE = [224, 64, 0]
-GREEN = [0, 255, 0]
-YELLOW_GREEN = [153, 204, 0]
-BLUE = [0, 0, 255]
-PURPLE = [75, 0, 130]
-WHITE = [255, 255, 255]
-BLACK = [1, 1, 1]
-BROWN = [160, 96, 32]
-YELLOW = [255, 255, 0]
-CYAN = [0, 255, 255]
-MAGENTA = [192, 0, 192]
-FLAME = [242, 85, 44]
-PARADISE = [144, 222, 227]
+RED_RGB_COLOUR = [255, 0, 0]
+ORANGE_RGB_COLOUR = [224, 64, 0]
+GREEN_RGB_COLOUR = [0, 255, 0]
+YELLOW_GREEN_RGB_COLOUR = [153, 204, 0]
+BLUE_RGB_COLOUR = [0, 0, 255]
+PURPLE_RGB_COLOUR = [75, 0, 130]
+WHITE_RGB_COLOUR = [255, 255, 255]
+BLACK_RGB_COLOUR = [1, 1, 1]
+BROWN_RGB_COLOUR = [160, 96, 32]
+YELLOW_RGB_COLOUR = [255, 255, 0]
+CYAN_RGB_COLOUR = [0, 255, 255]
+MAGENTA_RGB_COLOUR = [192, 0, 192]
+FLAME_RGB_COLOUR = [242, 85, 44]
+PARADISE_RGB_COLOUR = [144, 222, 227]
 colors = {
-    'red': RED,
-    'orange': ORANGE,
-    'green': GREEN,
-    'blue': BLUE,
-    'purple': PURPLE,
-    'white': WHITE,
-    'black': BLACK,
-    'brown': BROWN,
-    'yellow': YELLOW,
-    'cyan': CYAN,
-    'magenta': MAGENTA,
-    'yellow_green': YELLOW_GREEN,
-    'flame': FLAME,
-    'paradise': PARADISE
+    RED: RED_RGB_COLOUR,
+    ORANGE: ORANGE_RGB_COLOUR,
+    GREEN: GREEN_RGB_COLOUR,
+    BLUE: BLUE_RGB_COLOUR,
+    PURPLE: PURPLE_RGB_COLOUR,
+    WHITE: WHITE_RGB_COLOUR,
+    BLACK: BLACK_RGB_COLOUR,
+    BROWN: BROWN_RGB_COLOUR,
+    YELLOW: YELLOW_RGB_COLOUR,
+    CYAN: CYAN_RGB_COLOUR,
+    MAGENTA: MAGENTA_RGB_COLOUR,
+    YELLOW_GREEN: YELLOW_GREEN_RGB_COLOUR,
+    FLAME: FLAME_RGB_COLOUR,
+    PARADISE: PARADISE_RGB_COLOUR
 }
 
-colors_names = ['red', 'orange', 'green', 'blue', 'purple', 'white', 'black', 'brown', 'yellow', 'cyan', 'magenta',
-                'yellow_green', 'flame', 'paradise']
+colors_names = [RED, ORANGE, GREEN, BLUE, PURPLE, WHITE, BLACK, BROWN, YELLOW, CYAN, MAGENTA,
+                YELLOW_GREEN, FLAME, PARADISE]
 
 
 def set_busy_mode():
-    set_color_for('red')
+    set_color_for(RED)
 
 
 def set_color_for(color_name: str):
@@ -99,7 +113,7 @@ def party_mode():
                                random.randint(0, 256))
         mote.show()
         time.sleep(blink_speed)
-        set_color_for('black')
+        set_color_for(BLACK)
         mote.show()
         time.sleep(blink_speed)
 
@@ -137,8 +151,8 @@ def knight_rider(red: int, green: int, blue: int):
 
 def daydream():
     color = colors_names[random.randint(0, len(colors_names) - 1)]
-    if color in ['red', 'black']:
-        color = 'purple'
+    if color in [RED, BLACK]:
+        color = PURPLE
     selected_color = colors.get(color)
     knight_rider(selected_color[0], selected_color[1], selected_color[2])
 
@@ -148,8 +162,10 @@ def rain():
     mote.set_brightness(0.2)
     for times in range(100):
         speed = (random.randint(0, 20) / 100) + 0.01
-        rain_colors = [ORANGE, GREEN, BLUE, PURPLE, WHITE, BLACK, BROWN, YELLOW, CYAN, MAGENTA, YELLOW_GREEN,
-                       FLAME, PARADISE]
+        rain_colors = [RED_RGB_COLOUR, ORANGE_RGB_COLOUR, GREEN_RGB_COLOUR, BLUE_RGB_COLOUR, PURPLE_RGB_COLOUR,
+                       WHITE_RGB_COLOUR, BLACK_RGB_COLOUR, BROWN_RGB_COLOUR, YELLOW_RGB_COLOUR, CYAN_RGB_COLOUR,
+                       MAGENTA_RGB_COLOUR, YELLOW_GREEN_RGB_COLOUR,
+                       FLAME_RGB_COLOUR, PARADISE_RGB_COLOUR]
 
         red, green, blue = rain_colors[random.randint(0, len(rain_colors) - 1)]
         line = random.randint(1, 4)
@@ -191,14 +207,16 @@ def display_fasting_status():
     blink_speed = 0.4
     mote.clear()
     leds = 0
-    all_pixels = BLUE
-    time_left_pixels = PURPLE
+    all_pixels = BLUE_RGB_COLOUR
+    time_left_pixels = PURPLE_RGB_COLOUR
+    """ #TODO fix fasting timer
     if fasting_timer.is_default_fasting_time():
-        all_pixels = RED
-        time_left_pixels = ORANGE
+        all_pixels = RED_RGB_COLOUR
+        time_left_pixels = ORANGE_RGB_COLOUR
         leds = fasting_timer.get_timer_for_fasting()
     else:
         leds = fasting_timer.get_timer_for_eating()
+    """
     if leds >= 16:
         leds = 15
     for led_index in range(0, 16):
@@ -219,11 +237,11 @@ def display_fasting_status():
 
 
 def red_alert():
-    display_alert_for('red')
+    display_alert_for(RED)
 
 
 def yellow_alert():
-    display_alert_for('yellow')
+    display_alert_for(YELLOW)
 
 
 def borg():
@@ -237,7 +255,7 @@ def borg():
                                random.randint(0, 256))
         mote.show()
         time.sleep(blink_speed)
-        set_color_for('black')
+        set_color_for(BLACK)
         mote.show()
         time.sleep(blink_speed)
 
