@@ -13,9 +13,9 @@ function setup()
     keybow.set_pixel(6, 159, 255, 47)
     keybow.set_pixel(7, 75, 0, 130)
     keybow.set_pixel(8, 128, 0, 128)
-    keybow.set_pixel(9, 128, 0, 0)
+    keybow.set_pixel(9, 64, 64, 64)
     keybow.set_pixel(10, 128, 128, 0)
-    keybow.set_pixel(11, 0, 0, 128)
+    keybow.set_pixel(11, 128, 0, 0)
 end
 
 
@@ -37,9 +37,9 @@ function handle_key_00(pressed)
     keybow.set_pixel(6, 159, 255, 47)
     keybow.set_pixel(7, 75, 0, 130)
     keybow.set_pixel(8, 128, 0, 128)
-    keybow.set_pixel(9, 128, 0, 0)
+    keybow.set_pixel(9, 64, 64, 64)
     keybow.set_pixel(10, 128, 128, 0)
-    keybow.set_pixel(11, 0, 0, 128)
+    keybow.set_pixel(11, 128, 0, 0)
 end
 
 
@@ -166,7 +166,7 @@ function handle_key_09(pressed)
     keybow.text("exit")
     keybow.tap_enter()
     keybow.sleep(500)
-    keybow.set_pixel(9, 0, 128, 0)
+    keybow.set_pixel(9, 64, 64, 64)
 end
 
 
