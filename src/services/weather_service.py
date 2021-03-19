@@ -36,20 +36,19 @@ def is_weather_data_expired(date: str) -> bool:
                                                            int(last_check[3]), int(last_check[4]), int(last_check[5])))
 
 
+# FIXME
 def get_weather() -> list:
     logger.info('Getting weather')
     weather_file = config_service.get_data_path() + 'weather.txt'
     if not os.path.exists(weather_file):
         logger.info('File not exists. Getting weather from the web')
-        weather_data = web_data_gateway.get_weather()
-        weather_data = cleanup_weather_data(weather_data)
+        weather_data = cleanup_weather_data(web_data_gateway.get_weather())
     else:
         logger.info('loading data from the file')
         weather_data = data_files.load_weather(weather_file)
         if is_weather_data_expired(weather_data[len(weather_data) - 1]):
             logger.info('Weather in the file is out of date, Getting weather from the web')
-            weather_data = web_data_gateway.get_weather()
-            weather_data = cleanup_weather_data(weather_data)
+            weather_data = cleanup_weather_data(web_data_gateway.get_weather())
         else:
             logger.info('returning weather from the file')
             return weather_data

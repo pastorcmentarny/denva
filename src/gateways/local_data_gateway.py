@@ -107,10 +107,34 @@ def post_healthcheck_beat(device: str, app_type: str):
         logger.warning(
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
+def post_healthcheck_reboot(device: str, app_type: str):
+    url = config_service.get_system_hc_reboot_url()
+    json_data = {'device': device, 'app_type': app_type}
+    try:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem while sending reboot: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
+
+
 
 def post_service_of(device: str, app_type: str, status: bool):
     print(f'{device}/{app_type} set status to {status} ')
     # TODO finish it!
+
+
+def post_device_off(device: str, app_type: str):
+    url = config_service.get_service__hc_url()
+    json_data = {'device': device, 'app_type': app_type}
+    try:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
 if __name__ == '__main__':

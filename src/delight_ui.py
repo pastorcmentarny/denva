@@ -106,7 +106,7 @@ def recent_log_ui():
 
 @app.route("/reboot")
 def reboot():
-    logger.info('Getting record measurement from today')
+    logger.info('Reboot Delight UI')
     return jsonify(common_service.reboot_device())
 
 
