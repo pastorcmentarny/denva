@@ -8,7 +8,7 @@ bh1745==0.0.4
 requests==2.25.1
 beautifulsoup4==4.9.3
 flask==1.1.2
-pillow==7.2.0
+pillow==8.1.1
 watchdog==0.10.4
 opencv-python==4.5.1.48
 psutil==5.8.0
