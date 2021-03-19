@@ -11,7 +11,6 @@
 """
 import logging.config
 import os
-import random
 import sys
 import time
 import traceback
@@ -107,11 +106,7 @@ def main():
         if measurement_time > config_service.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
 
-        if bool(random.getrandbits(1)):
-            led_matrix_service.set_green()
-        else:
-            led_matrix_service.red()
-        led_matrix_service.update_led_matrix()
+        led_matrix_service.display_fasting_mode()
 
         if remaining_of_five_s > 0:
             time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements

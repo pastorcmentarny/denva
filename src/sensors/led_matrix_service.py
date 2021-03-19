@@ -1,8 +1,19 @@
 import time
+from datetime import datetime
 
 from ltp305 import LTP305
 
 display = LTP305()
+
+
+def display_fasting_mode():
+    clock = datetime.now()
+    if clock.hour > 18 or clock.hour <= 12:
+        blinking_red()
+        set_red()
+    else:
+        set_green()
+    update_led_matrix()
 
 
 def change_red_to(switch: bool):
@@ -13,11 +24,11 @@ def change_red_to(switch: bool):
 
 
 def blinking_red():
-    for _ in range(0, 3):
+    for _ in range(0, 5):
         change_red_to(True)
-        time.sleep(0.2)
+        time.sleep(0.05)
         change_red_to(False)
-        time.sleep(0.2)
+        time.sleep(0.05)
 
 
 def end_of_red_timer():
