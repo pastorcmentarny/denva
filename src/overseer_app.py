@@ -9,24 +9,23 @@ import traceback
 from datetime import datetime
 from pathlib import Path
 
+import config_service
 from common import data_files
 from overseer import mote_lighting
 from services import email_sender_service
-from src import config_service
+
+EMPTY = ""
+
+APP_NAME = 'overseer'
 
 MODE_BORG = 'borg'
-
 MODE_RAIN = 'rain'
-
 MODE_DREAM = 'dream'
-
 MODE_PARTY = 'party'
-
 MODE_YELLOW_COLOR = 'yellow'
-
 MODE_RED_COLOR = 'red'
 
-logger = logging.getLogger('overseer')
+logger = logging.getLogger(APP_NAME)
 APP_NAME = 'Overseer'
 
 
@@ -64,10 +63,10 @@ def override_mode() -> str:
         if result:
             return result.strip()
         else:
-            return ""
+            return EMPTY
     except Exception as an_exception:
         logger.error(f'Unable to read override mode from file due to :{an_exception}', exc_info=True)
-        return ""
+        return EMPTY
 
 
 def is_in_override(a_mode):
@@ -95,8 +94,9 @@ def app_loop():
     while True:
         counter += 1
         print(f'counter: {counter}')
-        if counter % 10 == 1:
-            mote_lighting.display_fasting_status()
+        # disabled due to issue
+        # if counter % 10 == 1:
+        #   mote_lighting.display_fasting_status()
         mode = override_mode()
         if is_in_override(mode):
             set_manual_mode(mode)
@@ -112,8 +112,8 @@ def app_loop():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('overseer')
-    data_files.setup_logging('overseer')
+    config_service.set_mode_to(APP_NAME)
+    data_files.setup_logging(APP_NAME)
     logger.info('Starting application ... \n Press Ctrl+C to shutdown')
     try:
         app_loop()
