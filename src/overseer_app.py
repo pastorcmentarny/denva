@@ -24,6 +24,7 @@ MODE_DREAM = 'dream'
 MODE_PARTY = 'party'
 MODE_YELLOW_COLOR = 'yellow'
 MODE_RED_COLOR = 'red'
+MODE_LIGHT_OFF = 'light_off'
 
 logger = logging.getLogger(APP_NAME)
 APP_NAME = 'Overseer'
@@ -52,7 +53,7 @@ def is_stand_up() -> bool:
         return False
 
 
-modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG]
+modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG,MODE_LIGHT_OFF]
 
 
 def override_mode() -> str:
@@ -85,6 +86,8 @@ def set_manual_mode(manual_mode):
         mote_lighting.rain()
     elif manual_mode == MODE_BORG:
         mote_lighting.borg()
+    elif manual_mode == MODE_LIGHT_OFF:
+        mote_lighting.turn_light_off()
     else:
         logger.warning(f'WARNING! Unknown mode: {manual_mode}')
 
@@ -94,9 +97,6 @@ def app_loop():
     while True:
         counter += 1
         print(f'counter: {counter}')
-        # disabled due to issue
-        # if counter % 10 == 1:
-        #   mote_lighting.display_fasting_status()
         mode = override_mode()
         if is_in_override(mode):
             set_manual_mode(mode)

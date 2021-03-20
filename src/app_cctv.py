@@ -31,7 +31,7 @@ EMPTY = ''
 logger = logging.getLogger('app')
 
 try:
-    from picamera import PiCamera
+    from  picamera import PiCamera
 
     camera = PiCamera()
     local_data_gateway.post_device_off('other', 'cctv')

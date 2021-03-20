@@ -68,45 +68,48 @@ function handle_key_01(pressed)
     keybow.set_pixel(0, 0, 0, 0)
 end
 
+
+--- status light off
 function handle_key_02(pressed)
+    keybow.set_pixel(2, 32, 32, 32)
+    win_snippets.run("cmd")
+    keybow.sleep(100)
+    keybow.set_pixel(2, 64, 64, 64)
+    keybow.text("python  D:\\denva\\src\\overseer\\manual_status_override.py light_off")
+    keybow.sleep(100)
+    keybow.set_pixel(2, 32, 32, 32)
+    keybow.sleep(100)
+    keybow.set_pixel(2, 64, 64, 64)
+    keybow.sleep(100)
+    keybow.set_pixel(2, 48, 48, 48)
+    keybow.tap_enter()
+    keybow.text("exit")
+    keybow.tap_enter()
+    keybow.sleep(100)
+    keybow.set_pixel(2, 32, 32, 32)
+    keybow.sleep(100)
+    keybow.set_pixel(2, 64, 64, 64)
+    keybow.sleep(100)
+    keybow.set_pixel(2, 32, 32, 32)
+    keybow.sleep(100)
+    keybow.set_pixel(2, 64, 64, 64)
+    keybow.sleep(100)
+    keybow.set_pixel(2, 32, 32, 32)
+end
+
+
+function handle_key_03(pressed)
     keybow.set_key("2", pressed)
 end
 
 
---- status light on
-function handle_key_03(pressed)
-    keybow.set_pixel(1, 32, 32, 32)
-    win_snippets.run("cmd")
-    keybow.sleep(100)
-    keybow.text("python  D:\\denva\\src\\overseer\\manual_status_override.py light_on")
-    keybow.sleep(300)
-    keybow.tap_enter()
-    keybow.set_pixel(1, 64, 64, 64)
-    keybow.text("exit")
-    keybow.tap_enter()
-    keybow.sleep(500)
-    keybow.set_pixel(1, 159, 255, 47)
-end
-
-
---- status light off
 function handle_key_04(pressed)
-    keybow.set_pixel(2, 32, 32, 32)
-    win_snippets.run("cmd")
-    keybow.sleep(100)
-    keybow.text("python  D:\\denva\\src\\overseer\\manual_status_override.py light_off")
-    keybow.sleep(300)
-    keybow.tap_enter()
-    keybow.set_pixel(2, 64, 64, 64)
-    keybow.text("exit")
-    keybow.tap_enter()
-    keybow.sleep(500)
-    keybow.set_pixel(2, 159, 255, 47)
+    keybow.set_key("3", pressed)
 end
 
 
 function handle_key_05(pressed)
-    keybow.set_key("3", pressed)
+    keybow.set_key("4", pressed)
 end
 
 --- borg mode
@@ -168,7 +171,6 @@ function handle_key_09(pressed)
     keybow.sleep(500)
     keybow.set_pixel(9, 64, 64, 64)
 end
-
 
 -- busy mode
 function handle_key_10(pressed)

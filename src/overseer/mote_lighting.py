@@ -209,14 +209,6 @@ def display_fasting_status():
     leds = 0
     all_pixels = BLUE_RGB_COLOUR
     time_left_pixels = PURPLE_RGB_COLOUR
-    """ #TODO fix fasting timer
-    if fasting_timer.is_default_fasting_time():
-        all_pixels = RED_RGB_COLOUR
-        time_left_pixels = ORANGE_RGB_COLOUR
-        leds = fasting_timer.get_timer_for_fasting()
-    else:
-        leds = fasting_timer.get_timer_for_eating()
-    """
     if leds >= 16:
         leds = 15
     for led_index in range(0, 16):
@@ -279,3 +271,9 @@ def display_alert_for(color: str):
             mote.set_brightness(brightness)
             time.sleep(0.02)
             mote.show()
+
+
+def turn_light_off():
+    print('Switching off light')
+    mote.clear()
+    mote.set_brightness(0.1)
