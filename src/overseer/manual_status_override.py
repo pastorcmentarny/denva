@@ -1,7 +1,10 @@
 import sys
 from pathlib import Path
 
+from common import data_files
+
 if __name__ == '__main__':
+    data_files.setup_logging('overseer_mode')
     status_filepath = Path(r"D:\overseer_mode.txt")
     with open(status_filepath, 'w') as status_file:
         if len(sys.argv) == 2:

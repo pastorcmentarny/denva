@@ -99,7 +99,8 @@ settings = {
         'log_hc': '/home/pi/logs/healthcheck.log',
         'log_ui': '/home/pi/logs/server.log',
         'ddd': '/home/pi/denva-master/src/configs/log_ddd_config.log',
-        'cctv': '/home/pi/denva-master/src/configs/log_cctv_config.json'
+        'cctv': '/home/pi/denva-master/src/configs/log_cctv_config.json',
+        'overseer_mode' : 'd:\denva\src\configs\overseer_mode.json'
     },
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',
@@ -119,6 +120,8 @@ def get_log_path_for(log_type: str) -> str:
 
 def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
+    if where == 'overseer_mode':
+        return settings['logs']['overseer_mode']
     if where == 'overseer':
         return settings['logs']['server_app']
     if where == 'cctv':
