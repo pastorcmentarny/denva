@@ -16,8 +16,9 @@ from services import email_sender_service
 
 EMPTY = ""
 
-APP_NAME = 'overseer'
 
+
+APP_NAME = 'overseer'
 MODE_BORG = 'borg'
 MODE_RAIN = 'rain'
 MODE_DREAM = 'dream'
@@ -27,7 +28,6 @@ MODE_RED_COLOR = 'red'
 MODE_LIGHT_OFF = 'light_off'
 
 logger = logging.getLogger(APP_NAME)
-APP_NAME = 'Overseer'
 
 
 def is_busy_at_work():
@@ -126,6 +126,7 @@ if __name__ == '__main__':
         email_sender_service.send_error_log_email(APP_NAME,
                                                   '{} crashes due to {}'.format(APP_NAME, exception))
     except BaseException as disaster:
+        logger.error('Something went badly wrong\n{}'.format(disaster), exc_info=True)
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
         print(msg)
         traceback.print_exc()

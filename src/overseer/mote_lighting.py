@@ -1,7 +1,10 @@
+import logging
 import random
 import time
 
 from mote import Mote
+
+logger = logging.getLogger('overseer')
 
 # import fasting_timer
 PARADISE = 'paradise'
@@ -83,6 +86,7 @@ def change_to(red: int, green: int, blue: int):
 
 
 def default_mode():
+    logger.info('Idle')
     mote.clear()
     mote.set_brightness(0.2)
     for times in range(100):
@@ -104,6 +108,7 @@ def default_mode():
 
 
 def party_mode():
+    logger.info('Party time!')
     blink_speed = 0.02
     mote.set_brightness(0.4)
     for times in range(1000):
@@ -116,9 +121,11 @@ def party_mode():
         set_color_for(BLACK)
         mote.show()
         time.sleep(blink_speed)
+    logger.info('Party is over.')
 
 
 def knight_rider(red: int, green: int, blue: int):
+    logger.info(f'Going into knight rider mode usin [{red}-{green}-{blue}]')
     mote.clear()
     mote.set_brightness(0.2)
     for times in range(5):
@@ -150,6 +157,7 @@ def knight_rider(red: int, green: int, blue: int):
 
 
 def daydream():
+    logger.info('Daydream mode')
     color = colors_names[random.randint(0, len(colors_names) - 1)]
     if color in [RED, BLACK]:
         color = PURPLE
@@ -158,6 +166,7 @@ def daydream():
 
 
 def rain():
+    logger.info('Rain mode')
     mote.clear()
     mote.set_brightness(0.2)
     for times in range(100):
@@ -183,6 +192,7 @@ def rain():
 
 
 def night_mode():
+    logger.info('In night mode')
     for _ in range(60):
         for _ in range(2):
             color = colors_names[random.randint(0, len(colors_names) - 1)]
@@ -203,47 +213,24 @@ def night_mode():
         time.sleep(1)
 
 
-def display_fasting_status():
-    blink_speed = 0.4
-    mote.clear()
-    leds = 0
-    all_pixels = BLUE_RGB_COLOUR
-    time_left_pixels = PURPLE_RGB_COLOUR
-    if leds >= 16:
-        leds = 15
-    for led_index in range(0, 16):
-        mote.set_pixel(1, led_index, all_pixels[0], all_pixels[1], all_pixels[2], 0.2)
-    for led_index in range(0, leds):
-        mote.set_pixel(1, led_index, time_left_pixels[0], time_left_pixels[1], time_left_pixels[2], 0.3)
-    mote.show()
-    time.sleep(blink_speed)
-
-    for _ in range(10):
-        mote.set_pixel(1, leds, all_pixels[0], all_pixels[1], all_pixels[2], 0.2)
-        mote.show()
-        time.sleep(blink_speed)
-        mote.set_pixel(1, leds, time_left_pixels[0], time_left_pixels[1], time_left_pixels[2], 0.3)
-        mote.show()
-        time.sleep(blink_speed)
-    mote.clear()
-
-
 def red_alert():
+    logger.info('Going into red alert')
     display_alert_for(RED)
 
 
 def yellow_alert():
+    logger.info('Going into yellow alert')
     display_alert_for(YELLOW)
 
 
 def borg():
-    print('We are the Borg. Resistance is futile')
+    logger.info('We are the Borg. Resistance is futile')
     blink_speed = 0.02
-    mote.set_brightness(0.4)
-    for times in range(1000):
+    mote.set_brightness(0.1)
+    for times in range(100):
         for led_index in range(0, 16):
             for led_line in range(1, 5):
-                mote.set_pixel(led_line, led_index, random.randint(0, 256), random.randint(0, 256),
+                mote.set_pixel(led_line, led_index, 0, 0,
                                random.randint(0, 256))
         mote.show()
         time.sleep(blink_speed)
@@ -274,6 +261,6 @@ def display_alert_for(color: str):
 
 
 def turn_light_off():
-    print('Switching off light')
+    logger.info('Switching off light')
     mote.clear()
     mote.set_brightness(0.1)
