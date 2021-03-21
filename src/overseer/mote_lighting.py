@@ -75,6 +75,7 @@ def set_color_for(color_name: str):
         red, green, blue = colors.get(color_name)
         change_to(red, green, blue)
     else:
+        logger.warning(f'I need supported color not {color_name}')
         return 'rubbish'
 
 
