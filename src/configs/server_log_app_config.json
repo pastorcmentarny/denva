@@ -48,15 +48,6 @@
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
-    },
-    "overseer_file_handler": {
-      "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
-      "formatter": "simple",
-      "filename": "d:/denva/logs/overseer.log",
-      "when": "midnight",
-      "encoding": "utf8",
-      "backupCount": 30
     }
   },
   "loggers": {
@@ -85,13 +76,6 @@
       "level": "INFO",
       "handlers": [
         "healthcheck_file_handler"
-      ],
-      "propagate": false
-    },
-    "overseer": {
-      "level": "INFO",
-      "handlers": [
-        "overseer_file_handler"
       ],
       "propagate": false
     }

@@ -100,7 +100,8 @@ settings = {
         'log_ui': '/home/pi/logs/server.log',
         'ddd': '/home/pi/denva-master/src/configs/log_ddd_config.log',
         'cctv': '/home/pi/denva-master/src/configs/log_cctv_config.json',
-        'overseer_mode' : 'd:\denva\src\configs\overseer_mode.json'
+        'overseer_mode' : 'd:\denva\src\configs\overseer_mode.json',
+        'overseer' : 'd:\denva\src\configs\overseer.json'
     },
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',
@@ -123,7 +124,7 @@ def get_environment_log_path_for(where: str) -> str:
     if where == 'overseer_mode':
         return settings['logs']['overseer_mode']
     if where == 'overseer':
-        return settings['logs']['server_app']
+        return settings['logs']['overseer']
     if where == 'cctv':
         return settings['logs']['cctv']
 

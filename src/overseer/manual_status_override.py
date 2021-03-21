@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
 
+sys.path.insert(0, '..')
+
 from common import data_files
 
 if __name__ == '__main__':
