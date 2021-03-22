@@ -16,7 +16,9 @@ names = [
     'getLogsAsSourceRecords()',
     'findElement()',
     'clickElement()',
-    'waitUntilVisible()'
+    'waitUntilVisible()',
+    'establishConnectionToLeader(List<InetAddressAndPort> servers)',
+    'if (isLookingForLeader(response)) '
 ]
 
 
