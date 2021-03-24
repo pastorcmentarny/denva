@@ -11,7 +11,10 @@ def display_fasting_mode():
     if clock.hour > 18 or clock.hour <= 12:
         blinking_red()
         set_red()
+        if clock.hour == 12:
+            end_of_red_timer()
     else:
+        top_up_green()
         set_green()
     update_led_matrix()
 
@@ -29,6 +32,14 @@ def blinking_red():
         time.sleep(0.05)
         change_red_to(False)
         time.sleep(0.05)
+
+
+def top_up_green():
+    for y in range(6, -1, -1):
+        for x in range(0, 5):
+            display.set_pixel(x, y, True)
+            display.set_pixel(x + 5, y, False)
+        time.sleep(0.1)
 
 
 def end_of_red_timer():
