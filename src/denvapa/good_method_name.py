@@ -18,7 +18,8 @@ names = [
     'clickElement()',
     'waitUntilVisible()',
     'establishConnectionToLeader(List<InetAddressAndPort> servers)',
-    'if (isLookingForLeader(response)) '
+    'if (isLookingForLeader(response)) ',
+    'getStringFromByteBuffer(byteBuffer.getValue())'
 ]
 
 
