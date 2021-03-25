@@ -16,8 +16,6 @@ from services import email_sender_service
 
 EMPTY = ""
 
-
-
 APP_NAME = 'overseer'
 MODE_BORG = 'borg'
 MODE_RAIN = 'rain'
@@ -53,7 +51,7 @@ def is_stand_up() -> bool:
         return False
 
 
-modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG,MODE_LIGHT_OFF]
+modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG, MODE_LIGHT_OFF]
 
 
 def override_mode() -> str:
@@ -61,6 +59,7 @@ def override_mode() -> str:
     try:
         f = open(status_file)
         result = f.read()
+        logger.info(f'mode:{result}')
         if result:
             return result.strip()
         else:
