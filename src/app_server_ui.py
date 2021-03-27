@@ -28,31 +28,6 @@ logger = logging.getLogger('app')
 APP_NAME = 'Server UI'
 
 
-@app.route('/08r/add')  # example: http://192.168.0.200:5000/08r/add?race=59.59.9--1.1.2068--1--260
-def add_result():
-    result = request.args.get('race')
-    logging.info('Processing enviro measurement request with race info: {}'.format(result))
-    return jsonify(app_server_service.add_result(result))
-
-
-@app.route('/08r/hst')
-def get_08r_top10_time():
-    logging.info('Getting top10 from ZeroEight track leaderboard')
-    return jsonify(app_server_service.get_top_10())
-
-
-@app.route('/08r/hss')
-def get_08r_top10_score():
-    logging.info('Getting top10 from ZeroEight track leaderboard')
-    return jsonify(app_server_service.get_top_10_score())
-
-
-@app.route('/all')
-def get_all_08r_results():
-    logging.info('Getting top10 from ZeroEight track leaderboard')
-    return jsonify(app_server_service.get_all_results())
-
-
 @app.route('/denva', methods=['POST'])
 def store_denva_measurement():
     logging.info('Processing denva measurement request with json: {}'.format(request.get_json()))

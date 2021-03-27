@@ -27,7 +27,6 @@ from denvapa import daily
 from gateways import web_data_gateway, local_data_gateway
 from services import error_detector_service, radar_service
 from services import weather_service, system_data_service
-from zeroeighttrack import leaderboard
 
 logger = logging.getLogger('app')
 
@@ -143,27 +142,6 @@ def run_gc() -> dict:
 
 def get_errors_from_data(data):
     return error_detector_service.get_errors_from_data(data)
-
-
-def add_result(data: str) -> dict:
-    result_id = leaderboard.add_result(data)
-    return {
-        'position': leaderboard.get_position_for_id(result_id),
-        'result': leaderboard.get_result_by_id(result_id),
-        'top10': leaderboard.get_top10()
-    }
-
-
-def get_top_10():
-    return leaderboard.get_top10()
-
-
-def get_all_results():
-    return leaderboard.sort_leaderboard_by_time()
-
-
-def get_top_10_score():
-    return leaderboard.get_top10_by_score()
 
 
 def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky, page_tt_delays_counter,
