@@ -13,6 +13,7 @@ import json
 import logging
 import os
 import smtplib
+import time
 from datetime import datetime
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -22,6 +23,8 @@ from common import app_timer
 from common import commands, data_files, dom_utils
 from reports import report_service
 from services import sensor_warnings_service
+
+WAITING_TIME_IN_SECONDS = 60
 
 logger = logging.getLogger('app')
 
@@ -136,6 +139,8 @@ def send_error_log_email(what: str, message: str):
         logger.info('Email sent.')
     except Exception as e:
         logger.error('Unable to send email due to {}'.format(e), exc_info=True)
+    logger.info(f'Waiting {WAITING_TIME_IN_SECONDS} seconds before carry on..')
+    time.sleep(WAITING_TIME_IN_SECONDS)  # wait one minute before carry on ...
 
 
 def send_ip_email(device: str):
