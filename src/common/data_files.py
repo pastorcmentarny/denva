@@ -23,7 +23,6 @@ from common import dom_utils
 from denva import denva_sensors_service
 from denviro import denviro_sensors_service
 from services import email_sender_service
-from zeroeighttrack import leaderboard_utils
 
 ENCODING = 'utf-8'
 UNKNOWN = '?'

@@ -15,8 +15,7 @@ def in_the_warp(unicornhathd, clock, cycle):
     for i in range(0, star_count):
         stars.append((random.uniform(4, 11), random.uniform(4, 11), 0))
 
-    running = True
-    while running:
+    while True:
         unicornhathd.clear()
         clock += 1
         for i in range(0, star_count):
@@ -36,5 +35,5 @@ def in_the_warp(unicornhathd, clock, cycle):
 
         if clock % 50 == 0:
             star_speed += 0.001
-        if clock % 4000 == 0:
-            running = False
+        if clock > 4000:
+            return
