@@ -362,5 +362,5 @@ if __name__ == '__main__':
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
         print(msg)
         traceback.print_exc()
-        logger.fatal(msg, exc_info=True)
+        logger.error(msg, exc_info=True)
         unicornhathd.off()
