@@ -11,10 +11,10 @@
 """
 import logging
 import random
+import time
 import traceback
 from datetime import datetime
 
-import time
 import unicornhathd
 
 import config_service
@@ -361,6 +361,6 @@ if __name__ == '__main__':
     except BaseException as disaster:
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
         print(msg)
-        traceback.print_exc()
         logger.error(msg, exc_info=True)
+        traceback.print_exc()
         unicornhathd.off()

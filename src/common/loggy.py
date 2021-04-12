@@ -6,9 +6,9 @@ logger = logging.getLogger('app')
 def log_error_count(errors):
     number_of_errors = len(errors)
     if number_of_errors >= 2:
-        logger.error('Found {} error(s).'.format(len(errors)))
+        logger.error('Found {} errors. Errors: {}'.format(len(errors), str(errors)))
     elif number_of_errors > 0:
-        logger.warning('Found {} error(s).'.format(len(errors)))
+        logger.warning('Found {} error. Errors: {}'.format(len(errors), str(errors)))
     else:
         logger.debug('No errors found.')
 
