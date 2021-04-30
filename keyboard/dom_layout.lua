@@ -69,7 +69,7 @@ function handle_key_01(pressed)
 end
 
 
---- status light off
+--- status light on
 function handle_key_02(pressed)
     keybow.set_pixel(2, 32, 32, 32)
     win_snippets.run("cmd")
@@ -98,8 +98,32 @@ function handle_key_02(pressed)
 end
 
 
+--- fire with lighting
 function handle_key_03(pressed)
-    keybow.set_key("2", pressed)
+    keybow.set_pixel(3, 32, 32, 32)
+    win_snippets.run("cmd")
+    keybow.sleep(100)
+    keybow.set_pixel(3, 64, 64, 64)
+    keybow.text("python  D:\\denva\\src\\overseer\\manual_status_override.py fire")
+    keybow.sleep(100)
+    keybow.set_pixel(3, 32, 32, 32)
+    keybow.sleep(100)
+    keybow.set_pixel(3, 64, 64, 64)
+    keybow.sleep(100)
+    keybow.set_pixel(3, 48, 48, 48)
+    keybow.tap_enter()
+    keybow.text("exit")
+    keybow.tap_enter()
+    keybow.sleep(100)
+    keybow.set_pixel(3, 32, 32, 32)
+    keybow.sleep(100)
+    keybow.set_pixel(3, 64, 64, 64)
+    keybow.sleep(100)
+    keybow.set_pixel(3, 32, 32, 32)
+    keybow.sleep(100)
+    keybow.set_pixel(3, 64, 64, 64)
+    keybow.sleep(100)
+    keybow.set_pixel(3, 32, 32, 32)
 end
 
 
