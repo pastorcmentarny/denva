@@ -11,7 +11,7 @@ from pathlib import Path
 
 import config_service
 from common import data_files
-from overseer import mote_lighting
+from overseer import mote_lighting, fire
 from services import email_sender_service
 
 EMPTY = ""
@@ -24,6 +24,7 @@ MODE_PARTY = 'party'
 MODE_YELLOW_COLOR = 'yellow'
 MODE_RED_COLOR = 'red'
 MODE_LIGHT_OFF = 'light_off'
+MODE_FIRE_LIGHTING = 'fire'
 
 logger = logging.getLogger(APP_NAME)
 
@@ -51,7 +52,8 @@ def is_stand_up() -> bool:
         return False
 
 
-modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG, MODE_LIGHT_OFF]
+modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG, MODE_LIGHT_OFF,
+         MODE_FIRE_LIGHTING]
 
 
 def override_mode() -> str:
@@ -85,6 +87,8 @@ def set_manual_mode(manual_mode):
         mote_lighting.rain()
     elif manual_mode == MODE_BORG:
         mote_lighting.borg()
+    elif manual_mode == MODE_FIRE_LIGHTING:
+        fire.fire_effect_with_lighting()
     elif manual_mode == MODE_LIGHT_OFF:
         mote_lighting.turn_light_off()
     else:

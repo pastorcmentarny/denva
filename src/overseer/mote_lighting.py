@@ -4,6 +4,8 @@ import time
 
 from mote import Mote
 
+from overseer import fire
+
 logger = logging.getLogger('overseer')
 
 # import fasting_timer
@@ -212,6 +214,11 @@ def night_mode():
 
         mote.show()
         time.sleep(1)
+
+    # add possibility for fire lighting
+    result = random.randint(1, 100)
+    if result > 88:
+        fire.fire_effect_with_lighting()
 
 
 def red_alert():
