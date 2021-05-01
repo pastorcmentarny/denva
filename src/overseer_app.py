@@ -11,7 +11,7 @@ from pathlib import Path
 
 import config_service
 from common import data_files
-from overseer import mote_lighting, fire
+from overseer import mote_lighting
 from services import email_sender_service
 
 EMPTY = ""
@@ -88,7 +88,7 @@ def set_manual_mode(manual_mode):
     elif manual_mode == MODE_BORG:
         mote_lighting.borg()
     elif manual_mode == MODE_FIRE_LIGHTING:
-        fire.fire_effect_with_lighting()
+        mote_lighting.fire_effect_with_lighting()
     elif manual_mode == MODE_LIGHT_OFF:
         mote_lighting.turn_light_off()
     else:
