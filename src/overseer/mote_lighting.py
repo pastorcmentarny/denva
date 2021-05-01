@@ -29,7 +29,6 @@ mote.configure_channel(3, 16, False)
 mote.configure_channel(4, 16, False)
 
 mote.clear()
-mote.set_brightness(0.4)
 
 RED_RGB_COLOUR = [255, 0, 0]
 ORANGE_RGB_COLOUR = [224, 64, 0]
@@ -79,10 +78,10 @@ def set_color_for(color_name: str):
         return 'rubbish'
 
 
-def change_to(red: int, green: int, blue: int):
+def change_to(red: int, green: int, blue: int, brightness=0.4):
     for led_index in range(0, 16):
         for led_line in range(1, 5):
-            mote.set_pixel(led_line, led_index, red, green, blue)
+            mote.set_pixel(led_line, led_index, red, green, blue, brightness)
     mote.show()
 
 
@@ -126,7 +125,7 @@ def party_mode():
 
 
 def knight_rider(red: int, green: int, blue: int):
-    logger.info(f'Going into knight rider mode usin [{red}-{green}-{blue}]')
+    logger.info(f'Going into knight rider mode using [{red}-{green}-{blue}]')
     mote.clear()
     mote.set_brightness(0.2)
     for times in range(5):
@@ -274,13 +273,13 @@ def turn_light_off():
 
 def transform():
     for r in range(0, 255):
-        change_to(int(r), 0, 0, 0.2)
+        change_to(int(r), 0, 0, 0.4)
 
     for r in range(255, 160, -1):
-        change_to(int(r), 0, 0, 0.2)
+        change_to(int(r), 0, 0, 0.3)
 
     for r in range(160, 255):
-        change_to(int(r), 0, 0, 0.2)
+        change_to(int(r), 0, 0, 0.4)
 
     for r in range(255, 32, -1):
         change_to(int(r), 0, 0, 0.2)
@@ -290,22 +289,15 @@ def transform():
         for _ in range(32, 128):
             change_to(_, int(_ / 2), 0, 0.3)
         for _ in range(128, 32):
-            change_to(_, int(_ / 2), 0, 0.3)
+            change_to(_, int(_ / 2), 0, 0.2)
 
     repeat = random.randint(1, 20)
     for _ in range(0, repeat):
         for r in range(64, 224):
-            change_to(int(r), int(r * 2 / 3), 0, 0.1)
+            change_to(int(r), int(r * 2 / 3), 0, 0.3)
 
         for r in range(224, 64, -1):
-            change_to(int(r), int(r * 2 / 3), 0, 0.1)
-
-
-def change_to(red: int, green: int, blue: int, brightness=0.2):
-    for led_index in range(0, 16):
-        for led_line in range(1, 5):
-            mote.set_pixel(led_line, led_index, red, green, blue, brightness)
-    mote.show()
+            change_to(int(r), int(r * 2 / 3), 0, 0.2)
 
 
 def lighting():
@@ -336,7 +328,7 @@ def lighting():
 
 
 def fire_effect_with_lighting():
-    while True:
+    for _ in range(1, 100):
         for _ in range(1, 3):
             transform()
 
