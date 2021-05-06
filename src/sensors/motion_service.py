@@ -12,6 +12,7 @@
 
 import logging
 import time
+
 from icm20948 import ICM20948
 
 import config_service
@@ -22,7 +23,8 @@ points = []
 imu = ICM20948()
 sx, sy, sz, sgx, sgy, sgz = imu.read_accelerometer_gyro_data()
 mx, my, mz = imu.read_magnetometer_data()
-logger.info(f'initial data from ICM20948 sx:${sx}, sy:${sy}, sz:${sz}, sgx:${sgx}, sgy:${sgy}, sgz:${sgz}, mx:${mx}, my:${my}, mz:${mz})')
+logger.info(
+    f'initial data from ICM20948 sx:${sx}, sy:${sy}, sz:${sz}, sgx:${sgx}, sgy:${sgy}, sgz:${sgz}, mx:${mx}, my:${my}, mz:${mz})')
 
 
 def reset():
@@ -40,7 +42,8 @@ def reset():
 
     test_mx, test_my, test_mz = imu.read_magnetometer_data()
     test_ax, test_ay, test_az, test_gx, test_gy, test_gz = imu.read_accelerometer_gyro_data()
-    logger.info(f'initial data from ICM20948 ax:${test_ax}, ay:${test_ay}, az:${test_az}, gx:${test_gx}, sgy:${test_gy}, sgz:${test_gz}, mx:${test_mx}, my:${test_my}, mz:${test_mz})')
+    logger.info(
+        f'initial data from ICM20948 ax:${test_ax}, ay:${test_ay}, az:${test_az}, gx:${test_gx}, sgy:${test_gy}, sgz:${test_gz}, mx:${test_mx}, my:${test_my}, mz:${test_mz})')
 
 
 def sample():
@@ -79,6 +82,7 @@ def get_current_motion_difference() -> dict:
         logger.warning(f"Unable to read data due to ${exception}")
         reset()
 
+
 def get_motion() -> int:
     try:
         sample()
@@ -87,4 +91,6 @@ def get_motion() -> int:
             value += abs(points[i] - points[i - 1])
         return value
     except Exception as exception:
+        logger.info('Exception occurred while getting data', exception)
         reset()
+        return 0
