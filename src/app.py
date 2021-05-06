@@ -52,8 +52,8 @@ def get_data_from_measurement() -> dict:
     eco2 = air_quality_service.get_eco2_measurement_as_string()
     tvoc = air_quality_service.get_tvoc_measurement_as_string()
 
-    r, g, b = two_led_service.get_measurement()
-    colour = dom_utils.to_hex(r, g, b)
+    red, green, blue = two_led_service.get_measurement()
+    colour = dom_utils.to_hex(red, green, blue)
     motion = motion_service.get_motion()
     two_led_service.warn_if_dom_shakes_his_legs(motion)
 
@@ -69,9 +69,9 @@ def get_data_from_measurement() -> dict:
         "motion": motion,
         "uva_index": uva_index,
         "uvb_index": uvb_index,
-        "r": r,
-        "g": g,
-        "b": b,
+        "r": red,
+        "g": green,
+        "b": blue,
         "eco2": eco2,
         "tvoc": tvoc,
     }
