@@ -43,12 +43,12 @@ def get_filename_from_year_month_day(name: str, file_type: str, year: int, month
     return f"{name}-{year}-{month:02d}-{day:02d}.{file_type}"
 
 
-def get_filename_for_warnings(year, month, day):
-    return f"warnings.log.{year}-{month:02d}-{day:02d}"
+def get_filename_for_warnings(year:str, month:str, day:str):
+    return f"warnings.log.{int(year)}-{int(month):02d}-{int(day):02d}"
 
 
 def get_filename_for_stats(year, month, day):
-    return f"stats.log.{year}-{month:02d}-{day:02d}"
+    return f"stats.log.{int(year)}-{int(month):02d}-{int(day):02d}"
 
 
 # TODO rename it to datetime
@@ -330,3 +330,4 @@ def to_int(number_as_string: str) -> int:
     if number_as_string == '' or (number_as_string is None) or number_as_string == '00' or number_as_string == '0':
         return 0
     return int(number_as_string.lstrip('0'))
+

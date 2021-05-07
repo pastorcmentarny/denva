@@ -181,7 +181,7 @@ class Test(TestCase):
         result = list(result)
 
         # then
-        self.assertEquals(expected_result, result)
+        self.assertEqual(expected_result, result)
 
     def test_clean_list_from_nones(self):
         # given
@@ -242,3 +242,9 @@ class Test(TestCase):
 
                 # then
                 self.assertEqual(expected_result, result)
+
+    def test_get_filename_for_warnings(self):
+        self.assertEqual(dom_utils.get_filename_for_warnings("2020", "05", "08"), "warnings.log.2020-05-08")
+
+    def test_get_filename_for_stats(self):
+        self.assertEqual(dom_utils.get_filename_for_stats("2020", "05", "08"), "stats.log.2020-05-08")
