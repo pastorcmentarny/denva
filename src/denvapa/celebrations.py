@@ -82,7 +82,9 @@ def day_left_text(counter: int) -> str:
         return 'tomorrow'
     elif counter > 1:
         return '{} days left'.format(counter)
-    logger.warning('Unsupported day left counter {}'.format(counter))
+    else:
+        logger.warning('Unsupported day left counter {}'.format(counter))
+        return 'error'
 
 
 def get_sentence_from_list_of_events(event_list: list) -> str:
