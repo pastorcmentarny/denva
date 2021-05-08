@@ -126,14 +126,8 @@ def get_links_for(suffix: str, sensor_only: bool = False) -> dict:
     return result
 
 
-# TODO improve it
 def get_last_logs_for(log_file_name: str, lines):
-    env = config_service.get_mode()
-    if env == 'dev':
-        env_dir = 'd:/denva/logs/'
-    else:
-        env_dir = 'e:/denva/logs/'
-    return data_files.tail(env_dir + log_file_name, lines)
+    return data_files.tail( 'd:/denva/logs/' + log_file_name, lines)
 
 
 def run_gc() -> dict:
