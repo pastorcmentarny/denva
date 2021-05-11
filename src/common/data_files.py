@@ -318,3 +318,13 @@ def is_report_file_exists_for(report_date: datetime) -> bool:
 def load_ricky(path: str):
     with open(path, 'r', encoding=ENCODING) as ricky_data:
         return json.load(ricky_data)
+
+
+def load_text_to_display() -> str:
+    path = config_service.get_data_path() + 'text_to_display.txt'
+    try:
+        with open(path, 'r', encoding=ENCODING) as text_file:
+            return str(text_file.read())
+    except Exception as exception:
+        logging.warning(f'Unable to load file with message due to: ${exception}', exc_info=True)
+        return str(exception)

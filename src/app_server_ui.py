@@ -21,7 +21,7 @@ from common import data_files
 from denvapa import app_server_service, webcam_service
 from gateways import web_data_gateway
 from reports import report_service
-from services import email_sender_service, information_service, tubes_train_service, system_data_service
+from services import email_sender_service, information_service, tubes_train_service, system_data_service, text_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -136,6 +136,11 @@ def ricky():
 def system():
     logger.info('Getting information about system')
     return jsonify(system_data_service.get_system_information())
+
+
+@app.route("/text")
+def get_text():
+    return text_service.get_text_to_display()
 
 
 @app.route("/tt")
