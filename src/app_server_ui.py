@@ -21,13 +21,15 @@ from common import data_files
 from denvapa import app_server_service, webcam_service
 from gateways import web_data_gateway
 from reports import report_service
-from services import email_sender_service, information_service, tubes_train_service, system_data_service, text_service
+from services import email_sender_service, information_service, tubes_train_service, system_data_service, text_service, \
+    metrics_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
 APP_NAME = 'Server UI'
 
 
+# TODO do I need it?
 @app.route('/denva', methods=['POST'])
 def store_denva_measurement():
     logging.info('Processing denva measurement request with json: {}'.format(request.get_json()))
@@ -46,6 +48,7 @@ def reboot_all_devices():
     return jsonify(app_server_service.reboot_all_devices())
 
 
+# TODO do I need it?
 @app.route('/enviro', methods=['POST'])
 def store_enviro_measurement():
     logging.info('Processing enviro measurement request with json: {}'.format(request.get_json()))
@@ -115,6 +118,20 @@ def log_ui():
 def recent_log_ui():
     logger.info('Getting recent server ui logs for sending as email')
     return jsonify(app_server_service.get_last_logs_for('server.log', 20))
+
+
+@app.route("/metrics/add", methods=['POST'])
+def update_metrics_for():
+    logger.info('updating metrics {}'.format(request.get_json(force=True)))
+    result = request.get_json(force=True)
+    metrics_service.add(result['metrics'], result['result'])
+    return jsonify({"status": "OK"})
+
+
+@app.route("/metrics/get")
+def get_metrics():
+    logger.info('getting current metrics')
+    return jsonify(metrics_service.get_currents_metrics())
 
 
 @app.route("/report/yesterday")

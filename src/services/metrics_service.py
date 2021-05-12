@@ -13,10 +13,7 @@ import copy
 import logging
 from datetime import date
 
-import config_service
-from common import commands, data_files
-from services import system_data_service
-from systemhc import system_health_check_service
+from common import data_files
 
 DATE_OF_METRICS = "date"
 
@@ -82,10 +79,10 @@ def generate_daily_metrics():
     return result
 
 
-def add(what: str, result: str):
+def add(metric: str, result: str):
     stats[COUNT] = stats[COUNT] + 1
-    if what not in metrics_names:
-        logger.error(f'Unknown metrics ${what}')
+    if metric not in metrics_names:
+        logger.error(f'Unknown metrics ${metric}')
         stats[COUNT] = stats[COUNT] - 1
         return
     elif result not in metrics_results:
@@ -97,42 +94,15 @@ def add(what: str, result: str):
         generate_daily_metrics()
 
     if result == OK:
-        stats[OK][what] = stats[OK][what] + 1
+        stats[OK][metric] = stats[OK][metric] + 1
     else:
-        stats[ERRORS][what] = stats[ERRORS][what] + 1
-
-
-def run_gc() -> dict:
-    return system_data_service.run_gc()
-
-
-def get_system_hc():
-    return system_health_check_service.get_system_healthcheck()
-
-
-def get_log_hc(number: int):
-    return commands.get_lines_from_path(config_service.get_log_path_for('log_hc'), number)
-
-
-def get_log_ui(number: int):
-    return commands.get_lines_from_path(config_service.get_log_path_for('log_ui'), number)
-
-
-def get_system_info():
-    return commands.get_system_info()
+        stats[ERRORS][metric] = stats[ERRORS][metric] + 1
 
 
 def get_currents_metrics() -> dict:
     return stats.copy()
 
 
-def get_ping_test_results():
-    return None
-
-
 def reset():
     global stats
-
     stats = copy.deepcopy(empty_stats)
-    print(f'stats ${stats}')
-    print(f'empty stats ${empty_stats}')
