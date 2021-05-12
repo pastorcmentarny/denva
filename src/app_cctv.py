@@ -141,7 +141,7 @@ if __name__ == '__main__':
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
     except Exception as exception:
-        print('Whoops. '.format(exception))
+        print(f'Whoops. {exception}')
         logger.error('Something went badly wrong. {}'.format(exception), exc_info=True)
         email_sender_service.send_error_log_email("CCTV APP", "Application crashed due to {}.".format(exception))
     except BaseException as disaster:

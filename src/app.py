@@ -140,7 +140,7 @@ if __name__ == '__main__':
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
         cleanup_before_exit()
     except Exception as exception:
-        print('Whoops. '.format(exception))
+        print(f'Whoops. {exception}')
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
         email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(exception))
         cleanup_before_exit()
