@@ -107,6 +107,7 @@ def post_healthcheck_beat(device: str, app_type: str):
         logger.warning(
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
+
 def post_healthcheck_reboot(device: str, app_type: str):
     url = config_service.get_system_hc_reboot_url()
     json_data = {'device': device, 'app_type': app_type}
@@ -116,8 +117,22 @@ def post_healthcheck_reboot(device: str, app_type: str):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem while sending reboot: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
+            'There was a problem while sending reboot: {} using url {}, device {} and app_type {}'.format(whoops, url,
+                                                                                                          device,
+                                                                                                          app_type))
 
+
+def post_metrics_update(metrics: str, result: str):
+    url = config_service.get_metrics_service_url()
+    json_data = {'metrics': metrics, 'result': result}
+    try:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem while sending measurement: {} using url {}, metrics {} and result {}'.format(
+                whoops, url, metrics, result))
 
 
 def post_service_of(device: str, app_type: str, status: bool):
