@@ -1,0 +1,515 @@
+### id;;Hash;;type(S -sentence Q - question);;Chinese;;Pinyin;;Englishl;;Polish;;Word id;;Notes
+1;;ae6da674;;S;;他喜欢鼓和贝司音乐。;;Tā xǐhuān gǔ hé bèi sī yīnyuè.;;He likes drum and bass music.;;On lubi muzykę drum and bass;;S;;none
+2;;407f8f08;;S;;你在吃什么？-What do you do?;;none
+3;;a1f1de93;;S;;我做贸易 Wǒ zuò màoyì -I do trading.;;none
+4;;db2a2ebc;;S;;What are you most passionate about?;;none
+5;;038583de;;S;;What do you like to do?;;none
+6;;8a015ab7;;S;;What’s the best thing that happened to you today?;;none
+7;;4e658035;;S;;What are you most excited about right now?;;none
+8;;4ecb6a14;;S;;What are you working on?;;none
+9;;70d427cd;;S;;If money were no object, what would you do with your life?;;none
+10;;7d93b982;;S;;What do you do for fun?;;none
+11;;93d0cd32;;S;;What’s something you’re really into right now?;;none
+12;;462bda0c;;S;;What’s the most interesting thing that’s happened to you lately?;;none
+13;;98292372;;S;;How do you feel your life has worked out so far?;;none
+14;;b4ef683a;;S;;What was the best part of your week/weekend?;;none
+15;;16e83713;;S;;What did you want to be when you grew up?;;none
+16;;5a57d374;;S;;What are you looking forward to right now?;;none
+17;;b128784d;;S;;What’s the last picture you took on your phone?;;none
+18;;27ab9495;;S;;What is your favorite thing to spend money on?;;none
+19;;b67cf993;;S;;What’s the nicest thing anyone’s ever said about you?;;none
+20;;90fcdfdf;;S;;What habit or improvement are you working on?;;none
+21;;030b278c;;S;;What cheers you up?;;none
+22;;feedbb3a;;S;;What cause are you passionate about?;;none
+23;;3c6561e3;;S;;What’s on your mind lately?;;none
+24;;ecbad09b;;S;;What personal habit are you proudest of?;;none
+25;;8440dfb6;;S;;How do you spend your days?;;none
+26;;412d4077;;S;;What problem do you wish you could solve?;;none
+27;;99a07af8;;S;;我想去冰岛搭个冰屋躲起来 Wǒ xiǎng qù bīngdǎo dā gè bīng wū duǒ qǐlái. I want to go to Iceland to build an igloo to hide;;none
+28;;3625b32c;;S;;我吃了小吃店。I ate a snack bar.;;none
+29;;3197daa3;;S;;我马上回来 I will be right back;;none
+30;;30053bfa;;S;;我们晚饭要吃什么？;;none
+31;;470fd2dd;;S;;你房间大吗;;none
+32;;ea8b8c23;;S;;你睡得好吗 ？;;none
+33;;bfe88fda;;S;;鼓和贝司 Gǔ hé bèi sī;;none
+34;;e89c0e13;;S;;天气不好，但是我去散散步。;;none
+35;;e377fe8e;;S;;What was your favorite food;;none
+36;;1fe01308;;S;;What抯 the #1 most played song o;;none
+37;;cabfe9ee;;S;;What抯 your favorite indoor/outdoor activity?;;none
+38;;464b9b04;;S;;What is your favorite form of exercise?;;none
+39;;953aff06;;S;;我的家乡是弗罗茨瓦夫("Wroclaw");;none
+40;;2856bb99;;S;;我的家乡有电车.;;none
+41;;5c267076;;S;;他们是伦敦南部的电车。;;none
+42;;d2bb1f60;;S;;我住在伦敦西部。;;none
+43;;d013b4b3;;S;;我希望在伦敦使用电车。;;none
+44;;19938249;;S;;伦敦还可以但是英国经常下雨;;none
+45;;a82df030;;S;;你多久游一次泳？ Nǐ duōjiǔ yóu yīcì yǒng? How often do you swim for a swim?;;none
+46;;f339a29e;;S;;我想做急救课程。 Wǒ xiǎng zuò jíjiù kèchéng.I want to do a first aid course.;;none
+47;;b1e527a6;;S;;我去过曾做过急救课程。 Wǒ qùguò céng zuòguò jíjiù kèchéng.I have been to a first aid course.;;none
+48;;9a5c7a51;;S;;今天有人晕倒了。 Jīntiān yǒurén yūn dǎo le.Someone fainted today.;;none
+49;;f6a5be09;;S;;我帮助这个人，但我知道我可以做得更好。Wǒ bāngzhù zhège rén, dàn wǒ zhīdào wǒ kěyǐ zuò dé gèng hǎo. I help this person, but I know that I can do better.;;none
+50;;0e7cbafa;;S;;火车坏了。;;none
+51;;1c14136f;;S;;她没有离开车站。;;none
+52;;4462bf62;;S;;她前往下一站。;;none
+53;;5584f7b1;;S;;她迟到了75分钟。;;none
+54;;810b88a6;;S;;每周一次 Měi zhōu yīcì once a week;;none
+55;;29f40df0;;S;;一斤 Half kilo;;none
+56;;8a0ec0d1;;S;;我不错 - not bad;;none
+57;;0ccc7fe3;;S;;我不太好 - not so good;;none
+58;;288c16b0;;S;;你又想低阶煤吗？ - do you have any sibilinhg;;none
+59;;896bc3c0;;S;;(电子警察 - speed camera? );;none
+60;;c4077541;;S;;我喜欢在下雪时跑步。;;none
+61;;b8978b73;;S;;China’s chūnyùn (春运), the travel season around Chinese New Ye;;none
+61;;路上得多长时间？;;
+
+101;;bbb221ac;;S;;身体健;;shēntǐ jiànkān;;Wish you a good healt;;Dobrego zdrowi;;none;;none
+102;;bb05b0c1;;S;;我 叫Domin;;Wǒ jiào Domin;;My name is Domini;;Ja nazywam się Domin;;none;;none
+103;;8389d52d;;S;;我三十一;;Wǒ sānshíyī su;;I am 27 years ol;;Ja mam 27 la;;none;;none
+104;;e16574c7;;S;;我是波兰;;Wǒ shì bōlán rén;;I am from Polan;;Jestem z Polsk;;none;;none
+105;;33386897;;S;;我家养狗和二;;Wǒjiā yǎng gǒu hé èr māo;;I have dog and two cat;;Ja mam psa i 2 ko;;none;;none
+106;;14b4defd;;S;;我喜欢奶酪蛋糕;;Wǒ xǐhuan nǎilào dàngā;;I like cheesecak;;Ja lubie serni;;none;;none
+107;;266bd7f3;;S;;我喜欢黑;;Wǒ xǐhuan hēis;;I like black colo;;Ja lubię czarny kolo;;none;;none
+108;;e422b6ca;;S;;我的生日是一九八〇年，四月，四;;Wǒ de shēngrì shì yījiǔbā líng nián, sì yuè, sì r;;I was born 4 April 198;;Ja  urodziłem się 4 kwietnia 1980;;none;;none
+109;;47f095c5;;S;;我;;Wǒ hěn h;;I am very wel;;Ja mam się bardzo dobrz;;none;;none
+110;;8a456c97;;S;;对;;duìbùq;;I am sorr;;Przeprasza;;none;;none
+111;;fda21b8c;;S;;我说　一点儿　;;Wǒ shuō yīdiǎnr hàn;;I speak a little chines;;Mówie odrobinę po chińsk;;none;;none
+112;;c3b12a58;;S;;我有病;;Wǒ yǒu bìng l;;I am sic;;Jestem chor;;none;;none
+113;;4cb30d91;;S;;我有;;Wǒ yǒu ch;;I have a ca;;Ja mam samochó;;none;;none
+114;;4206e4cf;;S;;我;;Wǒ yǒu pià;;I have a ticke;;Ja mam bile;;none;;none
+115;;5b186aa8;;S;;我得了;;Wǒ déliǎo liúgǎ;;I have the fl;;Ja mam gry;;none;;none
+116;;6cf11e22;;S;;我有一个;;Wǒ yǒu yīgè qīz;;I have a wif;;Ja mam żon;;none;;none
+117;;b582f887;;S;;我有;;Wǒ yǒu bǎoxiǎ;;I have insuranc;;Ja mam ubezpieczeni;;none;;none
+118;;71e240e6;;S;;我没有;;Wǒ méiyǒu ch;;I don't have a ca;;Ja nie mam samochod;;none;;none
+119;;182c2b58;;S;;我没有;;Wǒ méi yǒu bǎoxiǎ;;I don't have insuranc;;Ja nie mam ubezpieczen;;none;;none
+120;;2259993d;;S;;我没有;;Wǒ méiyǒu diànsh;;I don't have T;;Ja nie mam telewizor;;none;;none
+121;;917b8ece;;S;;我没;;wǒ méi qián l;;I have no mone;;Ja nie mam pieniędz;;none;;none
+122;;9e5f3fb1;;S;;她没有;;Tā méiyǒu wàz;;She does not have sock;;Ona nie ma skarpete;;none;;none
+123;;899b3184;;S;;我是电脑;;wǒ shì diànnǎo yèz;;I work as a software develope;;Jestem programist;;none;;none
+124;;9f6515ca;;S;;厕所在;;cèsuǒ zài zuǒbi;;Toilet is on the lef;;Toaleta jest po lewe;;none;;none
+125;;003b9168;;S;;这是我的;;zhè shì wǒ de míngpi;;This is my business car;;To jest moje wizytówk;;none;;none
+126;;d013a1d6;;S;;这是我的;;zhè shì wǒ de qī;;This is my wif;;To jest moja żon;;none;;none
+127;;45825819;;S;;这是我的;;zhè shì wǒ de mèim;;This is my siste;;To jest młodsza siostr;;none;;none
+128;;5d7446af;;S;;这是我的;;zhè shì wǒ de lǎobǎ;;This is my bos;;To jest mój sze;;none;;none
+129;;7edf28d0;;S;;你;;nǐ hǎ;;Hell;;Wita;;none;;none
+130;;2f5d5ac0;;S;;;;zàijià;;By;;P;;none;;none
+131;;36f01f72;;S;;好久 不见;;hǎojiǔ bùjiànl;;Long time no se;;Hej! Dawno się nie widzieliśm;;none;;none
+132;;4f2551c5;;S;;我是;;wǒ shì jiàos;;I am a teache;;Jestem nauczyciele;;none;;none
+133;;04c41335;;S;;我是波;;wǒ shì bōlán r;;I am Polis;;Jestem polakie;;none;;none
+134;;3fb2f8ba;;S;;这是我;;zhè shì wǒ de s;;This is my book;;To jest moja książk;;none;;none
+135;;8ecfc3dd;;S;;这是我的笔记本;;zhè shì wǒ de bǐjìběn diànn;;This is my lapto;;To jest mój lapto;;none;;none
+136;;444ae553;;S;;这是一;;zhè shì yī kē sh;;This is a tre;;To jest drzew;;none;;none
+137;;eb6f3dd4;;S;;那是;;nà shì huǒch;;That is a trai;;To jest pocią;;none;;none
+138;;044abed7;;S;;我不是电脑;;wǒ bùshì diànnǎo yèzh;;I am not software develope;;Nie jestem programist;;none;;none
+139;;512c5a19;;S;;她是不是德;;tā shì bùshì déguó ré;;She is not Germa;;Ona nie jest Niemk;;none;;none
+140;;6c81dafb;;S;;这不是我的笔记本电;;zhè bùshì wǒ de bǐjìběn diànnǎ;;This is not my lapto;;To nie jest mój lapto;;none;;none
+141;;6555fba9;;S;;它不是你的;;tā bùshì nǐ de píj;;It is not yours bee;;To nie jest twoje piw;;none;;none
+142;;b45ef805;;S;;这不是一;;zhè bùshì yī kē s;;This is not a tre;;To nie jest drzew;;none;;none
+143;;b8c77997;;S;;十点;;shí diǎnl;;Ten o'cloc;;10.;;none;;none
+144;;27e7c89a;;S;; 七点;;qī diǎn bà;;Half past seve;;7.;;none;;none
+145;;388f92f3;;S;;九点;;jiǔ diǎn yī ;;Quater past nin;;9.;;none;;none
+146;;7c09a6fe;;S;;十一点;;shíyī diǎn sān ;;Quater to twelv;;11.;;none;;none
+147;;1699983b;;S;;六点;;liù diǎn wǔ f;;Five part si;;6.;;none;;none
+148;;d6fc42d4;;S;;非常;;fēicháng gǎnxi;;Thank you very muc;;Dziękuje bardz;;none;;none
+149;;a1700df5;;S;;;;bǎozhò;;Take car;;;;none;;none
+150;;aa23d15a;;S;;她能说英;;tā néng shuō yīngy;;She  can speak Englis;;Ona potrafi mówić po angielsk;;none;;none
+151;;c450fe3e;;S;;我能用汉语打电;;wǒ néng yòng hànyǔ dǎ diànhu;;I can make phone call in Chines;;Moge wykonać rozmowę telefoniczną po  chińsk;;none;;none
+152;;4872194a;;S;;我能开;;wǒ néng kāich;;I can driv;;Potrafie prowadzić samochó;;none;;none
+153;;681bb88f;;S;;他能游;;tā néng yóuyǒn;;He can swi;;On potrafi pływa;;none;;none
+154;;e5cea206;;S;;我能跳;;wǒ néng tiàow;;I can danc;;Ja potrafię tańczy;;none;;none
+155;;3c0e04b2;;S;;好的，谢;;hǎo de, xièxi;;Okay, thank yo;;Tak,dziękuj;;none;;none
+156;;e413f02e;;S;;我很渴;;wǒ hěn kěl;;I am very thirst;;Jestem bardzo spragnion;;none;;none
+157;;39eb8c34;;S;;;;méi yǒ;;N;;Nie ma;;none;;none
+158;;6e4e9223;;S;;我喜欢绿;;wǒ xǐhuan lǜch;;I like green te;;Ja lubie zieloną herbat;;none;;none
+159;;05a5ed96;;S;;两元一;;liǎng yuán yī pín;;2 yuans per bottl;;2 juany za butelk;;none;;none
+160;;e9b36594;;S;;我喜欢跑;;wǒ xǐhuan pǎob;;I like runnin;;Ja lubię bieg;;none;;none
+161;;edaddd98;;S;;我听电子音;;wǒ tīng diànzǐ yīnyu;;I listen to electronic musi;;Ja slucham muzyki elektroniczne;;none;;none
+162;;91eaa04d;;S;;我学汉语是因为我的妻子是中国;;wǒ xué hànyǔ shì yīnwèi wǒ de qīzi shì zhōngguó ré;;I learn Chinese because my wife is Chines;;Ja ucze się języka chińskiego,ponieważ moja żona jest z Chi;;none;;none
+163;;478a3c1e;;S;;对不起，我迟到;;duì bù qǐ ，wǒ chí dào l;;I'm sorry I'm lat;;Przepraszam za spóźnieni;;none;;none
+164;;a38a2d8e;;S;;我学的是计算机科;;wǒ xué de shì jìsuànjī kēxu;;I studied computer science;;Ja studiowałem informatyk;;none;;none
+165;;3a0aecca;;S;;我早上十点起;;wǒ zǎoshang shí diǎn qǐchuán;;I get up at ten in the mornin;;Ja wstałem o 10 ran;;none;;none
+166;;bca89661;;S;;天气怎么;;tiānqì zěnme yàn;;How the weather lik;;Jak pogod;;none;;none
+167;;b4c97996;;S;;我听不;;wǒ tīng bù dǒn;;I do not understan;;Nie rozumie;;none;;none
+168;;ae49ce21;;S;;我不知;;wǒ bù zhīdà;;I don't kno;;Nie wi;;none;;none
+169;;581f419d;;S;;我喜欢我的工;;wǒ xǐhuan wǒ de gōngzu;;I like my jo;;Ja lubie moją prac;;none;;none
+170;;1450a708;;S;;我没有宠物,但是我以后想养一;;wǒ méiyǒu chǒngwù, dànshì wǒ yǐhòu xiǎng yǎng yī zh;;I do not have pet,but I want have one in futur;;nie mam zwierza domowego ( :) ) ,ale che mieć jednego w przyszłośc;;none;;none
+171;;971f403a;;S;;我没有驾驶执;;wǒ méiyǒu jiàshǐ zhízhà;;I don't have driving licenc;;Ja nie mam prawa jazd;;none;;none
+172;;dae71e38;;S;;我有点不舒服;;wǒ yǒudiǎn bú shūf;;I'm a little sic;;Jestem chor;;none;;none
+173;;0c66ba0c;;S;;谢谢你的;;xièxiè nǐ de zhàopià;;Thank you for photo;;Dziękuje za zdjęc;;none;;none
+174;;32ed0ba3;;S;;保持联;;bǎochí liánx;;Keep in touc;;Bądźmy w kontakci;;none;;none
+175;;b3d6b2f6;;S;;我住在弗罗茨瓦;;wǒ zhù zài fúluōcíwǎf;;I live in Wrocla;;Mieszkam we Wrocław;;none;;none
+176;;fc00080f;;S;;我讨厌清;;wǒ tǎoyàn qīngx;;i hate cleanin;;Ja nienawidze sprząta;;none;;none
+177;;3ae01c75;;S;;我有很多事情要;;wǒ yǒu hěnduō shìqíng yào zu;;I have many things to d;;Mam wiele rzeczy do zrobieni;;none;;none
+178;;36b78739;;S;;我在写电子邮;;Wǒ zài xiě diànzǐ yóuji;;I am writing an ema;;no;;none;;none
+179;;5d276f5a;;S;;我喜欢辣食;;wǒ xǐhuan là shíw;;I like spicy food;;Ja lubie pikatne jedzeni;;none;;none
+180;;40c63a08;;S;;我会说汉;;wǒ huì shuō hànyǔ;;I speak Chines;;Ja mówie po chińsk;;none;;none
+181;;76b6caba;;S;;我很;;wǒ hěn chò;;I stin;;śmierdz;;none;;none
+182;;c8f0453f;;S;;我喜欢啤酒，红葡萄酒和威士;;Wǒ xǐhuān píjiǔ, hóng pútáojiǔ hé wēishìj;;I like beer, red wine and whiske;;Ja lubie piwo , czerwone wino i whisk;;none;;none
+183;;4f36a044;;S;;我没有纹;;Wǒ méiyǒu wénshē;;I do not have any tatto;;Ja nie mam żadnych tatuaż;;none;;none
+184;;695eb262;;S;;我读书"Terry Pratchett - Mort;;Wǒ dúshū"Terry Pratchett - Mort;;I read Terry Pratchett - Mor;;Ja teraz czytam książkę pt.  Mort napisaną przez Terrego Pratchett;;none;;none
+185;;b5a40478;;S;;我要住在中;;Wǒ yào zhù zài zhōnggu;;I want to live in Chin;;Chciałbym mieszkać w China;;none;;none
+186;;eb7d2871;;S;;这是我的臭袜子;;Zhè shì wǒ de chòu wàz;;This is my smelly sock;;To są moje śmierdzące skarpetk;;none;;none
+187;;76ea2023;;S;;我去过中国，德国,西班牙和英;;Wǒ qùguò zhōngguó, déguó, xībānyá hé yīnggu;;I have been in China, Germany, Spain and U;;Ja byłem w Chinach, Niemczech, Hiszpani i Wielkiej Brytan;;none;;none
+188;;1470e484;;S;;你去过波;;nǐ qùguò bōlá;;I have been in Polan;;Ja byłem kiedyś w Polsc;;none;;none
+189;;0a608c71;;S;;我不;;Wǒ bù dǒn;;I do not kno;;Nie wi;;none;;none
+190;;d027c2d4;;S;;该睡觉;;Gāi shuìjiàol;;It's time for be;;Czas iść spa;;none;;none
+191;;32b20345;;S;;祝你好;;Zhù nǐ hǎo yù;;Good luc;;Powodzeni;;none;;none
+192;;b0600931;;S;;做个;;Zuò gè měimè;;Sweet dream;;kolorowych (słodkich) sn;;none;;none
+193;;192b629c;;S;;没;;méiguān;;It doesn't matte;;nie ma znaczen;;none;;none
+194;;20f88fb8;;S;;不客;;bùkèq;;You're welcom;;Cała przyjemność po mojej stroni;;none;;none
+195;;0526cae3;;S;;;;hé;;Why no;;Dlaczego ni;;none;;none
+196;;ff4a9dfc;;S;;恭喜;;Gōngxǐ fāc;;Congratulations and be prosperous;;Gratulacje i pomyślnośc;;none;;none
+197;;388f94b5;;S;;我在地铁上;;Wǒ zài dìtiě shàn;;I am in the subwa;;Ja jestem w metrz;;none;;none
+198;;d26db7bb;;S;;我要见我的爱;;Wǒ yào jiàn wǒ de àiré;;I want to see my wif;;Chce zobaczyć się z moją żon;;none;;none
+199;;3842fe37;;S;;昨天我在天津看了咖世家咖啡;;Zuótiān wǒ zài tiānjīn kànle kā shìjiā kāfē;;Yesterday I saw Costa Coffee in Tianji;;Wczoraj widzialem Costa Coffee w Tianji;;none;;none
+200;;8bb04db9;;S;;你可以说：我又累又困;;nǐ kěyǐ shuō: Wǒ yòu lèi yòu kù;;You can say: I am tired and sleep;;Możesz powiedzieć : Jestem zmęczony i śpiąc;;none;;none
+201;;892a64e3;;S;;我的专业是计算机科;;wǒ de zhuānyè shì jìsuànjī kēxu;;I majored in computer scienc;;Ja skończyłem studia informatyczn;;none;;none
+202;;ff40e77b;;S;;我有一个妹;;wǒ yǒu yīgè mèimei;; I have a younger sister;;Ja mam młodszą siostr;;none;;none
+203;;e17e46ec;;S;;恭喜;;gōngxǐfāc;;Have a prosperous New Yea;;;;none;;none
+204;;3798613f;;S;;我降落在北京首都机;;wǒ jiàngluò zài běijīng shǒudū jīchǎn;;I landed at Beijing Capital International Airpor;;Wylądawałem na pekińskim lotnisku miedzynarodowy;;none;;none
+205;;ee7a2e12;;S;;周末愉;;zhōumò yúkuà;;Have a nice weeken;;Milego weekend;;none;;none
+206;;bf8208eb;;S;;保持;;Bǎochí wēnnuǎ;;Keep war;;Trzymaj sie ciepł;;none;;none
+207;;a0ba4fed;;S;; 我学习汉;;Wǒ xuéxí hàny;;I learn Chines;;Ucze się języka chińskie;;none;;none
+208;;6171926b;;S;;我失去了我的耳;;Wǒ shīqùle wǒ de ěrj;;I lost my headphone;;Zgubiłem  swoje sluchawk;;none;;none
+209;;4cb749f0;;S;;我觉得在火车上很无;;Wǒ juédé zài huǒchē shàng hěn wúliá;;I feel very bored on the trai;;Jest bardzo znudzony w pociąg;;none;;none
+210;;8e977300;;S;;圣诞快乐;;Shèngdàn kuàil;;Merry Christma;;Wesołych Świąt Bożego Narodzeni;;none;;none
+211;;3d47b493;;S;;我吃了鸡肉，米饭 和蔬菜;;Wǒ chīle jīròu, mǐfàn hé shūcà;;I ate chicken, rice and vegetable;;Ja zjadłem kurczala z ryżem i warzywam;;none;;none
+212;;cab6e87b;;S;;;;Qǐng jì;;Come in, pleas;;Proszę wchodzi;;none;;none
+213;;5c6e3416;;S;;;;qǐng z;;Sit down, pleas;;Prosze usiąś;;none;;none
+214;;37806427;;S;;劳动节快;;Láodòng jié kuàil;;Happy Labor Da;;;;none;;none
+215;;02c0b108;;S;;我喜欢逛公园，慢跑和爬;;Wǒ xǐhuān guàng gōngyuán, mànpǎo hé páshān.;;I like visiting the park, jogging and climbin;;no;;none;;none
+216;;7120a068;;S;;我太胖了，跑不动，但我能走很长的距离（十五公里）;;Wǒ tài pàngle, pǎobù dòng, dàn wǒ néng zǒu hěn zhǎng de jùlí (shíwǔ gōnglǐ);;I am too fat to run, but I can walk a long distance (15 km);;no;;none;;none
+217;;400dbbfe;;S;;我在2013年跑了半程马拉松。;;Wǒ zài 2013 nián pǎole bàn chéng mǎlāsōng.;;I ran a half marathon in 2013;;Ja przebiegłem pół maraton w 2013 rok;;none;;none
+218;;90c2a5f2;;S;;我绕着山走了四十公里;;Wǒ ràozhe shān zǒule sìshí gōnglǐ;;I walked forty kilometers around the mountain;;no;;none;;none
+219;;22003e14;;S;;我最喜欢的喜剧演员是Gabriel Iglesias, 、Michael McIntyre和 Abelard Giz;;Wǒ zuì xǐhuān de xǐjù yǎnyuán shì Gabriel Iglesias, ,Michael McIntyre hé Abelard Giza;;My favorite comedians are Gabriel Iglesias, Michael McIntyre and Abelard Giza;;no;;none;;none
+220;;9939d95c;;S;;我最喜欢的电视节目是"Star Trek : The next generation;;Wǒ zuì xǐhuān de diànshì jiémù shì"Star Trek: The next generation";;My favorite TV show is "Star Trek: The next generation";;no;;none;;none
+221;;da8bc8b9;;S;;我喜歡Denzel Washington 和 Morgan Freema;;Wǒ xǐhuān Denzel Washington hé Morgan Freeman;;I like Denzel Washington and Morgan Freeman;;no;;none;;none
+222;;ef7b10a6;;S;;我需要刮胡子和理发，因为我看起来像无家可;;Wǒ xūyào guā húzi hé lǐfǎ, yīnwèi wǒ kàn qǐlái xiàng wú jiā kě guī;;I need to shave and cut my hair because I look like homeless;;no;;none;;none
+223;;91f70bab;;S;;我不喜欢我现在的工作，因为我的工作很无;;Wǒ bù xǐhuān wǒ xiànzài de gōngzuò, yīnwèi wǒ de gōngzuò hěn wúliáo;;I don't like my current job because my job is boring;;no;;none;;none
+224;;6b5119ba;;S;;我这次的旅程平时只需45分钟却花了90分;;Wǒ zhè cì de lǚchéng píngshí zhǐ xū 45 fēnzhōng què huāle 90 fēnzhōng;;My journey took only 45 minutes and it took 90 minutes;;no;;none;;none
+225;;1c464948;;S;;我的儿子开始哭了，因为他饿了。在四点;;Wǒ de érzi kāishǐ kūle, yīnwèi tā èle. Zài sì diǎn bàn;;My son began to cry because he was hungry. At half past four;;no;;none;;none
+226;;4028cdd9;;S;;我喜欢单口喜剧，因为演员说的是日常生;;Wǒ xǐhuān dānkǒu xǐjù, yīnwèi yǎnyuán shuō de shì rìcháng shēnghuó;;I like stand-up comedy because the actors talk about daily life;;no;;none;;none
+227;;542a96ad;;S;;我要买’Colombian'咖啡但已經卖完;;Wǒ yāomǎi’Colombian'kāfēi dàn yǐjīng mài wánliǎo;;I want to buy 'Colombian' coffee but it is sold out;;no;;none;;none
+228;;965e07f7;;S;;我试图打电话给你，但是我的电池没电;;Wǒ shìtú dǎ diànhuà gěi nǐ, dànshì wǒ de diànchí méi diànle;;I tried to call you but my battery was dead;;Próbowałem zadzwonić do ciebie ale moja bateria się padł;;none;;none
+229;;d7397f5f;;S;;我不喜欢KFC但我的爱人要吃KFC的鸡;;Wǒ bù xǐhuān KFC dàn wǒ de àirén yào chī KFC de jīròu;;I don't like KFC but my lover wants to eat KFC chicken;;no;;none;;none
+230;;28c07662;;S;;因为外面正在下雪，所以我无法跑步;;Yīnwèi wàimiàn zhèngzài xià xuě, suǒyǐ wǒ wúfǎ pǎo bù;;Because it is snowing outside, I can't run;;Nie mogę biegać bo pada śnieg na zewnątr;;none;;none
+231;;205a0347;;S;;昨天我买了一本书，但我今天弄丟了它;;Zuótiān wǒ mǎile yī běn shū, dàn wǒ jīntiān nòng diūle tā;;I bought a book yesterday, but I lost it today;;no;;none;;none
+232;;c0d0295d;;S;;我搭的地铁因有些信号问题导致误点;;Wǒ dā dì dìtiě yīn yǒuxiē xìnhào wèntí dǎozhì wùdiǎn;;The subway I took was delayed due to some signal problems;;no;;none;;none
+233;;5d2f3f44;;S;;我计划走二十五公里，但是下雨了;;Wǒ jìhuà zǒu èrshíwǔ gōnglǐ, dànshì xià yǔle;;I plan to walk 25 kilometers, but it is raining;;no;;none;;none
+234;;e37e060d;;S;;我想去厕所，但是火车上没有厕所;;Wǒ xiǎng qù cèsuǒ, dànshì huǒchē shàng méiyǒu cèsuǒ;;I want to go to the toilet, but there is no toilet on the train;;no;;none;;none
+235;;cdc7fac4;;S;;我没有去上班，因为我感觉不舒服;;Wǒ méiyǒu qù shàngbān, yīnwèi wǒ gǎnjué bú shūfú;;I didn't go to work because I didn't feel well;;no;;none;;none
+236;;1a09183a;;S;;我喜欢中国的茶但我也喜欢浓咖啡;;Wǒ xǐhuān zhōngguó de chá dàn wǒ yě xǐhuān nóng kāfēi;;I like Chinese tea but I also like espresso;;Ja lubie chińską herbate albo lubię  express;;none;;none
+237;;b075228f;;S;;改变我的生活的时刻是了移民到UK;;Gǎibiàn wǒ de shēnghuó de shíkè shìle yímín dào UK;;The time to change my life was immigration to the UK;;no;;none;;none
+238;;424da292;;S;;我仍然感到累，因为我的工作很忙;;Wǒ réngrán gǎndào lèi, yīnwèi wǒ de gōngzuò hěn máng;;I still feel tired because my work is very busy;;no;;none;;none
+239;;ca99ed1b;;S;;我现在正在学习Python编程语言;;Wǒ xiànzài zhèngzài xuéxí Python biānchéng yǔyán;;I am currently learning the Python programming language;;no;;none;;none
+240;;a04d4828;;S;;伦敦的地铁并不像中国那样拥挤;;Lúndūn dì dìtiě bìng bù xiàng zhōngguó nàyàng yǒngjǐ;;London's subway is not as crowded as China;;Metro w Londynie nie jest zatłoczone w Chinach;;none;;none
+241;;fba0577e;;S;;现在只是九点一刻但我已经累了;;Xiànzài zhǐshì jiǔ diǎn yī kè dàn wǒ yǐjīng lèile;;It's only 9:15 but I'm tired;;no;;none;;none
+242;;0b788a57;;S;;因为下大雨，所以火车被取消了;;Yīnwèi xià dàyǔ, suǒyǐ huǒchē bèi qǔxiāole;;Because of the heavy rain, the train was canceled;;no;;none;;none
+243;;952d33c1;;S;;英国的公共交通很混亂所以误点;;Yīngguó de gōnggòng jiāotōng hěn hǔnluàn suǒyǐ wùdiǎn;;Public transport in the UK is confusing and it is delayed;;no;;none;;none
+244;;0b3894e5;;S;;我的朋友在下午六点半拜访了我;;Wǒ de péngyǒu zài xiàwǔ liù diǎn bàn bàifǎngle wǒ;;My friend visited me at 6:30 in the afternoon;;no;;none;;none
+245;;8d554bdb;;S;;昨天Stephen Hawking去世了;;Zuótiān Stephen Hawking qùshìle;;Stephen Hawking passed away yesterday;;no;;none;;none
+246;;c876e75d;;S;;我在晚饭时吃了丸子用和米饭;;Wǒ zài wǎnfàn shí chīle wánzi yòng hé mǐfàn;;I had meatballs and rice at dinner;;no;;none;;none
+247;;c7037d6f;;S;;我今早吃了火腿和奶酪三明治;;Wǒ jīn zǎo chīle huǒtuǐ hé nǎilào sānmíngzhì;;I had a ham and cheese sandwich this morning;;no;;none;;none
+248;;26fbeed8;;S;;他是一位充满灵感的残疾人士;;Tā shì yī wèi chōngmǎn línggǎn de cánjí rénshì;;He is an inspirational disabled person;;no;;none;;none
+249;;0b459925;;S;;我想去游泳，但我忘了帶裤子;;Wǒ xiǎng qù yóuyǒng, dàn wǒ wàngle dài kùzi;;I want to go swimming, but I forgot to bring my pants;;no;;none;;none
+250;;31a6558f;;S;;我四点去公园。我走了5公里;;Wǒ sì diǎn qù gōngyuán. Wǒ zǒule 5 gōnglǐ;;I go to the park at four o'clock. I walked 5 kilometers;;no;;none;;none
+251;;805ba96d;;S;;我很困了，我需要更多睡眠;;Wǒ hěn kùnle, wǒ xūyào gèng duō shuìmián;;I am very sleepy and I need more sleep;;no;;none;;none
+252;;b9cd7826;;S;;我吃了三明治和火腿和乳酪;;Wǒ chīle sānmíngzhì hé huǒtuǐ hé rǔlào;;I ate sandwiches and ham and cheese;;no;;none;;none
+253;;dcd219a5;;S;;我要去餐馆，因为我很饿了;;Wǒ yào qù cānguǎn, yīnwèi wǒ hěn èle;;I'm going to the restaurant because I'm hungry;;Idę do restaurancji ponieważ jestem głodn;;none;;none
+254;;e6946b85;;S;;在英国我喜欢去酒吧喝啤酒;;Zài yīngguó wǒ xǐhuān qù jiǔbā hē píjiǔ;;I like to go to the pub and drink beer in the UK;;no;;none;;none
+255;;8959f828;;S;;昨天，我去了伦敦的唐人街;;Zuótiān, wǒ qùle lúndūn de tángrénjiē;;Yesterday, I went to London's Chinatown;;Wczoraj poszedłem do chińskiej dzielnicy w Londyni;;none;;none
+256;;877ddbb8;;S;;我们谈论了他的波兰之;;Wǒmen tánlùnle tā de bōlán zhī xíng;;We talked about his trip to Poland;;My rozmawialiśmy o podróży do Polsk;;none;;none
+257;;e2f67690;;S;;我去了公园走了2个小时;;Wǒ qùle gōngyuán zǒule 2 gè xiǎosh;;I went to the park and walked for 2 hour;;no;;none;;none
+258;;95a48a2e;;S;;我在凌晨一点一分睡觉;;Wǒ zài língchén yī diǎn yī fēn shuìjiào;;I went to bed at one o'clock in the morning;;no;;none;;none
+259;;e0c21325;;S;;我现在没有时间学中文;;Wǒ xiànzài méiyǒu shíjiān xué zhōngwén;;I don't have time to learn Chinese now;;no;;none;;none
+260;;920b3546;;S;;我要在超市买一瓶白酒;;Wǒ yào zài chāoshì mǎi yī píng báijiǔ;;I want to buy a bottle of liquor in the supermarket;;no;;none;;none
+261;;0b647488;;S;;我在咖啡厅喝拿铁咖啡;;Wǒ zài kāfēi tīng hē ná tiě kāfēi;;I drink latte in the cafe;;no;;none;;none
+262;;e74dbe3f;;S;;谢谢你更正我所有的错;;Xièxiè nǐ gēngzhèng wǒ suǒyǒu de cuò;;Thank you for correcting all my mistakes;;no;;none;;none
+263;;61be49bc;;S;;我上星期日从中国回来;;Wǒ shàng xīngqírì cóng zhōngguó huílái;;I returned from China last Sunday;;no;;none;;none
+264;;4da485a7;;S;;他是一位理论物理学家;;Tā shì yī wèi lǐlùn wùlǐ xué jiā;;He is a theoretical physicist;;no;;none;;none
+265;;eadb6a42;;S;;我早饭时喝一瓶/杯水;;Wǒ zǎofàn shí hè yī píng/bēi shuǐ;;I drink a bottle/glass of water for breakfast;;no;;none;;none
+266;;59ba1d47;;S;;我喝了"craft"啤酒;;Wǒ hēle"craft"píjiǔ;;I drank "craft" beer;;no;;none;;none
+267;;fdd4faaf;;S;;在家我喜欢喝威士忌;;Zàijiā wǒ xǐhuān hē wēishìjì;;I like to drink whiskey at home;;no;;none;;none
+268;;122454e9;;S;;我午饭时喝一罐啤酒;;Wǒ wǔfàn shí hè yī guàn píjiǔ;;I drink a can of beer at lunchtime;;no;;none;;none
+269;;47c878e6;;S;;天气虽然晴朗但有风;;Tiānqì suīrán qínglǎng dàn yǒu fēng;;The weather is sunny but windy;;no;;none;;none
+270;;c584e861;;S;;我是Java 开发人员;;Wǒ shì Java kāifā rényuán;;I am a Java developer;;no;;none;;none
+271;;e73ff41b;;S;;我喜欢学习新的东西;;Wǒ xǐhuān xuéxí xīn de dōngxī;;I like to learn new things;;no;;none;;none
+272;;e85d7189;;S;;我没有明白您的意思;;Wǒ méiyǒu míngbái nín de yìsi;;I do not understand what you mean;;no;;none;;none
+273;;48a7da46;;S;;这个电影很没意思;;Zhège diànyǐng hěn méiyìsi;;This movie is very boring;;no;;none;;none
+274;;579e4b83;;S;;我直到午夜才睡觉;;Wǒ zhídào wǔyè cái shuìjiào;;I didn't sleep until midnight;;no;;none;;none
+275;;a6c3bb52;;S;;我去走了十五公里;;Wǒ qù zǒule shíwǔ gōnglǐ;;I went 15 kilometers;;no;;none;;none
+276;;7632ad34;;S;;我早上十点半起;;Wǒ zǎoshang shí diǎn bàn qǐchuáng;;I get up at 10:30 in the morning;;no;;none;;none
+277;;2b7d7175;;S;;英国现在有大风暴;;Yīngguó xiànzài yǒu dàfēngbào;;There is a big storm in Britain;;no;;none;;none
+278;;39a086d0;;S;;我会留在家里休息;;Wǒ huì liú zài jiālǐ xiūxí;;I will stay at home and rest;;no;;none;;none
+279;;61ecef04;;S;;我去了一家粤菜馆;;Wǒ qùle yījiā yuècài guǎn;;I went to a Cantonese restaurant;;no;;none;;none
+280;;4ff74958;;S;;我在早上六点起床;;Wǒ zài zǎoshang liù diǎn qǐchuáng;;I get up at six in the morning;;no;;none;;none
+281;;6ef6de51;;S;;我在晚上去了酒吧;;Wǒ zài wǎnshàng qùle jiǔbā;;I went to the bar in the evening;;no;;none;;none
+282;;60b0adc4;;S;;我看见一些外国人;;Wǒ kànjiàn yīxiē wàiguó rén;;I saw some foreigners;;Ja widziałem parę obcokrajowcó;;none;;none
+283;;b5191f04;;S;;我需要回去学中文;;Wǒ xūyào huíqù xué zhōngwén;;I need to go back to learn Chinese;;no;;none;;none
+284;;2959c2c4;;S;;我在晚饭吃了KFC;;Wǒ zài wǎnfàn chīle KFC;;I ate KFC at dinner;;Ja jadłem KFC na obia;;none;;none
+285;;4c991e21;;S;;喜欢的电影明星;;Xǐhuān de diànyǐng míngxīng;;Favorite movie star;;no;;none;;none
+286;;c2ab02b1;;S;;我晚饭喝一杯茶;;Wǒ wǎnfàn hè yībēi chá;;I had a cup of tea for dinner;;no;;none;;none
+287;;41f7cc25;;S;;地铁站过于拥挤;;Dìtiě zhàn guòyú yǒngjǐ;;The subway station is overcrowded;;no;;none;;none
+288;;213c6bcb;;S;;我没有周末计划;;Wǒ méiyǒu zhōumò jìhuà;;I don't have a weekend plan;;no;;none;;none
+289;;7a2b8f48;;S;;我的办公室很冷;;Wǒ de bàngōngshì hěn lěng;;My office is cold;;no;;none;;none
+290;;7b1f0d4d;;S;;天气冷和大风天;;Tiānqì lěng hé dà fēng tiān;;The weather is cold and windy;;no;;none;;none
+291;;3f37b8cc;;S;;昨天天气不好;;Zuótiān tiānqì bù hǎo;;The weather was bad yesterday;;no;;none;;none
+292;;68dce648;;S;;这个厕所很小;;Zhège cèsuǒ hěn xiǎo;;This toilet is very small;;no;;none;;none
+293;;db6033ea;;S;;我昨晚没睡好;;Wǒ zuó wǎn méi shuì hǎo;;I didn't sleep well last night;;no;;none;;none
+294;;0867a1ed;;S;;在村里吃火锅;;Zài cūnlǐ chī huǒguō;;Eat hot pot in the village;;no;;none;;none
+295;;7a159dba;;S;;我不浪漫了;;Wǒ bù làngmànle;;I am not romantic;;Nie jestem romantyczn;;none;;none
+296;;9444bb1c;;S;;这个菜好;;Zhège cài hào chī;;This dish is delicious;;no;;none;;none
+297;;3ea28d36;;S;;我病了。;;Wǒ bìngle.;;I am sick;;no;;none;;none
+298;;90f098ce;;S;;我有点感冒;;Wǒ yǒudiǎn gǎnmào.;;I have a minor col;;no;;none;;none
+299;;de1b547b;;S;;笔记本电脑在桌子上;;Bǐjìběn diànnǎo zài zhuōzi shàng.;;Laptop is on the table;;no;;none;;none
+300;;68392a09;;S;;我在家里。;;Wǒ zài jiālǐ.;;I'm at home;;no;;none;;none
+301;;64c5fd60;;S;;“Capital Ring”是在伦敦一个行走的路线;;“Capital Ring” shì zài lúndūn yīgè xíngzǒu de lùxià;;The "Capital Ring" is a walking route in Londo;;no;;none;;none
+302;;54572e64;;S;;我不在办公;;Wǒ bùzài bàngōngshì;;I am not in the office;;no;;none;;none
+303;;784315ee;;S;;字典不在书架上。;;Zìdiǎn bùzài shūjià shàng.;;The dictionary is not on the bookshelf;;no;;none;;none
+304;;2ea2f904;;S;;毛巾不在浴室里;;Máojīn bùzài yùshì lǐ;;Towels are not in the bathroo;;no;;none;;none
+305;;45fefcc8;;S;;我家有四口人：爸爸，妈妈，妹妹和我。;;Wǒjiā yǒu sì kǒu rén: Bàba, māmā, mèimei hé w;;There are 4 people in my family: father, mother, sister and me;;no;;none;;none
+306;;3dfab911;;S;;我就从“Wembley Park“走 到 ”Victoria”;;Wǒ jiù cóng “Wembley Park“zǒu dào”Victoria;;I walked from "Wembley Park" to "Victoria;;no;;none;;none
+307;;dba75e67;;S;;我的电话号码是零七八九一二三四五六。;;Wǒ de diànhuà hàomǎ shì líng qībājiǔyī'èrsānsìwǔliù;;My phone number is 0791 2354;;no;;none;;none
+308;;1d0001ce;;S;;我想要住在中;;Wǒ xiǎng yào zhù zài zhōngguó;;I want to live in Chin;;no;;none;;none
+309;;e3abde37;;S;;我觉得中国是一个美丽的国家.;;Wǒ juédé zhōngguó shì yīgè měilì de guójiā.;;I think China is a beautiful country;;no;;none;;none
+310;;71a0d23b;;S;;我与我的妻子去餐;;Wǒ yǔ wǒ de qīzi qù cānguǎn;;I went to the restaurant with my wife;;no;;none;;none
+311;;1732893c;;S;;我玩电脑游戏。;;Wǒ wán diànnǎo yóuxì;;I play computer games;;no;;none;;none
+312;;5256feb9;;S;;我会在家主场35分钟.;;Wǒ huì zàijiā zhǔchǎng 35 fēnzhōng.;;I will be 35 minutes at home;;no;;none;;none
+313;;7708ea44;;S;;我不喜欢在家做饭。;;Wǒ bù xǐhuān zàijiā zuò fàn.;;I don't like to cook at home;;no;;none;;none
+314;;bc7282b7;;S;;我要去酒楼;;Wǒ yào qù jiǔlóu.;;I'm going to the restaurant;;no;;none;;none
+315;;9f1ce616;;S;;我喜欢川菜;;Wǒ xǐhuān chuāncài.;;I like Sichuan cuisine;;Ja lubie kuchnie syczuańsk;;none;;none
+316;;dd61ff37;;S;;去年我去过中国;;Qùnián wǒ qùguò zhōngguó.;;Last year I went to China;;W zeszłym roku byłem w Chinac;;none;;none
+317;;aa63b080;;S;;我们吃了很多好吃的菜;;Wǒmen chīle hěnduō hào chī de cài.;;We have eaten a lot of delicious food;;no;;none;;none
+318;;a6535523;;S;;我在中国做了最丑陋的饺;;Wǒ zài zhōngguó zuòle zuì chǒulòu de jiǎozi;;I made the ugliest dumplings in China;;no;;none;;none
+319;;fafdafda;;S;;该睡觉了。;;Gāi shuìjiàole.;;It's time to sleep;;no;;none;;none
+320;;5bc9961b;;S;;我有很多事情要做;;Wǒ yǒu hěnduō shìqíng yào zuò.;;I have a lot of things to d;;no;;none;;none
+321;;0229459f;;S;;我没有足够的时间。;;Wǒ méiyǒu zúgòu de shíjiān.;;I don't have enough tim;;Nie mam czas;;none;;none
+322;;258bbb74;;S;;我有些牙;;Wǒ yǒuxiē yátòng;;I have a toothach;;no;;none;;none
+323;;03738f36;;S;;我已经来北京3天。;;Wǒ yǐjīng lái běijīng 3 tiān.;;I have been in Beijing for 3 day;;no;;none;;none
+324;;66c8ca03;;S;;我的最喜欢电影是“Last life in the universe".;;Wǒ de zuì xǐhuān diànyǐng shì “Last life in the universe".;;My favorite movie is "Last life in the universe";;Mój ulubiony film to "Last life in the universe;;none;;none
+325;;e85a074b;;S;;晚上我去了跑步。;;Wǎnshàng wǒ qùle pǎob;;I went to run at nigh;;no;;none;;none
+326;;9d9ab1ca;;S;;我在天津,明天回伦敦;;Wǒ zài tiānjīn, míngtiān huí lúndū;;I am in Tianjin and will return to London tomorro;;Jestem w Tianjin i jutro wróce do Londyn;;none;;none
+327;;6357a693;;S;;我结婚已经五年;;Wǒ jiéhūn yǐjīng wǔ niánl;;I have been married for five year;;no;;none;;none
+328;;8ae9335b;;S;;我们会去见了朋;;Wǒmen huì qù jiànle péngyǒu;;We will go to meet friends;;Idziemy się spotkać ze znajomym;;none;;none
+329;;0d0cd924;;S;; 我将从十月开始练习汉;;Wǒ jiāng cóng shí yuè kāishǐ liànxí hàny;;I will start practicing Chinese in Octobe;;no;;none;;none
+330;;86228764;;S;;我结婚已经五年;;Wǒ jiéhūn yǐjīng wǔ niánle;;I have been married for five years;;no;;none;;none
+331;;61b1d23f;;S;;英国美食是世界上最糟糕的美食之;;Yīngguó měishí shì shìjiè shàng zuì zāogāo dì měishí zhī y;;British cuisine is one of the worst foods in the worl;;Brytyjska kuchnia jest jedną z najgorszych kuchni na świeci;;none;;none
+332;;5daafa08;;S;;我在写电子邮;;Wǒ zài xiě diànzǐ yóujià;;I am writing an emai;;no;;none;;none
+333;;82930a25;;S;;“Capital Ring”是在伦敦一个行走的路;;“Capital Ring” shì zài lúndūn yīgè xíngzǒu de lùxiàn;;The "Capital Ring" is a walking route in London;;no;;none;;none
+334;;cea573be;;S;;我就从“Wembley Park“走 到 ”Victoria;;Wǒ jiù cóng “Wembley Park“zǒu dào”Victoria”;;I walked from "Wembley Park" to "Victoria";;no;;none;;none
+335;;94d5308a;;S;;我在天津,明天回伦敦。;;Wǒ zài tiānjīn, míngtiān huí lúndūn;;I am in Tianjin and will return to London tomorrow;;Jestem w Tianjin i jutro wróce do Londynu;;none;;none
+336;;b1c5abab;;S;;等一下;;Děng yīxià;;Wait;;Czeka;;none;;none
+337;;2b23a36a;;S;;我没有明白您的意思;;Wǒ méiyǒu míngbái nín de yìsi;;I didn't understand what you mean;;ja nie rozumiem co to znacz;;none;;none
+338;;ca6f186b;;S;;我去机场送你和我的儿子;;Wǒ qù jīchǎng sòng nǐ hé wǒ de érzi;;I am going to the airport to send you and my son;;Ja pojade na lotnisko wyslac ciebie i naszego syn;;none;;none
+339;;f8ac0e7e;;S;;我没有妹妹 但是我觉得有妹妹一定很好 ，因为我哥哥有个妹;;Wǒ méiyǒu mèimei dànshì wǒ juédé yǒu mèimei yīdìng hěn hǎo, yīnwèi wǒ gēgē yǒu gè mèime;;I dont have a sister but I think it would be nice to have a sister because my brother has a siste;;no;;none;;none
+340;;7362fda6;;S;;狗年吉祥;;gǒunián jíxiá;;Year of the d;;no;;none;;none
+341;;704dd80b;;S;;我得了流;;Wǒ déle liúgǎ;;  I have the fl;;no;;none;;none
+342;;1a3b0c39;;S;;我感冒;;Wǒ gǎnmào ;;I have a col;;no;;none;;none
+343;;8fc994a2;;S;;我牙;; Wǒ yátén;; I have a toothach;;no;;none;;none
+344;;1feac578;;S;;我胃;; Wǒ wèitén;; I have a stomachach;;no;;none;;none
+345;;109453be;;S;;我头;;Wǒ tóutén;;I have a headach;;no;;none;;none
+346;;99fdf675;;S;;我;;Wǒ bìngle;;I’m sic;;no;;none;;none
+347;;661082ce;;S;;请系好安全;; qǐng jìhǎo ānquándà;;Please fasten your seatbelt;;no;;none;;none
+348;;1ff4f587;;S;;我的护照丢;; Wǒde hùzhào diūl;; I’ve lost my passpor;;Zgubiłem paszpor;;none;;none
+349;;710d636d;;S;; 我的登机牌丢了;;Wǒde dēngjīpái diūl;; I’ve lost my boarding pas;;no;;none;;none
+350;;5a4892ae;;S;;天气很恶;;Tiānqì hěn èli;;It’s miserable weathe;;no;;none;;none
+351;;5886d9d5;;S;;他歌唱的漂;;Tā gēchàng de piàoliang;;He sings beautifull;;On pięknie śpiew;;none;;none
+352;;878ddedb;;S;;我舞跳的很;;Wǒ wǔ tiào de hěn hǎo;;I danced very wel;;Ja tańcze bardzo dobrz;;none;;none
+353;;3b5558ab;;S;;我的电脑坏;;Wǒ de diànnǎo huàile;;My computer is broke;;no;;none;;none
+354;;c46e9dc2;;S;;我要一杯咖啡;;Wǒ yào yībēi kāfēi;;I want a cup of coffe;;no;;none;;none
+355;;a7acb1b5;;S;;好久不;;Hǎojiǔ bùjiàn;;Long time no se;;Dawno sie nie widzielism;;none;;none
+356;;69eb04b7;;S;;我读了书，喝了咖啡;;Wǒ dúle shū, hēle kāfēi;;I read the book and drank coffee;;no;;none;;none
+357;;41ff27f8;;S;;地铁在伦敦是很昂贵的;;Dìtiě zài lúndūn shì hěn ángguì de;;The tube is very expensive in the Londo;;no;;none;;none
+358;;b033046d;;S;;'Costa coffee'的咖啡比‘Starbucks'的咖啡好;;'Costa coffee'的咖啡比‘Starbucks'的咖啡好;;'Costa coffee' coffee is better than ‘Starbucks' coffe;;no;;none;;none
+359;;f582b57e;;S;;他跑得非常快;;Tā pǎo dé fēicháng kuài;;He ran very fas;;no;;none;;none
+360;;ad90182e;;S;;它是了我的最喜欢的饭馆;;Tā shìle wǒ de zuì xǐhuān de fànguǎn;;It is my favorite restauran;;no;;none;;none
+361;;d72560f6;;S;;火车被取消;;火车被取消了;;The train was cancelle;;no;;none;;none
+362;;5c3442ff;;S;;我晚上去参加派;;Wǒ wǎnshàng qù cānjiā pàiduì;;I went to the party at nigh;;Wieczorem poszedlem na imprez;;none;;none
+363;;d7a160cb;;S;;我（正）在读"Terry Pratchett - MORT"。;;Wǒ (zhèng) zàidú"Terry Pratchett - MORT";;I am reading "Terry Pratchett - MORT;;no;;none;;none
+364;;e40d9b9b;;Q;;你吃了;;nǐ chī le m;;Have you eate;;Czy jadłe;;none;;none
+365;;9476318a;;Q;;你要茶;;nǐ yào chá m;;Do you want a te;;Chcesz herbat;;none;;none
+366;;b95d7f40;;Q;;你今天作乐什;;nǐ jīntiān zuòlè shénm;;What have you done toda;;Co dziś zrobiłe;;none;;none
+367;;541c874a;;Q;;你叫什么名;;nǐ jiào shénme míngz;;what's your name;;Jakie jest twoje imi;;none;;none
+368;;b80c5f50;;Q;;厕所在哪;;cèsuǒ zài nǎl;;Where is toile;;Gdzie jest toalet;;none;;none
+369;;bc6c674b;;Q;;你说英语;;nǐ shuō yīngyǔ m;;Do you speak Englis;;Czy mówisz po angielsk;;none;;none
+370;;5dff91ce;;Q;;你多大;;nǐ duōdà l;;How old are you;;Ile masz la;;none;;none
+371;;76d9aec6;;Q;;你是哪国;;nǐ shì nǎ guóré;;Where are you from ? What nationality are yo;;Skąd jesteś?/Z jakiego kraju pochodzis;;none;;none
+372;;31a191ce;;Q;;你养宠物;;nǐ yǎng chǒngwù m;;Do you have any pet;;Czy masz jakieś zwierzęt;;none;;none
+373;;7c504887;;Q;;你喜欢什么样的食;;nǐ xǐhuan shénme yàng de shíw;;What kind of food do lik;;Jaki rodzaj jedzenia lubis;;none;;none
+374;;e59c724c;;Q;;你在做什;;nǐ zài zuò shénm;;What are you doin;;Co robisz;;none;;none
+375;;06bb8537;;Q;;你长什么;;nǐ zhǎng shénme yàn;;You look lik;;Jak wyglądas;;none;;none
+376;;cac1b848;;Q;;谁放的;;shuí fàng de p;;Who farte;;Kto pierną;;none;;none
+377;;c41c2205;;Q;;你喜欢什么颜;;nǐ xǐhuan shénme yáns;;What color do you lik;;Jaki(e) kolor(y) lubis;;none;;none
+378;;0022b54b;;Q;;你的生日是什么时;;nǐ de shēngrì shì shénme shího;;When is your birthda;;Kiedy masz urodzin;;none;;none
+379;;3c787764;;Q;;你今天做了什;;nǐ jīntiān zuòle shénm;;What did you do toda;;Co dzisiaj zrobiłe;;none;;none
+380;;0e48f9f3;;Q;;你的工作是什;;nǐ de gōngzuò shì shénm;;What's your jo;;Czymś się zajmujesz?/Jaka jest twoja prac;;none;;none
+381;;bbe4ca0b;;Q;;你好;;nǐ hǎo m;;How are yo;;Jak się mas;;none;;none
+382;;cbcf2d9f;;Q;;这是什;;zhè shì shénm;;What is it?/What is thi;;Co to jest?(blisk;;none;;none
+383;;ba8f224a;;Q;;你姓什;;nǐ xìng shénm;;What's your surnam;;Jakie jest twoje nazwisk;;none;;none
+384;;5d0f32f9;;Q;;你渴;;nǐ kě m;;Are you thirst;;Czy jesteś spragnion;;none;;none
+385;;67ba109f;;Q;;你有红茶;;nǐ yǒu hóngchá m;;Do you have a black te;;Czy masz czarną herbat;;none;;none
+386;;7e7128d7;;Q;;你 今天 去 还是 明天 ;;nǐ jīntiān qù háishì míngtiān q;;Will you go there today or tomorro;;Bedziesz tam szedł dziś czy jutro;;none;;none
+387;;5081c000;;Q;;你是素食主义;;nǐ shì sùshí zhǔyì zh;;Are you a vegetaria;;Czy jesteś wegetarianine;;none;;none
+388;;2e74d54b;;Q;;他/她是;;ta shì shuí;;Who is i;;Kto to jes;;none;;none
+389;;d5f62f66;;Q;;你喜欢绿茶还是红茶;;nǐ xǐhuan lǜchá háishì hóngch;;Do you like green tea or black te;;Czy lubisz zieloną herbatę lub czarną herbat;;none;;none
+390;;4c2b6168;;Q;;你想吃西瓜还是苹;;nǐ xǐhuan chī xīguā háishì pínggu;;What do you want to eat ?Watermelon or appl;;Co chciabyś zjeść? Arbuza  czy jabłk;;none;;none
+391;;9a9160eb;;Q;;那是什;;nà shì shénm;;What is tha;;Co to jest?(dalek;;none;;none
+392;;2081ebbf;;Q;; 几点;;jǐ diǎnl;;What time is i;;Która jest godzin;;none;;none
+393;;62642956;;Q;;一瓶啤酒多少;;yī píng píjiǔ duōshǎo qiá;;How much cost bottle of bee;;Ile kosztuje butelka piw;;none;;none
+394;;b2eb45f8;;Q;;你爱好什;;nǐ àihào shénm;;What is your hobb;;jakie masz hobb;;none;;none
+395;;71fb17e8;;Q;;你喜欢什么样的音乐;;nǐ xǐhuan shénme yàng de yīnyu;;What kind of music do you lik;;Jaki rodzaj muzyki lubis;;none;;none
+396;;244ae95e;;Q;;你最喜欢的体育是什;;nǐ zuì xǐhuan de tǐyù shì shénm;;What is your favorite sport;;Jaki jest twój ulubiny  spor;;none;;none
+397;;ec6a3a0e;;Q;;你最喜欢的书是什;;nǐ zuì xǐhuan de shū shì shénm;;What is your favorite book;;Jaka jest twoja ulubiona książk;;none;;none
+398;;42f897b4;;Q;;你最喜欢的电影是什;;nǐ zuì xǐhuan de diànyǐng shì shénm;;What is your favorite movi;;Jaki jest twoja ulubiony fil;;none;;none
+399;;fa3bc275;;Q;;你最喜欢的颜色是什;;nǐ zuì xǐhuan de yánsè shì shénm;;What is your favorite color;;Jaki jest twoja ulubiony kolo;;none;;none
+400;;b6326ad5;;Q;;你最喜欢的点心是什;;nǐ zuì xǐhuan de diǎnxīn shì shénm;;What is your favorite dessert;;Jaki jest twoja ulubiony dese;;none;;none
+401;;9f997d99;;Q;;你学什么;;nǐ xué shénme d;;What did you study;;Co studiowałe;;none;;none
+402;;59372ea8;;Q;;你最喜欢的网址是什;;nǐ zuì xǐhuan de wǎngzhǐ shì shénm;;What is your favorite websit;;Jak jest twoja ulubiona strona internetow;;none;;none
+403;;d2961e5c;;Q;;什么意;;Shénme yìs;;What does this mea;;Co to oznacz;;none;;none
+404;;39b36a9d;;Q;;你业余时间做什;;Nǐ yèyú shíjiān zuò shénm;;What do you do in your free tim;;Co robisz w wolnym czasi;;none;;none
+405;;1f3bfae1;;Q;;你喜欢你的专业;;Nǐ xǐhuan nǐ de zhuānyè m;;Do you like your stud;;Lubisz swoje studi;;none;;none
+406;;a5e094c7;;Q;;你喜欢你的工作;;Nǐ xǐhuan nǐ de gōngzuò m;;Do you like your jo;;Lubisz swoją prac;;none;;none
+407;;52631ab5;;Q;;你抽烟;;Nǐ chōuyān m;;Do you smok;;Czy palis;;none;;none
+408;;96e13307;;Q;;你喜欢辛辣食物;;Nǐ xǐhuan xīnlà shíwù m;;Do you like spicy foo;;Czy lubisz pikantne jedzeni;;none;;none
+409;;684028de;;Q;;你的人生主要目标有哪些;;Nǐ de rénshēng zhǔyào mùbiāo yǒu nǎxi;;What are your main goals in the lif;;Jak są najważniejsze cele w życi;;none;;none
+410;;48732e7c;;Q;;你喜欢跳舞;;Nǐ xǐhuan tiàowǔ m;;Do you like to danc;;Czy lubisz tańczy;;none;;none
+411;;d752753d;;Q;;你最喜欢哪种类型的电;;Nǐ zuì xǐhuan nǎ zhǒng lèixíng de diànyǐn;;What is your favourite movie genr;;Jaki jest twój ulubiony rodzaj filmó;;none;;none
+412;;56ee5189;;Q;;这个星期你打算做什;;Zhège xīngqí nǐ dǎsuàn zuò shénm;;What's your plan for this wee;;Jaki masz plan na ten tydzie;;none;;none
+413;;15532157;;Q;;你会考虑在国外生活吗？如果会，哪个国家;;Nǐ huì kǎolǜ zài guówài shēnghuó ma?;;Rúguǒ huì, nǎge guóji;;Would you consider living abroad it?;;If so, which countr;;Czy myślałeś kiedyś o mieszkaniu za granicą? Jeśli tak to gdzi;;none;;none
+414;;9327f746;;Q;;你最近看的一部电影是什;;Nǐ zuìjìn kàn de yī bù diànyǐng shì shénm;;What movie did you watch recentl;;Jaki film oglądałeś/aś ostatni;;none;;none
+415;;a47cf168;;Q;; 你现在读什么书;;Nǐ xiànzài dú shénme sh;;What book are you reading (now;;Jaką książke teraz czytas;;none;;none
+416;;f0faf2f4;;Q;;什么事情让你很开心;;Shénme shìqíng ràng nǐ hěn kāixī;;What are things that make you really happ;;Jakie rzeczy czynią cie szczęśliwy;;none;;none
+417;;a29b69c0;;Q;;什么事情让你很伤;;Shénme shìqíng ràng nǐ hěn shāngxī;;What are things that make you really sa;;Jakie rzeczy czynią cie smutny;;none;;none
+418;;cb329d86;;Q;;你有驾驶执照;;Nǐ yǒu jiàshǐ zhízhào m;;Do you have driving licenc;;Masz prawo jazd;;none;;none
+419;;8c3cad87;;Q;;你有车;;Nǐ yǒu chē m;;Do you have car;;Czy masz aut;;none;;none
+420;;cad292aa;;Q;;你结婚了;;nǐ jié hūn le m;;Are you marrie;;Czy jesteś żonaty/zamężn;;none;;none
+421;;2c352592;;Q;;你有孩子;;nǐ yǒu hái zi m;;Do you have childre;;Czy posiadasz dziec;;none;;none
+422;;d6b422f9;;Q;;你有男朋友;;nǐ yǒu nán péng yǒu m;;Do you have a boyfrien;;Czy masz chłopak;;none;;none
+423;;d54aeefe;;Q;;你有女朋友;;nǐ yǒu nǚ pén gyǒu m;;Do you have a girlfrien;;Czy masz dziewczyn;;none;;none
+424;;31f4fcea;;Q;;你会说中文;;nǐ huì shuō zhōng wén m;;Can you speak Chines;;Czy mówisz po chińsk;;none;;none
+425;;b59fe634;;Q;;你会说英文吗;;nǐ huì shuō yīng wén m;;Can you speak Englis;;Czy mówisz po angielsk;;none;;none
+426;;d094dfd1;;Q;;你喜欢中国;;nǐ xǐ huan zhōng guó m;;Do you like Chin;;Czy lubisz Chin;;none;;none
+427;;28a6a6bb;;Q;;你习惯住在中国吗;;nǐ xí guàn zhù zài zhōng guó m;;Are you used to living in Chin;;Czy przyzwyczaiłeś się do życia w Chinac;;none;;none
+428;;a256f152;;Q;;你住在哪;;nǐ zhù zài nǎ ;;Where do you liv;;Gdzie mieszkas;;none;;none
+429;;d777ef37;;Q;;你收信用;;Nǐ shōu xìnyòngk;;Do you take credit card;;Czy można płacić kart;;none;;none
+430;;28fd6412;;Q;;你明白;;Nǐ míngbái m;;Do you understan;;Zrozumiałe;;none;;none
+431;;38675198;;Q;;怎么;;Zěnme l;;What happe;;Co się stało;;none;;none
+432;;2502ab00;;Q;;周末你一般干什;;Zhōumò nǐ yìbān gàn shénm;;What do you usually do at weeken;;Co przeważnie robisz w weekend;;none;;none
+433;;5dad8992;;Q;;你最近忙;;Nǐ zuìjìn máng m;;Are you busy recentl;;Czy jesteś ostatnio zajęt;;none;;none
+434;;adae0f03;;Q;;你学什么专;;Nǐ xué shénme zhuāny;;What do you study;;Jaki kierunek studiujes;;none;;none
+435;;e8b084e3;;Q;;你的 周末有什么计;;Nǐ de zhōumò yǒu shé me jìhu;;What's your plan for weeken;;Jakie masz plany na weeken;;none;;none
+436;;7994720e;;Q;;你妹妹是做什么;;nǐ mèimei shì zuò shénme d;;What's your younger sister doin;;Co robi twoja młodsza siostr;;none;;none
+437;;b022aa76;;Q;;我可以试试;;Wǒ kěyǐ shì shì m;;Can I try it o;;Czy mogę to przymierzy;;none;;none
+438;;912de7b3;;Q;;你的电话号码是多;;Nǐ de diànhuà hàomǎ shì duōshǎ;;What's your phone numbe;;Jaki jest twój numer telefon;;none;;none
+439;;4c37e80a;;Q;;今天天气怎么;;Jīntiān tiānqì zěnme yàn;;What's the weather like toda;;Jak jest dziś pogod;;none;;none
+440;;7567108d;;Q;;你昨天去哪儿;;nǐ huótiān qù nǎr l;;Where did you go yesterda;;Czo robileś wczoraj;;none;;none
+441;;7acbd6a3;;Q;;你喜欢吃中餐还是西;;Nǐ xǐhuān chī Zhōngcān háishì Xīcān;;Do you prefer Chinese or Western-style foo;;Czy wolisz kuchnie chińską czy zachodnią;;none;;none
+442;;ba0323cb;;Q;;睡的怎么;;Shuì de zěnme yàn;;How was your sleep;;Jak był twój sen;;none;;none
+443;;4f66660c;;Q;;你明天有空;;Nǐ míngtiān yǒu kòng m;;Are you free tomorro;;Czy masz wolne jutr;;none;;none
+444;;41f51f11;;Q;;你有驾驶执照;;Nǐ yǒu jiàshǐ zhízhào m;;Do you have driving licenc;;Czy masz prawo jazd;;none;;none
+445;;abb8945c;;Q;;这本词典是你的;;Zhè běn cídiǎn shì nǐ dema;;Is this your dictionar;;Czy to jest twój słowni;;none;;none
+446;;0d1a248f;;Q;;你们商店几点关;;Nǐmen shāng diàn jǐ diǎn guān mé;;What time does your shop clos;;kiedy sklep jest zamykan;;none;;none
+447;;c265f5c0;;Q;;你无聊的时候最喜欢以什么方式消;;Nǐ wúliáo de shíhòu zuì xǐhuān yǐ shénme fāngshì xiāoqiǎ;;What is your favorite way to waste time on a boring da;;Jaki jest twój ulbiony sposób marnowania czas w nudny dzie;;none;;none
+448;;62b72477;;Q;;真的;; Zhēn de ma;;Reall;;Naprawd;;none;;none
+449;;e1fdda3e;;Q;;你回家什么时;;Nǐ huí jiā shi me shíhò;;When did you get hom;;Kiedy wrócisz do dom;;none;;none
+450;;664dcce2;;Q;;你上周末过得怎么样;;Nǐ shàng zhōumòguò dé zěnme yàn;;How was your weeken;;Jaki był twój weeken;;none;;none
+451;;fa8ee9e8;;Q;;你喜欢喝酒吗？ 如果喜欢，你喜欢哪种酒;;Nǐ xǐhuān hējiǔ ma? Rúguǒ xǐhuān, nǐ xǐhuān nǎ zhǒng ji;;Do you  like drink alkochol ?If yes,what kind of alkochol do you lik;;Czy lubisz pić alkochol ? Jeśli tak,to jaki rodzaj alkocholu lubis;;none;;none
+452;;870380d5;;Q;;你有纹身;;Nǐ yǒu wénshēn m;;Do you have a tatto;;Czy masz jakiś tatua;;none;;none
+453;;03759a11;;Q;;你有什么特殊的才;;Nǐ yǒu shé me tèshū de cáinén;;Do you have any special talent;;Czy masz jakieś specialne zdolnoś;;none;;none
+454;;eb24ccba;;Q;;你现在读书什;;Nǐ xiànzài dúshū shénm;;What are you reading no;;Co teraz czytas;;none;;none
+455;;8644e986;;Q;;你想吃东西;;Nǐ xiǎng chī dōngxī m;;Do you want eat something;;Czy chcesz coś zjeść;;none;;none
+456;;b3b8deb0;;Q;;你去过什么国;;Nǐ qùguò shèn me guóji;;What countries have you been t;;W jakich krajach już byłe;;none;;none
+457;;5b0480d1;;Q;;你去过波兰;;nǐ qùguò bōlán m;;Have you ever been to Polan;;Czy byłeś kiedyś w Polsc;;none;;none
+458;;0d1eae62;;Q;;你会怎么做，当你无;;nǐ huì zěnme zuò, dāng nǐ wúliá;;What do you do when you are bore;;Co zwykle robisz gdy się nudzis;;none;;none
+459;;951d6c84;;Q;;“Please”在汉语里怎么;;“Please” zài hànyǔ lǐ zěnme shu;;"Please" in Chinese, how to sa;;Jak powiedzieć 'Poproszę' po chińsk;;none;;none
+460;;24d4890a;;Q;;谁;;shuí ;;Who is i;;Kto ta;;none;;none
+461;;406cc395;;Q;;你要去哪;;Nǐ yào qù nǎl;;Where are you goin;;Gdzie idziesz? Gdzie jedziesz? Dokąd idzesz/jedzies;;none;;none
+462;;e2be7a3f;;Q;;你学习什;;Nǐ xuéxí shénm;;What are you learnin;;Czego sie uczysz;;none;;none
+463;;0553326a;;Q;;你现在回到家了;;Nǐ xiànzài huí dàojiāle m;;Did you back to home alread;;Czy wróciłeś już do dom;;none;;none
+464;;6e85ffae;;Q;;你买了;;Nǐ mǎile m;;Did you buy u;;Kupiłe;;none;;none
+465;;e12d52f9;;Q;;你感觉怎么;;Nǐ gǎnjué zěnme yàn;;How do you fee;;Jak się czujes;;none;;none
+466;;73d52b36;;Q;;你生病了;;Nǐ shēngbìngle m;;Are you sic;;Czy jesteś chor;;none;;none
+467;;9852df88;;Q;;你吃早饭了;;Nǐ chī zǎofànle m;;Did you eat breakfast yet;;Czy jadłeś już śniadani;;none;;none
+468;;06347be1;;Q;;最近怎么;;Zuìjìn zěnmeyàn;;How are thing;;Jak się mas;;none;;none
+469;;c206b0b9;;Q;;你通常在午饭时间做些什么;;Nǐ tōngcháng zài wǔfàn shíjiān zuò xiē shénme n;;What do you usually do at lunchtim;;Co zwykle robisz podczas lunchu;;none;;none
+470;;ab559252;;Q;;你吃早饭了吗;;Nǐ chī zǎofànle m;;Have you eaten breakfas;;Czy jadłeś już śniadani;;none;;none
+471;;20b29368;;Q;;你今天（都）学了什;;Nǐ jīntiān (dōu) xuéle shénm;;What did you learn toda;;Czego się dziś nauczyłeś;;none;;none
+472;;e501fcea;;Q;;你男朋友最近怎么;;nǐ nán péngyǒu zuìjìn zěnme yàn;;How is your boyfrien;;Jak się miewa twój chłopa;;none;;none
+473;;a04ae9e8;;Q;;你来中国工作过;;Nǐ lái zhōngguó gōngzuòguò ma;;Did you work in China befor;;Czy pracowałeś w Chinach wcześniej;;none;;none
+474;;8cfc85ce;;Q;;你有感冒了;;nǐ yǒu gǎnmàol;;Do you have a col;;Czy masz kata;;none;;none
+475;;4cb04a72;;Q;;你今天工作会很忙;;nǐ jīntiān gōngzuò huì hěn máng m;;Are you'll be busy working toda;;Czy będziesz dziś zajęty w pracy;;none;;none
+476;;a9109dab;;Q;;你喜欢这部电影;;nǐ xǐhuān zhè bù diànyǐng m;;Do you like this the movi;;Czy lubisz ten fil;;none;;none
+477;;7219988c;;Q;;那是什么鬼东;;Nà shì shénme guǐ dōngx;;What the hell is tha;;Co to do diabła jes;;none;;none
+478;;35e9d8bf;;Q;;你有兄弟姐妹;;Nǐ yǒu xiōngdì jiěmèi m;;Do you have any sibling;;Czy masz rodzeństw;;none;;none
+479;;a17252e0;;Q;;这/那个人是;;Zhè/nàgè rén shì shu;;Who is  that person/these peopl;;Kto to jest? Kim oni są;;none;;none
+480;;caf601d3;;Q;;这是谁;;Zhè shì shuí d;;Whose is thi;;Do kogo to należy;;none;;none
+481;;8a936106;;Q;;你喜欢的酒是什么类;;Nǐ xǐhuān de jiǔ shì shénme lèixín;;What kind of alkohol do you like;;Jaki rodzaj alkoholu lubis;;none;;none
+482;;b6c6ed89;;Q;;你最喜欢的喜剧演员是谁？为什;;Nǐ zuì xǐhuān de xǐjù yǎnyuán shì shéi? Wèishém;;Who is your favorite comedian? Wh;;Kto jest twoim ulubionym komikiem i dlaczego;;none;;none
+483;;66984ae8;;Q;;你喜欢的酒是什么类;;Nǐ xǐhuān de jiǔ shì shénme lèixín;;What type of alkochol do you lik;;Jaki rodzaj alkocholu lubis;;none;;none
+484;;79d79c79;;Q;;你最喜欢的户外活动是什;;Nǐ zuì xǐhuān de hùwài huódòng shì shénm;;What is your favorite outdoor activit;;;;none;;none
+485;;4a2da248;;Q;;你是个喜欢浪漫的人;;Nǐ shìgè xǐhuān làngmàn de rén m;;Are you a romantic perso;;Czy jesteś romantyczną osob;;none;;none
+486;;3e61449f;;Q;;你的理想的浪漫晚餐什;;Nǐ de lǐxiǎng de làngmàn wǎncān shénm;;What's your ideal romantic dinne;;Jaki jest twój idealny romantyczny obiad;;none;;none
+487;;3ca0bec3;;Q;;你可以告诉我一个改变你生活的时刻;;Nǐ kěyǐ gàosù wǒ yīgè gǎibiàn nǐ shēnghuó de shíkè m;;Can you tell me a moment to change your lif;;Czy możesz mi opowiedzieć o momencie który zmienił twoje życi;;none;;none
+488;;da562a48;;Q;;你喜欢喝什;;Nǐ xǐhuān hē shénm;;What do you like to drin;;Co chcesz do pici;;none;;none
+489;;d3eea42d;;Q;;如果你能去火星，你会在那里做什;;Rúguǒ nǐ néng qù huǒxīng, nǐ huì zài nàlǐ zuò shénm;;If you can go to Mars, what will you do ther;;Jeśli mogłabyś polecieć na Marsa, zrobiła byś t;;none;;none
+490;;39b2f872;;Q;;你最糟的假期是什么时候;;Nǐ zuì zāo de jiàqī shì shénme shíhò;;What was your worst vacatio;;Jakie były twoje najgorsze wakacj;;none;;none
+491;;3616ffa0;;Q;;你最好的假期是什么时候;;Nǐ zuì hǎo de jiàqī shì shénme shíhò;;What was your best vacatio;;Jakie były twoje najlepsze wakacj;;none;;none
+492;;67d5eb2a;;Q;;你喜欢去哪里度假;;Nǐ xǐhuān qù nǎlǐ dùji;;Where do you like to go on holida;;Gdzie chciała byś pojechać na wakacj;;none;;none
+493;;17f3a841;;Q;;你喜欢什么样的节日;;Nǐ xǐhuān shénme yàng de jiér;;What kind of festival do you lik;;;;none;;none
+494;;25950948;;Q;;你喜欢旅行吗？ 如果你喜欢，你想要去哪里;;Nǐ xǐhuān lǚxíng ma? Rúguǒ nǐ xǐhuān, nǐ xiǎng yào qù nǎl;;Do you like travel? If you like it, where do you want to g;;Czy lubisz podróżować? Jeśli tak to gdzie;;none;;none
+495;;bf643115;;Q;;更糟糕的电影，你见;;Nǐ xiǎoshíhòu zuì xǐhuān de diànshì jiémù shì shénm;;What was your favorite TV show when you were a chil;;Jaki był twój ulubiony serial TV w twoim dzieciństwi;;none;;none
+496;;69a2d423;;Q;;喜欢的电影明;;Gèng zāogāo de diànyǐng, nǐ jiàngu;;Worse movie, have you ever see;;Jaki był najgorszy film jaki widziałe;;none;;none
+497;;9dc75201;;Q;;这本书是关于什么;;Xǐhuān de diànyǐng míngxīn;;Favorite movie sta;;Ulubiona gwiazda telewizyjn;;none;;none
+498;;d7a4137a;;Q;;你上次吃火锅是什么时;;Zhè běn shū shì guānyú shénme d;;what is the book abou;;O czym jest ta książk;;none;;none
+499;;f335cb05;;Q;;你上次吃火锅是什么时;;Nǐ shàng cì chī huǒguō shì shénme shíhò;;When was the last time you had a hot pot;;Kiedy jadłeś hot pot ostatnim raze;;none;;none
+500;;9471d40b;;Q;;你是哪一年生的;;Nǐ shì nǎ yīniánshēng de?;;Which year were you born;;W którym roku się urodziłe;;none;;none
+501;;f78088aa;;Q;;你妈妈做什么工;;Nǐ māmā zuò shénme gōngzuò;;What does your mother do?;;(jo;;Gdzie pracuje twoja mam;;none;;none
+502;;f67b9f69;;Q;;你的电话号码是多少？;;Nǐ de diànhuà hàomǎ shì duōshǎo?;;What is your phone number;;Jaki jest twój numer telefon;;none;;none
+503;;e2ef8dec;;Q;;你的妻子有兄弟姐妹;;Nǐ de qīzi yǒu xiōngdì jiěmèi me;;Does your wife have siblings;;Czy twoja żona ma jakieś rodzeństw;;none;;none
+504;;b563337b;;Q;;你会考虑在国外生活吗? 如果会，哪个国家？;;Nǐ huì kǎolǜ zài guówài shēnghuó ma? Rúguǒ huì, nǎge guójiā;;Will you consider living abroad? If yes, which country;;Czy rozważałeś życie zagranicą? Jeśli tak,to w jakim kraj;;none;;none
+505;;864b7c60;;Q;;她是你的妹妹吗;;Tā shì nǐ de mèimei ma?;;Is she your sister;;Czy ona jest twoją siostr;;none;;none
+506;;66419e77;;Q;;你喜欢去酒楼或在家做饭？;;Nǐ xǐhuān qù jiǔlóu huò zàijiā zuò fàn?;;Do you like to go to restaurants or cook at home;;Czy wolisz jeść w restuaracji czy gotować w dom;;none;;none
+507;;26e84e27;;Q;;你喜欢什么样的食物？;;Nǐ xǐhuān shénme yàng de shíwù?;;What kind of food do you like;;Jakie jedzenie lubis;;none;;none
+508;;6fa496ce;;Q;;你来北京多长时间了？;;Nǐ lái běijīng duō cháng shíjiānle;;How long have you been to Beijin;;Jak długo byłeś w Pekini;;none;;none
+509;;06768501;;Q;;你常吃什么菜？;;Nǐ cháng chī shénme cài?;;What kind of food do you ea;;Jaki rodzaj jedzenie zwykle jes;;none;;none
+510;;40782b84;;Q;;你明天有空吗？;;Nǐ míngtiān yǒu kòng ma;;Are you free tomorrow;;Czy masz wolne jutr;;none;;none
+511;;114b5349;;Q;;今天晚上你去哪儿？;;Jīntiān wǎnshàng nǐ qù nǎ'e;;Where are you going tonight;;Gdzie idziesz wieczore;;none;;none
+512;;dcfe1332;;Q;;你现在回到家了吗;; Nǐ xiànzài huí dàojiāle ma;;Are you home no;;Czy jesteś teraz w dom;;none;;none
+513;;5a1e1d98;;Q;;你的假期怎么样;;nǐ de jiàqī zěnme yàng;;How was your holida;;Jak minęły ci wakacj;;none;;none
+514;;924dc9ba;;Q;;你能在火车站接我;;Nǐ néng zài huǒchē zhàn jiē wǒ ma;;Can you pick me up at the train statio;;Czy możesz mnie odebrać ze stacji kolejowe;;none;;none
+515;;def0b1bd;;Q;;这里常常下雨吗;; Zhèlǐ chángcháng xià yǔ ma;;Is it often raining here;;Czy czesto tu pada;;none;;none
+516;;117b7ad1;;Q;;你觉得怎么样;;Nǐ juédé zěnme yàng;;What do you think;;Co o tym sądzisz ;;none;;none
+517;;5d5f394b;;Q;;你最喜欢的餐厅是哪一间;;Nǐ zuì xǐhuān de cāntīng shì nǎ yī jiàn;;Which is your favorite restaurant;;Jak jest twoja ulubiona restauracja;;none;;none
+518;;518d3683;;Q;;你永远不会放弃的食物是什么;;Nǐ yǒngyuǎn bù huì fàngqì de shíwù shì shénme;;What is the food you will never give up;;no;;none;;none
+519;;f3b5bfec;;Q;;您第一次来天津;;Nín dì yī cì lái tiānjīn ma;;Is it your first time coming to Tianji;;no;;none;;none
+520;;09b367db;;Q;;你有中文书;;Nǐ yǒu zhòng wén shū ma;;do you have chinese book;;no;;none;;none
+521;;c53553b3;;Q;;请问，餐厅怎么;;Qǐngwèn, cāntīng zěnme zǒu;;Can you tell me how to get to the restaurant;;no;;none;;none
+522;;796443ef;;Q;;你的妻子已经在中国;;Nǐ de qīzi yǐjīng zài zhōngguó ma;;Is your wife already in China;;no;;none;;none
+523;;67f686a4;;Q;;你觉得她怎么样;;Nǐ juédé tā zěnme yàng;;What do you think of her;;no;;none;;none
+524;;2f774727;;Q;;你想去到公园;;Nǐ xiǎng qù dào gōngyuán ma?;;Do you want to go to the par;;no;;none;;none
+525;;a26a331b;;Q;;你在北京有多久;;Nǐ zài běijīng yǒu duōjiǔl;;How long have you been in Beijing;;Jak długo jesteś w Pekini;;none;;none
+526;;4e238743;;Q;;你经常做梦吗;;Nǐ jīngcháng zuòmèng ma;;Do you have dream ofte;;no;;none;;none
+527;;5e86f5d0;;Q;;你梦见什么;;Nǐ mèng jiàn shénme;;What do you dream abou;;no;;none;;none
+528;;bfe84ea3;;Q;;你的最好的放松方式是什么;;Nǐ de zuì hǎo dì fàngsōng fāngshì shì shénm;;What is your best way to rela;;Jaki jest twój najlepszy sposób na relak;;none;;none
+529;;3545f212;;Q;;你最喜欢的运动形式是什么;;Nǐ zuì xǐhuān de yùndòng xíngshì shì shénme;;What is your favorite form of exercis;;no;;none;;none
+530;;f384ae93;;Q;;最好的放松方式是什么;;Zuì hǎo dì fàngsōng fāngshì shì shénme;;What is the best way to rela;;no;;none;;none
+531;;d1bb5810;;Q;;您更喜欢线上购物还是线下购物;;Nín gèng xǐhuān xiàn shàng gòuwù háishì xiàn xià gòuwù ma;;Do you prefer online shopping or offline shopping;;no;;none;;none
+532;;d01cc378;;Q;;你购买过最愚蠢的东西是什;;Nǐ gòumǎiguò zuì yúchǔn de dōngxī shì shénme;;What is the most stupid thing you have ever purchase;;no;;none;;none
+533;;e29fb5c2;;Q;;电影好看;;Diànyǐng hǎokàn ma;;is the movie good;;no;;none;;none
+534;;85993ae9;;Q;;洗衣服;;Xǐ yīfú ma;;Do you wash your clothe;;no;;none;;none
+535;;da1ec22d;;Q;;你去北京还是青岛;;Nǐ qù běijīng háishì qīngdǎo;;Are you going to Beijing or Qingda;;no;;none;;none
+536;;656c794a;;Q;;可以用信用卡;;Kěyǐ yòng xìnyòngkǎ ma;;Can I use a credit car;;no;;none;;none
+537;;c20836db;;Q;;我舞跳的很好;;Wǒ wǔ tiào de hěn hǎo;;I danced very wel;;no;;none;;none
+538;;58c0bee3;;Q;;他歌唱的漂亮;;Tā gēchàng de piàoliang;;He sings beautifully;;no;;none;;none
+539;;bc9c7536;;Q;;你喜欢做饭;;Nǐ xǐhuān zuò fàn m;;Do you like to coo;;Czy lubisz gotowa;;none;;none
+540;;e08170c7;;Q;;你现在读什么书?;;Nǐ xiànzài dú shénme shū;;What book do you read now;;Jaka książke teraz czytas;;none;;none
+541;;b6964d94;;Q;;你看的最后一部电影是什么？;;Nǐ kàn de zuìhòu yī bù diànyǐng shì shénme;;What is the last movie you watche;;Jaki film ogladales ostatnim raze;;none;;none
+542;;e6083879;;Q;;你希望你有超级大国什;;Nǐ xīwàng nǐ yǒu chāojí dàguó shénme;; What superpowers do you wish you hav;;Jakie supermoc chialabys mie;;none;;none
+543;;0a0c9f9a;;Q;;你小时候最喜欢的食物是什么;;Nǐ xiǎoshíhòu zuì xǐhuān de shíwù shì shénme;;What was your favorite food when you were youn;;Jakie bylo twoje ulubione jedzenie jak byles dzieckie;;none;;none
+544;;f00732a8;;Q;;能帮我照张相吗;;Néng bāng wǒ zhào zhāng xiāng ma;;Can you help me take a photo;;Mozesz mi pomoc zrobic zdjęci;;none;;none
+545;;92abc6fe;;Q;;如果你能学会做任何事情，它会是什么;;Rúguǒ nǐ néng xuéhuì zuò rènhé shìqíng, tā huì shì shénme;;If you can learn to do anything, what would it b;;Jeśli mógłbyś się nauczyć czegokolwiek,co to by był;;none;;none
+546;;7f15722b;;Q;;你几点起;;Nǐ jǐ diǎn qǐchuáng;;What time do you get up;;O której wstałeś;;none;;none
+547;;a1e30962;;Q;;你几点吃早;;Nǐ jǐ diǎn chī zǎofàn;;What time do you have breakfas;;Kiedy zjadles sniadani;;none;;none
+548;;709f00f0;;Q;;我晚上去参加派对;;Wǒ wǎnshàng qù cānjiā pàiduì;;I went to the party at nigh;;Wieczorem poszedlem na imprez;;none;;none
+549;;87fdef25;;Q;;你是软件工程师吗;;nǐ shì ruǎnjiàn gōngchéngshī ma;;Are you a software engineer;;Czy jesteś inżynierem oprogramowani;;none;;none
+550;;92efa6f0;;Q;;周一，你感觉怎样？How’s your Monday going ?
+

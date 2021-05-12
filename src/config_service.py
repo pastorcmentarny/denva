@@ -184,6 +184,8 @@ def get_path_for_cctv_backup() -> list:
     config = load_cfg()
     return config['paths']['cctv-backup']
 
+def get_path_for_backup() -> str:
+    return settings['paths']['backup']
 
 def get_path_to_chinese_dictionary() -> str:
     if settings["mode"] == 'dev':
@@ -263,6 +265,9 @@ def get_report_path_at_server():
     elif get_mode() == 'server':
         path = "d:\\denva\\data\\reports\\"
     return path
+
+def get_measurment_service_url():
+        return settings["urls"]["denva"] + "/hc/ar"
 
 
 def get_warm_up_measurement_counter():

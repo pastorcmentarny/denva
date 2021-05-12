@@ -156,10 +156,11 @@ def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             'system': get_current_system_information_for_all_services(),
             'links': get_links_for_gateway(),
+            'welcome_text' : data_files.load_text_to_display()
         }
         data['errors'] = get_errors_from_data(data)
-    except Exception as e:
-        logger.error('Unable to get data due to {}'.format(e))
+    except Exception as exception:
+        logger.error('Unable to get data due to {}'.format(exception))
         data = {
             'page_tube_trains': page_tube_trains,
             'page_tt_delays_counter': page_tt_delays_counter,
@@ -173,7 +174,8 @@ def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
             'enviro': {},
             'aircraft': {},
             'system': {},
-            'links': get_links_for_gateway()
+            'links': get_links_for_gateway(),
+            'welcome_text' : f"Unable to load message due to ${exception}"
         }
     return data
 

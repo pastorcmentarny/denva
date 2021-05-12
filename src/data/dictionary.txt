@@ -1275,3 +1275,35 @@
 ;;1275;;嘴巴;;zǔiba;;-1;;lips;;usta;;body;;none;;4;;1814b1d3;;
 ;;1276;;长;;zhǎng;;-1;;long;;długi;;body;;none;;4;;8ee7a612;;
 ;;1277;;短;;dǔan;;-1;;short;;krótki;;body;;none;;40e7052fd;;
+;;1278;;同事;;tóngshì;;-1;;colleague;;
+;;1279;;兔子;;tùzǐ-1;;-1;;królik;;
+;;1280;;郁金香;;yùjīnxiāng;;-1;;tulipan;;
+;;1281;;糖果;;tángguǒ;;-1;;słodycz;;
+;;1282;;蛋;;jī;;-1;;jajko;;
+;;1283;;布置;;bùzhì;;-1;;udekorować;;
+;;1284;;装饰彩蛋;;zhuāngshì cǎidàn;;-1;;farbowanie jajek
+;;1285;;羊羔;;yánggāo;;-1;;baranek;;
+;;1286;;小鸡;;xiǎo jī;;-1;;pisklę;;
+;;1287;;复活节蓝;;fùhuó jié lán;;-1;;koszyk wielkanocny
+;;1288;;煮熟的鸡蛋;;zhǔ shú de jīdàn;;-1;;gotowane jajko
+;;1289;;糖豆;;táng dòu;;-1;;żelki;;
+;;1290;;块;;is a measure word for money;;
+;;1291;;条;;is a measure word for trousers;;
+;;1292;;块;;is a measure word for money;;
+;;1293;;条;;is a measure word for trousers;;     
+;;1294;;核心;;cores;;
+;;1295;;电话拉黑;;- blacklisted;;
+;;1296;;端午节;;duan(-)wu(v)jie(/) 0 Dragon Boat Festival;;-1;;holiday;;it is annual celebratio to commemorate the death of a famous Chinese poet Qu Yuan, who drwoned on the 5th day of the 5th lunar month move than 2000 years ago.;;
+;;1297;;中秋节;;zhong(-)qiu(-)jie(/);;holiday;; mid autumn festival it happens on the day during the full moon closest to the Autumn equinox. The moon is at its fullest and brightest.People eat mooncakes;;
+;;1298;;清明;;qīng míng;;-1;;Qingming;;Qing Ming;;holiday;;清明 is a day when chinese people remember and honoruing their ancestors;;
+;;1299;;情侣;;qínglǚ;;-1;;couple;;para;;other;;
+;;1300;;欧洲人;; - European
+;;1301;;亚洲人;; - Asian
+;;1302;;售票处;; - kasa biletowa
+;;1303;;出入平安 - chu(-)ru(\)ping(/)an(-) peace and safety wherever you are
+;;1304;;住宿 - nocleg
+;;1305;;钥匙 - klucz
+;;1306;;腹泻;;fùxiè;;-1;;diarrhea;;biegunka;;health;;
+;;1307;;专注  focus
+;;1308;;恭喜发财 - gong(-) xi(v) fa(-) cai(/) - congratulation and be prosperous
+我认为 Wǒ rènwéi I think

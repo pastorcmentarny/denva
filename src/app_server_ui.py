@@ -176,7 +176,7 @@ def hq():
     page_webcam = host + str(url_for('do_picture'))
     data = app_server_service.get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
                                                 page_tt_delays_counter, page_tube_trains, page_webcam)
-
+    data.update()
     extra_data = app_server_service.get_gateway_data()
     all_data = dict(data)
     all_data.update(extra_data)

@@ -204,16 +204,6 @@ def create_backup_dir_path_for(dir_name: str, suffix: str):
     return dir_path
 
 
-def backup_results_data(results: list):
-    create_backup_dir_path_for("results-backup.", ".txt")
-    path = config_service.get_path_for_information_backup()
-    eight_track_results = open(path, 'w', newline='')
-    for result in results:
-        eight_track_results.write(leaderboard_utils.convert_result_to_line(result))
-        eight_track_results.write('\n')
-    eight_track_results.close()
-
-
 # TODO improve convert files to files_list
 def get_random_frame_picture_path():
     path = config_service.load_cfg()['paths']['frame'][config_service.get_mode()]
@@ -327,4 +317,14 @@ def load_text_to_display() -> str:
             return str(text_file.read())
     except Exception as exception:
         logging.warning(f'Unable to load file with message due to: ${exception}', exc_info=True)
+        return str(exception)
+
+
+def save_metrics(stats: dict) -> str:
+    try:
+        path = config_service.get_path_for_backup() + f'metrics-{str(stats["date"])}.txt'
+        save_dict_data_as_json(path, stats)
+        return 'saved'
+    except Exception as exception:
+        logging.warning(f'Unable to save stats ${stats} to file due to: ${exception}', exc_info=True)
         return str(exception)
