@@ -100,8 +100,8 @@ settings = {
         'log_ui': '/home/pi/logs/server.log',
         'ddd': '/home/pi/denva-master/src/configs/log_ddd_config.log',
         'cctv': '/home/pi/denva-master/src/configs/log_cctv_config.json',
-        'overseer_mode' : 'd:\denva\src\configs\overseer_mode.json',
-        'overseer' : 'd:\denva\src\configs\overseer.json'
+        'overseer_mode': 'd:\denva\src\configs\overseer_mode.json',
+        'overseer': 'd:\denva\src\configs\overseer.json'
     },
     "informationData": {
         'dev': 'D:\Projects\denva\src\data\information.json',
@@ -184,8 +184,10 @@ def get_path_for_cctv_backup() -> list:
     config = load_cfg()
     return config['paths']['cctv-backup']
 
+
 def get_path_for_backup() -> str:
     return settings['paths']['backup']
+
 
 def get_path_to_chinese_dictionary() -> str:
     if settings["mode"] == 'dev':
@@ -209,7 +211,7 @@ def get_path_for_information_backup() -> str:
 
 def set_mode_to(mode: str):
     settings['mode'] = mode
-    if platform.node() in ['DomL5' , 'DomAsusG' , 'DOM-DESKTOP']:
+    if platform.node() in ['DomL5', 'DomAsusG', 'DOM-DESKTOP']:
         settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
 
@@ -266,8 +268,9 @@ def get_report_path_at_server():
         path = "d:\\denva\\data\\reports\\"
     return path
 
-def get_measurment_service_url():
-        return settings["urls"]["denva"] + "/hc/ar"
+
+def get_metrics_service_url():
+    return settings["urls"]["server"] + "/metrics/add"
 
 
 def get_warm_up_measurement_counter():
