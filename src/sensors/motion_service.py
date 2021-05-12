@@ -16,6 +16,7 @@ import time
 from icm20948 import ICM20948
 
 import config_service
+from gateways import local_data_gateway
 
 logger = logging.getLogger('app')
 points = []
@@ -89,8 +90,10 @@ def get_motion() -> int:
         value = 0
         for i in range(1, len(points)):
             value += abs(points[i] - points[i - 1])
+        local_data_gateway.post_metrics_update('motion', 'OK')
         return value
     except Exception as exception:
-        logger.info('Exception occurred while getting data', exception)
+        logger.info(f'Exception occurred while getting data {exception}', exception)
+        local_data_gateway.post_metrics_update('motion', 'errors')
         reset()
         return 0
