@@ -61,7 +61,16 @@ empty_stats = {
 
 }
 
-stats = copy.deepcopy(empty_stats)
+
+def setup():
+    metrics_data = data_files.load_metrics_data()
+    if bool(metrics_data):
+        return copy.deepcopy(empty_stats)
+    else:
+        return copy.deepcopy(metrics_data)
+
+
+stats = setup()
 
 metrics_names = [METRIC_AIR_QUALITY, METRIC_GAS, METRIC_MOTION, METRIC_UV, METRIC_POLLUTION,
                  METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB]

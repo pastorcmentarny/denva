@@ -15,7 +15,7 @@ import logging
 import logging.config
 import os.path
 import random
-from datetime import datetime
+from datetime import datetime, date
 from pathlib import Path
 
 import config_service
@@ -328,3 +328,11 @@ def save_metrics(stats: dict) -> str:
     except Exception as exception:
         logging.warning(f'Unable to save stats ${stats} to file due to: ${exception}', exc_info=True)
         return str(exception)
+
+
+def load_metrics_data() -> dict:
+    path = config_service.get_path_for_backup() + f'metrics-{str(date.today())}.txt'
+    try:
+        return load_json_data_as_dict_from(path)
+    except Exception:
+        return {}

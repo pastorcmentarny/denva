@@ -11,8 +11,8 @@
 """
 
 import logging
-
 import time
+
 from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
 
 from gateways import local_data_gateway
@@ -30,10 +30,10 @@ def get_measurement():
 
     try:
         pms_data = pms5003.read()
-        local_data_gateway.post_metrics_update('pollution','OK')
+        local_data_gateway.post_metrics_update('pollution', 'OK')
     except pmsReadTimeoutError as exception:
         logger.warning("Failed to read PMS5003 due to: {}".format(exception), exc_info=True)
-        local_data_gateway.post_metrics_update('pollution','errors')
+        local_data_gateway.post_metrics_update('pollution', 'errors')
         logger.info('Restarting sensor.. (it will takes ... 5 seconds')
         pms5003 = PMS5003()
         time.sleep(5)
