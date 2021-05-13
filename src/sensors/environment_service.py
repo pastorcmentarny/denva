@@ -14,6 +14,8 @@ import logging
 
 import bme680
 
+from gateways import local_data_gateway
+
 TEMP_OFFSET = 0.0
 
 logger = logging.getLogger('app')
@@ -29,6 +31,7 @@ weather_sensor.set_temp_offset(TEMP_OFFSET)
 
 def get_measurement():
     if weather_sensor.get_sensor_data():
+        local_data_gateway.post_metrics_update('weather', 'OK')
         return {
             'temp': weather_sensor.data.temperature,
             'pressure': weather_sensor.data.pressure,
@@ -36,7 +39,8 @@ def get_measurement():
             'gas_resistance': weather_sensor.data.gas_resistance
         }
     else:
-        logger.warning("Weather sensor did't return data")
+        logger.warning("Weather sensor didn't return data")
+        local_data_gateway.post_metrics_update('weather', 'errors')
         return {
             'temp': 0,
             'pressure': 0,
