@@ -45,14 +45,15 @@ def get_noise():
 
 def get_measurement() -> dict:
     p_1, p_2, p_10 = particulate_matter_service.get_measurement()
+    oxidised, reduced, nh3 = gas_service.get_measurement()
     measurement = {"temperature": humidity_bme_service.get_temperature(),  # unit = "C"
                    "pressure": humidity_bme_service.get_pressure(),  # unit = "hPa"
                    "humidity": humidity_bme_service.get_humidity(),  # unit = "%"
                    "light": light_proximity_service.get_illuminance(),  # unit = "Lux"
                    "proximity": light_proximity_service.get_proximity(),
-                   "oxidised": gas_service.get_oxidising(),  # "oxidised"    unit = "kO"
-                   "reduced": gas_service.get_reducing(),  # unit = "kO"
-                   "nh3": gas_service.get_nh3(),  # unit = "kO"
+                   "oxidised": oxidised,  # "oxidised"    unit = "kO"
+                   "reduced": reduced,  # unit = "kO"
+                   "nh3": nh3,  # unit = "kO"
                    "pm1": p_1,  # unit = "ug/m3"
                    "pm25": p_2,  # unit = "ug/m3"
                    "pm10": p_10}  # unit = "ug/m3"
@@ -131,4 +132,3 @@ if __name__ == '__main__':
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)
-
