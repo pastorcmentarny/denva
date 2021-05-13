@@ -49,8 +49,15 @@ led_status = 0
 def get_data_from_measurement() -> dict:
     environment = environment_service.get_measurement()
     aqi = "n/a"
-    eco2 = air_quality_service.get_eco2_measurement_as_string()
-    tvoc = air_quality_service.get_tvoc_measurement_as_string()
+    eco2 = ""
+    tvoc = ""
+    try:
+        eco2 = air_quality_service.get_eco2_measurement_as_string()
+        tvoc = air_quality_service.get_tvoc_measurement_as_string()
+        local_data_gateway.post_metrics_update('air_quality', 'OK')
+    except Exception as air_quality_exception:
+        logger.error(f'Unable to read from air quality sensor due to {air_quality_exception}')
+        local_data_gateway.post_metrics_update('air_quality', 'errors')
 
     red, green, blue = two_led_service.get_measurement()
     colour = dom_utils.to_hex(red, green, blue)
