@@ -25,7 +25,6 @@ METRIC_UV = 'uv'
 METRIC_MOTION = 'motion'
 METRIC_GAS = 'gas'
 METRIC_AIR_QUALITY = 'air_quality'
-METRIC_ENVIRONMENT = 'environment'
 METRICS_RGB = 'rgb'
 COUNT = 'count'
 ERRORS = 'errors'
@@ -37,7 +36,6 @@ empty_stats = {
     DATE_OF_METRICS: str(date.today()),
     COUNT: 0,
     OK: {
-        METRIC_ENVIRONMENT: 0,
         METRIC_AIR_QUALITY: 0,
         METRIC_GAS: 0,
         METRIC_MOTION: 0,
@@ -50,7 +48,6 @@ empty_stats = {
 
     },
     ERRORS: {
-        METRIC_ENVIRONMENT: 0,
         METRIC_AIR_QUALITY: 0,
         METRIC_GAS: 0,
         METRIC_MOTION: 0,
@@ -66,8 +63,8 @@ empty_stats = {
 
 stats = copy.deepcopy(empty_stats)
 
-metrics_names = [METRIC_ENVIRONMENT, METRIC_AIR_QUALITY, METRIC_GAS, METRIC_MOTION,
-                 METRIC_UV, METRIC_POLLUTION, METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB]
+metrics_names = [METRIC_AIR_QUALITY, METRIC_GAS, METRIC_MOTION, METRIC_UV, METRIC_POLLUTION,
+                 METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB]
 
 metrics_results = [OK, ERRORS]
 
