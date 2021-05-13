@@ -30,7 +30,7 @@ COUNT = 'count'
 ERRORS = 'errors'
 OK = 'OK'
 
-logger = logging.getLogger('metrics')
+logger = logging.getLogger('server')
 
 empty_stats = {
     DATE_OF_METRICS: str(date.today()),
@@ -65,9 +65,9 @@ empty_stats = {
 def setup():
     metrics_data = data_files.load_metrics_data()
     if bool(metrics_data):
-        return copy.deepcopy(empty_stats)
-    else:
         return copy.deepcopy(metrics_data)
+    else:
+        return copy.deepcopy(empty_stats)
 
 
 stats = setup()
