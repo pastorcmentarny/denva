@@ -26,6 +26,7 @@ METRIC_MOTION = 'motion'
 METRIC_COLOUR = 'colour'
 METRIC_AIR_QUALITY = 'air_quality'
 METRIC_ENVIRONMENT = 'environment'
+METRICS_RGB = 'rgb'
 COUNT = 'count'
 ERRORS = 'errors'
 OK = 'OK'
@@ -44,7 +45,8 @@ empty_stats = {
         METRIC_POLLUTION: 0,
         METRIC_LIGHT: 0,
         METRIC_GAS: 0,
-        METRIC_FLIGHT: 0
+        METRIC_FLIGHT: 0,
+        METRICS_RGB: 0
 
     },
     ERRORS: {
@@ -56,7 +58,8 @@ empty_stats = {
         METRIC_POLLUTION: 0,
         METRIC_LIGHT: 0,
         METRIC_GAS: 0,
-        METRIC_FLIGHT: 0
+        METRIC_FLIGHT: 0,
+        METRICS_RGB: 0
     }
 
 }
@@ -64,15 +67,17 @@ empty_stats = {
 stats = copy.deepcopy(empty_stats)
 
 metrics_names = [METRIC_ENVIRONMENT, METRIC_AIR_QUALITY, METRIC_COLOUR, METRIC_MOTION,
-                 METRIC_UV, METRIC_POLLUTION, METRIC_LIGHT, METRIC_GAS, METRIC_FLIGHT]
+                 METRIC_UV, METRIC_POLLUTION, METRIC_LIGHT, METRIC_GAS, METRIC_FLIGHT, METRICS_RGB]
 
 metrics_results = [OK, ERRORS]
 
 
+# TODO add load current_metrics on load
+
 def generate_daily_metrics():
-    logger.info(f'saving metrics for ${str(stats[DATE_OF_METRICS])}')
+    logger.info(f'saving metrics for {str(stats[DATE_OF_METRICS])}')
     result = data_files.save_metrics(stats)
-    logger.info(f'metrics saved. Starting metrics for ${str(stats[DATE_OF_METRICS])}')
+    logger.info(f'metrics saved. Starting metrics for {str(stats[DATE_OF_METRICS])}')
     reset()
     stats[DATE_OF_METRICS] = str(date.today())
     logger.info('New metrics created.')
@@ -91,6 +96,9 @@ def add(metric: str, result: str):
         return
 
     if str(date.today()) != stats[DATE_OF_METRICS]:
+        generate_daily_metrics()
+
+    if stats[COUNT] % 10 == 0:
         generate_daily_metrics()
 
     if result == OK:

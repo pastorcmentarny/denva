@@ -14,8 +14,13 @@ import time
 from bh1745 import BH1745
 
 import config_service
+import logging
+
 
 # Set up light sensor
+from gateways import local_data_gateway
+
+logger = logging.getLogger('app')
 bh1745 = BH1745()
 bh1745.setup()
 bh1745.set_leds(1)
@@ -48,7 +53,15 @@ def off():
 
 
 def get_measurement():
-    return bh1745.get_rgb_scaled()
+    try:
+        result = bh1745.get_rgb_scaled()
+        local_data_gateway.post_metrics_update('rgb', 'OK')
+        return result
+    except Exception as exception:
+        logger.error(f' Unable to take measurement from uv sensor due to {exception}')
+        local_data_gateway.post_metrics_update('rgb', 'errors')
+        # TODO add reboot sensor
+        return 0, 0, 0
 
 
 def switch_led(led_status):
