@@ -34,7 +34,7 @@ try:
     from  picamera import PiCamera
 
     camera = PiCamera()
-    local_data_gateway.post_device_off('other', 'cctv')
+    local_data_gateway.post_device_on_off('cctv', False)
 except Exception as exception:
     logger.error('Unable to use camera due to {}'.format(exception), exc_info=True)
     email_sender_service.send_error_log_email("CCTV APP", "Application crashed due to {}.".format(exception))

@@ -140,16 +140,16 @@ def post_service_of(device: str, app_type: str, status: bool):
     # TODO finish it!
 
 
-def post_device_off(device: str, app_type: str):
-    url = config_service.get_service__hc_url()
-    json_data = {'device': device, 'app_type': app_type}
+def post_device_on_off(device: str, state: bool):
+    url = config_service.get_service_on_off_url()
+    json_data = {'device': device, 'state': bool}
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
             response.json()
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
+            'There was a problem: {} using url {}, device {} and state {}'.format(whoops, url, device, state))
 
 
 if __name__ == '__main__':

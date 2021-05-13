@@ -289,7 +289,7 @@ def get_system_hc_reboot_url() -> str:
     return settings["urls"]["delight"] + "/shc/reboot"
 
 
-def get_service__hc_url() -> str:
+def get_service_on_off_url() -> str:
     return settings["urls"]["delight"] + "/shc/off"
 
 
