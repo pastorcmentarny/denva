@@ -44,6 +44,7 @@ def digest():
 
         if 'error' in result:
             logger.error(result['error'])
+            local_data_gateway.post_metrics_update('flight', 'errors')
             errors += 1
             logger.error('Errors: {}'.format(errors))
         else:
@@ -51,6 +52,7 @@ def digest():
             aircraft_storage.save_processed_data(result)
             if counter % 2 == 0:
                 local_data_gateway.post_healthcheck_beat('other', 'radar')
+            local_data_gateway.post_metrics_update('flight', 'OK')
 
         end_time = timer()
 
