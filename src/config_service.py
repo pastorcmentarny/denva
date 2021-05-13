@@ -290,7 +290,7 @@ def get_system_hc_reboot_url() -> str:
 
 
 def get_service_on_off_url() -> str:
-    return settings["urls"]["delight"] + "/shc/off"
+    return settings["urls"]["delight"] + "/shc/change"
 
 
 def get_directory_path_for_aircraft() -> str:

@@ -112,3 +112,113 @@ class Test(TestCase):
 
         # debug
         print(result)
+
+    def test_get_system_hc_for_dev(self):
+        # given
+        expected_result = f'D:\denva\data\hc.json'
+        # when
+        result = config_service.get_system_hc()
+
+        # then
+        self.assertEqual(result, expected_result)
+
+        # debug
+        print(result)
+
+    def test_get_system_hc_for_server(self):
+        # given
+        config_service.settings['mode'] = 'server'
+        expected_result = f'\home\pi\data\hc.json'
+        # when
+        result = config_service.get_system_hc()
+
+        # then
+        self.assertEqual(result, expected_result)
+
+        # debug
+        print(result)
+
+        # after
+        config_service.settings['mode'] = 'dev'
+
+        # verify
+        self.assertEqual(config_service.get_mode(), 'dev')
+
+    def test_get_directory_path_for_aircraft_dev(self):
+        # given
+        expected_result = f'D:\denva\data'
+        # when
+        result = config_service.get_directory_path_for_aircraft()
+
+        # then
+        self.assertEqual(result, expected_result)
+
+        # debug
+        print(result)
+
+    def test_get_directory_path_for_aircraft_server(self):
+        # given
+        config_service.settings['mode'] = 'server'
+        expected_result = f'/home/pi/data'
+        # when
+        result = config_service.get_directory_path_for_aircraft()
+
+        # then
+        self.assertEqual(result, expected_result)
+
+        # debug
+        print(result)
+
+        # after
+        config_service.settings['mode'] = 'dev'
+
+        # verify
+        self.assertEqual(config_service.get_mode(), 'dev')
+
+    def test_get_overseer_mode_file_path(self):
+        # given
+        expected_result = f'D:\overseer_mode.txt'
+        # when
+        result = config_service.get_overseer_mode_file_path()
+
+        # then
+        self.assertEqual(result, expected_result)
+
+        # debug
+        print(result)
+
+    def test_max_latency_fast(self):
+        # given
+        expected_result = 200
+
+        # when
+        result = config_service.max_latency()
+
+        # then
+        self.assertEqual(result, expected_result)
+
+    def test_max_latency_slow(self):
+        # given
+        expected_result = 1000
+
+        # when
+        result = config_service.max_latency(False)
+
+        # then
+        self.assertEqual(result, expected_result)
+
+        # debug
+        print(result)
+
+    def test_get_url_for_dump1090(self):
+        # given
+        expected_result = f'http://192.168.0.201:16601/data.json'
+
+        # when
+        result = config_service.get_url_for_dump1090()
+
+        # then
+        self.assertEqual(result, expected_result)
+
+        # debug
+        print(result)
