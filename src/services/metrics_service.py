@@ -84,6 +84,7 @@ def save_metrics():
     logger.info(f'saving metrics for {str(stats[DATE_OF_METRICS])}')
     result = data_files.save_metrics(stats)
     logger.info(f'metrics {result}.')
+    return result
 
 
 def generate_daily_metrics():
