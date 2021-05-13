@@ -126,7 +126,7 @@ def post_metrics_update(metrics: str, result: str):
     url = config_service.get_metrics_service_url()
     json_data = {'metrics': metrics, 'result': result}
     try:
-        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+        with requests.post(url, json=json_data, timeout=1, headers=HEADERS) as response:
             response.json()
             response.raise_for_status()
     except Exception as whoops:
