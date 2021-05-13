@@ -74,14 +74,18 @@ metrics_results = [OK, ERRORS]
 
 # TODO add load current_metrics on load
 
-def generate_daily_metrics():
+def save_metrics():
     logger.info(f'saving metrics for {str(stats[DATE_OF_METRICS])}')
     result = data_files.save_metrics(stats)
-    logger.info(f'metrics saved. Starting metrics for {str(stats[DATE_OF_METRICS])}')
+    logger.info(f'metrics {result}.')
+
+
+def generate_daily_metrics():
+    save_metrics()
+    logger.info(f'Starting metrics for {str(stats[DATE_OF_METRICS])}')
     reset()
     stats[DATE_OF_METRICS] = str(date.today())
     logger.info('New metrics created.')
-    return result
 
 
 def add(metric: str, result: str):
@@ -99,7 +103,7 @@ def add(metric: str, result: str):
         generate_daily_metrics()
 
     if stats[COUNT] % 10 == 0:
-        generate_daily_metrics()
+        save_metrics()
 
     if result == OK:
         stats[OK][metric] = stats[OK][metric] + 1
