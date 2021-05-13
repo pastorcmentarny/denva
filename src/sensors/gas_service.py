@@ -9,20 +9,24 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import logging
 
 from enviroplus import gas
 
+from gateways import local_data_gateway
 
-def get_oxidising():
-    data = gas.read_all()
-    return data.oxidising / 1000
-
-
-def get_reducing():
-    data = gas.read_all()
-    return data.reducing / 1000
+logger = logging.getLogger('app')
 
 
-def get_nh3():
-    data = gas.read_all()
-    return data.nh3 / 1000
+def get_measurement():
+    try:
+        data = gas.read_all()
+        oxidising = data.oxidising / 1000
+        reducing = data.reducing / 1000
+        nh3 = data.nh3 / 1000
+        local_data_gateway.post_metrics_update('gas', 'OK')
+        return oxidising, reducing, nh3
+    except Exception as exception:
+        logger.error(f'Unable to read from gas sensor due to {exception}')
+        local_data_gateway.post_metrics_update('gas', 'errors')
+        return 0, 0, 0
