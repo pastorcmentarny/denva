@@ -18,7 +18,7 @@ from common import data_files
 DATE_OF_METRICS = "date"
 
 METRIC_FLIGHT = 'flight'
-METRIC_GAS = 'gas'
+METRIC_WEATHER = 'weather'
 METRIC_LIGHT = 'light'
 METRIC_POLLUTION = 'pollution'
 METRIC_UV = 'uv'
@@ -44,7 +44,7 @@ empty_stats = {
         METRIC_UV: 0,
         METRIC_POLLUTION: 0,
         METRIC_LIGHT: 0,
-        METRIC_GAS: 0,
+        METRIC_WEATHER: 0,
         METRIC_FLIGHT: 0,
         METRICS_RGB: 0
 
@@ -57,7 +57,7 @@ empty_stats = {
         METRIC_UV: 0,
         METRIC_POLLUTION: 0,
         METRIC_LIGHT: 0,
-        METRIC_GAS: 0,
+        METRIC_WEATHER: 0,
         METRIC_FLIGHT: 0,
         METRICS_RGB: 0
     }
@@ -67,7 +67,7 @@ empty_stats = {
 stats = copy.deepcopy(empty_stats)
 
 metrics_names = [METRIC_ENVIRONMENT, METRIC_AIR_QUALITY, METRIC_COLOUR, METRIC_MOTION,
-                 METRIC_UV, METRIC_POLLUTION, METRIC_LIGHT, METRIC_GAS, METRIC_FLIGHT, METRICS_RGB]
+                 METRIC_UV, METRIC_POLLUTION, METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB]
 
 metrics_results = [OK, ERRORS]
 
