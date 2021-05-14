@@ -175,11 +175,6 @@ def get_path_for_personal_events() -> str:
     return settings['paths']['events'][mode]
 
 
-def get_path_for_data_bin() -> str:
-    config = load_cfg()
-    return config['paths']['bin']
-
-
 def get_path_for_cctv_backup() -> list:
     config = load_cfg()
     return config['paths']['cctv-backup']
@@ -201,14 +196,6 @@ def get_irregular_verbs_path() -> str:
     return settings['paths']['base'][mode] + 'data/irregular_verbs.txt'
 
 
-# TODO refactor it
-def get_path_for_information_backup() -> str:
-    path = ":\\denva\\"
-    if settings['mode'] == 'server':
-        return 'd' + path
-    return 'd' + path
-
-
 def set_mode_to(mode: str):
     settings['mode'] = mode
     if platform.node() in ['DomL5', 'DomAsusG', 'DOM-DESKTOP']:
@@ -226,17 +213,6 @@ def get_memory_available_threshold():
 
 def get_disk_space_available_threshold():
     return settings['system']['free_space']
-
-
-# TODO refactor it
-def get_system_drive() -> str:
-    mode = get_mode()
-    if mode == 'dev':
-        return 'D:'
-    elif mode == 'server':
-        return 'D:'
-    else:
-        return '/'
 
 
 def run_slow_test() -> bool:
@@ -337,3 +313,22 @@ def is_radar_on():
 
 def get_overseer_mode_file_path():
     return settings["paths"]["overseer_mode"]
+
+
+# TODO refactor it
+def get_system_drive() -> str:
+    mode = get_mode()
+    if mode == 'dev':
+        return 'D:'
+    elif mode == 'server':
+        return 'D:'
+    else:
+        return '/'
+
+
+# TODO refactor it
+def get_path_for_information_backup() -> str:
+    path = ":\\denva\\"
+    if settings['mode'] == 'server':
+        return 'd' + path
+    return 'd' + path
