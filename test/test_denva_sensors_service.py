@@ -8,7 +8,7 @@ DENVA_ROW = ['2020-03-27 16:33:13.050509', '22.81', '1017.13', '27.269', '129468
              '744', '476']
 
 
-class DenvaSensorsServiceTests(unittest.TestCase):
+class DenvaSensorsServiceTestCases(unittest.TestCase):
     def test_get_denva_data_row_should_return_data_row_as_dict(self):
         # given
         expected_result = {'timestamp': '2020-03-27 16:33:13.050509', 'temp': '22.81', 'pressure': '1017.13',

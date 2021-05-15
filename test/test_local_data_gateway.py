@@ -4,7 +4,7 @@ import config_service
 from gateways import local_data_gateway
 
 
-class LocalDataGatewayTests(unittest.TestCase):
+class LocalDataGatewayTestCases(unittest.TestCase):
     def test_get_data_for_non_working_url_should_return_error(self):
         if config_service.run_slow_test():
             # given

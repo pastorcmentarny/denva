@@ -5,7 +5,7 @@ from common import dom_utils
 from denvapa import celebrations
 
 
-class CelebrationsTests(unittest.TestCase):
+class CelebrationsTestCases(unittest.TestCase):
     def test_get_next_3_events(self):
         # when
         three_events_result = celebrations.get_next_3_events()

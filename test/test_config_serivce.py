@@ -3,7 +3,7 @@ from unittest import TestCase
 import config_service
 
 
-class Test(TestCase):
+class ConfigServiceTestCases(TestCase):
     def test_get_irregular_verbs_path(self):
         # given
         config_service.set_mode_to('dev')
@@ -66,7 +66,7 @@ class Test(TestCase):
     def test_get_report_path_at_server_for_dev(self):
         # given
         config_service.settings['mode'] = 'dev'
-        expected_result = "d:\\denva\\data\\reports\\"
+        expected_result = "D:\\denva\\data\\reports\\"
 
         # when
         result = config_service.get_report_path_at_server()
@@ -80,7 +80,7 @@ class Test(TestCase):
     def test_get_report_path_at_server_for_server(self):
         # given
         config_service.settings['mode'] = 'server'
-        expected_result = "d:\\denva\\data\\reports\\"
+        expected_result = "D:\\denva\\data\\reports\\"
 
         # when
         result = config_service.get_report_path_at_server()
@@ -505,7 +505,7 @@ class Test(TestCase):
     def test_get_path_to_chinese_dictionary_for_dev(self):
         # given
         config_service.settings['mode'] = 'dev'
-        expected_result = f'D:\Github\denva\src\data\dictionary.txt'
+        expected_result = f'D:\GitHub\denva\src\data\dictionary.txt'
 
         # when
         result = config_service.get_path_to_chinese_dictionary()

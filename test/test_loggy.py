@@ -4,7 +4,7 @@ from unittest.mock import patch
 from common import loggy
 
 
-class LoggyTestCase(unittest.TestCase):
+class LoggyTestCases(unittest.TestCase):
     # tag-test-logger
     @patch('logging.Logger.debug')
     def test_log_error_count_should_log_no_errors(self, mock_logger):

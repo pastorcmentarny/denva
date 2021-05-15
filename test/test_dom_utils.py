@@ -5,7 +5,7 @@ from unittest.mock import patch
 from common import gobshite_exception, dom_utils
 
 
-class Test(TestCase):
+class DomUtilsTestCases(TestCase):
 
     def test_get_int_number_from_text(self):
         self.assertEqual(dom_utils.get_int_number_from_text('250MB'), 250)

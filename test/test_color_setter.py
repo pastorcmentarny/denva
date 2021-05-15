@@ -3,7 +3,7 @@ import unittest
 from overseer import color_setter
 
 
-class MyTestCase(unittest.TestCase):
+class ColorSetterTestCases(unittest.TestCase):
     def test_get__colour(self):
         # given
         color_params_list = [('red', ':255x0x0:'), ('garlic', 'rubbish'), ('blue', ':0x0x255:')]

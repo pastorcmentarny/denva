@@ -8,7 +8,7 @@ GOOD = 'Good'
 POOR = 'POOR'
 
 
-class Test(TestCase):
+class NetworkCheckTestCases(TestCase):
     def test_network_check_should_return_perfect(self):
         if config_service.run_slow_test():
             # given

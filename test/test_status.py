@@ -3,7 +3,7 @@ import unittest
 from common import status
 
 
-class StatusCase(unittest.TestCase):
+class StatusTestCases(unittest.TestCase):
     def test_status_is_green(self):
         s = status.Status(2)
 

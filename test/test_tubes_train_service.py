@@ -3,7 +3,7 @@ from unittest import TestCase
 from services import tubes_train_service
 
 
-class Test(TestCase):
+class TubeTrainServiceTestCases(TestCase):
     def test_count_tube_problems(self):
         # given
         expected_result = {

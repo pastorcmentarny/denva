@@ -3,8 +3,9 @@ import unittest
 from common import data_files
 
 
+#TODO finish this test
 class DataFilesTestCases(unittest.TestCase):
-    def test_something(self):
+    def test_save_report_at_server(self):
         data = {
             "now": {
                 "denva": {

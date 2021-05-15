@@ -4,7 +4,7 @@ from common import status
 from delight import delight_utils
 
 
-class MyTestCase(unittest.TestCase):
+class DelightUtilsTestCase(unittest.TestCase):
 
     def test_get_state_colour(self):
         # given

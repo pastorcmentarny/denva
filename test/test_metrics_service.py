@@ -10,7 +10,7 @@ OK = 'OK'
 ERRORS = 'errors'
 
 
-class Test(TestCase):
+class MetricsServiceTestCases(TestCase):
     def test_add_ok_metric_to_metrics(self):
         # given
         metrics_service.reset()

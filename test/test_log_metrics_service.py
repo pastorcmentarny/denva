@@ -5,7 +5,7 @@ from services import log_metrics_service
 TEST_PATH = 'B:\\GitHub\\denva\\resources_data\\test-log.txt'
 
 
-class LogMetricsTestCase(unittest.TestCase):
+class LogMetricsTestCases(unittest.TestCase):
 
     def test_generate_log_stats(self):
         # given

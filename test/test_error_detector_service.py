@@ -3,7 +3,7 @@ from unittest import TestCase
 from services import error_detector_service
 
 
-class Test(TestCase):
+class ErrorDetectorServiceTestCases(TestCase):
     def test_get_errors_should_return_error_with_low_ram_for_server(self):
         # given
         data = {

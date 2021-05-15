@@ -4,7 +4,7 @@ from denvapa import daily
 
 
 # TODO convert to parameterized test
-class DailyTest(unittest.TestCase):
+class DailyTestCases(unittest.TestCase):
     def test_get_now_and_next_event_should_return_last_from_previous_day_and_first_event_of_day_at_midnight(self):
         # given
         expected_result = ['23:00 - SLEEP', '06:30 - WAKE UP']

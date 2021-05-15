@@ -6,7 +6,7 @@ from gateways import web_data_gateway
 from services import information_service, weather_service
 
 
-class InformationServiceTest(TestCase):
+class InformationServiceTestCases(TestCase):
     def test_get_data_about_rickmansworth(self):
         # given
         crime_data = "Crime data N/A"  # FIXME currently data is not provided due to COVID-19

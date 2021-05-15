@@ -5,7 +5,7 @@ from common import dom_utils
 from services import system_data_service, common_service
 
 
-class Test(TestCase):
+class CommonServiceTestCases(TestCase):
     def test_run_gc_in_server_service(self):
         if config_service.run_slow_test():
             # given

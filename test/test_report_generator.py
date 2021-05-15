@@ -4,7 +4,7 @@ from unittest.mock import Mock
 from reports import report_generator
 
 
-class Test(TestCase):
+class ReportGeneratorTestCases(TestCase):
     def test_read_data_as_list_from_csv_file_for_denva(self):
         # given
         line = '2020-03-27 16:33:13.050509,22.81,1017.13,27.269,12946860.59,#ff869f,n/a,0.0,0.002591,166.015625,0.00732421875,0.01318359375,-0.00048828125,0.5419847328244275,1.450381679389313,0.08396946564885496,-85.2,29.099999999999998,-33.75,1056,47.0,744,476'.split(

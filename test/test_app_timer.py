@@ -5,7 +5,7 @@ from unittest import TestCase
 from common import app_timer
 
 
-class Test(TestCase):
+class AppTimerTestCases(TestCase):
 
     def test_get_app_uptime_should_return_uptime(self):
         # given

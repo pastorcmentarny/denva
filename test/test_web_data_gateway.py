@@ -5,7 +5,7 @@ import config_service
 from gateways import web_data_gateway
 
 
-class Test(TestCase):
+class WebDataGatewayTestCases(TestCase):
 
     # covers tube and trains (avoid to call web twice
     def test_get_status(self):

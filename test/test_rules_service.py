@@ -3,7 +3,7 @@ import unittest
 from denvapa import rules_service
 
 
-class MyTestCase(unittest.TestCase):
+class RulesServiceTestCases(unittest.TestCase):
 
     def test_get_all_rules_should_random_rule_acceptance_test(self):
         # when

@@ -3,7 +3,7 @@ import unittest
 from common import get_description_for
 
 
-class MyTestCase(unittest.TestCase):
+class GetDescriptionForTestCases(unittest.TestCase):
 
     def test_iqa_from_tvoc_for_radioactive_air(self):
         # given

@@ -6,7 +6,7 @@ from unittest import TestCase
 from systemhc import system_health_check_service
 
 
-class SystemHealthTest(TestCase):
+class SystemHealthCheckServiceTestCases(TestCase):
 
     def test_get_status(self):
         params_list = [[datetime.now(), 'UP'],

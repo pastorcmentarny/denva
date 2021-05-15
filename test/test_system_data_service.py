@@ -4,7 +4,7 @@ from common import dom_utils
 from services import system_data_service
 
 
-class Test(TestCase):
+class SystemDataServiceTestCases(TestCase):
     # this is temporary test
     def test_get_system_information_should_return_data(self):
         # given

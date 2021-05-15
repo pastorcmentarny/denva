@@ -6,7 +6,7 @@ from common import dom_utils
 from reports import report_service
 
 
-class ReportServiceTests(unittest.TestCase):
+class ReportServiceTestCases(unittest.TestCase):
     def test_get_last_two_days_report_difference_should_return_error_if_report_is_missing(self):
         # given
         expected_result = 'Unable to generate difference between because at least one of the report do not exists.' \

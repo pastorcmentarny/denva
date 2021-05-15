@@ -6,7 +6,7 @@ ENVIRO_ROW = ['2020-03-27 13:44:09.656392', '14.859722079502383', '1017.33654927
               '0', '92.0769230769231', '224.0000000000001', '135.304347826087', '18.0', '27.0', '27.0', '330', '21.6']
 
 
-class MyTestCase(unittest.TestCase):
+class DenviroSensorTestCases(unittest.TestCase):
     def test_add_row_for_enviro_will_increase_list_to_one(self):
         # given
         data = []

@@ -3,7 +3,7 @@ import unittest
 from denvapa import good_english_sentence
 
 
-class EnglishSentenceTests(unittest.TestCase):
+class EnglishSentenceTestCases(unittest.TestCase):
 
     # stupid test but useful for my flaky mind
     def test_get_random_english_sentence_(self):

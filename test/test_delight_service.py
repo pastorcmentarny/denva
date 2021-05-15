@@ -6,7 +6,7 @@ from delight import delight_service
 from services import system_data_service
 
 
-class Test(TestCase):
+class DelightServiceTestCases(TestCase):
     def test_run_gc(self):
         if config_service.run_slow_test():
             # given

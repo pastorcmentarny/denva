@@ -3,7 +3,7 @@ from unittest import TestCase
 from reports import records
 
 
-class Test(TestCase):
+class RecordsTestCases(TestCase):
     def test_get_denva_records_should_return_records(self):
         data = [
             {'timestamp': '2020-03-27 16:33:13.050509', 'temp': '22.81', 'pressure': '1017.13',
