@@ -472,7 +472,7 @@ class ConfigServiceTestCases(TestCase):
     def test_get_information_path_for_dev(self):
         # given
         config_service.settings['mode'] = 'dev'
-        expected_result = f'D:\Projects\denva\src\data\information.json'
+        expected_result = f'D:\GitHub\denva\src\data\information.json'
 
         # when
         result = config_service.get_information_path()

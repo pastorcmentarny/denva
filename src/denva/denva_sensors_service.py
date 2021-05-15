@@ -11,11 +11,11 @@ def load_data_for_today() -> list:
 
 
 def get_sensor_log_file():
-    return config.PI_PATH + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+    return config.PI_LOGS_PATH + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
 def get_sensor_log_file_at_server() -> str:
-    return config.NETWORK_PATH + 'denva/' + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+    return config.PI_SENSORS_DATA_PATH + 'denva/' + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
 def get_last_measurement():
