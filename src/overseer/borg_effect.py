@@ -1,8 +1,9 @@
 import logging
-import time
 import random
+import time
 
 logger = logging.getLogger('overseer')
+
 
 def show_on_display(mote):
     logger.info('We are the Borg. Resistance is futile')

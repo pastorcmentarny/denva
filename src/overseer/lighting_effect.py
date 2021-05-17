@@ -83,13 +83,13 @@ def rainbow_lighting(mote):
         for _ in range(1, repeat_count):
             min_brightness = random.randint(1, 3)
             for b in range(10, min_brightness, -1):
-                update(b,mote)
+                update(b, mote)
             for b in range(min_brightness, 10, 1):
-                update(b,mote)
+                update(b, mote)
         mote.clear()
 
 
-def update(new_brightness: int,mote):
+def update(new_brightness: int, mote):
     mote.set_brightness(new_brightness / 10)
     mote.show()
     time.sleep(0.01)

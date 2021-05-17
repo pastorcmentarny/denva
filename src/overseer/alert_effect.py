@@ -6,7 +6,6 @@ from overseer import overseer_config
 logger = logging.getLogger('overseer')
 
 
-
 def red_alert(mote):
     logger.info('Going into red alert')
     display_alert_for(mote, overseer_config.RED)

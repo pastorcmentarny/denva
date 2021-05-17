@@ -2,9 +2,10 @@ import logging
 import random
 import time
 
-from overseer import overseer_config, knight_rider_effect
+from overseer import overseer_config, knight_rider_effect, fire_effect
 
 logger = logging.getLogger('overseer')
+
 
 def default_mode(mote):
     logger.info('Idle')
@@ -26,6 +27,7 @@ def default_mode(mote):
                 mote.set_pixel(line, led_index - 3, int(red / 4), int(green / 4), int(blue / 4), 0.1)
             mote.show()
             time.sleep(speed)
+
 
 def daydream(mote):
     logger.info('Daydream mode')
@@ -60,4 +62,13 @@ def night_mode(mote):
     # add possibility for fire lighting
     result = random.randint(1, 100)
     if result > 88:
-        fire_effect_with_lighting()
+        fire_effect.show_on_display(mote)
+
+
+def turn_light_off(mote):
+    logger.info('Switching off light')
+    for led_index in range(0, 16):
+        for led_line in range(1, 5):
+            mote.set_pixel(led_line, led_index, 0, 0, 0, 0)
+    mote.clear()
+    mote.set_brightness(0.1)

@@ -21,12 +21,7 @@ def set_busy_mode():
 
 
 def turn_light_off():
-    logger.info('Switching off light')
-    for led_index in range(0, 16):
-        for led_line in range(1, 5):
-            mote.set_pixel(led_line, led_index, 0, 0, 0, 0)
-    mote.clear()
-    mote.set_brightness(0.1)
+    idle_effect.turn_light_off(mote)
 
 
 def borg():

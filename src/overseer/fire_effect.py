@@ -5,6 +5,7 @@ from overseer import lighting_effect, overseer_utils
 
 logger = logging.getLogger('overseer')
 
+
 def show_on_display(mote):
     for _ in range(1, 10):
         for _ in range(1, 3):

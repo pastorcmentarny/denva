@@ -113,7 +113,7 @@ def rain_storm(mote):
         for s in range(2, 24, 1):
             b = (random.randint(3, 10) / 10)
             red, green, blue = rain_colors[random.randint(0, len(rain_colors) - 1)]
-            draw(mote,red, green, blue, b, s)
+            draw(mote, red, green, blue, b, s)
 
 
 if __name__ == '__main__':
