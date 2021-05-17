@@ -63,6 +63,10 @@ colors = {
 
 colors_names = [RED, ORANGE, GREEN, BLUE, PURPLE, WHITE, BLACK, BROWN, YELLOW, CYAN, MAGENTA,
                 YELLOW_GREEN, FLAME, PARADISE]
+lighting_colors = [RED_RGB_COLOUR, ORANGE_RGB_COLOUR, GREEN_RGB_COLOUR, BLUE_RGB_COLOUR, PURPLE_RGB_COLOUR,
+                   WHITE_RGB_COLOUR, BLACK_RGB_COLOUR, BROWN_RGB_COLOUR, YELLOW_RGB_COLOUR, CYAN_RGB_COLOUR,
+                   MAGENTA_RGB_COLOUR, YELLOW_GREEN_RGB_COLOUR,
+                   FLAME_RGB_COLOUR, PARADISE_RGB_COLOUR]
 
 
 def set_busy_mode():
@@ -193,7 +197,7 @@ def rain():
 
 def night_mode():
     logger.info('In night mode')
-    for _ in range(60):
+    for _ in range(10):
         for _ in range(2):
             color = colors_names[random.randint(0, len(colors_names) - 1)]
             selected_color = colors.get(color)
@@ -327,14 +331,57 @@ def lighting():
         mote.clear()
 
 
+def lighting_v2():
+    lighting_counter = random.randint(1, 3)
+    for _ in range(0, lighting_counter):
+        red, green, blue = lighting_colors[random.randint(0, len(lighting_colors) - 1)]
+        line = random.randint(1, 4)
+        for led_index in range(0, 16):
+            if line == 1:
+                direction = random.randint(1, 2)
+                if direction == 2:
+                    line += 1
+            elif line == 4:
+                direction = random.randint(1, 2)
+                if direction == 1:
+                    line -= 1
+            else:
+                direction = random.randint(1, 3)
+                if direction == 1:
+                    line -= 1
+                else:
+                    line += 1
+
+            mote.set_pixel(line, led_index, red, green, blue, 1)
+            mote.show()
+            time.sleep(0.01)
+        repeat_count = random.randint(1, 4)
+
+        for _ in range(1, repeat_count):
+            min_brightness = random.randint(1, 3)
+            for b in range(10, min_brightness, -1):
+                update(b)
+            for b in range(min_brightness, 10, 1):
+                update(b)
+        mote.clear()
+
+
+def update(new_brightness: int):
+    mote.set_brightness(new_brightness / 10)
+    mote.show()
+    time.sleep(0.01)
+
+
 def fire_effect_with_lighting():
-    for _ in range(1, 100):
+    for _ in range(1, 10):
         for _ in range(1, 3):
             transform()
 
         probability = random.randint(1, 100)
-        if probability > 88:
+        if probability > 96:
             for _ in range(1, probability):
                 lighting()
-        elif probability > 68:
+        elif probability > 88:
+            lighting_v2()
+        elif probability > 80:
             lighting()
