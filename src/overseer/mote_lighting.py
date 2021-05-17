@@ -1,6 +1,4 @@
 import logging
-import random
-import time
 
 from mote import Mote
 
@@ -20,10 +18,6 @@ mote.clear()
 
 def set_busy_mode():
     overseer_utils.set_color_for(mote, overseer_config.RED)
-
-
-
-
 
 
 def turn_light_off():
