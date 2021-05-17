@@ -4,6 +4,8 @@ import time
 
 from mote import Mote
 
+from overseer import lighting_effect
+
 logger = logging.getLogger('overseer')
 
 # import fasting_timer
@@ -304,74 +306,6 @@ def transform():
             change_to(int(r), int(r * 2 / 3), 0, 0.2)
 
 
-def lighting():
-    lighting_counter = random.randint(1, 3)
-    for _ in range(0, lighting_counter):
-        line = random.randint(1, 4)
-        for led_index in range(0, 16):
-            if line == 1:
-                direction = random.randint(1, 2)
-                if direction == 2:
-                    line += 1
-            elif line == 4:
-                direction = random.randint(1, 2)
-                if direction == 1:
-                    line -= 1
-            else:
-                direction = random.randint(1, 3)
-                if direction == 1:
-                    line -= 1
-                else:
-                    line += 1
-
-            mote.set_pixel(line, led_index, 255, 255, 255, 1)
-            mote.show()
-            time.sleep(0.01)
-
-        mote.clear()
-
-
-def lighting_v2():
-    lighting_counter = random.randint(1, 3)
-    for _ in range(0, lighting_counter):
-        red, green, blue = lighting_colors[random.randint(0, len(lighting_colors) - 1)]
-        line = random.randint(1, 4)
-        for led_index in range(0, 16):
-            if line == 1:
-                direction = random.randint(1, 2)
-                if direction == 2:
-                    line += 1
-            elif line == 4:
-                direction = random.randint(1, 2)
-                if direction == 1:
-                    line -= 1
-            else:
-                direction = random.randint(1, 3)
-                if direction == 1:
-                    line -= 1
-                else:
-                    line += 1
-
-            mote.set_pixel(line, led_index, red, green, blue, 1)
-            mote.show()
-            time.sleep(0.01)
-        repeat_count = random.randint(1, 4)
-
-        for _ in range(1, repeat_count):
-            min_brightness = random.randint(1, 3)
-            for b in range(10, min_brightness, -1):
-                update(b)
-            for b in range(min_brightness, 10, 1):
-                update(b)
-        mote.clear()
-
-
-def update(new_brightness: int):
-    mote.set_brightness(new_brightness / 10)
-    mote.show()
-    time.sleep(0.01)
-
-
 def fire_effect_with_lighting():
     for _ in range(1, 10):
         for _ in range(1, 3):
@@ -380,8 +314,8 @@ def fire_effect_with_lighting():
         probability = random.randint(1, 100)
         if probability > 96:
             for _ in range(1, probability):
-                lighting()
+                lighting_effect.lighting(mote)
         elif probability > 88:
-            lighting_v2()
+            lighting_effect.rainbow_lighting(mote)
         elif probability > 80:
-            lighting()
+            lighting_effect.lighting(mote)
