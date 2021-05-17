@@ -4,7 +4,7 @@ import time
 
 from mote import Mote
 
-from overseer import lighting_effect, knight_rider_effect, borg_effect, rain_effect, alert_effect
+from overseer import lighting_effect, knight_rider_effect, borg_effect, rain_effect, alert_effect, overseer_utils
 
 logger = logging.getLogger('overseer')
 
@@ -72,23 +72,10 @@ lighting_colors = [RED_RGB_COLOUR, ORANGE_RGB_COLOUR, GREEN_RGB_COLOUR, BLUE_RGB
 
 
 def set_busy_mode():
-    set_color_for(RED)
+    overseer_utils.set_color_for(RED)
 
 
-def set_color_for(color_name: str):
-    if color_name in colors:
-        red, green, blue = colors.get(color_name)
-        change_to(red, green, blue)
-    else:
-        logger.warning(f'I need supported color not {color_name}')
-        return 'rubbish'
 
-
-def change_to(red: int, green: int, blue: int, brightness=0.4):
-    for led_index in range(0, 16):
-        for led_line in range(1, 5):
-            mote.set_pixel(led_line, led_index, red, green, blue, brightness)
-    mote.show()
 
 
 def default_mode():
@@ -124,7 +111,7 @@ def party_mode():
                                random.randint(0, 256))
         mote.show()
         time.sleep(blink_speed)
-        set_color_for(BLACK)
+        overseer_utils.set_color_for(BLACK)
         mote.show()
         time.sleep(blink_speed)
     logger.info('Party is over.')
@@ -177,31 +164,31 @@ def turn_light_off():
 
 def transform():
     for r in range(0, 255):
-        change_to(int(r), 0, 0, 0.4)
+        overseer_utils.change_to(int(r), 0, 0, 0.4)
 
     for r in range(255, 160, -1):
-        change_to(int(r), 0, 0, 0.3)
+        overseer_utils.change_to(int(r), 0, 0, 0.3)
 
     for r in range(160, 255):
-        change_to(int(r), 0, 0, 0.4)
+        overseer_utils.change_to(int(r), 0, 0, 0.4)
 
     for r in range(255, 32, -1):
-        change_to(int(r), 0, 0, 0.2)
+        overseer_utils.change_to(int(r), 0, 0, 0.2)
 
     repeat = random.randint(1, 10)
     for _ in range(0, repeat):
         for _ in range(32, 128):
-            change_to(_, int(_ / 2), 0, 0.3)
+            overseer_utils.change_to(_, int(_ / 2), 0, 0.3)
         for _ in range(128, 32):
-            change_to(_, int(_ / 2), 0, 0.2)
+            overseer_utils.change_to(_, int(_ / 2), 0, 0.2)
 
     repeat = random.randint(1, 20)
     for _ in range(0, repeat):
         for r in range(64, 224):
-            change_to(int(r), int(r * 2 / 3), 0, 0.3)
+            overseer_utils.change_to(int(r), int(r * 2 / 3), 0, 0.3)
 
         for r in range(224, 64, -1):
-            change_to(int(r), int(r * 2 / 3), 0, 0.2)
+            overseer_utils.change_to(int(r), int(r * 2 / 3), 0, 0.2)
 
 
 def fire_effect_with_lighting():
