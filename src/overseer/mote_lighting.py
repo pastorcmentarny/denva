@@ -4,7 +4,7 @@ import time
 
 from mote import Mote
 
-from overseer import lighting_effect, knight_rider_effect, borg_effect, rain_effect
+from overseer import lighting_effect, knight_rider_effect, borg_effect, rain_effect, alert_effect
 
 logger = logging.getLogger('overseer')
 
@@ -166,37 +166,6 @@ def night_mode():
         fire_effect_with_lighting()
 
 
-def red_alert():
-    logger.info('Going into red alert')
-    display_alert_for(RED)
-
-
-def yellow_alert():
-    logger.info('Going into yellow alert')
-    display_alert_for(YELLOW)
-
-
-def display_alert_for(color: str):
-    selected_color = colors.get(color)
-
-    mote.set_brightness(0)
-    for led_index in range(0, 16):
-        for line_led in range(1, 5):
-            mote.set_pixel(line_led, led_index, selected_color[0], selected_color[1], selected_color[2])
-
-    for counter in range(0, 5):
-        for b in range(0, 100):
-            brightness = b / 100
-            mote.set_brightness(brightness)
-            time.sleep(0.02)
-            mote.show()
-        for d in range(99, -1, -1):
-            brightness = d / 100
-            mote.set_brightness(brightness)
-            time.sleep(0.02)
-            mote.show()
-
-
 def turn_light_off():
     logger.info('Switching off light')
     for led_index in range(0, 16):
@@ -252,6 +221,15 @@ def fire_effect_with_lighting():
 
 def borg():
     borg_effect.show_on_display(mote)
+
+
+def red_alert():
+    alert_effect.red_alert(mote)
+
+
+def yellow_alert():
+    alert_effect.yellow_alert(mote)
+
 
 def rain():
     rain_effect.random_rain(mote)
