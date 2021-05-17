@@ -107,7 +107,7 @@ def app_loop():
             if is_night_mode():
                 mote_lighting.night_mode()
             elif is_stand_up():
-                mote_lighting.party_mode()
+                mote_lighting.party_random_color_mode()
             elif is_busy_at_work():
                 mote_lighting.red_alert()
             else:

@@ -5,7 +5,7 @@ import time
 from mote import Mote
 
 from overseer import borg_effect, rain_effect, alert_effect, overseer_utils, \
-    overseer_config, idle_effect, fire_effect
+    overseer_config, idle_effect, fire_effect, party_effect
 
 logger = logging.getLogger('overseer')
 
@@ -22,21 +22,8 @@ def set_busy_mode():
     overseer_utils.set_color_for(mote, overseer_config.RED)
 
 
-def party_mode():
-    logger.info('Party time!')
-    blink_speed = 0.02
-    mote.set_brightness(0.4)
-    for times in range(1000):
-        for led_index in range(0, 16):
-            for led_line in range(1, 5):
-                mote.set_pixel(led_line, led_index, random.randint(0, 256), random.randint(0, 256),
-                               random.randint(0, 256))
-        mote.show()
-        time.sleep(blink_speed)
-        overseer_utils.set_color_for(mote, overseer_config.BLACK)
-        mote.show()
-        time.sleep(blink_speed)
-    logger.info('Party is over.')
+
+
 
 
 def turn_light_off():
@@ -74,3 +61,7 @@ def fire_effect_with_lighting():
 
 def night_mode():
     idle_effect.night_mode(mote)
+
+
+def party_random_color_mode():
+    party_effect.random_color_mode(mote)
