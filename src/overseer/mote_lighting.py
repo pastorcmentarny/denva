@@ -4,7 +4,7 @@ import time
 
 from mote import Mote
 
-from overseer import lighting_effect, knight_rider_effect
+from overseer import lighting_effect, knight_rider_effect, borg_effect, rain_effect
 
 logger = logging.getLogger('overseer')
 
@@ -130,41 +130,13 @@ def party_mode():
     logger.info('Party is over.')
 
 
-
-
 def daydream():
     logger.info('Daydream mode')
     color = colors_names[random.randint(0, len(colors_names) - 1)]
     if color in [RED, BLACK]:
         color = PURPLE
     selected_color = colors.get(color)
-    knight_rider_effect.show_on_display(selected_color[0], selected_color[1], selected_color[2],mote)
-
-
-def rain():
-    logger.info('Rain mode')
-    mote.clear()
-    mote.set_brightness(0.2)
-    for times in range(100):
-        speed = (random.randint(0, 20) / 100) + 0.01
-        rain_colors = [RED_RGB_COLOUR, ORANGE_RGB_COLOUR, GREEN_RGB_COLOUR, BLUE_RGB_COLOUR, PURPLE_RGB_COLOUR,
-                       WHITE_RGB_COLOUR, BLACK_RGB_COLOUR, BROWN_RGB_COLOUR, YELLOW_RGB_COLOUR, CYAN_RGB_COLOUR,
-                       MAGENTA_RGB_COLOUR, YELLOW_GREEN_RGB_COLOUR,
-                       FLAME_RGB_COLOUR, PARADISE_RGB_COLOUR]
-
-        red, green, blue = rain_colors[random.randint(0, len(rain_colors) - 1)]
-        line = random.randint(1, 4)
-        for index in range(0, 16):
-            mote.clear()
-            mote.set_pixel(line, index, red, green, blue, 0.4)
-            if index > 0:
-                mote.set_pixel(line, index - 1, red, green, blue, 0.3)
-            if index > 1:
-                mote.set_pixel(line, index - 2, int(red / 2), int(green / 2), int(blue / 2), 0.2)
-            if index > 2:
-                mote.set_pixel(line, index - 3, int(red / 4), int(green / 4), int(blue / 4), 0.1)
-            mote.show()
-            time.sleep(speed)
+    knight_rider_effect.show_on_display(selected_color[0], selected_color[1], selected_color[2], mote)
 
 
 def night_mode():
@@ -202,19 +174,6 @@ def red_alert():
 def yellow_alert():
     logger.info('Going into yellow alert')
     display_alert_for(YELLOW)
-
-
-def borg():
-    logger.info('We are the Borg. Resistance is futile')
-    blink_speed = 0.5
-    mote.set_brightness(0.1)
-    for times in range(10):
-        for led_index in range(0, 16):
-            for led_line in range(1, 5):
-                mote.set_pixel(led_line, led_index, 0, random.randint(0, 255), 0)
-        mote.set_pixel(random.randint(1, 4), random.randint(0, 15), 0, 255, 0, random.randint(1, 10) / 10)
-        mote.show()
-        time.sleep(blink_speed)
 
 
 def display_alert_for(color: str):
@@ -289,3 +248,10 @@ def fire_effect_with_lighting():
             lighting_effect.rainbow_lighting(mote)
         elif probability > 80:
             lighting_effect.lighting(mote)
+
+
+def borg():
+    borg_effect.show_on_display(mote)
+
+def rain():
+    rain_effect.random_rain(mote)
