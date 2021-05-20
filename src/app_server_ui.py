@@ -57,7 +57,7 @@ def store_enviro_measurement():
 
 @app.route("/focus")
 def focus():
-    return render_template('hq.html', message={})
+    return render_template('focus.html', message={})
 
 
 @app.route("/frame")
@@ -66,11 +66,6 @@ def frame():
     filename = app_server_service.get_random_frame()
     logger.info('Displaying {}'.format(filename))
     return send_file(filename, mimetype='image/jpeg')
-
-
-@app.route("/gateway")
-def gateway_page():
-    return render_template('gateway.html', message=app_server_service.get_gateway_data())
 
 
 @app.route("/gc")
@@ -183,27 +178,14 @@ def do_picture():
 def hq():
     start = datetime.datetime.now()
 
-    host = request.host_url[:-1]
-    page_tube_trains = host + str(url_for('tube_trains_status'))
-    page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
-    page_recent_log_app = host + str(url_for('recent_log_app'))
-    page_gateway = host + str(url_for('gateway_page'))
-    page_ricky = host + str(url_for('ricky'))
-    page_frame = host + str(url_for('frame'))
-    page_webcam = host + str(url_for('do_picture'))
-    data = app_server_service.get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
-                                                page_tt_delays_counter, page_tube_trains, page_webcam)
-    data.update()
-    extra_data = app_server_service.get_gateway_data()
-    all_data = dict(data)
-    all_data.update(extra_data)
+    device_status_data = app_server_service.get_device_status()
 
     stop = datetime.datetime.now()
 
     delta = stop - start
     time = int(delta.total_seconds() * 1000)
-    logger.info(f'It took {time} ms.')
-    return render_template('status.html', message=all_data)
+    logger.info(f'It took {time} ms to collect all data for device status.')
+    return render_template('status.html', message=device_status_data)
 
 
 @app.route("/hq")

@@ -156,7 +156,8 @@ def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             'system': get_current_system_information_for_all_services(),
             'links': get_links_for_gateway(),
-            'welcome_text' : data_files.load_text_to_display()
+            'welcome_text' : data_files.load_text_to_display(),
+            'transport' : web_data_gateway.get_status()
         }
         data['errors'] = get_errors_from_data(data)
     except Exception as exception:
@@ -192,3 +193,31 @@ def reboot_all_devices():
     local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['enviro']))
     local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['delight']))
     return {'result': 'All devices starting to reboot'}
+
+
+def get_device_status():
+    logger.info('Getting data for main page')
+    try:
+        data = {
+            'warnings': local_data_gateway.get_current_warnings_for_all_services(),
+            'denva': local_data_gateway.get_current_reading_for_denva(),
+            'enviro': local_data_gateway.get_current_reading_for_enviro(),
+            'aircraft': radar_service.get_aircraft_detected_today_count(),
+            'system': get_current_system_information_for_all_services(),
+            'links': get_links_for_gateway(),
+            'welcome_text' : data_files.load_text_to_display(),
+            'transport' : web_data_gateway.get_status()
+        }
+        data['errors'] = get_errors_from_data(data)
+    except Exception as exception:
+        logger.error('Unable to get data due to {}'.format(exception))
+        data = {
+            'warnings': {},
+            'denva': {},
+            'enviro': {},
+            'aircraft': {},
+            'system': {},
+            'links': get_links_for_gateway(),
+            'welcome_text' : f"Unable to load message due to ${exception}"
+        }
+    return data

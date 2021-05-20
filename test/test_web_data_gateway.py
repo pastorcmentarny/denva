@@ -22,7 +22,7 @@ class WebDataGatewayTestCases(TestCase):
         else:
             self.skipTest('running fast test only. test_get_status skipped.')
 
-    @unittest.skip("COVID-19")# TODO this test failing as service is unavailable due to COVID-19
+    @unittest.skip("COVID-19")  # TODO this test failing as service is unavailable due to COVID-19
     def test_get_crime(self):
         if config_service.run_slow_test():
             # when
@@ -107,4 +107,17 @@ class WebDataGatewayTestCases(TestCase):
                 # then
                 self.assertEqual(expected_result, result)
 
+    def test_get_iss_location(self):
+        # when
+        result = web_data_gateway.get_iss_location()
 
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(result['message'], 'success')
+
+
+# run this file test only
+if __name__ == '__main__':
+    unittest.main()

@@ -61,7 +61,7 @@ def night_mode(mote):
 
     # add possibility for fire lighting
     result = random.randint(1, 100)
-    if result > 88:
+    if result > 66:
         fire_effect.show_on_display(mote)
 
 
