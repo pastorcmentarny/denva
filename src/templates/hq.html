@@ -276,6 +276,7 @@
 
 
 <div class="row mb-3">
+
     <!-- SYSTEM STATUS -->
     <div class="col-md-4">
         <div class="card-body">
@@ -285,6 +286,12 @@
                     <li class="small">{{ weather_sentence }}</li>
                 {% endfor %}
             </ul>
+            <ul class="list-unstyled mt-3 mb-4">
+                <strong class="d-inline-block text-success">Transport</strong>
+                {% for line_name in message.transport %}
+                    <li class="small">{{ line_name }}</li>
+                {% endfor %}            </ul>
+
             <ul class="list-unstyled mt-3 mb-4">
                 <li><strong class="d-inline-block text-success">Server(LP) {3}</strong></li>
                 {% if  message.system.server %}
