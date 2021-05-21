@@ -138,7 +138,7 @@ def get_errors_from_data(data):
     return error_detector_service.get_errors_from_data(data)
 
 
-def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky, page_tt_delays_counter,
+def get_data_for_page(page_frame, page_recent_log_app, page_ricky, page_tt_delays_counter,
                       page_tube_trains, page_webcam):
     logger.info('Getting data for main page')
     try:
@@ -149,7 +149,6 @@ def get_data_for_page(page_frame, page_gateway, page_recent_log_app, page_ricky,
             'page_frame': page_frame,
             'page_webcam': page_webcam,
             'page_ricky': page_ricky,
-            'page_gateway': page_gateway,
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
