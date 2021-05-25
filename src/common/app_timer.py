@@ -62,5 +62,5 @@ def is_time_to_run_every_6_hours(previous_update_time: datetime) -> bool:
 def is_it_time(previous_update_time: datetime, time_difference: int) -> bool:
     time_now = datetime.now()
     duration = time_now - previous_update_time
-    duration_in_s = duration.total_seconds()
-    return duration_in_s > time_difference
+    duration_in_seconds = duration.total_seconds()
+    return duration_in_seconds > time_difference
