@@ -127,7 +127,7 @@ def get_links_for(suffix: str, sensor_only: bool = False) -> dict:
 
 
 def get_last_logs_for(log_file_name: str, lines):
-    return data_files.tail( 'd:/denva/logs/' + log_file_name, lines)
+    return data_files.tail('d:/denva/logs/' + log_file_name, lines)
 
 
 def run_gc() -> dict:
@@ -155,8 +155,8 @@ def get_data_for_page(page_frame, page_recent_log_app, page_ricky, page_tt_delay
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             'system': get_current_system_information_for_all_services(),
             'links': get_links_for_gateway(),
-            'welcome_text' : data_files.load_text_to_display(),
-            'transport' : web_data_gateway.get_status()
+            'welcome_text': data_files.load_text_to_display(),
+            'transport': web_data_gateway.get_status()
         }
         data['errors'] = get_errors_from_data(data)
     except Exception as exception:
@@ -168,14 +168,13 @@ def get_data_for_page(page_frame, page_recent_log_app, page_ricky, page_tt_delay
             'page_frame': page_frame,
             'page_webcam': page_webcam,
             'page_ricky': page_ricky,
-            'page_gateway': page_gateway,
             'warnings': {},
             'denva': {},
             'enviro': {},
             'aircraft': {},
             'system': {},
             'links': get_links_for_gateway(),
-            'welcome_text' : f"Unable to load message due to ${exception}"
+            'welcome_text': f"Unable to load message due to ${exception}"
         }
     return data
 
@@ -204,8 +203,8 @@ def get_device_status():
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             'system': get_current_system_information_for_all_services(),
             'links': get_links_for_gateway(),
-            'welcome_text' : data_files.load_text_to_display(),
-            'transport' : web_data_gateway.get_status()
+            'welcome_text': data_files.load_text_to_display(),
+            'transport': web_data_gateway.get_status()
         }
         data['errors'] = get_errors_from_data(data)
     except Exception as exception:
@@ -217,6 +216,6 @@ def get_device_status():
             'aircraft': {},
             'system': {},
             'links': get_links_for_gateway(),
-            'welcome_text' : f"Unable to load message due to ${exception}"
+            'welcome_text': f"Unable to load message due to ${exception}"
         }
     return data

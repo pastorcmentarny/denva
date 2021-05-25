@@ -69,16 +69,3 @@ def get_chinese_dictionary_from_github() -> list:
         return response.text.splitlines()
     except Exception as whoops:
         return ['Error: {}'.format(whoops)]
-
-
-# TODO finish it
-def save_dictionary(github):
-    pass
-
-
-# TODO finish it
-def update_dictionary_if_needed():
-    github = get_chinese_dictionary_from_github()
-    local = load_dictionary_file()
-    if len(github) > len(local):
-        save_dictionary(github)

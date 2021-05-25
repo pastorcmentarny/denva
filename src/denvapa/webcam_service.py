@@ -12,12 +12,12 @@
 
 import logging
 import os
+import time
 from datetime import datetime
 from pathlib import Path
 from timeit import default_timer as timer
 
 import cv2
-import time
 
 from common import dom_utils
 
@@ -33,6 +33,7 @@ error: (-215:Assertion failed) !_img.empty() in function 'cv::imwrite'\n",
 '''
 
 
+# FIXME
 def capture_picture() -> str:
     logger.info('capturing a picture')
     try:
@@ -53,7 +54,7 @@ def capture_picture() -> str:
         cv2.imwrite(photo_path, frame)
         logger.info('saving image to file')
         while not os.path.exists(photo_path):
-            time.sleep(step)
+            time .sleep(step)
         logger.info('picture saved at {}'.format(photo_path))
         end_time = timer()
         total_time = str(int((end_time - start_time) * 1000))  # in ms
