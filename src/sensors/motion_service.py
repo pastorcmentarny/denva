@@ -68,7 +68,7 @@ def sample():
 
 def get_current_motion_difference() -> dict:
     try:
-        mx, my, mz = imu.read_magnetometer_data()
+        current_mx, current_my, current_mz = imu.read_magnetometer_data()
         ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
 
         ax -= sx
@@ -77,7 +77,7 @@ def get_current_motion_difference() -> dict:
         return {
             'ax': ax, 'ay': ay, 'az': az,
             'gx': gx, 'gy': gy, 'gz': gz,
-            'mx': mx, 'my': my, 'mz': mz
+            'mx': current_mx, 'my': current_my, 'mz': current_mz
         }
     except Exception as exception:
         logger.warning(f"Unable to read data due to ${exception}")

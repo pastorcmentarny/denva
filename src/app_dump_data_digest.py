@@ -66,11 +66,12 @@ def digest():
         if counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('other', 'digest')
         display_stats()
-        msg = 'Measurement no. {} It took {} milliseconds to process. Errors: {}. Warnings: {}'.format(counter,
-                                                                                                       measurement_time,
-                                                                                                       errors,
-                                                                                                       warnings)
-        logger.info(msg)
+        measurement_message = 'Measurement no. {} It took {} milliseconds to process. Errors: {}. Warnings: {}'.format(
+            counter,
+            measurement_time,
+            errors,
+            warnings)
+        logger.info(measurement_message)
         remaining_time = refresh_rate_in_seconds - (float(measurement_time) / 1000)
 
         if remaining_time > 0:
@@ -87,7 +88,7 @@ if __name__ == '__main__':
     except Exception as exception:
         logger.error('Something went badly wrong: {}'.format(exception), exc_info=True)
     except BaseException as disaster:
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
-        print(msg)
+        disaster_error_message = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        print(disaster_error_message)
         traceback.print_exc()
-        logger.fatal(msg, exc_info=True)
+        logger.fatal(disaster_error_message, exc_info=True)

@@ -24,6 +24,10 @@ from denva import denva_sensors_service
 from denviro import denviro_sensors_service
 from services import email_sender_service
 
+EMPTY = ''
+
+READ = 'r'
+
 ENCODING = 'utf-8'
 UNKNOWN = '?'
 
@@ -39,7 +43,7 @@ def load_cfg() -> dict:
         path = r'd:\denva\email.json'
     else:
         path = '/home/pi/email.json'  # actual cfg is different place
-    with open(path, 'r') as email_config:
+    with open(path, READ) as email_config:
         return json.load(email_config)
 
 
@@ -66,7 +70,7 @@ def save_report(report: dict, file: str):
 def load_report(report_date: str) -> dict:
     report_file_path = '{}/{}'.format(report_dir, report_date)
     logger.info('Loading report from {}'.format(report_file_path))
-    with open(report_file_path, 'r') as report_file:
+    with open(report_file_path, READ) as report_file:
         return json.load(report_file)
 
 
@@ -75,19 +79,19 @@ def load_report_on_server_on(report_date: datetime):
                                       dom_utils.get_date_as_filename('report', 'json',
                                                                      report_date))
     logger.info('Loading report from {}'.format(report_file_path))
-    with open(report_file_path, 'r') as report_file:
+    with open(report_file_path, READ) as report_file:
         return json.load(report_file)
 
 
 def load_warnings(path: str) -> list:
-    file = open(path, 'r', newline='')
+    file = open(path, READ, newline=EMPTY)
     content = file.readlines()
     content.insert(0, 'Warning counts: {}'.format(len(content)))
     return content
 
 
 def load_stats(path: str) -> list:
-    file = open(path, 'r', newline='')
+    file = open(path, READ, newline=EMPTY)
     content = file.readlines()
     return content
 
@@ -112,10 +116,10 @@ def add_enviro_measurement_to_file(file, data: dict):
 # TODO refactor it as it saves in 2 places
 def store_enviro_measurement(data: dict):
     try:
-        local_file = open(denviro_sensors_service.get_sensor_log_file(), 'a+', newline='')
+        local_file = open(denviro_sensors_service.get_sensor_log_file(), 'a+', newline=EMPTY)
         add_enviro_measurement_to_file(local_file, data)
 
-        enviro_file = open(denviro_sensors_service.get_sensor_log_file_at_server(), 'a+', newline='')
+        enviro_file = open(denviro_sensors_service.get_sensor_log_file_at_server(), 'a+', newline=EMPTY)
         add_enviro_measurement_to_file(enviro_file, data)
         # if flag is true, set to false
     except IOError as exception:
@@ -152,10 +156,10 @@ def store_measurement(data, motion):
         counter = 0
     logger.debug('storing measurement no.{}'.format(counter))
     try:
-        local_file = open(denva_sensors_service.get_sensor_log_file(), 'a+', newline='')
+        local_file = open(denva_sensors_service.get_sensor_log_file(), 'a+', newline=EMPTY)
         add_measurement_to_file(local_file, data, motion)
 
-        server_file = open(denva_sensors_service.get_sensor_log_file_at_server(), 'a+', newline='')
+        server_file = open(denva_sensors_service.get_sensor_log_file_at_server(), 'a+', newline=EMPTY)
         add_measurement_to_file(server_file, data, motion)
 
         logger.debug('measurement no.{} saved to file.'.format(counter))
@@ -180,7 +184,7 @@ def setup_logging(where: str):
 
 
 def load_json_data_as_dict_from(path: str) -> dict:
-    with open(path, 'r', encoding=ENCODING) as json_file:
+    with open(path, READ, encoding=ENCODING) as json_file:
         return json.load(json_file)
 
 
@@ -242,14 +246,14 @@ def save_list_to_file(data: list, path: str):
 
 
 def load_weather(path: str):
-    with open(path, 'r', encoding=ENCODING) as weather_file:
+    with open(path, READ, encoding=ENCODING) as weather_file:
         return weather_file.read().splitlines()
 
 
 # TODO move this to different place
 def load_data(year: int, month: int, day: int) -> list:
     sensor_log_file = dom_utils.fix_nulls(
-        open(config_service.get_sensor_log_file_for(year, month, day), 'r', newline='', encoding=ENCODING))
+        open(config_service.get_sensor_log_file_for(year, month, day), READ, newline=EMPTY, encoding=ENCODING))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
@@ -277,7 +281,7 @@ def load_enviro_data_for_today() -> list:
 def load_enviro_data(year: int, month: int, day: int) -> list:
     logger.debug('loading enviro sensor data from {} {} {}'.format(day, month, year))
     sensor_log_file = dom_utils.fix_nulls(
-        open(config_service.get_sensor_log_file_for(year, month, day, 'sensor-enviro-log'), 'r', newline='',
+        open(config_service.get_sensor_log_file_for(year, month, day, 'sensor-enviro-log'), READ, newline=EMPTY,
              encoding=ENCODING))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
@@ -306,14 +310,14 @@ def is_report_file_exists_for(report_date: datetime) -> bool:
 
 
 def load_ricky(path: str):
-    with open(path, 'r', encoding=ENCODING) as ricky_data:
+    with open(path, READ, encoding=ENCODING) as ricky_data:
         return json.load(ricky_data)
 
 
 def load_text_to_display() -> str:
     path = config_service.get_data_path() + 'text_to_display.txt'
     try:
-        with open(path, 'r', encoding=ENCODING) as text_file:
+        with open(path, READ, encoding=ENCODING) as text_file:
             return str(text_file.read())
     except Exception as exception:
         logging.warning(f'Unable to load file with message due to: ${exception}', exc_info=True)
@@ -331,8 +335,10 @@ def save_metrics(stats: dict) -> str:
 
 
 def load_metrics_data() -> dict:
-    path = config_service.get_path_for_backup() + f'metrics-{str(date.today())}.txt'
+    metric_data_file = f'metrics-{str(date.today())}.txt'
+    path = config_service.get_path_for_backup() + metric_data_file
     try:
         return load_json_data_as_dict_from(path)
-    except Exception:
+    except Exception as exception:
+        logging.warning(f'Unable to load metrics data ${metric_data_file} to file due to: ${exception}', exc_info=True)
         return {}

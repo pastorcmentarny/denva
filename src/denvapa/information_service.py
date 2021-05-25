@@ -42,6 +42,7 @@ def get_information():
     return information
 
 
+# noinspection PyTypeChecker
 def refresh_all():
     start_time = timer()
     information['pollution']['tianjin'] = web_data_gateway.get_pollution_for('tianjin')
@@ -81,6 +82,7 @@ def refresh_every_5_minutes():
     information['train'] = web_data_gateway.get_train()
 
 
+# noinspection PyTypeChecker
 def refresh_hourly():
     information['pollution']['tianjin'] = web_data_gateway.get_pollution_for('tianjin')
     information['pollution']['wroclaw'] = web_data_gateway.get_pollution_for('wroclaw')

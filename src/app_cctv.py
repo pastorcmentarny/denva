@@ -31,7 +31,7 @@ EMPTY = ''
 logger = logging.getLogger('app')
 
 try:
-    from  picamera import PiCamera
+    from picamera import PiCamera
 
     camera = PiCamera()
     local_data_gateway.post_device_on_off('cctv', False)
@@ -75,7 +75,7 @@ def capture_picture() -> str:
                 logger.warning('{} NOT deleted.'.format(photo_path))
             else:
                 return EMPTY
-        return photo_path
+        return str(photo_path)
     except Exception as e:
         logger.warning('Unable to capture picture to {} due to {}'.format(path, e), exc_info=True)
         # email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))

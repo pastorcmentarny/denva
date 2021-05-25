@@ -43,7 +43,7 @@ def get_filename_from_year_month_day(name: str, file_type: str, year: int, month
     return f"{name}-{year}-{month:02d}-{day:02d}.{file_type}"
 
 
-def get_filename_for_warnings(year:str, month:str, day:str):
+def get_filename_for_warnings(year: str, month: str, day: str):
     return f"warnings.log.{int(year)}-{int(month):02d}-{int(day):02d}"
 
 
@@ -116,7 +116,7 @@ def is_file_older_than_5_minutes(filename: str) -> bool:
     month = int(filename[4:6])
     day = int(filename[6:8])
     hour = int(filename[9:11])
-    minut = int(filename[11:13])
+    minute = int(filename[11:13])
     second = int(filename[13:15])
     print(year)
     print(month)
@@ -124,7 +124,7 @@ def is_file_older_than_5_minutes(filename: str) -> bool:
     print(hour)
     print(month)
     print(second)
-    last = datetime(year, month, day, hour, minut, second)
+    last = datetime(year, month, day, hour, minute, second)
     now = datetime.now()
     time_delta = now - last
     return (time_delta.seconds / 60) > 5
@@ -330,4 +330,3 @@ def to_int(number_as_string: str) -> int:
     if number_as_string == '' or (number_as_string is None) or number_as_string == '00' or number_as_string == '0':
         return 0
     return int(number_as_string.lstrip('0'))
-

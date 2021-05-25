@@ -83,6 +83,7 @@ def get_enviro_records(data_records: list) -> dict:
     return result
 
 
+# noinspection PyTypeChecker
 def get_records(data_records: list) -> dict:
     start = time.time_ns()
     result = {

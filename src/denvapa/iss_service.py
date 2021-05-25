@@ -16,7 +16,6 @@ from datetime import datetime
 
 from gateways import web_data_gateway
 
-
 poland_square_border = {
     "west": {
         "latitude": 53.912817,
@@ -36,7 +35,7 @@ poland_square_border = {
     }
 }
 
-#it is not accurate
+# it is not accurate
 uk_rectangle_border = {
     "west": {
         "latitude": 50.069559,
@@ -55,6 +54,7 @@ uk_rectangle_border = {
         "longitude": -5.207077
     }
 }
+
 
 def is_in_polish_border_zone(position: dict) -> bool:
     iss_latitude = float(position['latitude'])

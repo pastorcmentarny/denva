@@ -152,8 +152,8 @@ def set_delight_status(cfg):
         elif dom_utils.get_int_number_from_text(delight_data['Free Space']) < 512:
             logger.warning('status: ORANGE due to low free space on Delight')
             state.set_warn()
-    except Exception as exception:
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+    except Exception as set_state_exception:
+        logger.error('Something went badly wrong\n{}'.format(set_state_exception), exc_info=True)
         state.set_error()
     delight_ui_response = local_data_gateway.get_data_for('{}/hc'.format(config_service.load_cfg()["urls"]['delight']))
     if not 'error' in delight_ui_response:

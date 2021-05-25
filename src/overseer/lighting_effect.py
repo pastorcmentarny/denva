@@ -93,8 +93,3 @@ def update(new_brightness: int, mote):
     mote.set_brightness(new_brightness / 10)
     mote.show()
     time.sleep(0.01)
-
-
-if __name__ == '__main__':
-    while True:
-        rainbow_lighting()

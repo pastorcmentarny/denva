@@ -45,7 +45,7 @@ font = ImageFont.truetype(path + "/fonts/Roboto-Regular.ttf", 14)
 
 
 def display_on_screen(measurement: dict):
-    global cycle  # FIXME
+    cycle = 0
     draw.rectangle((0, 0, 160, 80), fill="black")
     color1 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
     color2 = ['', random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)]
@@ -89,7 +89,7 @@ def display_on_screen(measurement: dict):
 
 
 def set_brightness_for_screen(proximity):
-    global on  # FIXME
+    on = False
     if proximity > 1000:
         on = not on
         if on:

@@ -9,7 +9,7 @@ logger = logging.getLogger('overseer_mode')
 
 
 def setup_logging():
-    path = 'd:\denva\src\configs\overseer_mode.json'
+    path = r'd:\denva\src\configs\overseer_mode.json'
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)

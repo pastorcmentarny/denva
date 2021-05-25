@@ -18,8 +18,6 @@ from timeit import default_timer as timer
 
 from PIL import Image
 
-from common import dom_utils
-
 logger = logging.getLogger('server')
 deleted = 0
 ignored = 0
@@ -41,7 +39,7 @@ def get_all_photos_for(year: str, month: str, day: str) -> list:
 def remove_if_too_dark(file) -> bool:
     if os.path.splitext(file)[-1].lower() != ".jpg":
         logger.warning('{} is not a photo. Ignore it.')
-        return
+        return True
 
     im = Image.open(file)  # Can be many different formats.
     total_pixels = im.width * im.height

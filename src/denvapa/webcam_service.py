@@ -59,7 +59,7 @@ def capture_picture() -> str:
         end_time = timer()
         total_time = str(int((end_time - start_time) * 1000))  # in ms
         logger.info('it took {} ms to generate picture.'.format(total_time))
-        return photo_path
+        return str(photo_path)
     except Exception as e:
         logger.warning('Unable to capture picture due to {}'.format(e), exc_info=True)
         # TODO email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
