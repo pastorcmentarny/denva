@@ -28,7 +28,7 @@ METRIC_AIR_QUALITY = 'air_quality'
 METRICS_RGB = 'rgb'
 COUNT = 'count'
 ERRORS = 'errors'
-OK = 'OK'
+OK = 'ok'
 
 logger = logging.getLogger('server')
 
@@ -70,7 +70,7 @@ def setup():
         return copy.deepcopy(empty_stats)
 
 
-stats = setup()
+stats = copy.deepcopy(empty_stats)
 
 metrics_names = [METRIC_AIR_QUALITY, METRIC_GAS, METRIC_MOTION, METRIC_UV, METRIC_POLLUTION,
                  METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB]
@@ -121,6 +121,8 @@ def add(metric: str, result: str):
 def get_currents_metrics() -> dict:
     return stats.copy()
 
+def get_empty_metrics() -> dict:
+    return empty_stats.copy()
 
 def reset():
     global stats

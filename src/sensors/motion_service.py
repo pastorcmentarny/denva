@@ -90,7 +90,7 @@ def get_motion() -> int:
         value = 0
         for i in range(1, len(points)):
             value += abs(points[i] - points[i - 1])
-        local_data_gateway.post_metrics_update('motion', 'OK')
+        local_data_gateway.post_metrics_update('motion', 'ok')
         return value
     except Exception as exception:
         logger.info(f'Exception occurred while getting data {exception}', exception)

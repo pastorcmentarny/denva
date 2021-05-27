@@ -22,7 +22,7 @@ from common import app_timer, data_files, loggy
 from denvapa import webcam_service
 from gateways import local_data_gateway
 from reports import report_service
-from services import email_sender_service
+from services import email_sender_service, metrics_service
 
 logger = logging.getLogger('app')
 
@@ -64,6 +64,7 @@ def setup():
     config_service.set_mode_to('server')
     data_files.setup_logging('app')
     information.refresh_all()
+    metrics_service.setup()
     loggy.log_time('Mothership App Setup', start_time, timer())
 
 

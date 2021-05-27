@@ -6,7 +6,7 @@ COUNT = 'count'
 
 METRICS_NAME = 'rgb'
 
-OK = 'OK'
+OK = 'ok'
 ERRORS = 'errors'
 
 
@@ -128,3 +128,13 @@ class MetricsServiceTestCases(TestCase):
 
         # then
         self.assertEqual(result, 'saved')
+
+    def test_get_empty_metrics_should_return_metrics_with_zeros(self):
+        # given
+        metrics_service.reset()
+
+        # when
+        result = metrics_service.get_empty_metrics()
+
+        # then
+        self.assertEqual(result, metrics_service.empty_stats)

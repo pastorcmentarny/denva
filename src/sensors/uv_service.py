@@ -30,7 +30,7 @@ def get_measurements():
     try:
         uva, uvb = uv_sensor.get_measurements()
         uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
-        local_data_gateway.post_metrics_update('uv', 'OK')
+        local_data_gateway.post_metrics_update('uv', 'ok')
         return uv_sensor.convert_to_index(uva, uvb, uv_comp1, uv_comp2)
     except Exception as exception:
         logger.error(f' Unable to take measurement from uv sensor due to {exception}')

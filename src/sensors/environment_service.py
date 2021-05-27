@@ -31,7 +31,7 @@ weather_sensor.set_temp_offset(TEMP_OFFSET)
 
 def get_measurement():
     if weather_sensor.get_sensor_data():
-        local_data_gateway.post_metrics_update('weather', 'OK')
+        local_data_gateway.post_metrics_update('weather', 'ok')
         return {
             'temp': weather_sensor.data.temperature,
             'pressure': weather_sensor.data.pressure,

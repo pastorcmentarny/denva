@@ -54,7 +54,7 @@ def get_data_from_measurement() -> dict:
     try:
         eco2 = air_quality_service.get_eco2_measurement_as_string()
         tvoc = air_quality_service.get_tvoc_measurement_as_string()
-        local_data_gateway.post_metrics_update('air_quality', 'OK')
+        local_data_gateway.post_metrics_update('air_quality', 'ok')
     except Exception as air_quality_exception:
         logger.error(f'Unable to read from air quality sensor due to {air_quality_exception}')
         local_data_gateway.post_metrics_update('air_quality', 'errors')

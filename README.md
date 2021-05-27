@@ -88,3 +88,15 @@ carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
 
 
 https://www.google.com/appsstatus
+
+
+1...5..........E
+UI UI UI UI
+UI UI UI UI
+
+AA AA AA AA
+AA AA AA AA CCA
+
+DD DD DD DD RRA
+DD DD DD DD
+DD DD DD DD RRD

@@ -34,7 +34,7 @@ ltr559 = setup()
 def get_illuminance():
     try:
         lux = ltr559.get_lux()
-        local_data_gateway.post_metrics_update('light', 'OK')
+        local_data_gateway.post_metrics_update('light', 'ok')
         return lux
     except Exception as exception:
         logger.error(f'Unable to read from ltr559 (light) sensor due to {exception}')

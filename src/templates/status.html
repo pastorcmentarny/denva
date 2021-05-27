@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My bookmarks HQ">
+    <meta name="author" content="Dominik Symonowicz">
+    <meta http-equiv="refresh" content="30"/>
+    <title>Status Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"/>
+
+    <!--  JavaScripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="http://localhost:5000/">Dom's Gateway</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
+            aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="weekly" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Denva</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown02">
+                    <a href="http://192.168.0.200:5000/report/yesterday" class="dropdown-item">Yesterday's Report</a>
+                    <a href="http://192.168.0.200:5000/webcam" class="dropdown-item">Webcam</a>
+                    <a href="http://192.168.0.200:5000/log/app" class="dropdown-item">Server's log (APP)</a>
+                    <a href="http://192.168.0.200:5000/log/ui" class="dropdown-item">Server's log (UI)</a>
+                    <a href="http://192.168.0.200:5000/log/hc" class="dropdown-item">Server's log (HC)</a>
+                    <a href="http://192.168.0.201:5000/log/app" class="dropdown-item">Denva's log (APP)</a>
+                    <a href="http://192.168.0.201:5000/log/ui" class="dropdown-item">Denva's log (UI)</a>
+                    <a href="http://192.168.0.201:5000/log/hc" class="dropdown-item">Denva's log (HC)</a>
+                    <a href="http://192.168.0.202:5000/log/app" class="dropdown-item">Denviro's log (APP)</a>
+                    <a href="http://192.168.0.202:5000/log/ui" class="dropdown-item">Denviro's log (UI)</a>
+                    <a href="http://192.168.0.203:5000/log/hc" class="dropdown-item">Denviro's log (HC)</a>
+                    <a href="http://192.168.0.203:5000/log/app" class="dropdown-item">Delight's log (APP)</a>
+                    <a href="http://192.168.0.203:5000/log/ui" class="dropdown-item">Delight's log (UI)</a>
+                    <a href="http://192.168.0.203:5000/log/hc" class="dropdown-item">Delight's log (HC)</a>
+                    <a href="{{ message.page_warns_count }}" class="dropdown-item">Warnings count</a>
+                    <a href="{{ message.page_warns }}" class="dropdown-item">All Warnings today</a>
+                    <a href="{{ message.page_now }}" class="dropdown-item">Page now</a>
+                    <a href="{{ message.page_system }}" class="dropdown-item">System</a>
+                    <a href="{{ message.page_avg }}" class="dropdown-item">Averages</a>
+                    <a href="{{ message.page_records }}" class="dropdown-item">Records</a>
+                    <a href="{{ message.page_stats }}" class="dropdown-item">Stats</a>
+                    <a href="http://192.168.0.200:5000/tt" class="dropdown-item">Tube delays</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- main part -->
+<div class="row mb-12">
+    <div class="col-md-3">
+        <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-3">
+                <li><strong class="d-inline-block mb-2 text-success">Denva(Pi4) {1}</strong></li>
+                {% if  message.system.denva and message.system.denva["CPU Temp"] %}
+                    <li class="small"><b>CPU Speed : </b>{{ message.system.denva["CPU Speed"] }}</li>
+                    <li class="small"><b>CPU Temp : </b>{{ message.system.denva["CPU Temp"].replace('Â','') }}
+                    </li>
+                    <li class="small"><b>RAM Available : </b>{{ message.system.denva["Memory Available"] }}</li>
+                    <li class="small"><b>Free Space : </b>{{ message.system.denva["Free Space"] }}</li>
+                    <li class="small"><b>Data Free Space : </b>{{ message.system.denva["Data Free Space"] }}
+                    </li>
+                    <li class="small"><b>Uptime : </b>{{ message.system.denva["Uptime"] }}</li>
+                {% else %}
+                    <li><span class="bad">No Denva data :(</span></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-3">
+            <li><strong class="d-inline-block mb-2 text-success">Denvira(Pi3) {2}</strong></li>
+            {% if  message.system.enviro and message.system.enviro["CPU Temp"] %}
+                <li class="small"><b>CPU Speed : </b>{{ message.system.enviro["CPU Speed"] }}</li>
+                <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"].replace('Â','') }}
+                </li>
+                <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}
+                </li>
+                <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
+                <li class="small"><b>Data Free Space : </b>{{ message.system.enviro["Data Free Space"] }}
+                </li>
+                <li class="small"><b>Uptime : </b>{{ message.system.enviro["Uptime"] }}</li>
+            {% else %}
+                <li><span class="bad">No Denvira data :(</span></li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-3">
+            <li><strong class="d-inline-block mb-2 text-success">Delight(KanoPi3) {4}</strong></li>
+            {% if  "CPU Temp" in message.system.delight  and message.system.delight["CPU Temp"] %}
+                <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
+                <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}
+                </li>
+                <li class="small"><b>RAM Available : </b>{{ message.system.delight["Memory Available"] }}
+                </li>
+                <li class="small"><b>Free Space : </b>{{ message.system.delight["Free Space"] }}</li>
+                <li class="small"><b>Uptime : </b>{{ message.system.delight["Uptime"] }}</li>
+            {% else %}
+                <li><span class="bad">No Delight data :(</span></li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-3">
+                <li><strong class="d-inline-block text-success">Server(LP) {3}</strong></li>
+                {% if  message.system.server %}
+                    <li class="small"><b>CPU Speed:</b>{{ message.system.server["CPU Speed"] }}</li>
+                    <li class="small"><b>RAM Available:</b>{{ message.system.server["Memory Available"] }}</li>
+                    <li class="small"><b>Disk Free:</b>{{ message.system.server["Disk Free"] }}</li>
+                    <li class="small"><b>Uptime:</b>{{ message.system.server["Uptime"] }}</li>
+                {% else %}
+                    <li><span class="bad">No Server data :(</span></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row mb-12">
+    <div class="col-md-3">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">DENVA</h4>
+        </div>
+        <div class="card-body small">
+            <ul class="list-unstyled mt-3 mb-4">
+                <li><strong>temp</strong> : {{ message.denva.temp }}</li>
+                <li><strong>pressure</strong> : {{ message.denva.pressure }}</li>
+                <li><strong>humidity</strong> : {{ message.denva.humidity }}</li>
+                <li><strong>colour</strong> : {{ message.denva.colour }}</li>
+                <li><strong>uva_index</strong> : {{ message.denva.uva_index }}</li>
+                <li><strong>uvb_index</strong> : {{ message.denva.uvb_index }}</li>
+                <li><strong>motion</strong> : {{ message.denva.motion }}</li>
+                <li><strong>ax</strong> : {{ message.denva.ax }}</li>
+                <li><strong>ay</strong> : {{ message.denva.ay }}</li>
+                <li><strong>az</strong> : {{ message.denva.az }}</li>
+                <li><strong>gx</strong> : {{ message.denva.gx }}</li>
+                <li><strong>gy</strong> : {{ message.denva.gy }}</li>
+                <li><strong>gz</strong> : {{ message.denva.gz }}</li>
+                <li><strong>mx</strong> : {{ message.denva.mx }}</li>
+                <li><strong>my</strong> : {{ message.denva.my }}</li>
+                <li><strong>mz</strong> : {{ message.denva.mz }}</li>
+                <li><strong>eco2</strong> : {{ message.denva.eco2 }}</li>
+                <li><strong>tvoc</strong> : {{ message.denva.tvoc }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">ENVIRO</h4>
+        </div>
+        <div class="card-body small">
+            <ul class="list-unstyled mt-3 mb-4">
+                <li><strong>temperature</strong> : {{ message.enviro.temperature }}</li>
+                <li><strong>oxidised</strong> : {{ message.enviro.oxidised }}</li>
+                <li><strong>reduced</strong> : {{ message.enviro.reduced }}</li>
+                <li><strong>nh3</strong> : {{ message.enviro.nh3 }}</li>
+                <li><strong>pm1</strong> : {{ message.enviro.pm1 }}</li>
+                <li><strong>pm25</strong> : {{ message.enviro.pm25 }}</li>
+                <li><strong>pm10</strong> : {{ message.enviro.pm10 }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">RADAR</h4>
+        </div>
+        <div class="card-body small">
+            <ul class="list-unstyled mt-3 mb-4">
+                {% if '↓' in message.aircraft.detected %}
+                    <li><strong>Aircraft</strong> : <span class="bad">{{ message.aircraft.detected }}</span></li>
+                {% elif '↑' in message.aircraft.detected %}
+                    <li><strong>Aircraft</strong> : <span class="good">{{ message.aircraft.detected }}</span></li>
+                {% else %}
+                    <li><strong>Aircraft</strong> : <span class="info">{{ message.aircraft.detected }}</span></li>
+                {% endif %}
+
+                <li><b>Fastest Flight</b></li>
+                {% if message.aircraft.detected %}
+                    <li>{{ (message.aircraft.stats.fastest.speed * 1.852)| int }} km/h</li>
+                {% else %}
+                    <li>0</li>
+                {% endif %}
+                {% if message.aircraft.stats and message.aircraft.stats.fastest %}
+                    <li>{{ message.aircraft.stats.fastest.flight  | join(", ") }}</li>
+                {% endif %}
+                {% if message.aircraft.stats and message.aircraft.stats.highest %}
+                    <li><b>Highest Flight</b></li>
+                    <li>{{ (message.aircraft.stats.highest.altitude / 3.281)|int }} km</li>
+                    <li>{{ message.aircraft.stats.highest.flight  | join(", ") }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">METRICS</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-3">
+                {% if  message.metrics %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Sensor</th>
+                            <th scope="col">OK</th>
+                            <th scope="col">ERRORS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>WEATHER</td>
+                            <td><span class="good">{{ message.metrics.ok["weather"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["weather"] }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>LIGHT</td>
+                            <td><span class="good">{{ message.metrics.ok["light"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["light"] }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>POLLUTION</td>
+                            <td><span class="good">{{ message.metrics.ok["pollution"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["pollution"] }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>UV</td>
+                            <td><span class="good">{{ message.metrics.ok["uv"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["uv"] }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>MOTION</td>
+                            <td><span class="good">{{ message.metrics.ok["motion"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["motion"] }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>GAS</td>
+                            <td><span class="good">{{ message.metrics.ok["gas"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["gas"] }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>AIR QUALITY</td>
+                            <td><span class="good">{{ message.metrics.ok["air_quality"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["air_quality"] }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>FLIGHT</td>
+                            <td><span class="good">{{ message.metrics.ok["flight"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["flight"] }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>RGB</td>
+                            <td><span class="good">{{ message.metrics.ok["rgb"] }}</span></td>
+                            <td><span class="bad">{{ message.metrics.errors["rgb"] }}</span></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+                {% else %}
+                    <li><span class="bad">No Metrics data> data :(</span></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-3">
+
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-body">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-body">
+        </div>
+    </div>
+</div>
+<!-- all scripts -->
+<script type="text/javascript">displayTitle();</script>
+</body>
+</html>

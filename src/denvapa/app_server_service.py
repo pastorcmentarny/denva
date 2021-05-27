@@ -25,7 +25,7 @@ import denvapa.rules_service as rules
 from common import data_files, dom_utils
 from denvapa import daily
 from gateways import web_data_gateway, local_data_gateway
-from services import error_detector_service, radar_service
+from services import error_detector_service, radar_service, metrics_service
 from services import weather_service, system_data_service
 
 logger = logging.getLogger('app')
@@ -204,7 +204,8 @@ def get_device_status():
             'system': get_current_system_information_for_all_services(),
             'links': get_links_for_gateway(),
             'welcome_text': data_files.load_text_to_display(),
-            'transport': web_data_gateway.get_status()
+            'transport': web_data_gateway.get_status(),
+            'metrics': metrics_service.get_currents_metrics(),
         }
         data['errors'] = get_errors_from_data(data)
     except Exception as exception:

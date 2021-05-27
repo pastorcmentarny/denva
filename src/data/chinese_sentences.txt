@@ -84,7 +84,7 @@
 120;;2259993d;;S;;我没有;;Wǒ méiyǒu diànsh;;I don't have T;;Ja nie mam telewizor;;none;;none
 121;;917b8ece;;S;;我没;;wǒ méi qián l;;I have no mone;;Ja nie mam pieniędz;;none;;none
 122;;9e5f3fb1;;S;;她没有;;Tā méiyǒu wàz;;She does not have sock;;Ona nie ma skarpete;;none;;none
-123;;899b3184;;S;;我是电脑;;wǒ shì diànnǎo yèz;;I work as a software develope;;Jestem programist;;none;;none
+123;;899b3184;;S;;我是电脑;;wǒ shì diànnǎo yèz;;I work as a software developer;;Jestem programist;;none;;none
 124;;9f6515ca;;S;;厕所在;;cèsuǒ zài zuǒbi;;Toilet is on the lef;;Toaleta jest po lewe;;none;;none
 125;;003b9168;;S;;这是我的;;zhè shì wǒ de míngpi;;This is my business car;;To jest moje wizytówk;;none;;none
 126;;d013a1d6;;S;;这是我的;;zhè shì wǒ de qī;;This is my wif;;To jest moja żon;;none;;none
