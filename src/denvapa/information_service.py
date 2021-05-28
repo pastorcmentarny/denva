@@ -63,18 +63,24 @@ def should_refresh():
     global every_six_hour
 
     if app_timer.is_time_to_run_every_6_hours(every_six_hour):
+        logger.info('Running Refreshing everything (every 6 hours) tasks')
         refresh_all()
         every_six_hour = datetime.now()
+        logger.info('Refresh "every 6 hours" complete')
         return
 
     if app_timer.is_time_to_run_every_hour(every_hour):
+        logger.info('Running Refreshing hourly tasks')
         refresh_hourly()
         data_files.backup_information_data(information)
         every_hour = datetime.now()
+        logger.info('Refresh "every hour" complete')
 
     if app_timer.is_time_to_run_every_5_minutes(every_five_minutes):
+        logger.info('Running Refreshing every 5 minutes tasks')
         refresh_every_5_minutes()
         every_five_minutes = datetime.now()
+        logger.info('Refresh "every 5 minutes" complete')
 
 
 def refresh_every_5_minutes():
