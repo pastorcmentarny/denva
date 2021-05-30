@@ -55,10 +55,17 @@ def generate_log_stats(path: str):
 
     log_metrics[TOTAL_COUNT] = get_total_count_of_log()
     print(shows_stats_for_log_metrics())
+    return shows_stats_for_log_metrics()
 
 
 def get_log_metrics() -> dict:
     return copy.deepcopy(log_metrics)
+
+
+def get_current_log_metrics_for(path: str):
+    clear()
+    generate_log_stats(path)
+    return get_log_metrics()
 
 
 def clear():
