@@ -22,7 +22,7 @@ from services import email_sender_service, common_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
-APP_NAME = 'Denva Enviro UI'
+APP_NAME = 'Denviro UI'
 
 
 @app.route("/avg")
@@ -45,55 +45,67 @@ def halt():
 
 @app.route("/hc")
 def healthcheck():
-    logger.info('performing healthcheck for Enviro')
+    logger.info('performing healthcheck for Denviro')
     return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
 @app.route("/log/app")
 def log_app():
-    logger.info('Getting application logs for sending as email for Enviro')
+    logger.info('Getting application logs for sending as email for Denviro')
     return jsonify(common_service.get_log_app(300))
 
 
 @app.route("/log/app/recent")
 def recent_log_app():
-    logger.info('Getting recent application logs for sending as email for Enviro')
+    logger.info('Getting recent application logs for sending as email for Denviro')
     return jsonify(common_service.get_log_app(20))
+
+
+@app.route("/log/count/app")
+def log_count_app():
+    logger.info('Getting recent healthcheck logs for sending as email for Denviro')
+    return jsonify(common_service.get_log_count_for('app'))
+
+
+@app.route("/log/count/ui")
+def log_count_ui():
+    logger.info('Getting recent healthcheck logs for sending as email for Denviro')
+    return jsonify(common_service.get_log_count_for('ui'))
 
 
 @app.route("/log/hc")
 def log_hc():
-    logger.info('Getting recent healthcheck logs for sending as email for Enviro')
+    logger.info('Getting recent healthcheck logs for sending as email for Denviro')
     return jsonify(common_service.get_log_hc(300))
 
 
 @app.route("/log/hc/recent")
 def recent_log_hc():
-    logger.info('Getting recent healthcheck logs  for sending as email for Enviro')
+    logger.info('Getting recent healthcheck logs  for sending as email for Denviro')
     return jsonify(common_service.get_log_ui(20))
 
 
 @app.route("/log/ui")
 def log_ui():
-    logger.info('Getting server ui logs for Enviro')
+    logger.info('Getting server ui logs for Denviro')
     return jsonify(common_service.get_log_ui(300))
 
 
 @app.route("/log/ui/recent")
 def recent_log_ui():
-    logger.info('Getting recent server ui logs for sending as email  for Enviro')
+    logger.info('Getting recent server ui logs for sending as email  for Denviro')
     return jsonify(common_service.get_log_ui(20))
 
 
 @app.route("/now")
 def now():
-    logger.info('Getting current measurement from Enviro')
+    logger.info('Getting current measurement from Denviro')
     return jsonify(enviro_service.get_last_measurement())
 
 
 @app.route("/reboot")
 def reboot():
-    logger.info('Reboot Enviro UI')
+    logger.info('Reboot Denviro UI')
     return jsonify(common_service.reboot_device())
 
 
@@ -111,19 +123,19 @@ def record():
 
 @app.route("/system")
 def system():
-    logger.info('Getting system information about Enviro')
+    logger.info('Getting system information about Denviro')
     return jsonify(common_service.get_system_info())
 
 
 @app.route("/warns/now")
 def current_warns():
-    logger.debug('Getting current warnings for Enviro')
+    logger.debug('Getting current warnings for Denviro')
     return jsonify(enviro_service.get_current_warnings())
 
 
 @app.route("/warns/count")
 def count_warns():
-    logger.info('Getting warnings count for Enviro')
+    logger.info('Getting warnings count for Denviro')
     return jsonify(enviro_service.get_current_warnings_count())
 
 
