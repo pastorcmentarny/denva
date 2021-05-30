@@ -71,6 +71,18 @@ def log_hc():
     return jsonify(common_service.get_log_hc(300))
 
 
+@app.route("/log/count/app")
+def log_count_app():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_for('app'))
+
+
+@app.route("/log/count/ui")
+def log_count_ui():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_for('ui'))
+
+
 @app.route("/log/hc/recent")
 def recent_log_hc():
     logger.info('Getting recent healthcheck logs  for sending as email for Denva')

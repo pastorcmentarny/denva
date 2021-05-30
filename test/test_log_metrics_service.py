@@ -60,7 +60,7 @@ class LogMetricsTestCases(unittest.TestCase):
         result = log_metrics_service.get_log_metrics()
 
         # then
-        self.assertNotEquals(result, verify_data)
+        self.assertNotEqual(result, verify_data)
         self.assertEqual(result,expected_result)
 
 

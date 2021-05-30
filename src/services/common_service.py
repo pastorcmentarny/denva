@@ -12,7 +12,7 @@
 
 import config_service
 from common import commands
-from services import system_data_service
+from services import system_data_service, log_metrics_service
 
 
 def run_gc() -> dict:
@@ -46,3 +46,7 @@ def reboot_device():
 
 def stop_device(app_name: str):
     return commands.halt(app_name)
+
+
+def get_log_count_for(log_type: str):
+    return log_metrics_service.generate_log_stats(config_service.get_log_path_for(f'log_{log_type}'))
