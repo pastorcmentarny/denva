@@ -22,7 +22,7 @@ from denvapa import app_server_service, webcam_service
 from gateways import web_data_gateway
 from reports import report_service
 from services import email_sender_service, information_service, tubes_train_service, system_data_service, text_service, \
-    metrics_service
+    metrics_service, common_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -101,6 +101,18 @@ def log_hc():
 def recent_log_hc():
     logger.info('Getting recent healthcheck logs for sending as email')
     return jsonify(app_server_service.get_last_logs_for('healthcheck.log', 20))
+
+
+@app.route("/log/count/app")
+def log_count_app():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_for('app'))
+
+
+@app.route("/log/count/ui")
+def log_count_ui():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_for('ui'))
 
 
 @app.route("/log/ui")
