@@ -68,6 +68,18 @@ def get_system_healthcheck_for():
     return jsonify(delight_service.get_system_hc())
 
 
+@app.route("/log/count/app")
+def log_count_app():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_for('app'))
+
+
+@app.route("/log/count/ui")
+def log_count_ui():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_for('ui'))
+
+
 @app.route("/log/app")
 def log_app():
     logger.info('Getting application logs for sending as email for {}'.format(APP_NAME))
