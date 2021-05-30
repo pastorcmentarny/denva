@@ -49,4 +49,4 @@ def stop_device(app_name: str):
 
 
 def get_log_count_for(log_type: str):
-    return log_metrics_service.generate_log_stats(config_service.get_log_path_for(f'log_{log_type}'))
+    return log_metrics_service.get_current_log_metrics_for(config_service.get_log_path_for(f'log_{log_type}'))
