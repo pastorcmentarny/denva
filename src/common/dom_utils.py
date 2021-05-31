@@ -21,6 +21,7 @@ from common.gobshite_exception import GobshiteException
 
 stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
+server_logger = logging.getLogger('server')
 
 
 def as_3_digit_number(index: int) -> str:
@@ -306,6 +307,8 @@ def _is_valid_event_time(event) -> bool:
 
 def convert_time_to_minutes(event: str) -> int:
     if not _is_valid_event_time(event):
+        print(f'Time not valid for {event}')
+        server_logger.error(f'Time not valid for {event}')
         raise GobshiteException
     event_time = event.split(' - ')[0].split(':')
     hours = int(event_time[0])

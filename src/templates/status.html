@@ -84,6 +84,47 @@
                     <li><span class="bad">No Denva data :(</span></li>
                 {% endif %}
             </ul>
+            {% if  message.log_count %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Sensor</th>
+                        <th scope="col">APP</th>
+                        <th scope="col">UI</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>CRITICAL</td>
+                        <td><span class="good">{{ message.log_count.app.denva["CRITICAL"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.denva["CRITICAL"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>ERRORS</td>
+                        <td><span class="good">{{ message.log_count.app.denva["ERROR"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.denva["ERROR"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>WARNING</td>
+                        <td><span class="good">{{ message.log_count.app.denva["WARNING"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.denva["WARNING"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>INFO</td>
+                        <td><span class="good">{{ message.log_count.app.denva["INFO"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.denva["INFO"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>DEBUG</td>
+                        <td><span class="good">{{ message.log_count.app.denva["DEBUG"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.denva["DEBUG"] }}</span></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            {% else %}
+                <li><span class="bad">No Log count for Denva :(</span></li>
+            {% endif %}
         </div>
     </div>
     <div class="col-md-3">
@@ -104,6 +145,47 @@
                 <li><span class="bad">No Denvira data :(</span></li>
             {% endif %}
             </ul>
+            {% if  message.log_count %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Sensor</th>
+                        <th scope="col">APP</th>
+                        <th scope="col">UI</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>CRITICAL</td>
+                        <td><span class="good">{{ message.log_count.app.enviro["CRITICAL"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.enviro["CRITICAL"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>ERRORS</td>
+                        <td><span class="good">{{ message.log_count.app.enviro["ERROR"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.enviro["ERROR"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>WARNING</td>
+                        <td><span class="good">{{ message.log_count.app.enviro["WARNING"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.enviro["WARNING"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>INFO</td>
+                        <td><span class="good">{{ message.log_count.app.enviro["INFO"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.enviro["INFO"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>DEBUG</td>
+                        <td><span class="good">{{ message.log_count.app.enviro["DEBUG"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.enviro["DEBUG"] }}</span></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            {% else %}
+                <li><span class="bad">No Log count for Denviro :(</span></li>
+            {% endif %}
         </div>
     </div>
     <div class="col-md-3">
@@ -122,6 +204,47 @@
                 <li><span class="bad">No Delight data :(</span></li>
             {% endif %}
             </ul>
+            {% if  message.log_count %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Sensor</th>
+                        <th scope="col">APP</th>
+                        <th scope="col">UI</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>CRITICAL</td>
+                        <td><span class="good">{{ message.log_count.app.delight["CRITICAL"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.delight["CRITICAL"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>ERRORS</td>
+                        <td><span class="good">{{ message.log_count.app.delight["ERROR"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.delight["ERROR"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>WARNING</td>
+                        <td><span class="good">{{ message.log_count.app.delight["WARNING"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.delight["WARNING"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>INFO</td>
+                        <td><span class="good">{{ message.log_count.app.delight["INFO"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.delight["INFO"] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td>DEBUG</td>
+                        <td><span class="good">{{ message.log_count.app.delight["DEBUG"] }}</span></td>
+                        <td><span class="bad">{{ message.log_count.ui.delight["DEBUG"] }}</span></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            {% else %}
+                <li><span class="bad">No Log count for Delight :(</span></li>
+            {% endif %}
         </div>
     </div>
     <div class="col-md-3">

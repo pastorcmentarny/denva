@@ -40,6 +40,21 @@ def get_yesterday_report_for_enviro() -> dict:
     return get_data_for('{}/report/yesterday'.format(config_service.load_cfg()["urls"]['enviro']), REPORT_TIMEOUT)
 
 
+def get_current_log_counts() -> dict:
+    return {
+        'app': {
+            'denva': get_data_for('{}/log/count/app'.format(config_service.load_cfg()["urls"]['denva'])),
+            'enviro': get_data_for('{}/log/count/app'.format(config_service.load_cfg()["urls"]['enviro'])),
+            'delight': get_data_for('{}/log/count/app'.format(config_service.load_cfg()["urls"]['delight']))
+        },
+        'ui': {
+            'denva': get_data_for('{}/log/count/ui'.format(config_service.load_cfg()["urls"]['denva'])),
+            'enviro': get_data_for('{}/log/count/ui'.format(config_service.load_cfg()["urls"]['enviro'])),
+            'delight': get_data_for('{}/log/count/ui'.format(config_service.load_cfg()["urls"]['delight']))
+        }
+    }
+
+
 def get_current_logs_for_all_services() -> dict:
     return {
         'app': {

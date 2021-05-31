@@ -29,6 +29,7 @@ from services import error_detector_service, radar_service, metrics_service
 from services import weather_service, system_data_service
 
 logger = logging.getLogger('app')
+server_logger = logging.getLogger('server')
 
 
 def get_last_updated_page() -> str:
@@ -206,6 +207,8 @@ def get_device_status():
             'welcome_text': data_files.load_text_to_display(),
             'transport': web_data_gateway.get_status(),
             'metrics': metrics_service.get_currents_metrics(),
+            'log_count': local_data_gateway.get_current_log_counts(),
+
         }
         data['errors'] = get_errors_from_data(data)
     except Exception as exception:
@@ -217,6 +220,9 @@ def get_device_status():
             'aircraft': {},
             'system': {},
             'links': get_links_for_gateway(),
-            'welcome_text': f"Unable to load message due to ${exception}"
+            'welcome_text': f"Unable to load message due to ${exception}",
+            'transport' : [],
+            'metrics': {},
+            'log_count' : {}
         }
     return data
