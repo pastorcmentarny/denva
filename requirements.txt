@@ -14,7 +14,7 @@ opencv-python==4.5.2.52
 psutil==5.8.0
 picamera==1.13
 ltr559==0.1.1
-urllib3==1.26.4
+urllib3==1.26.5
 numpy==1.20.3
 mote==0.0.4
 pynput==1.7.3
