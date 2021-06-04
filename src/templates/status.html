@@ -96,28 +96,28 @@
                     <tbody>
                     <tr>
                         <td>CRITICAL</td>
-                        <td><span class="good">{{ message.log_count.app.denva["CRITICAL"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.denva["CRITICAL"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.denva["CRITICAL"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.denva["CRITICAL"] }}</span></td>
                     </tr>
                     <tr>
                         <td>ERRORS</td>
-                        <td><span class="good">{{ message.log_count.app.denva["ERROR"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.denva["ERROR"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.denva["ERROR"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.denva["ERROR"] }}</span></td>
                     </tr>
                     <tr>
                         <td>WARNING</td>
-                        <td><span class="good">{{ message.log_count.app.denva["WARNING"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.denva["WARNING"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.denva["WARNING"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.denva["WARNING"] }}</span></td>
                     </tr>
                     <tr>
                         <td>INFO</td>
-                        <td><span class="good">{{ message.log_count.app.denva["INFO"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.denva["INFO"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.denva["INFO"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.denva["INFO"] }}</span></td>
                     </tr>
                     <tr>
                         <td>DEBUG</td>
-                        <td><span class="good">{{ message.log_count.app.denva["DEBUG"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.denva["DEBUG"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.denva["DEBUG"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.denva["DEBUG"] }}</span></td>
                     </tr>
 
                     </tbody>
@@ -130,20 +130,20 @@
     <div class="col-md-3">
         <div class="card-body">
             <ul class="list-unstyled mt-3 mb-3">
-            <li><strong class="d-inline-block mb-2 text-success">Denvira(Pi3) {2}</strong></li>
-            {% if  message.system.enviro and message.system.enviro["CPU Temp"] %}
-                <li class="small"><b>CPU Speed : </b>{{ message.system.enviro["CPU Speed"] }}</li>
-                <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"].replace('Â','') }}
-                </li>
-                <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}
-                </li>
-                <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
-                <li class="small"><b>Data Free Space : </b>{{ message.system.enviro["Data Free Space"] }}
-                </li>
-                <li class="small"><b>Uptime : </b>{{ message.system.enviro["Uptime"] }}</li>
-            {% else %}
-                <li><span class="bad">No Denvira data :(</span></li>
-            {% endif %}
+                <li><strong class="d-inline-block mb-2 text-success">Denvira(Pi3) {2}</strong></li>
+                {% if  message.system.enviro and message.system.enviro["CPU Temp"] %}
+                    <li class="small"><b>CPU Speed : </b>{{ message.system.enviro["CPU Speed"] }}</li>
+                    <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"].replace('Â','') }}
+                    </li>
+                    <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}
+                    </li>
+                    <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
+                    <li class="small"><b>Data Free Space : </b>{{ message.system.enviro["Data Free Space"] }}
+                    </li>
+                    <li class="small"><b>Uptime : </b>{{ message.system.enviro["Uptime"] }}</li>
+                {% else %}
+                    <li><span class="bad">No Denvira data :(</span></li>
+                {% endif %}
             </ul>
             {% if  message.log_count %}
                 <table class="table">
@@ -157,28 +157,28 @@
                     <tbody>
                     <tr>
                         <td>CRITICAL</td>
-                        <td><span class="good">{{ message.log_count.app.enviro["CRITICAL"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.enviro["CRITICAL"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.enviro["CRITICAL"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.enviro["CRITICAL"] }}</span></td>
                     </tr>
                     <tr>
                         <td>ERRORS</td>
-                        <td><span class="good">{{ message.log_count.app.enviro["ERROR"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.enviro["ERROR"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.enviro["ERROR"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.enviro["ERROR"] }}</span></td>
                     </tr>
                     <tr>
                         <td>WARNING</td>
-                        <td><span class="good">{{ message.log_count.app.enviro["WARNING"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.enviro["WARNING"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.enviro["WARNING"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.enviro["WARNING"] }}</span></td>
                     </tr>
                     <tr>
                         <td>INFO</td>
-                        <td><span class="good">{{ message.log_count.app.enviro["INFO"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.enviro["INFO"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.enviro["INFO"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.enviro["INFO"] }}</span></td>
                     </tr>
                     <tr>
                         <td>DEBUG</td>
-                        <td><span class="good">{{ message.log_count.app.enviro["DEBUG"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.enviro["DEBUG"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.enviro["DEBUG"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.enviro["DEBUG"] }}</span></td>
                     </tr>
 
                     </tbody>
@@ -191,18 +191,18 @@
     <div class="col-md-3">
         <div class="card-body">
             <ul class="list-unstyled mt-3 mb-3">
-            <li><strong class="d-inline-block mb-2 text-success">Delight(KanoPi3) {4}</strong></li>
-            {% if  "CPU Temp" in message.system.delight  and message.system.delight["CPU Temp"] %}
-                <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
-                <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}
-                </li>
-                <li class="small"><b>RAM Available : </b>{{ message.system.delight["Memory Available"] }}
-                </li>
-                <li class="small"><b>Free Space : </b>{{ message.system.delight["Free Space"] }}</li>
-                <li class="small"><b>Uptime : </b>{{ message.system.delight["Uptime"] }}</li>
-            {% else %}
-                <li><span class="bad">No Delight data :(</span></li>
-            {% endif %}
+                <li><strong class="d-inline-block mb-2 text-success">Delight(KanoPi3) {4}</strong></li>
+                {% if  "CPU Temp" in message.system.delight  and message.system.delight["CPU Temp"] %}
+                    <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
+                    <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}
+                    </li>
+                    <li class="small"><b>RAM Available : </b>{{ message.system.delight["Memory Available"] }}
+                    </li>
+                    <li class="small"><b>Free Space : </b>{{ message.system.delight["Free Space"] }}</li>
+                    <li class="small"><b>Uptime : </b>{{ message.system.delight["Uptime"] }}</li>
+                {% else %}
+                    <li><span class="bad">No Delight data :(</span></li>
+                {% endif %}
             </ul>
             {% if  message.log_count %}
                 <table class="table">
@@ -216,28 +216,28 @@
                     <tbody>
                     <tr>
                         <td>CRITICAL</td>
-                        <td><span class="good">{{ message.log_count.app.delight["CRITICAL"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.delight["CRITICAL"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.delight["CRITICAL"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.delight["CRITICAL"] }}</span></td>
                     </tr>
                     <tr>
                         <td>ERRORS</td>
-                        <td><span class="good">{{ message.log_count.app.delight["ERROR"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.delight["ERROR"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.delight["ERROR"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.delight["ERROR"] }}</span></td>
                     </tr>
                     <tr>
                         <td>WARNING</td>
-                        <td><span class="good">{{ message.log_count.app.delight["WARNING"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.delight["WARNING"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.delight["WARNING"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.delight["WARNING"] }}</span></td>
                     </tr>
                     <tr>
                         <td>INFO</td>
-                        <td><span class="good">{{ message.log_count.app.delight["INFO"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.delight["INFO"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.delight["INFO"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.delight["INFO"] }}</span></td>
                     </tr>
                     <tr>
                         <td>DEBUG</td>
-                        <td><span class="good">{{ message.log_count.app.delight["DEBUG"] }}</span></td>
-                        <td><span class="bad">{{ message.log_count.ui.delight["DEBUG"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.app.delight["DEBUG"] }}</span></td>
+                        <td><span class="info">{{ message.log_count.ui.delight["DEBUG"] }}</span></td>
                     </tr>
 
                     </tbody>
