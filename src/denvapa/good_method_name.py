@@ -19,7 +19,8 @@ names = [
     'waitUntilVisible()',
     'establishConnectionToLeader(List<InetAddressAndPort> servers)',
     'if (isLookingForLeader(response)) ',
-    'getStringFromByteBuffer(byteBuffer.getValue())'
+    'getStringFromByteBuffer(byteBuffer.getValue())',
+    'addOrMergeSource()'
 ]
 
 
