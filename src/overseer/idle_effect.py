@@ -72,3 +72,4 @@ def turn_light_off(mote):
             mote.set_pixel(led_line, led_index, 0, 0, 0, 0)
     mote.clear()
     mote.set_brightness(0.1)
+    time.sleep(5) # wait 5 seconds
