@@ -33,9 +33,9 @@ AllRed()
 
 try:
     while True:
-        Buzz.on()
-        time.sleep(0.2)
-        Buzz.off()
+#       Buzz.on()
+#       time.sleep(0.2)
+#       Buzz.off()
 
         EastRed.off()
         EastYellow.on()
@@ -47,7 +47,6 @@ try:
         EastRed.on()
         time.sleep(1)
 
-        WestRed.off()
         WestYellow.on()
         time.sleep(1)
         WestYellow.off()
@@ -76,6 +75,23 @@ try:
         SouthGreen.off()
         SouthRed.on()
         time.sleep(1)
+
+        EastRed.off()
+        WestYellow.on()
+        EastYellow.on()
+        time.sleep(1)
+        EastYellow.off()
+        EastGreen.on()
+        WestYellow.off()
+        WestGreen.on()
+        time.sleep(1)
+        EastGreen.off()
+        EastRed.on()
+        WestGreen.off()
+        WestRed.on()
+        time.sleep(1)
+
+
 
 except KeyboardInterrupt:
     PiTraffic.closeGPIO()
