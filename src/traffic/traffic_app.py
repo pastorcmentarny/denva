@@ -62,6 +62,13 @@ def opposite_sides(first_red: PiTraffic.Traffic, first_yellow: PiTraffic.Traffic
     time.sleep(random.randint(1, 5))
     first_green.off()
     second_green.off()
+    for _ in range(0,3):
+        first_yellow.on()
+        second_yellow.on()
+        time.sleep(0.25)
+        first_yellow.off()
+        second_yellow.off()
+        time.sleep(0.25)
     first_red.on()
     second_red.on()
     time.sleep(1)
@@ -75,6 +82,11 @@ def traffic_cycle(red: PiTraffic.Traffic, yellow: PiTraffic.Traffic, green: PiTr
     green.on()
     time.sleep(random.randint(1, 5))
     green.off()
+    for _ in range(0,3):
+        yellow.on()
+        time.sleep(0.25)
+        yellow.off()
+        time.sleep(0.25)
     red.on()
     time.sleep(1)
 
