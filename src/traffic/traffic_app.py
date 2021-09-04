@@ -106,8 +106,7 @@ try:
         #       Buzz.on()
         #       time.sleep(0.2)
         #       Buzz.off()
-
-        choice = random.randint(0, 2)
+        choice = random.randint(0, 6)
         print(traffic_options[choice])
         off()
         all_red()
