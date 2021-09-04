@@ -62,7 +62,7 @@ def opposite_sides(first_red: PiTraffic.Traffic, first_yellow: PiTraffic.Traffic
     time.sleep(random.randint(1, 5))
     first_green.off()
     second_green.off()
-    for _ in range(0,3):
+    for _ in range(0, 3):
         first_yellow.on()
         second_yellow.on()
         time.sleep(0.25)
@@ -82,7 +82,7 @@ def traffic_cycle(red: PiTraffic.Traffic, yellow: PiTraffic.Traffic, green: PiTr
     green.on()
     time.sleep(random.randint(1, 5))
     green.off()
-    for _ in range(0,3):
+    for _ in range(0, 3):
         yellow.on()
         time.sleep(0.25)
         yellow.off()
@@ -91,20 +91,24 @@ def traffic_cycle(red: PiTraffic.Traffic, yellow: PiTraffic.Traffic, green: PiTr
     time.sleep(1)
 
 
+traffic_options = {
+    0: traffic_cycle(NorthRed, NorthYellow, NorthGreen),
+    1: traffic_cycle(EastRed, EastYellow, EastGreen),
+    2: traffic_cycle(SouthRed, SouthYellow, SouthGreen),
+    3: traffic_cycle(WestRed, WestYellow, WestGreen),
+    4: opposite_sides(WestRed, WestYellow, WestGreen, EastRed, EastYellow, EastGreen),
+    5: opposite_sides(NorthRed, NorthYellow, NorthGreen, SouthRed, SouthYellow, SouthGreen),
+    6: all_red()
+}
+
 try:
     while True:
         #       Buzz.on()
         #       time.sleep(0.2)
         #       Buzz.off()
 
-        traffic_cycle(NorthRed, NorthYellow, NorthGreen)
-        traffic_cycle(EastRed, EastYellow, EastGreen)
-        traffic_cycle(SouthRed, SouthYellow, SouthGreen)
-        traffic_cycle(WestRed, WestYellow, WestGreen)
-
-        opposite_sides(WestRed, WestYellow, WestGreen, EastRed, EastYellow, EastGreen)
-        opposite_sides(NorthRed, NorthYellow, NorthGreen, SouthRed, SouthYellow, SouthGreen)
-
+        choice = random.randint(0, 2)
+        print(traffic_options[choice])
         off()
         all_red()
 
