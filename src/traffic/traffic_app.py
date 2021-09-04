@@ -112,6 +112,7 @@ try:
         #       time.sleep(0.2)
         #       Buzz.off()
         choice = random.randint(0, 6)
+        print(choice)
         print(traffic_options[choice])
 
         off()
