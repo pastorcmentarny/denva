@@ -138,21 +138,21 @@ def app(mote):
         times = 10 + random.randint(1, 240)
         for _ in range(1, times):
             update(mote)
-            wait_time = random.randint(1, 100) / 1000
+            wait_time = random.randint(1, 1000) / 10000
             time.sleep(wait_time)
 
-        if random.randint(1, 10) > 4:
+        if random.randint(1, 10) > 6:
             orange_lighting()
             to_black()
             orange_lighting_count += 1
 
-        if random.randint(1, 100) > 97:
+        if random.randint(1, 1000) > 966:
             lighting()
             to_black()
             lighting_storm_count += 1
 
 
-# stand alone version of night modde
+# stand alone version of night mode
 if __name__ == '__main__':
     mote = Mote()
     mote.configure_channel(1, 16, False)
