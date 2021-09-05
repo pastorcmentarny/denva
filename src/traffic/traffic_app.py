@@ -100,6 +100,7 @@ def traffic_cycle(red: PiTraffic.Traffic, yellow: PiTraffic.Traffic, green: PiTr
     return ''
 
 
+# do not work
 traffic_options = {
     0: traffic_cycle(NorthRed, NorthYellow, NorthGreen),
     1: traffic_cycle(EastRed, EastYellow, EastGreen),
@@ -116,8 +117,21 @@ try:
         counter += 1
 
         choice = random.randint(0, 6)
-        print(choice)
-        print(traffic_options[choice])
+        if choice == 0:
+            traffic_cycle(NorthRed, NorthYellow, NorthGreen)
+        if choice == 1:
+            traffic_cycle(EastRed, EastYellow, EastGreen)
+        if choice == 2:
+            traffic_cycle(SouthRed, SouthYellow, SouthGreen)
+        if choice == 3:
+            traffic_cycle(WestRed, WestYellow, WestGreen)
+        if choice == 4:
+            opposite_sides(WestRed, WestYellow, WestGreen, EastRed, EastYellow, EastGreen)
+        if choice == 5:
+            opposite_sides(NorthRed, NorthYellow, NorthGreen, SouthRed, SouthYellow, SouthGreen)
+        if choice == 6:
+            all_red()
+            time.sleep(choice)
 
         off()
         all_red()
