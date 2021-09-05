@@ -45,6 +45,13 @@ def off():
     WestGreen.off()
 
 
+# not in use now, but to use later
+def play_sound():
+    Buzz.on()
+    time.sleep(0.2)
+    Buzz.off()
+
+
 all_red()
 
 
@@ -108,16 +115,12 @@ try:
     while True:
         counter += 1
 
-        #       Buzz.on()
-        #       time.sleep(0.2)
-        #       Buzz.off()
         choice = random.randint(0, 6)
         print(choice)
         print(traffic_options[choice])
 
         off()
         all_red()
-
 
 
 except KeyboardInterrupt:
