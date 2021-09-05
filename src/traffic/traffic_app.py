@@ -39,11 +39,13 @@ def blinking_yellow():
         EastYellow.on()
         SouthYellow.on()
         time.sleep(0.25)
-        WestYellow.on()
-        NorthYellow.on()
-        EastYellow.on()
-        SouthYellow.on()
+        WestYellow.off()
+        NorthYellow.off()
+        EastYellow.off()
+        SouthYellow.off()
         time.sleep(0.25)
+    off()
+    all_red()
 
 
 def off():
