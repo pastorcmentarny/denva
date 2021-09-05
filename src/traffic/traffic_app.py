@@ -30,6 +30,22 @@ def all_red():
     WestRed.on()
 
 
+def blinking_yellow():
+    off()
+    repeats = random.randint(2, 10) * 4
+    for _ in range(0, repeats):
+        WestYellow.on()
+        NorthYellow.on()
+        EastYellow.on()
+        SouthYellow.on()
+        time.sleep(0.25)
+        WestYellow.on()
+        NorthYellow.on()
+        EastYellow.on()
+        SouthYellow.on()
+        time.sleep(0.25)
+
+
 def off():
     SouthRed.off()
     EastRed.off()
@@ -66,7 +82,7 @@ def opposite_sides(first_red: PiTraffic.Traffic, first_yellow: PiTraffic.Traffic
     second_yellow.off()
     first_green.on()
     second_green.on()
-    time.sleep(random.randint(1, 5))
+    time.sleep(random.randint(1, 10))
     first_green.off()
     second_green.off()
     for _ in range(0, 3):
@@ -114,8 +130,9 @@ traffic_options = {
 try:
     counter = 0
     while True:
-        counter += 1
-
+        print(f'cycle: {counter}')
+        if counter % 13 == 0:
+            blinking_yellow()
         choice = random.randint(0, 6)
         if choice == 0:
             traffic_cycle(NorthRed, NorthYellow, NorthGreen)
@@ -131,11 +148,10 @@ try:
             opposite_sides(NorthRed, NorthYellow, NorthGreen, SouthRed, SouthYellow, SouthGreen)
         if choice == 6:
             all_red()
-            time.sleep(choice)
-
-        off()
+            time.sleep(random.randint(1, 6))
         all_red()
-
+        time.sleep(random.randint(1, 3))
+        counter += 1
 
 except KeyboardInterrupt:
     PiTraffic.closeGPIO()
