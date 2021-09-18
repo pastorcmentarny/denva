@@ -49,7 +49,8 @@ def capture_picture() -> str:
     try:
         start_time = timer()
         date_as_folders = get_date_as_folders_linux(date.today())
-        path = Path("{}/{}".format("home/dom/sky", date_as_folders))
+        path = Path("{}/{}".format("d:/Dropbox/sky/", date_as_folders))
+        # path = Path("{}/{}".format("home/dom/sky", date_as_folders))
 
         if not path.exists():
             print('creating')
