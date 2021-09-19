@@ -47,3 +47,7 @@ static domain_name_servers=192.168.0.1
 ## remove old alsa
 
 sudo apt purge bluealsa sudo apt install pulseaudio-module-bluetooth rm ~/.asoundrc sudo apt purge pimixer
+
+
+# set device for mote ligthing
+sudo chmod 666 /dev/ttyACM0  

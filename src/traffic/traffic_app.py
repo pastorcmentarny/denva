@@ -108,7 +108,7 @@ def opposite_sides(first_red: PiTraffic.Traffic, first_yellow: PiTraffic.Traffic
     second_yellow.on()
     time.sleep(2)
     first_yellow.off()
-    first_yellow.off()
+    second_yellow.off()
     first_red.on()
     second_red.on()
     time.sleep(1)
