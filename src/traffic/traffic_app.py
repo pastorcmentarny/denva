@@ -48,6 +48,21 @@ def blinking_yellow():
     all_red()
 
 
+def on():
+    SouthRed.on()
+    EastRed.on()
+    NorthRed.on()
+    WestRed.on()
+    SouthYellow.on()
+    EastYellow.on()
+    NorthYellow.on()
+    WestYellow.on()
+    SouthGreen.on()
+    EastGreen.on()
+    NorthGreen.on()
+    WestGreen.on()
+
+
 def off():
     SouthRed.off()
     EastRed.off()
@@ -92,6 +107,8 @@ def opposite_sides(first_red: PiTraffic.Traffic, first_yellow: PiTraffic.Traffic
     first_yellow.on()
     second_yellow.on()
     time.sleep(2)
+    first_yellow.off()
+    first_yellow.off()
     first_red.on()
     second_red.on()
     time.sleep(1)
@@ -109,6 +126,7 @@ def traffic_cycle(red: PiTraffic.Traffic, yellow: PiTraffic.Traffic, green: PiTr
     green.off()
     yellow.on()
     time.sleep(random.randint(1, 3))
+    yellow.off()
     red.on()
     time.sleep(1)
     return ''
@@ -125,7 +143,17 @@ traffic_options = {
     6: all_red()
 }
 
+
+def startup():
+    for wait_time in [0.9, 0.7, 0.3, 0.1]:
+        on()
+        time.sleep(wait_time)
+        off()
+        time.sleep(wait_time)
+
+
 try:
+    startup()
     counter = 0
     while True:
         print(f'cycle: {counter}')
