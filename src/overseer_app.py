@@ -25,6 +25,8 @@ MODE_YELLOW_COLOR = 'yellow'
 MODE_RED_COLOR = 'red'
 MODE_LIGHT_OFF = 'light_off'
 MODE_FIRE_LIGHTING = 'fire'
+MODE_ORANGE_LIGHTING = 'orange'
+MODE_NIGHT = 'night'
 
 logger = logging.getLogger(APP_NAME)
 
@@ -53,7 +55,7 @@ def is_stand_up() -> bool:
 
 
 modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG, MODE_LIGHT_OFF,
-         MODE_FIRE_LIGHTING]
+         MODE_FIRE_LIGHTING, MODE_ORANGE_LIGHTING, MODE_NIGHT]
 
 
 def override_mode() -> str:
@@ -89,6 +91,10 @@ def set_manual_mode(manual_mode):
         mote_lighting.borg()
     elif manual_mode == MODE_FIRE_LIGHTING:
         mote_lighting.fire_effect_with_lighting()
+    elif manual_mode == MODE_ORANGE_LIGHTING:
+        mote_lighting.orange_lighting()
+    elif manual_mode == MODE_NIGHT:
+        mote_lighting.night_mode()
     elif manual_mode == MODE_LIGHT_OFF:
         mote_lighting.turn_light_off()
     else:

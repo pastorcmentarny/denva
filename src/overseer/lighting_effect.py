@@ -67,6 +67,19 @@ def lighting(mote):
         mote.clear()
 
 
+def orange_lighting(mote):
+
+    lighting_counter = random.randint(1, 3)
+    for _ in range(0, lighting_counter):
+        line = random.randint(1, 4)
+        for led_index in range(0, 16):
+            line = update_to_next_line(line)
+            mote.set_pixel(line, led_index, 224, 64, 0, 1)
+            mote.show()
+            time.sleep(0.01)
+        mote.clear()
+
+
 def rainbow_lighting(mote):
     lighting_counter = random.randint(1, 3)
     for _ in range(0, lighting_counter):
