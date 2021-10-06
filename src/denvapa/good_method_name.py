@@ -20,7 +20,8 @@ names = [
     'establishConnectionToLeader(List<InetAddressAndPort> servers)',
     'if (isLookingForLeader(response)) ',
     'getStringFromByteBuffer(byteBuffer.getValue())',
-    'addOrMergeSource()'
+    'addOrMergeSource()',
+    'addRuntimeShutdownHookIfNecessary()'
 ]
 
 
