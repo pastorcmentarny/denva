@@ -10,16 +10,15 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
-import sys
-import time
 import traceback
 from datetime import datetime
 from timeit import default_timer as timer
 
+import sys
+
 import config_service
 import denvapa.information_service as information
 from common import app_timer, data_files, loggy
-from denvapa import webcam_service
 from gateways import local_data_gateway
 from reports import report_service
 from services import email_sender_service, metrics_service
@@ -45,13 +44,6 @@ def main():
     counter = 0
     while True:
         counter += 1
-        time.sleep(5)
-        if config_service.load_cfg()['mode'] == 'server' and config_service.is_cctv_camera_on():
-            last_picture = webcam_service.capture_picture()
-            if last_picture != "":
-                pictures.append(last_picture)
-                if len(pictures) > 5:
-                    pictures.pop(0)
         if counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('server', 'app')
         information.should_refresh()

@@ -11,14 +11,14 @@
 """
 import datetime
 import logging
-import sys
 import traceback
 
+import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
 import config_service
 from common import data_files
-from denvapa import app_server_service, webcam_service
+from denvapa import app_server_service
 from gateways import web_data_gateway
 from reports import report_service
 from services import email_sender_service, information_service, tubes_train_service, system_data_service, text_service, \
@@ -178,12 +178,6 @@ def tube_trains_status():
 @app.route("/tt/delays")
 def tt_delays_counter():
     return jsonify(tubes_train_service.count_tube_problems_today())
-
-
-@app.route("/webcam")
-def do_picture():
-    filename = webcam_service.capture_picture()
-    return send_file(filename, mimetype='image/jpeg')
 
 
 @app.route("/status")
