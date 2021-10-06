@@ -17,14 +17,14 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "home/dom/logs/overseer.log",
+      "filename": "/home/dom/logs/overseer.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
     }
   },
   "loggers": {
-    "overseer": {
+    "borg": {
       "level": "INFO",
       "handlers": [
         "overseer_file_handler"

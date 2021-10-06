@@ -28,7 +28,7 @@ MODE_FIRE_LIGHTING = 'fire'
 MODE_ORANGE_LIGHTING = 'orange'
 MODE_NIGHT = 'night'
 
-logger = logging.getLogger(APP_NAME)
+logger = logging.getLogger(MODE_BORG)
 
 
 def is_busy_at_work():
