@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "simple": {
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    }
+  },
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "stream": "ext://sys.stdout"
+    },
+    "overseer_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "home/dom/logs/overseer.log",
+      "when": "midnight",
+      "encoding": "utf8",
+      "backupCount": 30
+    }
+  },
+  "loggers": {
+    "overseer": {
+      "level": "INFO",
+      "handlers": [
+        "overseer_file_handler"
+      ],
+      "propagate": false
+    }
+  },
+  "root": {
+    "level": "DEBUG",
+    "handlers": [
+      "console"
+    ]
+  }
+}

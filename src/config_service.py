@@ -17,6 +17,7 @@ WIN_DENVA_PATH = f'D:\denva\\'
 SERVER_APP_SRC_PATH = f'd:\denva\src\\'
 DEV_SRC_PATH = f'D:\GitHub\denva\src\\'
 PI_HOME_DIR = '/home/pi/'
+BORG_HOME_DIR = '/home/dom/'
 SERVER_APP_DATA_PATH = f'{SERVER_APP_SRC_PATH}data\\'
 SERVER_APP_CONFIG_PATH = f'{SERVER_APP_SRC_PATH}configs\\'
 
@@ -112,8 +113,11 @@ settings = {
         'log_ui': f'{PI_LOGS_PATH}server.log',
         'ddd': f'{PI_PROJECT_PATH}/configs/log_ddd_config.log',
         'cctv': f'{PI_PROJECT_PATH}/configs/log_cctv_config.json',
+        'borg_overseer': f'{SERVER_APP_CONFIG_PATH}overseer_mode.json',
         'overseer_mode': f'{SERVER_APP_CONFIG_PATH}overseer_mode.json',
-        'overseer': f'{SERVER_APP_CONFIG_PATH}overseer.json'
+        'overseer': f'{SERVER_APP_CONFIG_PATH}overseer.json',
+        'borg_app': f'{BORG_HOME_DIR}app_borg.log',
+        'borg_ui': f'{BORG_HOME_DIR}server_borg.log',
     },
     "informationData": {
         'dev': f'{DEV_SRC_PATH}data\information.json',
@@ -131,6 +135,8 @@ def get_log_path_for(log_type: str) -> str:
 
 def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
+    if where == 'borg':
+        return settings['logs']['borg_overseer']
     if where == 'overseer_mode':
         return settings['logs']['overseer_mode']
     if where == 'overseer':
@@ -208,6 +214,8 @@ def get_irregular_verbs_path() -> str:
 
 def set_mode_to(mode: str):
     settings['mode'] = mode
+    if platform.node() in ['borg']:
+        settings['mode'] = 'borg'
     if platform.node() in ['DomL5', 'DomAsusG', 'DOM-DESKTOP']:
         settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
