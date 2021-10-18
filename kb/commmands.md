@@ -29,3 +29,6 @@ ps -aux | grep "nc 192.168.0.201 30003" | grep -v grep ps -aux | grep "sudo
 # if I lost pip
 
 `python -m ensurepip`
+
+# watch temp every second
+watch -n 1 vcgencmd measure_temp
