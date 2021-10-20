@@ -31,7 +31,7 @@ def get_measurement():
     try:
         pms_data = pms5003.read()
         local_data_gateway.post_metrics_update('pollution', 'ok')
-    except pmsReadTimeoutError as exception:
+    except BaseException as exception:
         logger.warning("Failed to read PMS5003 due to: {}".format(exception), exc_info=True)
         local_data_gateway.post_metrics_update('pollution', 'errors')
         logger.info('Restarting sensor.. (it will takes ... 5 seconds')
