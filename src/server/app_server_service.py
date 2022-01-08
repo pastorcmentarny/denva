@@ -13,17 +13,17 @@ import logging
 import time
 from datetime import datetime
 
-import config_service
-import denvapa.celebrations as celebrations
-import denvapa.chinese_dictionary_service as cn
-import denvapa.good_english_sentence as eng
-import denvapa.good_method_name as method
-import denvapa.information_service as information
-import denvapa.personal_stats as personal_events
-import denvapa.random_irregular_verb as verb
-import denvapa.rules_service as rules
+# import config_service
+import server.celebrations as celebrations
+import server.chinese_dictionary_service as cn
+import server.good_english_sentence as eng
+import server.good_method_name as method
+import server.information_service as information
+import server.personal_stats as personal_events
+import server.random_irregular_verb as verb
+import server.rules_service as rules
 from common import data_files, dom_utils
-from denvapa import daily
+from server import daily
 from gateways import web_data_gateway, local_data_gateway
 from services import error_detector_service, radar_service, metrics_service
 from services import weather_service, system_data_service
@@ -64,7 +64,7 @@ def get_fasting_warning() -> str:
 
 
 def get_all_warnings_page() -> list:
-    start = time.time_ns()
+    start = time.perf_counter()
     data = []
 
     tube = web_data_gateway.get_tube(False)
@@ -83,7 +83,7 @@ def get_all_warnings_page() -> list:
 
     data = dom_utils.clean_list_from_nones(data)
 
-    end = time.time_ns()
+    end = time.perf_counter()
     logger.info('Execution time: {} ns.'.format((end - start)))  # TODO move to stats
 
     return data
