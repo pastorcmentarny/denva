@@ -26,7 +26,7 @@ def get_enviro_records_for_today() -> dict:
 
 
 def get_enviro_records(data_records: list) -> dict:
-    start = time.time_ns()
+    start = time.perf_counter()
     result = {
         'temperature': {
             'min': 1000,
@@ -77,7 +77,7 @@ def get_enviro_records(data_records: list) -> dict:
         if float(data_record['measurement_time']) < float(result['measurement_time']['min']):
             result['measurement_time']['min'] = data_record['measurement_time']
 
-    end = time.time_ns()
+    end = time.perf_counter()
     result['log entries counter'] = len(data_records)
     result["execution_time"] = str(end - start) + ' ns.'
     return result
@@ -85,7 +85,7 @@ def get_enviro_records(data_records: list) -> dict:
 
 # noinspection PyTypeChecker
 def get_records(data_records: list) -> dict:
-    start = time.time_ns()
+    start = time.perf_counter()
     result = {
         'temperature': {
             'min': 100,
@@ -154,7 +154,7 @@ def get_records(data_records: list) -> dict:
         if int(data_record['tvoc']) > int(result['highest_tvoc']):
             result['highest_tvoc'] = data_record['tvoc']
 
-    end = time.time_ns()
+    end = time.perf_counter()
     result['log entries counter'] = len(data_records)
     result["execution_time"] = str(end - start) + ' ns.'
     return result
