@@ -13,8 +13,9 @@
 0. `sudo apt update`
 0. `sudo apt full-upgrade`
 0. `sudo apt clean`
+0. `sudo apt autoremove`
 0. `sudo reboot`
-0. `pip install --upgrade pip'`
+0. `sudo pip install --upgrade pip'`
 
 ## Pi related
 
