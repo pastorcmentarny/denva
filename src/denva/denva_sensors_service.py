@@ -51,36 +51,6 @@ def get_data_row(row) -> dict:
     }
 
 
-def add_row(data, row):
-    data.append(
-        {
-            'timestamp': row[0],
-            'temp': row[1],
-            'pressure': row[2],
-            'humidity': row[3],
-            'gas_resistance': row[4],
-            'colour': row[5],
-            'aqi': row[6],
-            'uva_index': row[7],
-            'uvb_index': row[8],
-            'motion': row[9],
-            'ax': row[10],
-            'ay': row[11],
-            'az': row[12],
-            'gx': row[13],
-            'gy': row[14],
-            'gz': row[15],
-            'mx': row[16],
-            'my': row[17],
-            'mz': row[18],
-            'measurement_time': row[19],
-            'cpu_temp': row[20],
-            'eco2': row[21],
-            'tvoc': row[22]
-        }
-    )
-
-
 def get_warnings(data) -> dict:
     warnings = {}
     if type(data['temp']) is not float:

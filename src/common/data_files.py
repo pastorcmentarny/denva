@@ -20,9 +20,6 @@ from pathlib import Path
 
 import config_service
 from common import dom_utils
-from denva import denva_sensors_service
-from denviro import denviro_sensors_service
-from services import email_sender_service
 
 EMPTY = ''
 
@@ -114,12 +111,12 @@ def add_enviro_measurement_to_file(file, data: dict):
 
 
 # TODO refactor it as it saves in 2 places
-def store_enviro_measurement(data: dict):
+def store_enviro_measurement(data: dict,sensor_log_file,sensor_log_file_at_server):
     try:
-        local_file = open(denviro_sensors_service.get_sensor_log_file(), 'a+', newline=EMPTY)
+        local_file = open(sensor_log_file, 'a+', newline=EMPTY)
         add_enviro_measurement_to_file(local_file, data)
 
-        enviro_file = open(denviro_sensors_service.get_sensor_log_file_at_server(), 'a+', newline=EMPTY)
+        enviro_file = open(sensor_log_file_at_server, 'a+', newline=EMPTY)
         add_enviro_measurement_to_file(enviro_file, data)
         # if flag is true, set to false
     except IOError as exception:
@@ -148,7 +145,7 @@ def add_measurement_to_file(file, data: dict, motion):
 
 # TODO refactor it as it saves in 2 places
 # TODO merge motion with data
-def store_measurement(data, motion):
+def store_measurement(data, motion,sensor_log_file,sensor_log_file_at_server):
     try:
         counter = data['measurement_counter']
     except Exception as exception:
@@ -156,10 +153,10 @@ def store_measurement(data, motion):
         counter = 0
     logger.debug('storing measurement no.{}'.format(counter))
     try:
-        local_file = open(denva_sensors_service.get_sensor_log_file(), 'a+', newline=EMPTY)
+        local_file = open(sensor_log_file, 'a+', newline=EMPTY)
         add_measurement_to_file(local_file, data, motion)
 
-        server_file = open(denva_sensors_service.get_sensor_log_file_at_server(), 'a+', newline=EMPTY)
+        server_file = open(sensor_log_file_at_server, 'a+', newline=EMPTY)
         add_measurement_to_file(server_file, data, motion)
 
         logger.debug('measurement no.{} saved to file.'.format(counter))
@@ -179,8 +176,6 @@ def setup_logging(where: str):
         logging.basicConfig(level=logging.DEBUG)
         logging.captureWarnings(True)
         logger.warning('Using default logging due to problem with loading from log: {}'.format(path))
-        email_sender_service.send_error_log_email(path,
-                                                  'Unable to setup logging due to invalid path {}'.format(path))
 
 
 def load_json_data_as_dict_from(path: str) -> dict:
@@ -268,9 +263,39 @@ def load_data(year: int, month: int, day: int) -> list:
         except IndexError:
             row.insert(21, UNKNOWN)
             row.insert(22, UNKNOWN)
-        denva_sensors_service.add_row(data, row)
+        add_denva_row(data, row)
     sensor_log_file.close()
     return data
+
+
+def add_denva_row(data, row):
+    data.append(
+        {
+            'timestamp': row[0],
+            'temp': row[1],
+            'pressure': row[2],
+            'humidity': row[3],
+            'gas_resistance': row[4],
+            'colour': row[5],
+            'aqi': row[6],
+            'uva_index': row[7],
+            'uvb_index': row[8],
+            'motion': row[9],
+            'ax': row[10],
+            'ay': row[11],
+            'az': row[12],
+            'gx': row[13],
+            'gy': row[14],
+            'gz': row[15],
+            'mx': row[16],
+            'my': row[17],
+            'mz': row[18],
+            'measurement_time': row[19],
+            'cpu_temp': row[20],
+            'eco2': row[21],
+            'tvoc': row[22]
+        }
+    )
 
 
 def load_enviro_data_for_today() -> list:
@@ -292,9 +317,26 @@ def load_enviro_data(year: int, month: int, day: int) -> list:
             row[12] == UNKNOWN
         except IndexError:
             row.insert(12, 0)  # measurement time
-        denviro_sensors_service.add_enviro_row(data, row)
+        add_enviro_row(data, row)
     sensor_log_file.close()
     return data
+
+def add_enviro_row(data, row):
+    data.append(
+        {
+            'timestamp': row[0],
+            'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
+            "oxidised": '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+            'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
+            "nh3": '{:0.2f}'.format(float(row[8])),  # unit = "kO"
+            "pm1": row[9],  # unit = "ug/m3"
+            "pm25": row[10],  # unit = "ug/m3"
+            "pm10": row[11],  # unit = "ug/m3"
+            'cpu_temp': row[13],
+            'light': '{:0.1f}'.format(float(row[4])),
+            'measurement_time': row[12]
+        }
+    )
 
 
 def is_report_file_exists() -> bool:
