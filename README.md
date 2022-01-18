@@ -1,4 +1,27 @@
-# Denva - it starts as Dom's Environment Analyser and become denva is a Dom's personal assistant
+# Knyszogar - Personal Server Assistance
+
+## DESIGN
+
+Design choices
+- Mono-repo
+- Trunk Based Development
+- Python 3
+
+### Mothership (200)
+Merge Delight into
+It will contain various
+- _Send email with data every 5 minutes_
+- _Remove all images that are black_
+- Server CAMERA APP _Python app that making photos_
+- A server
+- MessengerHub (Service responsible for sending email)
+- CCTV
+- Airplane scanner
+- Sensor data processor
+- Metrics Service - It will collect all metrics from all services
+
+
+### Denva(201) & Denviro(202) - it starts as Dom's Environment Analyser and become denva is a Dom's personal assistant
 
 This project has inspired by various events in the workplace. It measures:
 
@@ -14,37 +37,11 @@ This project has inspired by various events in the workplace. It measures:
 - The UV index ( I used this at home, so then I know do I need lots of UV cream or not.
 - Pollution & Indoor air quality
 
-Design choices
-- Mono-repo
-- Trunk Based Development 
-- Python 3
+## Hardware in use:
 
-# DESIGN
+### Mothership
 
-## Denva App
-  - _Get all sensor data_
-  - _Send all data to server_
-  - _Store all data locally_
-
-
-## Enviro App
-  - _Get all sensor data_
-  - _Send all data to server_
-  - _Store all data locally_
-
-
-## Delight App
-  - 
-
-## Server App
-  - _Send email with data every 5 minutes_
-  - _Remove all images that are black_
-  - Server CAMERA APP _Python app that making photos_
-
-
-# Hardware used:
-
-## On Denva device:
+### On Denva device:
 
 - Raspberry Pi 4 (4GB)
 - Pimoroni Breakout Garden HAT
@@ -69,7 +66,7 @@ Design choices
 
 ## Server:
 
-- LattePanda Delta 432 with WD Blue SN500
+- It was LattePanda Delta 432 with WD Blue SN500
 - Logitech Logitech C525
 - Anker USB 3.0 AK-A7507011
 - 
@@ -82,21 +79,43 @@ Design choices
 
 carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
 
+
+
+## STATUS UI:
+   1...5..........EF
+  1 AA BB CC DD 
+  2 
+  3 ka ke kn kw
+  4 
+  5 TU TS TD
+  6 
+  7 
+  8
+  9
+  0     
+  A             CCA           
+  B 2D 2A 1U    
+  C             RRA
+  D 1D 1A 1U    
+  E             RRD
+  F     
+  
+  
+  1 - DENVA
+  2 - ENVIRO
+  A - CPU TEMP
+  B - RAM
+  C - SPACE
+  D - NETWORK
+  CCA - Camera A
+  RRA - Radar App
+  ka - knyszogar app
+  ke - knyszogar email
+  kn = knyszogar network health check
+  kw - knyszogar website
+
+
 # Resources:
 0. https://www.idt.com/eu/en/document/whp/overview-tvoc-and-indoor-air-quality
-0. https://www.epa.gov/sites/production/files/2014-05/documents/zell-aqi.pdf
-
-
-https://www.google.com/appsstatus
-
-
-1...5..........E
-UI UI UI UI
-UI UI UI UI
-
-AA AA AA AA
-AA AA AA AA CCA
-
-DD DD DD DD RRA
-DD DD DD DD
-DD DD DD DD RRD
+1. https://www.epa.gov/sites/production/files/2014-05/documents/zell-aqi.pdf
+2. https://www.google.com/appsstatus
