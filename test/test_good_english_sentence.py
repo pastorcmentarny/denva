@@ -1,6 +1,6 @@
 import unittest
 
-from denvapa import good_english_sentence
+from server import good_english_sentence
 
 
 class EnglishSentenceTestCases(unittest.TestCase):

@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 
 from common.gobshite_exception import GobshiteException
-from denvapa import personal_stats
+from server import personal_stats
 
 
 class PersonalStatsTestCases(unittest.TestCase):

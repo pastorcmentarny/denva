@@ -14,7 +14,7 @@ from datetime import datetime
 
 from common import data_files, dom_utils, app_timer
 from gateways import local_data_gateway
-from denvapa import app_server_service
+from server import app_server_service
 from reports import report_generator
 from services import email_sender_service
 from services import information_service as information

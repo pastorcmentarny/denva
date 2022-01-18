@@ -17,7 +17,7 @@ from timeit import default_timer as timer
 import sys
 
 import config_service
-import denvapa.information_service as information
+import server.information_service as information
 from common import app_timer, data_files, loggy
 from gateways import local_data_gateway
 from reports import report_service
@@ -45,7 +45,7 @@ def main():
     while True:
         counter += 1
         if counter % 2 == 0:
-            local_data_gateway.post_healthcheck_beat('server', 'app')
+            local_data_gateway.post_healthcheck_beat('knyszogar', 'email')
         information.should_refresh()
         should_send_email()
         report_generation_cooldown = report_service.create_and_store_it_if_needed(report_generation_cooldown)

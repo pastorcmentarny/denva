@@ -1,6 +1,6 @@
 import unittest
 
-from denvapa import rules_service
+from server import rules_service
 
 
 class RulesServiceTestCases(unittest.TestCase):
