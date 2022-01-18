@@ -81,7 +81,7 @@ def get_enviro_averages(data_records: list) -> dict:
 
 
 def get_averages(data_records) -> dict:
-    start = time.time_ns()
+    start = time.perf_counter()
     result = {
         'temperature': 0,
         'pressure': 0,
@@ -131,6 +131,6 @@ def get_averages(data_records) -> dict:
         result['measurement_time'] = '{:.2f}'.format(measurement_time / records)
     else:
         result['info'] = 'No records'
-    end = time.time_ns()
-    result['execution_time'] = str(end - start) + ' ns.'
+    end = time.perf_counter()
+    result['execution_time'] = str(end - start) + ' s.'
     return result
