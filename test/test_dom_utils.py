@@ -2,7 +2,8 @@ from datetime import date, datetime
 from unittest import TestCase
 from unittest.mock import patch
 
-from common import gobshite_exception, dom_utils
+from common import gobshite_exception
+import dom_utils
 
 
 class DomUtilsTestCases(TestCase):

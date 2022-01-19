@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import config_service
-from common import dom_utils
+import dom_utils
 from services import system_data_service, common_service
 
 

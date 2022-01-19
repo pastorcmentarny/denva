@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock
 
-from common import dom_utils
+import dom_utils
 from server import celebrations
 
 

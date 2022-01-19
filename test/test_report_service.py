@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 from unittest.mock import Mock
 
-from common import dom_utils
+import dom_utils
 from reports import report_service
 
 
