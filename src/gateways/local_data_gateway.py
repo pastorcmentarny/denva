@@ -14,7 +14,7 @@ import logging
 
 import requests
 
-import config_service
+import config
 from services import system_data_service
 
 logger = logging.getLogger('app')

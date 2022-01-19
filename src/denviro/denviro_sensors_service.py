@@ -11,7 +11,7 @@
 """
 from datetime import datetime
 
-import config_service as config
+import config as config
 from common import commands
 import dom_utils
 

@@ -16,7 +16,7 @@ import time
 import traceback
 from timeit import default_timer as timer
 
-import config_service
+import config
 from common import data_files, commands
 from denva import cl_display
 from gateways import local_data_gateway

@@ -12,7 +12,7 @@
 
 import logging
 
-import config_service
+import config
 from common import commands
 from ddd import aircraft_storage, aircraft_stats
 from gateways import local_data_gateway

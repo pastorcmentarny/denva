@@ -13,7 +13,7 @@
 import logging
 from datetime import datetime
 
-import config_service
+import config
 from common import data_files
 from common.gobshite_exception import GobshiteException
 

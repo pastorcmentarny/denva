@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-import config_service as config
+import config as config
 from common import data_files, commands, loggy
 import dom_utils
 

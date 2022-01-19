@@ -13,7 +13,7 @@ import logging
 import os
 from datetime import datetime
 
-import config_service
+import config
 from common import data_files
 from gateways import web_data_gateway
 from services import weather_service

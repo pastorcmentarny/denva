@@ -17,7 +17,7 @@ from datetime import datetime
 
 import unicornhathd
 
-import config_service
+import config
 from common import data_files, status
 import dom_utils
 from delight import delight_display, delight_service, delight_utils, ui_utils, forest, sub_light, warp

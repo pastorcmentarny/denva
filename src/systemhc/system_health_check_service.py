@@ -13,7 +13,7 @@
 import logging
 from datetime import datetime
 
-import config_service
+import config
 from common import app_timer, data_files
 import dom_utils
 

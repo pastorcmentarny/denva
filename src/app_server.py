@@ -16,7 +16,7 @@ from timeit import default_timer as timer
 
 import sys
 
-import config_service
+import config
 import server.information_service as information
 from common import app_timer, data_files, loggy
 from gateways import local_data_gateway

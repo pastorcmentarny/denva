@@ -12,7 +12,7 @@
 import logging
 import re
 
-import config_service
+import config
 from common import commands, get_description_for, data_files, loggy
 import dom_utils
 from denva import denva_sensors_service

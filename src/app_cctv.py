@@ -19,7 +19,7 @@ from pathlib import Path
 from time import sleep
 from timeit import default_timer as timer
 
-import config_service
+import config
 from common import data_files, app_timer
 import dom_utils
 from gateways import local_data_gateway

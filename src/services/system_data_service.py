@@ -15,7 +15,7 @@ from datetime import datetime
 import gc
 import psutil
 
-import config_service
+import config
 import dom_utils
 
 

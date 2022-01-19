@@ -17,7 +17,7 @@ from datetime import date
 from datetime import datetime
 from pathlib import Path
 
-import config_service
+import config
 import dom_utils
 
 ENCODING = 'utf-8'

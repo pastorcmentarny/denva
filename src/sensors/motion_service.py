@@ -15,7 +15,7 @@ import time
 
 from icm20948 import ICM20948
 
-import config_service
+import config
 from gateways import local_data_gateway
 
 logger = logging.getLogger('app')

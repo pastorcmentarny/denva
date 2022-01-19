@@ -15,7 +15,7 @@ import time
 import traceback
 from timeit import default_timer as timer
 
-import config_service
+import config
 from common import data_files
 from ddd import aircraft_storage, aircraft_stats
 from gateways import local_data_gateway

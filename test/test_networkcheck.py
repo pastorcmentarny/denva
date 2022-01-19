@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import config_service
+import config
 from services import networkcheck_service as networkcheck
 
 PERFECT = 'Perfect'

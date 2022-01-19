@@ -10,7 +10,7 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
-import config_service
+import config
 from common import commands
 from services import system_data_service, log_metrics_service
 

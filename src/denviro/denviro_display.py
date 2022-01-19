@@ -19,7 +19,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-import config_service
+import config
 from common import commands
 from services import system_data_service
 

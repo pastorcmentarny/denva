@@ -16,7 +16,7 @@ import traceback
 import sys
 from flask import Flask, jsonify, url_for, send_file, request, render_template
 
-import config_service
+import config
 from common import data_files
 from server import app_server_service
 from gateways import web_data_gateway

@@ -1,6 +1,6 @@
 import unittest
 
-import config_service
+import config
 from gateways import local_data_gateway
 
 

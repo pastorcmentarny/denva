@@ -9,7 +9,7 @@ import traceback
 from datetime import datetime
 from pathlib import Path
 
-import config_service
+import config
 from common import data_files
 from overseer import mote_lighting
 from services import email_sender_service

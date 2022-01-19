@@ -20,7 +20,7 @@ from timeit import default_timer as timer
 import smbus
 from PIL import ImageFont
 
-import config_service
+import config
 from common import data_files, commands
 import dom_utils
 from denva import cl_display

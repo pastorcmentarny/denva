@@ -15,7 +15,7 @@ import traceback
 
 from flask import Flask, jsonify, request
 
-import config_service
+import config
 from common import data_files
 from delight import delight_service
 from services import common_service, email_sender_service

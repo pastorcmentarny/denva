@@ -12,7 +12,7 @@
 
 import random
 
-import config_service
+import config
 
 words = []
 

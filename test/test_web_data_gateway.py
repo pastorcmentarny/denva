@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-import config_service
+import config
 from gateways import web_data_gateway
 
 

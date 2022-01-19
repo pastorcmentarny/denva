@@ -14,7 +14,7 @@ import logging
 
 import requests
 
-import config_service
+import config
 
 logger = logging.getLogger('app')
 

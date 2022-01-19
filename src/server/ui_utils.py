@@ -1,6 +1,6 @@
 import time
 
-import config_service
+import config
 
 
 def to_x(i: int) -> int:

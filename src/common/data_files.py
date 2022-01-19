@@ -18,7 +18,7 @@ import random
 from datetime import datetime, date
 from pathlib import Path
 
-import config_service
+import config
 import dom_utils
 
 EMPTY = ''

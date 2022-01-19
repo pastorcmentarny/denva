@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import config_service
+import config
 
 
 class ConfigServiceTestCases(TestCase):

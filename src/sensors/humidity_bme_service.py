@@ -12,7 +12,7 @@
 
 from bme280 import BME280
 
-import config_service
+import config
 from common import commands
 
 bme280 = BME280()

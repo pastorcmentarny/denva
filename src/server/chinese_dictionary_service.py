@@ -14,7 +14,7 @@ import random
 
 import requests
 
-import config_service
+import config
 
 words = []
 
