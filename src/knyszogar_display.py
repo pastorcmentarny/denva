@@ -9,7 +9,7 @@ import display
 import psutil
 import requests
 
-import utils
+import dom_utils
 from server import healthcheck_service
 
 logger = logging.getLogger('app')
@@ -128,7 +128,7 @@ def draw_ram_status():
         r, g, b = get_state_colour_for_hc(ERROR)
     elif ram < 1000:
         r, g, b = get_state_colour_for_hc(WARN)
-    if ram < 2000:
+    elif ram < 2000:
         r, g, b = get_state_colour_for_hc(CAUTION)
     else:
         r, g, b = get_state_colour_for_hc(OK)
@@ -337,7 +337,7 @@ def show_status():
 
 
 if __name__ == '__main__':
-    utils.setup_test_logging('display')
+    dom_utils.setup_test_logging('display')
     while True:
         show_status()
         time.sleep(5)
