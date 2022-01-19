@@ -9,6 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import json
 import logging
 import logging.config
 import re
@@ -17,11 +18,16 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 
+import requests
+
 from common.gobshite_exception import GobshiteException
 
 stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
 server_logger = logging.getLogger('server')
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
 
 
 def as_3_digit_number(index: int) -> str:
@@ -240,12 +246,6 @@ def merge_two_dictionaries(first: dict, second: dict) -> dict:
     return second
 
 
-def setup_test_logging():
-    logging.basicConfig(level=logging.DEBUG)
-    logging.captureWarnings(True)
-    logging.debug('Running test logging')
-
-
 def convert_bytes_to_megabytes(size_in_bytes: int) -> int:
     return int(size_in_bytes / 1000 / 1000)
 
@@ -333,3 +333,29 @@ def to_int(number_as_string: str) -> int:
     if number_as_string == '' or (number_as_string is None) or number_as_string == '00' or number_as_string == '0':
         return 0
     return int(number_as_string.lstrip('0'))
+
+
+def post_healthcheck_beat(device: str, app_type: str):
+    url = "http://192.168.0.205:5000/shc/update"
+    json_data = {'device': device, 'app_type': app_type}
+    try:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
+
+
+def setup_test_logging(app_name: str):
+    logging_level = logging.INFO
+    logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
+    logging_filename = f'log-{app_name}-{datetime.date.today()}.txt'
+    logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
+    logging.captureWarnings(True)
+    logging.debug('logging setup complete')
+
+
+def load_cfg() -> dict:
+    with open('/home/pi/email.json', 'r') as email_config:
+        return json.load(email_config)
