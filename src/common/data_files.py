@@ -19,7 +19,7 @@ from datetime import datetime, date
 from pathlib import Path
 
 import config_service
-from common import dom_utils
+import dom_utils
 
 EMPTY = ''
 

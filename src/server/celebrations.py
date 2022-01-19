@@ -12,7 +12,7 @@
 import datetime
 import logging
 
-from common import dom_utils
+import dom_utils
 
 logger = logging.getLogger('app')
 

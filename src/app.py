@@ -21,7 +21,8 @@ import smbus
 from PIL import ImageFont
 
 import config_service
-from common import data_files, commands, dom_utils
+from common import data_files, commands
+import dom_utils
 from denva import cl_display
 from gateways import local_data_gateway
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service, \

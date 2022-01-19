@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 
 import config_service
-from common import dom_utils
+import dom_utils
 
 ENCODING = 'utf-8'
 DEFAULT_PATH = "{}/{}{}"

@@ -15,7 +15,8 @@ import os
 from datetime import datetime
 from timeit import default_timer as timer
 
-from common import dom_utils, loggy, commands
+from common import loggy, commands
+import dom_utils
 
 logger = logging.getLogger('app')
 

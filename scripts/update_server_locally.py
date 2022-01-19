@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from common import dom_utils
+import dom_utils
 
 FROM = "D:\\GitHub\\denva\\src\\"
 TO = '\\\\DS-LPD-SERVER\\denva\\src\\'

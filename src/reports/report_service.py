@@ -12,7 +12,8 @@
 import logging
 from datetime import datetime
 
-from common import data_files, dom_utils, app_timer
+from common import data_files, app_timer
+import dom_utils
 from gateways import local_data_gateway
 from server import app_server_service
 from reports import report_generator

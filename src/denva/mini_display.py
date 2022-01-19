@@ -18,7 +18,8 @@ from PIL import ImageFont
 from luma.core.interface.serial import i2c
 from luma.oled.device import sh1106
 
-from common import commands, get_description_for, dom_utils
+from common import commands, get_description_for
+import dom_utils
 from gateways import web_data_gateway
 from services import sensor_warnings_service
 from services import system_data_service

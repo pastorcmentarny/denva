@@ -15,7 +15,7 @@ from datetime import datetime
 from datetime import timedelta
 from timeit import default_timer as timer
 
-from common import dom_utils
+import dom_utils
 from denva import denva_sensors_service
 from gateways import local_data_gateway
 from reports import averages, records

@@ -14,7 +14,7 @@ from timeit import default_timer as timer
 
 import requests
 
-from common import dom_utils
+import dom_utils
 from gateways import web_data_gateway
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'

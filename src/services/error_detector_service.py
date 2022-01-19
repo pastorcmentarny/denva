@@ -11,7 +11,8 @@
 """
 import logging
 
-from common import dom_utils, loggy
+from common import loggy
+import dom_utils
 from gateways import local_data_gateway
 
 logger = logging.getLogger('app')

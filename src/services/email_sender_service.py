@@ -20,7 +20,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from common import app_timer
-from common import commands, data_files, dom_utils
+from common import commands, data_files
+import dom_utils
 from reports import report_service
 from services import sensor_warnings_service
 
@@ -126,6 +127,35 @@ def send_error_log_email(what: str, message: str):
 
         subject = "An serious error happen while {}".format(what)
         message = "Whoops.. Some sort of gobshite happen with app.\n Error message is: {}".format(message)
+
+        msg['From'] = cfg['user']
+        msg['To'] = cfg['user']
+        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
+        msg.attach(MIMEText(message, 'plain'))
+        smtp_server.send_message(msg, cfg['user'], cfg['user'])
+
+        del msg
+        smtp_server.quit()
+
+        logger.info('Email sent.')
+    except Exception as e:
+        logger.error('Unable to send email due to {}'.format(e), exc_info=True)
+    logger.info(f'Waiting {WAITING_TIME_IN_SECONDS} seconds before carry on..')
+    time.sleep(WAITING_TIME_IN_SECONDS)  # wait one minute before carry on ...
+
+
+def send_error_v2(who:str,subject:str,message:str):
+    cfg = data_files.load_cfg()
+    logger.info('Sending error log email with message: {}'.format(message))
+    try:
+        smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
+        smtp_server.starttls()
+        smtp_server.login(cfg['user'], cfg['pass'])
+
+        msg = MIMEMultipart()
+
+        subject = f'Gobshite alert from{who} about {subject}'
+        message = f'Whoops.. Something unfortunate happen to {who}.\n Application expired with root cause : {message}'
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']

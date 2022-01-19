@@ -13,7 +13,8 @@ import logging
 import re
 
 import config_service
-from common import commands, dom_utils, get_description_for, data_files, loggy
+from common import commands, get_description_for, data_files, loggy
+import dom_utils
 from denva import denva_sensors_service
 from denviro import denviro_sensors_service
 

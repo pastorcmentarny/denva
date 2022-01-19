@@ -14,7 +14,8 @@ import logging
 from datetime import datetime
 
 import config_service
-from common import dom_utils, app_timer, data_files
+from common import app_timer, data_files
+import dom_utils
 
 logger = logging.getLogger('app')
 

@@ -17,7 +17,8 @@ from datetime import datetime
 import requests
 
 import config_service
-from common import data_files, commands, dom_utils
+from common import data_files, commands
+import dom_utils
 from denva import denva_sensors_service
 from services import email_sender_service
 

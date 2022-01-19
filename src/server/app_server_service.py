@@ -22,7 +22,8 @@ import server.information_service as information
 import server.personal_stats as personal_events
 import server.random_irregular_verb as verb
 import server.rules_service as rules
-from common import data_files, dom_utils
+from common import data_files
+import dom_utils
 from server import daily
 from gateways import web_data_gateway, local_data_gateway
 from services import error_detector_service, radar_service, metrics_service
