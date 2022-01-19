@@ -11,19 +11,12 @@
 import platform
 from pathlib import Path
 
-from common import dom_utils
+import dom_utils
 
-WIN_DENVA_PATH = f'D:\denva\\'
-SERVER_APP_SRC_PATH = f'd:\denva\src\\'
-DEV_SRC_PATH = f'D:\GitHub\denva\src\\'
 PI_HOME_DIR = '/home/pi/'
-BORG_HOME_DIR = '/home/dom/'
-SERVER_APP_DATA_PATH = f'{SERVER_APP_SRC_PATH}data\\'
-SERVER_APP_CONFIG_PATH = f'{SERVER_APP_SRC_PATH}configs\\'
-
-WIN_DATA_PATH = f'{WIN_DENVA_PATH}data'
 PI_PROJECT_PATH = f'{PI_HOME_DIR}denva-master/src'
-PI_DATA_PATH = f'{PI_HOME_DIR}data'
+PI_CONFIG_PATH = f'{PI_HOME_DIR}configs/'
+PI_DATA_PATH = f'{PI_HOME_DIR}data/'
 PI_LOGS_PATH = f'{PI_HOME_DIR}logs/'
 PI_SENSORS_DATA_PATH = '/mnt/data/sensors/'
 
@@ -48,28 +41,12 @@ settings = {
         "radar": False
     },
     "paths": {
-        "base": {
-            'dev': DEV_SRC_PATH,
-            'server': SERVER_APP_SRC_PATH
-        },
-        "frame": {
-            'dev': 'D:\ds-lpd-server\cctv\\1',
-            'server': 'd:\\frame\\'
-        },
-        "backup": f'{WIN_DENVA_PATH}backup\\',
-        "photosPath": "/mnt/data/photos/",
-        "tubeAndTrainsPath": f"{WIN_DATA_PATH}\\tubetrains\\",
-        "events": {
-            "dev": f'{WIN_DENVA_PATH}events.json',
-            "server": f'{WIN_DENVA_PATH}events.json'
-        },
-        "cctv-backup": ["D:\\ds-lpd-server\\cctv", "D:\\ds-lpd-server\\backup"],
-        "chinese-dictionary": {
-            'dev': f"{DEV_SRC_PATH}data\dictionary.txt",
-            'server': f'{SERVER_APP_DATA_PATH}dictionary.txt'
-        },
-        "server_drive": f"{DEV_SRC_PATH}data\dictionary.txt",
-        "overseer_mode": r"D:\overseer_mode.txt"
+        "frame": f'{PI_HOME_DIR}/frame/',
+        "backup": f'{PI_HOME_DIR}backup/',
+        "photosPath": "/mnt/data/photos/",  # TODO change it
+        "events": f'{PI_HOME_DIR}events.json',
+        "chinese-dictionary": f'{PI_DATA_PATH}dictionary.txt',
+        "overseer_mode": f'{PI_HOME_DIR}overseer_mode.txt'
     },
     "sensor": {
         "cpu_temp_warn": 60,
@@ -79,16 +56,16 @@ settings = {
     "system": {
         "memory_available": 250 * 1024 * 1024,  # 250MB
         "free_space": 500,
-        "ip": "http://192.168.0.200:5000"
+        "ip": "http://192.168.0.205:5000"
     },
     "options": {
         "inChina": False
     },
     "urls": {
-        "server": "http://192.168.0.200:5000",
+        "server": "http://192.168.0.205:5000",
         "denva": "http://192.168.0.201:5000",
         "enviro": "http://192.168.0.202:5000",
-        "delight": "http://192.168.0.203:5000",
+        "delight": "http://192.168.0.205:5000",
         "dump1090_data": "http://192.168.0.201:16601/data.json"
     },
     "latency": {
@@ -96,33 +73,27 @@ settings = {
         "max-slow": 1000
     },
     "logs": {
-        'dev_app': f'{DEV_SRC_PATH}configs\dev_log_app_config.json',
-        'dev_ui': f'{DEV_SRC_PATH}configs\dev_log_ui_config.json',
-        'dev_ddd': f'{DEV_SRC_PATH}configs\dev_log_app_config.json',
-        'server_app': f'{SERVER_APP_CONFIG_PATH}server_log_app_config.json',
-        'server_ui': f'{SERVER_APP_CONFIG_PATH}server_log_ui_config.json',
-        'denva_app': f'{PI_PROJECT_PATH}/configs/log_app_config.json',
-        'denva_ui': f'{PI_PROJECT_PATH}/configs/log_ui_config.json',
-        'denviro_app': f'{PI_PROJECT_PATH}/configs/log_app_config.json',
-        'denviro_ui': f'{PI_PROJECT_PATH}/configs/log_ui_config.json',
-        'delight_app': f'{PI_PROJECT_PATH}/configs/log_app_config.json',
-        'delight_ui': f'{PI_PROJECT_PATH}/configs/log_ui_config.json',
-        'hc': f'{PI_PROJECT_PATH}/configs/log_config.json',
+        'dev_app': f'{PI_CONFIG_PATH}dev_log_app_config.json',
+        'dev_ui': f'{PI_CONFIG_PATH}dev_log_ui_config.json',
+        'dev_ddd': f'{PI_CONFIG_PATH}dev_log_app_config.json',
+        'server_app': f'{PI_CONFIG_PATH}server_log_app_config.json',
+        'server_ui': f'{PI_CONFIG_PATH}server_log_ui_config.json',
+        'denva_app': f'{PI_CONFIG_PATH}log_app_config.json',
+        'denva_ui': f'{PI_CONFIG_PATH}log_ui_config.json',
+        'denviro_app': f'{PI_CONFIG_PATH}log_app_config.json',
+        'denviro_ui': f'{PI_CONFIG_PATH}log_ui_config.json',
+        'delight_app': f'{PI_CONFIG_PATH}log_app_config.json',
+        'delight_ui': f'{PI_CONFIG_PATH}log_ui_config.json',
+        'hc': f'{PI_CONFIG_PATH}log_config.json',
         'log_app': f'{PI_LOGS_PATH}logs.log',
         'log_hc': f'{PI_LOGS_PATH}healthcheck.log',
         'log_ui': f'{PI_LOGS_PATH}server.log',
-        'ddd': f'{PI_PROJECT_PATH}/configs/log_ddd_config.log',
-        'cctv': f'{PI_PROJECT_PATH}/configs/log_cctv_config.json',
-        'borg_overseer': f'{SERVER_APP_CONFIG_PATH}overseer_mode.json',
-        'overseer_mode': f'{SERVER_APP_CONFIG_PATH}overseer_mode.json',
-        'overseer': f'{SERVER_APP_CONFIG_PATH}overseer.json',
-        'borg_app': f'{BORG_HOME_DIR}app_borg.log',
-        'borg_ui': f'{BORG_HOME_DIR}server_borg.log',
+        'ddd': f'{PI_CONFIG_PATH}log_ddd_config.log',
+        'cctv': f'{PI_CONFIG_PATH}log_cctv_config.json',
+        'overseer_mode': f'{PI_CONFIG_PATH}overseer_mode.json',
+        'overseer': f'{PI_CONFIG_PATH}overseer.json',
     },
-    "informationData": {
-        'dev': f'{DEV_SRC_PATH}data\information.json',
-        'server': f'{SERVER_APP_SRC_PATH}data\information.json'
-    },
+    "informationData": f'{PI_DATA_PATH}information.json',
     "test": {
         'slow_test': False
     }
@@ -135,15 +106,12 @@ def get_log_path_for(log_type: str) -> str:
 
 def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
-    if where == 'borg':
-        return settings['logs']['borg_overseer']
     if where == 'overseer_mode':
         return settings['logs']['overseer_mode']
     if where == 'overseer':
         return settings['logs']['overseer']
     if where == 'cctv':
         return settings['logs']['cctv']
-
     if where == 'hc':
         return settings['logs']['hc']
 
@@ -214,8 +182,6 @@ def get_irregular_verbs_path() -> str:
 
 def set_mode_to(mode: str):
     settings['mode'] = mode
-    if platform.node() in ['borg']:
-        settings['mode'] = 'borg'
     if platform.node() in ['DomL5', 'DomAsusG', 'DOM-DESKTOP']:
         settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
@@ -245,18 +211,9 @@ def get_sensitivity():
     return settings['sensors']['motion']['sensitivity']
 
 
-# TODO improve it
-def get_data_path() -> str:
-    return WIN_DATA_PATH + '\\'
-
-
 def get_sensor_log_file_for(year: int, month: int, day: int, sensor_filename: str = 'sensor-log') -> str:
     path = PI_LOGS_PATH + dom_utils.get_filename_from_year_month_day(sensor_filename, 'csv', year, month, day)
     return path
-
-
-def get_report_path_at_server():
-    return f"{WIN_DATA_PATH}\\reports\\"
 
 
 def get_metrics_service_url():
@@ -284,10 +241,7 @@ def get_service_on_off_url() -> str:
 
 
 def get_directory_path_for_aircraft() -> str:
-    if get_mode() == 'dev':
-        return WIN_DATA_PATH
-    else:
-        return PI_DATA_PATH
+    return PI_DATA_PATH
 
 
 def get_url_for_dump1090():
@@ -301,12 +255,7 @@ def max_latency(fast: bool = True):
 
 
 def get_system_hc() -> str:
-    if get_mode() == 'dev':
-        file = WIN_DATA_PATH
-    else:
-        file = PI_DATA_PATH
-
-    return str(Path('{}/hc.json'.format(file)))
+    return str(Path('{}/hc.json'.format(PI_DATA_PATH)))
 
 
 def get_default_brightness_for_delight_display():
@@ -327,17 +276,3 @@ def is_radar_on():
 
 def get_overseer_mode_file_path():
     return settings["paths"]["overseer_mode"]
-
-
-# TODO refactor it
-def get_system_drive() -> str:
-    mode = get_mode()
-    if mode in ['dev', 'server']:
-        return 'D:'
-    else:
-        return '/'
-
-
-# TODO refactor it
-def get_path_for_information_backup() -> str:
-    return WIN_DENVA_PATH
