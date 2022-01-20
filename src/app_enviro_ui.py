@@ -15,10 +15,10 @@ import traceback
 
 from flask import Flask, jsonify, request
 
-import config
 from common import data_files
 from denviro import enviro_service
-from services import email_sender_service, common_service
+from services import common_service
+from email import email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')

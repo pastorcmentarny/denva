@@ -19,11 +19,10 @@ from pathlib import Path
 from time import sleep
 from timeit import default_timer as timer
 
-import config
 from common import data_files, app_timer
 import dom_utils
 from gateways import local_data_gateway
-from services import email_sender_service
+from email import email_sender_service
 from tasks import too_dark_photos_remover_service
 
 EMPTY = ''

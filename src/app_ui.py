@@ -14,11 +14,11 @@ import traceback
 
 from flask import Flask, jsonify, request
 
-import config
 from common import commands, data_files
 from denva import denva_service
 from sensors import aircraft_radar_sensor
-from services import common_service, email_sender_service
+from services import common_service
+from email import email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')

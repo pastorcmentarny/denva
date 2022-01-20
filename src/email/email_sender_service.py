@@ -197,3 +197,28 @@ def send_ip_email(device: str):
         logger.info('Email sent.')
     except Exception as e:
         logger.error('Unable to send email with IP info for {} due to {}'.format(device, e), exc_info=True)
+
+
+def validate_email_data(email_data) -> bool:
+    if email_data is None:
+        logger.error('Validation failed due to input data does not exists.')
+        return False
+    if not isinstance(email_data,dict):
+        logger.error('Input data is not a dictionary!')
+        return False
+    if email_data['device'] not in email_data:
+        logger.error('Unknown device trying to send email')
+        return False
+    if email_data['message'] not in email_data:
+        logger.error('There is no point to send message if there is no message')
+        return False
+    return True
+
+
+def send_email_v2(email_data) ->bool:
+    try:
+        validate_email_data(email_data)
+        return True
+    except Exception as exception:
+        logger.error(exception)
+        return False

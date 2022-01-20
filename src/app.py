@@ -20,14 +20,13 @@ from timeit import default_timer as timer
 import smbus
 from PIL import ImageFont
 
-import config
 from common import data_files, commands
 import dom_utils
 from denva import cl_display
 from gateways import local_data_gateway
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service, \
     led_matrix_service
-from services import email_sender_service
+from email import email_sender_service
 
 bus = smbus.SMBus(1)
 

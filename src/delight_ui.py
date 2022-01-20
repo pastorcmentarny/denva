@@ -15,10 +15,10 @@ import traceback
 
 from flask import Flask, jsonify, request
 
-import config
 from common import data_files
 from delight import delight_service
-from services import common_service, email_sender_service
+from services import common_service
+from email import email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')

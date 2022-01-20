@@ -40,7 +40,7 @@ def digest():
         counter += 1
         start_time = timer()
 
-        result = local_data_gateway.get_data_for(config_service.get_url_for_dump1090(), 5)
+        result = local_data_gateway.get_data_for(config.get_url_for_dump1090(), 5)
 
         if 'error' in result:
             logger.error(result['error'])
@@ -59,7 +59,7 @@ def digest():
         measurement = int((end_time - start_time) * 1000)
         measurement_time = str(measurement)  # in ms
 
-        if measurement > config_service.max_latency():
+        if measurement > config.max_latency():
             warnings += 1
             logger.warning("Measurement {} was slow.It took {} ms".format(counter, measurement))
 
@@ -79,7 +79,7 @@ def digest():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('ddd')
+    config.set_mode_to('ddd')
     data_files.setup_logging('ddd')
     try:
         digest()

@@ -16,14 +16,14 @@ import time
 import traceback
 from timeit import default_timer as timer
 
-import config
 from common import data_files, commands
 from denva import cl_display
 from gateways import local_data_gateway
 from sensors import gas_service, humidity_bme_service, light_proximity_service
 from sensors import particulate_matter_service
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
-from services import email_sender_service, sensor_warnings_service
+from services import sensor_warnings_service
+from email import email_sender_service
 
 logger = logging.getLogger('app')
 

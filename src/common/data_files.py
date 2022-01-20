@@ -18,7 +18,6 @@ import random
 from datetime import datetime, date
 from pathlib import Path
 
-import config
 import dom_utils
 
 EMPTY = ''
@@ -34,19 +33,13 @@ report_dir = '/home/pi/reports'
 
 
 def load_cfg() -> dict:
-    if config_service.load_cfg()['mode'] == 'dev':
-        path = r'd:\denva\email.json'
-    elif config_service.load_cfg()['mode'] == 'server':
-        path = r'd:\denva\email.json'
-    else:
-        path = '/home/pi/email.json'  # actual cfg is different place
-    with open(path, READ) as email_config:
+    with open('/home/pi/email.json', READ) as email_config:
         return json.load(email_config)
 
 
-def save_report_at_server(report: dict):
+def save_report_at_server(report: dict, report_path):
     try:
-        report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+        report_file_path = '{}/{}'.format(report_path,
                                           dom_utils.get_date_as_filename('report', 'json',
                                                                          dom_utils.get_yesterday_date()))
         logger.info('Saving report to {}'.format(report_file_path))
@@ -71,8 +64,8 @@ def load_report(report_date: str) -> dict:
         return json.load(report_file)
 
 
-def load_report_on_server_on(report_date: datetime):
-    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+def load_report_on_server_on(report_date: datetime, report_path: str):
+    report_file_path = '{}/{}'.format(report_path,
                                       dom_utils.get_date_as_filename('report', 'json',
                                                                      report_date))
     logger.info('Loading report from {}'.format(report_file_path))
@@ -111,7 +104,7 @@ def add_enviro_measurement_to_file(file, data: dict):
 
 
 # TODO refactor it as it saves in 2 places
-def store_enviro_measurement(data: dict,sensor_log_file,sensor_log_file_at_server):
+def store_enviro_measurement(data: dict, sensor_log_file, sensor_log_file_at_server):
     try:
         local_file = open(sensor_log_file, 'a+', newline=EMPTY)
         add_enviro_measurement_to_file(local_file, data)
@@ -145,7 +138,7 @@ def add_measurement_to_file(file, data: dict, motion):
 
 # TODO refactor it as it saves in 2 places
 # TODO merge motion with data
-def store_measurement(data, motion,sensor_log_file,sensor_log_file_at_server):
+def store_measurement(data, motion, sensor_log_file, sensor_log_file_at_server):
     try:
         counter = data['measurement_counter']
     except Exception as exception:
@@ -164,8 +157,7 @@ def store_measurement(data, motion,sensor_log_file,sensor_log_file_at_server):
         logger.warning(exception)
 
 
-def setup_logging(where: str):
-    path = config_service.get_environment_log_path_for(where)
+def setup_logging(where: str, path: str):
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
@@ -193,9 +185,8 @@ def backup_information_data(data: dict):
     save_dict_data_as_json(dir_path, data)
 
 
-def create_backup_dir_path_for(dir_name: str, suffix: str):
+def create_backup_dir_path_for(dir_name: str, suffix: str, path: str):
     dt = datetime.now()
-    path = config_service.get_path_for_information_backup()
     dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path, dt.year, dt.month, dt.day)
     logger.debug('performing information backup using path {}'.format(dir_path))
     Path(dir_path).mkdir(parents=True, exist_ok=True)
@@ -204,8 +195,7 @@ def create_backup_dir_path_for(dir_name: str, suffix: str):
 
 
 # TODO improve convert files to files_list
-def get_random_frame_picture_path():
-    path = config_service.load_cfg()['paths']['frame'][config_service.get_mode()]
+def get_random_frame_picture_path(path: str):
     files_list = []
     with os.scandir(path) as files:
         for file in files:
@@ -246,9 +236,9 @@ def load_weather(path: str):
 
 
 # TODO move this to different place
-def load_data(year: int, month: int, day: int) -> list:
+def load_data(year: int, month: int, day: int, path: str) -> list:
     sensor_log_file = dom_utils.fix_nulls(
-        open(config_service.get_sensor_log_file_for(year, month, day), READ, newline=EMPTY, encoding=ENCODING))
+        open(path, READ, newline=EMPTY, encoding=ENCODING))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
     data = []
@@ -303,10 +293,10 @@ def load_enviro_data_for_today() -> list:
     return load_enviro_data(today.year, today.month, today.day)
 
 
-def load_enviro_data(year: int, month: int, day: int) -> list:
+def load_enviro_data(year: int, month: int, day: int, path: str) -> list:
     logger.debug('loading enviro sensor data from {} {} {}'.format(day, month, year))
     sensor_log_file = dom_utils.fix_nulls(
-        open(config_service.get_sensor_log_file_for(year, month, day, 'sensor-enviro-log'), READ, newline=EMPTY,
+        open(path, READ, newline=EMPTY,
              encoding=ENCODING))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)
@@ -320,6 +310,7 @@ def load_enviro_data(year: int, month: int, day: int) -> list:
         add_enviro_row(data, row)
     sensor_log_file.close()
     return data
+
 
 def add_enviro_row(data, row):
     data.append(
@@ -339,14 +330,14 @@ def add_enviro_row(data, row):
     )
 
 
-def is_report_file_exists() -> bool:
-    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+def is_report_file_exists(path) -> bool:
+    report_file_path = '{}/{}'.format(path,
                                       dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
     return os.path.exists(report_file_path)
 
 
-def is_report_file_exists_for(report_date: datetime) -> bool:
-    report_file_path = '{}/{}'.format(config_service.get_report_path_at_server(),
+def is_report_file_exists_for(report_date: datetime, path: str) -> bool:
+    report_file_path = '{}/{}'.format(path,
                                       dom_utils.get_date_as_filename('report', 'json', report_date))
     return os.path.exists(report_file_path)
 
@@ -356,8 +347,7 @@ def load_ricky(path: str):
         return json.load(ricky_data)
 
 
-def load_text_to_display() -> str:
-    path = config_service.get_data_path() + 'text_to_display.txt'
+def load_text_to_display(path) -> str:
     try:
         with open(path, READ, encoding=ENCODING) as text_file:
             return str(text_file.read())
@@ -366,19 +356,19 @@ def load_text_to_display() -> str:
         return str(exception)
 
 
-def save_metrics(stats: dict) -> str:
+def save_metrics(stats: dict,path) -> str:
     try:
-        path = config_service.get_path_for_backup() + f'metrics-{str(stats["date"])}.txt'
-        save_dict_data_as_json(path, stats)
+        full_path = path + f'metrics-{str(stats["date"])}.txt'
+        save_dict_data_as_json(full_path, stats)
         return 'saved'
     except Exception as exception:
         logging.warning(f'Unable to save stats ${stats} to file due to: ${exception}', exc_info=True)
         return str(exception)
 
 
-def load_metrics_data() -> dict:
+def load_metrics_data(path:str) -> dict:
     metric_data_file = f'metrics-{str(date.today())}.txt'
-    path = config_service.get_path_for_backup() + metric_data_file
+    path = path + metric_data_file
     try:
         return load_json_data_as_dict_from(path)
     except Exception as exception:

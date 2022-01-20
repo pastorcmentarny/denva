@@ -17,7 +17,7 @@ import dom_utils
 from gateways import local_data_gateway
 from server import app_server_service
 from reports import report_generator
-from services import email_sender_service
+from email import email_sender_service
 from services import information_service as information
 
 logger = logging.getLogger('app')

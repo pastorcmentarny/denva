@@ -16,12 +16,12 @@ from timeit import default_timer as timer
 
 import sys
 
-import config
 import server.information_service as information
 from common import app_timer, data_files, loggy
 from gateways import local_data_gateway
 from reports import report_service
-from services import email_sender_service, metrics_service
+from services import metrics_service
+from email import email_sender_service
 
 logger = logging.getLogger('app')
 

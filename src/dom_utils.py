@@ -350,7 +350,7 @@ def post_healthcheck_beat(device: str, app_type: str):
 def setup_test_logging(app_name: str):
     logging_level = logging.INFO
     logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
-    logging_filename = f'log-{app_name}-{datetime.date.today()}.txt'
+    logging_filename = f'log-{app_name}-{date.today()}.txt'
     logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
     logging.captureWarnings(True)
     logging.debug('logging setup complete')

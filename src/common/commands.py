@@ -17,7 +17,7 @@ from datetime import datetime
 import psutil
 
 import dom_utils
-from services import email_sender_service
+from email import email_sender_service
 
 logger = logging.getLogger('app')
 
