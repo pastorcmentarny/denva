@@ -4,7 +4,7 @@
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
 * IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
-* Github:	https://github.com/pastorcmentarny
+* GitHub:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
@@ -13,6 +13,7 @@ from pathlib import Path
 
 import dom_utils
 
+SERVER_IP = 'http://192.168.0.200'
 PI_HOME_DIR = '/home/pi/'
 PI_PROJECT_PATH = f'{PI_HOME_DIR}denva-master/src'
 PI_CONFIG_PATH = f'{PI_HOME_DIR}configs/'
@@ -56,16 +57,16 @@ settings = {
     "system": {
         "memory_available": 250 * 1024 * 1024,  # 250MB
         "free_space": 500,
-        "ip": "http://192.168.0.205:5000"
+        "ip": "{SERVER_IP}:5000"
     },
     "options": {
         "inChina": False
     },
     "urls": {
-        "server": "http://192.168.0.205:5000",
+        "server": f'{SERVER_IP}:5000',
         "denva": "http://192.168.0.201:5000",
         "enviro": "http://192.168.0.202:5000",
-        "delight": "http://192.168.0.205:5000",
+        "delight": f'{SERVER_IP}:5000',
         "dump1090_data": "http://192.168.0.201:16601/data.json"
     },
     "latency": {

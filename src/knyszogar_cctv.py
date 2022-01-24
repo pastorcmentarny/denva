@@ -5,31 +5,25 @@
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
 * IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
-* Github:	https://github.com/pastorcmentarny
+* GitHub:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 
 import logging
 import os
+import subprocess
 import time
 from datetime import datetime, date
 from pathlib import Path
 
-import utils
+import dom_utils
+
+DEFAULT_TIMEOUT = 5
 
 logger = logging.getLogger('app')
 step = 0.1
 resolution = '1280x720'
-
-
-# FIXME use
-def get_date_as_folders_linux(specified_data: date):
-    today = specified_data
-    year = today.year
-    month = today.month
-    day = today.day
-    return "{}/{:02d}/{:02d}/".format(year, month, day)
 
 
 def get_date_with_time_as_filename(name: str, file_type: str, dt: datetime) -> str:
@@ -40,23 +34,40 @@ def capture_picture() -> str:
     try:
         start_time = time.perf_counter()
 
-        date_as_folders = get_date_as_folders_linux(date.today())
-        path = Path("{}/{}".format("/home/pi/sky", date_as_folders))
+        date_as_folders = dom_utils.get_date_as_folders_linux()
+        path = Path("{}/{}".format("/home/pi/storage/cctv", date_as_folders))
         if not path.exists():
-            print(f'Path does not exists. Creating path {path}')
+            logger.warning(f'Path does not exists. Creating path {path}')
             Path(path).mkdir(parents=True, exist_ok=True)
         file = get_date_with_time_as_filename("cctv", "jpg", datetime.now())
         photo_path = str(Path('{}/{}'.format(path, file)))
-        logger.info('using path {}'.format(photo_path))
+        logger.debug('using path {}'.format(photo_path))
 
         # do picture using fswebcam
-        os.system(f'''timeout 5s fswebcam -r {resolution} -S 3 --jpeg 85 --save {photo_path}''')
+        try:
+            p1 = subprocess.check_output(['fswebcam', '-r', resolution, '-S', '3', '--jpeg', '85,--save', photo_path],
+                                         stderr=subprocess.PIPE, encoding='utf-8')
+            try:
+                output_data, error_output_data = p1.communicate(
+                    timeout=1)  # will raise error and kill any process that runs longer than 60 seconds
+                logger.debug(output_data)
+                print(error_output_data)
+                logger.error(error_output_data)
+            except Exception as exception:
+                logger.error(f'unable to do picture due to {exception}')
+                p1.kill()
+                print('Waiting 30 seconds before capture picture again')
+                time.sleep(30)
 
-        while not os.path.exists(photo_path):
-            time.sleep(step)
-        logger.info('picture saved at {}'.format(photo_path))
+            while not os.path.exists(photo_path):
+                time.sleep(step)
+            logger.info('picture saved at {}'.format(photo_path))
+        except Exception as exception:
+            logger.error(f'Unable to do picture due to :{exception}')
+
         end_time = time.perf_counter()
 
+        # TODO move to dom_utils
         total_time = str("%.2f" % (end_time - start_time))  # in ms
         logger.info('it took {} s to generate  and save a picture.'.format(total_time))
         return str(photo_path)
@@ -72,10 +83,10 @@ def app_loop():
         logger.info(f"Capturing picture no. {counter}")
         capture_picture()
         counter += 1
-        utils.post_healthcheck_beat('knyszogar', 'cctv')
-        time.sleep(4.2)
+        dom_utils.post_healthcheck_beat('knyszogar', 'cctv')
+        time.sleep(2.5)
 
 
 if __name__ == '__main__':
-    utils.setup_test_logging('cctv')
+    dom_utils.setup_test_logging('cctv')
     app_loop()

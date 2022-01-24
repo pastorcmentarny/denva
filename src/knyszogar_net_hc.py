@@ -5,7 +5,7 @@
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
 * IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
-* Github:	https://github.com/pastorcmentarny
+* GitHub:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
@@ -18,7 +18,9 @@ from timeit import default_timer as timer
 
 import requests
 
+import config
 import dom_utils
+
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
@@ -28,7 +30,7 @@ POOR = 'POOR'
 DOWN = 'DOWN'
 
 logger = logging.getLogger('hc')
-HOSTNAME = "http://192.168.0.205"
+config.SERVER_IP
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
 
@@ -88,8 +90,8 @@ def my_services_check():
     check_for('denva', headers, "http://192.168.0.201:5000/hc")
     check_for('radar', headers, "http://192.168.0.201:5000/hc/ar")
     check_for('denviro', headers, "http://192.168.0.202:5000/hc")
-    check_for('server', headers, "http://192.168.0.205:5000/hc")
-    check_for('email', headers, "http://192.168.0.205:18010/hc", 'knyszogar')
+    check_for('server', headers, "%s:5000/hc" % config.SERVER_IP)
+    check_for('email', headers, "%s:18010/hc" % config.SERVER_IP, 'knyszogar')
     end_time = time.perf_counter()
     total_time = '{:0.2f}'.format((end_time - start_time))
     logger.info(f'It took {total_time} second to test.')

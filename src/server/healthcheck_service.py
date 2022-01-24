@@ -6,7 +6,7 @@ ENCODING = 'utf-8'
 
 logger = logging.getLogger('app')
 
-path = '/home/pi/hc.json'
+path = '/home/pi/storage/hc.json'
 
 
 # TODO replace from data_file

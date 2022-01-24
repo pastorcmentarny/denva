@@ -5,7 +5,7 @@
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
 * IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
-* Github:	https://github.com/pastorcmentarny
+* GitHub:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
@@ -13,10 +13,10 @@ import logging
 import sys
 import traceback
 
-from flask import Flask, jsonify, request, url_for, render_template
+from flask import Flask, jsonify, request, render_template, url_for
 
 import dom_utils
-from server import healthcheck_service, app_server_service
+from server import healthcheck_service, app_server_service  # , app_server_service
 
 app = Flask(__name__)
 logger = logging.getLogger('www')
@@ -45,6 +45,12 @@ def update_system_healthcheck_for():
     logger.info('updating device status to {}'.format(request.get_json(force=True)))
     healthcheck_service.update_for(request.get_json(force=True))
     return jsonify({})
+
+
+@app.route('/forty')
+def yearly_goals():
+    return render_template('40b440.html')
+
 
 
 @app.route("/hq")
@@ -83,7 +89,6 @@ if __name__ == '__main__':
         app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
         app.config['JSON_AS_ASCII'] = False
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
-        # healthcheck()
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)

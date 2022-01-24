@@ -5,22 +5,24 @@
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
 * IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
-* Github:	https://github.com/pastorcmentarny
+* GitHub:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import json
 import logging
-import logging.config
 import re
 import socket
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
 
+import config
 import requests
 
 from common.gobshite_exception import GobshiteException
+
+SERVER_IP = "http://192.168.0.200:5000/"
 
 stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
@@ -336,7 +338,7 @@ def to_int(number_as_string: str) -> int:
 
 
 def post_healthcheck_beat(device: str, app_type: str):
-    url = "http://192.168.0.205:5000/shc/update"
+    url = "%s:5000/shc/update" % config.SERVER_IP
     json_data = {'device': device, 'app_type': app_type}
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:

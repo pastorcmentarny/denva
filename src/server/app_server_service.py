@@ -4,7 +4,7 @@
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
 * IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
-* Github:	https://github.com/pastorcmentarny
+* GitHub:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
@@ -90,16 +90,16 @@ def get_all_warnings_page() -> list:
     return data
 
 
-def get_random_frame() -> str:
-    return data_files.get_random_frame_picture_path()
+def get_random_frame(config:dict) -> str:
+    return data_files.get_random_frame_picture_path(config)
 
 
-def get_current_system_information_for_all_services():
+def get_current_system_information_for_all_services(config:dict):
     return {
         'server': system_data_service.get_system_information(),
-        'denva': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['denva'])),
-        'enviro': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['enviro'])),
-        'delight': local_data_gateway.get_data_for('{}/system'.format(config_service.load_cfg()["urls"]['delight']))
+        'denva': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva'])),
+        'enviro': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['enviro'])),
+        'delight': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['delight']))
     }
 
 
@@ -116,8 +116,8 @@ def get_links_for_gateway(sensor_only: bool = False) -> dict:
     }
 
 
-def get_links_for(suffix: str, sensor_only: bool = False) -> dict:
-    urls = config_service.load_cfg()['urls']
+def get_links_for(config:dict,suffix: str, sensor_only: bool = False) -> dict:
+    urls = config['urls']
     result = {
         'denva': '{}/{}'.format(urls['denva'], suffix),
         'enviro': '{}/{}'.format(urls['enviro'], suffix)
@@ -181,21 +181,21 @@ def get_data_for_page(page_frame, page_recent_log_app, page_ricky, page_tt_delay
     return data
 
 
-def stop_all_devices():
-    local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['denva']))
-    local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['enviro']))
-    local_data_gateway.get_data_for('{}/halt'.format(config_service.load_cfg()["urls"]['delight']))
+def stop_all_devices(config:dict):
+    local_data_gateway.get_data_for('{}/halt'.format(config["urls"]['denva']))
+    local_data_gateway.get_data_for('{}/halt'.format(config["urls"]['enviro']))
+    local_data_gateway.get_data_for('{}/halt'.format(config["urls"]['delight']))
     return {'result': 'All devices stopped'}
 
 
-def reboot_all_devices():
-    local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['denva']))
-    local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['enviro']))
-    local_data_gateway.get_data_for('{}/reboot'.format(config_service.load_cfg()["urls"]['delight']))
+def reboot_all_devices(config):
+    local_data_gateway.get_data_for('{}/reboot'.format(config["urls"]['denva']))
+    local_data_gateway.get_data_for('{}/reboot'.format(config["urls"]['enviro']))
+    local_data_gateway.get_data_for('{}/reboot'.format(config["urls"]['delight']))
     return {'result': 'All devices starting to reboot'}
 
 
-def get_device_status():
+def get_device_status(config:dict):
     logger.info('Getting data for main page')
     try:
         data = {
@@ -203,9 +203,9 @@ def get_device_status():
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
-            'system': get_current_system_information_for_all_services(),
+            'system': get_current_system_information_for_all_services(config),
             'links': get_links_for_gateway(),
-            'welcome_text': data_files.load_text_to_display(),
+            'welcome_text': data_files.load_text_to_display(config),
             'transport': web_data_gateway.get_status(),
             'metrics': metrics_service.get_currents_metrics(),
             'log_count': local_data_gateway.get_current_log_counts(),

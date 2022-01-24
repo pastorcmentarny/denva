@@ -5,7 +5,7 @@ import re
 import time
 from subprocess import PIPE, Popen
 
-import display
+from server import display
 import psutil
 import requests
 
@@ -86,7 +86,8 @@ E
 F 1D 2A 1U    RRD
 """
 
-HOSTNAME = 'http://192.168.0.205'
+#TODO MOVE TO CONFIG
+HOSTNAME = 'http://192.168.0.200'
 
 
 # TODO move

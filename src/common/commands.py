@@ -5,7 +5,7 @@
 * Author Dominik Symonowicz
 * WWW:	https://dominiksymonowicz.com/welcome
 * IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
-* Github:	https://github.com/pastorcmentarny
+* GitHub:	https://github.com/pastorcmentarny
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
@@ -17,7 +17,6 @@ from datetime import datetime
 import psutil
 
 import dom_utils
-from email import email_sender_service
 
 logger = logging.getLogger('app')
 
@@ -38,10 +37,9 @@ def mount_all_drives(device: str = 'denva'):
         cmd = 'sudo mount -a'
         ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         logger.info(str(ps.communicate()[0]))
-    except Exception as e:
-        error_message = "Unable to mount drive due to {}".format(e)
-        email_sender_service.send_error_log_email("mount drive", error_message)
-        logger.warning('Something went badly wrong..', exc_info=True)
+    except Exception as exception:
+        error_message = "Unable to mount drive due to {}".format(exception)        
+        logger.warning(f'Something went badly wrong..{error_message}', exc_info=True)
 
 
 # TODO remove it
