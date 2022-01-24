@@ -6,19 +6,13 @@
 `vcgencmd get_camera` - to check if camera is suppoeted and detected
 `lsusb` - to see list of usb devices connected to Pi
 `v4l2-ctl --list-formats-ext` - check what resolution are supported
+`sudo chmod -R MODE DIRECTORY` - set permission for directory
 
 # Run it before turn it off Pi
 
 ```sudo halt```
 
-# Update Pi
 
-0. `sudo apt update`
-0. `sudo apt full-upgrade`
-0. `sudo apt clean`
-0. `sudo apt autoremove`
-0. `sudo reboot`
-0. `sudo pip install --upgrade pip'`
 
 ## Pi related
 
