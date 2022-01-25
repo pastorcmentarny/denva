@@ -13,6 +13,7 @@ import copy
 import logging
 from datetime import date
 
+import config
 from common import data_files
 
 DATE_OF_METRICS = "date"
@@ -63,7 +64,7 @@ empty_stats = {
 
 
 def setup():
-    metrics_data = data_files.load_metrics_data()
+    metrics_data = data_files.load_metrics_data(config.PI_DATA_PATH)
     if bool(metrics_data):
         return copy.deepcopy(metrics_data)
     else:
@@ -82,7 +83,7 @@ metrics_results = [OK, ERRORS]
 
 def save_metrics():
     logger.info(f'saving metrics for {str(stats[DATE_OF_METRICS])}')
-    result = data_files.save_metrics(stats)
+    result = data_files.save_metrics(stats, config.PI_DATA_PATH)
     logger.info(f'metrics {result}.')
     return result
 
@@ -121,8 +122,10 @@ def add(metric: str, result: str):
 def get_currents_metrics() -> dict:
     return stats.copy()
 
+
 def get_empty_metrics() -> dict:
     return empty_stats.copy()
+
 
 def reset():
     global stats

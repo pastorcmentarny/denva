@@ -11,12 +11,14 @@
 """
 import logging
 import sys
+import time
 import traceback
 
 from flask import Flask, jsonify, request, render_template, url_for
 
 import dom_utils
-from server import healthcheck_service, app_server_service  # , app_server_service
+from server import healthcheck_service, app_server_service
+from services import metrics_service
 
 app = Flask(__name__)
 logger = logging.getLogger('www')
@@ -28,7 +30,7 @@ def update_metrics_for():
     logger.info('updating metrics {}'.format(request.get_json(force=True)))
     result = request.get_json(force=True)
     logger.debug(result)
-    # metrics_service.add(result['metrics'], result['result'])
+    metrics_service.add(result['metrics'], result['result'])
     return jsonify({"status": "OK"})
 
 
@@ -52,6 +54,10 @@ def yearly_goals():
     return render_template('40b440.html')
 
 
+@app.route('/focus')
+def personal_rules():
+    return render_template('focus.html')
+
 
 @app.route("/hq")
 def hq():
@@ -74,8 +80,8 @@ def hq():
     stop = time.perf_counter()
 
     delta = stop - start
-    time = int(delta.total_seconds() * 1000)
-    logger.info(f'It took {time} ms.')
+    total_time = delta / 1000
+    logger.info(f'It took {total_time} ms.')
     return render_template('hq.html', message=all_data)
 
 
