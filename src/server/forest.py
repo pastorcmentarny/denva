@@ -1,7 +1,6 @@
 import random
-
 import numpy
-
+from server import display
 scale = 3
 
 p = 0.01
@@ -23,29 +22,29 @@ start_burning_trees = [[112, 26, 180], [235, 101, 0], [128, 128, 128]]
 burning_colour = [[255, 110, 0], [255, 0, 0], [48, 48, 48]]
 
 
-def in_the_forest(unicornhathd):
+def in_the_forest():
     global forest_height
     global forest_width
-    width, height = unicornhathd.get_shape()
+    width, height = display.unicornhathd.get_shape()
     forest_width = width * scale
     forest_height = height * scale
     forest = initialise_forest()
     burnt = True
     while burnt:
-        show_forest(forest, unicornhathd, width, height)
+        show_forest(forest, width, height)
         forest = update_forest(forest)
         burnt = quit_if_burnt(forest)
 
 
-def show_forest(forest, unicornhathd, width, height):
+def show_forest(forest, width, height):
     avg_forest = average_forest(forest, width, height)
 
     for x in range(width):
         for y in range(height):
             red, green, blue = avg_forest[x][y]
-            unicornhathd.set_pixel(x, y, int(red), int(green), int(blue))
+            display.unicornhathd.set_pixel(x, y, int(red), int(green), int(blue))
 
-    unicornhathd.show()
+    display.unicornhathd.show()
 
 
 def initialise_forest():

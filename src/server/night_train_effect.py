@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 from random import randint
 
-import display
+from server import display
 
 stars = []
 stars_count = randint(1, 16)

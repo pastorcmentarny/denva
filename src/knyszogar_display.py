@@ -3,14 +3,16 @@ import logging
 import random
 import re
 import time
+from datetime import datetime
 from subprocess import PIPE, Popen
 
-from server import display
 import psutil
 import requests
 
 import dom_utils
+from server import display, sub_light, forest, warp
 from server import healthcheck_service
+from server import night_train_effect
 
 logger = logging.getLogger('app')
 
@@ -83,10 +85,10 @@ B 1U 2U       CCA
 C
 D 2D 2A 2U    RRA
 E
-F 1D 2A 1U    RRD
+F 1D 1A 1U    RRD
 """
 
-#TODO MOVE TO CONFIG
+# TODO MOVE TO CONFIG
 HOSTNAME = 'http://192.168.0.200'
 
 
@@ -256,21 +258,16 @@ def get_data_for(url: str, timeout: int = 1) -> str:
         return ERROR
 
 
-def draw_camera_status():
-    status = healthcheck_service.is_up('knyszogar', 'cctv')
-    r, g, b = get_state_colour_for_hc(status)
-    display.unicornhathd.set_pixel(10, 13, r, g, b)
-    display.unicornhathd.set_pixel(10, 14, r, g, b)
-
-
 def draw_knyszogar_app():
-    r, g, b = get_state_colour_for_hc("OFF")
+    status = healthcheck_service.is_up('knyszogar', 'app')
+    r, g, b = get_state_colour_for_hc(status)
     display.unicornhathd.set_pixel(3, 1, r, g, b)
     display.unicornhathd.set_pixel(3, 2, r, g, b)
 
 
 def draw_knyszogar_email():
-    r, g, b = get_state_colour_for_hc("OFF")
+    status = healthcheck_service.is_up('knyszogar', 'email')
+    r, g, b = get_state_colour_for_hc(status)
     display.unicornhathd.set_pixel(3, 4, r, g, b)
     display.unicornhathd.set_pixel(3, 5, r, g, b)
 
@@ -310,6 +307,13 @@ def draw_tm_db():
     display.unicornhathd.set_pixel(7, 8, r, g, b)
 
 
+def draw_camera_status():
+    status = healthcheck_service.is_up('knyszogar', 'cctv')
+    r, g, b = get_state_colour_for_hc(status)
+    display.unicornhathd.set_pixel(10, 13, r, g, b)
+    display.unicornhathd.set_pixel(10, 14, r, g, b)
+
+
 def random_pixel():
     display.unicornhathd.set_pixel(1, 15, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
     display.unicornhathd.set_pixel(1, 14, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
@@ -337,8 +341,51 @@ def show_status():
     display.unicornhathd.show()
 
 
+def is_night_mode() -> bool:
+    return datetime.now().hour >= 22 or datetime.now().hour < 6
+
+
+def run_random_animation():
+    chance = random.randint(1, 4)
+    if chance == 0:
+        show_status()
+    elif chance == 1:
+        sub_light.sub_light_travel()
+    elif chance == 2:
+        forest.in_the_forest()
+    elif chance == 3:
+        warp.in_the_warp()
+    elif chance == 4:
+        night_train_effect.run_night_train()
+    else:
+        show_status()
+
+
+def loop():
+    while True:
+        if is_night_mode():
+            display.unicornhathd.brightness(0.1)
+            display.reset_screen()
+            show_status()
+            time.sleep(10)
+            chance = random.randint(1, 100)
+            if chance > 30:
+                display.reset_screen()
+                for _ in range(1, random.randint(1, 3)):
+                    run_random_animation()
+                display.reset_screen()
+        else:
+            show_status()
+            time.sleep(5)
+            chance = random.randint(1, 100)
+            if chance > 84:
+                display.reset_screen()
+                for _ in range(1, random.randint(1, 3)):
+                    run_random_animation()
+                display.reset_screen()
+
+
+
 if __name__ == '__main__':
     dom_utils.setup_test_logging('display')
-    while True:
-        show_status()
-        time.sleep(5)
+    loop()

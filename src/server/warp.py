@@ -1,12 +1,12 @@
 import logging
 import random
-
+from server import display
 logger = logging.getLogger('app')
 
 
-def in_the_warp(unicornhathd, clock, cycle):
-    cycle += 1
-    logger.info('Spacedate: {}. Currently, we are in the warp..'.format(cycle))
+def in_the_warp():
+    clock = 0
+
 
     star_count = 25
     star_speed = 0.01
@@ -16,7 +16,7 @@ def in_the_warp(unicornhathd, clock, cycle):
         stars.append((random.uniform(4, 11), random.uniform(4, 11), 0))
 
     for idx in range(0, 4000):
-        unicornhathd.clear()
+        display.unicornhathd.clear()
         clock += 1
         for i in range(0, star_count):
             stars[i] = (
@@ -29,9 +29,9 @@ def in_the_warp(unicornhathd, clock, cycle):
 
             v = stars[i][2]
 
-            unicornhathd.set_pixel(stars[i][0], stars[i][1], v, v, v)
+            display.unicornhathd.set_pixel(stars[i][0], stars[i][1], v, v, v)
 
-        unicornhathd.show()
+        display.unicornhathd.show()
 
         if clock % 50 == 0:
             star_speed += 0.001

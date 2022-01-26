@@ -6,7 +6,7 @@ ENCODING = 'utf-8'
 
 logger = logging.getLogger('app')
 
-path = '/home/pi/storage/hc.json'
+healthcheck_path = '/home/pi/data/hc.json'
 
 
 # TODO replace from data_file
@@ -23,17 +23,17 @@ def load_json_data_as_dict_from(path: str) -> dict:
 
 def __save(data: dict):
     try:
-        save_dict_data_as_json(path, data)
+        save_dict_data_as_json(healthcheck_path, data)
     except Exception as exception:
         logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
 
 
 def __load() -> dict:
     try:
-        return load_json_data_as_dict_from(path)
+        return load_json_data_as_dict_from(healthcheck_path)
     except Exception as exception:
         logger.error(
-            'Unable to load file with system healthcheck as due to {} using path {}'.format(exception, system_hc_path),
+            'Unable to load file with system healthcheck as due to {} using path {}'.format(exception, healthcheck_path),
             exc_info=True)
 
 
