@@ -39,7 +39,7 @@ def is_weather_data_expired(date: str) -> bool:
 # FIXME
 def get_weather() -> list:
     logger.info('Getting weather')
-    weather_file = config_service.get_data_path() + 'weather.txt'
+    weather_file = config.PI_DATA_PATH + 'weather.txt'
     if not os.path.exists(weather_file):
         logger.info('File not exists. Getting weather from the web')
         weather_data = cleanup_weather_data(web_data_gateway.get_weather())

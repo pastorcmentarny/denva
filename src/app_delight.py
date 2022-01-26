@@ -20,7 +20,7 @@ import unicornhathd
 import config
 from common import data_files, status
 import dom_utils
-from delight import delight_display, delight_service, delight_utils, ui_utils, forest, sub_light, warp
+from server import delight_display, delight_service, delight_utils, ui_utils, forest, sub_light, warp
 from gateways import local_data_gateway
 from systemhc import system_health_check_service
 
@@ -28,7 +28,7 @@ logger = logging.getLogger('app')
 
 unicornhathd.rotation(180)
 
-unicornhathd.brightness(config_service.get_default_brightness_for_delight_display())
+unicornhathd.brightness(config.get_default_brightness_for_delight_display())
 
 clock = 0
 cycle = 0
@@ -65,7 +65,7 @@ def device_status():
     unicornhathd.rotation(270)
 
     delight_display.reset_screen()
-    cfg = config_service.load_cfg()
+    cfg = config.load_cfg()
 
     set_denva_status(cfg)
     set_denviro_status(cfg)
@@ -121,7 +121,7 @@ def device_status():
         if blink:
             ui_utils.perform_blink_animation(unicornhathd)
         else:
-            unicornhathd.brightness(config_service.get_default_brightness_for_delight_display())
+            unicornhathd.brightness(config.get_default_brightness_for_delight_display())
             unicornhathd.show()
             time.sleep(30)
 
@@ -156,7 +156,7 @@ def set_delight_status(cfg):
     except Exception as set_state_exception:
         logger.error('Something went badly wrong\n{}'.format(set_state_exception), exc_info=True)
         state.set_error()
-    delight_ui_response = local_data_gateway.get_data_for('{}/hc'.format(config_service.load_cfg()["urls"]['delight']))
+    delight_ui_response = local_data_gateway.get_data_for('{}/hc'.format(config.load_cfg()["urls"]['delight']))
     if not 'error' in delight_ui_response:
         system_health_check_service.update_hc_for('delight', 'ui')
     color_blue, color_green, color_red = delight_utils.get_state_colour(state)
@@ -345,7 +345,7 @@ def main():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('delight')
+    config.set_mode_to('delight')
     data_files.setup_logging('app')
     try:
         logger.info('Starting application ...')

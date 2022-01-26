@@ -22,13 +22,13 @@ logger = logging.getLogger('app')
 
 def save(data: dict):
     try:
-        data_files.save_dict_data_as_json(config_service.get_system_hc(), data)
+        data_files.save_dict_data_as_json(config.get_system_hc(), data)
     except Exception as exception:
         logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
 
 
 def load() -> dict:
-    system_hc_path = config_service.get_system_hc()
+    system_hc_path = config.get_system_hc()
     try:
         return data_files.load_json_data_as_dict_from(system_hc_path)
     except Exception as exception:
@@ -112,14 +112,14 @@ def get_status(previous_datetime):
 
 
 def is_camera_up(device: str, app_type: str):
-    if config_service.is_sky_camera_on():
+    if config.is_sky_camera_on():
         is_up(device, app_type)
     else:
         return 'OFF'
 
 
 def is_radar_up(device: str, app_type: str):
-    if config_service.is_radar_on():
+    if config.is_radar_on():
         is_up(device, app_type)
     else:
         return 'OFF'

@@ -12,12 +12,13 @@
 import logging
 from datetime import datetime
 
+import config
 from common import data_files, app_timer
 import dom_utils
 from gateways import local_data_gateway
 from server import app_server_service
 from reports import report_generator
-from email import email_sender_service
+from emails import email_sender_service
 from services import information_service as information
 
 logger = logging.getLogger('app')
@@ -58,14 +59,14 @@ def generate_for_yesterday() -> dict:
 
 
 def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datetime:
-    if data_files.is_report_file_exists():
+    if data_files.is_report_file_exists(config.PI_DATA_PATH):
         logger.debug('Report already sent.')
         return report_generation_cooldown
     if app_timer.is_time_to_send_report_email(report_generation_cooldown):
         logger.info('Generating report')
         email_data = report_generator.generate()
         email_sender_service.send(email_data, 'Report (via server)')
-        data_files.save_report_at_server(email_data)
+        data_files.save_report_at_server(email_data,config.SERVER_IP)
         return datetime.now()
     return report_generation_cooldown
 

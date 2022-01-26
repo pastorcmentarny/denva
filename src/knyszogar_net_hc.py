@@ -21,7 +21,6 @@ import requests
 import config
 import dom_utils
 
-
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
 PERFECT = 'PERFECT'
@@ -30,7 +29,7 @@ POOR = 'POOR'
 DOWN = 'DOWN'
 
 logger = logging.getLogger('hc')
-config.SERVER_IP
+HOSTNAME = config.SERVER_IP
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
 

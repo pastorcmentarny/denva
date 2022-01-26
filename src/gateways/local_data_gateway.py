@@ -25,32 +25,32 @@ HEADERS = {
 
 
 def get_current_reading_for_denva() -> dict:
-    return get_data_for('{}/now'.format(config_service.load_cfg()["urls"]['denva']))
+    return get_data_for('{}/now'.format(config.load_cfg()["urls"]['denva']))
 
 
 def get_current_reading_for_enviro() -> dict:
-    return get_data_for('{}/now'.format(config_service.load_cfg()["urls"]['enviro']))
+    return get_data_for('{}/now'.format(config.load_cfg()["urls"]['enviro']))
 
 
 def get_yesterday_report_for_denva() -> dict:
-    return get_data_for('{}/report/yesterday'.format(config_service.load_cfg()["urls"]['denva']), REPORT_TIMEOUT)
+    return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"]['denva']), REPORT_TIMEOUT)
 
 
 def get_yesterday_report_for_enviro() -> dict:
-    return get_data_for('{}/report/yesterday'.format(config_service.load_cfg()["urls"]['enviro']), REPORT_TIMEOUT)
+    return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"]['enviro']), REPORT_TIMEOUT)
 
 
 def get_current_log_counts() -> dict:
     return {
         'app': {
-            'denva': get_data_for('{}/log/count/app'.format(config_service.load_cfg()["urls"]['denva'])),
-            'enviro': get_data_for('{}/log/count/app'.format(config_service.load_cfg()["urls"]['enviro'])),
-            'delight': get_data_for('{}/log/count/app'.format(config_service.load_cfg()["urls"]['delight']))
+            'denva': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['denva'])),
+            'enviro': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['enviro'])),
+            'delight': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['delight']))
         },
         'ui': {
-            'denva': get_data_for('{}/log/count/ui'.format(config_service.load_cfg()["urls"]['denva'])),
-            'enviro': get_data_for('{}/log/count/ui'.format(config_service.load_cfg()["urls"]['enviro'])),
-            'delight': get_data_for('{}/log/count/ui'.format(config_service.load_cfg()["urls"]['delight']))
+            'denva': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['denva'])),
+            'enviro': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['enviro'])),
+            'delight': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['delight']))
         }
     }
 
@@ -58,13 +58,13 @@ def get_current_log_counts() -> dict:
 def get_current_logs_for_all_services() -> dict:
     return {
         'app': {
-            'denva': get_data_for('{}/log/app/recent'.format(config_service.load_cfg()["urls"]['denva'])),
-            'enviro': get_data_for('{}/log/app/recent'.format(config_service.load_cfg()["urls"]['enviro'])),
-            'delight': get_data_for('{}/log/app/recent'.format(config_service.load_cfg()["urls"]['delight']))
+            'denva': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['denva'])),
+            'enviro': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['enviro'])),
+            'delight': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['delight']))
         },
         'hc': {
-            'denva': get_data_for('{}/log/hc/recent'.format(config_service.load_cfg()["urls"]['denva'])),
-            'enviro': get_data_for('{}/log/hc/recent'.format(config_service.load_cfg()["urls"]['enviro']))
+            'denva': get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"]['denva'])),
+            'enviro': get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"]['enviro']))
         }
     }
 
@@ -81,8 +81,8 @@ def get_data_for(url: str, timeout: int = 3):  # ->list or dict
 
 def get_current_warnings_for_all_services() -> dict:
     return {
-        'denva': get_data_for(config_service.get_current_warnings_url_for('denva')),
-        'enviro': get_data_for(config_service.get_current_warnings_url_for('enviro')),
+        'denva': get_data_for(config.get_current_warnings_url_for('denva')),
+        'enviro': get_data_for(config.get_current_warnings_url_for('enviro')),
         'delight': system_data_service.get_system_warnings(),
         'server': system_data_service.get_system_warnings()
     }
@@ -97,22 +97,22 @@ def get_all_healthcheck_from_all_services() -> dict:
 
 
 def _get_hc_result(service: str):
-    hc_result = get_data_for('{}/hc'.format(config_service.load_cfg()["urls"][service]))
+    hc_result = get_data_for('{}/hc'.format(config.load_cfg()["urls"][service]))
     if 'error' in hc_result:
         return 'DOWN'
     return 'UP'
 
 
 def get_current_reading_for_aircraft():
-    return get_data_for('{}/flights/today'.format(config_service.load_cfg()["urls"]['delight']))
+    return get_data_for('{}/flights/today'.format(config.load_cfg()["urls"]['delight']))
 
 
 def get_yesterday_report_for_aircraft():
-    return get_data_for('{}/flights/yesterday'.format(config_service.load_cfg()["urls"]['delight']))
+    return get_data_for('{}/flights/yesterday'.format(config.load_cfg()["urls"]['delight']))
 
 
 def post_healthcheck_beat(device: str, app_type: str):
-    url = config_service.get_system_hc_url()
+    url = config.get_system_hc_url()
     json_data = {'device': device, 'app_type': app_type}
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
@@ -124,7 +124,7 @@ def post_healthcheck_beat(device: str, app_type: str):
 
 
 def post_healthcheck_reboot(device: str, app_type: str):
-    url = config_service.get_system_hc_reboot_url()
+    url = config.get_system_hc_reboot_url()
     json_data = {'device': device, 'app_type': app_type}
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
@@ -138,7 +138,7 @@ def post_healthcheck_reboot(device: str, app_type: str):
 
 
 def post_metrics_update(metrics: str, result: str):
-    url = config_service.get_metrics_service_url()
+    url = config.get_metrics_service_url()
     json_data = {'metrics': metrics, 'result': result}
     try:
         with requests.post(url, json=json_data, timeout=1, headers=HEADERS) as response:
@@ -156,7 +156,7 @@ def post_service_of(device: str, app_type: str, status: bool):
 
 
 def post_device_on_off(device: str, state: bool):
-    url = config_service.get_service_on_off_url()
+    url = config.get_service_on_off_url()
     json_data = {'device': device, 'state': bool}
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
