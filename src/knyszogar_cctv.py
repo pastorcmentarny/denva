@@ -18,6 +18,7 @@ from datetime import datetime, date
 from pathlib import Path
 
 import dom_utils
+from gateways import local_data_gateway
 
 DEFAULT_TIMEOUT = 5
 
@@ -35,7 +36,7 @@ def capture_picture() -> str:
         start_time = time.perf_counter()
 
         date_as_folders = dom_utils.get_date_as_folders_linux()
-        path = Path("{}/{}".format("/home/pi/storage/cctv", date_as_folders))
+        path = Path("{}/{}".format("/home/pi/knyszogardata/cctv", date_as_folders))
         if not path.exists():
             logger.warning(f'Path does not exists. Creating path {path}')
             Path(path).mkdir(parents=True, exist_ok=True)
@@ -53,6 +54,7 @@ def capture_picture() -> str:
                 logger.debug(output_data)
                 print(error_output_data)
                 logger.error(error_output_data)
+                local_data_gateway.post_healthcheck_beat('knyszogar', 'cctv')
             except Exception as exception:
                 logger.error(f'unable to do picture due to {exception}')
                 p1.kill()
