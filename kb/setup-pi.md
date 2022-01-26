@@ -16,19 +16,19 @@ static routers=192.168.0.1
 static domain_name_servers=192.168.0.1
 ```
 
-## Access Pi data via Windows
+## Access Pi via Windows
 1```sudo apt-get install samba```
 2```sudo nano /etc/samba/smb.conf```
-3Add this:
-```
-[home]
-path = /home/pi
-guest ok = yes
-read only = no
-```
+3 Add this:
+   ```
+   [home]
+   path = /home/pi
+   guest ok = yes
+   read only = no
+   ```
 4. make home directory writeable to all: ```sudo chmod a+w /home/pi/```
 
-## Reduce rite/read of SD card to prevent data corruption and life span of SD card
+## Reduce write/read of SD card to prevent data corruption and life span of SD card
 
 ```bash
 sudo dphys-swapfile swapoff && \
@@ -71,39 +71,40 @@ to use ntfs partition
 
 
 ## Setup ssd storage
-1. ``sudo lsblk -o UUID,NAME,FSTYPE,SIZE,MOUNTPOINT,LABEL,MODEL`` - check is ssd is there
-2. ``mkdir storage`` 
-3. ``sudo mount /dev/sda1 /home/pi/storage``
-4. ``sudo chmod 777 /home/pi/storage/`` 
-5. ``sudo nano /etc/fstab``
+1. `sudo lsblk -o UUID,NAME,FSTYPE,SIZE,MOUNTPOINT,LABEL,MODEL` - check is ssd is there 
+2. `mkdir storage` 
+3. `sudo mount /dev/sdb1 /home/pi/storage -t exfat -o uid=pi,gid=pi`
+4. `sudo chmod 777 /home/pi/storage/` 
+5. `sudo nano /etc/fstab``
    1.add ``/dev/sda1             /home/pi/storage  exFAT defaults  0       0``
+   
 
-
-# set device for mote lighting
+   
+## Set device for mote lighting
 sudo chmod 666 /dev/ttyACM0  
 
-# SETUP CRONTAB
+## SETUP CRONTAB
 sudo crontab -e03 13 * * * /sbin/shutdown -r now
 
 
-# Update Pi
+## Update Pi
 
 0. `sudo apt update`
 1. `sudo apt full-upgrade`
 2. `sudo apt clean`
 3. `sudo apt autoremove`
 4. `sudo reboot`
-5.  `pip install --upgrade pip'`
+5. `pip install --upgrade pip'`
 
 
-# update eeprom
+## Update eeprom
 
 sudo rpi-eeprom-update
 sudo rpi-eeprom-update -a
 sudo reboot
 
 
-# install java17 
+## Install java17 
 
 sudo apt install zip
 curl -s "https://get.sdkman.io" | bash
