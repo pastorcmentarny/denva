@@ -167,5 +167,21 @@ def post_device_on_off(device: str, state: bool):
             'There was a problem: {} using url {}, device {} and state {}'.format(whoops, url, device, state))
 
 
+def post_device_status(device: str, device_status: str):
+    url = config.get_update_device_status_url()
+    json_data = {'device': device, 'status': device_status}
+    try:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            logger.info(json_data)
+            logger.info(response.json())
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem: {} using url {}, device {} and state {}'.format(whoops, url, device, device_status))
+
+
 if __name__ == '__main__':
     post_healthcheck_beat('denva', 'app')
+
+

@@ -277,3 +277,7 @@ def is_radar_on():
 
 def get_overseer_mode_file_path():
     return settings["paths"]["overseer_mode"]
+
+
+def get_update_device_status_url() -> str:
+    return f'{SERVER_IP}:5000/device/status/update'
