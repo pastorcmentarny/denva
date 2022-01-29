@@ -12,29 +12,35 @@
 
 
 class Status:
-    OK = 2
-    WARN = 1
+    OK = 3
+    WARN = 2
+    DANGER = 1
     ERROR = 0
 
     state = OK
 
-    def __init__(self, state: int = 2):
+    def __init__(self, state: int = 3):
         self.state = state
 
     def set_warn(self):
-        if self.state == 2:
-            self.state = 1
+        if self.state == 3:
+            self.state = 2
+
+    def set_danger(self):
+        self.state = 1
 
     def set_error(self):
         self.state = 0
 
     def get_status_as_light_colour(self):
-        if self.state == 2:
-            return 'GREEN'
+        if self.state == 3:
+            return 'OK'
+        elif self.state == 2:
+            return 'CAUTION'
         elif self.state == 1:
-            return 'ORANGE'
+            return 'DANGER'
         elif self.state == 0:
-            return 'RED'
+            return 'ERROR'
         else:
             print('UNKNOWN STATE {}'.format(self.state))
             return 'UNKNOWN'
