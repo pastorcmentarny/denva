@@ -9,7 +9,6 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import json
 import logging
 import sys
 import time
@@ -20,9 +19,10 @@ import requests
 
 import config
 import dom_utils
-from common import status
+from common import status, data_files
 from gateways import local_data_gateway
 from systemhc import system_health_check_service
+
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
@@ -34,7 +34,7 @@ DOWN = 'DOWN'
 logger = logging.getLogger('hc')
 HOSTNAME = config.SERVER_IP
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
+    "User-Agent": USER_AGENT}
 
 
 def check_pages(headers, ok, pages, problems):
@@ -202,14 +202,14 @@ def network_check() -> dict:
     start_time = timer()
 
     ok = check_pages(headers, ok, pages, problems)
-    status = _get_network_status(ok)
+    network_status = _get_network_status(ok)
 
     end_time = timer()
     total_time = end_time - start_time
-    log_result(problems, status, total_time)
+    log_result(problems, network_status, total_time)
     result = "{} of {} pages were loaded successfully.".format(ok, len(pages))
 
-    logger.info(f'Status:{status}. {result}')
+    logger.info(f'Status:{network_status}. {result}')
     problems_count = len(problems)
     if problems_count > 0:
         if problems_count == 1:
@@ -218,19 +218,19 @@ def network_check() -> dict:
             logger.warning(f'There were {problems_count} problems. Problems: {problems}')
 
     return {
-        'status': status,
+        'status': network_status,
         'result': result,
         'problems': problems
     }
 
 
-def log_result(problems, status, total_time):
-    if status == POOR:
+def log_result(problems, status_result, total_time):
+    if status_result == POOR:
         logger.warning(
             'It looks like there is some problem with network as some pages failed to load due to: {}'.format(problems))
-    if status == DOWN:
+    if status_result == DOWN:
         logger.error('Network is DOWN! All services failed due to: {}'.format(problems))
-    if status == PERFECT or status == GOOD:
+    if status_result == PERFECT or status_result == GOOD:
         logger.debug('Network seems to be fine. I took {} ms to check.'.format(total_time))
 
 
@@ -247,12 +247,6 @@ def _get_network_status(ok: int) -> str:
         return DOWN + '!'
 
 
-# TODO re-use data files
-def save_dict_data_as_json(path: str, data: dict):
-    with open(path, "w+", encoding='utf-8') as path_file:
-        json.dump(data, path_file, ensure_ascii=False, indent=4)
-
-
 def app_loop():
     loop_counter = 10
     while True:
@@ -267,14 +261,14 @@ def app_loop():
             if loop_counter >= 10:
                 logger.info("Performing network check")
                 result = network_check()
-                save_dict_data_as_json("data/nhc.json", result)
+                data_files.save_dict_data_as_json("data/nhc.json", result)
                 loop_counter = 0
             loop_counter += 1
 
             # send info to knyszogar that am up and running
             dom_utils.post_healthcheck_beat('knyszogar', 'hc')
-        except BaseException as exception:
-            logger.error(f'There is a problem with healthcheck: {exception}')
+        except BaseException as base_exception:
+            logger.error(f'There is a problem with healthcheck: {base_exception}')
 
         # wait until next check
         time.sleep(30)
@@ -287,6 +281,7 @@ if __name__ == '__main__':
     print(welcome_msg)
     logger.info(welcome_msg)
     try:
+        local_data_gateway.post_device_on_off('hc', True)
         app_loop()
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
@@ -305,3 +300,4 @@ if __name__ == '__main__':
         logger.fatal(msg, exc_info=True)
         # TODO add send email: email_sender_service.send_error_log_email(APP_NAME,'{} crashes due to {}'.format(APP_NAME, exception))
         # TODO post status to ERROR
+    local_data_gateway.post_device_on_off('hc', False)

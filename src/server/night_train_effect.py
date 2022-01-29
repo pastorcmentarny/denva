@@ -186,11 +186,12 @@ def animate_background_for(times):
 
 
 def run_night_train():
-    display.unicornhathd.brightness(0.4)
+    display.unicornhathd.brightness(0.2)
     draw_background()
     draw_light(255, 0)
     display.unicornhathd.show()
     animate_background_for(50)
+    display.unicornhathd.brightness(0.1)
 
     draw_light(224, 64)
     display.unicornhathd.show()
