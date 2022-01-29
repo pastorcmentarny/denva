@@ -9,16 +9,23 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import datetime
 import logging
 import sys
-import time
 import traceback
 
-from flask import Flask, jsonify, request, render_template, url_for
+from flask import Flask, jsonify, url_for, send_file, request, render_template
 
+import config
 import dom_utils
-from server import healthcheck_service, app_server_service
-from services import metrics_service
+from gateways import web_data_gateway
+from reports import report_service
+from server import app_server_service
+from server import delight_service
+from server import healthcheck_service
+from services import common_service
+from services import information_service, tubes_train_service, system_data_service, text_service, \
+    metrics_service
 
 app = Flask(__name__)
 logger = logging.getLogger('www')
@@ -44,8 +51,15 @@ def healthcheck():
 
 @app.route("/shc/update", methods=['POST'])
 def update_system_healthcheck_for():
-    logger.info('updating device status to {}'.format(request.get_json(force=True)))
+    logger.info('updating device application status to {}'.format(request.get_json(force=True)))
     healthcheck_service.update_for(request.get_json(force=True))
+    return jsonify({})
+
+
+@app.route("/device/status/update", methods=['POST'])
+def update_device_status_for():
+    logger.info('Updating device status to {}'.format(request.get_json(force=True)))
+    healthcheck_service.update_device_status_for(request.get_json(force=True))
     return jsonify({})
 
 
@@ -59,9 +73,161 @@ def personal_rules():
     return render_template('focus.html')
 
 
+# TODO do I need it?
+@app.route('/denva', methods=['POST'])
+def store_denva_measurement():
+    logging.info('Processing denva measurement request with json: {}'.format(request.get_json()))
+    return jsonify(success=True)
+
+
+# TODO do I need it?
+@app.route('/enviro', methods=['POST'])
+def store_enviro_measurement():
+    logging.info('Processing enviro measurement request with json: {}'.format(request.get_json()))
+    return jsonify(success=True)
+
+
+@app.route('/stop-all')
+def stop_all_devices():
+    logging.info('Stopping all PI devices.')
+    return jsonify(app_server_service.stop_all_devices(config.load_cfg()))
+
+
+@app.route('/reboot-all')
+def reboot_all_devices():
+    logging.info('Rebooting all PI devices.')
+    return jsonify(app_server_service.reboot_all_devices(config.load_cfg()))
+
+
+@app.route("/focus")
+def focus():
+    return render_template('focus.html', message={})
+
+
+@app.route("/frame")
+def frame():
+    logger.info('Requesting random picture')
+    filename = app_server_service.get_random_frame(config.load_cfg())
+    logger.info('Displaying {}'.format(filename))
+    return send_file(filename, mimetype='image/jpeg')
+
+
+@app.route("/gc")
+def gc():
+    logger.info('Running GC..')
+    return jsonify(app_server_service.run_gc())
+
+
+@app.route("/log/app")
+def log_app():
+    logger.info('Getting application logs')
+    return jsonify(app_server_service.get_last_logs_for('logs.log', 300))
+
+
+@app.route("/log/app/recent")
+def recent_log_app():
+    logger.info('Getting recent application logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('logs.log', 20))
+
+
+@app.route("/log/hc")
+def log_hc():
+    logger.info('Getting healthcheck logs')
+    return jsonify(app_server_service.get_last_logs_for('healthcheck.log', 300))
+
+
+@app.route("/log/hc/recent")
+def recent_log_hc():
+    logger.info('Getting recent healthcheck logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('healthcheck.log', 20))
+
+
+@app.route("/log/count/app")
+def log_count_app():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_for('app'))
+
+
+@app.route("/log/count/ui")
+def log_count_ui():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_for('ui'))
+
+
+@app.route("/log/ui")
+def log_ui():
+    logger.info('Getting server ui logs')
+    return jsonify(app_server_service.get_last_logs_for('server.log', 300))
+
+
+@app.route("/log/ui/recent")
+def recent_log_ui():
+    logger.info('Getting recent server ui logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('server.log', 20))
+
+
+@app.route("/metrics/get")
+def get_metrics():
+    logger.info('getting current metrics')
+    return jsonify(metrics_service.get_currents_metrics())
+
+
+@app.route("/report/yesterday")
+def last_report_from_denva_and_enviro():
+    return jsonify(report_service.get_yesterday_report_from_server())
+
+
+@app.route("/report/diff")
+def report_comparison_for_last_two_days():
+    return jsonify(report_service.get_last_two_days_report_difference())
+
+
+@app.route("/ricky")
+def ricky():
+    return jsonify(information_service.get_data_about_rickmansworth())
+
+
+@app.route("/system")
+def system():
+    logger.info('Getting information about system')
+    return jsonify(system_data_service.get_system_information())
+
+
+@app.route("/text")
+def get_text():
+    return text_service.get_text_to_display()
+
+
+@app.route("/tt")
+def tube_trains_status():
+    tt_statuses = {
+        "Train & Trains": web_data_gateway.get_status()
+    }
+    return jsonify(tt_statuses)
+
+
+@app.route("/tt/delays")
+def tt_delays_counter():
+    return jsonify(tubes_train_service.count_tube_problems_today())
+
+
+@app.route("/status")
+def status():
+    start = datetime.datetime.now()
+
+    device_status_data = app_server_service.get_device_status(config.load_cfg())
+
+    stop = datetime.datetime.now()
+
+    delta = stop - start
+    time = int(delta.total_seconds() * 1000)
+    logger.info(f'It took {time} ms to collect all data for device status.')
+    return render_template('status.html', message=device_status_data)
+
+
 @app.route("/hq")
 def hq():
-    start = time.perf_counter()
+    start = datetime.datetime.now()
 
     host = request.host_url[:-1]
     page_tube_trains = host + str(url_for('tube_trains_status'))
@@ -77,12 +243,54 @@ def hq():
     all_data = dict(data)
     all_data.update(extra_data)
 
-    stop = time.perf_counter()
+    stop = datetime.datetime.now()
 
     delta = stop - start
-    total_time = delta / 1000
-    logger.info(f'It took {total_time} ms.')
+    time = int(delta.total_seconds() * 1000)
+    logger.info(f'It took {time} ms.')
     return render_template('hq.html', message=all_data)
+
+
+@app.route("/flights/today")
+def flights_today():
+    logger.info('Getting flights detected today')
+    return jsonify(delight_service.get_flights_for_today())
+
+
+@app.route("/flights/yesterday")
+def flights_yesterday():
+    logger.info('Getting flights detected yesterday')
+    return jsonify(delight_service.get_flights_for_yesterday())
+
+
+@app.route("/halt")
+def halt():
+    logger.info('Stopping Denviro Pi')
+    return jsonify(common_service.stop_device(APP_NAME))
+
+
+@app.route("/shc/get")
+def get_system_healthcheck_for():
+    logger.info('updating healthcheck')
+    return jsonify(delight_service.get_system_hc())
+
+
+@app.route("/reboot")
+def reboot():
+    logger.info('Reboot Delight UI')
+    return jsonify(common_service.reboot_device())
+
+
+@app.route("/")
+def get_measurement():
+    return jsonify(delight_service.get_flights_for_today())
+
+
+# TODO improve it
+@app.route("/test")
+def get_ping_test():
+    logger.info("Running ping test")
+    return jsonify(delight_service.get_ping_test_results())
 
 
 if __name__ == '__main__':
