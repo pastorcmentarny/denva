@@ -29,9 +29,11 @@ WARN = 'WARN'
 UP = 'UP'
 OK = 'OK'
 ERROR = 'ERROR'
+DANGER = 'DANGER'
 UNKNOWN = 'UNKNOWN'
 
 
+# TODO ERROR SHOULD BE DANGER
 def get_state_colour_for_hc(current_state: str):
     if current_state == OK:
         color_red = 0
@@ -42,6 +44,10 @@ def get_state_colour_for_hc(current_state: str):
         color_green = 255
         color_blue = 0
     elif current_state == ERROR:
+        color_red = 255
+        color_green = 0
+        color_blue = 0
+    elif current_state == DANGER:
         color_red = 255
         color_green = 0
         color_blue = 0
@@ -194,7 +200,10 @@ def draw_network_health_check():
 
 def draw_enviro_status():
     # DEVICE
-    r, g, b = get_state_colour_for_hc(UNKNOWN)
+    status = healthcheck_service.get_device_status_for('denviro', 'device')
+    logger.info(f'enviro device status: {status}')
+    print(f'enviro device status: {status}')
+    r, g, b = get_state_colour_for_hc(status)
     display.unicornhathd.set_pixel(11, 1, r, g, b)
     display.unicornhathd.set_pixel(11, 2, r, g, b)
 
@@ -215,8 +224,11 @@ def draw_enviro_status():
 
 # DATA NEED BE SEND APP AND UI
 def draw_denva_status():
-    r, g, b = get_state_colour_for_hc("OFF")
+
     # DEVICE
+    status = healthcheck_service.get_device_status_for('denva', 'device')
+    print(f'denva device status: {status}')
+    r, g, b = get_state_colour_for_hc(status)
     display.unicornhathd.set_pixel(13, 1, r, g, b)
     display.unicornhathd.set_pixel(13, 2, r, g, b)
 
@@ -385,7 +397,21 @@ def loop():
                 display.reset_screen()
 
 
+def startup():
+    brightness_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+    colour_list = [[185, 185, 185], [0, 0, 185], [128, 28, 200], [0, 185, 0], [255, 255, 255], [185, 0, 0],
+                   [185, 153, 26], [185, 80, 0]]
+    random.shuffle(colour_list)
+    for count in range(0, 8):
+        display.unicornhathd.brightness(brightness_list[count])
+        display.set_all_pixel_to(colour_list[count][0], colour_list[count][1], colour_list[count][2])
+        display.unicornhathd.show()
+        time.sleep(0.5)
+    display.reset_screen()
+    display.unicornhathd.brightness(0.1)
+
 
 if __name__ == '__main__':
+    startup()
     dom_utils.setup_test_logging('display')
     loop()
