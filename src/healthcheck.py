@@ -116,7 +116,7 @@ def send_email_on_fail(problem: str):
 
 if __name__ == '__main__':
     try:
-        config_service.set_mode_to('hc')
+        config.set_mode_to('hc')
         data_files.setup_logging('hc')
         healthcheck_test_runner()
     except KeyboardInterrupt as keyboard_exception:

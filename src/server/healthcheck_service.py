@@ -33,7 +33,8 @@ def __load() -> dict:
         return load_json_data_as_dict_from(healthcheck_path)
     except Exception as exception:
         logger.error(
-            'Unable to load file with system healthcheck as due to {} using path {}'.format(exception, healthcheck_path),
+            'Unable to load file with system healthcheck as due to {} using path {}'.format(exception,
+                                                                                            healthcheck_path),
             exc_info=True)
 
 
@@ -44,6 +45,18 @@ def update_for(who: dict):
         now = datetime.now()
         data[who['device']][who['app_type']] = str(
             '{}{:02d}{:02d}{:02d}{:02d}{:02d}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+        __save(data)
+    except Exception as exception:
+        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
+
+# TODO validate it
+def update_device_status_for(who: dict):
+    logger.debug(f'Request to update status for : {who}')
+    try:
+        data = __load()
+        logger.debug(data)
+        data[who['device']]['device'] = who['status']
+        logger.debug(f'device status: {data[who["device"]]["device"]}')
         __save(data)
     except Exception as exception:
         logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
@@ -83,6 +96,15 @@ def is_up(device: str, app_type: str) -> str:
                                      __to_int(previous[12:14]))
 
         return __get_status(previous_datetime)
+    except Exception as exception:
+        logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
+        return "UNKNOWN"
+
+
+def get_device_status_for(device: str, app_type: str):
+    try:
+        system = __load()
+        return system[device][app_type]
     except Exception as exception:
         logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
         return "UNKNOWN"
