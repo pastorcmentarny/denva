@@ -50,6 +50,7 @@ def should_send_email():
 def main():
     global report_generation_cooldown
     counter = 0
+    local_data_gateway.post_device_on_off('app', True)
     while True:
         logger.debug(f'Loop no. {counter}')
         print('Do nothing application is working..')
