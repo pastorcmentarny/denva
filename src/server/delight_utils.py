@@ -9,7 +9,6 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import random
 
 
 def get_state_colour(current_state):
@@ -64,5 +63,3 @@ def get_state_colour_for_hc(current_state: str):
     return color_red, color_green, color_blue
 
 
-def get_random_pixel_location_at_night(x: int):
-    return x + random.randint(0, 2)
