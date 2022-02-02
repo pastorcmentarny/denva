@@ -157,7 +157,7 @@ def post_service_of(device: str, app_type: str, status: bool):
 
 def post_device_on_off(device: str, state: bool):
     url = config.get_service_on_off_url()
-    json_data = {'device': device, 'state': bool}
+    json_data = {'device': device, 'state': state}
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
             response.json()
