@@ -14,8 +14,8 @@ import logging
 from datetime import datetime
 
 import config
-from common import app_timer, data_files
 import dom_utils
+from common import app_timer, data_files
 
 logger = logging.getLogger('app')
 
@@ -27,6 +27,38 @@ def save(data: dict):
         logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
 
 
+hc_fix = {
+    "denva": {
+        "app": "20200202121212",
+        "ui": "20200202121212",
+        "device": "DANGER"
+    },
+    "denviro": {
+        "app": "20200202121212",
+        "ui": "20200202121212",
+        "device": "DANGER"
+    },
+    "delight": {
+        "app": "20200202121212",
+        "ui": "20200202121212",
+        "device": "DANGER"
+    },
+    "server": {
+        "app": "20200202121212",
+        "ui": "20200202121212",
+        "device": "DANGER"
+    },
+    "knyszogar": {
+        "cctv": "20200202121212",
+        "hc": "20200202121212",
+        "radar": "20200202121212",
+        "digest": "20200202121212",
+        "app": "20200202121212",
+        "email": "20200202121212"
+    }
+}
+
+
 def load() -> dict:
     system_hc_path = config.get_system_hc()
     try:
@@ -35,6 +67,8 @@ def load() -> dict:
         logger.error(
             'Unable to load file with system healthcheck as due to {} using path {}'.format(exception, system_hc_path),
             exc_info=True)
+        logger.info('Recreating healthcheck data')
+        return hc_fix.copy()
 
 
 def update_hc_for(device: str, app_type: str):
