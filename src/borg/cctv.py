@@ -14,13 +14,15 @@ import logging
 import os
 import subprocess
 import time
-from datetime import datetime, date
+from datetime import date
+from datetime import datetime
 from pathlib import Path
 
-import dom_utils
-from gateways import local_data_gateway
+import requests
 
 DEFAULT_TIMEOUT = 5
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
 
 logger = logging.getLogger('app')
 step = 0.1
@@ -31,12 +33,19 @@ def get_date_with_time_as_filename(name: str, file_type: str, dt: datetime) -> s
     return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}-{dt.hour:02d}{dt.minute:02d}{dt.second:02d}.{file_type}"
 
 
+def get_date_as_folder():
+    today = date.today()
+    year = today.year
+    month = today.month
+    day = today.day
+    return "{}/{:02d}/{:02d}/".format(year, month, day)
+
+
 def capture_picture() -> str:
     try:
         start_time = time.perf_counter()
-
-        date_as_folders = dom_utils.get_date_as_folders_linux()
-        path = Path("{}/{}".format("/home/pi/knyszogardata/cctv", date_as_folders))
+        date_as_folders = get_date_as_folder()
+        path = Path("{}/{}".format("/home/dom/data/cctv", date_as_folders))
         if not path.exists():
             logger.warning(f'Path does not exists. Creating path {path}')
             Path(path).mkdir(parents=True, exist_ok=True)
@@ -47,14 +56,15 @@ def capture_picture() -> str:
         # do picture using fswebcam
         try:
             p1 = subprocess.check_output(['fswebcam', '-r', resolution, '-S', '3', '--jpeg', '85,--save', photo_path],
-                                         stderr=subprocess.PIPE, encoding='utf-8')
+                                         stderr=subprocess.PIPE, encoding='utf-8', bufsize=0)
             try:
                 output_data, error_output_data = p1.communicate(
                     timeout=1)  # will raise error and kill any process that runs longer than 60 seconds
                 logger.debug(output_data)
-                print(error_output_data)
+                print(output_data)
                 logger.error(error_output_data)
-                local_data_gateway.post_healthcheck_beat('knyszogar', 'cctv')
+                print(error_output_data)
+                post_healthcheck_beat('knyszogar', 'cctv')
             except Exception as exception:
                 logger.error(f'unable to do picture due to {exception}')
                 p1.kill()
@@ -64,6 +74,8 @@ def capture_picture() -> str:
             while not os.path.exists(photo_path):
                 time.sleep(step)
             logger.info('picture saved at {}'.format(photo_path))
+        except subprocess.CalledProcessError as calledProcessError:
+            logger.error(f"Subprocess throws error:{calledProcessError}")
         except Exception as exception:
             logger.error(f'Unable to do picture due to :{exception}')
 
@@ -75,7 +87,7 @@ def capture_picture() -> str:
         return str(photo_path)
     except Exception as exception:
         logger.warning('Unable to capture picture due to {}'.format(exception), exc_info=True)
-        # TODO email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(e))
+        # TODO email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(calledProcessError))
     return ""
 
 
@@ -85,10 +97,31 @@ def app_loop():
         logger.info(f"Capturing picture no. {counter}")
         capture_picture()
         counter += 1
-        dom_utils.post_healthcheck_beat('knyszogar', 'cctv')
+        post_healthcheck_beat('knyszogar', 'cctv')
         time.sleep(2.5)
 
 
+def post_healthcheck_beat(device: str, app_type: str):
+    url = "http://192.168.0.200:5000/shc/update"
+    json_data = {'device': device, 'app_type': app_type}
+    try:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
+
+
+def setup_test_logging(app_name: str):
+    logging_level = logging.DEBUG
+    logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
+    logging_filename = f'/home/dom/data/logs/{app_name}-{date.today()}.txt'
+    logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
+    logging.captureWarnings(True)
+    logging.debug('logging setup complete')
+
+
 if __name__ == '__main__':
-    dom_utils.setup_test_logging('cctv')
+    setup_test_logging('cctv')
     app_loop()
