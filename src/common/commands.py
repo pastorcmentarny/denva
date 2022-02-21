@@ -38,7 +38,7 @@ def mount_all_drives(device: str = 'denva'):
         ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         logger.info(str(ps.communicate()[0]))
     except Exception as exception:
-        error_message = "Unable to mount drive due to {}".format(exception)        
+        error_message = "Unable to mount drive due to {}".format(exception)
         logger.warning(f'Something went badly wrong..{error_message}', exc_info=True)
 
 
@@ -66,7 +66,7 @@ def get_cpu_speed():
 
 
 def get_cpu_temp() -> str:
-    cmd = '/opt/vc/bin/vcgencmd measure_temp'
+    cmd = 'vcgencmd measure_temp'
     with subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as ps:
         output = ps.communicate()[0]
         try:
@@ -75,7 +75,7 @@ def get_cpu_temp() -> str:
             logger.warning('Process for get_cpu_speed() have NOT being assassinated due to :{}'.format(exception),
                            exc_info=True)
 
-        return str(output).strip().replace('temp=', '')
+        return output.decode("utf-8").strip().replace('temp=', '')
 
 
 def get_cpu_temp_as_number() -> float:
@@ -104,7 +104,7 @@ def get_uptime() -> str:
 def get_system_info() -> dict:
     return {
         'CPU Speed': get_cpu_speed(),
-        'CPU Temp': '{} °C'.format(get_cpu_temp_as_number()).encode('utf-8'),
+        'CPU Temp': get_cpu_temp(),
         'IP': get_ip(),
         'Uptime': get_uptime(),
         "Memory Available": '{} MB'.format(dom_utils.convert_bytes_to_megabytes(psutil.virtual_memory().available)),
@@ -121,10 +121,14 @@ def get_space_available():
 
 
 def get_data_space_available():
-    with subprocess.Popen("df /mnt/data -m --output=avail", stdout=subprocess.PIPE, shell=True) as p:
-        result, _ = p.communicate()
-        p.kill()
-        return re.sub('[^0-9.]', '', str(result).strip())
+    try:
+        with subprocess.Popen("df /mnt/data -m --output=avail", stdout=subprocess.PIPE, shell=True) as p:
+            result, _ = p.communicate()
+            p.kill()
+            return re.sub('[^0-9.]', '', str(result).strip())
+    except Exception as exception:
+        logger.debug(f'No data partion due to {exception}')
+        return 0
 
 
 def get_lines_from_path(path: str, lines: int) -> dict:
