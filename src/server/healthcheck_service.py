@@ -8,6 +8,36 @@ logger = logging.getLogger('app')
 
 healthcheck_path = '/home/pi/data/hc.json'
 
+default_hc = {
+    "denva": {
+        "app": "20201212201221",
+        "ui": "20201212201221",
+        "device": "DANGER"
+    },
+    "denviro": {
+        "app": "20201212201221",
+        "ui": "20201212201221",
+        "device": "DANGER"
+    },
+    "delight": {
+        "app": "20201212201221",
+        "ui": "20201212201221",
+        "device": "DANGER"
+    },
+    "server": {
+        "app": "20201212201221",
+        "ui": "20201212201221",
+        "device": "DANGER"
+    },
+    "knyszogar": {
+        "cctv": "20201212201221",
+        "hc": "20201212201221",
+        "radar": "20201212201221",
+        "digest": "20201212201221",
+        "app": "20201212201221",
+        "email": "20201212201221"
+    }
+}
 
 # TODO replace from data_file
 def save_dict_data_as_json(path: str, data: dict):
@@ -36,6 +66,7 @@ def __load() -> dict:
             'Unable to load file with system healthcheck as due to {} using path {}'.format(exception,
                                                                                             healthcheck_path),
             exc_info=True)
+    return default_hc.copy()
 
 
 def update_for(who: dict):
@@ -108,3 +139,16 @@ def get_device_status_for(device: str, app_type: str):
     except Exception as exception:
         logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
         return "UNKNOWN"
+
+
+def update_device_power_state_for(who):
+    logger.debug(f'Request to update power state for : {who}')
+    try:
+        data = __load()
+        logger.debug(data)
+        data[who['device']]['device'] = who['status']
+        logger.debug(f'device status: {data[who["device"]]["device"]}')
+        __save(data)
+    except Exception as exception:
+        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
+

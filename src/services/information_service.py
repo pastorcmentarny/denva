@@ -46,7 +46,7 @@ def is_rickmansworth_data_expired(date: str) -> bool:
 
 def get_data_about_rickmansworth() -> dict:
     logger.debug('Getting crime,floods,weather and o2 issues data about Rickmansworth')
-    ricky_file = config_service.get_data_path() + 'ricky.txt'
+    ricky_file = config.PI_DATA_PATH + 'ricky.txt'
     if not os.path.exists(ricky_file):
         logger.info('File not exists. Getting ricky data from the web')
         get_data_from_web()

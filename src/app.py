@@ -20,13 +20,14 @@ from timeit import default_timer as timer
 import smbus
 from PIL import ImageFont
 
-from common import data_files, commands
+import config
 import dom_utils
+from common import data_files, commands
 from denva import cl_display
+from emails import email_sender_service
 from gateways import local_data_gateway
 from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service, \
     led_matrix_service
-from email import email_sender_service
 
 bus = smbus.SMBus(1)
 
@@ -110,7 +111,7 @@ def main():
 
         remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 
-        if measurement_time > config_service.max_latency(fast=False):
+        if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
 
         if measurement_counter % 10 == 0:
@@ -128,7 +129,7 @@ def cleanup_before_exit():
 
 if __name__ == '__main__':
     global points
-    config_service.set_mode_to('denva')
+    config.set_mode_to('denva')
     data_files.setup_logging('app')
     logging.info('Starting application ... \n Press Ctrl+C to shutdown')
     email_sender_service.send_ip_email('denva')
@@ -156,3 +157,4 @@ if __name__ == '__main__':
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)
+        cleanup_before_exit()
