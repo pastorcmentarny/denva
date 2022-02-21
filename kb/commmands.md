@@ -1,9 +1,8 @@
 # List of useful commands
 
 `cat /etc/os-release` - display version of os
-`history > commands_history.txt` - save history of commands to file
 `pgrep -af python` - display all python processes running
-`vcgencmd get_camera` - to check if camera is suppoeted and detected
+`vcgencmd get_camera` - to check if camera is supported and detected
 `lsusb` - to see list of usb devices connected to Pi
 `v4l2-ctl --list-formats-ext` - check what resolution are supported
 `sudo chmod -R MODE DIRECTORY` - set permission for directory
