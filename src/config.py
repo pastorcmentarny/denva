@@ -49,15 +49,13 @@ settings = {
         "chinese-dictionary": f'{PI_DATA_PATH}dictionary.txt',
         "overseer_mode": f'{PI_HOME_DIR}overseer_mode.txt'
     },
-    "sensor": {
-        "cpu_temp_warn": 60,
-        "cpu_temp_error": 70,
-        "cpu_temp_fatal": 80
-    },
     "system": {
         "memory_available": 250 * 1024 * 1024,  # 250MB
         "free_space": 500,
-        "ip": "{SERVER_IP}:5000"
+        "ip": "{SERVER_IP}:5000",
+        "cpu_temp_warn": 60,
+        "cpu_temp_error": 70,
+        "cpu_temp_fatal": 80
     },
     "options": {
         "inChina": False
@@ -256,7 +254,7 @@ def max_latency(fast: bool = True):
 
 
 def get_system_hc() -> str:
-    return str(Path('{}/hc.json'.format(PI_DATA_PATH)))
+    return str(Path(f'{PI_DATA_PATH}/hc.json'))
 
 
 def get_default_brightness_for_delight_display():
@@ -281,3 +279,7 @@ def get_overseer_mode_file_path():
 
 def get_update_device_status_url() -> str:
     return f'{SERVER_IP}:5000/device/status/update'
+
+
+def get_path_to_text():
+    return f'{PI_DATA_PATH}text_to_display.txt'
