@@ -14,7 +14,7 @@ import logging
 import sys
 import traceback
 
-from flask import Flask, jsonify, url_for, send_file, request, render_template
+from flask import Flask, jsonify, url_for, request, render_template
 
 import config
 import dom_utils
@@ -24,12 +24,12 @@ from server import app_server_service
 from server import delight_service
 from server import healthcheck_service
 from services import common_service
-from services import information_service, tubes_train_service, system_data_service, text_service, \
+from services import information_service, tubes_train_service, text_service, \
     metrics_service
 
 app = Flask(__name__)
 logger = logging.getLogger('www')
-APP_NAME = 'Server UI'
+APP_NAME = 'Knyszogar Website'
 
 
 @app.route("/metrics/add", methods=['POST'])
@@ -41,18 +41,23 @@ def update_metrics_for():
     return jsonify({"status": "OK"})
 
 
-# TODO use commons
 @app.route("/hc")
 def healthcheck():
     logger.debug("Sending heathcheck")
-    return jsonify({"status": "UP",
-                    "app": APP_NAME})
+    return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
 @app.route("/shc/update", methods=['POST'])
 def update_system_healthcheck_for():
     logger.info('updating device application status to {}'.format(request.get_json(force=True)))
     healthcheck_service.update_for(request.get_json(force=True))
+    return jsonify({})
+
+
+@app.route("/shc/change", methods=['POST'])
+def update_device_to_on_off_for():
+    logger.info('Updating device power state to {}'.format(request.get_json(force=True)))
+    healthcheck_service.update_device_power_state_for(request.get_json(force=True))
     return jsonify({})
 
 
@@ -68,9 +73,9 @@ def yearly_goals():
     return render_template('40b440.html')
 
 
-@app.route('/focus')
-def personal_rules():
-    return render_template('focus.html')
+@app.route("/focus")
+def focus():
+    return render_template('focus.html', message={})
 
 
 # TODO do I need it?
@@ -97,19 +102,6 @@ def stop_all_devices():
 def reboot_all_devices():
     logging.info('Rebooting all PI devices.')
     return jsonify(app_server_service.reboot_all_devices(config.load_cfg()))
-
-
-@app.route("/focus")
-def focus():
-    return render_template('focus.html', message={})
-
-
-@app.route("/frame")
-def frame():
-    logger.info('Requesting random picture')
-    filename = app_server_service.get_random_frame(config.load_cfg())
-    logger.info('Displaying {}'.format(filename))
-    return send_file(filename, mimetype='image/jpeg')
 
 
 @app.route("/gc")
@@ -190,7 +182,8 @@ def ricky():
 @app.route("/system")
 def system():
     logger.info('Getting information about system')
-    return jsonify(system_data_service.get_system_information())
+    result = common_service.get_system_info()
+    return jsonify(result)
 
 
 @app.route("/text")
@@ -283,7 +276,7 @@ def reboot():
 
 @app.route("/")
 def get_measurement():
-    return jsonify(delight_service.get_flights_for_today())
+    return hq()
 
 
 # TODO improve it
