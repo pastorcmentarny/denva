@@ -1,4 +1,4 @@
-enviroplus==0.0.3
+enviroplus==0.0.6
 bme280==0.6
 pms5003==0.0.5
 veml6075==0.0.2
@@ -19,3 +19,4 @@ urllib3==1.26.6
 numpy==1.21.2
 mote==0.0.4
 pynput==1.7.3
+max30105==0.0.5

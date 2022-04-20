@@ -8,7 +8,6 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import platform
 from pathlib import Path
 
 import dom_utils
@@ -20,7 +19,7 @@ PI_CONFIG_PATH = f'{PI_HOME_DIR}configs/'
 PI_DATA_PATH = f'{PI_HOME_DIR}data/'
 PI_LOGS_PATH = f'{PI_HOME_DIR}logs/'
 PI_SENSORS_DATA_PATH = '/mnt/data/sensors/'
-
+PI_KNYSZOGAR_DATA = f'{PI_HOME_DIR}knyszogar/data/'
 settings = {
     "mode": 'dev',
     "sensors": {
@@ -39,7 +38,7 @@ settings = {
         "unicornhd": {
             "default_brightness": 0.3
         },
-        "radar": False
+        "radar": True
     },
     "paths": {
         "frame": f'{PI_HOME_DIR}/frame/',
@@ -47,7 +46,8 @@ settings = {
         "photosPath": "/mnt/data/photos/",  # TODO change it
         "events": f'{PI_HOME_DIR}events.json',
         "chinese-dictionary": f'{PI_DATA_PATH}dictionary.txt',
-        "overseer_mode": f'{PI_HOME_DIR}overseer_mode.txt'
+        "overseer_mode": f'{PI_HOME_DIR}overseer_mode.txt',
+        "text": f'{PI_DATA_PATH}text_to_display.txt'
     },
     "system": {
         "memory_available": 250 * 1024 * 1024,  # 250MB
@@ -88,7 +88,6 @@ settings = {
         'log_hc': f'{PI_LOGS_PATH}healthcheck.log',
         'log_ui': f'{PI_LOGS_PATH}server.log',
         'ddd': f'{PI_CONFIG_PATH}log_ddd_config.log',
-        'cctv': f'{PI_CONFIG_PATH}log_cctv_config.json',
         'overseer_mode': f'{PI_CONFIG_PATH}overseer_mode.json',
         'overseer': f'{PI_CONFIG_PATH}overseer.json',
     },
@@ -115,23 +114,16 @@ def get_environment_log_path_for(where: str) -> str:
         return settings['logs']['hc']
 
     if where == 'ddd':
-        if env_type == 'dev':
-            return settings['logs']['dev_' + where]
-        else:
-            return settings['logs']['dev_' + where]
+        return settings['logs']['dev_' + where]
 
     if env_type == 'dev':
         return settings['logs']['dev_' + where]
-    if env_type == 'server':
-        return settings['logs']['server_' + where]
+
     return settings['logs']['{}_{}'.format(env_type, where)]
 
 
 def get_information_path() -> str:
-    if settings["mode"] == 'dev':
-        return settings['informationData']['dev']
-    else:
-        return settings['informationData']['server']
+    return settings['informationData']
 
 
 def load_cfg() -> dict:
@@ -154,8 +146,7 @@ def get_options() -> dict:
 
 
 def get_path_for_personal_events() -> str:
-    mode = settings['mode']
-    return settings['paths']['events'][mode]
+    return settings['paths']['events']
 
 
 def get_path_for_cctv_backup() -> list:
@@ -168,21 +159,15 @@ def get_path_for_backup() -> str:
 
 
 def get_path_to_chinese_dictionary() -> str:
-    if settings["mode"] == 'dev':
-        return settings['paths']['chinese-dictionary']['dev']
-    else:
-        return settings['paths']['chinese-dictionary']['server']
+    return settings['paths']['chinese-dictionary']
 
 
 def get_irregular_verbs_path() -> str:
-    mode = settings['mode']
-    return settings['paths']['base'][mode] + 'data/irregular_verbs.txt'
+    return f'{PI_KNYSZOGAR_DATA}irregular_verbs.txt'
 
 
 def set_mode_to(mode: str):
     settings['mode'] = mode
-    if platform.node() in ['DomL5', 'DomAsusG', 'DOM-DESKTOP']:
-        settings['mode'] = 'dev'
     print('The mode is set to {}'.format(settings['mode']))
 
 
@@ -228,15 +213,15 @@ def get_radar_hc_url() -> str:
 
 
 def get_system_hc_url() -> str:
-    return settings["urls"]["delight"] + "/shc/update"
+    return settings["urls"]["server"] + "/shc/update"
 
 
 def get_system_hc_reboot_url() -> str:
-    return settings["urls"]["delight"] + "/shc/reboot"
+    return settings["urls"]["server"] + "/shc/reboot"
 
 
 def get_service_on_off_url() -> str:
-    return settings["urls"]["delight"] + "/shc/change"
+    return settings["urls"]["server"] + "/shc/change"
 
 
 def get_directory_path_for_aircraft() -> str:
@@ -282,4 +267,4 @@ def get_update_device_status_url() -> str:
 
 
 def get_path_to_text():
-    return f'{PI_DATA_PATH}text_to_display.txt'
+    return settings["paths"]["text"]

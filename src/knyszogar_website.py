@@ -19,7 +19,6 @@ from flask import Flask, jsonify, url_for, request, render_template
 import config
 import dom_utils
 from gateways import web_data_gateway
-from reports import report_service
 from server import app_server_service
 from server import delight_service
 from server import healthcheck_service
@@ -29,6 +28,7 @@ from services import information_service, tubes_train_service, text_service, \
 
 app = Flask(__name__)
 logger = logging.getLogger('www')
+dom_utils.setup_test_logging('website')
 APP_NAME = 'Knyszogar Website'
 
 
@@ -113,65 +113,97 @@ def gc():
 @app.route("/log/app")
 def log_app():
     logger.info('Getting application logs')
-    return jsonify(app_server_service.get_last_logs_for('logs.log', 300))
+    return jsonify(app_server_service.get_last_logs_for('app', 300))
 
 
 @app.route("/log/app/recent")
 def recent_log_app():
     logger.info('Getting recent application logs for sending as email')
-    return jsonify(app_server_service.get_last_logs_for('logs.log', 20))
-
-
-@app.route("/log/hc")
-def log_hc():
-    logger.info('Getting healthcheck logs')
-    return jsonify(app_server_service.get_last_logs_for('healthcheck.log', 300))
-
-
-@app.route("/log/hc/recent")
-def recent_log_hc():
-    logger.info('Getting recent healthcheck logs for sending as email')
-    return jsonify(app_server_service.get_last_logs_for('healthcheck.log', 20))
+    return jsonify(app_server_service.get_last_logs_for('app', 20))
 
 
 @app.route("/log/count/app")
 def log_count_app():
     logger.info('Getting recent healthcheck logs for sending as email for Denva')
-    return jsonify(common_service.get_log_count_for('app'))
+    return jsonify(common_service.get_log_count_from_path('app'))
 
 
-@app.route("/log/count/ui")
-def log_count_ui():
+@app.route("/log/display")
+def log_display():
+    logger.info('Getting application logs')
+    return jsonify(app_server_service.get_last_logs_for('display', 300))
+
+
+@app.route("/log/display/recent")
+def recent_log_display():
+    logger.info('Getting recent application logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('display', 20))
+
+
+@app.route("/log/count/display")
+def log_count_display():
     logger.info('Getting recent healthcheck logs for sending as email for Denva')
-    return jsonify(common_service.get_log_count_for('ui'))
+    return jsonify(common_service.get_log_count_from_path('display'))
 
 
-@app.route("/log/ui")
-def log_ui():
+@app.route("/log/email")
+def log_email():
+    logger.info('Getting application logs')
+    return jsonify(app_server_service.get_last_logs_for('email', 300))
+
+
+@app.route("/log/email/recent")
+def recent_log_email():
+    logger.info('Getting recent application logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('email', 20))
+
+
+@app.route("/log/count/email")
+def log_count_email():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_from_path('email'))
+
+
+@app.route("/log/hc")
+def log_hc():
+    logger.info('Getting healthcheck logs')
+    return jsonify(app_server_service.get_last_logs_for('healthcheck', 300))
+
+
+@app.route("/log/hc/recent")
+def recent_log_hc():
+    logger.info('Getting recent healthcheck logs for sending as email')
+    return jsonify(app_server_service.get_last_logs_for('healthcheck', 20))
+
+
+@app.route("/log/count/hc")
+def log_count_hc():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_from_path('healthcheck'))
+
+
+@app.route("/log/www")
+def log_www():
     logger.info('Getting server ui logs')
-    return jsonify(app_server_service.get_last_logs_for('server.log', 300))
+    return jsonify(app_server_service.get_last_logs_for('website', 300))
 
 
-@app.route("/log/ui/recent")
-def recent_log_ui():
+@app.route("/log/www/recent")
+def recent_log_www():
     logger.info('Getting recent server ui logs for sending as email')
-    return jsonify(app_server_service.get_last_logs_for('server.log', 20))
+    return jsonify(app_server_service.get_last_logs_for('website', 20))
+
+
+@app.route("/log/count/www")
+def log_count_www():
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
+    return jsonify(common_service.get_log_count_from_path('website'))
 
 
 @app.route("/metrics/get")
 def get_metrics():
     logger.info('getting current metrics')
     return jsonify(metrics_service.get_currents_metrics())
-
-
-@app.route("/report/yesterday")
-def last_report_from_denva_and_enviro():
-    return jsonify(report_service.get_yesterday_report_from_server())
-
-
-@app.route("/report/diff")
-def report_comparison_for_last_two_days():
-    return jsonify(report_service.get_last_two_days_report_difference())
 
 
 @app.route("/ricky")
@@ -227,10 +259,8 @@ def hq():
     page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
     page_recent_log_app = host + str(url_for('recent_log_app'))
     page_ricky = host + str(url_for('ricky'))
-    page_frame = host + str(url_for('frame'))
-    page_webcam = host + str(url_for('do_picture'))
-    data = app_server_service.get_data_for_page(page_frame, page_recent_log_app, page_ricky,
-                                                page_tt_delays_counter, page_tube_trains, page_webcam)
+    data = app_server_service.get_data_for_page(config.load_cfg(), page_recent_log_app, page_ricky,
+                                                page_tt_delays_counter, page_tube_trains)
     data.update()
     extra_data = app_server_service.get_gateway_data()
     all_data = dict(data)
@@ -258,7 +288,7 @@ def flights_yesterday():
 
 @app.route("/halt")
 def halt():
-    logger.info('Stopping Denviro Pi')
+    logger.info('Stopping Server Pi')
     return jsonify(common_service.stop_device(APP_NAME))
 
 
@@ -270,7 +300,7 @@ def get_system_healthcheck_for():
 
 @app.route("/reboot")
 def reboot():
-    logger.info('Reboot Delight UI')
+    logger.info('Reboot Server')
     return jsonify(common_service.reboot_device())
 
 
@@ -287,8 +317,6 @@ def get_ping_test():
 
 
 if __name__ == '__main__':
-
-    dom_utils.setup_test_logging('website')
 
     logger.info('Starting web server')
 

@@ -23,11 +23,10 @@ from PIL import ImageFont
 import config
 import dom_utils
 from common import data_files, commands
-from denva import cl_display
+from denva import cl_display, denva_sensors_service
 from emails import email_sender_service
 from gateways import local_data_gateway
-from sensors import air_quality_service, environment_service, motion_service, two_led_service, uv_service, \
-    led_matrix_service
+from sensors import air_quality_service, environment_service, two_led_service, gps_sensor, co2_sensor
 
 bus = smbus.SMBus(1)
 
@@ -49,7 +48,6 @@ led_status = 0
 
 def get_data_from_measurement() -> dict:
     environment = environment_service.get_measurement()
-    aqi = "n/a"
     eco2 = ""
     tvoc = ""
     try:
@@ -62,26 +60,33 @@ def get_data_from_measurement() -> dict:
 
     red, green, blue = two_led_service.get_measurement()
     colour = dom_utils.to_hex(red, green, blue)
-    motion = motion_service.get_motion()
-    two_led_service.warn_if_dom_shakes_his_legs(motion)
 
-    uva_index, uvb_index, avg_uv_index = uv_service.get_measurements()
+    try:
+        gps_data = gps_sensor.get_measurement()
+    except Exception as get_data_exception:
+        gps_data = {'timestamp': datetime.time(0, 0, 0), 'latitude': 0.0, 'longitude': -0.0,
+                    'altitude': 0, 'lat_dir': 'N', 'lon_dir': 'W', 'geo_sep': '0', 'num_sats': '0', 'gps_qual': 0,
+                    'speed_over_ground': 0.0, 'mode_fix_type': '0', 'pdop': '0', 'hdop': '0', 'vdop': '0',
+                    '_i2c_addr': 16, '_i2c': 'x', '_debug': False}
 
+        gps_data = {"error": str(get_data_exception)}
+
+    co2_data = co2_sensor.get_measurement()
     return {
-        "temp": environment['temp'],
-        "pressure": environment['pressure'],
-        "humidity": environment['humidity'],
+        "temp": environment['temp'], "pressure": environment['pressure'], "humidity": environment['humidity'],
         "gas_resistance": "{:.2f}".format(environment['gas_resistance']),
-        "aqi": aqi,
         "colour": colour,
-        "motion": motion,
-        "uva_index": uva_index,
-        "uvb_index": uvb_index,
-        "r": red,
-        "g": green,
-        "b": blue,
-        "eco2": eco2,
-        "tvoc": tvoc,
+        "r": red, "g": green, "b": blue,
+        "eco2": eco2, "tvoc": tvoc,
+        'gps_latitude': gps_data['latitude'], 'gps_longitude': gps_data['longitude'],
+        'gps_altitude': gps_data['altitude'],
+        'gps_lat_dir': gps_data['lat_dir'], 'gps_lon_dir': gps_data['lon_dir'], 'gps_geo_sep': gps_data['geo_sep'],
+        'gps_num_sats': gps_data['num_sats'], 'gps_qual': gps_data['gps_qual'],
+        'gps_speed_over_ground': gps_data['speed_over_ground'], 'gps_mode_fix_type': gps_data['mode_fix_type'],
+        'gps_pdop': gps_data['pdop'], 'gps_hdop': gps_data['hdop'], 'gps_vdop': gps_data['vdop'],
+        "co2": co2_data[0],
+        "co2_temperature": co2_data[1],
+        "relative_humidity": co2_data[2]
     }
 
 
@@ -102,7 +107,8 @@ def main():
 
         data['measurement_counter'] = measurement_counter
         data['measurement_time'] = str(measurement_time)
-        data_files.store_measurement(data, motion_service.get_current_motion_difference())
+        data_files.store_measurement(data, denva_sensors_service.get_sensor_log_file(),
+                                     denva_sensors_service.get_sensor_log_file_at_server())
 
         cl_display.print_measurement(data)
 
@@ -114,23 +120,19 @@ def main():
         if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
 
-        if measurement_counter % 10 == 0:
-            led_matrix_service.display_fasting_mode()
-
         if remaining_of_five_s > 0:
             time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
 
 
 def cleanup_before_exit():
     two_led_service.on()
-    led_matrix_service.set_red()
     sys.exit(0)
 
 
 if __name__ == '__main__':
     global points
     config.set_mode_to('denva')
-    data_files.setup_logging('app')
+    data_files.setup_logging(config.get_environment_log_path_for('app'))
     logging.info('Starting application ... \n Press Ctrl+C to shutdown')
     email_sender_service.send_ip_email('denva')
     try:
@@ -139,7 +141,6 @@ if __name__ == '__main__':
 
         logging.info("Sensor warming up, please wait...")
         air_quality_service.start_measurement()
-        motion_service.sample()
         logging.info('Sensor needed {} seconds to warm up'.format(counter))
         two_led_service.off()
         main()

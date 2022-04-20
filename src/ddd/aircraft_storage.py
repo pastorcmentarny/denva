@@ -27,7 +27,7 @@ logger = logging.getLogger('ddd')
 
 
 def save_raw_reading(reading):
-    data_path = config_service.get_directory_path_for_aircraft()
+    data_path = config.get_directory_path_for_aircraft()
     date_as_folders = dom_utils.get_date_as_folders_linux()
     Path("{}/{}".format(data_path, date_as_folders)).mkdir(parents=True, exist_ok=True)
     airport_raw_data = DEFAULT_PATH.format(data_path, date_as_folders,
@@ -40,7 +40,7 @@ def save_raw_reading(reading):
 
 
 def save_processed_data(result):
-    data_path = config_service.get_directory_path_for_aircraft()
+    data_path = config.get_directory_path_for_aircraft()
     date_as_folders = dom_utils.get_date_as_folders_linux()
     Path("{}/{}".format(data_path, date_as_folders)).mkdir(parents=True, exist_ok=True)
     airport_processed_data = DEFAULT_PATH.format(data_path, date_as_folders,
@@ -73,7 +73,7 @@ def load_processed_for_yesterday() -> list:
 
 # add validator for loaded
 def load_processed_data_for(specified_data: date) -> list:
-    data_path = config_service.get_directory_path_for_aircraft()
+    data_path = config.get_directory_path_for_aircraft()
     date_as_folders = dom_utils.get_date_as_folders_for(specified_data)
     airport_processed_data = DEFAULT_PATH.format(data_path, date_as_folders,
                                                  dom_utils.get_date_as_filename("aircraft-processed", "csv",

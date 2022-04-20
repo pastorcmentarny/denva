@@ -51,7 +51,7 @@ def digest():
             aircraft_storage.save_raw_reading(result)
             aircraft_storage.save_processed_data(result)
             if counter % 2 == 0:
-                local_data_gateway.post_healthcheck_beat('other', 'radar')
+                local_data_gateway.post_healthcheck_beat('knyszogar', 'radar')
             local_data_gateway.post_metrics_update('flight', 'ok')
 
         end_time = timer()
@@ -64,7 +64,7 @@ def digest():
             logger.warning("Measurement {} was slow.It took {} ms".format(counter, measurement))
 
         if counter % 2 == 0:
-            local_data_gateway.post_healthcheck_beat('other', 'digest')
+            local_data_gateway.post_healthcheck_beat('knyszogar', 'digest')
         display_stats()
         measurement_message = 'Measurement no. {} It took {} milliseconds to process. Errors: {}. Warnings: {}'.format(
             counter,
@@ -80,7 +80,7 @@ def digest():
 
 if __name__ == '__main__':
     config.set_mode_to('ddd')
-    data_files.setup_logging('ddd')
+    data_files.setup_logging(config.get_environment_log_path_for('ddd'))
     try:
         digest()
     except KeyboardInterrupt as keyboard_exception:

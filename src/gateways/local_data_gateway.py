@@ -104,11 +104,11 @@ def _get_hc_result(service: str):
 
 
 def get_current_reading_for_aircraft():
-    return get_data_for('{}/flights/today'.format(config.load_cfg()["urls"]['delight']))
+    return get_data_for('{}/flights/today'.format(config.load_cfg()["urls"]['denva']))
 
 
 def get_yesterday_report_for_aircraft():
-    return get_data_for('{}/flights/yesterday'.format(config.load_cfg()["urls"]['delight']))
+    return get_data_for('{}/flights/yesterday'.format(config.load_cfg()["urls"]['denva']))
 
 
 def post_healthcheck_beat(device: str, app_type: str):
@@ -183,5 +183,3 @@ def post_device_status(device: str, device_status: str):
 
 if __name__ == '__main__':
     post_healthcheck_beat('denva', 'app')
-
-

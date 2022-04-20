@@ -20,7 +20,7 @@ logger = logging.getLogger('app')
 
 
 def get_url_for(name: str):
-    cfg = config_service.load_cfg()
+    cfg = config.load_cfg()
     if name == 'enviro':
         return '{}/enviro'.format(cfg['urls']['server'])
     elif name == 'denva':

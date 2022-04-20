@@ -57,7 +57,7 @@ def sample():
 
         v = ay  # Change this axis depending on orientation of breakout
 
-        v *= (config_service.get_sensitivity())
+        v *= (config.get_sensitivity())
 
         points.append(v)
         if len(points) > 50:

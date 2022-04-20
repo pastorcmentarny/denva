@@ -25,8 +25,8 @@ temps = []
 def warm_up():
     global cpu_temps
     global temps
-    cpu_temps = [commands.get_cpu_temp_as_number()] * config_service.get_warm_up_measurement_counter()
-    temps = [get_temperature()] * config_service.get_warm_up_measurement_counter()
+    cpu_temps = [commands.get_cpu_temp_as_number()] * config.get_warm_up_measurement_counter()
+    temps = [get_temperature()] * config.get_warm_up_measurement_counter()
 
 
 def get_temperature() -> int:

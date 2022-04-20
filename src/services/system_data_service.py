@@ -17,6 +17,7 @@ import psutil
 
 import config
 import dom_utils
+from common import commands
 from services import common_service
 
 
@@ -45,9 +46,9 @@ def get_system_warnings() -> list:
     memory_threshold = config.get_memory_available_threshold()
     if memory_data.available <= memory_threshold:
         problems.append('Memory available is low. Memory left: {} bytes.'.format(memory_data.available))
-    free_space_left = common_service.get_system_info()
-    if free_space_left <= config.get_disk_space_available_threshold():
-        problems.append('Disk free space is low. Free space left: {} MB.'.format(free_space_left))
+    free_space = commands.get_space_available()
+    if int() <= config.get_disk_space_available_threshold():
+        problems.append('Disk free space is low. Free space left: {} MB.'.format(free_space))
     return problems
 
 

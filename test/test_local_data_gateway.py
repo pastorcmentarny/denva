@@ -6,7 +6,7 @@ from gateways import local_data_gateway
 
 class LocalDataGatewayTestCases(unittest.TestCase):
     def test_get_data_for_non_working_url_should_return_error(self):
-        if config_service.run_slow_test():
+        if config.run_slow_test():
             # given
             url = 'http://192.168.0.204:5000/system'
 

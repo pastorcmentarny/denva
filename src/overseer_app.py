@@ -7,11 +7,12 @@ import logging
 import sys
 import traceback
 from datetime import datetime
+from email import email_sender_service
 from pathlib import Path
 
+import config
 from common import data_files
 from overseer import mote_lighting
-from email import email_sender_service
 
 EMPTY = ""
 
@@ -58,7 +59,7 @@ modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, M
 
 
 def override_mode() -> str:
-    status_file = Path(r"D:\overseer_mode.txt")  # config_service.get_overseer_mode_file_path())
+    status_file = Path(config.get_overseer_mode_file_path())
     try:
         f = open(status_file)
         result = f.read()
@@ -120,7 +121,7 @@ def app_loop():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to(APP_NAME)
+    config.set_mode_to(APP_NAME)
     data_files.setup_logging(APP_NAME)
     logger.info('Starting application ... \n Press Ctrl+C to shutdown')
     try:

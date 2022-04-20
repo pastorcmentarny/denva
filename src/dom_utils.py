@@ -340,24 +340,31 @@ def to_int(number_as_string: str) -> int:
 def post_healthcheck_beat(device: str, app_type: str):
     url = "%s:5000/shc/update" % config.SERVER_IP
     json_data = {'device': device, 'app_type': app_type}
+    print(f'Post healthcheck with {json_data}')
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
             response.json()
             response.raise_for_status()
     except Exception as whoops:
+        print('There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
         logger.warning(
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
 def setup_test_logging(app_name: str):
-    logging_level = logging.INFO
+    logging_level = logging.DEBUG
     logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
     logging_filename = f'/home/pi/knyszogardata/logs/{app_name}-{date.today()}.txt'
     logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
     logging.captureWarnings(True)
-    logging.debug('logging setup complete')
+    logging.info(f'Logging setup complete with log level set to: {logging_level}')
 
 
 def load_cfg() -> dict:
     with open('/home/pi/email.json', 'r') as email_config:
         return json.load(email_config)
+
+
+def log_print(message):
+    print(message)
+    logger.info(message)

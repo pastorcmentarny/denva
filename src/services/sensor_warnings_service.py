@@ -43,23 +43,23 @@ def count_warning_today() -> dict:
     return denva_sensors_service.count_warnings(get_warnings_for_today())
 
 
-# soruce: https://ec.europa.eu/environment/air/quality/standards.htm
+# source: https://ec.europa.eu/environment/air/quality/standards.htm
 def get_current_warnings_for_enviro() -> dict:
     data = denviro_sensors_service.get_last_measurement()
     warnings = {}
 
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
-    if data['cpu_temp'] > cfg['sensor']['cpu_temp_fatal']:
+    if data['cpu_temp'] > cfg['system']['cpu_temp_fatal']:
         message = 'CPU temperature is too high [cthf]. Current temperature is: {}'.format(str(data['cpu_temp']))
         warnings['cpu_temp'] = message
         warnings_logger.error(message)
 
-    elif data['cpu_temp'] > cfg['sensor']['cpu_temp_error']:
+    elif data['cpu_temp'] > cfg['system']['cpu_temp_error']:
         message = 'CPU temperature is very high [cthe]. Current temperature is: {}'.format(str(data['cpu_temp']))
         warnings['cpu_temp'] = message
         warnings_logger.error(message)
-    elif data['cpu_temp'] > cfg['sensor']['cpu_temp_warn']:
+    elif data['cpu_temp'] > cfg['system']['cpu_temp_warn']:
         message = 'CPU temperature is high [cthw]. Current temperature is: {}'.format(str(data['cpu_temp']))
         warnings['cpu_temp'] = message
         warnings_logger.warning(message)

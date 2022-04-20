@@ -94,7 +94,7 @@ carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
   9
   0     
   A             CCA           
-  B 2D 2A 1U    
+  B 2D 2A 2U    
   C             RRA
   D 1D 1A 1U    
   E             RRD
@@ -103,10 +103,10 @@ carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
   
   1 - DENVA
   2 - ENVIRO
-  A - CPU TEMP
-  B - RAM
-  C - SPACE
-  D - NETWORK
+  AA - CPU TEMP
+  BB - RAM
+  CC - SPACE
+  DD - NETWORK
   CCA - Camera A
   RRA - Radar App
   ka - knyszogar app

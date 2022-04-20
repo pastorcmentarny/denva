@@ -13,7 +13,8 @@ import logging
 import time
 from datetime import datetime
 
-# import config_service
+import dom_utils
+# import config
 import server.celebrations as celebrations
 import server.chinese_dictionary_service as cn
 import server.good_english_sentence as eng
@@ -23,9 +24,8 @@ import server.personal_stats as personal_events
 import server.random_irregular_verb as verb
 import server.rules_service as rules
 from common import data_files
-import dom_utils
-from server import daily
 from gateways import web_data_gateway, local_data_gateway
+from server import daily
 from services import error_detector_service, radar_service, metrics_service
 from services import weather_service, system_data_service
 
@@ -90,11 +90,9 @@ def get_all_warnings_page() -> list:
     return data
 
 
-def get_random_frame(config:dict) -> str:
-    return data_files.get_random_frame_picture_path(config)
 
 
-def get_current_system_information_for_all_services(config:dict):
+def get_current_system_information_for_all_services(config: dict):
     return {
         'server': system_data_service.get_system_information(),
         'denva': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva'])),
@@ -103,20 +101,20 @@ def get_current_system_information_for_all_services(config:dict):
     }
 
 
-def get_links_for_gateway(sensor_only: bool = False) -> dict:
+def get_links_for_gateway(config_data: dict, sensor_only: bool = False) -> dict:
     return {
-        'logApp': get_links_for('log/app', sensor_only),
-        'logHc': get_links_for('log/hc', sensor_only),
-        'logUi': get_links_for('log/ui', sensor_only),
-        'averages': get_links_for('avg', True),
-        'records': get_links_for('records', True),
-        'stats': get_links_for('stats', True),
-        'warningsAll': get_links_for('warns', True),
-        'warningsCounter': get_links_for('warns/count', True),
+        'logApp': get_links_for(config_data, 'log/app', sensor_only),
+        'logHc': get_links_for(config_data, 'log/hc', sensor_only),
+        'logUi': get_links_for(config_data, 'log/ui', sensor_only),
+        'averages': get_links_for(config_data, 'avg', True),
+        'records': get_links_for(config_data, 'records', True),
+        'stats': get_links_for(config_data, 'stats', True),
+        'warningsAll': get_links_for(config_data, 'warns', True),
+        'warningsCounter': get_links_for(config_data, 'warns/count', True),
     }
 
 
-def get_links_for(config:dict,suffix: str, sensor_only: bool = False) -> dict:
+def get_links_for(config: dict, suffix: str, sensor_only: bool = False) -> dict:
     urls = config['urls']
     result = {
         'denva': '{}/{}'.format(urls['denva'], suffix),
@@ -129,7 +127,9 @@ def get_links_for(config:dict,suffix: str, sensor_only: bool = False) -> dict:
 
 
 def get_last_logs_for(log_file_name: str, lines):
-    return data_files.tail('d:/denva/logs/' + log_file_name, lines)
+    today = datetime.now()
+    name = f'{log_file_name}-{today.year}-{today.month:02d}-{today.day:02d}.txt'
+    return data_files.tail('/home/pi/knyszogardata/logs/' + name, lines)
 
 
 def run_gc() -> dict:
@@ -140,62 +140,57 @@ def get_errors_from_data(data):
     return error_detector_service.get_errors_from_data(data)
 
 
-def get_data_for_page(page_frame, page_recent_log_app, page_ricky, page_tt_delays_counter,
-                      page_tube_trains, page_webcam):
+def get_data_for_page(config_data, page_recent_log_app, page_ricky, page_tt_delays_counter,
+                      page_tube_trains):
     logger.info('Getting data for main page')
+    print(local_data_gateway.get_current_reading_for_enviro())
     try:
         data = {
             'page_tube_trains': page_tube_trains,
             'page_tt_delays_counter': page_tt_delays_counter,
             'page_recent_log_app': page_recent_log_app,
-            'page_frame': page_frame,
-            'page_webcam': page_webcam,
             'page_ricky': page_ricky,
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
-            'system': get_current_system_information_for_all_services(),
-            'links': get_links_for_gateway(),
-            'welcome_text': data_files.load_text_to_display(),
+            'system': get_current_system_information_for_all_services(config_data),
+            'links': get_links_for_gateway(config_data),
+            'welcome_text': data_files.load_text_to_display(config_data["paths"]["text"]),
             'transport': web_data_gateway.get_status()
         }
         data['errors'] = get_errors_from_data(data)
     except Exception as exception:
-        logger.error('Unable to get data due to {}'.format(exception))
+        logger.error(f'Unable to get data due to {exception}', exc_info=True)
         data = {
             'page_tube_trains': page_tube_trains,
             'page_tt_delays_counter': page_tt_delays_counter,
             'page_recent_log_app': page_recent_log_app,
-            'page_frame': page_frame,
-            'page_webcam': page_webcam,
             'page_ricky': page_ricky,
             'warnings': {},
             'denva': {},
             'enviro': {},
             'aircraft': {},
             'system': {},
-            'links': get_links_for_gateway(),
+            'links': get_links_for_gateway(config_data),
             'welcome_text': f"Unable to load message due to ${exception}"
         }
     return data
 
 
-def stop_all_devices(config:dict):
+def stop_all_devices(config: dict):
     local_data_gateway.get_data_for('{}/halt'.format(config["urls"]['denva']))
     local_data_gateway.get_data_for('{}/halt'.format(config["urls"]['enviro']))
-    local_data_gateway.get_data_for('{}/halt'.format(config["urls"]['delight']))
     return {'result': 'All devices stopped'}
 
 
 def reboot_all_devices(config):
     local_data_gateway.get_data_for('{}/reboot'.format(config["urls"]['denva']))
     local_data_gateway.get_data_for('{}/reboot'.format(config["urls"]['enviro']))
-    local_data_gateway.get_data_for('{}/reboot'.format(config["urls"]['delight']))
     return {'result': 'All devices starting to reboot'}
 
 
-def get_device_status(config:dict):
+def get_device_status(config_data: dict):
     logger.info('Getting data for main page')
     try:
         data = {
@@ -203,9 +198,9 @@ def get_device_status(config:dict):
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
-            'system': get_current_system_information_for_all_services(config),
-            'links': get_links_for_gateway(),
-            'welcome_text': data_files.load_text_to_display(config),
+            'system': get_current_system_information_for_all_services(config_data),
+            'links': get_links_for_gateway(config_data),
+            'welcome_text': data_files.load_text_to_display(config_data),
             'transport': web_data_gateway.get_status(),
             'metrics': metrics_service.get_currents_metrics(),
             'log_count': local_data_gateway.get_current_log_counts(),
@@ -220,10 +215,10 @@ def get_device_status(config:dict):
             'enviro': {},
             'aircraft': {},
             'system': {},
-            'links': get_links_for_gateway(),
+            'links': get_links_for_gateway(config_data),
             'welcome_text': f"Unable to load message due to ${exception}",
-            'transport' : [],
+            'transport': [],
             'metrics': {},
-            'log_count' : {}
+            'log_count': {}
         }
     return data

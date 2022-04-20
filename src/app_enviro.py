@@ -102,7 +102,7 @@ def main():
 
         remaining_time_in_millis = 5 - (float(measurement_time) / 1000)
 
-        if int(measurement_time) > config_service.max_latency(fast=False):
+        if int(measurement_time) > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
 
         if remaining_time_in_millis > 0:
@@ -110,7 +110,7 @@ def main():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('denviro')
+    config.set_mode_to('denviro')
     data_files.setup_logging('app')
     logger.info('Starting application ... \n Press Ctrl+C to shutdown')
     email_sender_service.send_ip_email('Denva Enviro+')

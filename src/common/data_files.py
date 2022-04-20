@@ -117,28 +117,26 @@ def store_enviro_measurement(data: dict, sensor_log_file, sensor_log_file_at_ser
         # add flag to indicate that there is a problem
 
 
-def add_measurement_to_file(file, data: dict, motion):
+def add_measurement_to_file(file, data: dict):
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
-    csv_writer.writerow([timestamp,
+    csv_writer.writerow([timestamp, data['measurement_time'],
                          data['temp'], data['pressure'], data['humidity'], data['gas_resistance'],
-                         data['colour'], data['aqi'],
-                         data['uva_index'], data['uvb_index'],
-                         data['motion'],
-                         motion['ax'], motion['ay'], motion['az'],
-                         motion['gx'], motion['gy'], motion['gz'],
-                         motion['mx'], motion['my'], motion['mz'],
-                         data['measurement_time'],
+                         data['colour'],
+                         data["r"], data["g"], data["b"],
+                         data["co2"], data["co2_temperature"], data["relative_humidity"],
                          dom_utils.get_float_number_from_text(data['cpu_temp']),
-                         data['eco2'],
-                         data['tvoc'],
+                         data['eco2'], data['tvoc'],
+                         data['gps_latitude'], data['gps_longitude'], data['gps_altitude'],
+                         data['gps_lat_dir'], data['gps_lon_dir'],
+                         data['gps_geo_sep'], data['gps_num_sats'], data['gps_qual'], data['gps_speed_over_ground'],
+                         data['gps_mode_fix_type'], data['gps_pdop'], data['gps_hdop'], data['gps_vdop']
                          ])
     file.close()
 
 
 # TODO refactor it as it saves in 2 places
-# TODO merge motion with data
-def store_measurement(data, motion, sensor_log_file, sensor_log_file_at_server):
+def store_measurement(data, sensor_log_file, sensor_log_file_at_server):
     try:
         counter = data['measurement_counter']
     except Exception as exception:
@@ -147,17 +145,17 @@ def store_measurement(data, motion, sensor_log_file, sensor_log_file_at_server):
     logger.debug('storing measurement no.{}'.format(counter))
     try:
         local_file = open(sensor_log_file, 'a+', newline=EMPTY)
-        add_measurement_to_file(local_file, data, motion)
+        add_measurement_to_file(local_file, data)
 
         server_file = open(sensor_log_file_at_server, 'a+', newline=EMPTY)
-        add_measurement_to_file(server_file, data, motion)
+        add_measurement_to_file(server_file, data)
 
         logger.debug('measurement no.{} saved to file.'.format(counter))
     except IOError as exception:
         logger.warning(exception)
 
 
-def setup_logging(where: str, path: str):
+def setup_logging(path: str):
     if os.path.exists(path):
         with open(path, 'rt') as config_json_file:
             config = json.load(config_json_file)
@@ -267,10 +265,9 @@ def add_denva_row(data, row):
             'humidity': row[3],
             'gas_resistance': row[4],
             'colour': row[5],
-            'aqi': row[6],
             'uva_index': row[7],
             'uvb_index': row[8],
-            'motion': row[9],
+            #TODO uv?
             'ax': row[10],
             'ay': row[11],
             'az': row[12],
@@ -356,7 +353,7 @@ def load_text_to_display(path) -> str:
         return str(exception)
 
 
-def save_metrics(stats: dict,path) -> str:
+def save_metrics(stats: dict, path) -> str:
     try:
         full_path = path + f'metrics-{str(stats["date"])}.txt'
         save_dict_data_as_json(full_path, stats)
@@ -366,7 +363,7 @@ def save_metrics(stats: dict,path) -> str:
         return str(exception)
 
 
-def load_metrics_data(path:str) -> dict:
+def load_metrics_data(path: str) -> dict:
     metric_data_file = f'metrics-{str(date.today())}.txt'
     path = path + metric_data_file
     try:

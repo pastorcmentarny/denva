@@ -9,7 +9,6 @@ class DataFilesTestCases(unittest.TestCase):
         data = {
             "now": {
                 "denva": {
-                    "aqi": "n/a",
                     "ax": "-0.01",
                     "ay": "0.02",
                     "az": "-0.01",

@@ -9,6 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+from datetime import datetime
 
 import config
 from common import commands
@@ -50,3 +51,10 @@ def stop_device(app_name: str):
 
 def get_log_count_for(log_type: str):
     return log_metrics_service.get_current_log_metrics_for(config.get_log_path_for(f'log_{log_type}'))
+
+
+# TODO for knyszogar
+def get_log_count_from_path(log_file_name: str):
+    today = datetime.now()
+    path_name = f'/home/pi/knyszogardata/logs/{log_file_name}-{today.year}-{today.month:02d}-{today.day:02d}.txt'
+    return log_metrics_service.get_current_knyszogar_log_metrics_for(path_name)

@@ -24,6 +24,11 @@ default_hc = {
         "ui": "20201212201221",
         "device": "DANGER"
     },
+    "trases": {
+        "app": "20201212201221",
+        "ui": "20201212201221",
+        "device": "OK"
+    },
     "server": {
         "app": "20201212201221",
         "ui": "20201212201221",
@@ -66,7 +71,7 @@ def __load() -> dict:
             'Unable to load file with system healthcheck as due to {} using path {}'.format(exception,
                                                                                             healthcheck_path),
             exc_info=True)
-    return default_hc.copy()
+        return default_hc.copy()
 
 
 def update_for(who: dict):
@@ -120,7 +125,6 @@ def is_up(device: str, app_type: str) -> str:
     try:
         system = __load()
         previous = system[device][app_type]
-
         previous_datetime = datetime(__to_int(previous[0:4]), __to_int(previous[4:6]),
                                      __to_int(previous[6:8]),
                                      __to_int(previous[8:10]), __to_int(previous[10:12]),
@@ -147,7 +151,7 @@ def update_device_power_state_for(who):
         data = __load()
         logger.debug(data)
         data[who['device']]['device'] = who['status']
-        logger.debug(f'device status: {data[who["device"]]["device"]}')
+        logger.info(f'device status: {data[who["device"]]["device"]}')
         __save(data)
     except Exception as exception:
         logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)

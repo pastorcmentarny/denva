@@ -109,7 +109,7 @@ def draw_message(msg: str):
 
 def get_colour_for_cpu():
     cpu_temp = float(re.sub('[^0-9.]', '', commands.get_cpu_temp()))
-    config = config_service.load_cfg()
+    config = config.load_cfg()
     if cpu_temp > config['sensor']['cpu_temp_fatal']:
         return ['Fatal', 255, 16, 1]
     elif cpu_temp > config['sensor']['cpu_temp_error']:

@@ -146,7 +146,7 @@ def get_measurement():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('denviro')
+    config.set_mode_to('denviro')
     data_files.setup_logging('ui')
     logger.info('Starting web server for {}'.format(APP_NAME))
 

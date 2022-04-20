@@ -23,7 +23,6 @@ from common import status, data_files
 from gateways import local_data_gateway
 from systemhc import system_health_check_service
 
-
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
 PERFECT = 'PERFECT'
@@ -32,6 +31,7 @@ POOR = 'POOR'
 DOWN = 'DOWN'
 
 logger = logging.getLogger('hc')
+dom_utils.setup_test_logging('healthcheck')
 HOSTNAME = config.SERVER_IP
 HEADERS = {
     "User-Agent": USER_AGENT}
@@ -90,10 +90,10 @@ def check_denva_app_status(cfg):
         logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['system']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denva )')
             state.set_danger()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['system']['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denva )')
             state.set_warn()
         if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
@@ -134,10 +134,10 @@ def check_enviro_app_status(cfg):
         state.set_error()
     else:
         system_health_check_service.update_hc_for('denviro', 'ui')
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_error']:
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['system']['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denviro')
             state.set_error()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['sensor']['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['system']['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denviro')
             state.set_warn()
 
@@ -175,6 +175,7 @@ def my_services_check():
     check_for('denva', headers, "http://192.168.0.201:5000/hc")
     check_for('radar', headers, "http://192.168.0.201:5000/hc/ar")
     check_for('denviro', headers, "http://192.168.0.202:5000/hc")
+    check_for('trases', headers, "http://192.168.0.224:5000/hc")
     check_for('server', headers, "%s:5000/hc" % config.SERVER_IP)
     check_for('email', headers, "%s:18010/hc" % config.SERVER_IP, 'knyszogar')
     end_time = time.perf_counter()
@@ -268,7 +269,7 @@ def app_loop():
             # send info to knyszogar that am up and running
             dom_utils.post_healthcheck_beat('knyszogar', 'hc')
         except BaseException as base_exception:
-            logger.error(f'There is a problem with healthcheck: {base_exception}')
+            logger.error(f'There is a problem with healthcheck: {base_exception}', exc_info=True)
 
         # wait until next check
         time.sleep(30)
@@ -277,9 +278,8 @@ def app_loop():
 if __name__ == '__main__':
 
     dom_utils.setup_test_logging('healthcheck')
-    welcome_msg = 'Starting application ... \n Press Ctrl+C to shutdown'
-    print(welcome_msg)
-    logger.info(welcome_msg)
+    dom_utils.log_print('Starting application')
+
     try:
         local_data_gateway.post_device_on_off('hc', True)
         app_loop()

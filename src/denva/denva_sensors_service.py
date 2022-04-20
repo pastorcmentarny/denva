@@ -12,7 +12,7 @@ def load_data_for_today() -> list:
 
 
 def get_sensor_log_file():
-    return config.PI_LOGS_PATH + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+    return config.PI_DATA_PATH + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
 def get_sensor_log_file_at_server() -> str:

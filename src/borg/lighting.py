@@ -58,7 +58,7 @@ modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, M
 
 
 def override_mode() -> str:
-    status_file = Path(r"home/dom/overseer_mode.txt")  # config_service.get_overseer_mode_file_path())
+    status_file = Path(r"home/dom/overseer_mode.txt")  # config.get_overseer_mode_file_path())
     try:
         f = open(status_file)
         result = f.read()
@@ -120,7 +120,7 @@ def app_loop():
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to(MODE_BORG)
+    config.set_mode_to(MODE_BORG)
     data_files.setup_logging(MODE_BORG)
     logger.info('Starting application ... \n Press Ctrl+C to shutdown')
     try:

@@ -11,7 +11,7 @@ In sudo nano /etc/dhcpcd.conf
 
 ```bash
 interface wlan0
-static ip_address=192.168.0.200/24
+static ip_address=192.168.0.224/24
 static routers=192.168.0.1
 static domain_name_servers=192.168.0.1
 ```
@@ -21,8 +21,8 @@ static domain_name_servers=192.168.0.1
 2```sudo nano /etc/samba/smb.conf```
 3 Add this:
    ```
-   [home]
-   path = /home/pi
+   [trases]
+   path = /home/ds
    guest ok = yes
    read only = no
    ```

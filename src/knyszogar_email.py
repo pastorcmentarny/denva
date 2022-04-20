@@ -9,6 +9,7 @@ from emails import email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
+dom_utils.setup_test_logging('healthcheck')
 APP_NAME = 'Server UI'
 
 

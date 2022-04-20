@@ -9,7 +9,7 @@ class WebDataGatewayTestCases(TestCase):
 
     # covers tube and trains (avoid to call web twice
     def test_get_status(self):
-        if config_service.run_slow_test():
+        if config.run_slow_test():
             # when
             result = web_data_gateway.get_status()
 
@@ -24,7 +24,7 @@ class WebDataGatewayTestCases(TestCase):
 
     @unittest.skip("COVID-19")  # TODO this test failing as service is unavailable due to COVID-19
     def test_get_crime(self):
-        if config_service.run_slow_test():
+        if config.run_slow_test():
             # when
             result = web_data_gateway.get_crime()
 
@@ -37,7 +37,7 @@ class WebDataGatewayTestCases(TestCase):
             self.skipTest('running fast test only. test_get_crime skipped.')
 
     def test_get_flood(self):
-        if config_service.run_slow_test():
+        if config.run_slow_test():
             # when
             result = web_data_gateway.get_flood()
 
@@ -50,7 +50,7 @@ class WebDataGatewayTestCases(TestCase):
             self.skipTest('running fast test only. test_get_flood skipped.')
 
     def test_get_weather(self):
-        if config_service.run_slow_test():
+        if config.run_slow_test():
             # when
             result = web_data_gateway.get_weather()
 
@@ -63,7 +63,7 @@ class WebDataGatewayTestCases(TestCase):
             self.skipTest('running fast test only. test_get_weather skipped.')
 
     def test_get_o2_status(self):
-        if config_service.run_slow_test():
+        if config.run_slow_test():
             # when
             result = web_data_gateway.get_o2_status()
 
@@ -76,7 +76,7 @@ class WebDataGatewayTestCases(TestCase):
             self.skipTest('running fast test only. test_get_o2_status skipped.')
 
     def test_get_pollution_for(self):
-        if config_service.run_slow_test():
+        if config.run_slow_test():
             # when
             result = web_data_gateway.get_pollution_for('wroclaw')
 

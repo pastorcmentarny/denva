@@ -27,7 +27,7 @@ bh1745.set_leds(1)
 
 
 def warn_if_dom_shakes_his_legs(motion):
-    if motion > config_service.get_shaking_level():
+    if motion > config.get_shaking_level():
         for i in range(5):
             bh1745.set_leds(1)
             time.sleep(0.25)

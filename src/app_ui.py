@@ -14,11 +14,13 @@ import traceback
 
 from flask import Flask, jsonify, request
 
+import config
 from common import commands, data_files
 from denva import denva_service
 from sensors import aircraft_radar_sensor
+from server import delight_service
 from services import common_service
-from email import email_sender_service
+from emails import email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -154,6 +156,16 @@ def count_warns():
     logger.info('Getting warnings count')
     return jsonify(denva_service.count_warnings())
 
+@app.route("/flights/today")
+def flights_today():
+    logger.info('Getting flights detected today')
+    return jsonify(delight_service.get_flights_for_today())
+
+
+@app.route("/flights/yesterday")
+def flights_yesterday():
+    logger.info('Getting flights detected yesterday')
+    return jsonify(delight_service.get_flights_for_yesterday())
 
 @app.route("/warns/date")
 def specific_day_warns():
@@ -165,19 +177,14 @@ def specific_day_warns():
     return jsonify(denva_service.get_warnings_for(year, month, day))
 
 
-@app.route("/flights")
-def flights_today():
-    return jsonify(aircraft_radar_sensor.get_airplane_for_today())
-
-
 @app.route("/")
 def welcome():
     return jsonify(denva_service.get_last_measurement_from_sensor())
 
 
 if __name__ == '__main__':
-    config_service.set_mode_to('denva')
-    data_files.setup_logging('ui')
+    config.set_mode_to('denva')
+    data_files.setup_logging(config.get_environment_log_path_for('ui'))
     logger.info('Starting web server for {}'.format(APP_NAME))
 
     try:

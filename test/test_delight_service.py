@@ -8,7 +8,7 @@ from services import system_data_service
 
 class DelightServiceTestCases(TestCase):
     def test_run_gc(self):
-        if config_service.run_slow_test():
+        if config.run_slow_test():
             # given
             memory_available_in_mb = system_data_service.get_memory_available_in_mb()
 

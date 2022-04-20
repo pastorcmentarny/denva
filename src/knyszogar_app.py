@@ -21,7 +21,7 @@ import dom_utils
 from gateways import local_data_gateway
 
 """
-import config_service
+import config
 from borg import webcam_service
 from common import app_timer, data_files, loggy
 
@@ -31,7 +31,7 @@ from services import email_sender_service, metrics_service
 APP_NAME = 'server app'
 
 logger = logging.getLogger('app')
-
+dom_utils.setup_test_logging('app')
 pictures = []
 email_cooldown = datetime.now()
 report_generation_cooldown = datetime.now()
@@ -67,8 +67,7 @@ def main():
 
 
 if __name__ == '__main__':
-    print('Starting Server App ... \n Press Ctrl+C to shutdown')
-    dom_utils.setup_test_logging('app')
+    dom_utils.log_print('Starting application')
     try:
         main()
     except KeyboardInterrupt as keyboard_exception:
