@@ -1,7 +1,7 @@
 import logging
 import time
 
-from overseer import overseer_config
+import overseer_config
 
 logger = logging.getLogger('overseer')
 

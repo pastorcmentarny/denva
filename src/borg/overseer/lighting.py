@@ -7,11 +7,9 @@ import logging
 import sys
 import traceback
 from datetime import datetime
+from datetime import date
 from pathlib import Path
-
-from common import data_files
-from overseer import mote_lighting
-from email import email_sender_service
+import mote_lighting
 
 EMPTY = ""
 
@@ -119,9 +117,17 @@ def app_loop():
                 mote_lighting.daydream()
 
 
+def setup_test_logging(app_name: str):
+    logging_level = logging.DEBUG
+    logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
+    logging_filename = f'/home/dom/data/logs/{app_name}-{date.today()}.txt'
+    logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
+    logging.captureWarnings(True)
+    logging.debug('logging setup complete')
+
+
 if __name__ == '__main__':
-    config.set_mode_to(MODE_BORG)
-    data_files.setup_logging(MODE_BORG)
+    setup_test_logging('overseer')
     logger.info('Starting application ... \n Press Ctrl+C to shutdown')
     try:
         app_loop()
@@ -131,8 +137,6 @@ if __name__ == '__main__':
         sys.exit(0)
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        email_sender_service.send_error_log_email(APP_NAME,
-                                                  '{} crashes due to {}'.format(APP_NAME, exception))
     except BaseException as disaster:
         logger.error('Something went badly wrong\n{}'.format(disaster), exc_info=True)
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)

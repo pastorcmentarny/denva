@@ -2,9 +2,9 @@ import logging
 
 from mote import Mote
 
-from overseer import borg_effect, rain_effect, alert_effect, overseer_utils, \
-    overseer_config, idle_effect, fire_effect, party_effect, lighting_effect, night_fire_storm_mode
-
+import rain_effect, alert_effect, overseer_utils
+import overseer_config, idle_effect, fire_effect, party_effect, lighting_effect, night_fire_storm_mode
+import borg_effect
 logger = logging.getLogger('overseer')
 
 mote = Mote()

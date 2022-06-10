@@ -2,7 +2,7 @@ import logging
 import random
 import time
 
-from overseer import overseer_config, knight_rider_effect, fire_effect
+import overseer_config, knight_rider_effect, fire_effect
 
 logger = logging.getLogger('overseer')
 

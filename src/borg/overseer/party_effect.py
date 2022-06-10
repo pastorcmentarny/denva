@@ -2,7 +2,7 @@ import logging
 import random
 import time
 
-from overseer import overseer_utils, overseer_config
+import overseer_utils, overseer_config
 
 logger = logging.getLogger('overseer')
 

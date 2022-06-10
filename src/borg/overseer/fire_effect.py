@@ -2,7 +2,7 @@ import logging
 import random
 from datetime import datetime
 
-from overseer import lighting_effect, overseer_utils
+import lighting_effect, overseer_utils
 
 logger = logging.getLogger('overseer')
 
