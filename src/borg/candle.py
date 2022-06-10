@@ -1,8 +1,3 @@
-# busy mode
-# orange mode
-# borg mode
-
-
 import random
 
 import time
