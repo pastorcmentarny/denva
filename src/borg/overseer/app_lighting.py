@@ -20,7 +20,7 @@ MODE_DREAM = 'dream'
 MODE_PARTY = 'party'
 MODE_YELLOW_COLOR = 'yellow'
 MODE_RED_COLOR = 'red'
-MODE_LIGHT_OFF = 'light_off'
+MODE_LIGHT_OFF = 'light_o qff'
 MODE_FIRE_LIGHTING = 'fire'
 MODE_ORANGE_LIGHTING = 'orange'
 MODE_NIGHT = 'night'
@@ -56,7 +56,7 @@ modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, M
 
 
 def override_mode() -> str:
-    status_file = Path(r"home/dom/overseer_mode.txt")  # config.get_overseer_mode_file_path())
+    status_file = Path(r"/home/dom/overseer_mode.txt")  # config.get_overseer_mode_file_path())
     try:
         f = open(status_file)
         result = f.read()
