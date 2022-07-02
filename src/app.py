@@ -26,7 +26,7 @@ from common import data_files, commands
 from denva import cl_display, denva_sensors_service
 from emails import email_sender_service
 from gateways import local_data_gateway
-from sensors import air_quality_service, environment_service, two_led_service, gps_sensor, co2_sensor
+from sensors import air_quality_service, environment_service, gps_sensor, co2_sensor, two_led_service
 
 bus = smbus.SMBus(1)
 
@@ -67,9 +67,7 @@ def get_data_from_measurement() -> dict:
         gps_data = {'timestamp': datetime.time(0, 0, 0), 'latitude': 0.0, 'longitude': -0.0,
                     'altitude': 0, 'lat_dir': 'N', 'lon_dir': 'W', 'geo_sep': '0', 'num_sats': '0', 'gps_qual': 0,
                     'speed_over_ground': 0.0, 'mode_fix_type': '0', 'pdop': '0', 'hdop': '0', 'vdop': '0',
-                    '_i2c_addr': 16, '_i2c': 'x', '_debug': False}
-
-        gps_data = {"error": str(get_data_exception)}
+                    '_i2c_addr': 16, '_i2c': 'x', '_debug': False, "error": str(get_data_exception)}
 
     co2_data = co2_sensor.get_measurement()
     return {

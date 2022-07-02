@@ -14,7 +14,7 @@ import logging
 
 from sgp30 import SGP30
 
-from sensors import two_led_service
+import two_led_service
 
 logger = logging.getLogger('app')
 
