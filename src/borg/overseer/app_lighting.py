@@ -51,6 +51,13 @@ def is_stand_up() -> bool:
         return False
 
 
+def is_lunch_break():
+    if datetime.now().isoweekday() < 6 and datetime.now().hour == 12:
+        return True
+    else:
+        return False
+
+
 modes = [MODE_RED_COLOR, MODE_YELLOW_COLOR, MODE_PARTY, MODE_DREAM, MODE_RAIN, MODE_BORG, MODE_LIGHT_OFF,
          MODE_FIRE_LIGHTING, MODE_ORANGE_LIGHTING, MODE_NIGHT]
 
@@ -111,6 +118,8 @@ def app_loop():
                 mote_lighting.night_mode()
             elif is_stand_up():
                 mote_lighting.party_random_color_mode()
+            elif is_lunch_break():
+                mote_lighting.fire_effect_with_lighting()
             elif is_busy_at_work():
                 mote_lighting.red_alert()
             else:
