@@ -108,8 +108,7 @@ def get_system_info() -> dict:
         'IP': get_ip(),
         'Uptime': get_uptime(),
         "Memory Available": '{} MB'.format(dom_utils.convert_bytes_to_megabytes(psutil.virtual_memory().available)),
-        'Free Space': '{} MB'.format(get_space_available()),
-        'Data Free Space': '{} MB'.format(get_data_space_available())
+        'Free Space': '{} MB'.format(get_space_available())
     }
 
 
@@ -121,15 +120,7 @@ def get_space_available():
 
 
 def get_data_space_available():
-    try:
-        with subprocess.Popen("df /mnt/data -m --output=avail", stdout=subprocess.PIPE, shell=True) as p:
-            result, _ = p.communicate()
-            p.kill()
-            return re.sub('[^0-9.]', '', str(result).strip())
-    except Exception as exception:
-        logger.debug(f'No data partion due to {exception}')
-        return 0
-
+    return 0
 
 def get_lines_from_path(path: str, lines: int) -> dict:
     text = str(subprocess.check_output(['tail', '-n', str(lines), path]).strip(), "utf-8").split('\n')
@@ -196,5 +187,5 @@ def get_ping_results() -> str:
         logger.debug('Ping {}'.format(result))
         return str(result.strip(), "utf-8")
     except Exception as e:
-        logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
+        logger.error('Unable to run ping test'.format(e))
         return "ERROR"

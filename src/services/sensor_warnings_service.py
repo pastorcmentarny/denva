@@ -190,11 +190,6 @@ def get_warnings_as_list(data) -> list:
         warnings.append('Low Free Space: {}'.format(str(free_space) + 'MB'))
         warnings_logger.warning('[fsl] Low Free Space: {}'.format(str(free_space) + 'MB'))
 
-    data_free_space = int(commands.get_data_space_available())
-    if data_free_space < 500:
-        warnings.append('Low Free Space on Data Partition: {}'.format(str(data_free_space) + 'MB'))
-        warnings_logger.warning('[dfsl] Low Free Space on Data Partition: {}'.format(str(data_free_space) + 'MB'))
-
     eco2 = int(data['eco2'])
     if eco2 > 1000:
         warnings.append('High CO2 level (Time to open window?): {}'.format(str(eco2)))

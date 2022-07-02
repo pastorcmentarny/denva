@@ -90,8 +90,6 @@ def draw_image_on_screen(data, app_uptime):
         draw.text((0, 84), 'IP: {}'.format(commands.get_ip()), fill="white", font=rr_12)
     elif cycle % 7 == 4:
         draw.text((0, 84), 'Space: {} MB'.format(commands.get_space_available()), fill="white", font=rr_12)
-    elif cycle % 7 == 5:
-        draw.text((0, 84), 'Data: {} MB'.format(commands.get_data_space_available()), fill="white", font=rr_12)
     elif cycle % 7 == 6:
         draw.text((0, 84), 'RAM avail.: {}'.format(system_data_service.get_memory_available_in_mb()), fill="white",
                   font=rr_12)
