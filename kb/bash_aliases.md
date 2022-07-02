@@ -9,7 +9,6 @@
 
 ## Aliases to run things on server:
 ```
-alias kc='python3 /home/pi/knyszogar/knyszogar_cctv.py'
 alias kd='python3 /home/pi/knyszogar/knyszogar_display.py'
 alias kw='python3 /home/pi/knyszogar/knyszogar_website.py'
 alias ke='python3 /home/pi/knyszogar/knyszogar_email.py'
