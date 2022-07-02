@@ -115,7 +115,10 @@ def send_picture(picture_path: str, pict_no: int):
         logger.error('Unable to send email due to {}'.format(e), exc_info=True)
 
 
-def send_error_log_email(what: str, message: str):
+def send_error_log_email(what: str, message: str, email_disabled: bool = True):
+    #
+    if email_disabled:
+        return
     cfg = data_files.load_cfg()
     logger.info('Sending error log email with message: {}'.format(message))
     try:
@@ -144,7 +147,7 @@ def send_error_log_email(what: str, message: str):
     time.sleep(WAITING_TIME_IN_SECONDS)  # wait one minute before carry on ...
 
 
-def send_error_v2(who:str,subject:str,message:str):
+def send_error_v2(who: str, subject: str, message: str):
     cfg = data_files.load_cfg()
     logger.info('Sending error log email with message: {}'.format(message))
     try:
@@ -203,7 +206,7 @@ def validate_email_data(email_data) -> bool:
     if email_data is None:
         logger.error('Validation failed due to input data does not exists.')
         return False
-    if not isinstance(email_data,dict):
+    if not isinstance(email_data, dict):
         logger.error('Input data is not a dictionary!')
         return False
     if email_data['device'] not in email_data:
@@ -215,7 +218,7 @@ def validate_email_data(email_data) -> bool:
     return True
 
 
-def send_email_v2(email_data) ->bool:
+def send_email_v2(email_data) -> bool:
     try:
         validate_email_data(email_data)
         return True
