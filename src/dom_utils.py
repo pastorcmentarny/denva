@@ -26,7 +26,6 @@ SERVER_IP = "http://192.168.0.200:5000/"
 
 stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
-server_logger = logging.getLogger('server')
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
@@ -309,8 +308,7 @@ def _is_valid_event_time(event) -> bool:
 
 def convert_time_to_minutes(event: str) -> int:
     if not _is_valid_event_time(event):
-        print(f'Time not valid for {event}')
-        server_logger.error(f'Time not valid for {event}')
+        logger.error(f'Time not valid for {event}')
         raise GobshiteException
     event_time = event.split(' - ')[0].split(':')
     hours = int(event_time[0])
