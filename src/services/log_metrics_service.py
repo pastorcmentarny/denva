@@ -57,7 +57,6 @@ def generate_log_stats(path: str):
             log_metrics[DEBUG] = log_metrics[DEBUG] + 1
 
     log_metrics[TOTAL_COUNT] = get_total_count_of_log()
-    print(shows_stats_for_log_metrics())
     return shows_stats_for_log_metrics()
 
 
@@ -77,7 +76,6 @@ def generate_log_stats_for_knyszogar(path: str):
             log_metrics[DEBUG] = log_metrics[DEBUG] + 1
 
     log_metrics[TOTAL_COUNT] = get_total_count_of_log()
-    print(shows_stats_for_log_metrics())
     return shows_stats_for_log_metrics()
 
 

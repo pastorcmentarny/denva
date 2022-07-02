@@ -41,7 +41,6 @@ def orange_lighting():
             mote.show()
             pixels.append([line, led_index, 224, 64, 0, 1])
             time.sleep(0.015)
-        print(pixels)
         mote.clear()
         draw(pixels)
         pixels.clear()

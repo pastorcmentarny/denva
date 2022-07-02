@@ -143,7 +143,6 @@ def get_errors_from_data(data):
 def get_data_for_page(config_data, page_recent_log_app, page_ricky, page_tt_delays_counter,
                       page_tube_trains):
     logger.info('Getting data for main page')
-    print(local_data_gateway.get_current_reading_for_enviro())
     try:
         data = {
             'page_tube_trains': page_tube_trains,

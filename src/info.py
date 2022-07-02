@@ -11,7 +11,6 @@ def display_info():
     print(f'OS: {platform.platform()}')
     print(f'Python: {platform.python_version()}')
     print(f'Processor: {platform.processor()}')
-    print(line)
     # move this to common
     if platform.system() == 'Windows':
         print(str(system_data_service.get_system_information()))

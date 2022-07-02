@@ -44,19 +44,6 @@ timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
 
 file_dir = "/home/pi/"  # Where to save log file.
 
-print("""
-NOTE! This code should not be used as the basis for a real
-smoke or fire detector, or in life-critical situations. It's
-for fun/novelty use only, so bear that in mind while using it.
-This example uses the green LED to detect the amount of green
-light reflected back to the sensor. An increase in relected
-light should correlate to an increase in particles in front of
-the sensor.
-Any movement of objects close to the sensor is likely to also
-trigger detection of a change.
-Values are printed to the terminal and to a datestamped text
-file in the directory file_dir.
-""")
 
 delay = 10
 

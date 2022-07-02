@@ -126,12 +126,6 @@ def is_file_older_than_5_minutes(filename: str) -> bool:
     hour = int(filename[9:11])
     minute = int(filename[11:13])
     second = int(filename[13:15])
-    print(year)
-    print(month)
-    print(day)
-    print(hour)
-    print(month)
-    print(second)
     last = datetime(year, month, day, hour, minute, second)
     now = datetime.now()
     time_delta = now - last
