@@ -34,7 +34,7 @@ def display_stats():
 def digest():
     # load and save them to file for stats
     counter = 0
-    errors = 0  # add when error was happen last time
+    errors = 0  # add when error was happened last time
     warnings = 0
     while True:
         counter += 1

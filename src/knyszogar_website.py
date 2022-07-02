@@ -310,7 +310,7 @@ def get_measurement():
 
 
 # TODO improve it
-@app.route("/test")
+@app.route("/ping")
 def get_ping_test():
     logger.info("Running ping test")
     return jsonify(delight_service.get_ping_test_results())

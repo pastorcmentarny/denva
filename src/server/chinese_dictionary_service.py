@@ -20,7 +20,7 @@ words = []
 
 
 def load_dictionary_file() -> list:
-    file_path = config_service.get_path_to_chinese_dictionary()
+    file_path = config.get_path_to_chinese_dictionary()
     file = open(file_path, 'r', encoding="UTF-8", newline='')
     content = file.readlines()
     for line in content:

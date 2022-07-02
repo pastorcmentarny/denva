@@ -145,6 +145,7 @@ def draw_ram_status():
     display.unicornhathd.set_pixel(1, 5, r, g, b)
 
 
+#TODO re-use commands
 def get_space_available():
     with Popen("df / -m --output=avail", stdout=PIPE, shell=True) as process:
         result, _ = process.communicate()
