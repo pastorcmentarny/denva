@@ -119,11 +119,11 @@ def app_loop():
             elif is_stand_up():
                 mote_lighting.party_random_color_mode()
             elif is_lunch_break():
-                mote_lighting.fire_effect_with_lighting()
+                mote_lighting.lunch_effect()
             elif is_busy_at_work():
                 mote_lighting.red_alert()
             else:
-                mote_lighting.daydream()
+                mote_lighting.borg()
 
 
 def setup_test_logging(app_name: str):

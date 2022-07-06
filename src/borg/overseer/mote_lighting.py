@@ -5,6 +5,7 @@ from mote import Mote
 import rain_effect, alert_effect, overseer_utils
 import overseer_config, idle_effect, fire_effect, party_effect, lighting_effect, night_fire_storm_mode
 import borg_effect
+
 logger = logging.getLogger('overseer')
 
 mote = Mote()
@@ -49,7 +50,7 @@ def fire_effect_with_lighting():
 
 
 def night_mode():
-    idle_effect.night_mode(mote)
+    idle_effect.turn_light_off(mote)
 
 
 def party_random_color_mode():
@@ -60,5 +61,5 @@ def orange_lighting():
     return lighting_effect.orange_lighting(mote)
 
 
-def night():
-    return night_fire_storm_mode.app(mote)
+def lunch_effect():
+    fire_effect.show_on_display(mote)
