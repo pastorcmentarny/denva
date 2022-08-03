@@ -130,8 +130,8 @@ def cleanup_before_exit():
 if __name__ == '__main__':
     global points
     config.set_mode_to('denva')
-    data_files.setup_logging(config.get_environment_log_path_for('app'))
-    logging.info('Starting application ... \n Press Ctrl+C to shutdown')
+    data_files.setup_logging(config.get_environment_log_path_for('denva_app'))
+    logger.info('Starting application ... \n Press Ctrl+C to shutdown')
     email_sender_service.send_ip_email('denva')
     try:
         logging.info('Mounting network drives')
