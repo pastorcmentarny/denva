@@ -24,7 +24,6 @@ from common.gobshite_exception import GobshiteException
 
 SERVER_IP = "http://192.168.0.200:5000/"
 
-stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
 
 HEADERS = {
@@ -220,7 +219,7 @@ tube_color_name = {
 def get_color_name(hex_colour: str):
     hex_colour = hex_colour.upper()
     if hex_colour in tube_color_name:
-        stats_log.info(tube_color_name[hex_colour] + ' color')
+        logger.info(tube_color_name[hex_colour] + ' color')
         return tube_color_name[hex_colour].capitalize()
     if hex_colour in color_name:
         return color_name[hex_colour].capitalize()
@@ -355,8 +354,3 @@ def setup_test_logging(app_name: str):
 def load_cfg() -> dict:
     with open('/home/pi/email.json', 'r') as email_config:
         return json.load(email_config)
-
-
-def log_print(message):
-    print(message)
-    logger.info(message)

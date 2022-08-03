@@ -18,6 +18,7 @@ from datetime import datetime
 
 import dom_utils
 #import server.information_service as information
+from common import loggy
 from gateways import local_data_gateway
 
 """
@@ -67,7 +68,7 @@ def main():
 
 
 if __name__ == '__main__':
-    dom_utils.log_print('Starting application')
+    loggy.log_with_print('Starting application')
     try:
         main()
     except KeyboardInterrupt as keyboard_exception:

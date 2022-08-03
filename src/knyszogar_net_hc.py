@@ -19,7 +19,7 @@ import requests
 
 import config
 import dom_utils
-from common import status, data_files
+from common import status, data_files, loggy
 from gateways import local_data_gateway
 from systemhc import system_health_check_service
 
@@ -278,7 +278,7 @@ def app_loop():
 if __name__ == '__main__':
 
     dom_utils.setup_test_logging('healthcheck')
-    dom_utils.log_print('Starting application')
+    loggy.log_with_print('Starting application')
 
     try:
         local_data_gateway.post_device_on_off('hc', True)
