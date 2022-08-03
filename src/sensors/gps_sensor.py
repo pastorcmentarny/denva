@@ -28,7 +28,6 @@ def get_measurement():
     try:
         updated = gps.update()
         if updated:
-            logger.debug(f'GPS data: {gps.data}')
             return gps.data
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
