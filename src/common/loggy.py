@@ -15,3 +15,8 @@ def log_error_count(errors):
 
 def log_time(what: str, start_time, end_time):
     logger.info('{} took {} ms.'.format(what, int((end_time - start_time) * 1000)))
+
+
+def log_with_print(msg: str):
+    logger.info(msg)
+    print(msg)
