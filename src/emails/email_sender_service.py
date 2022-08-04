@@ -59,7 +59,10 @@ def should_send_report_email():
             logger.info("Daily report email sent.")
 
 
-def send(data: dict, subject: str):
+def send(data: dict, subject: str, email_disabled: bool = True):
+    # TODO remove it when new way to send email is implemented
+    if email_disabled:
+        return
     cfg = data_files.load_cfg()
     logger.info('Sending email for {}'.format(subject))
     try:
@@ -85,7 +88,10 @@ def send(data: dict, subject: str):
         logger.error('Unable to send email due to {}'.format(e), exc_info=True)
 
 
-def send_picture(picture_path: str, pict_no: int):
+def send_picture(picture_path: str, pict_no: int, email_disabled: bool = True):
+    # TODO remove it when new way to send email is implemented
+    if email_disabled:
+        return
     cfg = data_files.load_cfg()
     subject = "CCTV"
     logger.info('Sending email for {}'.format(subject))
@@ -116,7 +122,7 @@ def send_picture(picture_path: str, pict_no: int):
 
 
 def send_error_log_email(what: str, message: str, email_disabled: bool = True):
-    #
+    # TODO remove it when new way to send email is implemented
     if email_disabled:
         return
     cfg = data_files.load_cfg()
@@ -147,7 +153,11 @@ def send_error_log_email(what: str, message: str, email_disabled: bool = True):
     time.sleep(WAITING_TIME_IN_SECONDS)  # wait one minute before carry on ...
 
 
-def send_error_v2(who: str, subject: str, message: str):
+def send_error_v2(who: str, subject: str, message: str, email_disabled: bool = True):
+    # TODO remove it when new way to send email is implemented
+    if email_disabled:
+        return
+
     cfg = data_files.load_cfg()
     logger.info('Sending error log email with message: {}'.format(message))
     try:
@@ -176,7 +186,10 @@ def send_error_v2(who: str, subject: str, message: str):
     time.sleep(WAITING_TIME_IN_SECONDS)  # wait one minute before carry on ...
 
 
-def send_ip_email(device: str):
+def send_ip_email(device: str, email_disabled: bool = True):
+    # TODO remove it when new way to send email is implemented
+    if email_disabled:
+        return
     logger.info('Sending email with IP info for device: {}'.format(device))
     cfg = data_files.load_cfg()
     try:
