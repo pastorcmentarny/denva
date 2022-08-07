@@ -13,11 +13,38 @@
       "formatter": "simple",
       "stream": "ext://sys.stdout"
     },
-    "ddd_file_handler": {
+    "log_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "filename": "/home/pi/logs/denva_app_log.log",
+      "when": "midnight",
+      "encoding": "utf8",
+      "backupCount": 30
+    },
+    "warnings_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "filename": "/home/pi/logs/warnings.log",
+      "when": "midnight",
+      "encoding": "utf8",
+      "backupCount": 30
+    },
+    "stats_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "/home/pi/logs/airplane.log",
+      "filename": "/home/pi/logs/stats.log",
+      "when": "midnight",
+      "encoding": "utf8",
+      "backupCount": 30
+    },
+    "healthcheck_file_handler": {
+      "class": "logging.handlers.TimedRotatingFileHandler",
+      "level": "INFO",
+      "formatter": "simple",
+      "filename": "/home/pi/logs/healthcheck.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -27,35 +54,28 @@
     "app": {
       "level": "DEBUG",
       "handlers": [
-        "ddd_file_handler"
+        "log_file_handler"
       ],
       "propagate": false
     },
     "warnings": {
       "level": "INFO",
       "handlers": [
-        "ddd_file_handler"
+        "warnings_file_handler"
       ],
       "propagate": false
     },
     "stats": {
       "level": "INFO",
       "handlers": [
-        "ddd_file_handler"
+        "stats_file_handler"
       ],
       "propagate": false
     },
     "hc": {
       "level": "INFO",
       "handlers": [
-        "ddd_file_handler"
-      ],
-      "propagate": false
-    },
-    "ddd": {
-      "level": "INFO",
-      "handlers": [
-        "ddd_file_handler"
+        "healthcheck_file_handler"
       ],
       "propagate": false
     }

@@ -74,7 +74,7 @@ settings = {
     "logs": {
         'dev_app': f'{PI_CONFIG_PATH}dev_log_app_config.json',
         'dev_ui': f'{PI_CONFIG_PATH}dev_log_ui_config.json',
-        'dev_ddd': f'{PI_CONFIG_PATH}dev_log_app_config.json',
+        'dev_ddd': f'{PI_CONFIG_PATH}dev_log_ddd_config.json',
         'server_app': f'{PI_CONFIG_PATH}server_log_app_config.json',
         'server_ui': f'{PI_CONFIG_PATH}server_log_ui_config.json',
         'denva_app': f'{PI_CONFIG_PATH}log_app_config.json',
@@ -102,8 +102,11 @@ def get_log_path_for(log_type: str) -> str:
     return settings['logs'][log_type]
 
 
+#TODO REFACTOR
 def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
+    if where == 'denva_app':
+        return f'{PI_CONFIG_PATH}log_denva_app_config.json'
     if where == 'overseer_mode':
         return settings['logs']['overseer_mode']
     if where == 'overseer':
@@ -118,7 +121,7 @@ def get_environment_log_path_for(where: str) -> str:
 
     if env_type == 'dev':
         return settings['logs']['dev_' + where]
-
+    print(settings['logs']['{}_{}'.format(env_type, where)])
     return settings['logs']['{}_{}'.format(env_type, where)]
 
 
