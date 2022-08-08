@@ -152,7 +152,7 @@ def app(mote):
             lighting_storm_count += 1
 
 
-# stand alone version of night mode
+# stand-alone version of night mode
 if __name__ == '__main__':
     mote = Mote()
     mote.configure_channel(1, 16, False)
