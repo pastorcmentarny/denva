@@ -316,7 +316,7 @@
 352;;878ddedb;;S;;我舞跳的很;;Wǒ wǔ tiào de hěn hǎo;;I danced very wel;;Ja tańcze bardzo dobrz;;none;;none
 353;;3b5558ab;;S;;我的电脑坏;;Wǒ de diànnǎo huàile;;My computer is broke;;no;;none;;none
 354;;c46e9dc2;;S;;我要一杯咖啡;;Wǒ yào yībēi kāfēi;;I want a cup of coffe;;no;;none;;none
-355;;a7acb1b5;;S;;好久不;;Hǎojiǔ bùjiàn;;Long time no se;;Dawno sie nie widzielism;;none;;none
+355;;a7acb1b5;;S;;好久不;;Hǎojiǔ bùjiàn;;Long time no see;;Dawno sie nie widzielism;;none;;none
 356;;69eb04b7;;S;;我读了书，喝了咖啡;;Wǒ dúle shū, hēle kāfēi;;I read the book and drank coffee;;no;;none;;none
 357;;41ff27f8;;S;;地铁在伦敦是很昂贵的;;Dìtiě zài lúndūn shì hěn ángguì de;;The tube is very expensive in the Londo;;no;;none;;none
 358;;b033046d;;S;;'Costa coffee'的咖啡比‘Starbucks'的咖啡好;;'Costa coffee'的咖啡比‘Starbucks'的咖啡好;;'Costa coffee' coffee is better than ‘Starbucks' coffe;;no;;none;;none
@@ -353,7 +353,7 @@
 389;;d5f62f66;;Q;;你喜欢绿茶还是红茶;;nǐ xǐhuan lǜchá háishì hóngch;;Do you like green tea or black te;;Czy lubisz zieloną herbatę lub czarną herbat;;none;;none
 390;;4c2b6168;;Q;;你想吃西瓜还是苹;;nǐ xǐhuan chī xīguā háishì pínggu;;What do you want to eat ?Watermelon or appl;;Co chciabyś zjeść? Arbuza  czy jabłk;;none;;none
 391;;9a9160eb;;Q;;那是什;;nà shì shénm;;What is tha;;Co to jest?(dalek;;none;;none
-392;;2081ebbf;;Q;; 几点;;jǐ diǎnl;;What time is i;;Która jest godzin;;none;;none
+392;;2081ebbf;;Q;; 几点;;jǐ diǎnl;;What time is it?;;Która jest godzin;;none;;none
 393;;62642956;;Q;;一瓶啤酒多少;;yī píng píjiǔ duōshǎo qiá;;How much cost bottle of bee;;Ile kosztuje butelka piw;;none;;none
 394;;b2eb45f8;;Q;;你爱好什;;nǐ àihào shénm;;What is your hobb;;jakie masz hobb;;none;;none
 395;;71fb17e8;;Q;;你喜欢什么样的音乐;;nǐ xǐhuan shénme yàng de yīnyu;;What kind of music do you lik;;Jaki rodzaj muzyki lubis;;none;;none
@@ -407,7 +407,7 @@
 443;;4f66660c;;Q;;你明天有空;;Nǐ míngtiān yǒu kòng m;;Are you free tomorro;;Czy masz wolne jutr;;none;;none
 444;;41f51f11;;Q;;你有驾驶执照;;Nǐ yǒu jiàshǐ zhízhào m;;Do you have driving licenc;;Czy masz prawo jazd;;none;;none
 445;;abb8945c;;Q;;这本词典是你的;;Zhè běn cídiǎn shì nǐ dema;;Is this your dictionar;;Czy to jest twój słowni;;none;;none
-446;;0d1a248f;;Q;;你们商店几点关;;Nǐmen shāng diàn jǐ diǎn guān mé;;What time does your shop clos;;kiedy sklep jest zamykan;;none;;none
+446;;0d1a248f;;Q;;你们商店几点关;;Nǐmen shāng diàn jǐ diǎn guān mé;;What time does your shop close?;;kiedy sklep jest zamykan;;none;;none
 447;;c265f5c0;;Q;;你无聊的时候最喜欢以什么方式消;;Nǐ wúliáo de shíhòu zuì xǐhuān yǐ shénme fāngshì xiāoqiǎ;;What is your favorite way to waste time on a boring da;;Jaki jest twój ulbiony sposób marnowania czas w nudny dzie;;none;;none
 448;;62b72477;;Q;;真的;; Zhēn de ma;;Reall;;Naprawd;;none;;none
 449;;e1fdda3e;;Q;;你回家什么时;;Nǐ huí jiā shi me shíhò;;When did you get hom;;Kiedy wrócisz do dom;;none;;none
@@ -512,4 +512,4 @@
 548;;709f00f0;;Q;;我晚上去参加派对;;Wǒ wǎnshàng qù cānjiā pàiduì;;I went to the party at nigh;;Wieczorem poszedlem na imprez;;none;;none
 549;;87fdef25;;Q;;你是软件工程师吗;;nǐ shì ruǎnjiàn gōngchéngshī ma;;Are you a software engineer;;Czy jesteś inżynierem oprogramowani;;none;;none
 550;;92efa6f0;;Q;;周一，你感觉怎样？How’s your Monday going ?
-
+551;;92bfa6c0;;A;;祝你一路顺风;;Zhù nǐ yīlù shùnfēng;;Good luck to you!;;Powodzenia!;;none;;none;;
