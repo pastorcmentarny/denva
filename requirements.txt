@@ -20,3 +20,4 @@ numpy==1.21.2
 mote==0.0.4
 pynput==1.7.3
 max30105==0.0.5
+retrying==1.3.3
