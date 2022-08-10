@@ -11,11 +11,10 @@
 """
 import json
 import logging
-
+import local_data_gateway
 import bs4
 import requests
 
-stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
 ENCODING = 'utf-8'
 
@@ -32,7 +31,7 @@ def get_train() -> str:
         train_tag = response[3].find_all('td')
         train_status += train_tag[0].text.replace(' Railways', '') + ': ' + train_tag[1].text
         if "Good service" not in train_status:
-            stats_log.warning("Disruption on the Chiltern Railways. {}".format(train_tag[1].text))
+            local_data_gateway.add_entry_to_diary("Disruption on the Chiltern Railways. {}".format(train_tag[1].text))
     except Exception as whoops:
         logger.error('Unable to get train data due to : %s' % whoops)
         train_status = 'Train data N/A'
@@ -56,7 +55,7 @@ def get_tube(online: bool):
                         text += 'reason :' + status['reason']
                         if ('Good Service' not in status['statusSeverityDescription']) or (
                                 'Service Closed' not in status['statusSeverityDescription']):
-                            stats_log.warning("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
+                            local_data_gateway.add_entry_to_diary("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
                                                                            status['reason']))
                 tubes.append(text)
             else:
@@ -64,7 +63,7 @@ def get_tube(online: bool):
                     if ('Good Service' not in status['statusSeverityDescription']) or (
                             'Service Closed' not in status['statusSeverityDescription']):
                         if 'reason' in status and online:
-                            stats_log.warning("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
+                            local_data_gateway.add_entry_to_diary("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
                                                                            status['reason']))
 
     except Exception as whoops:
@@ -89,7 +88,7 @@ def get_crime() -> str:
             crime_number = html_manager.select('p#no_location_crimes strong')[0].text
             crime_period = html_manager.select('#month > optgroup:nth-child(1) > option:nth-child(1)')[0].text
             crime_result = '{} crimes {}'.format(crime_number, crime_period)
-            stats_log.info(crime_result)
+            local_data_gateway.add_entry_to_diary(crime_result)
             return crime_result
     except Exception as whoops:
         logger.error('Unable to get crime data due to : %s' % whoops)
@@ -114,7 +113,7 @@ def get_flood() -> str:
             flood_alerts = html_manager.select('#flood-alerts')[0].text.replace('Flood alerts', '').replace(
                 'Flooding is possible - be prepared', '').strip() + ' flooding alerts that flooding is possible'
             flooding_result = "Flooding. {}, {}, {}.".format(severe_flood_warnings, flood_warnings, flood_alerts)
-            stats_log.info(flooding_result)
+            local_data_gateway.add_entry_to_diary(flooding_result)
             return flooding_result
     except Exception as whoops:
         logger.error('Unable to get flood data due to : %s' % whoops)
@@ -131,7 +130,7 @@ def get_weather() -> str:
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
             weather = html_manager.select('#tabDay0')[0].find('div').text
-            stats_log.info(weather)
+            local_data_gateway.add_entry_to_diary(weather)
             return weather
     except Exception as whoops:
         logger.error('Unable to get weather data due to: {}'.format(whoops))
@@ -148,7 +147,7 @@ def get_o2_status() -> str:
             log_response_result(response, "o2")
             o2_data = json.loads(str(html_manager))
             status = o2_data['outage_script_txt']
-            stats_log.info(status)
+            local_data_gateway.add_entry_to_diary(status)
             return status
     except Exception as whoops:
         logger.error('Unable to get o2 data due to: {}'.format(whoops))
@@ -194,7 +193,7 @@ def get_pollution_for(city: str) -> str:
 
             index = html_manager.select('.aqivalue')[0].text
             pollution_index = int(index)
-            stats_log.info(pollution_index)
+            local_data_gateway.add_entry_to_diary(pollution_index)
             return _get_scale_result_from(city, pollution_index)
     except Exception as whoops:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))

@@ -191,8 +191,31 @@ def post_denva_measurement(json_data):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem: with sending measurement with url {} due to {} '.format(url, whoops))
+            'There was a problem with sending measurement for denva with url {} due to {} '.format(url, whoops))
 
 
-if __name__ == '__main__':
-    post_healthcheck_beat('denva', 'app')
+def post_denviro_measurement(json_data):
+    url = config.get_post_denviro_measurement_url()
+    try:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            logger.info(json_data)
+            logger.info(response.json())
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem with sending measurement for denviro with url {} due to {} '.format(url, whoops))
+
+
+def add_entry_to_diary(new_entry: str):
+    url = config.get_add_diary_entry_url()
+    try:
+        json_data = {'entry': new_entry}
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            logger.info(json_data)
+            logger.info(response.json())
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem with sending measurement for denviro with url {} due to {} '.format(url, whoops))

@@ -17,34 +17,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "DEBUG",
       "formatter": "simple",
-      "filename": "/home/pi/logs/server.log",
-      "when": "midnight",
-      "encoding": "utf8",
-      "backupCount": 30
-    },
-    "warnings_file_handler": {
-      "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "DEBUG",
-      "formatter": "simple",
-      "filename": "/home/pi/logs/warnings.log",
-      "when": "midnight",
-      "encoding": "utf8",
-      "backupCount": 30
-    },
-    "stats_file_handler": {
-      "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
-      "formatter": "simple",
-      "filename": "/home/pi/logs/stats_ui.log",
-      "when": "midnight",
-      "encoding": "utf8",
-      "backupCount": 30
-    },
-    "healthcheck_file_handler": {
-      "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
-      "formatter": "simple",
-      "filename": "/home/pi/logs/healthcheck.log",
+      "filename": "/home/pi/logs/ui.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -55,27 +28,6 @@
       "level": "DEBUG",
       "handlers": [
         "log_file_handler"
-      ],
-      "propagate": false
-    },
-    "warnings": {
-      "level": "INFO",
-      "handlers": [
-        "warnings_file_handler"
-      ],
-      "propagate": false
-    },
-    "stats": {
-      "level": "INFO",
-      "handlers": [
-        "stats_file_handler"
-      ],
-      "propagate": false
-    },
-    "hc": {
-      "level": "INFO",
-      "handlers": [
-        "healthcheck_file_handler"
       ],
       "propagate": false
     }

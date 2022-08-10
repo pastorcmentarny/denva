@@ -18,7 +18,7 @@ class DenvaSensorsServiceTestCases(unittest.TestCase):
                            'mz': '-33.75', 'cpu_temp': '47.0', 'eco2': '744', 'tvoc': '476'}
 
         # when
-        result = denva_sensors_service.get_data_row(DENVA_ROW)
+        result = denva_sensors_service.get_old_data_row(DENVA_ROW)
 
         # debug
         print(result)

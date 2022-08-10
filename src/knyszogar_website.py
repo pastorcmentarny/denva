@@ -22,7 +22,7 @@ from gateways import web_data_gateway
 from server import app_server_service, server_storage_service
 from server import delight_service
 from server import healthcheck_service
-from services import common_service
+from services import common_service, diarist_service
 from services import information_service, tubes_train_service, text_service, \
     metrics_service
 
@@ -74,6 +74,13 @@ def update_device_status_for():
 def update_denva_measurement():
     logger.info('Updating data measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
     server_storage_service.save_denva_measurement(request.get_json(force=True))
+    return jsonify({})
+
+
+@app.route("/diary/add", methods=['POST'])
+def update_denva_measurement():
+    logger.info('Add entry to diary. Data size {}'.format(len(str(request.get_json(force=True)))))
+    diarist_service.add(request.get_json(force=True)["entry"])
     return jsonify({})
 
 

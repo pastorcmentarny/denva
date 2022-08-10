@@ -16,6 +16,7 @@ import time
 import traceback
 from timeit import default_timer as timer
 
+import config
 from common import data_files, commands
 from denva import cl_display
 from gateways import local_data_gateway
@@ -23,7 +24,7 @@ from sensors import gas_service, humidity_bme_service, light_proximity_service
 from sensors import particulate_matter_service
 # from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import sensor_warnings_service
-from email import email_sender_service
+
 
 logger = logging.getLogger('app')
 
@@ -87,6 +88,7 @@ def main():
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         measurement['measurement_time'] = measurement_time
+        local_data_gateway.post_denva_measurement(measurement)
         logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
 
@@ -113,7 +115,7 @@ if __name__ == '__main__':
     config.set_mode_to('denviro')
     data_files.setup_logging('app')
     logger.info('Starting application ... \n Press Ctrl+C to shutdown')
-    email_sender_service.send_ip_email('Denva Enviro+')
+    #TODO fix with send to server email_sender_service.send_ip_email('Denva Enviro+')
 
     try:
         commands.mount_all_drives()
@@ -124,8 +126,8 @@ if __name__ == '__main__':
         sys.exit(0)
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        email_sender_service.send_error_log_email('Denviro UI',
-                                                  'Denviro UI crashes due to {}'.format(exception))
+        #TODO fix with send to server email_sender_service.send_error_log_email('Denviro UI',
+#                                                  'Denviro UI crashes due to {}'.format(exception))
         sys.exit(1)
     except BaseException as disaster:
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)

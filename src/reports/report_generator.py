@@ -22,7 +22,6 @@ from reports import averages, records
 from services import information_service, sensor_warnings_service
 
 warnings_logger = logging.getLogger('warnings')
-stats_log = logging.getLogger('stats')
 logger = logging.getLogger('app')
 
 report = {
@@ -127,7 +126,6 @@ def generate_for(date: datetime) -> dict:
     try:
         # is below 2 lines looks stupid? yes, because it is
         warnings_logger.info("")
-        stats_log.info("")
         '''
         why? as report is generated on next day, you need add log entry 
         logger can trigger TimedRotatingFileHandler event  and create file
@@ -235,7 +233,6 @@ def generate_enviro_report_for_yesterday() -> dict:
     try:
         # is below 2 lines looks stupid? yes, because it is
         warnings_logger.info("")
-        stats_log.info("")
         '''
         why? as report is generated on next day, you need add log entry 
         logger can trigger TimedRotatingFileHandler event  and create file
