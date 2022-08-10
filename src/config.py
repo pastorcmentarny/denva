@@ -102,7 +102,7 @@ def get_log_path_for(log_type: str) -> str:
     return settings['logs'][log_type]
 
 
-#TODO REFACTOR
+# TODO REFACTOR
 def get_environment_log_path_for(where: str) -> str:
     env_type = settings['mode']
     if where == 'denva_app':
@@ -271,3 +271,15 @@ def get_update_device_status_url() -> str:
 
 def get_path_to_text():
     return settings["paths"]["text"]
+
+
+def get_post_denva_measurement_url():
+    return f'{SERVER_IP}:5000/measurement/denva'
+
+
+def get_post_denviro_measurement_url():
+    return f'{SERVER_IP}:5000/measurement/denviro'
+
+
+def get_post_trases_measurement_url():
+    return f'{SERVER_IP}:5000/measurement/trases'
