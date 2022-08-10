@@ -19,7 +19,7 @@ from flask import Flask, jsonify, url_for, request, render_template
 import config
 import dom_utils
 from gateways import web_data_gateway
-from server import app_server_service
+from server import app_server_service, server_storage_service
 from server import delight_service
 from server import healthcheck_service
 from services import common_service
@@ -40,6 +40,8 @@ def update_metrics_for():
     metrics_service.add(result['metrics'], result['result'])
     return jsonify({"status": "OK"})
 
+
+# TODO add post mesaurement for denva,denviro,trases
 
 @app.route("/hc")
 def healthcheck():
@@ -65,6 +67,13 @@ def update_device_to_on_off_for():
 def update_device_status_for():
     logger.info('Updating device status to {}'.format(request.get_json(force=True)))
     healthcheck_service.update_device_status_for(request.get_json(force=True))
+    return jsonify({})
+
+
+@app.route("/measurement/denva", methods=['POST'])
+def update_denva_measurement():
+    logger.info('Updating data measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
+    server_storage_service.save_denva_measurement(request.get_json(force=True))
     return jsonify({})
 
 
