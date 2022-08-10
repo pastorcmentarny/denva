@@ -181,5 +181,18 @@ def post_device_status(device: str, device_status: str):
             'There was a problem: {} using url {}, device {} and state {}'.format(whoops, url, device, device_status))
 
 
+def post_denva_measurement(json_data):
+    url = config.get_post_denva_measurement_url()
+    try:
+        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
+            response.json()
+            logger.info(json_data)
+            logger.info(response.json())
+            response.raise_for_status()
+    except Exception as whoops:
+        logger.warning(
+            'There was a problem: with sending measurement with url {} due to {} '.format(url, whoops))
+
+
 if __name__ == '__main__':
     post_healthcheck_beat('denva', 'app')
