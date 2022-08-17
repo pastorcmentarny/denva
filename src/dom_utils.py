@@ -342,9 +342,13 @@ def post_healthcheck_beat(device: str, app_type: str):
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
-def setup_test_logging(app_name: str):
+def setup_test_logging(app_name: str, debug_mode: bool = False):
     print('Setting logs ...')
-    logging_level = logging.DEBUG
+    if debug_mode:
+        logging_level = logging.DEBUG
+    else:
+        logging_level = logging.WARN
+
     logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
     logging_filename = f'/home/pi/knyszogardata/logs/{app_name}-{date.today()}.txt'
     logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
