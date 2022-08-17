@@ -11,10 +11,9 @@
 """
 import json
 import logging
-import local_data_gateway
 import bs4
 import requests
-
+from gateways import local_data_gateway
 logger = logging.getLogger('app')
 ENCODING = 'utf-8'
 
@@ -138,6 +137,7 @@ def get_weather() -> str:
 
 
 def get_o2_status() -> str:
+    logger.info(f'Getting o2 status')
     try:
         with requests.get(
                 'https://status.o2.co.uk/api/care/2010-11-22/outages/near/radius/-1/lon/-0.5057294/lat/51.6367404/service/0/operator/0/ctype/10/address/wd38ql/customer/e1kGKHRsWmAycFN9JH4rdhsxE1gBXHlRdC0/auth/A5FDC03C:::620B3907?uuid=8d40762059154803b6dee4391394666c&browser_uuid=4a9f19cbf4fb488e8ba81e6994e89731&id=0b1b8c44-6800-9e4d-61a3-4935d46b5bc1',
@@ -183,7 +183,7 @@ def _get_scale_result_from(city: str, index: int) -> str:
 
 
 def get_pollution_for(city: str) -> str:
-    logger.info('weather')
+    logger.info(f'Getting pollution index for {city} ')
     try:
         with requests.get('https://aqicn.org/city/{}/'.format(city), timeout=5) as response:
             response.encoding = ENCODING
@@ -193,7 +193,7 @@ def get_pollution_for(city: str) -> str:
 
             index = html_manager.select('.aqivalue')[0].text
             pollution_index = int(index)
-            local_data_gateway.add_entry_to_diary(pollution_index)
+            local_data_gateway.add_entry_to_diary(f"Polution index for {city} is {pollution_index}")
             return _get_scale_result_from(city, pollution_index)
     except Exception as whoops:
         logger.error('Unable to get pollution data due to: {}'.format(whoops))
