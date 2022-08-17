@@ -55,7 +55,7 @@ def get_data_from_measurement() -> dict:
         tvoc = air_quality_service.get_tvoc_measurement_as_string()
         local_data_gateway.post_metrics_update('air_quality', 'ok')
     except Exception as air_quality_exception:
-        logger.error(f'Unable to read from air quality sensor due to {air_quality_exception}')
+        logger.warning(f'Unable to read from air quality sensor due to {air_quality_exception}')
         local_data_gateway.post_metrics_update('air_quality', 'errors')
 
     red, green, blue = two_led_service.get_measurement()
@@ -64,7 +64,8 @@ def get_data_from_measurement() -> dict:
     try:
         gps_data = gps_sensor.get_measurement()
     except Exception as get_data_exception:
-        gps_data = {'timestamp': datetime.time(0, 0, 0), 'latitude': 0.0, 'longitude': -0.0,
+        logger.warning(f'Unable to read from gps sensor due to {get_data_exception}')
+        gps_data = {'timestamp': datetime.now(), 'latitude': 0.0, 'longitude': -0.0,
                     'altitude': 0, 'lat_dir': 'N', 'lon_dir': 'W', 'geo_sep': '0', 'num_sats': '0', 'gps_qual': 0,
                     'speed_over_ground': 0.0, 'mode_fix_type': '0', 'pdop': '0', 'hdop': '0', 'vdop': '0',
                     '_i2c_addr': 16, '_i2c': 'x', '_debug': False, "error": str(get_data_exception)}
