@@ -160,8 +160,6 @@ def get_new_warnings(data) -> dict:
         warnings['temp'] = 'Temperature is high [thw]. Current temperature is: {}'.format(str(data['temp']))
     elif data['temp'] > 30:
         warnings['temp'] = 'Temperature is too high  [the]. Current temperature is: {}'.format(str(data['temp']))
-    loggy.log_with_print(data)
-    loggy.log_with_print(f" {data['co2_temperature']} of type {type(data['co2_temperature'])}")
 
     if type(data['co2_temperature']) is not float:
         data['co2_temperature'] = float(data['co2_temperature'])
