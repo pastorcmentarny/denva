@@ -78,7 +78,7 @@ def update_denva_measurement():
 
 
 @app.route("/diary/add", methods=['POST'])
-def update_denva_measurement():
+def add_diary():
     logger.info('Add entry to diary. Data size {}'.format(len(str(request.get_json(force=True)))))
     diarist_service.add(request.get_json(force=True)["entry"])
     return jsonify({})
