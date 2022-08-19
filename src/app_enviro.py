@@ -19,12 +19,11 @@ from timeit import default_timer as timer
 import config
 from common import data_files, commands
 from denva import cl_display
+from denviro import denviro_sensors_service
 from gateways import local_data_gateway
 from sensors import gas_service, humidity_bme_service, light_proximity_service
 from sensors import particulate_matter_service
-# from denviro import denviro_display //FIXME fix issue with font loading,but I don't use display now
 from services import sensor_warnings_service
-
 
 logger = logging.getLogger('app')
 
@@ -67,10 +66,6 @@ def setup():
     start_time = timer()
     humidity_bme_service.warm_up()
     end_time = timer()
-    logger.info('It took {} ms. Mounting drives...'.format(int((end_time - start_time) * 1000)))
-    start_time = timer()
-    commands.mount_all_drives('enviro')
-    end_time = timer()
     logger.info('It took {} ms.'.format(int((end_time - start_time) * 1000)))
 
 
@@ -95,7 +90,8 @@ def main():
         # FIXME do not work due to “sounddevice.PortAudioError: Error querying device -1" error
         # logger.warning(noise_service.get_noise_measurement())
 
-        data_files.store_enviro_measurement(measurement)
+        data_files.store_enviro_measurement(measurement, denviro_sensors_service.get_sensor_log_file(),
+                                            denviro_sensors_service.get_sensor_log_file_at_server())
 
         sensor_warnings_service.get_current_warnings_for_enviro()
 
@@ -115,10 +111,9 @@ if __name__ == '__main__':
     config.set_mode_to('denviro')
     data_files.setup_logging('app')
     logger.info('Starting application ... \n Press Ctrl+C to shutdown')
-    #TODO fix with send to server email_sender_service.send_ip_email('Denva Enviro+')
+    # TODO fix with send to server email_sender_service.send_ip_email('Denva Enviro+')
 
     try:
-        commands.mount_all_drives()
         main()
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
@@ -126,8 +121,8 @@ if __name__ == '__main__':
         sys.exit(0)
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        #TODO fix with send to server email_sender_service.send_error_log_email('Denviro UI',
-#                                                  'Denviro UI crashes due to {}'.format(exception))
+        # TODO fix with send to server email_sender_service.send_error_log_email('Denviro UI',
+        #                                                  'Denviro UI crashes due to {}'.format(exception))
         sys.exit(1)
     except BaseException as disaster:
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)

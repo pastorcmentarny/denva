@@ -15,6 +15,10 @@ from common import loggy
 import dom_utils
 from gateways import local_data_gateway
 
+DEVICE_SERVER = 'server'
+DEVICE_ENVIRO = 'enviro'
+DEVICE_DENVA = 'denva'
+
 FIELD_FREE_SPACE = 'Free Space'
 FIELD_MEMORY_AVAILABLE = 'Memory Available'
 KEY_SYSTEM = 'system'
@@ -28,46 +32,40 @@ def get_errors_from_data(data: dict) -> list:
         return ['No data.']
 
     hc_result = local_data_gateway.get_all_healthcheck_from_all_services()
-    if hc_result['denva'] == 'DOWN':
+    if hc_result[DEVICE_DENVA] == 'DOWN':
         errors.append('Healthcheck failed for Denva')
-    if hc_result['enviro'] == 'DOWN':
+    if hc_result[DEVICE_ENVIRO] == 'DOWN':
         errors.append('Healthcheck failed for Denviro')
-    if hc_result['server'] == 'DOWN':
+    if hc_result[DEVICE_SERVER] == 'DOWN':
         errors.append('Healthcheck failed for Server')
-    if hc_result['delight'] == 'DOWN':
-        errors.append('Healthcheck failed for Delight')
 
-    server_data = data[KEY_SYSTEM]['server']
-    if 'server' in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in server_data:
+    server_data = data[KEY_SYSTEM][DEVICE_SERVER]
+    if DEVICE_SERVER in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in server_data:
         if dom_utils.get_int_number_from_text(server_data[FIELD_MEMORY_AVAILABLE]) < 500:
             errors.append('Memory available on SERVER is VERY LOW.')
-    if 'server' in data[KEY_SYSTEM] and 'Free Space' in server_data:
-        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 128:
+
+    if DEVICE_SERVER in data[KEY_SYSTEM] and FIELD_FREE_SPACE in server_data:
+        if dom_utils.get_int_number_from_text(server_data[FIELD_FREE_SPACE]) < 128:
             errors.append('Free space on disk ON SERVER is VERY LOW.')
     else:
         errors.append('Server data is missing.')
 
-    denva_data = data[KEY_SYSTEM]['denva']
-    if 'denva' in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in denva_data:
+    denva_data = data[KEY_SYSTEM][DEVICE_DENVA]
+    if DEVICE_DENVA in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in denva_data:
         if dom_utils.get_int_number_from_text(denva_data[FIELD_MEMORY_AVAILABLE]) < 128:
             errors.append('Memory available ON DENVA is VERY LOW.')
-    if 'server' in data[KEY_SYSTEM] and 'Free Space' in server_data:
-        if dom_utils.get_int_number_from_text(denva_data['Free Space']) < 128:
+    if DEVICE_SERVER in data[KEY_SYSTEM] and FIELD_FREE_SPACE in server_data:
+        if dom_utils.get_int_number_from_text(denva_data[FIELD_FREE_SPACE]) < 128:
             errors.append('Free space on disk ON DENVA is VERY LOW.')
-    if 'server' in data[KEY_SYSTEM] and 'Data Free Space' in server_data:
-        if dom_utils.get_int_number_from_text(denva_data['Data Free Space']) < 256:
-            errors.append('Free space on data partition ON DENVA is VERY LOW.')
     else:
         errors.append('Denva data is missing.')
 
-    enviro_data = data[KEY_SYSTEM]['enviro']
-    if 'enviro' in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in enviro_data:
+    enviro_data = data[KEY_SYSTEM][DEVICE_ENVIRO]
+    if DEVICE_ENVIRO in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in enviro_data:
         if dom_utils.get_int_number_from_text(enviro_data[FIELD_MEMORY_AVAILABLE]) < 128:
             errors.append('Memory available ON ENVIRO is VERY LOW.')
         if dom_utils.get_int_number_from_text(enviro_data[FIELD_FREE_SPACE]) < 128:
             errors.append('Free space on disk ON ENVIRO is VERY LOW.')
-        if dom_utils.get_int_number_from_text(enviro_data['Data Free Space']) < 256:
-            errors.append('Free space on data partition ON ENVIRO is VERY LOW.')
     else:
         errors.append('Enviro data is missing.')
 
