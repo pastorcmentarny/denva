@@ -150,7 +150,7 @@ def get_data_for_page(config_data, page_recent_log_app, page_ricky, page_tt_dela
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
-            'trases': {}, # local_data_gateway.get_current_reading_for_trases(),
+            'trases': data_files.load_last_measurement_for('trases'),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             'system': get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),

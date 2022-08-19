@@ -2,6 +2,7 @@ import json
 import logging
 from retrying import retry
 
+READ = 'r'
 MODE = 'w'
 ENCODING = 'utf-8'
 logger = logging.getLogger('www')
@@ -19,8 +20,10 @@ def save_trases_measurement(data):
     __save(data, '/home/pi/data/trases_data.json')
 
 
+
 def __retry_on_exception(exception):
     return isinstance(exception, Exception)
+
 
 
 @retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,

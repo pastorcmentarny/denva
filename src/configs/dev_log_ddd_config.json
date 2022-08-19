@@ -15,7 +15,7 @@
     },
     "ddd_file_handler": {
       "class": "logging.handlers.TimedRotatingFileHandler",
-      "level": "INFO",
+      "level": "WARN",
       "formatter": "simple",
       "filename": "/home/pi/logs/airplane.log",
       "when": "midnight",
@@ -25,35 +25,35 @@
   },
   "loggers": {
     "app": {
-      "level": "DEBUG",
+      "level": "WARN",
       "handlers": [
         "ddd_file_handler"
       ],
       "propagate": false
     },
     "warnings": {
-      "level": "INFO",
+      "level": "WARN",
       "handlers": [
         "ddd_file_handler"
       ],
       "propagate": false
     },
     "stats": {
-      "level": "INFO",
+      "level": "WARN",
       "handlers": [
         "ddd_file_handler"
       ],
       "propagate": false
     },
     "hc": {
-      "level": "INFO",
+      "level": "WARN",
       "handlers": [
         "ddd_file_handler"
       ],
       "propagate": false
     },
     "ddd": {
-      "level": "INFO",
+      "level": "WARN",
       "handlers": [
         "ddd_file_handler"
       ],
@@ -61,7 +61,7 @@
     }
   },
   "root": {
-    "level": "DEBUG",
+    "level": "WARN",
     "handlers": [
       "console"
     ]

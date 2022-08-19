@@ -71,8 +71,22 @@ def update_device_status_for():
 
 @app.route("/measurement/denva", methods=['POST'])
 def update_denva_measurement():
-    logger.info('Updating data measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
+    logger.info('Updating denva measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
     server_storage_service.save_denva_measurement(request.get_json(force=True))
+    return jsonify({})
+
+
+@app.route("/measurement/denviro", methods=['POST'])
+def update_denviro_measurement():
+    logger.info('Updating denviro measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
+    server_storage_service.save_denva_measurement(request.get_json(force=True))
+    return jsonify({})
+
+
+@app.route("/measurement/trases", methods=['POST'])
+def update_trases_measurement():
+    logger.info('Updating trases measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
+    server_storage_service.save_trases_measurement(request.get_json(force=True))
     return jsonify({})
 
 

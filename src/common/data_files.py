@@ -19,6 +19,7 @@ from datetime import datetime, date
 from pathlib import Path
 
 import dom_utils
+from retrying import retry
 
 EMPTY = ''
 
@@ -267,7 +268,7 @@ def add_denva_row(data, row):
             'colour': row[5],
             'uva_index': row[7],
             'uvb_index': row[8],
-            #TODO uv?
+            # TODO uv?
             'ax': row[10],
             'ay': row[11],
             'az': row[12],
@@ -371,3 +372,18 @@ def load_metrics_data(path: str) -> dict:
     except Exception as exception:
         logging.warning(f'Unable to load metrics data ${metric_data_file} to file due to: ${exception}', exc_info=True)
         return {}
+
+
+def __retry_on_exception(exception):
+    return isinstance(exception, Exception)
+
+
+@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
+       stop_max_attempt_number=5)
+def __load(path: str) -> dict:
+    with open(path, READ, encoding=ENCODING) as json_file:
+        return json.load(json_file)
+
+
+def load_last_measurement_for(device):
+    return __load(f'/home/pi/data/{device}_data.json')
