@@ -43,7 +43,6 @@ settings = {
     "paths": {
         "frame": f'{PI_HOME_DIR}/frame/',
         "backup": f'{PI_HOME_DIR}backup/',
-        "photosPath": "/mnt/data/photos/",  # TODO change it
         "events": f'{PI_HOME_DIR}events.json',
         "chinese-dictionary": f'{PI_DATA_PATH}dictionary.txt',
         "overseer_mode": f'{PI_HOME_DIR}overseer_mode.txt',
@@ -52,7 +51,7 @@ settings = {
     "system": {
         "memory_available": 250 * 1024 * 1024,  # 250MB
         "free_space": 500,
-        "ip": "{SERVER_IP}:5000",
+        "ip": f"{SERVER_IP}:5000",
         "cpu_temp_warn": 60,
         "cpu_temp_error": 70,
         "cpu_temp_fatal": 80
@@ -65,6 +64,7 @@ settings = {
         "denva": "http://192.168.0.201:5000",
         "enviro": "http://192.168.0.202:5000",
         "delight": f'{SERVER_IP}:5000',
+        "trases4": "http://192.168.0.224:5000",
         "dump1090_data": "http://192.168.0.201:16601/data.json"
     },
     "latency": {
