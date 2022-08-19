@@ -9,7 +9,7 @@ from emails import email_sender_service
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
-dom_utils.setup_test_logging('healthcheck')
+dom_utils.setup_test_logging('email')
 APP_NAME = 'Server UI'
 
 
@@ -35,8 +35,6 @@ def update_metrics_for():
 
 
 if __name__ == '__main__':
-
-    dom_utils.setup_test_logging('email')
 
     logger.info('Starting web server')
 
