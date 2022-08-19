@@ -311,7 +311,7 @@
                 {% if  message.system.server %}
                     <li class="small"><b>CPU Speed:</b>{{ message.system.server["CPU Speed"] }}</li>
                     <li class="small"><b>RAM Available:</b>{{ message.system.server["Memory Available"] }}</li>
-                    <li class="small"><b>Disk Free:</b>{{ message.system.server["Disk Free"] }}</li>
+                    <li class="small"><b>Free Space:</b>{{ message.system.server["Free Space"] }}</li>
                     <li class="small"><b>Uptime:</b>{{ message.system.server["Uptime"] }}</li>
                 {% else %}
                     <li><span class="bad">No Server data :(</span></li>
@@ -371,21 +371,18 @@
         <div class="card-body small">
             <ul class="list-unstyled mt-3 mb-4">
                 <li><strong>temp</strong> : {{ message.denva.temp }}</li>
+                <li><strong>temp (cpu)</strong> : {{ message.denva.cpu_temp }}</li>
                 <li><strong>pressure</strong> : {{ message.denva.pressure }}</li>
                 <li><strong>humidity</strong> : {{ message.denva.humidity }}</li>
+                <li><strong>relative_humidity</strong> : {{ message.denva.relative_humidity }}</li>
+                <li><strong>co2</strong> : {{ message.denva.co2 }}</li>
+                <li><strong>co2_temperature</strong> : {{ message.denva.co2_temperature }}</li>
                 <li><strong>colour</strong> : {{ message.denva.colour }}</li>
-                <li><strong>uva_index</strong> : {{ message.denva.uva_index }}</li>
-                <li><strong>uvb_index</strong> : {{ message.denva.uvb_index }}</li>
-                <li><strong>motion</strong> : {{ message.denva.motion }}</li>
-                <li><strong>ax</strong> : {{ message.denva.ax }}</li>
-                <li><strong>ay</strong> : {{ message.denva.ay }}</li>
-                <li><strong>az</strong> : {{ message.denva.az }}</li>
-                <li><strong>gx</strong> : {{ message.denva.gx }}</li>
-                <li><strong>gy</strong> : {{ message.denva.gy }}</li>
-                <li><strong>gz</strong> : {{ message.denva.gz }}</li>
-                <li><strong>mx</strong> : {{ message.denva.mx }}</li>
-                <li><strong>my</strong> : {{ message.denva.my }}</li>
-                <li><strong>mz</strong> : {{ message.denva.mz }}</li>
+                <li><strong>r</strong> : {{ message.denva.r }}</li>
+                <li><strong>g</strong> : {{ message.denva.g }}</li>
+                <li><strong>b</strong> : {{ message.denva.b }}</li>
+                <li><strong>gas_resistance</strong> : {{ message.denva.gas_resistance }}</li>
+                <li><strong>gps_num_sats</strong> : {{ message.denva.gps_num_sats }}</li>
                 <li><strong>eco2</strong> : {{ message.denva.eco2 }}</li>
                 <li><strong>tvoc</strong> : {{ message.denva.tvoc }}</li>
             </ul>
@@ -402,6 +399,14 @@
                 <li><strong>pm1</strong> : {{ message.enviro.pm1 }}</li>
                 <li><strong>pm25</strong> : {{ message.enviro.pm25 }}</li>
                 <li><strong>pm10</strong> : {{ message.enviro.pm10 }}</li>
+            </ul>
+        </div>
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Trases 4</h4>
+        </div>
+        <div class="card-body small">
+            <ul class="list-unstyled mt-3 mb-4">
+                <li><strong>data</strong> : {{ message.trases }}</li>
             </ul>
         </div>
         <div class="card-header">
