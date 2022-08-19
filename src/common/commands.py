@@ -12,7 +12,6 @@
 import logging
 import re
 import subprocess
-from datetime import datetime
 
 import psutil
 
@@ -122,6 +121,7 @@ def get_space_available():
 def get_data_space_available():
     return 0
 
+
 def get_lines_from_path(path: str, lines: int) -> dict:
     text = str(subprocess.check_output(['tail', '-n', str(lines), path]).strip(), "utf-8").split('\n')
     return dom_utils.convert_list_to_dict(text)
@@ -130,15 +130,6 @@ def get_lines_from_path(path: str, lines: int) -> dict:
 def get_last_line_from_log(path: str) -> str:
     text = str(subprocess.check_output(['tail', '-n', "1", path]).strip(), "utf-8")
     return text
-
-
-def get_last_photo_filename() -> str:
-    current_time = datetime.now()
-    cmd = f"ls /mnt/data/photos/{current_time.year}/{current_time.month:02d}/{current_time.day:02d}/ -rt | tail -1"
-    with subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as ps:
-        result = ps.communicate()[0]
-        ps.kill()
-        return str(result, 'utf-8')
 
 
 def reboot(reason: str):

@@ -44,7 +44,7 @@ def get_records_for_today():
 
 
 def get_last_measurement_from_sensor():
-    return denva_sensors_service.get_last_old_measurement()
+    return denva_sensors_service.get_last_new_measurement()
 
 
 def get_last_report():
