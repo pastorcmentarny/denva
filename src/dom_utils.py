@@ -243,6 +243,9 @@ def merge_two_dictionaries(first: dict, second: dict) -> dict:
 def convert_bytes_to_megabytes(size_in_bytes: int) -> int:
     return int(size_in_bytes / 1000 / 1000)
 
+def convert_megabytes_to_bytes(size_in_mb: int) -> int:
+    return int(size_in_mb / 1000 / 1000)
+
 
 def to_multiline(lines: list) -> str:
     text = ''
@@ -346,6 +349,7 @@ def setup_test_logging(app_name: str, debug_mode: bool = False):
     print('Setting logs ...')
     if debug_mode:
         logging_level = logging.DEBUG
+
     else:
         logging_level = logging.WARN
 
@@ -354,7 +358,7 @@ def setup_test_logging(app_name: str, debug_mode: bool = False):
     logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
     logging.captureWarnings(True)
     logging.info(f'Logging setup complete with log level set to: {logging_level}')
-    print('Logs setup completed')
+    print(f'Logs setup completed (Level: {logging_level}')
 
 
 def load_cfg() -> dict:

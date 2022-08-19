@@ -30,7 +30,3 @@ def is_night_mode() -> bool:
 
 def is_busy() -> bool:
     return True
-
-
-if __name__ == '__main__':
-    print(get_timer_for_eating())

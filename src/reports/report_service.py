@@ -53,9 +53,9 @@ def generate_for_yesterday() -> dict:
             data_files.save_report(report,
                                    dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
             return report
-    except Exception as e:
-        logger.error('Unable to generate report due to {}.Returning empty report'.format(e), exc_info=True)
-        return {'error': str(e)}
+    except Exception as exception:
+        logger.error('Unable to generate report due to {}.Returning empty report'.format(exception), exc_info=True)
+        return {'error': str(exception)}
 
 
 def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datetime:

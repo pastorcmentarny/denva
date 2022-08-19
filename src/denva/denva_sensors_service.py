@@ -93,7 +93,7 @@ def get_old_warnings(data) -> dict:
         warnings['uvb_index'] = 'UV B is too high [uvbe]. Current UV B is: {}'.format(str(data['uvb_index']))
 
     loggy.log_with_print(f"{data['cpu_temp']} with type: {type(data['cpu_temp'])}")
-    print(data['cpu_temp'])
+
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
     sensor_config_data = config.load_cfg()
@@ -130,21 +130,21 @@ def get_old_warnings(data) -> dict:
 def get_new_data_row(row) -> dict:
     return {
         'timestamp': row[0],
-        'temp': row[1],
-        'pressure': row[2],
-        'humidity': '{:0.2f}'.format(float(row[3])),
-        'gas_resistance': '{:0.2f}'.format(float(row[4])),
-        'colour': row[5],
-        'r': row[6],
-        'g': row[7],
-        'b': row[8],
-        'co2': row[9],
-        'co2_temperature': row[10],
-        'relative_humidity': '{:0.2f}'.format(float(row[11])),
-        'cpu_temp': row[12],
-        'eco2': row[13],
-        'tvoc': row[14],
-        'gps_num_sats': row[21],
+        'temp': row[2],
+        'pressure': row[3],
+        'humidity': '{:0.2f}'.format(float(row[4])),
+        'gas_resistance': '{:0.2f}'.format(float(row[5])),
+        'colour': row[6],
+        'r': row[7],
+        'g': row[8],
+        'b': row[9],
+        'co2': row[10],
+        'co2_temperature': row[11],
+        'relative_humidity': '{:0.2f}'.format(float(row[12])),
+        'cpu_temp': row[13],
+        'eco2': row[14],
+        'tvoc': row[15],
+        'gps_num_sats': row[22],
     }
 
 
@@ -225,12 +225,12 @@ def get_new_warnings(data) -> dict:
     elif int(data['co2']) > 900:
         warnings['co2'] = 'Above typical level CO2 level [cal]. Value {}'.format(data['co2'])
 
-    if int(data['eco2']) > 1000:
+    if float(data['eco2']) > 1000:
         warnings['eco2'] = 'High CO2 level: {}'.format(data['eco2'])
 
-    if int(data['tvoc']) > 5000:
+    if float(data['tvoc']) > 5000:
         warnings['tvoc'] = 'Air Quality BAD: {}'.format(data['tvoc'])
-    elif int(data['tvoc']) > 1500:
+    elif float(data['tvoc']) > 1500:
         warnings['tvoc'] = 'Air Quality POOR: {}'.format(data['tvoc'])
     loggy.log_error_count(warnings)
     return warnings

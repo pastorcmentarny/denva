@@ -13,6 +13,7 @@ import json
 import logging
 import bs4
 import requests
+import datetime
 from gateways import local_data_gateway
 logger = logging.getLogger('app')
 ENCODING = 'utf-8'
@@ -62,8 +63,7 @@ def get_tube(online: bool):
                     if ('Good Service' not in status['statusSeverityDescription']) or (
                             'Service Closed' not in status['statusSeverityDescription']):
                         if 'reason' in status and online:
-                            local_data_gateway.add_entry_to_diary("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
-                                                                           status['reason']))
+                            local_data_gateway.add_entry_to_diary(f"{i['id']} has {status['statusSeverityDescription']} due to {status['reason']}")
 
     except Exception as whoops:
         logger.error('Unable to get tube data due to : %s' % whoops)

@@ -28,7 +28,7 @@ from services import information_service, tubes_train_service, text_service, \
 
 app = Flask(__name__)
 logger = logging.getLogger('www')
-dom_utils.setup_test_logging('website')
+dom_utils.setup_test_logging('website', True)
 APP_NAME = 'Knyszogar Website'
 
 
@@ -36,7 +36,6 @@ APP_NAME = 'Knyszogar Website'
 def update_metrics_for():
     logger.info('updating metrics {}'.format(request.get_json(force=True)))
     result = request.get_json(force=True)
-    logger.debug(result)
     metrics_service.add(result['metrics'], result['result'])
     return jsonify({"status": "OK"})
 
@@ -80,7 +79,7 @@ def update_denva_measurement():
 @app.route("/diary/add", methods=['POST'])
 def add_diary():
     logger.info('Add entry to diary. Data size {}'.format(len(str(request.get_json(force=True)))))
-    diarist_service.add(request.get_json(force=True)["entry"])
+    diarist_service.add(request.get_json(force=True))
     return jsonify({})
 
 
@@ -92,20 +91,6 @@ def yearly_goals():
 @app.route("/focus")
 def focus():
     return render_template('focus.html', message={})
-
-
-# TODO do I need it?
-@app.route('/denva', methods=['POST'])
-def store_denva_measurement():
-    logging.info('Processing denva measurement request with json: {}'.format(request.get_json()))
-    return jsonify(success=True)
-
-
-# TODO do I need it?
-@app.route('/enviro', methods=['POST'])
-def store_enviro_measurement():
-    logging.info('Processing enviro measurement request with json: {}'.format(request.get_json()))
-    return jsonify(success=True)
 
 
 @app.route('/stop-all')

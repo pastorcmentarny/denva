@@ -37,11 +37,6 @@ wait_time = 30
 reasons = []
 
 
-def capture_photo_is_older_than_5_minutes():
-    filename = commands.get_last_photo_filename()
-    return dom_utils.is_file_older_than_5_minutes(filename)
-
-
 def measurement_is_older_than_5_minutes():
     row = denva_sensors_service.get_last_old_measurement()
     timestamp = row['timestamp']
