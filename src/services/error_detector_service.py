@@ -15,12 +15,16 @@ from common import loggy
 import dom_utils
 from gateways import local_data_gateway
 
+FIELD_FREE_SPACE = 'Free Space'
+FIELD_MEMORY_AVAILABLE = 'Memory Available'
+KEY_SYSTEM = 'system'
+
 logger = logging.getLogger('app')
 
 
 def get_errors_from_data(data: dict) -> list:
     errors = []
-    if 'system' not in data:
+    if KEY_SYSTEM not in data:
         return ['No data.']
 
     hc_result = local_data_gateway.get_all_healthcheck_from_all_services()
@@ -33,44 +37,39 @@ def get_errors_from_data(data: dict) -> list:
     if hc_result['delight'] == 'DOWN':
         errors.append('Healthcheck failed for Delight')
 
-    server_data = data['system']['server']
-    if 'server' in data['system'] and 'Memory Available' in server_data:
-        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 500:
+    server_data = data[KEY_SYSTEM]['server']
+    if 'server' in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in server_data:
+        if dom_utils.get_int_number_from_text(server_data[FIELD_MEMORY_AVAILABLE]) < 500:
             errors.append('Memory available on SERVER is VERY LOW.')
-        if dom_utils.get_int_number_from_text(server_data['Disk Free']) < 128:
-            errors.append('Free space on disk  ON SERVER is VERY LOW.')
+    if 'server' in data[KEY_SYSTEM] and 'Free Space' in server_data:
+        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 128:
+            errors.append('Free space on disk ON SERVER is VERY LOW.')
     else:
         errors.append('Server data is missing.')
 
-    denva_data = data['system']['denva']
-    if 'denva' in data['system'] and 'Memory Available' in denva_data:
-        if dom_utils.get_int_number_from_text(denva_data['Memory Available']) < 128:
+    denva_data = data[KEY_SYSTEM]['denva']
+    if 'denva' in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in denva_data:
+        if dom_utils.get_int_number_from_text(denva_data[FIELD_MEMORY_AVAILABLE]) < 128:
             errors.append('Memory available ON DENVA is VERY LOW.')
+    if 'server' in data[KEY_SYSTEM] and 'Free Space' in server_data:
         if dom_utils.get_int_number_from_text(denva_data['Free Space']) < 128:
-            errors.append('Free space on disk  ON DENVA is VERY LOW.')
+            errors.append('Free space on disk ON DENVA is VERY LOW.')
+    if 'server' in data[KEY_SYSTEM] and 'Data Free Space' in server_data:
         if dom_utils.get_int_number_from_text(denva_data['Data Free Space']) < 256:
             errors.append('Free space on data partition ON DENVA is VERY LOW.')
     else:
         errors.append('Denva data is missing.')
 
-    enviro_data = data['system']['enviro']
-    if 'enviro' in data['system'] and 'Memory Available' in enviro_data:
-        if dom_utils.get_int_number_from_text(enviro_data['Memory Available']) < 128:
+    enviro_data = data[KEY_SYSTEM]['enviro']
+    if 'enviro' in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in enviro_data:
+        if dom_utils.get_int_number_from_text(enviro_data[FIELD_MEMORY_AVAILABLE]) < 128:
             errors.append('Memory available ON ENVIRO is VERY LOW.')
-        if dom_utils.get_int_number_from_text(enviro_data['Free Space']) < 128:
-            errors.append('Free space on disk  ON ENVIRO is VERY LOW.')
+        if dom_utils.get_int_number_from_text(enviro_data[FIELD_FREE_SPACE]) < 128:
+            errors.append('Free space on disk ON ENVIRO is VERY LOW.')
         if dom_utils.get_int_number_from_text(enviro_data['Data Free Space']) < 256:
             errors.append('Free space on data partition ON ENVIRO is VERY LOW.')
     else:
         errors.append('Enviro data is missing.')
 
-    delight_data = data['system']['delight']
-    if 'delight' in data['system'] and 'Memory Available' in delight_data:
-        if dom_utils.get_int_number_from_text(delight_data['Memory Available']) < 128:
-            errors.append('Memory available ON DELIGHT is VERY LOW.')
-        if dom_utils.get_int_number_from_text(delight_data['Free Space']) < 128:
-            errors.append('Free space on disk  ON DELIGHT is VERY LOW.')
-    else:
-        errors.append('Delight data is missing.')
     loggy.log_error_count(errors)
     return errors

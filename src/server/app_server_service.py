@@ -90,14 +90,12 @@ def get_all_warnings_page() -> list:
     return data
 
 
-
-
 def get_current_system_information_for_all_services(config: dict):
     return {
-        'server': system_data_service.get_system_information(),
+        'server': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['delight'])),
         'denva': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva'])),
         'enviro': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['enviro'])),
-        'delight': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['delight']))
+        'trases': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['trases']))
     }
 
 
@@ -152,6 +150,7 @@ def get_data_for_page(config_data, page_recent_log_app, page_ricky, page_tt_dela
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
+            'trases': {}, # local_data_gateway.get_current_reading_for_trases(),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             'system': get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),

@@ -83,8 +83,8 @@ def get_current_warnings_for_all_services() -> dict:
     return {
         'denva': get_data_for(config.get_current_warnings_url_for('denva')),
         'enviro': get_data_for(config.get_current_warnings_url_for('enviro')),
-        'delight': system_data_service.get_system_warnings(),
-        'server': system_data_service.get_system_warnings()
+        'server': system_data_service.get_system_warnings(),
+        'trases': get_data_for(config.get_current_warnings_url_for('trases'), 2),
     }
 
 
@@ -220,3 +220,6 @@ def add_entry_to_diary(new_entry: str):
     except Exception as whoops:
         logger.warning(
             'There was a problem with sending measurement for denviro with url {} due to {} '.format(url, whoops))
+
+def get_current_reading_for_trases():
+    return None

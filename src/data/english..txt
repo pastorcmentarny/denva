@@ -1,0 +1,3 @@
+;;number;;word;;(part of speech;;meaning;;other grammar info
+;;1;;quaff;;verbdrink (something, especially an alcoholic drink) heartily.;;past tense: quaffed; past participle: quaffed
+

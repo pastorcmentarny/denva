@@ -13,6 +13,10 @@ from pathlib import Path
 import dom_utils
 
 SERVER_IP = 'http://192.168.0.200'
+DENVA_IP = 'http://192.168.0.201'
+DENVIRO_IP = 'http://192.168.0.202'
+TRASES_IP = 'http://192.168.0.224'
+
 PI_HOME_DIR = '/home/pi/'
 PI_PROJECT_PATH = f'{PI_HOME_DIR}denva-master/src'
 PI_CONFIG_PATH = f'{PI_HOME_DIR}configs/'
@@ -61,11 +65,11 @@ settings = {
     },
     "urls": {
         "server": f'{SERVER_IP}:5000',
-        "denva": "http://192.168.0.201:5000",
-        "enviro": "http://192.168.0.202:5000",
+        "denva": f"{DENVA_IP}:5000",
+        "enviro": f"{DENVIRO_IP}:5000",
         "delight": f'{SERVER_IP}:5000',
-        "trases4": "http://192.168.0.224:5000",
-        "dump1090_data": "http://192.168.0.201:16601/data.json"
+        "trases": f"{TRASES_IP}:5000",
+        "dump1090_data": f"{DENVA_IP}:16601/data.json"
     },
     "latency": {
         "max": 200,
