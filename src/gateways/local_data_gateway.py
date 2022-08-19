@@ -196,6 +196,7 @@ def post_denva_measurement(json_data):
 
 def post_denviro_measurement(json_data):
     url = config.get_post_denviro_measurement_url()
+    json_data['cpu_temp'] = '40.0'
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
             response.json()

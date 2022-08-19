@@ -88,7 +88,7 @@ def main():
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
         measurement['measurement_time'] = measurement_time
-        local_data_gateway.post_denva_measurement(measurement)
+        local_data_gateway.post_denviro_measurement(measurement)
         logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)
 
