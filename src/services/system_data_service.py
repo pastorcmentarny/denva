@@ -25,14 +25,8 @@ def get_boot_time() -> str:
     return datetime.fromtimestamp(psutil.boot_time()).strftime("%d-%m'%Y @ %H:%M:%S")
 
 
-# Used for server only, Pi use commands.get_system_info(
 def get_system_information() -> dict:
-    return {
-        "CPU Speed": '{} MHz'.format(psutil.cpu_freq().current),
-        "Memory Available": get_memory_available_in_mb(),
-        "Disk Free": "{} MB".format(common_service.get_system_info()),
-        "Uptime": get_boot_time()
-    }
+    return commands.get_system_info()
 
 
 def get_memory_available_in_mb() -> str:
@@ -47,7 +41,7 @@ def get_system_warnings() -> list:
     if memory_data.available <= memory_threshold:
         problems.append('Memory available is low. Memory left: {} bytes.'.format(memory_data.available))
     free_space = commands.get_space_available()
-    if int() <= config.get_disk_space_available_threshold():
+    if int(free_space) <= config.get_disk_space_available_threshold():
         problems.append('Disk free space is low. Free space left: {} MB.'.format(free_space))
     return problems
 
