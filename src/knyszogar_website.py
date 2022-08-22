@@ -40,8 +40,6 @@ def update_metrics_for():
     return jsonify({"status": "OK"})
 
 
-# TODO add post mesaurement for denva,denviro,trases
-
 @app.route("/hc")
 def healthcheck():
     logger.debug("Sending heathcheck")
