@@ -14,7 +14,6 @@ import logging
 
 from sgp30 import SGP30
 
-import two_led_service
 
 logger = logging.getLogger('app')
 
@@ -37,7 +36,6 @@ def crude_progress_bar():
     global counter
     counter = counter + 1
     logger.warning('Waiting.. {}s.\n'.format(counter))
-    air_quality_led_status = two_led_service.switch_led(air_quality_led_status)
 
 
 def start_measurement():
