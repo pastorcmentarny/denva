@@ -21,6 +21,7 @@ import config
 import dom_utils
 from common import status, data_files, loggy
 from gateways import local_data_gateway
+from services import networkcheck_service
 from systemhc import system_health_check_service
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
@@ -207,7 +208,7 @@ def network_check() -> dict:
 
     end_time = timer()
     total_time = end_time - start_time
-    log_result(problems, network_status, total_time)
+    networkcheck_service.log_result(problems, network_status, total_time)
     result = "{} of {} pages were loaded successfully.".format(ok, len(pages))
 
     logger.info(f'Status:{network_status}. {result}')
@@ -223,16 +224,6 @@ def network_check() -> dict:
         'result': result,
         'problems': problems
     }
-
-
-def log_result(problems, status_result, total_time):
-    if status_result == POOR:
-        logger.warning(
-            'It looks like there is some problem with network as some pages failed to load due to: {}'.format(problems))
-    if status_result == DOWN:
-        logger.error('Network is DOWN! All services failed due to: {}'.format(problems))
-    if status_result == PERFECT or status_result == GOOD:
-        logger.debug('Network seems to be fine. I took {} ms to check.'.format(total_time))
 
 
 def _get_network_status(ok: int) -> str:
@@ -277,7 +268,6 @@ def app_loop():
 
 if __name__ == '__main__':
 
-    dom_utils.setup_test_logging('healthcheck')
     loggy.log_with_print('Starting application')
 
     try:
