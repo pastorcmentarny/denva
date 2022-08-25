@@ -126,7 +126,7 @@ def records():
     logger.info('Getting record measurement from today')
     return jsonify(denva_service.get_records_for_today())
 
-
+# FIXME
 @app.route("/stats")
 def stats():
     logger.info('Get all stats for today')

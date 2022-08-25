@@ -10,7 +10,6 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import re
-
 import time
 
 from common import data_files
@@ -91,11 +90,19 @@ def get_records(data_records: list) -> dict:
             'min': 100,
             'max': -100
         },
+        'co2_temperature': {
+            'min': 100,
+            'max': -100
+        },
         'pressure': {
             'min': 10000,
             'max': 0
         },
         'humidity': {
+            'min': 100,
+            'max': -100
+        },
+        'relative_humidity': {
             'min': 100,
             'max': -100
         },
@@ -109,7 +116,8 @@ def get_records(data_records: list) -> dict:
         },
         'biggest_motion': 0,
         'highest_eco2': 0,
-        'highest_tvoc': 0
+        'highest_tvoc': 0,
+        'highest_gps_num_sats': 0
     }
 
     for data_record in data_records:
@@ -117,6 +125,11 @@ def get_records(data_records: list) -> dict:
             result['temperature']['max'] = data_record['temp']
         if float(data_record['temp']) < float(result['temperature']['min']):
             result['temperature']['min'] = data_record['temp']
+
+        if float(data_record['co2_temperature']) > float(result['co2_temperature']['max']):
+            result['co2_temperature']['max'] = data_record['co2_temperature']
+        if float(data_record['temp']) < float(result['co2_temperature']['min']):
+            result['co2_temperature']['min'] = data_record['co2_temperature']
 
         if float(data_record['pressure']) > float(result['pressure']['max']):
             result['pressure']['max'] = data_record['pressure']
@@ -128,6 +141,11 @@ def get_records(data_records: list) -> dict:
         if float(data_record['humidity']) < float(result['humidity']['min']):
             result['humidity']['min'] = data_record['humidity']
 
+        if float(data_record['relative_humidity']) > float(result['relative_humidity']['max']):
+            result['relative_humidity']['max'] = data_record['relative_humidity']
+        if float(data_record['relative_humidity']) < float(result['relative_humidity']['min']):
+            result['relative_humidity']['min'] = data_record['relative_humidity']
+
         if data_record['cpu_temp'] != '?':
             data_record['cpu_temp'] = re.sub('[^0-9.]', '', data_record['cpu_temp'])
             if float(data_record['cpu_temp']) > float(result['cpu_temperature']['max']):
@@ -135,17 +153,6 @@ def get_records(data_records: list) -> dict:
             if float(data_record['cpu_temp']) < float(result['cpu_temperature']['min']):
                 result['cpu_temperature']['min'] = data_record['cpu_temp']
 
-        if float(data_record['uva_index']) > float(result['max_uv_index']['uva']):
-            result['max_uv_index']['uva'] = data_record['uva_index']
-
-        if float(data_record['uvb_index']) > float(result['max_uv_index']['uvb']):
-            result['max_uv_index']['uvb'] = data_record['uvb_index']
-
-        if float(data_record['motion']) > float(result['biggest_motion']):
-            result['biggest_motion'] = data_record['motion']
-
-        result['max_uv_index']['uva'] = round(float(result['max_uv_index']['uva']), 2)
-        result['max_uv_index']['uvb'] = round(float(result['max_uv_index']['uvb']), 2)
         result['biggest_motion'] = str(int((float(result['biggest_motion']))))
 
         if int(data_record['eco2']) > int(result['highest_eco2']):
@@ -153,7 +160,8 @@ def get_records(data_records: list) -> dict:
 
         if int(data_record['tvoc']) > int(result['highest_tvoc']):
             result['highest_tvoc'] = data_record['tvoc']
-
+        if int(data_record['gps_num_sats']) > int(float(result['highest_gps_num_sats'])):
+            result['highest_gps_num_sats'] = int(data_record['gps_num_sats'])
     end = time.perf_counter()
     result['log entries counter'] = len(data_records)
     result["execution_time"] = str(end - start) + ' ns.'

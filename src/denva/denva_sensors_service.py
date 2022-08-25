@@ -7,8 +7,7 @@ import dom_utils
 
 
 def load_data_for_today() -> list:
-    today = datetime.now()
-    return data_files.load_data(today.year, today.month, today.day)
+    return data_files.load_data(get_sensor_log_file())
 
 
 def get_sensor_log_file():

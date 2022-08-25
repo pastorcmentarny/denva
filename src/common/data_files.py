@@ -18,6 +18,7 @@ import random
 from datetime import datetime, date
 from pathlib import Path
 
+import config
 import dom_utils
 from retrying import retry
 
@@ -235,7 +236,7 @@ def load_weather(path: str):
 
 
 # TODO move this to different place
-def load_data(year: int, month: int, day: int, path: str) -> list:
+def load_data(path: str) -> list:
     sensor_log_file = dom_utils.fix_nulls(
         open(path, READ, newline=EMPTY, encoding=ENCODING))
     csv_content = csv.reader(sensor_log_file)
@@ -260,28 +261,19 @@ def load_data(year: int, month: int, day: int, path: str) -> list:
 def add_denva_row(data, row):
     data.append(
         {
-            'timestamp': row[0],
-            'temp': row[1],
-            'pressure': row[2],
-            'humidity': row[3],
-            'gas_resistance': row[4],
-            'colour': row[5],
-            'uva_index': row[7],
-            'uvb_index': row[8],
-            # TODO uv?
-            'ax': row[10],
-            'ay': row[11],
-            'az': row[12],
-            'gx': row[13],
-            'gy': row[14],
-            'gz': row[15],
-            'mx': row[16],
-            'my': row[17],
-            'mz': row[18],
-            'measurement_time': row[19],
-            'cpu_temp': row[20],
-            'eco2': row[21],
-            'tvoc': row[22]
+            'timestamp': row[config.DENVA_DATA_COLUMN_TIMESTAMP],
+            'temp': row[config.DENVA_DATA_COLUMN_TEMP],
+            'pressure': row[config.DENVA_DATA_COLUMN_PRESSURE],
+            'humidity': row[config.DENVA_DATA_COLUMN_HUMIDITY],
+            'relative_humidity': row[config.DENVA_DATA_COLUMN_RELATIVE_HUMIDITY],
+            'gas_resistance': row[config.DENVA_DATA_COLUMN_GAS_RESISTANCE],
+            'co2': row[config.DENVA_DATA_COLUMN_CO2],
+            'co2_temperature': row[config.DENVA_DATA_COLUMN_CO2_TEMPERATURE],
+            'measurement_time': row[config.DENVA_DATA_COLUMN_MEASUREMENT_TIME],
+            'cpu_temp': row[config.DENVA_DATA_COLUMN_CPU_TEMP],
+            'eco2': row[config.DENVA_DATA_COLUMN_ECO2],
+            'tvoc': row[config.DENVA_DATA_COLUMN_TVOC],
+            'gps_num_sats': row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS],
         }
     )
 
