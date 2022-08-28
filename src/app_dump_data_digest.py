@@ -27,8 +27,8 @@ refresh_rate_in_seconds = 15
 
 def display_stats():
     aircraft_data = aircraft_storage.load_processed_data()
-    logger.info(aircraft_stats.count_aircraft_found(aircraft_data))
-    logger.info(aircraft_stats.get_flights_found(aircraft_data))
+    logger.debug(aircraft_stats.count_aircraft_found(aircraft_data))
+    logger.debug(aircraft_stats.get_flights_found(aircraft_data))
 
 
 def digest():
@@ -71,7 +71,7 @@ def digest():
             measurement_time,
             errors,
             warnings)
-        logger.info(measurement_message)
+        logger.debug(measurement_message)
         remaining_time = refresh_rate_in_seconds - (float(measurement_time) / 1000)
 
         if remaining_time > 0:

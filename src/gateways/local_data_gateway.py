@@ -186,8 +186,6 @@ def post_denva_measurement(json_data):
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
             response.json()
-            logger.info(json_data)
-            logger.info(response.json())
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(

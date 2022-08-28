@@ -106,11 +106,12 @@ def main():
 
         data['measurement_counter'] = measurement_counter
         data['measurement_time'] = str(measurement_time)
-        data_files.store_measurement(data, denva_sensors_service.get_sensor_log_file(),
-                                     denva_sensors_service.get_sensor_log_file_at_server())
+        data_files.store_measurement(data, denva_sensors_service.get_sensor_log_file())
 
         cl_display.print_measurement(data)
+
         local_data_gateway.post_denva_measurement(data)
+
         if measurement_counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('denva', 'app')
 

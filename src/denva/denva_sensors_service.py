@@ -91,8 +91,6 @@ def get_old_warnings(data) -> dict:
     if data['uvb_index'] > 6:
         warnings['uvb_index'] = 'UV B is too high [uvbe]. Current UV B is: {}'.format(str(data['uvb_index']))
 
-    loggy.log_with_print(f"{data['cpu_temp']} with type: {type(data['cpu_temp'])}")
-
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 
     sensor_config_data = config.load_cfg()
@@ -200,8 +198,6 @@ def get_new_warnings(data) -> dict:
     elif data['relative_humidity'] > 70:
         warnings['relative_humidity'] = 'Humidity (CO2) is too high [hhe]. Current humidity is: {}'.format(
             str(data['relative_humidity']))
-
-    loggy.log_with_print(f"{data['cpu_temp']} with type: {type(data['cpu_temp'])}")
 
     data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
 

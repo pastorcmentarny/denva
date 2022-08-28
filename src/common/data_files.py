@@ -115,7 +115,7 @@ def store_enviro_measurement(data: dict, sensor_log_file, sensor_log_file_at_ser
         add_enviro_measurement_to_file(enviro_file, data)
         # if flag is true, set to false
     except IOError as exception:
-        logger.warning(exception)
+        logger.warning(f'Unable to store denvira measurement due to : {exception}', exc_info=True)
         # add flag to indicate that there is a problem
 
 
@@ -137,24 +137,20 @@ def add_measurement_to_file(file, data: dict):
     file.close()
 
 
-# TODO refactor it as it saves in 2 places
-def store_measurement(data, sensor_log_file, sensor_log_file_at_server):
+def store_measurement(data, sensor_log_file):
     try:
         counter = data['measurement_counter']
     except Exception as exception:
-        logger.warning(exception)
+        logger.warning(f'Unable to store denva measurement due to : {exception}', exc_info=True)
         counter = 0
-    logger.debug('storing measurement no.{}'.format(counter))
+    logger.debug('Storing measurement no.{}'.format(counter))
     try:
         local_file = open(sensor_log_file, 'a+', newline=EMPTY)
         add_measurement_to_file(local_file, data)
 
-        server_file = open(sensor_log_file_at_server, 'a+', newline=EMPTY)
-        add_measurement_to_file(server_file, data)
-
-        logger.debug('measurement no.{} saved to file.'.format(counter))
+        logger.debug('Measurement no.{} saved to file.'.format(counter))
     except IOError as exception:
-        logger.warning(exception)
+        logger.warning(f'Unable to store denvira measurement due to : {exception}', exc_info=True)
 
 
 def setup_logging(path: str):

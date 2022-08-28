@@ -87,7 +87,7 @@ def log_count_ui():
 
 @app.route("/log/hc/recent")
 def recent_log_hc():
-    logger.info('Getting recent healthcheck logs  for sending as email for Denva')
+    logger.info('Getting recent healthcheck logs for sending as email for Denva')
     return jsonify(common_service.get_log_ui(20))
 
 
@@ -99,7 +99,7 @@ def log_ui():
 
 @app.route("/log/ui/recent")
 def recent_log_ui():
-    logger.info('Getting recent server ui logs for sending as email  for Denva')
+    logger.info('Getting recent server ui logs for sending as email for Denva')
     return jsonify(common_service.get_log_ui(20))
 
 

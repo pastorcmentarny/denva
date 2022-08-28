@@ -29,7 +29,6 @@ co2_sensor = setup()
 def get_measurement():
     try:
         result = co2_sensor.measure()
-        logger.debug(result)
         return result  # co2, temperature, relative_humidity, timestamp
     except Exception as exception:
         logger.error(
