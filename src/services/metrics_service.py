@@ -27,6 +27,7 @@ METRIC_MOTION = 'motion'
 METRIC_GAS = 'gas'
 METRIC_AIR_QUALITY = 'air_quality'
 METRICS_RGB = 'rgb'
+METRICS_GPS = 'gps'
 COUNT = 'count'
 ERRORS = 'errors'
 OK = 'ok'
@@ -45,7 +46,8 @@ empty_stats = {
         METRIC_LIGHT: 0,
         METRIC_WEATHER: 0,
         METRIC_FLIGHT: 0,
-        METRICS_RGB: 0
+        METRICS_RGB: 0,
+        METRICS_GPS: 0
 
     },
     ERRORS: {
@@ -57,7 +59,8 @@ empty_stats = {
         METRIC_LIGHT: 0,
         METRIC_WEATHER: 0,
         METRIC_FLIGHT: 0,
-        METRICS_RGB: 0
+        METRICS_RGB: 0,
+        METRICS_GPS: 0
     }
 
 }
@@ -74,12 +77,13 @@ def setup():
 stats = copy.deepcopy(empty_stats)
 
 metrics_names = [METRIC_AIR_QUALITY, METRIC_GAS, METRIC_MOTION, METRIC_UV, METRIC_POLLUTION,
-                 METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB]
+                 METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB, METRICS_GPS]
 
 metrics_results = [OK, ERRORS]
 
 
 # TODO add load current_metrics on load
+# TODO add metrics to report
 
 def save_metrics():
     logger.info(f'saving metrics for {str(stats[DATE_OF_METRICS])}')

@@ -39,13 +39,16 @@ pictures = []
 
 logger = logging.getLogger('app')
 warnings_logger = logging.getLogger('warnings')
+config.set_mode_to('denva')
+data_files.setup_logging(config.get_environment_log_path_for('denva_app'))
+logger.info('Starting application ... \n Press Ctrl+C to shutdown')
 
 app_startup_time = datetime.now()
 
 counter = 1
 led_status = 0
 
-
+#TODO move this to service
 def get_data_from_measurement() -> dict:
     environment = environment_service.get_measurement()
     eco2 = ""
@@ -63,12 +66,11 @@ def get_data_from_measurement() -> dict:
 
     try:
         gps_data = gps_sensor.get_measurement()
+        local_data_gateway.post_metrics_update('gps', 'ok')
     except Exception as get_data_exception:
         logger.warning(f'Unable to read from gps sensor due to {get_data_exception}')
-        gps_data = {'timestamp': datetime.now(), 'latitude': 0.0, 'longitude': -0.0,
-                    'altitude': 0, 'lat_dir': 'N', 'lon_dir': 'W', 'geo_sep': '0', 'num_sats': '0', 'gps_qual': 0,
-                    'speed_over_ground': 0.0, 'mode_fix_type': '0', 'pdop': '0', 'hdop': '0', 'vdop': '0',
-                    '_i2c_addr': 16, '_i2c': 'x', '_debug': False, "error": str(get_data_exception)}
+        gps_data = gps_sensor.get_no_vales(get_data_exception)
+        local_data_gateway.post_metrics_update('gps', 'errors')
 
     co2_data = co2_sensor.get_measurement()
     return {
@@ -131,14 +133,8 @@ def cleanup_before_exit():
 
 if __name__ == '__main__':
     global points
-    config.set_mode_to('denva')
-    data_files.setup_logging(config.get_environment_log_path_for('denva_app'))
-    logger.info('Starting application ... \n Press Ctrl+C to shutdown')
     email_sender_service.send_ip_email('denva')
     try:
-        logging.info('Mounting network drives')
-        commands.mount_all_drives()
-
         logging.info("Sensor warming up, please wait...")
         air_quality_service.start_measurement()
         logging.info('Sensor needed {} seconds to warm up'.format(counter))
@@ -150,6 +146,7 @@ if __name__ == '__main__':
         cleanup_before_exit()
     except Exception as exception:
         print(f'Whoops. {exception}')
+        traceback.print_exc()
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
         email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(exception))
         cleanup_before_exit()
