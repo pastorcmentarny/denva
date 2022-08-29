@@ -15,8 +15,8 @@ from datetime import datetime
 from datetime import timedelta
 from timeit import default_timer as timer
 
+import config
 import dom_utils
-from denva import denva_sensors_service
 from gateways import local_data_gateway
 from reports import averages, records
 from services import information_service, sensor_warnings_service
@@ -124,30 +124,20 @@ def generate_for_yesterday() -> dict:
 
 def generate_for(date: datetime) -> dict:
     try:
-        # is below 2 lines looks stupid? yes, because it is
-        warnings_logger.info("")
-        '''
-        why? as report is generated on next day, you need add log entry 
-        logger can trigger TimedRotatingFileHandler event  and create file
-        that is used by report service. 
-        Why I used logger to store data? because I am lazy and i used most efficient way
-        to store data I do analyse over later.
-        '''
         year = date.year
         month = date.month
         day = date.day
         data = load_data(year, month, day)
+        logger.info(f'data length: {len(data)}')
         report['measurement_counter'] = len(data)
         report['report_date'] = "{}.{}'{}".format(day, month, year)
-        warnings = sensor_warnings_service.get_warnings_for(str(year), str(month), str(day))
-        report['warning_counter'] = len(warnings)
-        report['warnings'] = denva_sensors_service.count_warnings(warnings)
+        logger.info('Getting records..')
         report['records'] = records.get_records(data)
+        logger.info('Getting averages..')
         report['avg'] = averages.get_averages(data)
-        # Move to server        report['tube']['delays'] = tubes_train_service.count_tube_problems_for(year, month,                                                                       day)  # move to separate function
         return report
-    except Exception as e:
-        logger.error("Unable to generate  report due to {}".format(e), exc_info=True)
+    except Exception as exception:
+        logger.error(f"Unable to generate  report due to {exception}. Data {report}", exc_info=True)
         return {}
 
 
@@ -218,7 +208,7 @@ def load_enviro_data(year, month, day) -> list:
 
 def read_data_as_list_from_csv_file(day, month, year, log_file_name: str) -> list:
     path = dom_utils.get_filename_from_year_month_day(log_file_name, 'csv', year, month, day)
-    sensor_log_file = dom_utils.fix_nulls(open('/home/pi/logs/' + path, 'r',
+    sensor_log_file = dom_utils.fix_nulls(open(f'{config.PI_DATA_PATH}{path}', 'r',
                                                newline=''))
     csv_content = csv.reader(sensor_log_file)
     csv_data = list(csv_content)

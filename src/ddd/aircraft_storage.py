@@ -80,7 +80,7 @@ def load_processed_data_for(specified_data: date) -> list:
                                                                                 dom_utils.to_datetime(specified_data)))
     try:
         with open(airport_processed_data) as csv_file:
-            aircraft_csv = csv.reader(csv_file)
+            aircraft_csv = csv.reader(csv_file, encodings='utf-8')
             return list(aircraft_csv)
     except Exception as exception:
         logger.error('Unable to load processed reading due to {}'.format(exception), exc_info=True)

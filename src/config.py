@@ -53,7 +53,7 @@ PI_PROJECT_PATH = f'{PI_HOME_DIR}denva-master/src'
 PI_CONFIG_PATH = f'{PI_HOME_DIR}configs/'
 PI_DATA_PATH = f'{PI_HOME_DIR}data/'
 PI_LOGS_PATH = f'{PI_HOME_DIR}logs/'
-PI_SENSORS_DATA_PATH = f'{PI_HOME_DIR}data/sensors/'
+PI_SENSORS_DATA_PATH = PI_DATA_PATH
 PI_KNYSZOGAR_DATA = f'{PI_HOME_DIR}knyszogar/data/'
 settings = {
     "mode": 'dev',

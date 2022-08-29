@@ -21,6 +21,8 @@ from ddd import aircraft_storage, aircraft_stats
 from gateways import local_data_gateway
 
 logger = logging.getLogger('ddd')
+config.set_mode_to('ddd')
+data_files.setup_logging(config.get_environment_log_path_for('ddd'))
 
 refresh_rate_in_seconds = 15
 
@@ -58,10 +60,11 @@ def digest():
 
         measurement = int((end_time - start_time) * 1000)
         measurement_time = str(measurement)  # in ms
-
-        if measurement > config.max_latency():
+        if measurement > config.max_latency(False):
             warnings += 1
-            logger.warning("Measurement {} was slow.It took {} ms".format(counter, measurement))
+            logger.warning(f"Measurement {counter} was SLOW.It took {measurement} ms")
+        else:
+            logger.debug(f'Measurement took {measurement} ms.')
 
         if counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('knyszogar', 'digest')
@@ -79,8 +82,6 @@ def digest():
 
 
 if __name__ == '__main__':
-    config.set_mode_to('ddd')
-    data_files.setup_logging(config.get_environment_log_path_for('ddd'))
     try:
         digest()
     except KeyboardInterrupt as keyboard_exception:

@@ -37,7 +37,6 @@ def get_warnings_for_today() -> list:
 def get_current_warnings() -> dict:
     data = denva_sensors_service.get_last_new_measurement()
     return denva_sensors_service.get_new_warnings(data)
-    # return denva_sensors_service.get_old_warnings(data)
 
 
 def count_warning_today() -> dict:
