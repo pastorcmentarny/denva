@@ -14,6 +14,7 @@ import logging
 
 from sgp30 import SGP30
 
+from gateways import local_data_gateway
 
 logger = logging.getLogger('app')
 
@@ -40,3 +41,15 @@ def crude_progress_bar():
 
 def start_measurement():
     sgp30.start_measurement(crude_progress_bar)
+
+
+def get_all_measurements():
+    try:
+        eco2 = get_eco2_measurement_as_string()
+        tvoc = get_tvoc_measurement_as_string()
+        local_data_gateway.post_metrics_update('air_quality', 'ok')
+        return eco2, tvoc
+    except Exception as air_quality_exception:
+        logger.warning(f'Unable to read from air quality sensor due to {air_quality_exception}')
+        local_data_gateway.post_metrics_update('air_quality', 'errors')
+        return "-1", "-1"

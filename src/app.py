@@ -21,12 +21,12 @@ import smbus
 from PIL import ImageFont
 
 import config
-import dom_utils
-from common import data_files, commands
-from denva import cl_display, denva_sensors_service
+
+from common import data_files
+from denva import denva_measurement_service
 from emails import email_sender_service
 from gateways import local_data_gateway
-from sensors import air_quality_service, environment_service, gps_sensor, co2_sensor, two_led_service
+from sensors import air_quality_service, two_led_service
 
 bus = smbus.SMBus(1)
 
@@ -48,48 +48,6 @@ app_startup_time = datetime.now()
 counter = 1
 led_status = 0
 
-#TODO move this to service
-def get_data_from_measurement() -> dict:
-    environment = environment_service.get_measurement()
-    eco2 = ""
-    tvoc = ""
-    try:
-        eco2 = air_quality_service.get_eco2_measurement_as_string()
-        tvoc = air_quality_service.get_tvoc_measurement_as_string()
-        local_data_gateway.post_metrics_update('air_quality', 'ok')
-    except Exception as air_quality_exception:
-        logger.warning(f'Unable to read from air quality sensor due to {air_quality_exception}')
-        local_data_gateway.post_metrics_update('air_quality', 'errors')
-
-    red, green, blue = two_led_service.get_measurement()
-    colour = dom_utils.to_hex(red, green, blue)
-
-    try:
-        gps_data = gps_sensor.get_measurement()
-        local_data_gateway.post_metrics_update('gps', 'ok')
-    except Exception as get_data_exception:
-        logger.warning(f'Unable to read from gps sensor due to {get_data_exception}')
-        gps_data = gps_sensor.get_no_vales(get_data_exception)
-        local_data_gateway.post_metrics_update('gps', 'errors')
-
-    co2_data = co2_sensor.get_measurement()
-    return {
-        "temp": environment['temp'], "pressure": environment['pressure'], "humidity": environment['humidity'],
-        "gas_resistance": "{:.2f}".format(environment['gas_resistance']),
-        "colour": colour,
-        "r": red, "g": green, "b": blue,
-        "eco2": eco2, "tvoc": tvoc,
-        'gps_latitude': gps_data['latitude'], 'gps_longitude': gps_data['longitude'],
-        'gps_altitude': gps_data['altitude'],
-        'gps_lat_dir': gps_data['lat_dir'], 'gps_lon_dir': gps_data['lon_dir'], 'gps_geo_sep': gps_data['geo_sep'],
-        'gps_num_sats': gps_data['num_sats'], 'gps_qual': gps_data['gps_qual'],
-        'gps_speed_over_ground': gps_data['speed_over_ground'], 'gps_mode_fix_type': gps_data['mode_fix_type'],
-        'gps_pdop': gps_data['pdop'], 'gps_hdop': gps_data['hdop'], 'gps_vdop': gps_data['vdop'],
-        "co2": co2_data[0],
-        "co2_temperature": co2_data[1],
-        "relative_humidity": co2_data[2]
-    }
-
 
 def main():
     measurement_counter = 0
@@ -97,33 +55,25 @@ def main():
     while True:
         measurement_counter += 1
         logger.debug('Getting measurement no.{}'.format(measurement_counter))
-        start_time = timer()
-        data = get_data_from_measurement()
-        data['cpu_temp'] = commands.get_cpu_temp()
-        end_time = timer()
-        measurement_time = int((end_time - start_time) * 1000)  # in ms
 
-        logger.info('Measurement no. {} took {} milliseconds to measure it.'
-                    .format(measurement_counter, measurement_time))
+        try:
+            start_time = timer()
+            measurement_time = denva_measurement_service.get_measurement_from_all_sensors(measurement_counter,
+                                                                                          start_time)
 
-        data['measurement_counter'] = measurement_counter
-        data['measurement_time'] = str(measurement_time)
-        data_files.store_measurement(data, denva_sensors_service.get_sensor_log_file())
+            if measurement_counter % 2 == 0:
+                local_data_gateway.post_healthcheck_beat('denva', 'app')
 
-        cl_display.print_measurement(data)
+            remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 
-        local_data_gateway.post_denva_measurement(data)
+            if measurement_time > config.max_latency(fast=False):
+                logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
 
-        if measurement_counter % 2 == 0:
-            local_data_gateway.post_healthcheck_beat('denva', 'app')
-
-        remaining_of_five_s = 5 - (float(measurement_time) / 1000)
-
-        if measurement_time > config.max_latency(fast=False):
-            logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
-
-        if remaining_of_five_s > 0:
-            time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
+            if remaining_of_five_s > 0:
+                time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
+        except Exception as measurement_exception:
+            logger.error(f'Measurement no. {measurement_counter} failed. Error: {measurement_exception}', exc_info=True)
+            two_led_service.error_blink()
 
 
 def cleanup_before_exit():
@@ -144,6 +94,7 @@ if __name__ == '__main__':
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
         cleanup_before_exit()
+        two_led_service.off()
     except Exception as exception:
         print(f'Whoops. {exception}')
         traceback.print_exc()

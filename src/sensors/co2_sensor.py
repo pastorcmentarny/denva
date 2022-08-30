@@ -13,6 +13,8 @@ import logging
 
 from scd4x import SCD4X
 
+from gateways import local_data_gateway
+
 logger = logging.getLogger('app')
 
 
@@ -29,10 +31,12 @@ co2_sensor = setup()
 def get_measurement():
     try:
         result = co2_sensor.measure()
-        return result  # co2, temperature, relative_humidity, timestamp
+        local_data_gateway.post_metrics_update('co2', 'ok')
+        return result  # returning co2, temperature, relative_humidity, timestamp
     except Exception as exception:
         logger.error(
             f'Unable to read data from scd4x (co2 sensor) sensor due to {type(exception).__name__} throws : {exception}',
             exc_info=True)
+        local_data_gateway.post_metrics_update('co2', 'errors')
         setup()
         raise exception
