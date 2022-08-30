@@ -71,7 +71,6 @@ def load_processed_for_yesterday() -> list:
     return load_processed_data_for(dom_utils.get_yesterday_date_as_date())
 
 
-# add validator for loaded
 def load_processed_data_for(specified_data: date) -> list:
     data_path = config.get_directory_path_for_aircraft()
     date_as_folders = dom_utils.get_date_as_folders_for(specified_data)
@@ -79,8 +78,8 @@ def load_processed_data_for(specified_data: date) -> list:
                                                  dom_utils.get_date_as_filename("aircraft-processed", "csv",
                                                                                 dom_utils.to_datetime(specified_data)))
     try:
-        with open(airport_processed_data) as csv_file:
-            aircraft_csv = csv.reader(csv_file, encodings='utf-8')
+        with dom_utils.fix_nulls(open(airport_processed_data)) as csv_file:
+            aircraft_csv = csv.reader(csv_file)
             return list(aircraft_csv)
     except Exception as exception:
         logger.error('Unable to load processed reading due to {}'.format(exception), exc_info=True)
