@@ -53,19 +53,22 @@ events = {
     '1231': ['New year Eve'],
 }
 
-# DO NOT FORGOT TO UPDATE BY END OF 2021
+'''
+DO NOT FORGOT TO UPDATE BY END OF 2022
+To have 2 events on one day do this : ['Easter', 'Święto Qingming'],
+'''
 movable_events = {
-    '0212': ["Chinese new year"],
-    '0328': ['Sumertime +1hr :('],
-    '0402': ['Good Friday'],
-    '0404': ['Easter', 'Święto Qingming'],
-    '0405': ['Easter Monday'],
-    '0503': ['Early May Bank Holiday'],
-    '0531': ['Late May Bank Holiday'],
-    '0614': ['Święto Smoczych Łodzi '],
-    '0830': ['Late Summer Bank Holiday'],
-    '0921': ['Święto Środka Jesieni'],
-    '1031': ['Wintertime -1hr :)'],
+    '0122': ["Chinese new year"],  # 2023
+    '0326': ['Sumertime +1hr :('],  # 2023
+    '0405': ['Easter Monday', 'Święto Qingming'],  # 2023
+    '0407': ['Good Friday'],  # 2023
+    '0409': ['Easter'],  # 2023
+    '0501': ['Early May Bank Holiday'],  # 2023
+    '0529': ['Late May Bank Holiday'],  # 2023
+    '0622': [': 端午节(Dragon Boat Festival)'],  # 2023
+    '0829': ['Late Summer Bank Holiday'],
+    '0921': ['Mid-Autumn Festival'],
+    '1030': ['Wintertime -1hr :)'],
 }
 
 all_events = dom_utils.merge_two_dictionaries(events, movable_events)
