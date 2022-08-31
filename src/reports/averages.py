@@ -13,7 +13,7 @@ import re
 from timeit import default_timer as timer
 
 import time
-
+import config
 from common import data_files
 from denva import denva_sensors_service
 
@@ -87,10 +87,7 @@ def get_averages(data_records) -> dict:
         'pressure': 0,
         'humidity': 0,
         'gas_resistance': 0,
-        'uva': 0,
-        'uvb': 0,
         'cpu_temperature': 0,
-        'motion': 0,
         'measurement_time': 0
     }
 
@@ -98,10 +95,7 @@ def get_averages(data_records) -> dict:
     pressure = 0
     humidity = 0
     gas_resistance = 0
-    uva = 0
-    uvb = 0
     cpu_temperature = 0
-    motion = 0
     measurement_time = 0
 
     for data_record in data_records:
@@ -110,9 +104,7 @@ def get_averages(data_records) -> dict:
         humidity += float(data_record['humidity'])
         cpu_temperature += float(re.sub('[^0-9.]', '', data_record['cpu_temp']))
         gas_resistance += float(data_record['gas_resistance'])
-        uva += float(data_record['uva_index'])
-        uvb += float(data_record['uvb_index'])
-        motion += float(data_record['motion'])
+
         # TODO remove it as this temporary due to other bug in v2
         try:
             measurement_time += float(re.sub('[^0-9.]', '', data_record['measurement_time']))
@@ -124,10 +116,7 @@ def get_averages(data_records) -> dict:
         result['pressure'] = '{:.2f}'.format(pressure / records)
         result['humidity'] = '{:.2f}'.format(humidity / records)
         result['gas_resistance'] = '{:.2f}'.format(gas_resistance / records)
-        result['uva'] = '{:.2f}'.format(uva / records)
-        result['uvb'] = '{:.2f}'.format(uvb / records)
         result['cpu_temperature'] = '{:.2f}'.format(cpu_temperature / records)
-        result['motion'] = '{:.2f}'.format(motion / records)
         result['measurement_time'] = '{:.2f}'.format(measurement_time / records)
     else:
         result['info'] = 'No records'
