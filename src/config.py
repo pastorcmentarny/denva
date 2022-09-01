@@ -12,7 +12,6 @@ from pathlib import Path
 
 import dom_utils
 
-
 DENVA_DATA_COLUMN_TIMESTAMP = 0
 DENVA_DATA_COLUMN_MEASUREMENT_TIME = 1
 DENVA_DATA_COLUMN_TEMP = 2
@@ -42,6 +41,37 @@ DENVA_DATA_COLUMN_GPS_MODE_FIX_TYPE = 25
 DENVA_DATA_COLUMN_GPS_PDOP = 26
 DENVA_DATA_COLUMN_GPS_HDOP = 27
 DENVA_DATA_COLUMN_GPS_VDOP = 28
+FIELD_CPU_TEMP = 'cpu_temp'
+FIELD_RELATIVE_HUMIDITY = "relative_humidity"
+FIELD_GPS_VDOP = 'gps_vdop'
+FIELD_GPS_HDOP = 'gps_hdop'
+FIELD_GPS_PDOP = 'gps_pdop'
+FIELD_GPS_MODE_FIX_TYPE = 'gps_mode_fix_type'
+FIELD_SPEED_OVER_GROUND = 'speed_over_ground'
+FIELD_GPS_SPEED_OVER_GROUND = 'gps_speed_over_ground'
+FIELD_GPS_QUAL = 'gps_qual'
+FIELD_GPS_NUM_SATS = 'num_sats'
+FIELD_GPS_GEO_SEP = 'gps_geo_sep'
+FIELD_GPS_LON_DIR = 'gps_lon_dir'
+FIELD_GPS_LAT_DIR = 'gps_lat_dir'
+FIELD_GPS_ALTITUDE = 'gps_altitude'
+FIELD_GPS_LONGITUDE = 'gps_longitude'
+FIELD_MEASUREMENT_TIME = 'measurement_time'
+FIELD_MEASUREMENT_COUNTER = 'measurement_counter'
+FIELD_GPS_LATITUDE = 'gps_latitude'
+FIELD_BLUE = "b"
+FIELD_GREEN = "g"
+FIELD_RED = "r"
+FIELD_COLOUR = "colour"
+FIELD_ECO2 = "eco2"
+FIELD_TVOC = "tvoc"
+FIELD_GAS_RESISTANCE = 'gas_resistance'
+FIELD_HUMIDITY = "humidity"
+FIELD_PRESSURE = "pressure"
+FIELD_TEMPERATURE = "temp"
+FIELD_TIMESTAMP = 'timestamp'
+FIELD_CO2 = "co2"
+FIELD_CO2_TEMPERATURE = "co2_temperature"
 
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
