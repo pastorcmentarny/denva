@@ -72,6 +72,14 @@ FIELD_TEMPERATURE = "temp"
 FIELD_TIMESTAMP = 'timestamp'
 FIELD_CO2 = "co2"
 FIELD_CO2_TEMPERATURE = "co2_temperature"
+FIELD_LIGHT = 'light'
+FIELD_PROXIMITY = 'proximity'
+FIELD_OXIDISED = 'oxidised'
+FIELD_REDUCED = 'reduced'
+FIELD_NH3 = 'nh3'
+FIELD_PM1 = 'p_1'
+FIELD_PM25 = 'p_2'
+FIELD_PM10 = 'p_10'
 
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
