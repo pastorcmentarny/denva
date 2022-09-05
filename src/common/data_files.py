@@ -97,10 +97,12 @@ def add_enviro_measurement_to_file(file, data: dict):
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
     csv_writer.writerow([timestamp,
-                         data["temperature"], data["pressure"], data["humidity"],
-                         data["light"], data["proximity"], data["oxidised"], data["reduced"],
-                         data["nh3"], data["pm1"], data["pm25"], data["pm10"], data['measurement_time'],
-                         data["cpu_temp"]
+                         data[config.FIELD_TEMPERATURE], data[config.FIELD_PRESSURE], data[config.FIELD_HUMIDITY],
+                         data[config.FIELD_LIGHT], data[config.FIELD_PROXIMITY], data[config.FIELD_OXIDISED],
+                         data[config.FIELD_REDUCED],
+                         data[config.FIELD_NH3], data[config.FIELD_PM1], data[config.FIELD_PM25],
+                         data[config.FIELD_PM10], data[config.FIELD_MEASUREMENT_TIME],
+                         data[config.FIELD_CPU_TEMP]
                          ])
     file.close()
 
@@ -122,24 +124,29 @@ def store_enviro_measurement(data: dict, sensor_log_file, sensor_log_file_at_ser
 def add_measurement_to_file(file, data: dict):
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
-    csv_writer.writerow([timestamp, data['measurement_time'],
-                         data['temp'], data['pressure'], data['humidity'], data['gas_resistance'],
-                         data['colour'],
-                         data["r"], data["g"], data["b"],
-                         data["co2"], data["co2_temperature"], data["relative_humidity"],
-                         dom_utils.get_float_number_from_text(data['cpu_temp']),
-                         data['eco2'], data['tvoc'],
-                         data['gps_latitude'], data['gps_longitude'], data['gps_altitude'],
-                         data['gps_lat_dir'], data['gps_lon_dir'],
-                         data['gps_geo_sep'], data['gps_num_sats'], data['gps_qual'], data['gps_speed_over_ground'],
-                         data['gps_mode_fix_type'], data['gps_pdop'], data['gps_hdop'], data['gps_vdop']
+    csv_writer.writerow([timestamp, data[config.FIELD_MEASUREMENT_TIME],
+                         data[config.FIELD_TEMPERATURE], data[config.FIELD_PRESSURE], data[config.FIELD_HUMIDITY],
+                         data[config.FIELD_GAS_RESISTANCE],
+                         data[config.FIELD_COLOUR],
+                         data[config.FIELD_RED], data[config.FIELD_GREEN], data[config.FIELD_BLUE],
+                         data[config.FIELD_CO2], data[config.FIELD_CO2_TEMPERATURE],
+                         data[config.FIELD_RELATIVE_HUMIDITY],
+                         dom_utils.get_float_number_from_text(data[config.FIELD_CPU_TEMP]),
+                         data[config.FIELD_ECO2], data[config.FIELD_TVOC],
+                         data[config.FIELD_GPS_LATITUDE], data[config.FIELD_GPS_LONGITUDE],
+                         data[config.FIELD_GPS_ALTITUDE],
+                         data[config.FIELD_GPS_LAT_DIR], data[config.FIELD_GPS_LON_DIR],
+                         data[config.FIELD_GPS_GEO_SEP], data[config.FIELD_GPS_NUM_SATS], data[config.FIELD_GPS_QUAL],
+                         data[config.FIELD_GPS_SPEED_OVER_GROUND],
+                         data[config.FIELD_GPS_MODE_FIX_TYPE], data[config.FIELD_GPS_PDOP], data[config.FIELD_GPS_HDOP],
+                         data[config.FIELD_GPS_VDOP]
                          ])
     file.close()
 
 
 def store_measurement(data, sensor_log_file):
     try:
-        counter = data['measurement_counter']
+        counter = data[config.FIELD_MEASUREMENT_COUNTER]
     except Exception as exception:
         logger.warning(f'Unable to store denva measurement due to : {exception}', exc_info=True)
         counter = 0
@@ -177,7 +184,7 @@ def save_dict_data_as_json(path: str, data: dict):
 
 
 def backup_information_data(data: dict):
-    dir_path = create_backup_dir_path_for("information-backup.", ".json")
+    dir_path = create_backup_dir_path_for("information-backup.", ".json", config.PI_HOME_DIR)
     save_dict_data_as_json(dir_path, data)
 
 
@@ -257,26 +264,30 @@ def load_data(path: str) -> list:
 def add_denva_row(data, row):
     data.append(
         {
-            'timestamp': row[config.DENVA_DATA_COLUMN_TIMESTAMP],
-            'temp': row[config.DENVA_DATA_COLUMN_TEMP],
-            'pressure': row[config.DENVA_DATA_COLUMN_PRESSURE],
-            'humidity': row[config.DENVA_DATA_COLUMN_HUMIDITY],
-            'relative_humidity': row[config.DENVA_DATA_COLUMN_RELATIVE_HUMIDITY],
-            'gas_resistance': row[config.DENVA_DATA_COLUMN_GAS_RESISTANCE],
-            'co2': row[config.DENVA_DATA_COLUMN_CO2],
-            'co2_temperature': row[config.DENVA_DATA_COLUMN_CO2_TEMPERATURE],
-            'measurement_time': row[config.DENVA_DATA_COLUMN_MEASUREMENT_TIME],
-            'cpu_temp': row[config.DENVA_DATA_COLUMN_CPU_TEMP],
-            'eco2': row[config.DENVA_DATA_COLUMN_ECO2],
-            'tvoc': row[config.DENVA_DATA_COLUMN_TVOC],
-            'gps_num_sats': row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS],
+            config.FIELD_TIMESTAMP: row[config.DENVA_DATA_COLUMN_TIMESTAMP],
+            config.FIELD_TEMPERATURE: row[config.DENVA_DATA_COLUMN_TEMP],
+            config.FIELD_PRESSURE: row[config.DENVA_DATA_COLUMN_PRESSURE],
+            config.FIELD_HUMIDITY: row[config.DENVA_DATA_COLUMN_HUMIDITY],
+            config.FIELD_RELATIVE_HUMIDITY: row[config.DENVA_DATA_COLUMN_RELATIVE_HUMIDITY],
+            config.FIELD_GAS_RESISTANCE: row[config.DENVA_DATA_COLUMN_GAS_RESISTANCE],
+            config.FIELD_CO2: row[config.DENVA_DATA_COLUMN_CO2],
+            config.FIELD_CO2_TEMPERATURE: row[config.DENVA_DATA_COLUMN_CO2_TEMPERATURE],
+            config.FIELD_MEASUREMENT_TIME: row[config.DENVA_DATA_COLUMN_MEASUREMENT_TIME],
+            config.FIELD_CPU_TEMP: row[config.DENVA_DATA_COLUMN_CPU_TEMP],
+            config.FIELD_ECO2: row[config.DENVA_DATA_COLUMN_ECO2],
+            config.FIELD_TVOC: row[config.DENVA_DATA_COLUMN_TVOC],
+            config.FIELD_GPS_NUM_SATS: row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS],
         }
     )
 
 
 def load_enviro_data_for_today() -> list:
     today = datetime.now()
-    return load_enviro_data(today.year, today.month, today.day)
+    return load_enviro_data(today.year, today.month, today.day, get_sensor_log_file())
+
+
+def get_sensor_log_file():
+    return config.PI_DATA_PATH + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
 
 
 def load_enviro_data(year: int, month: int, day: int, path: str) -> list:
@@ -301,17 +312,17 @@ def load_enviro_data(year: int, month: int, day: int, path: str) -> list:
 def add_enviro_row(data, row):
     data.append(
         {
-            'timestamp': row[0],
-            'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
-            "oxidised": '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
-            'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
-            "nh3": '{:0.2f}'.format(float(row[8])),  # unit = "kO"
-            "pm1": row[9],  # unit = "ug/m3"
-            "pm25": row[10],  # unit = "ug/m3"
-            "pm10": row[11],  # unit = "ug/m3"
-            'cpu_temp': row[13],
-            'light': '{:0.1f}'.format(float(row[4])),
-            'measurement_time': row[12]
+            config.FIELD_TIMESTAMP: row[0],
+            config.FIELD_TEMPERATURE: '{:0.1f}'.format(float(row[1])),  # unit = "C"
+            config.FIELD_OXIDISED: '{:0.2f}'.format(float(row[6])),  # config.FIELD_OXIDISED    unit = "kO"
+            config.FIELD_REDUCED: '{:0.2f}'.format(float(row[7])),  # unit = "kO"
+            config.FIELD_NH3: '{:0.2f}'.format(float(row[8])),  # unit = "kO"
+            config.FIELD_PM1: row[9],  # unit = "ug/m3"
+            config.FIELD_PM25: row[10],  # unit = "ug/m3"
+            config.FIELD_PM10: row[11],  # unit = "ug/m3"
+            config.FIELD_CPU_TEMP: row[13],
+            config.FIELD_LIGHT: '{:0.1f}'.format(float(row[4])),
+            config.FIELD_MEASUREMENT_TIME: row[12]
         }
     )
 

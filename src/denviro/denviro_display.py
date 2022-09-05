@@ -63,20 +63,20 @@ def display_on_screen(measurement: dict):
         color1 = get_colour_for_cpu()
 
     elif cycle % 6 == 2:
-        line1 = 'light: {}'.format(measurement["light"])
-        line2 = 'proximity: {}'.format(measurement["proximity"])
+        line1 = 'light: {}'.format(measurement[config.FIELD_LIGHT])
+        line2 = 'proximity: {}'.format(measurement[config.FIELD_PROXIMITY])
     elif cycle % 6 == 3:
-        line1 = 'nh   3: {:.2f}'.format(measurement["nh3"])
-        line2 = 'oxidised: {:.2f}'.format(measurement["oxidised"])
-        line3 = 'reduced: {:.2f}'.format(measurement["reduced"])
+        line1 = 'nh   3: {:.2f}'.format(measurement[config.FIELD_NH3])
+        line2 = 'oxidised: {:.2f}'.format(measurement[config.FIELD_OXIDISED])
+        line3 = 'reduced: {:.2f}'.format(measurement[config.FIELD_REDUCED])
     else:
-        line1 = 'pm    1: {}'.format(measurement["pm1"])
-        line2 = 'pm 2.5: {}'.format(measurement["pm25"])
-        line3 = 'pm  10: {}'.format(measurement["pm10"])
+        line1 = 'pm    1: {}'.format(measurement[config.FIELD_PM1])
+        line2 = 'pm 2.5: {}'.format(measurement[config.FIELD_PM25])
+        line3 = 'pm  10: {}'.format(measurement[config.FIELD_PM10])
 
-        color1 = get_colour(measurement["pm1"])
-        color2 = get_colour(measurement["pm25"])
-        color3 = get_colour(measurement["pm10"])
+        color1 = get_colour(measurement[config.FIELD_PM1])
+        color2 = get_colour(measurement[config.FIELD_PM25])
+        color3 = get_colour(measurement[config.FIELD_PM10])
 
     draw.text((0, 0), line1, font=font, fill=(color1[1], color1[2], color1[3]))
     draw.text((0, 16), line2, font=font, fill=(color2[1], color2[2], color2[3]))

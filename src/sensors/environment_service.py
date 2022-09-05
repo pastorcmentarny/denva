@@ -11,7 +11,7 @@
 """
 
 import logging
-
+import config
 import bme680
 
 from gateways import local_data_gateway
@@ -33,17 +33,17 @@ def get_measurement():
     if weather_sensor.get_sensor_data():
         local_data_gateway.post_metrics_update('weather', 'ok')
         return {
-            'temp': weather_sensor.data.temperature,
-            'pressure': weather_sensor.data.pressure,
-            'humidity': weather_sensor.data.humidity,
-            'gas_resistance': weather_sensor.data.gas_resistance
+            config.FIELD_TEMPERATURE: weather_sensor.data.temperature,
+            config.FIELD_PRESSURE: weather_sensor.data.pressure,
+            config.FIELD_HUMIDITY: weather_sensor.data.humidity,
+            config.FIELD_GAS_RESISTANCE: weather_sensor.data.gas_resistance
         }
     else:
         logger.warning("Weather sensor didn't return data")
         local_data_gateway.post_metrics_update('weather', 'errors')
         return {
-            'temp': 0,
-            'pressure': 0,
-            'humidity': 0,
-            'gas_resistance': 0
+            config.FIELD_TEMPERATURE: 0,
+            config.FIELD_PRESSURE: 0,
+            config.FIELD_HUMIDITY: 0,
+            config.FIELD_GAS_RESISTANCE: 0
         }

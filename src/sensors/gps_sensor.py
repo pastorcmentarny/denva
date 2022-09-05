@@ -14,6 +14,7 @@ import logging
 from pa1010d import PA1010D
 from datetime import datetime
 
+import config
 from gateways import local_data_gateway
 
 logger = logging.getLogger('app')
@@ -28,10 +29,12 @@ gps = setup()
 
 
 def get_no_vales(get_data_exception):
-    return {'timestamp': datetime.now(), 'latitude': 0.0, 'longitude': -0.0,
-            'altitude': 0, 'lat_dir': 'N', 'lon_dir': 'W', 'geo_sep': '0', 'num_sats': '0', 'gps_qual': 0,
-            'speed_over_ground': 0.0, 'mode_fix_type': '0', 'pdop': '0', 'hdop': '0', 'vdop': '0',
-            '_i2c_addr': 16, '_i2c': 'x', '_debug': False, "error": str(get_data_exception)}
+    return {config.FIELD_TIMESTAMP: datetime.now(), config.FIELD_GPS_LATITUDE: 0.0, config.FIELD_GPS_LONGITUDE: -0.0,
+            config.FIELD_GPS_ALTITUDE: 0, config.FIELD_GPS_LAT_DIR: 'N', config.FIELD_GPS_LON_DIR: 'W',
+            config.FIELD_GPS_GEO_SEP: '0', config.FIELD_GPS_NUM_SATS: '0', config.FIELD_GPS_QUAL: 0,
+            config.FIELD_SPEED_OVER_GROUND: 0.0, config.FIELD_GPS_MODE_FIX_TYPE: '0', config.FIELD_GPS_PDOP: '0',
+            config.FIELD_GPS_HDOP: '0', config.FIELD_GPS_VDOP: '0', '_i2c_addr': 16, '_i2c': 'x', '_debug': False,
+            "error": str(get_data_exception)}
 
 
 last = get_no_vales("Not init yet")

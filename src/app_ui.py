@@ -17,7 +17,6 @@ from flask import Flask, jsonify, request
 import config
 from common import commands, data_files
 from denva import denva_service
-from sensors import aircraft_radar_sensor
 from server import delight_service
 from services import common_service
 from emails import email_sender_service
@@ -126,6 +125,7 @@ def records():
     logger.info('Getting record measurement from today')
     return jsonify(denva_service.get_records_for_today())
 
+
 # FIXME
 @app.route("/stats")
 def stats():
@@ -156,6 +156,7 @@ def count_warns():
     logger.info('Getting warnings count')
     return jsonify(denva_service.count_warnings())
 
+
 @app.route("/flights/today")
 def flights_today():
     logger.info('Getting flights detected today')
@@ -166,6 +167,7 @@ def flights_today():
 def flights_yesterday():
     logger.info('Getting flights detected yesterday')
     return jsonify(delight_service.get_flights_for_yesterday())
+
 
 @app.route("/warns/date")
 def specific_day_warns():
@@ -178,7 +180,7 @@ def specific_day_warns():
 
 
 @app.route("/")
-def welcome():
+def last_measurement():
     return jsonify(denva_service.get_last_measurement_from_sensor())
 
 

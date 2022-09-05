@@ -26,7 +26,7 @@ logger = logging.getLogger('app')
 
 report = {
     'report_date': 'today',
-    'measurement_counter': 0,
+    config.FIELD_MEASUREMENT_COUNTER: 0,
     'warning_counter': 0,
     'warnings': {},  # TODO i believe i don't need specify anything as this dict will be overwritten
     "records": {
@@ -129,7 +129,7 @@ def generate_for(date: datetime) -> dict:
         day = date.day
         data = load_data(year, month, day)
         logger.info(f'data length: {len(data)}')
-        report['measurement_counter'] = len(data)
+        report[config.FIELD_MEASUREMENT_COUNTER] = len(data)
         report['report_date'] = "{}.{}'{}".format(day, month, year)
         logger.info('Getting records..')
         report['records'] = records.get_records(data)
@@ -159,11 +159,11 @@ def load_data(year, month, day) -> list:
             row.insert(22, 0)
         data.append(
             {
-                'timestamp': row[0],
+                config.FIELD_TIMESTAMP: row[0],
                 'temp': row[1],
                 'pressure': row[2],
                 'humidity': row[3],
-                'gas_resistance': row[4],
+                config.FIELD_GAS_RESISTANCE: row[4],
                 'colour': row[5],
                 'aqi': row[6],
                 'uva_index': row[7],
@@ -178,8 +178,8 @@ def load_data(year, month, day) -> list:
                 'mx': row[16],
                 'my': row[17],
                 'mz': row[18],
-                'measurement_time': row[19],
-                'cpu_temp': row[20],
+                config.FIELD_MEASUREMENT_TIME: row[19],
+                config.FIELD_CPU_TEMP: row[20],
                 'eco2': row[21],
                 'tvoc': row[22],
             }
@@ -192,15 +192,15 @@ def load_enviro_data(year, month, day) -> list:
     data = []
     for row in csv_data:
         data.append({
-            'timestamp': row[0],
+            config.FIELD_TIMESTAMP: row[0],
             'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
             'light': '{:0.1f}'.format(float(row[4])),
-            "oxidised": '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+            config.FIELD_OXIDISED: '{:0.2f}'.format(float(row[6])),  # config.FIELD_OXIDISED    unit = "kO"
             'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
-            "nh3": '{:0.2f}'.format(float(row[8])),  # unit = "kO"
-            "pm1": row[9],  # unit = "ug/m3"
-            "pm25": row[10],  # unit = "ug/m3"
-            "pm10": row[11],  # unit = "ug/m3"
+            config.FIELD_NH3: '{:0.2f}'.format(float(row[8])),  # unit = "kO"
+            config.FIELD_PM1: row[9],  # unit = "ug/m3"
+            config.FIELD_PM25: row[10],  # unit = "ug/m3"
+            config.FIELD_PM10: row[11],  # unit = "ug/m3"
             "measurement_time": row[12],
         })
     return data
@@ -234,7 +234,7 @@ def generate_enviro_report_for_yesterday() -> dict:
         month = yesterday.month
         day = yesterday.day
         data = load_enviro_data(year, month, day)
-        evniro_report['measurement_counter'] = len(data)
+        evniro_report[config.FIELD_MEASUREMENT_COUNTER] = len(data)
         evniro_report['report_date'] = "{}.{}'{}".format(day, month, year)
         warnings = sensor_warnings_service.get_warnings_for(str(year), str(month), str(day))
         evniro_report['warning_counter'] = len(warnings)
@@ -414,9 +414,9 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
             "denva": {
                 "avg": {
                     "cpu_temperature": "{:.2f}".format(denva_avg_cpu_temperature),
-                    "humidity": "{:.2f}".format(denva_avg_humidity),
+                    config.FIELD_HUMIDITY: "{:.2f}".format(denva_avg_humidity),
                     "motion": "{:.2f}".format(denva_avg_motion),
-                    "pressure": "{:.2f}".format(denva_avg_pressure),
+                    config.FIELD_PRESSURE: "{:.2f}".format(denva_avg_pressure),
                     "temperature": "{:.2f}".format(denva_avg_temperature),
                     "uva": "{:.2f}".format(denva_avg_uva),
                     "uvb": "{:.2f}".format(denva_avg_uvb),
@@ -429,7 +429,7 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
                     },
                     "highest_eco2": denva_records_highest_eco2,
                     "highest_tvoc": denva_records_highest_tvoc,
-                    "humidity": {
+                    config.FIELD_HUMIDITY: {
                         "max": "{:.2f}".format(denva_records_cpu_humidity_max),
                         "min": "{:.2f}".format(denva_records_cpu_humidity_min)
                     },
@@ -437,7 +437,7 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
                         "uva": "{:.2f}".format(denva_records_uva_max),
                         "uvb": "{:.2f}".format(denva_records_uvb_max)
                     },
-                    "pressure": {
+                    config.FIELD_PRESSURE: {
                         "max": "{:.2f}".format(denva_records_pressure_max),
                         "min": "{:.2f}".format(denva_records_pressure_min)
                     },
@@ -485,13 +485,13 @@ def compare_two_reports(older_report: dict, newer_report: dict) -> dict:
             },
             "enviro": {
                 "avg": {
-                    "light": "{:.1f}".format(enviro_avg_light),
-                    "nh3": "{:.1f}".format(enviro_avg_nh3),
-                    "oxidised": "{:.1f}".format(enviro_avg_oxidised),
-                    "pm1": "{:.1f}".format(enviro_avg_pm1),
-                    "pm25": "{:.1f}".format(enviro_avg_pm25),
-                    "pm10": "{:.1f}".format(enviro_avg_pm10),
-                    "reduced": "{:.1f}".format(enviro_avg_reduced),
+                    config.FIELD_LIGHT: "{:.1f}".format(enviro_avg_light),
+                    config.FIELD_NH3: "{:.1f}".format(enviro_avg_nh3),
+                    config.FIELD_OXIDISED: "{:.1f}".format(enviro_avg_oxidised),
+                    config.FIELD_PM1: "{:.1f}".format(enviro_avg_pm1),
+                    config.FIELD_PM25: "{:.1f}".format(enviro_avg_pm25),
+                    config.FIELD_PM10: "{:.1f}".format(enviro_avg_pm10),
+                    config.FIELD_REDUCED: "{:.1f}".format(enviro_avg_reduced),
                     "temperature": "{:.1f}".format(enviro_avg_temperature),
                 },
                 "records": {

@@ -39,7 +39,7 @@ reasons = []
 
 def measurement_is_older_than_5_minutes():
     row = denva_sensors_service.get_last_new_measurement()
-    timestamp = row['timestamp']
+    timestamp = row[config.FIELD_TIMESTAMP]
     return dom_utils.is_timestamp_older_than_5_minutes(timestamp)
 
 

@@ -46,17 +46,17 @@ def get_noise():
 def get_measurement() -> dict:
     p_1, p_2, p_10 = particulate_matter_service.get_measurement()
     oxidised, reduced, nh3 = gas_service.get_measurement()
-    measurement = {"temperature": humidity_bme_service.get_temperature(),  # unit = "C"
-                   "pressure": humidity_bme_service.get_pressure(),  # unit = "hPa"
-                   "humidity": humidity_bme_service.get_humidity(),  # unit = "%"
-                   "light": light_proximity_service.get_illuminance(),  # unit = "Lux"
-                   "proximity": light_proximity_service.get_proximity(),
-                   "oxidised": oxidised,  # "oxidised"    unit = "kO"
-                   "reduced": reduced,  # unit = "kO"
-                   "nh3": nh3,  # unit = "kO"
-                   "pm1": p_1,  # unit = "ug/m3"
-                   "pm25": p_2,  # unit = "ug/m3"
-                   "pm10": p_10}  # unit = "ug/m3"
+    measurement = {config.FIELD_TEMPERATURE: humidity_bme_service.get_temperature(),  # unit = "C"
+                   config.FIELD_PRESSURE: humidity_bme_service.get_pressure(),  # unit = "hPa"
+                   config.FIELD_HUMIDITY: humidity_bme_service.get_humidity(),  # unit = "%"
+                   config.FIELD_LIGHT: light_proximity_service.get_illuminance(),  # unit = "Lux"
+                   config.FIELD_PROXIMITY: light_proximity_service.get_proximity(),
+                   config.FIELD_OXIDISED: oxidised,  # config.FIELD_OXIDISED    unit = "kO"
+                   config.FIELD_REDUCED: reduced,  # unit = "kO"
+                   config.FIELD_NH3: nh3,  # unit = "kO"
+                   config.FIELD_PM1: p_1,  # unit = "ug/m3"
+                   config.FIELD_PM25: p_2,  # unit = "ug/m3"
+                   config.FIELD_PM10: p_10}  # unit = "ug/m3"
 
     return measurement
 
@@ -79,10 +79,10 @@ def main():
         start_time = timer()
         measurement = get_measurement()
         # FIXME temporary disabled  denviro_display.display_on_screen(measurement)
-        measurement['cpu_temp'] = commands.get_cpu_temp()
+        measurement[config.FIELD_CPU_TEMP] = commands.get_cpu_temp()
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
-        measurement['measurement_time'] = measurement_time
+        measurement[config.FIELD_MEASUREMENT_TIME] = measurement_time
         local_data_gateway.post_denviro_measurement(measurement)
         logger.info('it took ' + str(measurement_time) + ' milliseconds to measure it.')
         cl_display.print_measurement(measurement)

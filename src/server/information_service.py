@@ -13,6 +13,7 @@ import logging
 from datetime import datetime
 from timeit import default_timer as timer
 
+import config
 from common import app_timer, data_files
 from gateways import web_data_gateway
 from services import weather_service
@@ -34,7 +35,7 @@ information = {
     },
     'train': no,
     'tube': no,
-    'measurement_time': no
+    config.FIELD_MEASUREMENT_TIME: no
 }
 
 
@@ -54,7 +55,7 @@ def refresh_all():
     information['tube'] = web_data_gateway.get_tube(False)
     information['train'] = web_data_gateway.get_train()
     end_time = timer()
-    information['measurement_time'] = str(int((end_time - start_time) * 1000))  # in ms
+    information[config.FIELD_MEASUREMENT_TIME] = str(int((end_time - start_time) * 1000))  # in ms
 
 
 def should_refresh():

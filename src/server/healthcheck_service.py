@@ -1,7 +1,7 @@
 import json
 import logging
 from datetime import datetime
-
+import config
 ENCODING = 'utf-8'
 
 logger = logging.getLogger('app')
@@ -52,7 +52,7 @@ def save_dict_data_as_json(path: str, data: dict):
 
 # TODO replace from data_file
 def load_json_data_as_dict_from(path: str) -> dict:
-    with open(path, "r", encoding=ENCODING) as json_file:
+    with open(path, config.FIELD_RED, encoding=ENCODING) as json_file:
         return json.load(json_file)
 
 

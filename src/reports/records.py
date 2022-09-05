@@ -12,6 +12,7 @@
 import re
 import time
 
+import config
 from common import data_files
 from denva import denva_sensors_service
 
@@ -27,7 +28,7 @@ def get_enviro_records_for_today() -> dict:
 def get_enviro_records(data_records: list) -> dict:
     start = time.perf_counter()
     result = {
-        'temperature': {
+        config.FIELD_TEMPERATURE: {
             'min': 1000,
             'max': -1000
         },
@@ -38,43 +39,43 @@ def get_enviro_records(data_records: list) -> dict:
         'highest_pm1': 0,
         'highest_pm25': 0,
         'highest_pm10': 0,
-        'measurement_time': {
+        config.FIELD_MEASUREMENT_TIME: {
             'min': 100000000,
             'max': -1
         }
     }
 
     for data_record in data_records:
-        if float(data_record['temperature']) > float(result['temperature']['max']):
-            result['temperature']['max'] = data_record['temperature']
-        if float(data_record['temperature']) < float(result['temperature']['min']):
-            result['temperature']['min'] = data_record['temperature']
+        if float(data_record[config.FIELD_TEMPERATURE]) > float(result[config.FIELD_TEMPERATURE]['max']):
+            result[config.FIELD_TEMPERATURE]['max'] = data_record[config.FIELD_TEMPERATURE]
+        if float(data_record[config.FIELD_TEMPERATURE]) < float(result[config.FIELD_TEMPERATURE]['min']):
+            result[config.FIELD_TEMPERATURE]['min'] = data_record[config.FIELD_TEMPERATURE]
 
-        if float(data_record['light']) > float(result['highest_light']):
-            result['highest_light'] = data_record['light']
+        if float(data_record[config.FIELD_LIGHT]) > float(result['highest_light']):
+            result['highest_light'] = data_record[config.FIELD_LIGHT]
 
-        if float(data_record['nh3']) > float(result['highest_nh3']):
-            result['highest_nh3'] = data_record['nh3']
+        if float(data_record[config.FIELD_NH3]) > float(result['highest_nh3']):
+            result['highest_nh3'] = data_record[config.FIELD_NH3]
 
-        if float(data_record['oxidised']) > float(result['highest_oxidised']):
-            result['highest_oxidised'] = data_record['oxidised']
+        if float(data_record[config.FIELD_OXIDISED]) > float(result['highest_oxidised']):
+            result['highest_oxidised'] = data_record[config.FIELD_OXIDISED]
 
-        if float(data_record['reduced']) > float(result['highest_reduced']):
-            result['highest_reduced'] = data_record['reduced']
+        if float(data_record[config.FIELD_REDUCED]) > float(result['highest_reduced']):
+            result['highest_reduced'] = data_record[config.FIELD_REDUCED]
 
-        if float(data_record['pm1']) > float(result['highest_pm1']):
-            result['highest_pm1'] = data_record['pm1']
+        if float(data_record[config.FIELD_PM1]) > float(result['highest_pm1']):
+            result['highest_pm1'] = data_record[config.FIELD_PM1]
 
-        if float(data_record['pm25']) > float(result['highest_pm25']):
-            result['highest_pm25'] = data_record['pm25']
+        if float(data_record[config.FIELD_PM25]) > float(result['highest_pm25']):
+            result['highest_pm25'] = data_record[config.FIELD_PM25]
 
-        if float(data_record['pm10']) > float(result['highest_pm10']):
-            result['highest_pm10'] = data_record['pm10']
+        if float(data_record[config.FIELD_PM10]) > float(result['highest_pm10']):
+            result['highest_pm10'] = data_record[config.FIELD_PM10]
 
-        if float(data_record['measurement_time']) > float(result['measurement_time']['max']):
-            result['measurement_time']['max'] = data_record['measurement_time']
-        if float(data_record['measurement_time']) < float(result['measurement_time']['min']):
-            result['measurement_time']['min'] = data_record['measurement_time']
+        if float(data_record[config.FIELD_MEASUREMENT_TIME]) > float(result[config.FIELD_MEASUREMENT_TIME]['max']):
+            result[config.FIELD_MEASUREMENT_TIME]['max'] = data_record[config.FIELD_MEASUREMENT_TIME]
+        if float(data_record[config.FIELD_MEASUREMENT_TIME]) < float(result[config.FIELD_MEASUREMENT_TIME]['min']):
+            result[config.FIELD_MEASUREMENT_TIME]['min'] = data_record[config.FIELD_MEASUREMENT_TIME]
 
     end = time.perf_counter()
     result['log entries counter'] = len(data_records)
@@ -86,23 +87,23 @@ def get_enviro_records(data_records: list) -> dict:
 def get_records(data_records: list) -> dict:
     start = time.perf_counter()
     result = {
-        'temperature': {
+        config.FIELD_TEMPERATURE: {
             'min': 100,
             'max': -100
         },
-        'co2_temperature': {
+        config.FIELD_CO2_TEMPERATURE: {
             'min': 100,
             'max': -100
         },
-        'pressure': {
+        config.FIELD_PRESSURE: {
             'min': 10000,
             'max': 0
         },
-        'humidity': {
+        config.FIELD_HUMIDITY: {
             'min': 100,
             'max': -100
         },
-        'relative_humidity': {
+        config.FIELD_RELATIVE_HUMIDITY: {
             'min': 100,
             'max': -100
         },
@@ -110,7 +111,7 @@ def get_records(data_records: list) -> dict:
             'uva': -100,
             'uvb': -100
         },
-        'cpu_temperature': {
+        config.FIELD_CPU_TEMP: {
             'min': 100,
             'max': -100
         },
@@ -121,47 +122,47 @@ def get_records(data_records: list) -> dict:
     }
 
     for data_record in data_records:
-        if float(data_record['temp']) > float(result['temperature']['max']):
-            result['temperature']['max'] = data_record['temp']
-        if float(data_record['temp']) < float(result['temperature']['min']):
-            result['temperature']['min'] = data_record['temp']
+        if float(data_record[config.FIELD_TEMPERATURE]) > float(result[config.FIELD_TEMPERATURE]['max']):
+            result[config.FIELD_TEMPERATURE]['max'] = data_record[config.FIELD_TEMPERATURE]
+        if float(data_record[config.FIELD_TEMPERATURE]) < float(result[config.FIELD_TEMPERATURE]['min']):
+            result[config.FIELD_TEMPERATURE]['min'] = data_record[config.FIELD_TEMPERATURE]
 
-        if float(data_record['co2_temperature']) > float(result['co2_temperature']['max']):
-            result['co2_temperature']['max'] = data_record['co2_temperature']
-        if float(data_record['temp']) < float(result['co2_temperature']['min']):
-            result['co2_temperature']['min'] = data_record['co2_temperature']
+        if float(data_record[config.FIELD_CO2_TEMPERATURE]) > float(result[config.FIELD_CO2_TEMPERATURE]['max']):
+            result[config.FIELD_CO2_TEMPERATURE]['max'] = data_record[config.FIELD_CO2_TEMPERATURE]
+        if float(data_record[config.FIELD_CO2_TEMPERATURE]) < float(result[config.FIELD_CO2_TEMPERATURE]['min']):
+            result[config.FIELD_CO2_TEMPERATURE]['min'] = data_record[config.FIELD_CO2_TEMPERATURE]
 
-        if float(data_record['pressure']) > float(result['pressure']['max']):
-            result['pressure']['max'] = data_record['pressure']
-        if float(data_record['pressure']) < float(result['pressure']['min']):
-            result['pressure']['min'] = data_record['pressure']
+        if float(data_record[config.FIELD_PRESSURE]) > float(result[config.FIELD_PRESSURE]['max']):
+            result[config.FIELD_PRESSURE]['max'] = data_record[config.FIELD_PRESSURE]
+        if float(data_record[config.FIELD_PRESSURE]) < float(result[config.FIELD_PRESSURE]['min']):
+            result[config.FIELD_PRESSURE]['min'] = data_record[config.FIELD_PRESSURE]
 
-        if float(data_record['humidity']) > float(result['humidity']['max']):
-            result['humidity']['max'] = data_record['humidity']
-        if float(data_record['humidity']) < float(result['humidity']['min']):
-            result['humidity']['min'] = data_record['humidity']
+        if float(data_record[config.FIELD_HUMIDITY]) > float(result[config.FIELD_HUMIDITY]['max']):
+            result[config.FIELD_HUMIDITY]['max'] = data_record[config.FIELD_HUMIDITY]
+        if float(data_record[config.FIELD_HUMIDITY]) < float(result[config.FIELD_HUMIDITY]['min']):
+            result[config.FIELD_HUMIDITY]['min'] = data_record[config.FIELD_HUMIDITY]
 
-        if float(data_record['relative_humidity']) > float(result['relative_humidity']['max']):
-            result['relative_humidity']['max'] = data_record['relative_humidity']
-        if float(data_record['relative_humidity']) < float(result['relative_humidity']['min']):
-            result['relative_humidity']['min'] = data_record['relative_humidity']
+        if float(data_record[config.FIELD_RELATIVE_HUMIDITY]) > float(result[config.FIELD_RELATIVE_HUMIDITY]['max']):
+            result[config.FIELD_RELATIVE_HUMIDITY]['max'] = data_record[config.FIELD_RELATIVE_HUMIDITY]
+        if float(data_record[config.FIELD_RELATIVE_HUMIDITY]) < float(result[config.FIELD_RELATIVE_HUMIDITY]['min']):
+            result[config.FIELD_RELATIVE_HUMIDITY]['min'] = data_record[config.FIELD_RELATIVE_HUMIDITY]
 
-        if data_record['cpu_temp'] != '?':
-            data_record['cpu_temp'] = re.sub('[^0-9.]', '', data_record['cpu_temp'])
-            if float(data_record['cpu_temp']) > float(result['cpu_temperature']['max']):
-                result['cpu_temperature']['max'] = data_record['cpu_temp']
-            if float(data_record['cpu_temp']) < float(result['cpu_temperature']['min']):
-                result['cpu_temperature']['min'] = data_record['cpu_temp']
+        if data_record[config.FIELD_CPU_TEMP] != '?':
+            data_record[config.FIELD_CPU_TEMP] = re.sub('[^0-9.]', '', data_record[config.FIELD_CPU_TEMP])
+            if float(data_record[config.FIELD_CPU_TEMP]) > float(result[config.FIELD_CPU_TEMP]['max']):
+                result[config.FIELD_CPU_TEMP]['max'] = data_record[config.FIELD_CPU_TEMP]
+            if float(data_record[config.FIELD_CPU_TEMP]) < float(result[config.FIELD_CPU_TEMP]['min']):
+                result[config.FIELD_CPU_TEMP]['min'] = data_record[config.FIELD_CPU_TEMP]
 
         result['biggest_motion'] = str(int((float(result['biggest_motion']))))
 
-        if int(data_record['eco2']) > int(result['highest_eco2']):
-            result['highest_eco2'] = data_record['eco2']
+        if int(data_record[config.FIELD_ECO2]) > int(result['highest_eco2']):
+            result['highest_eco2'] = data_record[config.FIELD_ECO2]
 
-        if int(data_record['tvoc']) > int(result['highest_tvoc']):
-            result['highest_tvoc'] = data_record['tvoc']
-        if int(data_record['gps_num_sats']) > int(float(result['highest_gps_num_sats'])):
-            result['highest_gps_num_sats'] = int(data_record['gps_num_sats'])
+        if int(data_record[config.FIELD_TVOC]) > int(result['highest_tvoc']):
+            result['highest_tvoc'] = data_record[config.FIELD_TVOC]
+        if int(data_record[config.FIELD_GPS_NUM_SATS]) > int(float(result['highest_gps_num_sats'])):
+            result['highest_gps_num_sats'] = int(data_record[config.FIELD_GPS_NUM_SATS])
     end = time.perf_counter()
     result['log entries counter'] = len(data_records)
     result["execution_time"] = str(end - start) + ' ns.'

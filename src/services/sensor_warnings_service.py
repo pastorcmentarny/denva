@@ -48,20 +48,20 @@ def get_current_warnings_for_enviro() -> dict:
     data = denviro_sensors_service.get_last_measurement()
     warnings = {}
 
-    data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
+    data[config.FIELD_CPU_TEMP] = float(re.sub('[^0-9.]', '', data[config.FIELD_CPU_TEMP]))
 
-    if data['cpu_temp'] > cfg['system']['cpu_temp_fatal']:
-        message = 'CPU temperature is too high [cthf]. Current temperature is: {}'.format(str(data['cpu_temp']))
-        warnings['cpu_temp'] = message
+    if data[config.FIELD_CPU_TEMP] > cfg['system']['cpu_temp_fatal']:
+        message = 'CPU temperature is too high [cthf]. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP]))
+        warnings[config.FIELD_CPU_TEMP] = message
         warnings_logger.error(message)
 
-    elif data['cpu_temp'] > cfg['system']['cpu_temp_error']:
-        message = 'CPU temperature is very high [cthe]. Current temperature is: {}'.format(str(data['cpu_temp']))
-        warnings['cpu_temp'] = message
+    elif data[config.FIELD_CPU_TEMP] > cfg['system']['cpu_temp_error']:
+        message = 'CPU temperature is very high [cthe]. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP]))
+        warnings[config.FIELD_CPU_TEMP] = message
         warnings_logger.error(message)
-    elif data['cpu_temp'] > cfg['system']['cpu_temp_warn']:
-        message = 'CPU temperature is high [cthw]. Current temperature is: {}'.format(str(data['cpu_temp']))
-        warnings['cpu_temp'] = message
+    elif data[config.FIELD_CPU_TEMP] > cfg['system']['cpu_temp_warn']:
+        message = 'CPU temperature is high [cthw]. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP]))
+        warnings[config.FIELD_CPU_TEMP] = message
         warnings_logger.warning(message)
 
     data['temperature'] = float(data['temperature'])
@@ -88,7 +88,7 @@ def get_current_warnings_for_enviro() -> dict:
     '''carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
     Nitrogen dioxide (NO2) - 40 µg/m3 Carbon monoxide (CO) - 10 mg/m3
     Data from sensor is in kilo-Ohms
-    data['oxidised']: '{:0.2f}'.format(float(row[6])),  # "oxidised"    unit = "kO"
+    data['oxidised']: '{:0.2f}'.format(float(row[6])),  # config.FIELD_OXIDISED    unit = "kO"
     data['reduced']: '{:0.2f}'.format(float(row[7])),  # unit = 'kO'
     data['nh3']: '{:0.2f}'.format(float(row[8])),  # unit = 'kO'
     data['pm1']: row[9],  # unit = 'ug/m3'
@@ -169,21 +169,21 @@ def get_warnings_as_list(data) -> list:
     if data['motion'] > shaking_level:
         warnings_logger.info('[dsl] Dom is shaking his legs. Value: {} [mhe]'.format(str(data['motion'])))
 
-    if type(data['cpu_temp']) != float:
-        data['cpu_temp'] = float(re.sub('[^0-9.]', '', data['cpu_temp']))
+    if type(data[config.FIELD_CPU_TEMP]) != float:
+        data[config.FIELD_CPU_TEMP] = float(re.sub('[^0-9.]', '', data[config.FIELD_CPU_TEMP]))
 
-    if data['cpu_temp'] > cfg['sensor']['cpu_temp_fatal']:
+    if data[config.FIELD_CPU_TEMP] > cfg['sensor']['cpu_temp_fatal']:
         warnings.append('CPU temp. TOO HIGH!')
         warnings_logger.error(
-            '[cthf] CPU temperature is too high. Current temperature is: {}'.format(str(data['cpu_temp'])))
-    elif data['cpu_temp'] > cfg['sensor']['cpu_temp_error']:
+            '[cthf] CPU temperature is too high. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP])))
+    elif data[config.FIELD_CPU_TEMP] > cfg['sensor']['cpu_temp_error']:
         warnings.append('CPU temp. VERY HIGH')
         warnings_logger.error(
-            '[cthe] CPU temperature is very high. Current temperature is: {}'.format(str(data['cpu_temp'])))
-    elif data['cpu_temp'] > cfg['sensor']['cpu_temp_warn']:
+            '[cthe] CPU temperature is very high. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP])))
+    elif data[config.FIELD_CPU_TEMP] > cfg['sensor']['cpu_temp_warn']:
         warnings.append('CPU temp. is high')
         warnings_logger.warning(
-            '[cthw] CPU temperature is high. Current temperature is: {}'.format(str(data['cpu_temp'])))
+            '[cthw] CPU temperature is high. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP])))
 
     free_space = int(commands.get_space_available())
     if free_space < 500:

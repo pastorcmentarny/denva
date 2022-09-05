@@ -11,11 +11,13 @@
 """
 import dom_utils
 
+DASH = '-'
+
 
 def print_measurement(data, left_width=20, right_width=6):
     print_title(left_width, right_width)
     print_items(data, left_width, right_width)
-    print('-' * 36 + '\n')
+    print(DASH * 36 + '\n')
 
 
 def print_items(data: dict, left_width, right_width):
@@ -25,4 +27,4 @@ def print_items(data: dict, left_width, right_width):
 
 def print_title(left_width, right_width):
     title = 'Measurement @ {}'.format(dom_utils.get_timestamp_title())
-    print(title.center(left_width + right_width, "-"))
+    print(title.center(left_width + right_width, DASH))
