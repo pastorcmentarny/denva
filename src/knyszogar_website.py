@@ -317,6 +317,12 @@ def reboot():
     return jsonify(common_service.reboot_device())
 
 
+@app.route("/now-next")
+def get_now_and_next_event():
+    logger.info('Getting now and next event on daily')
+    return jsonify(app_server_service.get_now_and_next_event())
+
+
 @app.route("/")
 def get_measurement():
     return hq()

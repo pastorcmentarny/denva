@@ -33,6 +33,14 @@ logger = logging.getLogger('app')
 server_logger = logging.getLogger('server')
 
 
+def get_now_and_next_event():
+    events = daily.get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute)
+    return {
+        'now': events[0],
+        'next': events[1]
+    }
+
+
 def get_last_updated_page() -> str:
     now = datetime.now()
     return "{}.{}'{} - {}:{}".format(now.day, now.month, now.year, now.hour, now.minute)
