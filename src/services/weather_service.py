@@ -66,9 +66,10 @@ def cleanup_weather_data(weather: str) -> list:
     for x in result:
         y = x.split('.')
         for z in y:
-            z = z.replace('Maximum ', 'Max').replace('Minimum ', 'Min').replace('temperature', ' temp.').replace(
+            z = z.replace("\n"," ").replace('Maximum ', 'Max').replace('Minimum ', 'Min').replace('temperature', ' temp.').replace(
                 'daytime ', '').replace('nighttime ', '').replace('degrees Celsius', '°C')
             if z:
                 result_list.append(z.strip())
     result_list.remove('Today')
     return result_list
+
