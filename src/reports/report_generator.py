@@ -145,43 +145,26 @@ def load_data(year, month, day) -> list:
     csv_data = read_data_as_list_from_csv_file(day, month, year, 'sensor-log')
     data = []
     for row in csv_data:
-        try:
-            row[19] == '?'
-        except IndexError:
-            logger.warning("no data for ")
-            row.insert(19, '?')
-            row.insert(20, '?')
-        try:
-            row[21] == '?'
-        except IndexError:
-            logger.warning("no eco2 or tvoc data")
-            row.insert(21, 0)
-            row.insert(22, 0)
         data.append(
             {
-                config.FIELD_TIMESTAMP: row[0],
-                'temp': row[1],
-                'pressure': row[2],
-                'humidity': row[3],
-                config.FIELD_GAS_RESISTANCE: row[4],
-                'colour': row[5],
-                'aqi': row[6],
-                'uva_index': row[7],
-                'uvb_index': row[8],
-                'motion': row[9],
-                'ax': row[10],
-                'ay': row[11],
-                'az': row[12],
-                'gx': row[13],
-                'gy': row[14],
-                'gz': row[15],
-                'mx': row[16],
-                'my': row[17],
-                'mz': row[18],
-                config.FIELD_MEASUREMENT_TIME: row[19],
-                config.FIELD_CPU_TEMP: row[20],
-                'eco2': row[21],
-                'tvoc': row[22],
+                config.FIELD_TIMESTAMP: row[config.DENVA_DATA_COLUMN_TIMESTAMP],
+                config.FIELD_MEASUREMENT_TIME: row[config.DENVA_DATA_COLUMN_MEASUREMENT_TIME],
+                config.FIELD_TEMPERATURE: row[config.DENVA_DATA_COLUMN_TEMP],
+                config.FIELD_PRESSURE: row[config.DENVA_DATA_COLUMN_PRESSURE],
+                config.FIELD_HUMIDITY: row[config.DENVA_DATA_COLUMN_HUMIDITY],
+                config.FIELD_GAS_RESISTANCE: row[config.DENVA_DATA_COLUMN_GAS_RESISTANCE],
+                config.FIELD_COLOUR: row[config.DENVA_DATA_COLUMN_COLOUR],
+                config.FIELD_RED : row[config.DENVA_DATA_COLUMN_R],
+                config.FIELD_GREEN : row[config.DENVA_DATA_COLUMN_G],
+                config.FIELD_BLUE : row[config.DENVA_DATA_COLUMN_B],
+                config.FIELD_CO2 : row[config.DENVA_DATA_COLUMN_CO2],
+                config.FIELD_CO2_TEMPERATURE : row[config.DENVA_DATA_COLUMN_CO2_TEMPERATURE],
+                config.FIELD_RELATIVE_HUMIDITY : row[config.DENVA_DATA_COLUMN_RELATIVE_HUMIDITY],
+                config.FIELD_CPU_TEMP: row[config.DENVA_DATA_COLUMN_CPU_TEMP],
+                config.FIELD_ECO2: row[config.DENVA_DATA_COLUMN_ECO2],
+                config.FIELD_TVOC: row[config.DENVA_DATA_COLUMN_TVOC],
+                config.FIELD_GPS_NUM_SATS: 0 #FIXME
+                # config.FIELD_GPS_NUM_SATS: row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS]
             }
         )
     return data
