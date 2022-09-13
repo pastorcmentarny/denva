@@ -35,9 +35,12 @@ server_logger = logging.getLogger('server')
 
 def get_now_and_next_event():
     events = daily.get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute)
+    celebration = celebrations.get_next_3_events()
     return {
         'now': events[0],
-        'next': events[1]
+        'next': events[1],
+        'celebration' : celebration[0],
+        'celebration2' : celebration[1]
     }
 
 
