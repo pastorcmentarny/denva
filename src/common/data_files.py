@@ -246,16 +246,6 @@ def load_data(path: str) -> list:
     csv_data = list(csv_content)
     data = []
     for row in csv_data:
-        try:
-            row[19] == UNKNOWN
-        except IndexError:
-            row.insert(19, UNKNOWN)
-            row.insert(20, UNKNOWN)
-        try:
-            row[21] == UNKNOWN
-        except IndexError:
-            row.insert(21, UNKNOWN)
-            row.insert(22, UNKNOWN)
         add_denva_row(data, row)
     sensor_log_file.close()
     return data
