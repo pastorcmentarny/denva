@@ -235,6 +235,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Central': {
@@ -246,6 +247,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Circle': {
@@ -257,6 +259,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'District': {
@@ -268,6 +271,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Hammersmith-city': {
@@ -279,6 +283,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Jubilee': {
@@ -290,6 +295,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Metropolitan': {
@@ -301,6 +307,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Northern': {
@@ -312,6 +319,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Piccadilly': {
@@ -323,6 +331,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Victoria': {
@@ -334,6 +343,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Waterloo-city': {
@@ -345,6 +355,7 @@ def count_today_tube_problems(problem_list) -> dict:
             'Planned closure': 0,
             'Reduced service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         }
     }

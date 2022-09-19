@@ -30,6 +30,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
 
         },
         'Central': {
@@ -41,6 +42,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'Circle': {
             'Good Service': 0,
@@ -51,6 +53,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'District': {
             'Good Service': 0,
@@ -61,6 +64,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'Hammersmith': {
             'Good Service': 0,
@@ -71,6 +75,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'Jubilee': {
             'Good Service': 0,
@@ -81,6 +86,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'Metropolitan': {
             'Good Service': 0,
@@ -91,6 +97,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'Northern': {
             'Good Service': 0,
@@ -101,6 +108,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'Piccadilly': {
             'Good Service': 0,
@@ -111,6 +119,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'Victoria': {
             'Good Service': 0,
@@ -121,6 +130,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         },
         'Waterloo': {
             'Good Service': 0,
@@ -131,6 +141,7 @@ def count_tube_problems(problem_list) -> dict:
             'Planned Closure': 0,
             'Reduced Service': 0,
             'Suspended': 0,
+            'Service Closed': 0,
         }
     }
 
@@ -155,7 +166,8 @@ def get_file_name(dt):
     return f"/home/pi/data/tube-status{dt.year}{dt.month:02d}{dt.day:02d}.txt"
 
 
-@retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME, stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
+@retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME,
+       stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
 def save(new_data: list):
     dt = datetime.now()
     with open(get_file_name(dt), 'a+') as f:
@@ -163,7 +175,8 @@ def save(new_data: list):
             f.write(f"{item}\n")
 
 
-@retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME, stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
+@retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME,
+       stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
 def save_snapshot(report: dict):
     report_file_path = 'snapshot.txt'
     print('Saving report to {}'.format(report_file_path))
@@ -172,7 +185,8 @@ def save_snapshot(report: dict):
         json.dump(report, report_file, ensure_ascii=False, indent=4)
 
 
-@retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME, stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
+@retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME,
+       stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
 def load():
     dt = datetime.now()
     with open(get_file_name(dt), 'r', newline='') as file_content:
