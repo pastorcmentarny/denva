@@ -12,7 +12,7 @@ class WeatherServiceTestCases(unittest.TestCase):
             '{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
 
         # when
-        result = weather_service.is_weather_data_expired(weather_timestamp)
+        result = weather_service.__is_weather_data_expired(weather_timestamp)
 
         # then
         self.assertFalse(result)
@@ -24,7 +24,7 @@ class WeatherServiceTestCases(unittest.TestCase):
             '{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
 
         # when
-        result = weather_service.is_weather_data_expired(weather_timestamp)
+        result = weather_service.__is_weather_data_expired(weather_timestamp)
 
         # then
         self.assertTrue(result)
@@ -36,7 +36,7 @@ class WeatherServiceTestCases(unittest.TestCase):
             '{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
 
         # when
-        result = weather_service.is_weather_data_expired(weather_timestamp)
+        result = weather_service.__is_weather_data_expired(weather_timestamp)
 
         # then
         self.assertFalse(result)
@@ -55,7 +55,7 @@ Pollen: High."""
                            'UV: Moderate', 'Pollution: Moderate', 'Pollen: High']
 
         # when
-        result = weather_service.cleanup_weather_data(weather)
+        result = weather_service.__cleanup_weather_data(weather)
 
         # then
         self.assertEqual(expected_result, result)

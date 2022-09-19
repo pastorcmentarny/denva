@@ -304,7 +304,8 @@
                 <strong class="d-inline-block text-success">Transport</strong>
                 {% for line_name in message.transport %}
                     <li class="small">{{ line_name }}</li>
-                {% endfor %}            </ul>
+                {% endfor %}
+            </ul>
 
             <ul class="list-unstyled mt-3 mb-4">
                 <li><strong class="d-inline-block text-success">Server(LP) {3}</strong></li>
@@ -368,6 +369,7 @@
         <div class="card-header">
             <h4 class="my-0 font-weight-normal">DENVA</h4>
         </div>
+        {% if  message.denva %}
         <div class="card-body small">
             <ul class="list-unstyled mt-3 mb-4">
                 <li><strong>temp</strong> : {{ message.denva.temp }}</li>
@@ -387,9 +389,13 @@
                 <li><strong>tvoc</strong> : {{ message.denva.tvoc }}</li>
             </ul>
         </div>
+        {% else %}
+        <li><span class="bad">No Denva data :(</span></li>
+        {% endif %}
         <div class="card-header">
             <h4 class="my-0 font-weight-normal">ENVIRO</h4>
         </div>
+        {% if  message.enviro %}
         <div class="card-body small">
             <ul class="list-unstyled mt-3 mb-4">
                 <li><strong>temperature</strong> : {{ message.enviro.temperature }}</li>
@@ -401,6 +407,9 @@
                 <li><strong>pm10</strong> : {{ message.enviro.pm10 }}</li>
             </ul>
         </div>
+        {% else %}
+            <li><span class="bad">No Enviro data :(</span></li>
+        {% endif %}
         <div class="card-header">
             <h4 class="my-0 font-weight-normal">Trases 4</h4>
         </div>
