@@ -249,6 +249,12 @@ def tt_delays_counter():
     return jsonify(tubes_train_service.count_tube_problems_today())
 
 
+@app.route('/tt/stats')
+def tt_delay_stats():
+    data = app_server_service.count_tube_problems_today()
+    return render_template('tube.html', message=data)
+
+
 @app.route("/status")
 def status():
     start = datetime.datetime.now()

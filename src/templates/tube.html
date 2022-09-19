@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My bookmarks HQ">
+    <meta name="author" content="Dominik Symonowicz">
+    <meta http-equiv="refresh" content="30"/>
+    <title>Status Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon"/>
+
+    <!--  JavaScripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="http://localhost:5000/">Dom's Gateway</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
+            aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="weekly" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Denva</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown02">
+                    <a href="http://192.168.0.200:5000" class="dropdown-item">Home Page</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- main part -->
+<div class="row mb-12">
+    <div class="col-md-9">
+        <div class="card-body">
+
+            {% if  message %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Line</th>
+                        <th scope="col">'Good Service'</th>
+                        <th scope="col">'Minor Delays'</th>
+                        <th scope="col">'Severe Delays'</th>
+                        <th scope="col">'Part Suspended'</th>
+                        <th scope="col">'Part Closure'</th>
+                        <th scope="col">'Planned Closure'</th>
+                        <th scope="col">'Reduced Service'</th>
+                        <th scope="col">'Suspended'</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><b>Bakerloo</b></td>
+                        <td><span class="text-success">{{ message.Bakerloo['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Bakerloo['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Bakerloo['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Bakerloo['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Bakerloo['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Bakerloo['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Bakerloo['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Bakerloo['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Central</b></td>
+                        <td><span class="text-success">{{ message.Central['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Central['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Central['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Central['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Central['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Central['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Central['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Central['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Circle</b></td>
+                        <td><span class="text-success">{{ message.Circle['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Circle['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Circle['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Circle['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Circle['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Circle['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Circle['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Circle['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>District</b></td>
+                        <td><span class="text-success">{{ message.District['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.District['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.District['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.District['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.District['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.District['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.District['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.District['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Hammersmith</b></td>
+                        <td><span class="text-success">{{ message.Hammersmith['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Hammersmith['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Hammersmith['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Hammersmith['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Hammersmith['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Hammersmith['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Hammersmith['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Hammersmith['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Jubilee</b></td>
+                        <td><span class="text-success">{{ message.Jubilee['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Jubilee['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Jubilee['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Jubilee['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Jubilee['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Jubilee['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Jubilee['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Jubilee['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Metropolitan</b></td>
+                        <td><span class="text-success">{{ message.Metropolitan['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Metropolitan['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Metropolitan['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Metropolitan['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Metropolitan['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Metropolitan['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Metropolitan['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Metropolitan['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Northern</b></td>
+                        <td><span class="text-success">{{ message.Northern['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Northern['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Northern['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Northern['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Northern['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Northern['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Northern['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Northern['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Piccadilly</b></td>
+                        <td><span class="text-success">{{ message.Piccadilly['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Piccadilly['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Piccadilly['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Piccadilly['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Piccadilly['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Piccadilly['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Piccadilly['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Piccadilly['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Victoria</b></td>
+                        <td><span class="text-success">{{ message.Victoria['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Victoria['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Victoria['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Victoria['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Victoria['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Victoria['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Victoria['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Victoria['Suspended'] }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Waterloo</b></td>
+                        <td><span class="text-success">{{ message.Waterloo['Good Service'] }}</span></td>
+                        <td><span class="text-warning">{{ message.Waterloo['Minor Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Waterloo['Severe Delays'] }}</span></td>
+                        <td><span class="text-danger">{{ message.Waterloo['Part Suspended'] }}</span></td>
+                        <td><span class="text-info">{{ message.Waterloo['Part Closure'] }}</span></td>
+                        <td><span class="text-secondary">{{ message.Waterloo['Planned Closure'] }}</span></td>
+                        <td><span class="text-info">{{ message.Waterloo['Reduced Service'] }}</span></td>
+                        <td><span class="text-dark">{{ message.Waterloo['Suspended'] }}</span></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            {% else %}
+                <li><span class="bad">No data :(</span></li>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-body">
+            <span>{{ message }}</span>
+        </div>
+    </div>
+</div>
+<!-- all scripts -->
+</body>
+</html>

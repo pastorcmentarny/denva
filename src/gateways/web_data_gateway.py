@@ -13,8 +13,9 @@ import json
 import logging
 import bs4
 import requests
-import datetime
+from datetime import datetime
 from gateways import local_data_gateway
+
 logger = logging.getLogger('app')
 ENCODING = 'utf-8'
 
@@ -38,6 +39,31 @@ def get_train() -> str:
     return train_status
 
 
+def get_timestamp_for_data_row(dt):
+    return f"{dt.year}{dt.month:02d}{dt.day:02d}-{dt.hour:02d}{dt.minute:02d}"
+
+
+def get_tube_statuses_from_url():
+    tubes = []
+    try:
+        response = requests.get('https://api.tfl.gov.uk/line/mode/tube/status')
+        data = json.loads(response.text)
+        for i in data:
+            for status in i['lineStatuses']:
+                text = f"{get_timestamp_for_data_row(datetime.now())} :: {i['id'].capitalize()}::{status['statusSeverityDescription']}"
+                tubes.append(text)
+    except Exception as whoops:
+        print('Unable to get tube data due to : %s' % whoops)
+        tubes = ['Tube data N/A']
+    return tubes
+
+
+def get_status() -> list:
+    statuses = get_tube(True)
+    statuses.append(get_train())
+    return statuses
+
+
 def get_tube(online: bool):
     logger.info('Getting tube data..')
     try:
@@ -55,26 +81,22 @@ def get_tube(online: bool):
                         text += 'reason :' + status['reason']
                         if ('Good Service' not in status['statusSeverityDescription']) or (
                                 'Service Closed' not in status['statusSeverityDescription']):
-                            local_data_gateway.add_entry_to_diary("{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
-                                                                           status['reason']))
+                            local_data_gateway.add_entry_to_diary(
+                                "{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
+                                                             status['reason']))
                 tubes.append(text)
             else:
                 for status in i['lineStatuses']:
                     if ('Good Service' not in status['statusSeverityDescription']) or (
                             'Service Closed' not in status['statusSeverityDescription']):
                         if 'reason' in status and online:
-                            local_data_gateway.add_entry_to_diary(f"{i['id']} has {status['statusSeverityDescription']} due to {status['reason']}")
+                            local_data_gateway.add_entry_to_diary(
+                                f"{i['id']} has {status['statusSeverityDescription']} due to {status['reason']}")
 
     except Exception as whoops:
         logger.error('Unable to get tube data due to : %s' % whoops)
         tubes = ['Tube data N/A']
     return tubes
-
-
-def get_status() -> list:
-    statuses = get_tube(True)
-    statuses.append(get_train())
-    return statuses
 
 
 def get_crime() -> str:

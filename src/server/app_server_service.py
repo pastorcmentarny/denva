@@ -24,7 +24,7 @@ import server.personal_stats as personal_events
 import server.random_irregular_verb as verb
 import server.rules_service as rules
 from common import data_files
-from gateways import web_data_gateway, local_data_gateway
+from gateways import web_data_gateway, local_data_gateway, tube_client
 from server import daily
 from services import error_detector_service, radar_service, metrics_service
 from services import weather_service, system_data_service
@@ -68,9 +68,9 @@ def get_gateway_data() -> dict:
 
 def get_fasting_warning() -> str:
     hour = datetime.now().hour
-    if hour >= 19 or hour <= 12:
+    if hour >= 19 or hour < 12:
         return "NO FOOD (INTERMITTENT FASTING PERIOD)"
-    elif hour == 10:
+    elif hour == 12:
         return "NO FOOD (OPTIONAL)"
     return ''
 
@@ -231,3 +231,7 @@ def get_device_status(config_data: dict):
             'log_count': {}
         }
     return data
+
+
+def count_tube_problems_today():
+    return tube_client.count_tube_problems(tube_client.load())

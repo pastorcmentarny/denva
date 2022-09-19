@@ -17,9 +17,10 @@ import traceback
 from datetime import datetime
 
 import dom_utils
-#import server.information_service as information
+# import server.information_service as information
 from common import loggy
-from gateways import local_data_gateway
+from gateways import local_data_gateway, tube_client
+from timeit import default_timer as timer
 
 """
 import config
@@ -54,17 +55,22 @@ def main():
     local_data_gateway.post_device_on_off('app', True)
     while True:
         logger.debug(f'Loop no. {counter}')
-        print('Do nothing application is working..')
+        start_time = timer()
         counter += 1
-        time.sleep(5)
 
         if counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('knyszogar', 'app')
-        #information.should_refresh()
-        # should_send_email()
-        # report_generation_cooldown = report_service.create_and_store_it_if_needed(report_generation_cooldown)
+        # information.should_refresh()
 
-    # loggy.log_time('Mothership App Setup', start_time, timer())
+        # every minute
+        tube_client.update()
+        # report_generation_cooldown = report_service.create_and_store_it_if_needed(report_generation_cooldown)
+        end_time = timer()
+        remaining = int((end_time - start_time) * 1000)
+        counter += 1
+        sleep_time = (60000 - remaining) / 1000
+        print(f'I will go sleep for {sleep_time} s')
+        time.sleep(sleep_time)
 
 
 if __name__ == '__main__':
@@ -73,10 +79,9 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
-        # logging.info('Received request application to shut down.. goodbye!', exc_info=True)
+        logging.info('Received request application to shut down.. goodbye!', exc_info=True)
     except Exception as exception:
-        # logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        # email_sender_service.send_error_log_email("Mothership App", "Application crashed due to {}.".format(exception))
+        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
         sys.exit(1)
     except BaseException as disaster:
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)

@@ -8,7 +8,7 @@ rules = [
     "Discipline allows you to get things done. Discipline equals freedom, it sounds counterproductive but you have freedom because of discipline. I have freedom because of the discipline to get things done."
 ]
 
-
+#TODO REMOVE IT, It is part of Inkyframe now
 def get_all_rules() -> list:
     return rules
 
