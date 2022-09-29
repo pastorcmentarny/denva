@@ -179,8 +179,11 @@ def load_json_data_as_dict_from(path: str) -> dict:
 
 
 def save_dict_data_as_json(path: str, data: dict):
-    with open(path, "w+", encoding=ENCODING) as path_file:
-        json.dump(data, path_file, ensure_ascii=False, indent=4)
+    try:
+        with open(path, "w+", encoding=ENCODING) as path_file:
+            json.dump(data, path_file, ensure_ascii=False, indent=4)
+    except Exception as exception:
+        logger.warning(f"Unable to save this data {data} due to {exception}")
 
 
 def backup_information_data(data: dict):
