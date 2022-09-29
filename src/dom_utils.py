@@ -357,8 +357,8 @@ def setup_test_logging(app_name: str, debug_mode: bool = False):
     logging_filename = f'/home/pi/knyszogardata/logs/{app_name}-{date.today()}.txt'
     logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
     logging.captureWarnings(True)
-    logging.info(f'Logging setup complete with log level set to: {logging_level}')
-    print(f'Logs setup completed (Level: {logging_level}')
+    logging.info(f'Logging setup complete with log level set to: {logging_level})')
+    print(f'Logs setup completed (Level: {logging_level})')
 
 
 def load_cfg() -> dict:
