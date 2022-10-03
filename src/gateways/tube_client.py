@@ -188,10 +188,12 @@ def save_snapshot(report: dict):
 @retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME,
        stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
 def load():
-    dt = datetime.now()
-    with open(get_file_name(dt), 'r', newline='') as file_content:
-        return file_content.read().splitlines()
-
+    try:
+        dt = datetime.now()
+        with open(get_file_name(dt), 'r', newline='') as file_content:
+            return file_content.read().splitlines()
+    except Exception as exception:
+        logger.warning(f"Unable to load file due to {exception}")
 
 def update():
     result = web_data_gateway.get_tube_statuses_from_url()

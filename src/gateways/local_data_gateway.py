@@ -112,6 +112,7 @@ def get_yesterday_report_for_aircraft():
 
 
 def post_healthcheck_beat(device: str, app_type: str):
+    logger.debug(f'Posting health check for {device}/{app_type}')
     url = config.get_system_hc_url()
     json_data = {'device': device, 'app_type': app_type}
     try:
@@ -123,7 +124,9 @@ def post_healthcheck_beat(device: str, app_type: str):
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
+# FIXME improve this, currently wording is incorrect
 def post_healthcheck_reboot(device: str, app_type: str):
+    logger.debug(f'Posting reboot to health check service for {device}/{app_type}')
     url = config.get_system_hc_reboot_url()
     json_data = {'device': device, 'app_type': app_type}
     try:
@@ -218,6 +221,7 @@ def add_entry_to_diary(new_entry: str):
     except Exception as whoops:
         logger.warning(
             'There was a problem with sending measurement for denviro with url {} due to {} '.format(url, whoops))
+
 
 def get_current_reading_for_trases():
     return None
