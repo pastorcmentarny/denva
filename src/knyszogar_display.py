@@ -15,7 +15,7 @@ from server import healthcheck_service
 from server import night_train_effect
 
 logger = logging.getLogger('app')
-dom_utils.setup_test_logging('app')
+dom_utils.setup_test_logging('display',False)
 
 READ = 'r'
 OFF = 'OFF'
@@ -454,5 +454,4 @@ def startup():
 
 if __name__ == '__main__':
     startup()
-    dom_utils.setup_test_logging('display')
     loop()
