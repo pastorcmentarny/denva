@@ -17,14 +17,12 @@ import traceback
 from datetime import datetime
 
 import dom_utils
-# import server.information_service as information
+from server import information_service as information
 from common import loggy
 from gateways import local_data_gateway, tube_client
 from timeit import default_timer as timer
 
 """
-import config
-from borg import webcam_service
 from common import app_timer, data_files, loggy
 
 from reports import report_service
@@ -33,7 +31,7 @@ from services import email_sender_service, metrics_service
 APP_NAME = 'server app'
 
 logger = logging.getLogger('app')
-dom_utils.setup_test_logging('app')
+dom_utils.setup_test_logging('app',True) #TODO remove it if stop developing
 pictures = []
 email_cooldown = datetime.now()
 report_generation_cooldown = datetime.now()
@@ -60,7 +58,7 @@ def main():
 
         if counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('knyszogar', 'app')
-        # information.should_refresh()
+        information.should_refresh(counter)
 
         # every minute
         tube_client.update()
