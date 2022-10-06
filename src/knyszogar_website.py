@@ -23,18 +23,17 @@ from server import app_server_service, server_storage_service
 from server import delight_service
 from server import healthcheck_service
 from services import common_service, diarist_service
-from services import information_service, tubes_train_service, text_service, \
-    metrics_service
+from services import information_service, text_service, metrics_service
 
 app = Flask(__name__)
 logger = logging.getLogger('www')
-dom_utils.setup_test_logging('website', True)
+dom_utils.setup_test_logging('website', False)
 APP_NAME = 'Knyszogar Website'
 
 
 @app.route("/metrics/add", methods=['POST'])
 def update_metrics_for():
-    logger.info('updating metrics {}'.format(request.get_json(force=True)))
+    logger.info('Updating metrics {}'.format(request.get_json(force=True)))
     result = request.get_json(force=True)
     metrics_service.add(result['metrics'], result['result'])
     return jsonify({"status": "OK"})
@@ -48,7 +47,7 @@ def healthcheck():
 
 @app.route("/shc/update", methods=['POST'])
 def update_system_healthcheck_for():
-    logger.info('updating device application status to {}'.format(request.get_json(force=True)))
+    logger.info('Updating device application status to {}'.format(request.get_json(force=True)))
     healthcheck_service.update_for(request.get_json(force=True))
     return jsonify({})
 
@@ -100,11 +99,6 @@ def yearly_goals():
     return render_template('40b440.html')
 
 
-@app.route("/focus")
-def focus():
-    return render_template('focus.html', message={})
-
-
 @app.route('/stop-all')
 def stop_all_devices():
     logging.info('Stopping all PI devices.')
@@ -141,18 +135,21 @@ def log_count_app():
     return jsonify(common_service.get_log_count_from_path('app'))
 
 
+# FIXME does not work
 @app.route("/log/display")
 def log_display():
     logger.info('Getting application logs')
     return jsonify(app_server_service.get_last_logs_for('display', 300))
 
 
+# FIXME does not work
 @app.route("/log/display/recent")
 def recent_log_display():
     logger.info('Getting recent application logs for sending as email')
     return jsonify(app_server_service.get_last_logs_for('display', 20))
 
 
+# FIXME does not work
 @app.route("/log/count/display")
 def log_count_display():
     logger.info('Getting recent healthcheck logs for sending as email for Denva')
@@ -244,11 +241,6 @@ def tube_trains_status():
     return jsonify(tt_statuses)
 
 
-@app.route("/tt/delays")
-def tt_delays_counter():
-    return jsonify(tubes_train_service.count_tube_problems_today())
-
-
 @app.route('/tt/stats')
 def tt_delay_stats():
     data = app_server_service.count_tube_problems_today()
@@ -292,13 +284,13 @@ def hq():
     logger.info(f'It took {time} ms.')
     return render_template('hq.html', message=all_data)
 
-
+#FIXME
 @app.route("/flights/today")
 def flights_today():
     logger.info('Getting flights detected today')
     return jsonify(delight_service.get_flights_for_today())
 
-
+#FIXME
 @app.route("/flights/yesterday")
 def flights_yesterday():
     logger.info('Getting flights detected yesterday')
@@ -354,10 +346,6 @@ if __name__ == '__main__':
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        """
-        email_sender_service.send_error_log_email('Mothership UI',
-                                                  'Mothership UI crashes due to {}'.format(exception))
-        """
         sys.exit(1)
     except BaseException as disaster:
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
