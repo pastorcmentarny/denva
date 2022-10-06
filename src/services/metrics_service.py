@@ -28,6 +28,7 @@ METRIC_GAS = 'gas'
 METRIC_AIR_QUALITY = 'air_quality'
 METRICS_RGB = 'rgb'
 METRICS_GPS = 'gps'
+METRICS_CO2 = 'co2'
 COUNT = 'count'
 ERRORS = 'errors'
 OK = 'ok'
@@ -47,7 +48,8 @@ empty_stats = {
         METRIC_WEATHER: 0,
         METRIC_FLIGHT: 0,
         METRICS_RGB: 0,
-        METRICS_GPS: 0
+        METRICS_GPS: 0,
+        METRICS_CO2: 0
 
     },
     ERRORS: {
@@ -60,7 +62,8 @@ empty_stats = {
         METRIC_WEATHER: 0,
         METRIC_FLIGHT: 0,
         METRICS_RGB: 0,
-        METRICS_GPS: 0
+        METRICS_GPS: 0,
+        METRICS_CO2: 0
     }
 
 }
@@ -77,7 +80,7 @@ def setup():
 stats = copy.deepcopy(empty_stats)
 
 metrics_names = [METRIC_AIR_QUALITY, METRIC_GAS, METRIC_MOTION, METRIC_UV, METRIC_POLLUTION,
-                 METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB, METRICS_GPS]
+                 METRIC_LIGHT, METRIC_WEATHER, METRIC_FLIGHT, METRICS_RGB, METRICS_GPS, METRICS_CO2]
 
 metrics_results = [OK, ERRORS]
 
@@ -104,7 +107,7 @@ def add(metric: str, result: str):
     stats[COUNT] = stats[COUNT] + 1
     if metric not in metrics_names:
         logger.error(f'Unknown metrics ${metric}')
-        stats[COUNT] = stats[COUNT] - 1
+        stats[COUNT] = 1
         return
     elif result not in metrics_results:
         logger.error(f'Unknown metrics result ${result}')
