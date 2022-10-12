@@ -25,18 +25,6 @@ def get_healthcheck(app_name: str) -> dict:
             "app": app_name}
 
 
-def get_log_app(number: int):
-    return commands.get_lines_from_path(config.get_log_path_for('log_app'), number)
-
-
-def get_log_hc(number: int):
-    return commands.get_lines_from_path(config.get_log_path_for('log_hc'), number)
-
-
-def get_log_ui(number: int):
-    return commands.get_lines_from_path(config.get_log_path_for('log_ui'), number)
-
-
 def get_system_info() -> dict:
     return commands.get_system_info()
 

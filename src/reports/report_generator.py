@@ -280,6 +280,7 @@ def generate_enviro_report_for_yesterday() -> dict:
     evniro_report = {}
 
     try:
+        #TODO refactor
         # is below 2 lines looks stupid? yes, because it is
         warnings_logger.info("")
         '''

@@ -49,18 +49,6 @@ def healthcheck():
     return jsonify(common_service.get_healthcheck(APP_NAME))
 
 
-@app.route("/log/app")
-def log_app():
-    logger.info('Getting application logs for sending as email for Denviro')
-    return jsonify(common_service.get_log_app(300))
-
-
-@app.route("/log/app/recent")
-def recent_log_app():
-    logger.info('Getting recent application logs for sending as email for Denviro')
-    return jsonify(common_service.get_log_app(20))
-
-
 @app.route("/log/count/app")
 def log_count_app():
     logger.info('Getting recent healthcheck logs for sending as email for Denviro')
@@ -71,30 +59,6 @@ def log_count_app():
 def log_count_ui():
     logger.info('Getting recent healthcheck logs for sending as email for Denviro')
     return jsonify(common_service.get_log_count_for('ui'))
-
-
-@app.route("/log/hc")
-def log_hc():
-    logger.info('Getting recent healthcheck logs for sending as email for Denviro')
-    return jsonify(common_service.get_log_hc(300))
-
-
-@app.route("/log/hc/recent")
-def recent_log_hc():
-    logger.info('Getting recent healthcheck logs  for sending as email for Denviro')
-    return jsonify(common_service.get_log_ui(20))
-
-
-@app.route("/log/ui")
-def log_ui():
-    logger.info('Getting server ui logs for Denviro')
-    return jsonify(common_service.get_log_ui(300))
-
-
-@app.route("/log/ui/recent")
-def recent_log_ui():
-    logger.info('Getting recent server ui logs for sending as email  for Denviro')
-    return jsonify(common_service.get_log_ui(20))
 
 
 @app.route("/now")

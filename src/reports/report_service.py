@@ -77,7 +77,6 @@ def create_for_current_measurements():
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
             'aircraft': local_data_gateway.get_current_reading_for_aircraft(),
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
-            'logs': local_data_gateway.get_current_logs_for_all_services(),
             'system': app_server_service.get_current_system_information_for_all_services(),
             'status': local_data_gateway.get_data_for('http://192.168.0.203:5000/shc/get', 3)
             }

@@ -117,36 +117,10 @@ def gc():
     return jsonify(app_server_service.run_gc())
 
 
-@app.route("/log/app")
-def log_app():
-    logger.info('Getting application logs')
-    return jsonify(app_server_service.get_last_logs_for('app', 300))
-
-
-@app.route("/log/app/recent")
-def recent_log_app():
-    logger.info('Getting recent application logs for sending as email')
-    return jsonify(app_server_service.get_last_logs_for('app', 20))
-
-
 @app.route("/log/count/app")
 def log_count_app():
     logger.info('Getting recent healthcheck logs for sending as email for Denva')
     return jsonify(common_service.get_log_count_from_path('app'))
-
-
-# FIXME does not work
-@app.route("/log/display")
-def log_display():
-    logger.info('Getting application logs')
-    return jsonify(app_server_service.get_last_logs_for('display', 300))
-
-
-# FIXME does not work
-@app.route("/log/display/recent")
-def recent_log_display():
-    logger.info('Getting recent application logs for sending as email')
-    return jsonify(app_server_service.get_last_logs_for('display', 20))
 
 
 # FIXME does not work
@@ -156,52 +130,16 @@ def log_count_display():
     return jsonify(common_service.get_log_count_from_path('display'))
 
 
-@app.route("/log/email")
-def log_email():
-    logger.info('Getting application logs')
-    return jsonify(app_server_service.get_last_logs_for('email', 300))
-
-
-@app.route("/log/email/recent")
-def recent_log_email():
-    logger.info('Getting recent application logs for sending as email')
-    return jsonify(app_server_service.get_last_logs_for('email', 20))
-
-
 @app.route("/log/count/email")
 def log_count_email():
     logger.info('Getting recent healthcheck logs for sending as email for Denva')
     return jsonify(common_service.get_log_count_from_path('email'))
 
 
-@app.route("/log/hc")
-def log_hc():
-    logger.info('Getting healthcheck logs')
-    return jsonify(app_server_service.get_last_logs_for('healthcheck', 300))
-
-
-@app.route("/log/hc/recent")
-def recent_log_hc():
-    logger.info('Getting recent healthcheck logs for sending as email')
-    return jsonify(app_server_service.get_last_logs_for('healthcheck', 20))
-
-
 @app.route("/log/count/hc")
 def log_count_hc():
     logger.info('Getting recent healthcheck logs for sending as email for Denva')
     return jsonify(common_service.get_log_count_from_path('healthcheck'))
-
-
-@app.route("/log/www")
-def log_www():
-    logger.info('Getting server ui logs')
-    return jsonify(app_server_service.get_last_logs_for('website', 300))
-
-
-@app.route("/log/www/recent")
-def recent_log_www():
-    logger.info('Getting recent server ui logs for sending as email')
-    return jsonify(app_server_service.get_last_logs_for('website', 20))
 
 
 @app.route("/log/count/www")
