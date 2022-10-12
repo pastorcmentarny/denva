@@ -22,29 +22,13 @@ from common import loggy
 from gateways import local_data_gateway, tube_client
 from timeit import default_timer as timer
 
-"""
-from common import app_timer, data_files, loggy
-
-from reports import report_service
-from services import email_sender_service, metrics_service
-"""
 APP_NAME = 'server app'
 
 logger = logging.getLogger('app')
-dom_utils.setup_test_logging('app',True) #TODO remove it if stop developing
+dom_utils.setup_test_logging('app', False)
 pictures = []
 email_cooldown = datetime.now()
 report_generation_cooldown = datetime.now()
-
-"""
-def should_send_email():
-    global email_cooldown
-    if app_timer.is_time_to_run_every_5_minutes(email_cooldown):
-        logger.info('sending email..')
-        report = report_service.create_for_current_measurements()
-        email_sender_service.send(report, APP_NAME)
-        email_cooldown = datetime.now()
-"""
 
 
 def main():
@@ -56,16 +40,14 @@ def main():
         start_time = timer()
         counter += 1
 
-        if counter % 2 == 0:
-            local_data_gateway.post_healthcheck_beat('knyszogar', 'app')
+        # every minute
+        local_data_gateway.post_healthcheck_beat('knyszogar', 'app')
         information.should_refresh(counter)
 
-        # every minute
         tube_client.update()
         # report_generation_cooldown = report_service.create_and_store_it_if_needed(report_generation_cooldown)
         end_time = timer()
         remaining = int((end_time - start_time) * 1000)
-        counter += 1
         sleep_time = (60000 - remaining) / 1000
         print(f'I will go sleep for {sleep_time} s')
         time.sleep(sleep_time)

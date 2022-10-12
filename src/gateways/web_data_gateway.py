@@ -67,7 +67,7 @@ def get_status() -> list:
 def get_tube(online: bool):
     logger.info('Getting tube data..')
     try:
-        response = requests.get('https://api.tfl.gov.uk/line/mode/tube/status', timeout=5)
+        response = requests.get('https://api.tfl.gov.uk/line/mode/tube/status', timeout=4)
         log_response_result(response, 'tube')
 
         data = json.loads(response.text)

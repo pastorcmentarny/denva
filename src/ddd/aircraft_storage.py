@@ -77,8 +77,9 @@ def load_processed_data_for(specified_data: date) -> list:
     airport_processed_data = DEFAULT_PATH.format(data_path, date_as_folders,
                                                  dom_utils.get_date_as_filename("aircraft-processed", "csv",
                                                                                 dom_utils.to_datetime(specified_data)))
+    dom_utils.fix_nulls(airport_processed_data)
     try:
-        with dom_utils.fix_nulls(open(airport_processed_data)) as csv_file:
+        with open(airport_processed_data) as csv_file:
             aircraft_csv = csv.reader(csv_file)
             return list(aircraft_csv)
     except Exception as exception:

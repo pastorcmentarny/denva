@@ -55,12 +55,12 @@ def refresh_all():
     information['tube'] = web_data_gateway.get_tube(False)
     information['train'] = web_data_gateway.get_train()
     end_time = timer()
-    data_files.save_dict_data_as_json("/home/pi/data/information.json",information)
+    data_files.save_dict_data_as_json("/home/pi/data/information.json", information)
     information[config.FIELD_MEASUREMENT_TIME] = str(int((end_time - start_time) * 1000))  # in ms
     return information
 
 
-def should_refresh(count:int):
+def should_refresh(count: int):
     global every_five_minutes
     global every_hour
     global every_six_hour
@@ -84,8 +84,9 @@ def should_refresh(count:int):
         every_five_minutes = datetime.now()
         logger.info('Refresh "every 5 minutes" complete')
 
+
 def refresh_every_5_minutes():
-    information['tube'] = web_data_gateway.get_tube(False)
+    information['tube'] = web_data_gateway.get_tube(False)  # TODO move it to tube client
     information['train'] = web_data_gateway.get_train()
 
 
