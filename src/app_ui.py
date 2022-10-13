@@ -54,7 +54,6 @@ def recent_system_log_app():
     return jsonify(commands.get_system_logs(200))
 
 
-
 @app.route("/log/count/app")
 def log_count_app():
     logger.info('Getting recent healthcheck logs for sending as email for Denva')
@@ -65,7 +64,6 @@ def log_count_app():
 def log_count_ui():
     logger.info('Getting recent healthcheck logs for sending as email for Denva')
     return jsonify(common_service.get_log_count_for('ui'))
-
 
 
 @app.route("/now")

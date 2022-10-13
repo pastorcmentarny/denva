@@ -107,15 +107,10 @@ def get_records(data_records: list) -> dict:
             'min': 100,
             'max': -100
         },
-        'max_uv_index': {
-            'uva': -100,
-            'uvb': -100
-        },
         config.FIELD_CPU_TEMP: {
             'min': 100,
             'max': -100
         },
-        'biggest_motion': 0,
         'highest_eco2': 0,
         'highest_tvoc': 0,
         'highest_gps_num_sats': 0
@@ -153,8 +148,6 @@ def get_records(data_records: list) -> dict:
                 result[config.FIELD_CPU_TEMP]['max'] = data_record[config.FIELD_CPU_TEMP]
             if float(data_record[config.FIELD_CPU_TEMP]) < float(result[config.FIELD_CPU_TEMP]['min']):
                 result[config.FIELD_CPU_TEMP]['min'] = data_record[config.FIELD_CPU_TEMP]
-
-        result['biggest_motion'] = str(int((float(result['biggest_motion']))))
 
         if int(data_record[config.FIELD_ECO2]) > int(result['highest_eco2']):
             result['highest_eco2'] = data_record[config.FIELD_ECO2]
