@@ -17,7 +17,7 @@ from timeit import default_timer as timer
 
 import config
 import dom_utils
-from gateways import local_data_gateway
+from gateways import local_data_gateway, tube_client
 from reports import averages, records
 from services import information_service, sensor_warnings_service
 
@@ -26,34 +26,6 @@ logger = logging.getLogger('app')
 
 report = {
     'report_date': 'today',
-    config.FIELD_MEASUREMENT_COUNTER: 0,
-    'warning_counter': 0,
-    'warnings': {},  # TODO i believe i don't need specify anything as this dict will be overwritten
-    "records": {
-        'temperature': {
-            'min': 0,
-            'max': -0
-        },
-        'pressure': {
-            'min': 0,
-            'max': 0
-        },
-        'humidity': {
-            'min': 0,
-            'max': 0
-        },
-        'max_uv_index': {
-            'uva': 0,
-            'uvb': 0
-        },
-        'cpu_temperature': {
-            'min': 0,
-            'max': 0
-        },
-        'biggest_motion': 0,
-        'highest_eco2': 0,
-        'highest_tvoc': 0
-    },
     "tube": {
         "stats_counter": {
             'Bakerloo': {
@@ -192,6 +164,39 @@ report = {
 }
 
 
+denva_report = {
+    'report_date': 'today',
+    config.FIELD_MEASUREMENT_COUNTER: 0,
+    'warning_counter': 0,
+    'warnings': {},  # TODO i believe i don't need specify anything as this dict will be overwritten
+    "records": {
+        'temperature': {
+            'min': 0,
+            'max': -0
+        },
+        'pressure': {
+            'min': 0,
+            'max': 0
+        },
+        'humidity': {
+            'min': 0,
+            'max': 0
+        },
+        'max_uv_index': {
+            'uva': 0,
+            'uvb': 0
+        },
+        'cpu_temperature': {
+            'min': 0,
+            'max': 0
+        },
+        'biggest_motion': 0,
+        'highest_eco2': 0,
+        'highest_tvoc': 0
+    },
+}
+
+
 def generate_for_yesterday() -> dict:
     today = datetime.now()
     yesterday = today - timedelta(days=1)
@@ -205,15 +210,15 @@ def generate_for(date: datetime) -> dict:
         day = date.day
         data = load_data(year, month, day)
         logger.info(f'data length: {len(data)}')
-        report[config.FIELD_MEASUREMENT_COUNTER] = len(data)
-        report['report_date'] = "{}.{}'{}".format(day, month, year)
+        denva_report[config.FIELD_MEASUREMENT_COUNTER] = len(data)
+        denva_report['report_date'] = "{}.{}'{}".format(day, month, year)
         logger.info('Getting records..')
-        report['records'] = records.get_records(data)
+        denva_report['records'] = records.get_records(data)
         logger.info('Getting averages..')
-        report['avg'] = averages.get_averages(data)
-        return report
+        denva_report['avg'] = averages.get_averages(data)
+        return denva_report
     except Exception as exception:
-        logger.error(f"Unable to generate  report due to {exception}. Data {report}", exc_info=True)
+        logger.error(f"Unable to generate  report due to {exception}. Data {denva_report}", exc_info=True)
         return {}
 
 
@@ -239,7 +244,7 @@ def load_data(year, month, day) -> list:
                 config.FIELD_CPU_TEMP: row[config.DENVA_DATA_COLUMN_CPU_TEMP],
                 config.FIELD_ECO2: row[config.DENVA_DATA_COLUMN_ECO2],
                 config.FIELD_TVOC: row[config.DENVA_DATA_COLUMN_TVOC],
-                config.FIELD_GPS_NUM_SATS: 0  # FIXME
+                config.FIELD_GPS_NUM_SATS: -1  # FIXME
                 # config.FIELD_GPS_NUM_SATS: row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS]
             }
         )
@@ -260,7 +265,7 @@ def load_enviro_data(year, month, day) -> list:
             config.FIELD_PM1: row[9],  # unit = "ug/m3"
             config.FIELD_PM25: row[10],  # unit = "ug/m3"
             config.FIELD_PM10: row[11],  # unit = "ug/m3"
-            "measurement_time": row[12],
+            config.FIELD_MEASUREMENT_TIME: row[12],
         })
     return data
 
@@ -306,6 +311,7 @@ def generate_enviro_report_for_yesterday() -> dict:
         return {'error': exception}
 
 
+#TODO redo it
 def generate():
     logger.info('Preparing to send denva report email')
     start_time = timer()

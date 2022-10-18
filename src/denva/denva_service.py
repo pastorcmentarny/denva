@@ -23,8 +23,6 @@ def get_warnings_for(year, month, day):
     return sensor_warnings_service.get_warnings_for(year, month, day)
 
 
-def count_warnings():
-    return denva_sensors_service.count_warnings(sensor_warnings_service.get_warnings_for_today())
 
 
 def get_current_warnings():

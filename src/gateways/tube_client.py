@@ -170,9 +170,12 @@ def get_file_name(dt):
        stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
 def save(new_data: list):
     dt = datetime.now()
-    with open(get_file_name(dt), 'a+') as f:
-        for item in new_data:
-            f.write(f"{item}\n")
+    try:
+        with open(get_file_name(dt), 'a+') as f:
+            for item in new_data:
+                f.write(f"{item}\n")
+    except Exception as exception:
+        logger.warning(f"Unable to save tube status data due to {exception}")
 
 
 @retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME,
@@ -195,10 +198,30 @@ def load():
     except Exception as exception:
         logger.warning(f"Unable to load file due to {exception}")
 
+
 def update():
     result = web_data_gateway.get_tube_statuses_from_url()
     if len(result) > 0 and result[0] != 'Tube data N/A':
         save(result)
+    else:
+        logger.warning('Unable to save data as they was a problem with getting data from TfL')
     result_snapshot = load()
     problem_counter = count_tube_problems(result_snapshot)
     save_snapshot(problem_counter)
+
+
+@retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME,
+       stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
+def load_for(dt):
+    try:
+        with open(get_file_name(dt), 'r', newline='') as file_content:
+            return file_content.read().splitlines()
+    except Exception as exception:
+        logger.warning(f"Unable to load file due to {exception}")
+
+
+def get_counter_for(date: datetime):
+    result = {'tube': count_tube_problems(load_for(date))}
+    print(result)
+    logger.info(result)
+    return

@@ -154,7 +154,8 @@ def get_records(data_records: list) -> dict:
 
         if int(data_record[config.FIELD_TVOC]) > int(result['highest_tvoc']):
             result['highest_tvoc'] = data_record[config.FIELD_TVOC]
-        if int(data_record[config.FIELD_GPS_NUM_SATS]) > int(float(result['highest_gps_num_sats'])):
+
+        if int(data_record[config.FIELD_GPS_NUM_SATS]) > int(result['highest_gps_num_sats']):
             result['highest_gps_num_sats'] = int(data_record[config.FIELD_GPS_NUM_SATS])
     end = time.perf_counter()
     result['log entries counter'] = len(data_records)

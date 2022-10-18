@@ -39,10 +39,6 @@ def get_current_warnings() -> dict:
     return denva_sensors_service.get_new_warnings(data)
 
 
-def count_warning_today() -> dict:
-    return denva_sensors_service.count_warnings(get_warnings_for_today())
-
-
 # source: https://ec.europa.eu/environment/air/quality/standards.htm
 def get_current_warnings_for_enviro() -> dict:
     data = denviro_sensors_service.get_last_measurement()

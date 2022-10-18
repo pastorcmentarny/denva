@@ -11,13 +11,11 @@
 """
 import re
 from timeit import default_timer as timer
-
 import time
 import config
 from common import data_files
 from denva import denva_sensors_service
 
-config.FIELD_TEMPERATURE = 'temp'
 
 
 def get_averages_for_today() -> dict:
@@ -118,7 +116,7 @@ def get_averages(data_records) -> dict:
         relative_humidity += float(data_record[config.FIELD_RELATIVE_HUMIDITY])
         cpu_temperature += float(re.sub('[^0-9.]', '', data_record[config.FIELD_CPU_TEMP]))
         gas_resistance += float(data_record[config.FIELD_GAS_RESISTANCE])
-        gps_satellite_number += float(data_record[config.FIELD_GPS_NUM_SATS])
+        gps_satellite_number += int(data_record[config.FIELD_GPS_NUM_SATS])
         eco2 += float(data_record[config.FIELD_ECO2])
         tvoc += float(data_record[config.FIELD_TVOC])
 
@@ -135,6 +133,7 @@ def get_averages(data_records) -> dict:
         result[config.FIELD_HUMIDITY] = '{:.2f}'.format(humidity / records)
         result[config.FIELD_RELATIVE_HUMIDITY] = '{:.2f}'.format(relative_humidity / records)
         result[config.FIELD_GAS_RESISTANCE] = '{:.2f}'.format(gas_resistance / records)
+        result[config.FIELD_GPS_NUM_SATS] = '{:.2f}'.format(gps_satellite_number / records)
         result[config.FIELD_ECO2] = '{:.2f}'.format(eco2 / records)
         result[config.FIELD_TVOC] = '{:.2f}'.format(tvoc / records)
         result[config.FIELD_CPU_TEMP] = '{:.2f}'.format(cpu_temperature / records)

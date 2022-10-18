@@ -154,6 +154,11 @@ def get_metrics():
     return jsonify(metrics_service.get_currents_metrics())
 
 
+@app.route("report/yesterday")
+def get_report_from_yesterday():
+    return jsonify(app_server_service.get_report_for_yesterday())
+
+
 @app.route("/ricky")
 def ricky():
     return jsonify(information_service.get_data_about_rickmansworth())
@@ -222,13 +227,15 @@ def hq():
     logger.info(f'It took {time} ms.')
     return render_template('hq.html', message=all_data)
 
-#FIXME
+
+# FIXME
 @app.route("/flights/today")
 def flights_today():
     logger.info('Getting flights detected today')
     return jsonify(delight_service.get_flights_for_today())
 
-#FIXME
+
+# FIXME
 @app.route("/flights/yesterday")
 def flights_yesterday():
     logger.info('Getting flights detected yesterday')
