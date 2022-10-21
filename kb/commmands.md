@@ -11,8 +11,6 @@
 
 ```sudo halt```
 
-
-
 ## Pi related
 
 * ``` i2cdetect -y 1``` display list i2c port used on
@@ -20,12 +18,16 @@
 
 # check if process is running
 
-ps -aux | grep "nc 192.168.0.201 30003" | grep -v grep ps -aux | grep "sudo
-/home/pi/denva-master/scripts/dump_data_reader.sh" | grep -v grep
+* `ps -aux | grep "nc 192.168.0.201 30003" | grep -v grep ps -aux | grep "sudo /home/pi/denva-master/scripts/dump_data_reader.sh" | grep -v grep`
 
 # if I lost pip
 
-`python -m ensurepip`
+* `python -m ensurepip`
 
 # watch temp every second
-watch -n 1 vcgencmd measure_temp
+
+* `watch -n 1 vcgencmd measure_temp`
+
+# watch any file (for example measurement in trases4)
+
+* `watch -n 1 cat /home/ds/data/measurement.txt`
