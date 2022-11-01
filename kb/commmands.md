@@ -6,6 +6,7 @@
 `lsusb` - to see list of usb devices connected to Pi
 `v4l2-ctl --list-formats-ext` - check what resolution are supported
 `sudo chmod -R MODE DIRECTORY` - set permission for directory
+`uname -m` to check is it 64bit (aarch64) or 32bit (armv7l) version of Raspberry Pi.
 
 # Run it before turn it off Pi
 
@@ -31,3 +32,5 @@
 # watch any file (for example measurement in trases4)
 
 * `watch -n 1 cat /home/ds/data/measurement.txt`
+
+
