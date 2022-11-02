@@ -154,7 +154,7 @@ def get_metrics():
     return jsonify(metrics_service.get_currents_metrics())
 
 
-@app.route("report/yesterday")
+@app.route("/report/yesterday")
 def get_report_from_yesterday():
     return jsonify(app_server_service.get_report_for_yesterday())
 
@@ -190,6 +190,18 @@ def tt_delay_stats():
     return render_template('tube.html', message=data)
 
 
+@app.route("/trases/off")
+def trases_off():
+    app_server_service.set_trases_to_off()
+    return jsonify('{"device":  false}')
+
+
+@app.route("/trases/off")
+def trases_on():
+    app_server_service.set_trases_to_on()
+    return jsonify('{"device":  true}')
+
+
 @app.route("/status")
 def status():
     start = datetime.datetime.now()
@@ -210,10 +222,9 @@ def hq():
 
     host = request.host_url[:-1]
     page_tube_trains = host + str(url_for('tube_trains_status'))
-    page_tt_delays_counter = host + str(url_for('tt_delays_counter'))
-    page_recent_log_app = host + str(url_for('recent_log_app'))
+    page_tt_delays_counter = host + str(url_for('tt_delay_stats'))
     page_ricky = host + str(url_for('ricky'))
-    data = app_server_service.get_data_for_page(config.load_cfg(), page_recent_log_app, page_ricky,
+    data = app_server_service.get_data_for_page(config.load_cfg(), page_ricky,
                                                 page_tt_delays_counter, page_tube_trains)
     data.update()
     extra_data = app_server_service.get_gateway_data()

@@ -14,6 +14,7 @@ import time
 from datetime import datetime
 
 import dom_utils
+
 # import config
 import server.celebrations as celebrations
 import server.chinese_dictionary_service as cn
@@ -23,6 +24,7 @@ import server.information_service as information
 import server.personal_stats as personal_events
 import server.random_irregular_verb as verb
 import server.rules_service as rules
+import server.healthcheck_service as hc
 from common import data_files
 from gateways import web_data_gateway, local_data_gateway, tube_client
 from server import daily
@@ -39,8 +41,8 @@ def get_now_and_next_event():
     return {
         'now': events[0],
         'next': events[1],
-        'celebration' : celebration[0],
-        'celebration2' : celebration[1]
+        'celebration': celebration[0],
+        'celebration2': celebration[1]
     }
 
 
@@ -149,14 +151,12 @@ def get_errors_from_data(data):
     return error_detector_service.get_errors_from_data(data)
 
 
-def get_data_for_page(config_data, page_recent_log_app, page_ricky, page_tt_delays_counter,
-                      page_tube_trains):
+def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,page_tube_trains: str):
     logger.info('Getting data for main page')
     try:
         data = {
             'page_tube_trains': page_tube_trains,
             'page_tt_delays_counter': page_tt_delays_counter,
-            'page_recent_log_app': page_recent_log_app,
             'page_ricky': page_ricky,
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
@@ -174,7 +174,6 @@ def get_data_for_page(config_data, page_recent_log_app, page_ricky, page_tt_dela
         data = {
             'page_tube_trains': page_tube_trains,
             'page_tt_delays_counter': page_tt_delays_counter,
-            'page_recent_log_app': page_recent_log_app,
             'page_ricky': page_ricky,
             'warnings': {},
             'denva': {},
@@ -235,3 +234,20 @@ def get_device_status(config_data: dict):
 
 def count_tube_problems_today():
     return tube_client.count_tube_problems(tube_client.load())
+
+
+def set_trases_device_to(device_status: str):
+    logger.info(f'Setting Trases Device to {device_status}')
+    hc.set_trases_mode_to(device_status)
+
+
+def set_trases_to_off():
+    return set_trases_device_to('OFF')
+
+
+def set_trases_to_on():
+    return set_trases_device_to('ON')
+
+
+def get_report_for_yesterday():
+    return {}

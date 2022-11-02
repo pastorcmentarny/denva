@@ -2,6 +2,7 @@ import json
 import logging
 from datetime import datetime
 import config
+
 ENCODING = 'utf-8'
 
 logger = logging.getLogger('app')
@@ -44,6 +45,7 @@ default_hc = {
     }
 }
 
+
 # TODO replace from data_file
 def save_dict_data_as_json(path: str, data: dict):
     with open(path, "w+", encoding=ENCODING) as path_file:
@@ -74,6 +76,15 @@ def __load() -> dict:
         return default_hc.copy()
 
 
+def set_trases_mode_to(state):
+    try:
+        data = __load()
+        data['trases']['device'] = state
+        __save(data)
+    except Exception as exception:
+        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
+
+
 def update_for(who: dict):
     # TODO validate it
     try:
@@ -84,6 +95,7 @@ def update_for(who: dict):
         __save(data)
     except Exception as exception:
         logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
+
 
 # TODO validate it
 def update_device_status_for(who: dict):
@@ -155,4 +167,3 @@ def update_device_power_state_for(who):
         __save(data)
     except Exception as exception:
         logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
-

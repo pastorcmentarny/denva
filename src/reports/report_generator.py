@@ -244,8 +244,8 @@ def load_data(year, month, day) -> list:
                 config.FIELD_CPU_TEMP: row[config.DENVA_DATA_COLUMN_CPU_TEMP],
                 config.FIELD_ECO2: row[config.DENVA_DATA_COLUMN_ECO2],
                 config.FIELD_TVOC: row[config.DENVA_DATA_COLUMN_TVOC],
-                config.FIELD_GPS_NUM_SATS: -1  # FIXME
-                # config.FIELD_GPS_NUM_SATS: row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS]
+                config.FIELD_GPS_NUM_SATS: row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS]
+                # config.FIELD_GPS_NUM_SATS: -1  # FIXME
             }
         )
     return data
