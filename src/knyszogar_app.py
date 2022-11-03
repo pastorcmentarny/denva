@@ -49,8 +49,11 @@ def main():
         end_time = timer()
         remaining = int((end_time - start_time) * 1000)
         sleep_time = (60000 - remaining) / 1000
-        print(f'I will go sleep for {sleep_time} s')
-        time.sleep(sleep_time)
+        if sleep_time > 0:
+            print(f'I will go sleep for {sleep_time} s')
+            time.sleep(sleep_time)
+        else:
+            logger.warning(f'No sleep due to timer is below zero! Sleep time: {sleep_time}, counter {counter}, remaining {remaining}')
 
 
 if __name__ == '__main__':
