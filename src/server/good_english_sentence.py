@@ -50,7 +50,7 @@ sentences = [
     "I am not sure if this knowledge will enrich me in any meaningful way.",
     "The parents and grandparents are the heroes of our society.",
     "Do you know what time it is? It's tomorrow!",
-    "The art of giving a shit.",
+    "The art of not giving a shit.",
     "How bad 'bad' gets.",
     "Developers are often  worse than networking people. Show me a developer who isn’t crashing production systems, and I’ll show you one who can’t fog a mirror. Or more likely, is on vacation.",
     "It is just one person who knows threading in java and that's is NOT YOU! - John R",
@@ -64,7 +64,12 @@ sentences = [
     "Brain never shuts down completely, partly because it has several roles in maintaining the sleep state, but mostly because if it did shutdown completely, we'd be dead.",
     "My final apology is based on the fact that a former colleague of mine once told me that i'd get a book published ' when hell freezes over'. Sorry to Satan. It must be very inconvenient for you.",
     "Some animals, such as jellyfish and sponges, don't show any sign of sleeping, but they don't even have brains so you can't trust them to do much of anything.",
-    "What's the ROI* on hugging your mom? {*ROI - Return of Investment}"
+    "What's the ROI* on hugging your mom? {*ROI - Return of Investment}",
+    "I appreciate your thorough attentiveness to my deliverables. To ensure we are not duplicating work, please let me know in the future if you'd like to take this n yourself.",
+    "This is a reason why god invited 'copy and paste'.",
+    "For every claim or statement made in this book, you'd probably be able to find some new study or investigation that argues against it. (LoeWhaley)",
+    "Thank you for sharing this timeline with me. Can you help me understand how this amount of work is achievable in such a short period of time? (LoeWhaley)",
+    "Can you help me understand why I am required to be in the office when I can effectively execute my job responsibilities remotely?"
 ]
 
 
