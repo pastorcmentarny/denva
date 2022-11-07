@@ -22,7 +22,8 @@ def get_all_stats_for_today():
 def get_warnings_for(year, month, day):
     return sensor_warnings_service.get_warnings_for(year, month, day)
 
-
+def count_warnings():
+    return 0
 
 
 def get_current_warnings():

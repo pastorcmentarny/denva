@@ -243,6 +243,7 @@ def merge_two_dictionaries(first: dict, second: dict) -> dict:
 def convert_bytes_to_megabytes(size_in_bytes: int) -> int:
     return int(size_in_bytes / 1000 / 1000)
 
+
 def convert_megabytes_to_bytes(size_in_mb: int) -> int:
     return int(size_in_mb / 1000 / 1000)
 
@@ -259,7 +260,7 @@ def get_date_as_folders() -> str:
     year = today.year
     month = today.month
     day = today.day
-    return "\\{}\\{:02d}\\{:02d}\\".format(year, month, day)
+    return "{}/{:02d}/{:02d}/".format(year, month, day)
 
 
 def get_date_as_folders_linux() -> str:

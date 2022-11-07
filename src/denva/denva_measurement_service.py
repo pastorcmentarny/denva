@@ -3,7 +3,7 @@ import logging.config
 
 from timeit import default_timer as timer
 from common import commands, data_files
-from denva import cl_display, denva_sensors_service
+from denva import cl_display, denva_sensors_service, denva_service
 from gateways import local_data_gateway
 from sensors import environment_service, gps_sensor, co2_sensor, air_quality_service, two_led_service
 import config
@@ -50,5 +50,7 @@ def get_measurement_from_all_sensors(measurement_counter, start_time):
     data[config.FIELD_MEASUREMENT_TIME] = str(measurement_time)
     data_files.store_measurement(data, denva_sensors_service.get_sensor_log_file())
     cl_display.print_measurement(data)
+    warnings = denva_service.get_current_warnings()
+    data_files.save_warnings(warnings)
     local_data_gateway.post_denva_measurement(data)
     return measurement_time

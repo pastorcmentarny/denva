@@ -237,11 +237,15 @@ def tail(file_path: str, lines=1) -> list:
     return lines_found[-lines:]
 
 
+# TODO add validator? and RETRY
 def save_list_to_file(data: list, path: str):
-    # TODO add validator?
-    with open(path, 'w+', encoding=ENCODING) as path_file:
-        path_file.write('\n'.join(data))
-    return None
+    try:
+        filename = Path(path)
+        filename.touch(exist_ok=True)
+        with open(path, 'a+', encoding=ENCODING) as path_file:
+            path_file.write('\n'.join(data))
+    except Exception as exception:
+        logger.warning(f"Unable to save this data {data} using path {path} due to {exception}")
 
 
 def load_weather(path: str):
@@ -387,3 +391,9 @@ def __load(path: str) -> dict:
 
 def load_last_measurement_for(device):
     return __load(f'/home/pi/data/{device}_data.json')
+
+
+def save_warnings(warnings: list):
+    today_warnings_path = f"{config.PI_DATA_PATH}{dom_utils.get_date_as_folders()}warnings.txt"
+    save_list_to_file(warnings, today_warnings_path)
+    return None

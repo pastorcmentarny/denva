@@ -34,7 +34,7 @@ def get_warnings_for_today() -> list:
     return data_files.load_warnings('/home/pi/logs/warnings.log')
 
 
-def get_current_warnings() -> dict:
+def get_current_warnings() -> list:
     data = denva_sensors_service.get_last_new_measurement()
     return denva_sensors_service.get_new_warnings(data)
 

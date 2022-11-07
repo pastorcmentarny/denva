@@ -46,99 +46,95 @@ def get_new_data_row(row) -> dict:
     }
 
 
-def get_new_warnings(data) -> dict:
-    warnings = {}
+def get_new_warnings(data) -> list:
+    warnings = []
     if type(data[config.FIELD_TEMPERATURE]) is not float:
         data[config.FIELD_TEMPERATURE] = float(data[config.FIELD_TEMPERATURE])
     if data[config.FIELD_TEMPERATURE] < 16:
-        warnings[config.FIELD_TEMPERATURE] = 'Temperature is too low. Current temperature is: {}'.format(
-            str(data[config.FIELD_TEMPERATURE]))
+        warnings.append('Temperature is too low. Current temperature is: {}'.format(
+            str(data[config.FIELD_TEMPERATURE])))
     elif data[config.FIELD_TEMPERATURE] < 18:
-        warnings[config.FIELD_TEMPERATURE] = 'Temperature is low. Current temperature is: {}'.format(
-            str(data[config.FIELD_TEMPERATURE]))
+        warnings.append('Temperature is low. Current temperature is: {}'.format(
+            str(data[config.FIELD_TEMPERATURE])))
     elif data[config.FIELD_TEMPERATURE] > 25:
-        warnings[config.FIELD_TEMPERATURE] = 'Temperature is high. Current temperature is: {}'.format(
-            str(data[config.FIELD_TEMPERATURE]))
+        warnings.append('Temperature is high. Current temperature is: {}'.format(
+            str(data[config.FIELD_TEMPERATURE])))
     elif data[config.FIELD_TEMPERATURE] > 30:
-        warnings[config.FIELD_TEMPERATURE] = 'Temperature is too high. Current temperature is: {}'.format(
-            str(data[config.FIELD_TEMPERATURE]))
+        warnings.append('Temperature is too high. Current temperature is: {}'.format(
+            str(data[config.FIELD_TEMPERATURE])))
 
     if type(data[config.FIELD_CO2_TEMPERATURE]) is not float:
         data[config.FIELD_CO2_TEMPERATURE] = float(data[config.FIELD_CO2_TEMPERATURE])
     if data[config.FIELD_CO2_TEMPERATURE] < 16:
-        warnings[
-            config.FIELD_CO2_TEMPERATURE] = 'Temperature (CO2) is too low. Current temperature is: {}'.format(
-            str(data[config.FIELD_CO2_TEMPERATURE]))
+        warnings.append('Temperature (CO2) is too low. Current temperature is: {}'.format(
+            str(data[config.FIELD_CO2_TEMPERATURE])))
     elif data[config.FIELD_CO2_TEMPERATURE] < 18:
-        warnings[config.FIELD_CO2_TEMPERATURE] = 'Temperature (CO2) is low. Current temperature is: {}'.format(
-            str(data[config.FIELD_CO2_TEMPERATURE]))
+        warnings.append('Temperature (CO2) is low. Current temperature is: {}'.format(
+            str(data[config.FIELD_CO2_TEMPERATURE])))
     elif data[config.FIELD_CO2_TEMPERATURE] > 25:
-        warnings[
-            config.FIELD_CO2_TEMPERATURE] = 'Temperature (CO2) is high. Current temperature is: {}'.format(
-            str(data[config.FIELD_CO2_TEMPERATURE]))
+        warnings.append('Temperature (CO2) is high. Current temperature is: {}'.format(
+            str(data[config.FIELD_CO2_TEMPERATURE])))
     elif data[config.FIELD_CO2_TEMPERATURE] > 30:
-        warnings[
-            config.FIELD_CO2_TEMPERATURE] = 'Temperature (CO2) is too hig. Current temperature is: {}'.format(
-            str(data[config.FIELD_CO2_TEMPERATURE]))
+        warnings.append('Temperature (CO2) is too hig. Current temperature is: {}'.format(
+            str(data[config.FIELD_CO2_TEMPERATURE])))
 
     data[config.FIELD_HUMIDITY] = float(data[config.FIELD_HUMIDITY])
 
     if data[config.FIELD_HUMIDITY] < 30:
-        warnings[config.FIELD_HUMIDITY] = 'Humidity is too low. Current humidity is: {}'.format(
-            str(data[config.FIELD_HUMIDITY]))
+        warnings.append('Humidity is too low. Current humidity is: {}'.format(
+            str(data[config.FIELD_HUMIDITY])))
     elif data[config.FIELD_HUMIDITY] < 40:
-        warnings[config.FIELD_HUMIDITY] = 'Humidity is low. Current humidity is: {}'.format(
-            str(data[config.FIELD_HUMIDITY]))
+        warnings.append('Humidity is low. Current humidity is: {}'.format(
+            str(data[config.FIELD_HUMIDITY])))
     elif data[config.FIELD_HUMIDITY] > 60:
-        warnings[config.FIELD_HUMIDITY] = 'Humidity is high. Current humidity is: {}'.format(
-            str(data[config.FIELD_HUMIDITY]))
+        warnings.append('Humidity is high. Current humidity is: {}'.format(
+            str(data[config.FIELD_HUMIDITY])))
     elif data[config.FIELD_HUMIDITY] > 70:
-        warnings[config.FIELD_HUMIDITY] = 'Humidity is too high. Current humidity is: {}'.format(
-            str(data[config.FIELD_HUMIDITY]))
+        warnings.append('Humidity is too high. Current humidity is: {}'.format(
+            str(data[config.FIELD_HUMIDITY])))
 
     data['relative_humidity'] = float(data['relative_humidity'])
 
     if data['relative_humidity'] < 30:
-        warnings['relative_humidity'] = 'Humidity (CO2) is too low. Current humidity is: {}'.format(
-            str(data['relative_humidity']))
+        warnings.append('Humidity (CO2) is too low. Current humidity is: {}'.format(
+            str(data['relative_humidity'])))
     elif data['relative_humidity'] < 40:
-        warnings['relative_humidity'] = 'Humidity (CO2) is low. Current humidity is: {}'.format(
-            str(data['relative_humidity']))
+        warnings.append('Humidity (CO2) is low. Current humidity is: {}'.format(
+            str(data['relative_humidity'])))
     elif data['relative_humidity'] > 60:
-        warnings['relative_humidity'] = 'Humidity (CO2) is high. Current humidity is: {}'.format(
-            str(data['relative_humidity']))
+        warnings.append('Humidity (CO2) is high. Current humidity is: {}'.format(
+            str(data['relative_humidity'])))
     elif data['relative_humidity'] > 70:
-        warnings['relative_humidity'] = 'Humidity (CO2) is too high. Current humidity is: {}'.format(
-            str(data['relative_humidity']))
+        warnings.append('Humidity (CO2) is too high. Current humidity is: {}'.format(
+            str(data['relative_humidity'])))
 
     data[config.FIELD_CPU_TEMP] = float(re.sub('[^0-9.]', '', data[config.FIELD_CPU_TEMP]))
 
     sensor_config_data = config.load_cfg()
 
     if data[config.FIELD_CPU_TEMP] > sensor_config_data['system']['cpu_temp_fatal']:
-        warnings[config.FIELD_CPU_TEMP] = 'CPU temperature is too high. Current temperature is: {}'.format(
-            str(data[config.FIELD_CPU_TEMP]))
+        warnings.append('CPU temperature is too high. Current temperature is: {}'.format(
+            str(data[config.FIELD_CPU_TEMP])))
     elif data[config.FIELD_CPU_TEMP] > sensor_config_data['system']['cpu_temp_error']:
-        warnings[config.FIELD_CPU_TEMP] = 'CPU temperature is very high. Current temperature is: {}'.format(
-            str(data[config.FIELD_CPU_TEMP]))
+        warnings.append('CPU temperature is very high. Current temperature is: {}'.format(
+            str(data[config.FIELD_CPU_TEMP])))
     elif data[config.FIELD_CPU_TEMP] > sensor_config_data['system']['cpu_temp_warn']:
-        warnings[config.FIELD_CPU_TEMP] = 'CPU temperature is high. Current temperature is: {}'.format(
-            str(data[config.FIELD_CPU_TEMP]))
+        warnings.append('CPU temperature is high. Current temperature is: {}'.format(
+            str(data[config.FIELD_CPU_TEMP])))
 
     if int(data['co2']) > 5000:
-        warnings['co2'] = 'DANGEROUS CO2 level [cdl]. Value {}'.format(data['co2'])
+        warnings.append('DANGEROUS CO2 level. Value {}'.format(data['co2']))
     elif int(data['co2']) > 2000:
-        warnings['co2'] = 'Very High CO2 level [cwl]. Value {}'.format(data['co2'])
+        warnings.append('Very High CO2 level. Value {}'.format(data['co2']))
     elif int(data['co2']) > 900:
-        warnings['co2'] = 'Above typical level CO2 level [cal]. Value {}'.format(data['co2'])
+        warnings.append('Above typical level CO2 level. Value {}'.format(data['co2']))
 
     if float(data['eco2']) > 1000:
-        warnings['eco2'] = 'High CO2 level: {}'.format(data['eco2'])
+        warnings.append('High CO2 level: {}'.format(data['eco2']))
 
     if float(data['tvoc']) > 5000:
-        warnings['tvoc'] = 'Air Quality BAD: {}'.format(data['tvoc'])
+        warnings.append('Air Quality BAD: {}'.format(data['tvoc']))
     elif float(data['tvoc']) > 1500:
-        warnings['tvoc'] = 'Air Quality POOR: {}'.format(data['tvoc'])
+        warnings.append('Air Quality POOR: {}'.format(data['tvoc']))
     loggy.log_error_count(warnings)
     return warnings
-
