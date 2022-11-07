@@ -13,27 +13,27 @@ default_hc = {
     "denva": {
         "app": "20201212201221",
         "ui": "20201212201221",
-        "device": "DANGER"
+        "device": config.DEVICE_OFF
     },
     "denviro": {
         "app": "20201212201221",
         "ui": "20201212201221",
-        "device": "DANGER"
+        "device": config.DEVICE_OFF
     },
     "delight": {
         "app": "20201212201221",
         "ui": "20201212201221",
-        "device": "DANGER"
+        "device": config.DEVICE_OFF
     },
     "trases": {
         "app": "20201212201221",
         "ui": "20201212201221",
-        "device": "OK"
+        "device": config.DEVICE_OFF
     },
     "server": {
         "app": "20201212201221",
         "ui": "20201212201221",
-        "device": "DANGER"
+        "device": config.DEVICE_OFF
     },
     "knyszogar": {
         "cctv": "20201212201221",
@@ -42,7 +42,8 @@ default_hc = {
         "digest": "20201212201221",
         "app": "20201212201221",
         "email": "20201212201221"
-    }
+    },
+    'radar': config.DEVICE_OFF  # TODO MOVE FROM KNYSZOGAR
 }
 
 
@@ -90,6 +91,7 @@ def update_for(who: dict):
     try:
         data = __load()
         now = datetime.now()
+        data[who['device']]['device'] = config.DEVICE_ON
         data[who['device']][who['app_type']] = str(
             '{}{:02d}{:02d}{:02d}{:02d}{:02d}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
         __save(data)
@@ -97,7 +99,7 @@ def update_for(who: dict):
         logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
 
 
-# TODO validate it
+# TODO validate it #TODO multiple power state
 def update_device_status_for(who: dict):
     logger.debug(f'Request to update status for : {who}')
     try:
@@ -157,6 +159,7 @@ def get_device_status_for(device: str, app_type: str):
         return "UNKNOWN"
 
 
+# TODO multiple power state
 def update_device_power_state_for(who):
     logger.debug(f'Request to update power state for : {who}')
     try:

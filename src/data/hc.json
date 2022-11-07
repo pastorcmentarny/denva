@@ -2,27 +2,27 @@
     "denva": {
         "app": "20220131195148",
         "ui": "20220131195103",
-        "device": "DANGER"
+        "device": "OFF"
     },
     "denviro": {
         "app": "20220131195157",
         "ui": "20220131195104",
-        "device": "DANGER"
+        "device": "OFF"
     },
     "delight": {
         "app": "20210101123456",
         "ui": "20210101123456",
-        "device": "DANGER"
+        "device": "OFF"
     },
     "trases": {
         "app": "20210101123456",
         "ui": "20210101123456",
-        "device": "DANGER"
+        "device": "OFF"
     },
     "server": {
         "app": "20210101123456",
         "ui": "20220131195103",
-        "device": "DANGER"
+        "device": "OFF"
     },
     "knyszogar": {
         "cctv": "20220131195153",
