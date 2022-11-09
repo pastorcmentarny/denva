@@ -9,12 +9,14 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import logging
 import re
 import time
 
 import config
 from common import data_files
 from denva import denva_sensors_service
+logger = logging.getLogger('app')
 
 
 def get_records_for_today() -> dict:
@@ -155,8 +157,11 @@ def get_records(data_records: list) -> dict:
         if int(data_record[config.FIELD_TVOC]) > int(result['highest_tvoc']):
             result['highest_tvoc'] = data_record[config.FIELD_TVOC]
 
-        if int(data_record[config.FIELD_GPS_NUM_SATS]) > int(result['highest_gps_num_sats']):
-            result['highest_gps_num_sats'] = int(data_record[config.FIELD_GPS_NUM_SATS])
+        try:
+            if int(data_record[config.FIELD_GPS_NUM_SATS]) > int(result['highest_gps_num_sats']):
+                result['highest_gps_num_sats'] = int(data_record[config.FIELD_GPS_NUM_SATS])
+        except ValueError as exception:
+            logger.warning(f'There was a problem with "gps_num_sats" field in {data_record} due to {exception}', exc_info=True)
     end = time.perf_counter()
     result['log entries counter'] = len(data_records)
     result["execution_time"] = str(end - start) + ' ns.'

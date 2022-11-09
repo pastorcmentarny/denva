@@ -363,3 +363,11 @@ def get_post_trases_measurement_url():
 
 def get_add_diary_entry_url():
     return f'{SERVER_IP}:5000/diary/add'
+
+
+def get_warnings_path_for(date) -> str:
+    return f'{PI_DATA_PATH}{dom_utils.get_date_as_folders_for(date)}warnings.txt'
+
+
+def get_warnings_path_for_today() -> str:
+    return f'{PI_DATA_PATH}{dom_utils.get_date_as_folders_for_today()}warnings.txt'

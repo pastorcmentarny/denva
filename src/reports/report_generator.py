@@ -17,6 +17,7 @@ from timeit import default_timer as timer
 
 import config
 import dom_utils
+from denva import denva_service
 from gateways import local_data_gateway, tube_client
 from reports import averages, records
 from services import information_service, sensor_warnings_service
@@ -168,7 +169,6 @@ denva_report = {
     'report_date': 'today',
     config.FIELD_MEASUREMENT_COUNTER: 0,
     'warning_counter': 0,
-    'warnings': {},  # TODO i believe i don't need specify anything as this dict will be overwritten
     "records": {
         'temperature': {
             'min': 0,
@@ -216,6 +216,8 @@ def generate_for(date: datetime) -> dict:
         denva_report['records'] = records.get_records(data)
         logger.info('Getting averages..')
         denva_report['avg'] = averages.get_averages(data)
+        denva_report['warning_counter'] = denva_service.count_warnings_for(date)
+        denva_report['warnings'] = denva_service.count_warnings_for(date)
         return denva_report
     except Exception as exception:
         logger.error(f"Unable to generate  report due to {exception}. Data {denva_report}", exc_info=True)

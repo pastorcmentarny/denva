@@ -9,6 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import logging
 import re
 from timeit import default_timer as timer
 import time
@@ -16,6 +17,7 @@ import config
 from common import data_files
 from denva import denva_sensors_service
 
+logger = logging.getLogger('app')
 
 
 def get_averages_for_today() -> dict:
@@ -116,7 +118,10 @@ def get_averages(data_records) -> dict:
         relative_humidity += float(data_record[config.FIELD_RELATIVE_HUMIDITY])
         cpu_temperature += float(re.sub('[^0-9.]', '', data_record[config.FIELD_CPU_TEMP]))
         gas_resistance += float(data_record[config.FIELD_GAS_RESISTANCE])
-        gps_satellite_number += int(data_record[config.FIELD_GPS_NUM_SATS])
+        try:
+            gps_satellite_number += int(data_record[config.FIELD_GPS_NUM_SATS])
+        except ValueError as exception:
+            logger.warning(f'There was a problem with "gps_num_sats" field in {data_record} due to {exception}', exc_info=True)
         eco2 += float(data_record[config.FIELD_ECO2])
         tvoc += float(data_record[config.FIELD_TVOC])
 

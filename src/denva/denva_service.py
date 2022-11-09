@@ -9,10 +9,15 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import config
+import logging
+
 from denva import denva_sensors_service
 from reports import averages, records, report_service
 from sensors import aircraft_radar_sensor
 from services import sensor_warnings_service
+
+logger = logging.getLogger('app')
 
 
 def get_all_stats_for_today():
@@ -22,8 +27,27 @@ def get_all_stats_for_today():
 def get_warnings_for(year, month, day):
     return sensor_warnings_service.get_warnings_for(year, month, day)
 
+
 def count_warnings():
-    return 0
+    path = config.get_warnings_path_for_today()
+    try:
+        with open(path, 'r') as fp:
+            for count, line in enumerate(fp):
+                pass
+    except Exception as exception:
+        logging.warning(f'Unable to warning file due to: ${exception}', exc_info=True)
+    return count + 1
+
+
+def count_warnings_for(datetime):
+    path = config.get_warnings_path_for(datetime)
+    try:
+        with open(path, 'r') as fp:
+            for count, line in enumerate(fp):
+                pass
+    except Exception as exception:
+        logging.warning(f'Unable to warning file due to: ${exception}', exc_info=True)
+    return count + 1
 
 
 def get_current_warnings():

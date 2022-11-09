@@ -268,11 +268,14 @@ def get_date_as_folders_linux() -> str:
 
 
 def get_date_as_folders_for(specified_data: date):
-    today = specified_data
-    year = today.year
-    month = today.month
-    day = today.day
+    year = specified_data.year
+    month = specified_data.month
+    day = specified_data.day
     return "{}/{:02d}/{:02d}/".format(year, month, day)
+
+
+def get_date_as_folders_for_today():
+    return get_date_as_folders_for(datetime.today())
 
 
 def _is_valid_event_time(event) -> bool:

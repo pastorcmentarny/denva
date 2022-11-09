@@ -244,6 +244,7 @@ def save_list_to_file(data: list, path: str):
         filename.touch(exist_ok=True)
         with open(path, 'a+', encoding=ENCODING) as path_file:
             path_file.write('\n'.join(data))
+            path_file.write('\n')
     except Exception as exception:
         logger.warning(f"Unable to save this data {data} using path {path} due to {exception}")
 
@@ -396,4 +397,3 @@ def load_last_measurement_for(device):
 def save_warnings(warnings: list):
     today_warnings_path = f"{config.PI_DATA_PATH}{dom_utils.get_date_as_folders()}warnings.txt"
     save_list_to_file(warnings, today_warnings_path)
-    return None
