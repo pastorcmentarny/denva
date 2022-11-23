@@ -16,7 +16,7 @@ psutil==5.8.0
 picamera==1.13
 ltr559==0.1.1
 urllib3==1.26.6
-numpy==1.21.2
+numpy==1.22.0
 mote==0.0.4
 pynput==1.7.3
 max30105==0.0.5
