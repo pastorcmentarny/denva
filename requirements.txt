@@ -2,6 +2,7 @@ enviroplus==0.0.6
 bme280==0.6
 pms5003==0.0.5
 veml6075==0.0.2
+as7262==0.1.0
 bme680==1.1.1
 sgp30==0.1.6
 bh1745==0.0.4
@@ -10,13 +11,13 @@ beautifulsoup4==4.10.0
 flask==2.0.1
 pillow==8.3.2
 watchdog==2.1.5
-opencv-python==4.5.3.56
-opencv-contrib-python==4.5.3.56
+opencv-python==4.7.0.72
+opencv-contrib-python==4.7.0.72
 psutil==5.8.0
-picamera==1.13
+picamera==1.12
 ltr559==0.1.1
 urllib3==1.26.6
-numpy==1.21.2
+numpy==1.24.2
 mote==0.0.4
 pynput==1.7.3
 max30105==0.0.5
