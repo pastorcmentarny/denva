@@ -2,17 +2,20 @@
 
 ## STATIC IP
 
-In sudo nano /etc/dhcpcd.conf
+In `sudo nano /etc/dhcpcd.conf`
 
 * server 192.168.0.200/24
 * denva 192.168.0.201/24
 * denviro 192.168.0.202/24
 * delight 192.168.0.203/24
 * mobile 192.168.0.204/24
+* denvaTwo 192.168.0.205/24
+* I used 206
+* ubercorn 192.168.0.208/24
 
 ```bash
 interface wlan0
-static ip_address=192.168.0.224/24
+static ip_address=192.168.0.208/24
 static routers=192.168.0.1
 static domain_name_servers=192.168.0.1
 ```
@@ -24,22 +27,22 @@ static domain_name_servers=192.168.0.1
 3 Add this:
 
    ```
-   [trases]
+   [device]
    path = /home/ds
    guest ok = yes
    read only = no
    ```
 
-4. make home directory writeable to all: ```sudo chmod a+w /home/pi/```
+4. make home directory writeable to all: ```sudo chmod a+w /home/ds/```
 
 ## Reduce write/read of SD card to prevent data corruption and life span of SD card
 
 ```bash
 sudo dphys-swapfile swapoff && \
 sudo dphys-swapfile uninstall && \
-sudo systemctl disable dphys-swapfile
-sudo apt-get remove --purge triggerhappy logrotate dphys-swapfile
-sudo apt-get install busybox-syslogd
+sudo systemctl disable dphys-swapfile && \ 
+sudo apt-get remove --purge triggerhappy logrotate dphys-swapfile && \
+sudo apt-get install busybox-syslogd && \
 sudo apt-get remove --purge rsyslog
 
 ```
@@ -48,17 +51,18 @@ sudo apt-get remove --purge rsyslog
 
 `sudo apt-get install xrdp`
 
-# ==== ==== ==== ==== ==== ==== ====
-
 ## Setup Welcome page after logon
 
-`/etc/motd` to edit welcome page after login
+* `/etc/motd` to edit welcome page after login
 
 ## Set hostname
 
 to set name of the device
-```sudo nano /etc/hostname```
-```sudo nano /etc/hosts```
+
+```
+sudo nano /etc/hostname
+sudo nano /etc/hosts
+```
 
 # Setup mounts and drives
 
@@ -66,13 +70,15 @@ to set name of the device
 
 ## Add exfat support
 
-`sudo apt-get install exfat-fuse`
-`sudo apt-get install exfat-utils`
+```
+sudo apt-get install exfat-fuse`
+sudo apt-get install exfat-utils`
+```
 
 ## Add ntfs support
 
-to use ntfs partition
-`sudo apt-get install ntfs-3g`
+* to use ntfs partition
+  `sudo apt-get install ntfs-3g`
 
 ## Setup ssd storage
 
@@ -85,11 +91,11 @@ to use ntfs partition
 
 ## Set device for mote lighting
 
-sudo chmod 666 /dev/ttyACM0
+* sudo chmod 666 /dev/ttyACM0
 
 ## SETUP CRONTAB
 
-sudo crontab -e03 13 * * * /sbin/shutdown -r now
+* sudo crontab -e03 13 * * * /sbin/shutdown -r now
 
 ## Update Pi
 
@@ -102,15 +108,19 @@ sudo crontab -e03 13 * * * /sbin/shutdown -r now
 
 ## Update eeprom
 
+```
 sudo rpi-eeprom-update
 sudo rpi-eeprom-update -a
 sudo reboot
+```
 
 ## Install java17
 
+```
 sudo apt install zip
 curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk list java
 
 (https://sdkman.io/install)
+```
