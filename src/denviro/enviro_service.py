@@ -13,13 +13,13 @@ from common import commands
 from denviro import denviro_sensors_service
 from reports import averages, records, report_service
 from services import sensor_warnings_service
-
+import config
 
 # TODO refactor name
 def get_current_measurement(host: str) -> dict:
     measurement = denviro_sensors_service.get_last_measurement()
     measurement['host'] = host
-    measurement['system'] = commands.get_system_info()
+    measurement[config.FIELD_SYSTEM] = commands.get_system_info()
     return measurement
 
 
@@ -44,4 +44,4 @@ def get_current_warnings():
 
 
 def get_current_warnings_count():
-    return sensor_warnings_service.count_warning_today()  # TODO is it right call ?
+    return sensor_warnings_service.count_warning_today()

@@ -14,6 +14,7 @@ import logging
 import os
 import smtplib
 import time
+import config
 from datetime import datetime
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -39,7 +40,7 @@ def should_send_email(data):
     if app_timer.is_time_to_send_email(send_denva_email_cooldown):
         logger.info('Collecting data')
         email_data['warnings'] = sensor_warnings_service.get_warnings_as_list(email_data)
-        email_data['system'] = commands.get_system_info()
+        email_data[config.FIELD_SYSTEM] = commands.get_system_info()
         email_data['log'] = commands.get_lines_from_path('/home/pi/logs/logs.log', 10)
         email_data['healthcheck'] = commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 10)
         send(email_data, 'Measurement')

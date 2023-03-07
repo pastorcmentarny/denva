@@ -78,7 +78,10 @@ def main():
 
         start_time = timer()
         measurement = get_measurement()
-        # FIXME temporary disabled  denviro_display.display_on_screen(measurement)
+        '''
+        if config.is_cli_display():
+            denviro_display.display_on_screen(measurement)
+        '''
         measurement[config.FIELD_CPU_TEMP] = commands.get_cpu_temp()
         end_time = timer()
         measurement_time = str(int((end_time - start_time) * 1000))  # in ms
@@ -90,8 +93,7 @@ def main():
         # FIXME do not work due to “sounddevice.PortAudioError: Error querying device -1" error
         # logger.warning(noise_service.get_noise_measurement())
 
-        data_files.store_enviro_measurement(measurement, denviro_sensors_service.get_sensor_log_file(),
-                                            denviro_sensors_service.get_sensor_log_file_at_server())
+        data_files.store_enviro_measurement(measurement, denviro_sensors_service.get_sensor_log_file())
 
         sensor_warnings_service.get_current_warnings_for_enviro()
 

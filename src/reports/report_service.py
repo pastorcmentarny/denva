@@ -60,7 +60,7 @@ def generate_for_yesterday() -> dict:
 
 def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datetime:
     if data_files.is_report_file_exists(config.PI_DATA_PATH):
-        logger.debug('Report already sent.')
+        logger.info('Report already sent.')
         return report_generation_cooldown
     if app_timer.is_time_to_send_report_email(report_generation_cooldown):
         logger.info('Generating report')
@@ -77,24 +77,9 @@ def create_for_current_measurements():
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
             'aircraft': local_data_gateway.get_current_reading_for_aircraft(),
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
-            'system': app_server_service.get_current_system_information_for_all_services(),
-            'status': local_data_gateway.get_data_for('http://192.168.0.203:5000/shc/get', 3)
+            config.FIELD_SYSTEM: app_server_service.get_current_system_information_for_all_services(),
+            'status': local_data_gateway.get_data_for('http://192.168.0.200:5000/shc/get', 3)
             }
-
-
-def get_last_two_days_report_difference() -> dict:
-    two_days_exists = data_files.is_report_file_exists_for(dom_utils.get_two_days_ago_date())
-    yesterday_ago = data_files.is_report_file_exists_for(dom_utils.get_yesterday_date())
-
-    if not two_days_exists or not yesterday_ago:
-        return {
-            'error': 'Unable to generate difference between because at least one of the report do not exists.'
-                     'Reports:2 days ago: {}. Yesterday: {}'.format(two_days_exists, yesterday_ago)
-        }
-
-    two_days_ago = data_files.load_report_on_server_on(dom_utils.get_two_days_ago_date())
-    one_day_ago = data_files.load_report_on_server_on(dom_utils.get_yesterday_date())
-    return report_generator.compare_two_reports(two_days_ago, one_day_ago)
 
 
 def get_yesterday_report_from_server():

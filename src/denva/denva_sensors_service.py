@@ -112,13 +112,13 @@ def get_new_warnings(data) -> list:
 
     sensor_config_data = config.load_cfg()
 
-    if data[config.FIELD_CPU_TEMP] > sensor_config_data['system']['cpu_temp_fatal']:
+    if data[config.FIELD_CPU_TEMP] > sensor_config_data[config.FIELD_SYSTEM]['cpu_temp_fatal']:
         warnings.append('CPU temperature is too high. Current temperature is: {}'.format(
             str(data[config.FIELD_CPU_TEMP])))
-    elif data[config.FIELD_CPU_TEMP] > sensor_config_data['system']['cpu_temp_error']:
+    elif data[config.FIELD_CPU_TEMP] > sensor_config_data[config.FIELD_SYSTEM]['cpu_temp_error']:
         warnings.append('CPU temperature is very high. Current temperature is: {}'.format(
             str(data[config.FIELD_CPU_TEMP])))
-    elif data[config.FIELD_CPU_TEMP] > sensor_config_data['system']['cpu_temp_warn']:
+    elif data[config.FIELD_CPU_TEMP] > sensor_config_data[config.FIELD_SYSTEM]['cpu_temp_warn']:
         warnings.append('CPU temperature is high. Current temperature is: {}'.format(
             str(data[config.FIELD_CPU_TEMP])))
 

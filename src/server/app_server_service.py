@@ -15,7 +15,7 @@ from datetime import datetime
 
 import dom_utils
 
-# import config
+import config
 import server.celebrations as celebrations
 import server.chinese_dictionary_service as cn
 import server.good_english_sentence as eng
@@ -27,6 +27,7 @@ import server.rules_service as rules
 import server.healthcheck_service as hc
 from common import data_files
 from gateways import web_data_gateway, local_data_gateway, tube_client
+from reports import report_generator
 from server import daily
 from services import error_detector_service, radar_service, metrics_service
 from services import weather_service, system_data_service
@@ -163,7 +164,7 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
             'trases': data_files.load_last_measurement_for('trases'),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
-            'system': get_current_system_information_for_all_services(config_data),
+            config.FIELD_SYSTEM: get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),
             'welcome_text': data_files.load_text_to_display(config_data["paths"]["text"]),
             'transport': web_data_gateway.get_status()
@@ -179,7 +180,7 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'denva': {},
             'enviro': {},
             'aircraft': {},
-            'system': {},
+            config.FIELD_SYSTEM: {},
             'links': get_links_for_gateway(config_data),
             'welcome_text': f"Unable to load message due to ${exception}"
         }
@@ -206,7 +207,7 @@ def get_device_status(config_data: dict):
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
-            'system': get_current_system_information_for_all_services(config_data),
+            config.FIELD_SYSTEM: get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),
             'welcome_text': data_files.load_text_to_display(config_data),
             'transport': web_data_gateway.get_status(),
@@ -222,7 +223,7 @@ def get_device_status(config_data: dict):
             'denva': {},
             'enviro': {},
             'aircraft': {},
-            'system': {},
+            config.FIELD_SYSTEM: {},
             'links': get_links_for_gateway(config_data),
             'welcome_text': f"Unable to load message due to ${exception}",
             'transport': [],
@@ -250,4 +251,4 @@ def set_trases_to_on():
 
 
 def get_report_for_yesterday():
-    return {}
+    return report_generator.generate()

@@ -91,10 +91,10 @@ def check_denva_app_status(cfg):
         logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['system']['cpu_temp_error']:
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM]['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denva )')
             state.set_danger()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['system']['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM]['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denva )')
             state.set_warn()
         if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
@@ -135,10 +135,10 @@ def check_enviro_app_status(cfg):
         state.set_error()
     else:
         system_health_check_service.update_hc_for('denviro', 'ui')
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['system']['cpu_temp_error']:
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM]['cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denviro')
             state.set_error()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg['system']['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM]['cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denviro')
             state.set_warn()
 
