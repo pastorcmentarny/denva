@@ -12,6 +12,8 @@ from pathlib import Path
 
 import dom_utils
 
+DENVIRO_DISPLAY = "denviro_display"
+
 DENVA_DATA_COLUMN_TIMESTAMP = 0
 DENVA_DATA_COLUMN_MEASUREMENT_TIME = 1
 DENVA_DATA_COLUMN_TEMP = 2
@@ -71,7 +73,7 @@ FIELD_TVOC = "tvoc"
 FIELD_GAS_RESISTANCE = 'gas_resistance'
 FIELD_HUMIDITY = "humidity"
 FIELD_PRESSURE = "pressure"
-FIELD_TEMPERATURE = "temp"
+FIELD_TEMPERATURE = "temperature"
 FIELD_TIMESTAMP = 'timestamp'
 FIELD_CO2 = "co2"
 FIELD_CO2_TEMPERATURE = "co2_temperature"
@@ -83,7 +85,13 @@ FIELD_NH3 = 'nh3'
 FIELD_PM1 = 'p_1'
 FIELD_PM25 = 'p_2'
 FIELD_PM10 = 'p_10'
-
+FIELD_SYSTEM = 'system'
+FIELD_SPECTROMETER_RED = 'spectometer_red'
+FIELD_SPECTROMETER_ORANGE = 'orange'
+FIELD_SPECTROMETER_YELLOW= 'yellow'
+FIELD_SPECTROMETER_GREEN= 'green'
+FIELD_SPECTROMETER_BLUE=  'blue'
+FIELD_SPECTROMETER_VIOLET= 'violet'
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
 DENVIRO_IP = 'http://192.168.0.202'
@@ -170,7 +178,8 @@ settings = {
     "informationData": f'{PI_DATA_PATH}information.json',
     "test": {
         'slow_test': False
-    }
+    },
+    DENVIRO_DISPLAY: False
 }
 
 
@@ -211,7 +220,7 @@ def load_cfg() -> dict:
 
 def get_healthcheck_ip() -> str:
     config = load_cfg()
-    return config['system']['ip']
+    return config[FIELD_SYSTEM]['ip']
 
 
 def get_current_warnings_url_for(service: str) -> str:
@@ -255,11 +264,11 @@ def get_mode() -> str:
 
 
 def get_memory_available_threshold():
-    return settings['system']['memory_available']
+    return settings[FIELD_SYSTEM]['memory_available']
 
 
 def get_disk_space_available_threshold():
-    return settings['system']['free_space']
+    return settings[FIELD_SYSTEM]['free_space']
 
 
 def run_slow_test() -> bool:
@@ -371,3 +380,7 @@ def get_warnings_path_for(date) -> str:
 
 def get_warnings_path_for_today() -> str:
     return f'{PI_DATA_PATH}{dom_utils.get_date_as_folders_for_today()}warnings.txt'
+
+
+def is_cli_display():
+    return settings[DENVIRO_DISPLAY]
