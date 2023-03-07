@@ -107,18 +107,12 @@ def add_enviro_measurement_to_file(file, data: dict):
     file.close()
 
 
-# TODO refactor it as it saves in 2 places
-def store_enviro_measurement(data: dict, sensor_log_file, sensor_log_file_at_server):
+def store_enviro_measurement(data: dict, sensor_log_file):
     try:
         local_file = open(sensor_log_file, 'a+', newline=EMPTY)
         add_enviro_measurement_to_file(local_file, data)
-
-        enviro_file = open(sensor_log_file_at_server, 'a+', newline=EMPTY)
-        add_enviro_measurement_to_file(enviro_file, data)
-        # if flag is true, set to false
     except IOError as exception:
         logger.warning(f'Unable to store denvira measurement due to : {exception}', exc_info=True)
-        # add flag to indicate that there is a problem
 
 
 def add_measurement_to_file(file, data: dict):
