@@ -18,15 +18,18 @@ logger = logging.getLogger("app")
 
 events = {
     "0101": ["New year day"],
+    "0110": ["World's first Underground railway opened"],
     "0121": ["Dzien Babci"],
     "0122": ["Dzien Dziadka"],
     "0123": ["Java was released in 1996"],
     "0125": ["St Dwynwen's Day, Welsh patron saint of lovers"],
+    "0227": ["Leonard Nimoy died in 2015"],
     "0301": ["St David’s Day, patron of Wales."],
     "0308": ["International Women Day"],
     "0312": ["Terry Pratchett passed away"],
     "0317": ["St Patrick's Day, patron to of Northern Ireland."],
     "0320": ["Spring starts"],
+    "0326": ["Leonard Nimoy was born 1931"],
     "0401": ["Prima Aprilis"],
     "0422": ["International Earth Day"],
     "0423": ["St George's Day"],
@@ -61,7 +64,7 @@ events = {
 }
 
 """
-DO NOT FORGOT TO UPDATE BY END OF 2022
+DO NOT FORGOT TO UPDATE BY END OF 2023
 To have 2 events on one day do this : ["Easter", "Święto Qingming"],
 """
 
@@ -75,9 +78,11 @@ movable_events = {
     "0501": ["Early May Bank Holiday"],  # 2023
     "0514": ["Mother's day (China)"],  # 2023
     "0529": ["Late May Bank Holiday"],  # 2023
-    "0622": [": 端午节(Dragon Boat Festival)"],  # 2023
-    "0829": ["Late Summer Bank Holiday"],
-    "0923": ["Mid-Autumn Festival"], \
+    "0622": ["端午节(Dragon Boat Festival)"],  # 2023
+    "0623": ["端午节(Dragon Boat Festival)"],  # 2023
+    "0624": ["端午节(Dragon Boat Festival)"],  # 2023
+    "0828": ["Late Summer Bank Holiday"],
+    "0929": ["Mid-Autumn Festival"],
     "1030": ["Wintertime -1hr :)"],
 }
 
