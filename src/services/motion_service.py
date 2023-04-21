@@ -1,3 +1,33 @@
+def get_averages_as_dict(measurements_list):
+    measurements_data = {
+        'ax': 0, 'ay': 0, 'az': 0,
+        'gx': 0, 'gy': 0, 'gz': 0,
+        'mx': 0, 'my': 0, 'mz': 0,
+        'measurement_time': 0
+    }
+
+    for entry in measurements_list:
+        for field_key in measurements_data.keys():
+            measurements_data[field_key] = measurements_data[field_key] + entry[field_key]
+
+    size = len(measurements_list)
+    if size > 0:
+        for field_key in measurements_data.keys():
+            measurements_data[field_key] = measurements_data[field_key] / size
+    else:
+        measurements_data = {
+            'ax': 0, 'ay': 0, 'az': 0,
+            'gx': 0, 'gy': 0, 'gz': 0,
+            'mx': 0, 'my': 0, 'mz': 0,
+            'measurement_time': 0
+        }
+
+    for field_key in measurements_data.keys():
+        measurements_data[field_key] = f"{measurements_data[field_key]:.2f}"
+
+    return measurements_data
+
+
 def get_records_as_dict(measurements_list):
     measurements_data = {
         'lowest_ax': 16777216,
@@ -24,7 +54,8 @@ def get_records_as_dict(measurements_list):
 
     for entry in measurements_list:
         for field_key in measurements_data.keys():
-            a_key = field_key.replace("slowest_", "").replace("highest_", "").replace("fastest_", "").replace("lowest_","")
+            a_key = field_key.replace("slowest_", "").replace("highest_", "").replace("fastest_", "").replace("lowest_",
+                                                                                                              "")
 
             print(
                 f'D. field {field_key} with data {measurements_data[field_key]} :: key {a_key} with data {entry[a_key]}')

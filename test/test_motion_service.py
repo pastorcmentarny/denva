@@ -6,11 +6,31 @@ test_data = [{'ax': -0.0302, 'ay': 0.3374, 'az': -0.3535, 'gx': 9.2519, 'gy': -1
               'mx': -130.5, 'my': 159.75, 'mz': -424.2, 'counter': 1, 'measurement_time': 32},
              {'ax': -0.0244, 'ay': 0.6982, 'az': -0.4482, 'gx': 18.6259, 'gy': -9.1908, 'gz': -7.6793,
               'mx': -248.25, 'my': 228.15, 'mz': -557.6999, 'counter': 2, 'measurement_time': 19},
-             {'ax': 0.1650, 'ay': 0.4316, 'az': -0.2709, 'gx': 0.4351, 'gy': 12.8167, 'gz': 23.9083,
+             {'ax': 0.165, 'ay': 0.4316, 'az': -0.2709, 'gx': 0.4351, 'gy': 12.8167, 'gz': 23.9083,
               'mx': 78.6, 'my': 136.0499, 'mz': -371.8499, 'counter': 3, 'measurement_time': 24}]
 
 
 class MyTestCase(unittest.TestCase):
+    def test_get_averages_as_dict(self):
+        # given
+        expected_result = {'ax': '0.04',
+                           'ay': '0.49',
+                           'az': '-0.36',
+                           'gx': '9.44',
+                           'gy': '-2.78',
+                           'gz': '-6.46',
+                           'measurement_time': '25.00',
+                           'mx': '-100.05',
+                           'my': '174.65',
+                           'mz': '-451.25'}
+        # when
+        result = motion_service.get_averages_as_dict(test_data)
+
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(expected_result, result)
 
     def test_get_records_as_dict(self):
         # given
