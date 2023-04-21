@@ -88,14 +88,15 @@ FIELD_PM10 = 'p_10'
 FIELD_SYSTEM = 'system'
 FIELD_SPECTROMETER_RED = 'spectometer_red'
 FIELD_SPECTROMETER_ORANGE = 'orange'
-FIELD_SPECTROMETER_YELLOW= 'yellow'
-FIELD_SPECTROMETER_GREEN= 'green'
-FIELD_SPECTROMETER_BLUE=  'blue'
-FIELD_SPECTROMETER_VIOLET= 'violet'
+FIELD_SPECTROMETER_YELLOW = 'yellow'
+FIELD_SPECTROMETER_GREEN = 'green'
+FIELD_SPECTROMETER_BLUE = 'blue'
+FIELD_SPECTROMETER_VIOLET = 'violet'
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
 DENVIRO_IP = 'http://192.168.0.202'
 TRASES_IP = 'http://192.168.0.224'
+REFRESH_RATE = 'refresh-rate'
 
 PI_HOME_DIR = '/home/pi/'
 PI_PROJECT_PATH = f'{PI_HOME_DIR}denva-master/src'
@@ -131,6 +132,11 @@ settings = {
         "chinese-dictionary": f'{PI_DATA_PATH}dictionary.txt',
         "overseer_mode": f'{PI_HOME_DIR}overseer_mode.txt',
         "text": f'{PI_DATA_PATH}text_to_display.txt'
+    },
+    REFRESH_RATE: {
+        "fast": 0.1,
+        "normal": 1,
+        "slow": 5,
     },
     "system": {
         "memory_available": 250 * 1024 * 1024,  # 250MB
@@ -235,11 +241,6 @@ def get_options() -> dict:
 
 def get_path_for_personal_events() -> str:
     return settings['paths']['events']
-
-
-def get_path_for_cctv_backup() -> list:
-    config = load_cfg()
-    return config['paths']['cctv-backup']
 
 
 def get_path_for_backup() -> str:
@@ -384,3 +385,15 @@ def get_warnings_path_for_today() -> str:
 
 def is_cli_display():
     return settings[DENVIRO_DISPLAY]
+
+
+def get_slow_refresh_rate():
+    return settings[REFRESH_RATE]['slow']
+
+
+def get_normal_refresh_rate():
+    return settings[REFRESH_RATE]['normal']
+
+
+def get_fast_refresh_rate():
+    return settings[REFRESH_RATE]['fast']

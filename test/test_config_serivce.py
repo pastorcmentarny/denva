@@ -26,30 +26,22 @@ class ConfigServiceTestCases(TestCase):
         config.set_mode_to('server')
 
         # then
-        self.assertEqual(config.get_mode(), 'dev')
+        self.assertEqual(config.get_mode(), 'server')
 
-    def test_get_data_path(self):
-        # when
-        result = config.get_data_path()
-
-        # then
-        self.assertEqual("D:\\denva\\data\\", result)
 
     def test_get_environment_log_path_for(self):
         # given
-        scale_params_list = [('denva', 'app', '/home/pi/denva-master/src/configs/log_app_config.json'),
-                             ('denva', 'ui', '/home/pi/denva-master/src/configs/log_ui_config.json'),
-                             ('dev', 'app', 'D:\GitHub\denva\src\configs\dev_log_app_config.json'),
-                             ('dev', 'ui', 'D:\GitHub\denva\src\configs\dev_log_ui_config.json'),
-                             ('server', 'app', 'd:\denva\src\configs\server_log_app_config.json'),
-                             ('server', 'ui', 'd:\denva\src\configs\server_log_ui_config.json'),
-                             ('dev', 'ddd', 'D:\GitHub\denva\src\configs\dev_log_app_config.json'),
-                             ('ddd', 'ddd', 'D:\GitHub\denva\src\configs\dev_log_app_config.json'),
-                             ('overseer_mode', 'overseer_mode', 'd:\\denva\\src\\configs\\overseer_mode.json'),
-                             ('overseer', 'overseer', 'd:\\denva\\src\\configs\\overseer.json'),
-                             ('cctv', 'cctv', '/home/pi/denva-master/src/configs/log_cctv_config.json'),
-                             ('hc', 'hc', '/home/pi/denva-master/src/configs/log_config.json'),
-
+        scale_params_list = [('denva', 'app', '/home/pi/configs/log_app_config.json'),
+                             ('denva', 'ui', '/home/pi/configs/log_ui_config.json'),
+                             ('dev', 'app', '/home/pi/configs/dev_log_app_config.json'),
+                             ('dev', 'ui', '/home/pi/configs/dev_log_ui_config.json'),
+                             ('server', 'app', '/home/pi/configs/server_log_app_config.json'),
+                             ('server', 'ui', '/home/pi/configs/server_log_ui_config.json'),
+                             ('dev', 'ddd', '/home/pi/configs/dev_log_ddd_config.json'),
+                             ('ddd', 'ddd', '/home/pi/configs/dev_log_ddd_config.json'),
+                             ('overseer_mode', 'overseer_mode', '/home/pi/configs/overseer_mode.json'),
+                             ('overseer', 'overseer', '/home/pi/configs/overseer.json'),
+                             ('hc', 'hc', '/home/pi/configs/log_config.json'),
                              ]
 
         for mode, an_input, expected_result in scale_params_list:
@@ -63,33 +55,7 @@ class ConfigServiceTestCases(TestCase):
                 # then
                 self.assertEqual(expected_result, result)
 
-    def test_get_report_path_at_server_for_dev(self):
-        # given
-        config.settings['mode'] = 'dev'
-        expected_result = "D:\\denva\\data\\reports\\"
 
-        # when
-        result = config.get_report_path_at_server()
-
-        # then
-        self.assertEqual(expected_result, result)
-
-        # after
-        config.set_mode_to('dev')
-
-    def test_get_report_path_at_server_for_server(self):
-        # given
-        config.settings['mode'] = 'server'
-        expected_result = "D:\\denva\\data\\reports\\"
-
-        # when
-        result = config.get_report_path_at_server()
-
-        # then
-        self.assertEqual(expected_result, result)
-
-        # after
-        config.set_mode_to('dev')
 
     def test_get_default_brightness_for_delight_display_is_in_range(self):
         # when
@@ -121,12 +87,12 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_system_hc_for_dev(self):
         # given
-        expected_result = f'D:\denva\data\hc.json'
+        expected_result = f'\\home\\pi\\data\\hc.json'
         # when
         result = config.get_system_hc()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -139,7 +105,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_system_hc()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -152,12 +118,12 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_directory_path_for_aircraft_dev(self):
         # given
-        expected_result = f'D:\denva\data'
+        expected_result = f'/home/pi/data/'
         # when
         result = config.get_directory_path_for_aircraft()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -165,12 +131,12 @@ class ConfigServiceTestCases(TestCase):
     def test_get_directory_path_for_aircraft_server(self):
         # given
         config.settings['mode'] = 'server'
-        expected_result = f'/home/pi/data'
+        expected_result = f'/home/pi/data/'
         # when
         result = config.get_directory_path_for_aircraft()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result,result)
 
         # debug
         print(result)
@@ -183,12 +149,12 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_overseer_mode_file_path(self):
         # given
-        expected_result = f'D:\overseer_mode.txt'
+        expected_result = f'/home/pi/overseer_mode.txt'
         # when
         result = config.get_overseer_mode_file_path()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -201,7 +167,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.max_latency()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
     def test_max_latency_slow(self):
         # given
@@ -211,7 +177,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.max_latency(False)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -224,7 +190,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_url_for_dump1090()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -237,33 +203,33 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_radar_hc_url()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
 
     def test_get_system_hc(self):
         # given
-        expected_result = f'D:\denva\data\hc.json'
+        expected_result = f'\\home\\pi\\data\\hc.json'
 
         # when
         result = config.get_system_hc()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
 
     def test_get_service_on_off_url(self):
         # given
-        expected_result = f'http://192.168.0.203:5000/shc/change'
+        expected_result = f'http://192.168.0.200:5000/shc/change'
 
         # when
         result = config.get_service_on_off_url()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -276,7 +242,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_warm_up_measurement_counter()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -289,7 +255,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_sensor_log_file_for(2021, 1, 2)
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -301,7 +267,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_sensitivity()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -314,23 +280,11 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_disk_space_available_threshold()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
 
-    def test_get_path_for_cctv_backup(self):
-        # given
-        expected_result = ['D:\\ds-lpd-server\\cctv', 'D:\\ds-lpd-server\\backup']
-
-        # when
-        result = config.get_path_for_cctv_backup()
-
-        # then
-        self.assertEqual(result, expected_result)
-
-        # debug
-        print(result)
 
     def test_get_memory_available_threshold(self):
         # given
@@ -340,7 +294,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_memory_available_threshold()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -353,7 +307,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_disk_space_available_threshold()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -366,7 +320,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_disk_space_available_threshold()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -379,33 +333,33 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_metrics_service_url()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
 
     def test_get_system_hc_reboot_url(self):
         # given
-        expected_result = f'http://192.168.0.203:5000/shc/reboot'
+        expected_result = f'http://192.168.0.200:5000/shc/reboot'
 
         # when
         result = config.get_system_hc_reboot_url()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
 
     def test_get_path_for_personal_events(self):
         # given
-        expected_result = f'D:\denva\events.json'
+        expected_result = f'/home/pi/events.json'
 
         # when
         result = config.get_path_for_personal_events()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -418,7 +372,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_options()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -431,7 +385,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_current_warnings_url_for('server')
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -444,7 +398,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_healthcheck_ip()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -452,13 +406,13 @@ class ConfigServiceTestCases(TestCase):
     def test_get_information_path_for_server(self):
         # given
         config.settings['mode'] = 'server'
-        expected_result = f'd:\denva\src\data\information.json'
+        expected_result = f'/home/pi/data/information.json'
 
         # when
         result = config.get_information_path()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -472,13 +426,13 @@ class ConfigServiceTestCases(TestCase):
     def test_get_information_path_for_dev(self):
         # given
         config.settings['mode'] = 'dev'
-        expected_result = f'D:\GitHub\denva\src\data\information.json'
+        expected_result = f'/home/pi/data/information.json'
 
         # when
         result = config.get_information_path()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -491,13 +445,13 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_log_path_for(self):
         # given
-        expected_result = f'D:\GitHub\denva\src\configs\dev_log_app_config.json'
+        expected_result = f'/home/pi/configs/dev_log_app_config.json'
 
         # when
         result = config.get_log_path_for('dev_app')
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -505,13 +459,13 @@ class ConfigServiceTestCases(TestCase):
     def test_get_path_to_chinese_dictionary_for_dev(self):
         # given
         config.settings['mode'] = 'dev'
-        expected_result = f'D:\GitHub\denva\src\data\dictionary.txt'
+        expected_result = f'/home/pi/data/dictionary.txt'
 
         # when
         result = config.get_path_to_chinese_dictionary()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -525,13 +479,13 @@ class ConfigServiceTestCases(TestCase):
     def test_get_path_to_chinese_dictionary_for_server(self):
         # given
         config.settings['mode'] = 'server'
-        expected_result = f'd:\denva\src\data\dictionary.txt'
+        expected_result = f'/home/pi/data/dictionary.txt'
 
         # when
         result = config.get_path_to_chinese_dictionary()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -544,13 +498,55 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_system_hc_url(self):
         # given
-        expected_result = f'http://192.168.0.203:5000/shc/update'
+        expected_result = f'http://192.168.0.200:5000/shc/update'
 
         # when
         result = config.get_system_hc_url()
 
         # then
-        self.assertEqual(result, expected_result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
+
+    def test_get_slow_refresh_rate(self):
+        # given
+        expected_result = 5
+
+        # when
+        result = config.get_slow_refresh_rate()
+
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(expected_result, result)
+
+
+
+    def test_get_normal_refresh_rate(self):
+        # given
+        expected_result = 1
+
+        # when
+        result = config.get_normal_refresh_rate()
+
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(expected_result, result)
+
+
+    def test_get_fast_refresh_rate(self):
+        # given
+        expected_result = 0.1
+
+        # when
+        result = config.get_fast_refresh_rate()
+
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(expected_result, result)
