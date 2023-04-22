@@ -3,6 +3,7 @@ from unittest import TestCase
 import config
 
 
+# TODO ADD missing test case
 class ConfigServiceTestCases(TestCase):
     def test_get_irregular_verbs_path(self):
         # given
@@ -27,7 +28,6 @@ class ConfigServiceTestCases(TestCase):
 
         # then
         self.assertEqual(config.get_mode(), 'server')
-
 
     def test_get_environment_log_path_for(self):
         # given
@@ -54,8 +54,6 @@ class ConfigServiceTestCases(TestCase):
 
                 # then
                 self.assertEqual(expected_result, result)
-
-
 
     def test_get_default_brightness_for_delight_display_is_in_range(self):
         # when
@@ -136,7 +134,7 @@ class ConfigServiceTestCases(TestCase):
         result = config.get_directory_path_for_aircraft()
 
         # then
-        self.assertEqual(expected_result,result)
+        self.assertEqual(expected_result, result)
 
         # debug
         print(result)
@@ -284,7 +282,6 @@ class ConfigServiceTestCases(TestCase):
 
         # debug
         print(result)
-
 
     def test_get_memory_available_threshold(self):
         # given
@@ -522,8 +519,6 @@ class ConfigServiceTestCases(TestCase):
         # then
         self.assertEqual(expected_result, result)
 
-
-
     def test_get_normal_refresh_rate(self):
         # given
         expected_result = 1
@@ -537,10 +532,9 @@ class ConfigServiceTestCases(TestCase):
         # then
         self.assertEqual(expected_result, result)
 
-
     def test_get_fast_refresh_rate(self):
         # given
-        expected_result = 0.1
+        expected_result = 0.2
 
         # when
         result = config.get_fast_refresh_rate()

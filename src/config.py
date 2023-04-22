@@ -12,6 +12,8 @@ from pathlib import Path
 
 import dom_utils
 
+MEASUREMENT_LIST_SIZE = 'measurement_list_size'
+
 DENVIRO_DISPLAY = "denviro_display"
 
 DENVA_DATA_COLUMN_TIMESTAMP = 0
@@ -134,7 +136,7 @@ settings = {
         "text": f'{PI_DATA_PATH}text_to_display.txt'
     },
     REFRESH_RATE: {
-        "fast": 0.1,
+        "fast": 0.2,
         "normal": 1,
         "slow": 5,
     },
@@ -185,7 +187,8 @@ settings = {
     "test": {
         'slow_test': False
     },
-    DENVIRO_DISPLAY: False
+    DENVIRO_DISPLAY: False,
+    MEASUREMENT_LIST_SIZE: 100000
 }
 
 
@@ -397,3 +400,7 @@ def get_normal_refresh_rate():
 
 def get_fast_refresh_rate():
     return settings[REFRESH_RATE]['fast']
+
+
+def get_measurement_size():
+    return settings[MEASUREMENT_LIST_SIZE]
