@@ -51,21 +51,21 @@ DEVICE_OFF = 'OFF'
 
 FIELD_CPU_TEMP = 'cpu_temp'
 FIELD_RELATIVE_HUMIDITY = "relative_humidity"
-FIELD_GPS_VDOP = 'gps_vdop'
-FIELD_GPS_HDOP = 'gps_hdop'
-FIELD_GPS_PDOP = 'gps_pdop'
-FIELD_GPS_MODE_FIX_TYPE = 'gps_mode_fix_type'
-FIELD_GPS_SPEED_OVER_GROUND = 'gps_speed_over_ground'
+FIELD_GPS_VDOP = 'vdop'
+FIELD_GPS_HDOP = 'hdop'
+FIELD_GPS_PDOP = 'pdop'
+FIELD_GPS_MODE_FIX_TYPE = 'mode_fix_type'
+FIELD_GPS_SPEED_OVER_GROUND = 'speed_over_ground'
 FIELD_GPS_QUAL = 'gps_qual'
-FIELD_GPS_NUM_SATS = 'gps_num_sats'
-FIELD_GPS_GEO_SEP = 'gps_geo_sep'
-FIELD_GPS_LON_DIR = 'gps_lon_dir'
-FIELD_GPS_LAT_DIR = 'gps_lat_dir'
-FIELD_GPS_ALTITUDE = 'gps_altitude'
-FIELD_GPS_LONGITUDE = 'gps_longitude'
+FIELD_GPS_NUM_SATS = 'num_sats'
+FIELD_GPS_GEO_SEP = 'geo_sep'
+FIELD_GPS_LON_DIR = 'lon_dir'
+FIELD_GPS_LAT_DIR = 'lat_dir'
+FIELD_GPS_ALTITUDE = 'altitude'
+FIELD_GPS_LONGITUDE = 'longitude'
 FIELD_MEASUREMENT_TIME = 'measurement_time'
 FIELD_MEASUREMENT_COUNTER = 'measurement_counter'
-FIELD_GPS_LATITUDE = 'gps_latitude'
+FIELD_GPS_LATITUDE = 'latitude'
 FIELD_BLUE = "b"
 FIELD_GREEN = "g"
 FIELD_RED = "r"
@@ -188,7 +188,7 @@ settings = {
         'slow_test': False
     },
     DENVIRO_DISPLAY: False,
-    MEASUREMENT_LIST_SIZE: 100000
+    MEASUREMENT_LIST_SIZE: 2000
 }
 
 
