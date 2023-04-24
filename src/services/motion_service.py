@@ -1,4 +1,4 @@
-def get_averages_as_dict(measurements_list):
+def get_averages_as_dict(measurements_list) -> dict:
     measurements_data = {
         'ax': 0, 'ay': 0, 'az': 0,
         'gx': 0, 'gy': 0, 'gz': 0,
@@ -28,7 +28,7 @@ def get_averages_as_dict(measurements_list):
     return measurements_data
 
 
-def get_records_as_dict(measurements_list):
+def get_records_as_dict(measurements_list) -> dict:
     measurements_data = {
         'lowest_ax': 16777216,
         'highest_ax': -16777216,
@@ -56,24 +56,15 @@ def get_records_as_dict(measurements_list):
         for field_key in measurements_data.keys():
             a_key = field_key.replace("slowest_", "").replace("highest_", "").replace("fastest_", "").replace("lowest_",
                                                                                                               "")
-
-            print(
-                f'D. field {field_key} with data {measurements_data[field_key]} :: key {a_key} with data {entry[a_key]}')
             if field_key.startswith("fastest_"):
-                print(f"fastest {entry[a_key]} = {measurements_data[field_key]}")
                 if measurements_data[field_key] > entry[a_key]:
                     measurements_data[field_key] = entry[a_key]
-                    print(f'update fastest {field_key} with {measurements_data[field_key]}')
             elif field_key.startswith("slowest_"):
-                print(f"slowest {entry[a_key]} = {measurements_data[field_key]}")
                 if measurements_data[field_key] < entry[a_key]:
                     measurements_data[field_key] = entry[a_key]
-                    print(f'update slowest {field_key} with {measurements_data[field_key]}')
             elif field_key.startswith("highest_"):
-                print(f"{a_key} {entry[a_key]} = {field_key} {measurements_data[field_key]}")
                 if entry[a_key] > measurements_data[field_key]:
                     measurements_data[field_key] = entry[a_key]
-                    print(f'update higest {field_key} with {measurements_data[field_key]}')
             elif field_key.startswith("lowest_"):
                 if entry[a_key] < measurements_data[field_key]:
                     measurements_data[field_key] = entry[a_key]
@@ -81,3 +72,27 @@ def get_records_as_dict(measurements_list):
                 print(
                     f'Interesting. field {field_key} with data {measurements_data[field_key]} :: key {a_key} with data {entry[a_key]}')
     return measurements_data
+
+
+def check_warning(measurement: dict) -> list:
+    warnings = []
+    if measurement['ax'] > 1 or measurement['ax'] < -1:
+        warnings.append(f"AX is high {measurement['ax']}")
+    if measurement['ay'] > 1 or measurement['ay'] < -1:
+        warnings.append(f"AY is high {measurement['ay']}")
+    if measurement['az'] > 1 or measurement['az'] < -1:
+        warnings.append(f"AZ is high {measurement['az']}")
+    if measurement['gx'] > 1 or measurement['gx'] < -1:
+        warnings.append(f"GX is high {measurement['gx']}")
+    if measurement['gy'] > 1 or measurement['gy'] < -1:
+        warnings.append(f"GY is high {measurement['gy']}")
+    if measurement['gz'] > 1 or measurement['gz'] < -1:
+        warnings.append(f"GZ is high {measurement['gz']}")
+    if measurement['mx'] > -65 or measurement['mx'] < -95:
+        warnings.append(f"MX is high {measurement['mx']}")
+    if measurement['my'] > 140 or measurement['my'] < 120:
+        warnings.append(f"MY is high {measurement['my']}")
+    if measurement['mz'] > -350 or measurement['mz'] < -380:
+        warnings.append(f"MZ is high {measurement['mz']}")
+
+    return warnings
