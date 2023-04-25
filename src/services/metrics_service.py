@@ -29,12 +29,13 @@ METRIC_AIR_QUALITY = 'air_quality'
 METRICS_RGB = 'rgb'
 METRICS_GPS = 'gps'
 METRICS_CO2 = 'co2'
+METRICS_SPECTROMETER = 'spectrometer'
 COUNT = 'count'
 ERRORS = 'errors'
 OK = 'ok'
 
 logger = logging.getLogger('server')
-
+# remove OK part and left errors only as metrics purpose is to count errors
 empty_stats = {
     DATE_OF_METRICS: str(date.today()),
     COUNT: 0,
@@ -49,7 +50,8 @@ empty_stats = {
         METRIC_FLIGHT: 0,
         METRICS_RGB: 0,
         METRICS_GPS: 0,
-        METRICS_CO2: 0
+        METRICS_CO2: 0,
+        METRICS_SPECTROMETER : 0
 
     },
     ERRORS: {
@@ -63,7 +65,8 @@ empty_stats = {
         METRIC_FLIGHT: 0,
         METRICS_RGB: 0,
         METRICS_GPS: 0,
-        METRICS_CO2: 0
+        METRICS_CO2: 0,
+        METRICS_SPECTROMETER : 0
     }
 
 }
