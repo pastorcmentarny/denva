@@ -46,7 +46,7 @@ def reset(on_error: bool = True):
 uv_sensor = reset(False)
 
 
-def get_measurements():
+def get_measurement():
     try:
         uva, uvb = uv_sensor.get_measurements()
         uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
