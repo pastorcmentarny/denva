@@ -14,8 +14,7 @@ import logging
 
 from denva import denva_sensors_service
 from reports import averages, records, report_service
-from sensors import aircraft_radar_sensor
-from services import sensor_warnings_service
+from services import sensor_warnings_service, aircraft_radar_service
 
 logger = logging.getLogger('app')
 
@@ -75,4 +74,4 @@ def get_last_report():
 
 
 def check_aircraft_radar() -> dict:
-    return aircraft_radar_sensor.check_hc()
+    return aircraft_radar_service.check_hc()
