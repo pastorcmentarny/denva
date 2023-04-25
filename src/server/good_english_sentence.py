@@ -69,9 +69,9 @@ sentences = [
     "This is a reason why god invited 'copy and paste'.",
     "For every claim or statement made in this book, you'd probably be able to find some new study or investigation that argues against it. (LoeWhaley)",
     "Thank you for sharing this timeline with me. Can you help me understand how this amount of work is achievable in such a short period of time? (LoeWhaley)",
-    "Can you help me understand why I am required to be in the office when I can effectively execute my job responsibilities remotely?"
+    "Please help me understand why I am required to be in the office when I can effectively execute my job responsibilities remotely. (LoeWhaley)",
+    "Germans are usually quiet, impeccably polite and keen to remind us that their mid-20th Century reputation for arriving everywhere in a tank is a thing of the past. (Jeremy Clarkson)"
 ]
-
 
 def get_random_english_sentence() -> str:
     return sentences[random.randint(0, len(sentences) - 1)]
