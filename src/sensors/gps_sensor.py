@@ -15,6 +15,7 @@ from pa1010d import PA1010D
 from datetime import datetime
 
 import config
+from common import loggy
 from gateways import local_data_gateway
 
 logger = logging.getLogger('app')
@@ -26,10 +27,11 @@ def setup():
 
 
 gps = setup()
+gps.send_command("PMTK255,0")
 
 
 def get_no_vales(get_data_exception):
-    return {config.FIELD_TIMESTAMP: datetime.now(), config.FIELD_GPS_LATITUDE: 0.0, config.FIELD_GPS_LONGITUDE: -0.0,
+    return {config.FIELD_TIMESTAMP: datetime.now().strftime("%Y%m%d-%H%M%S"), config.FIELD_GPS_LATITUDE: 0.0, config.FIELD_GPS_LONGITUDE: -0.0,
             config.FIELD_GPS_ALTITUDE: 0, config.FIELD_GPS_LAT_DIR: 'N', config.FIELD_GPS_LON_DIR: 'W',
             config.FIELD_GPS_GEO_SEP: '0', config.FIELD_GPS_NUM_SATS: '0', config.FIELD_GPS_QUAL: 0,
             config.FIELD_GPS_SPEED_OVER_GROUND: 0.0, config.FIELD_GPS_MODE_FIX_TYPE: '0', config.FIELD_GPS_PDOP: '0',
@@ -37,19 +39,31 @@ def get_no_vales(get_data_exception):
             "error": str(get_data_exception)}
 
 
-last = get_no_vales("Not init yet")
-
-
 def get_measurement():
-    global last
     try:
         updated = gps.update()
+        print(gps.data)
         if updated:
-            last = updated
             local_data_gateway.post_metrics_update('gps', 'ok')
-            return gps.data
+            gps_data = gps.data
+            return {config.FIELD_TIMESTAMP: datetime.now().strftime("%Y%m%d-%H%M%S"),
+                    config.FIELD_GPS_LATITUDE: gps_data[config.FIELD_GPS_LATITUDE],
+                    config.FIELD_GPS_LONGITUDE: gps_data[config.FIELD_GPS_LONGITUDE],
+                    config.FIELD_GPS_ALTITUDE: gps_data[config.FIELD_GPS_ALTITUDE],
+                    config.FIELD_GPS_LAT_DIR: gps_data[config.FIELD_GPS_LON_DIR],
+                    config.FIELD_GPS_LON_DIR: gps_data[config.FIELD_GPS_LON_DIR],
+                    config.FIELD_GPS_GEO_SEP: gps_data[config.FIELD_GPS_GEO_SEP],
+                    config.FIELD_GPS_NUM_SATS: gps_data[config.FIELD_GPS_NUM_SATS],
+                    config.FIELD_GPS_QUAL: gps_data[config.FIELD_GPS_QUAL],
+                    config.FIELD_GPS_SPEED_OVER_GROUND: gps_data[config.FIELD_GPS_SPEED_OVER_GROUND],
+                    config.FIELD_GPS_MODE_FIX_TYPE: gps_data[config.FIELD_GPS_MODE_FIX_TYPE],
+                    config.FIELD_GPS_PDOP: gps_data[config.FIELD_GPS_PDOP],
+                    config.FIELD_GPS_HDOP: gps_data[config.FIELD_GPS_HDOP],
+                    config.FIELD_GPS_VDOP: gps_data[config.FIELD_GPS_VDOP]
+                    }
         else:
-            return last
+            loggy.log_with_print("Gps data wasn't updated")
+            return get_no_vales("Gps data wasn't updated")
     except Exception as exception:
         local_data_gateway.post_metrics_update('gps', 'errors')
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
