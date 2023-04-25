@@ -22,9 +22,6 @@ def get_measurement():
     global as7262
     try:
         values = as7262.get_calibrated_values()
-        logger.debug(
-            """as7262 sensor Red: {}, Orange: {}, Yellow: {}, Green:  {}, Blue:   {}, Violet: {}""".format(*values))
-        local_data_gateway.post_metrics_update('as7262', 'ok')
 
         return {
             'red': values.red,
@@ -34,10 +31,12 @@ def get_measurement():
             'blue': values.blue,
             'violet': values.violet
         }
-    except Exception as exception:
-        local_data_gateway.post_metrics_update('as7262', 'errors')
-        as7262.set_illumination_led(1)
-        print(f'It was a problem with as7262 sensor caused by {exception}.')
+    except Exception as spectrometer_exception:
+        logger.error(
+            f'Unable to restart ICM20948 due to {type(spectrometer_exception).__name__} throws : {spectrometer_exception}',
+            exc_info=True)
+        local_data_gateway.post_metrics_update('spectrometer', 'errors')
+        print(f'It was a problem with spectrometer sensor caused by {spectrometer_exception}.')
         time.sleep(1)
         as7262 = get_sensor_instance()
         print('Sensor as7262 restarted.')

@@ -24,9 +24,10 @@ def get_measurement():
         oxidising = data.oxidising / 1000
         reducing = data.reducing / 1000
         nh3 = data.nh3 / 1000
-        local_data_gateway.post_metrics_update('gas', 'ok')
         return oxidising, reducing, nh3
-    except Exception as exception:
-        logger.error(f'Unable to read from gas sensor due to {exception}')
+    except Exception as gas_exception:
+        logger.error(
+            f'Unable to read data from bme680 (environment sensor) sensor due to {type(gas_exception).__name__} throws : {gas_exception}',
+            exc_info=True)
         local_data_gateway.post_metrics_update('gas', 'errors')
         return 0, 0, 0

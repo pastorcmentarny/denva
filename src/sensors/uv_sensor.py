@@ -37,9 +37,12 @@ def reset(on_error: bool = True):
         uv_sensor.set_high_dynamic_range(False)
         uv_sensor.set_integration_time('100ms')
         logger.info("Reset complete")
-    except Exception as exception:
-        logger.error('Unable to restart ICM20948 due to {}'.format(exception), exc_info=True)
-        raise Exception(exception)
+    except Exception as uv_exception:
+        logger.error(
+            f'Unable to restart ICM20948 due to {type(uv_exception).__name__} throws : {uv_exception}',
+            exc_info=True)
+        local_data_gateway.post_metrics_update('uv', 'errors')
+        raise Exception(uv_exception)
 
 
 # Set up UV sensor
@@ -50,10 +53,8 @@ def get_measurement():
     try:
         uva, uvb = uv_sensor.get_measurements()
         uv_comp1, uv_comp2 = uv_sensor.get_comparitor_readings()
-        local_data_gateway.post_metrics_update('uv', 'ok')
         return uv_sensor.convert_to_index(uva, uvb, uv_comp1, uv_comp2)
     except Exception as exception:
         logger.error(f' Unable to take measurement from uv sensor due to {exception}')
-        local_data_gateway.post_metrics_update('uv', 'errors')
         reset()
         return 0, 0, 0

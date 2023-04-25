@@ -31,7 +31,6 @@ co2_sensor = setup()
 def get_measurement():
     try:
         result = co2_sensor.measure()
-        local_data_gateway.post_metrics_update('co2', 'ok')
         return result  # returning co2, temperature, relative_humidity, timestamp
     except Exception as exception:
         logger.error(

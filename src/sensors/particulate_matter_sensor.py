@@ -30,15 +30,15 @@ def get_measurement():
 
     try:
         pms_data = pms5003.read()
-        local_data_gateway.post_metrics_update('pollution', 'ok')
-    except BaseException as exception:
-        logger.warning("Failed to read PMS5003 due to: {}".format(exception), exc_info=True)
-        local_data_gateway.post_metrics_update('pollution', 'errors')
-        logger.info('Restarting sensor.. (it will takes ... 5 seconds')
-        pms5003 = PMS5003()
-        time.sleep(5)
-    else:
         p_1 = float(pms_data.pm_ug_per_m3(1.0))
         p_2 = float(pms_data.pm_ug_per_m3(2.5))
         p_10 = float(pms_data.pm_ug_per_m3(10))
+    except BaseException as pms_exception:
+        logger.error(
+            f'Unable to restart ICM20948 due to {type(pms_exception).__name__} throws : {pms_exception}',
+            exc_info=True)
+        logger.info('Restarting sensor.. (it will takes ... 5 seconds')
+        pms5003 = PMS5003()
+        time.sleep(5)
+
     return p_1, p_2, p_10

@@ -57,7 +57,6 @@ def off():
 def get_measurement():
     try:
         result = bh1745.get_rgb_scaled()
-        local_data_gateway.post_metrics_update('rgb', 'ok')
         return result
     except Exception as exception:
         logger.error(f' Unable to take measurement from uv sensor due to {exception}')

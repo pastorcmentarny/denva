@@ -44,7 +44,6 @@ def get_measurement():
         updated = gps.update()
         print(gps.data)
         if updated:
-            local_data_gateway.post_metrics_update('gps', 'ok')
             gps_data = gps.data
             return {config.FIELD_TIMESTAMP: datetime.now().strftime("%Y%m%d-%H%M%S"),
                     config.FIELD_GPS_LATITUDE: gps_data[config.FIELD_GPS_LATITUDE],
@@ -64,7 +63,9 @@ def get_measurement():
         else:
             loggy.log_with_print("Gps data wasn't updated")
             return get_no_vales("Gps data wasn't updated")
-    except Exception as exception:
+    except Exception as gps_exception:
+        logger.error(
+            f'Unable to read data from bme680 (environment sensor) sensor due to {type(gps_exception).__name__} throws : {gps_exception}',
+            exc_info=True)
         local_data_gateway.post_metrics_update('gps', 'errors')
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        return get_no_vales(exception)
+        return get_no_vales(gps_exception)
