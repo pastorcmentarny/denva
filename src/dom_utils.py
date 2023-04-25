@@ -349,6 +349,21 @@ def post_healthcheck_beat(device: str, app_type: str):
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
+def setup_logging(app_name: str, debug_mode: bool = False):
+    print('Setting logs ...')
+    if debug_mode:
+        logging_level = logging.DEBUG
+
+    else:
+        logging_level = logging.WARN
+
+    logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
+    logging_filename = f'/home/ds/logs/{app_name}-{date.today()}.txt'
+    logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
+    logging.captureWarnings(True)
+    logging.info(f'Logging setup complete with log level set to: {logging_level})')
+    print(f'Logs setup completed (Level: {logging_level})')
+
 def setup_test_logging(app_name: str, debug_mode: bool = False):
     print('Setting logs ...')
     if debug_mode:
