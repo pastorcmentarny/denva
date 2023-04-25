@@ -19,6 +19,7 @@ dom_utils.setup_test_logging('display',False)
 
 READ = 'r'
 OFF = 'OFF'
+ON = 'ON'
 REBOOT = 'REBOOT'
 CAUTION = 'CAUTION'
 PERFECT = 'PERFECT'
@@ -40,6 +41,10 @@ def get_state_colour_for_hc(current_state: str):
         color_green = 255
         color_blue = 0
     elif current_state == UP:
+        color_red = 0
+        color_green = 255
+        color_blue = 0
+    elif current_state == ON:
         color_red = 0
         color_green = 255
         color_blue = 0
@@ -199,39 +204,56 @@ def draw_network_health_check():
     display.unicornhathd.set_pixel(1, 11, r, g, b)
 
 
-def draw_trases_four_status():
+def draw_denva2_status():
     # DEVICE
-    status = healthcheck_service.get_device_status_for('trases', 'device')
+    status = healthcheck_service.get_device_status_for('denva2', 'device')
     if status == OFF:
         r, g, b = get_state_colour_for_hc(OFF)
-        logger.info(f'Trases is OFF')
+        logger.info(f'Denva TWO is OFF')
         display.unicornhathd.set_pixel(9, 1, r, g, b)
         display.unicornhathd.set_pixel(9, 2, r, g, b)
+        display.unicornhathd.set_pixel(9, 3, r, g, b)
         display.unicornhathd.set_pixel(9, 4, r, g, b)
         display.unicornhathd.set_pixel(9, 5, r, g, b)
+        display.unicornhathd.set_pixel(9, 6, r, g, b)
         display.unicornhathd.set_pixel(9, 7, r, g, b)
         display.unicornhathd.set_pixel(9, 8, r, g, b)
     else:
         logger.info(f'Trases device status: {status}')
-        print(f'Trases device status: {status}')
+        print(f'Denva TWO device status: {status}')
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 1, r, g, b)
         display.unicornhathd.set_pixel(9, 2, r, g, b)
 
-        # APP
-        status = healthcheck_service.is_up('trases', 'app')
-        print(f'Trases app status: ' + status)
+        # UI
+        status = healthcheck_service.is_up('denva2', 'ui')
+        print(f'Denva TWO UI status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 4, r, g, b)
+        display.unicornhathd.set_pixel(9, 3, r, g, b)
+
+        # gps
+        status = healthcheck_service.is_up('denva2', 'gps')
+        print(f'Denva TWO GPS status: ' + status)
+        r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 5, r, g, b)
 
-        # UI
-        status = healthcheck_service.is_up('trases', 'ui')
-        print(f'Trases ui status: ' + status)
+        # barometric
+        status = healthcheck_service.is_up('denva2', 'barometric')
+        print(f'Denva TWO barometric status: ' + status)
+        r, g, b = get_state_colour_for_hc(status)
+        display.unicornhathd.set_pixel(9, 6, r, g, b)
+
+        # motion
+        status = healthcheck_service.is_up('denva2', 'motion')
+        print(f'Trases gps status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 7, r, g, b)
-        display.unicornhathd.set_pixel(9, 8, r, g, b)
 
+        # spectrometer
+        status = healthcheck_service.is_up('denva2', 'spectrometer')
+        print(f'Trases gps status: ' + status)
+        r, g, b = get_state_colour_for_hc(status)
+        display.unicornhathd.set_pixel(9, 8, r, g, b)
 
 def draw_enviro_status():
     # DEVICE
@@ -379,10 +401,10 @@ def show_status():
     draw_storage_status()
     draw_network_health_check()
     draw_denva_status()
+    draw_denva2_status()
     draw_enviro_status()
     draw_camera_status()
     draw_radar_status()
-    draw_trases_four_status()
     draw_knyszogar_app()
     draw_knyszogar_email()
     draw_knyszogar_hc()

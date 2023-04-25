@@ -9,7 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import datetime
+from datetime import datetime
 import logging
 import sys
 import traceback
@@ -176,6 +176,11 @@ def get_text():
     return text_service.get_text_to_display()
 
 
+@app.route("/weather")
+def get_weather():
+    return information_service.get_weather_data()
+
+
 @app.route("/tt")
 def tube_trains_status():
     tt_statuses = {
@@ -190,25 +195,13 @@ def tt_delay_stats():
     return render_template('tube.html', message=data)
 
 
-@app.route("/trases/off")
-def trases_off():
-    app_server_service.set_trases_to_off()
-    return jsonify('{"device":  false}')
-
-
-@app.route("/trases/off")
-def trases_on():
-    app_server_service.set_trases_to_on()
-    return jsonify('{"device":  true}')
-
-
 @app.route("/status")
 def status():
-    start = datetime.datetime.now()
+    start = datetime.now()
 
     device_status_data = app_server_service.get_device_status(config.load_cfg())
 
-    stop = datetime.datetime.now()
+    stop = datetime.now()
 
     delta = stop - start
     time = int(delta.total_seconds() * 1000)
@@ -218,7 +211,7 @@ def status():
 
 @app.route("/hq")
 def hq():
-    start = datetime.datetime.now()
+    start = datetime.now()
 
     host = request.host_url[:-1]
     page_tube_trains = host + str(url_for('tube_trains_status'))
@@ -231,7 +224,7 @@ def hq():
     all_data = dict(data)
     all_data.update(extra_data)
 
-    stop = datetime.datetime.now()
+    stop = datetime.now()
 
     delta = stop - start
     time = int(delta.total_seconds() * 1000)
@@ -275,6 +268,30 @@ def reboot():
 def get_now_and_next_event():
     logger.info('Getting now and next event on daily')
     return jsonify(app_server_service.get_now_and_next_event())
+
+
+@app.route('/calendar/weather')
+def get_weather_for_calendar():
+    logger.info('Getting now and next event on daily')
+    return jsonify(app_server_service.get_now_and_next_event())
+
+
+@app.route('/getdate')
+def get_date_for_messageboard():
+    logger.info('Getting current date')
+    back_date = datetime(year=2023, month=1, day=27, hour=10, minute=45)
+    now = datetime.now()
+    time_left = back_date - now
+    minutes = time_left.total_seconds()/60
+    hours = minutes/60
+
+    seconds_left = {
+        'left': f'{time_left.total_seconds():.0f}',
+        'minutes': f'{minutes:.0f}',
+        'hours': f'{hours:.0f}'
+
+    }
+    return jsonify(seconds_left)
 
 
 @app.route("/")

@@ -78,4 +78,6 @@ def get_data_from_web():
     information['crimes'] = web_data_gateway.get_crime()
     information['floods'] = web_data_gateway.get_flood()
     information['weather'] = weather_service.get_weather()
-    information['o2'] = web_data_gateway.get_o2_status()
+    information['o2']
+def get_weather_data():
+    return weather_service.get_weather()

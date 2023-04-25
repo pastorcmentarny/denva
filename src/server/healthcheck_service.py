@@ -29,6 +29,7 @@ default_hc = {
         "motion": "20201212201221",
         "gps": "20201212201221",
         "barometric": "20201212201221",
+        "spectrometer": "20201212201221",
         "device": config.DEVICE_OFF
     },
     "denviro": {
