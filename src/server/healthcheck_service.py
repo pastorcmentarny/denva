@@ -1,11 +1,20 @@
 import json
 import logging
 from datetime import datetime
+
+from retrying import retry
+
 import config
 
 ENCODING = 'utf-8'
 
 logger = logging.getLogger('app')
+
+
+def __retry_on_exception(exception):
+    logger.warning(f'Unable to load due to {exception}')
+    return isinstance(exception, Exception)
+
 
 healthcheck_path = '/home/pi/data/hc.json'
 
@@ -13,6 +22,13 @@ default_hc = {
     "denva": {
         "app": "20201212201221",
         "ui": "20201212201221",
+        "device": config.DEVICE_OFF
+    },
+    "denva2": {
+        "ui": "20201212201221",
+        "motion": "20201212201221",
+        "gps": "20201212201221",
+        "barometric": "20201212201221",
         "device": config.DEVICE_OFF
     },
     "denviro": {
@@ -66,6 +82,8 @@ def __save(data: dict):
         logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
 
 
+@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
+       stop_max_attempt_number=5)
 def __load() -> dict:
     try:
         return load_json_data_as_dict_from(healthcheck_path)
