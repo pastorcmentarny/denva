@@ -73,22 +73,19 @@ class MyTestCase(unittest.TestCase):
                            'AZ is high 3.11',
                            'GX is high 3.11',
                            'GY is high 3.11',
-                           'GZ is high 3.11',
-                           'MX is high 150.5',
-                           'MY is high 150.75',
-                           'MZ is high 424.2']
+                           'GZ is high 3.11']
         input_data = {'ax': 3.11, 'ay': 3.11, 'az': 3.11, 'gx': 3.11, 'gy': 3.11, 'gz': 3.11,
                       'mx': 150.5, 'my': 150.75, 'mz': 424.2}
 
         # when
-        result = motion_service.check_warning(input_data)
+        result = motion_service.get_warnings(input_data)
 
         # debug
         print(result)
 
         # then
         self.assertEqual(expected_result, result)
-        self.assertEqual(len(expected_result), 9)
+        self.assertEqual(len(expected_result), 6)
 
     def test_check_warning_returns_all_warnings_for_to_low(self):
         # given
@@ -97,22 +94,19 @@ class MyTestCase(unittest.TestCase):
                            'AZ is high -3.11',
                            'GX is high -3.11',
                            'GY is high -3.11',
-                           'GZ is high -3.11',
-                           'MX is high 110.5',
-                           'MY is high 110.75',
-                           'MZ is high -424.2']
+                           'GZ is high -3.11']
         input_data = {'ax': -3.11, 'ay': -3.11, 'az': -3.11, 'gx': -3.11, 'gy': -3.11, 'gz': -3.11,
                       'mx': 110.5, 'my': 110.75, 'mz': -424.2}
 
         # when
-        result = motion_service.check_warning(input_data)
+        result = motion_service.get_warnings(input_data)
 
         # debug
         print(result)
 
         # then
         self.assertEqual(expected_result, result)
-        self.assertEqual(len(expected_result), 9)
+        self.assertEqual(len(expected_result), 6)
 
     def test_check_warning_returns_empty_for_no_warnings(self):
         # given
@@ -121,7 +115,7 @@ class MyTestCase(unittest.TestCase):
                       'mx': -70.5, 'my': 130.75, 'mz': -360.2}
 
         # when
-        result = motion_service.check_warning(input_data)
+        result = motion_service.get_warnings(input_data)
 
         # debug
         print(result)

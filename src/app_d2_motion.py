@@ -44,7 +44,7 @@ def application():
 
         data_files2.save_dict_data_to_file(result, 'motion-last-measurement')
 
-        logger.info(motion_service.check_warning(result))
+        logger.info(motion_service.get_warnings(result))
 
         measurements_list.append(result)
         if len(measurements_list) > config.get_measurement_size():

@@ -19,7 +19,7 @@ class MyTestCase(unittest.TestCase):
         expected_result = []
 
         # when
-        result = spectrometer_service.check_warning(measurement)
+        result = spectrometer_service.get_warnings(measurement)
 
         # debug
         print(result)
@@ -44,7 +44,7 @@ class MyTestCase(unittest.TestCase):
             'Spectrometer returns zeros only Red:0.0 | Orange:0.0 | Yellow:0.0 | Green:0.0 | Blue:0.0 | Violet:0.0|']
 
         # when
-        result = spectrometer_service.check_warning(measurement)
+        result = spectrometer_service.get_warnings(measurement)
 
         # debug
         print(result)

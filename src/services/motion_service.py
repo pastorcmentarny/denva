@@ -77,7 +77,7 @@ def get_records_as_dict(measurements_list) -> dict:
     return measurements_data
 
 
-def check_warning(measurement: dict) -> list:
+def get_warnings(measurement: dict) -> list:
     warnings = []
     if measurement['ax'] > 1 or measurement['ax'] < -1:
         warnings.append(f"AX is high {measurement['ax']}")
@@ -91,12 +91,7 @@ def check_warning(measurement: dict) -> list:
         warnings.append(f"GY is high {measurement['gy']}")
     if measurement['gz'] > 1 or measurement['gz'] < -1:
         warnings.append(f"GZ is high {measurement['gz']}")
-    if measurement['mx'] > -65 or measurement['mx'] < -95:
-        warnings.append(f"MX is high {measurement['mx']}")
-    if measurement['my'] > 140 or measurement['my'] < 120:
-        warnings.append(f"MY is high {measurement['my']}")
-    if measurement['mz'] > -350 or measurement['mz'] < -380:
-        warnings.append(f"MZ is high {measurement['mz']}")
+    # no magnetic warnings
 
     return warnings
 

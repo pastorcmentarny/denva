@@ -2,7 +2,7 @@ import config
 from common import data_files
 
 
-def check_warning(measurement: dict) -> list:
+def get_warnings(measurement: dict) -> list:
     warnings = []
     if measurement[config.FIELD_TEMPERATURE] < 16:
         message = 'Temperature is too low [tle]. Current temperature is: {}'.format(

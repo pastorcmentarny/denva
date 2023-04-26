@@ -55,10 +55,10 @@ def application():
         measurement_time = int((timer() - start_time) * 1000)  # in ms
         result.update({'counter': measurement_counter})
         result.update({'measurement_time': measurement_time})
-        logger.info(gps_service.check_warning(result))
+        logger.info(gps_service.get_warnings(result))
 
         data_files2.save_dict_data_to_file(result, 'gps-last-measurement')
-        gps_service.check_warning(result)
+        gps_service.get_warnings(result)
         measurements_list.append(result)
         if len(measurements_list) > config.get_measurement_size():
             measurements_list.pop(0)

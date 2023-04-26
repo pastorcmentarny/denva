@@ -64,7 +64,7 @@ def application():
 
         data_files2.save_dict_data_to_file(result, 'barometric-last-measurement')
 
-        logger.info(barometric_service.check_warning(result))
+        logger.info(barometric_service.get_warnings(result))
         measurements_list.append(result)
         if len(measurements_list) > config.get_measurement_size():
             measurements_list.pop(0)
