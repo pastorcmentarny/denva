@@ -174,6 +174,7 @@ def my_services_check():
 
     start_time = time.perf_counter()
     check_for('denva', headers, "http://192.168.0.201:5000/hc")
+    check_for('denva2', headers, "http://192.168.0.205:5000/hc")
     check_for('radar', headers, "http://192.168.0.201:5000/hc/ar")
     check_for('denviro', headers, "http://192.168.0.202:5000/hc")
     check_for('trases', headers, "http://192.168.0.224:5000/hc")
