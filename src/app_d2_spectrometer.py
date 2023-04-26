@@ -47,8 +47,10 @@ def application():
         if len(measurements_list) > config.get_measurement_size():
             measurements_list.pop(0)
 
-        if measurement_counter % 100 == 0:
+        if measurement_counter % 10 == 0:
             local_data_gateway.post_healthcheck_beat('denva2', 'spectrometer')
+
+        if measurement_counter % 100 == 0:
             data_files2.store_measurement('spectrometer-data', measurements_list[-100:])
 
         if measurement_time > config.max_latency(fast=False):
