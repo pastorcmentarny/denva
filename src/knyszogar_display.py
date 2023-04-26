@@ -219,39 +219,39 @@ def draw_denva2_status():
         display.unicornhathd.set_pixel(9, 7, r, g, b)
         display.unicornhathd.set_pixel(9, 8, r, g, b)
     else:
-        logger.info(f'Trases device status: {status}')
-        print(f'Denva TWO device status: {status}')
+        print(f'Trases device status: {status}')
+        logger.info(f'Denva TWO device status: {status}')
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 1, r, g, b)
         display.unicornhathd.set_pixel(9, 2, r, g, b)
 
         # UI
         status = healthcheck_service.is_up('denva2', 'ui')
-        print(f'Denva TWO UI status: ' + status)
+        logger.info(f'Denva TWO UI status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 3, r, g, b)
 
         # gps
         status = healthcheck_service.is_up('denva2', 'gps')
-        print(f'Denva TWO GPS status: ' + status)
+        logger.info(f'Denva TWO GPS status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 5, r, g, b)
 
         # barometric
         status = healthcheck_service.is_up('denva2', 'barometric')
-        print(f'Denva TWO barometric status: ' + status)
+        logger.info(f'Denva TWO barometric status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 6, r, g, b)
 
         # motion
         status = healthcheck_service.is_up('denva2', 'motion')
-        print(f'Trases gps status: ' + status)
+        logger.info(f'Denva TWO motion status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 7, r, g, b)
 
         # spectrometer
         status = healthcheck_service.is_up('denva2', 'spectrometer')
-        print(f'Trases gps status: ' + status)
+        logger.info(f'Denva TWO spectrometer status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 8, r, g, b)
 
