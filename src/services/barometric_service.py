@@ -1,4 +1,5 @@
 import config
+from common import data_files
 
 
 def check_warning(measurement: dict) -> list:
@@ -26,3 +27,7 @@ def check_warning(measurement: dict) -> list:
         warnings.append(f'Pressure is low {measurement[config.FIELD_PRESSURE]}')
 
     return warnings
+
+
+def get_last_measurement():
+    return data_files.load_json_data_as_dict_from('/home/ds/data/barometric-last-measurement.txt')
