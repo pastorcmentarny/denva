@@ -38,6 +38,10 @@ def convert_list_to_dict(source: list) -> dict:
     return {as_3_digit_number(index + 1): source[index] for index in range(0, len(source))}
 
 
+def get_date_for_today() -> str:
+    dt = datetime.now()
+    return f"{dt.year}-{dt.month:02d}-{dt.day:02d}"
+
 def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
     return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{file_type}"
 
