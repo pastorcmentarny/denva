@@ -190,6 +190,7 @@ def send_error_v2(who: str, subject: str, message: str, email_disabled: bool = T
 def send_ip_email(device: str, email_disabled: bool = True):
     # TODO remove it when new way to send email is implemented
     if email_disabled:
+        logger.warning('Sending emails is disabled')
         return
     logger.info('Sending email with IP info for device: {}'.format(device))
     cfg = data_files.load_cfg()
