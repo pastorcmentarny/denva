@@ -1,4 +1,5 @@
 import config
+from common import data_files
 
 
 def check_warning(measurement: dict) -> list:
@@ -7,3 +8,6 @@ def check_warning(measurement: dict) -> list:
         warnings.append(f"GPS not detecting any satellites.")
 
     return warnings
+
+def get_last_measurement():
+    return data_files.load_json_data_as_dict_from('/home/ds/data/gps-last-measurement.txt')

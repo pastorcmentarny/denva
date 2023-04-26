@@ -1,3 +1,6 @@
+from common import data_files
+
+
 def get_averages_as_dict(measurements_list) -> dict:
     measurements_data = {
         'ax': 0, 'ay': 0, 'az': 0,
@@ -96,3 +99,6 @@ def check_warning(measurement: dict) -> list:
         warnings.append(f"MZ is high {measurement['mz']}")
 
     return warnings
+
+def get_last_measurement():
+    return data_files.load_json_data_as_dict_from('/home/ds/data/motion-last-measurement.txt')
