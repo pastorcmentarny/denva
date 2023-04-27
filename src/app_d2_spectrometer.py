@@ -18,7 +18,7 @@ from timeit import default_timer as timer
 
 import config
 import dom_utils
-from common import data_files2, loggy
+from common import data_files, loggy
 from gateways import local_data_gateway
 from sensors import spectrometer_sensor
 
@@ -41,7 +41,7 @@ def application():
         result.update({'counter': measurement_counter})
         result.update({'measurement_time': measurement_time})
 
-        data_files2.save_dict_data_to_file(result, 'spectrometer-last-measurement')
+        data_files.save_dict_data_to_file(result, 'spectrometer-last-measurement')
 
         measurements_list.append(result)
         if len(measurements_list) > config.get_measurement_size():
@@ -51,7 +51,7 @@ def application():
             local_data_gateway.post_healthcheck_beat('denva2', 'spectrometer')
 
         if measurement_counter % 100 == 0:
-            data_files2.store_measurement('spectrometer-data', measurements_list[-100:])
+            data_files.store_measurement2('spectrometer-data', measurements_list[-100:])
 
         if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))

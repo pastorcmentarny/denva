@@ -18,7 +18,7 @@ from timeit import default_timer as timer
 
 import config
 import dom_utils
-from common import data_files2, loggy
+from common import data_files, loggy
 from gateways import local_data_gateway
 from sensors import motion_sensor
 from services import motion_service
@@ -42,7 +42,7 @@ def application():
         result.update({'counter': measurement_counter})
         result.update({'measurement_time': measurement_time})
 
-        data_files2.save_dict_data_to_file(result, 'motion-last-measurement')
+        data_files.save_dict_data_to_file(result, 'motion-last-measurement')
 
         logger.info(motion_service.get_warnings(result))
 
@@ -52,7 +52,7 @@ def application():
 
         if measurement_counter % 100 == 0:
             local_data_gateway.post_healthcheck_beat('denva2', 'motion')
-            data_files2.store_measurement('motion-data', measurements_list[-100:])
+            data_files.store_measurement2('motion-data', measurements_list[-100:])
 
         if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))

@@ -17,7 +17,7 @@ import sys
 import time
 
 import dom_utils
-from common import loggy, data_files2
+from common import loggy, data_files
 from gateways import local_data_gateway
 from sensors import barometric_pressure_sensor
 from datetime import datetime
@@ -62,7 +62,7 @@ def application():
         result.update({'counter': measurement_counter})
         result.update({'measurement_time': measurement_time})
 
-        data_files2.save_dict_data_to_file(result, 'barometric-last-measurement')
+        data_files.save_dict_data_to_file(result, 'barometric-last-measurement')
 
         logger.info(barometric_service.get_warnings(result))
         measurements_list.append(result)
@@ -73,7 +73,7 @@ def application():
             local_data_gateway.post_healthcheck_beat('denva2', 'barometric')
 
         if measurement_counter % 100 == 0:
-            data_files2.store_measurement('barometric-data', measurements_list[-100:])
+            data_files.store_measurement2('barometric-data', measurements_list[-100:])
 
         if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))

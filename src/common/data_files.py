@@ -34,6 +34,11 @@ logger = logging.getLogger('app')
 report_dir = '/home/pi/reports'
 
 
+def __retry_on_exception(exception):
+    logger.warning('Retrying failed operation...')
+    return isinstance(exception, Exception)
+
+
 def load_cfg() -> dict:
     with open('/home/pi/email.json', READ) as email_config:
         return json.load(email_config)
@@ -160,6 +165,16 @@ def store_measurement(data, sensor_log_file):
         logger.debug('Measurement no.{} saved to file.'.format(counter))
     except IOError as exception:
         logger.warning(f'Unable to store denvira measurement due to : {exception}', exc_info=True)
+
+
+def store_measurement2(sensor_data: str, measurements: list):
+    sensor_log_file = f"/home/ds/data/{dom_utils.get_date_with_time_as_filename(sensor_data, 'csv', datetime.now())}"
+    try:
+        with open(sensor_log_file, 'a+', newline=EMPTY, encoding=ENCODING) as report_file:
+            for measurement in measurements:
+                report_file.write(f'{json.dumps(measurement, ensure_ascii=False)}\n')
+    except IOError as io_exception:
+        logger.error(io_exception, exc_info=True)
 
 
 def setup_logging(path: str):
@@ -363,6 +378,8 @@ def save_metrics(stats: dict, path) -> str:
         return str(exception)
 
 
+@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
+       stop_max_attempt_number=5)
 def load_metrics_data(path: str) -> dict:
     metric_data_file = f'metrics-{str(date.today())}.txt'
     path = path + metric_data_file
@@ -373,15 +390,15 @@ def load_metrics_data(path: str) -> dict:
         return {}
 
 
-def __retry_on_exception(exception):
-    return isinstance(exception, Exception)
-
-
 @retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
        stop_max_attempt_number=5)
 def __load(path: str) -> dict:
-    with open(path, READ, encoding=ENCODING) as json_file:
-        return json.load(json_file)
+    try:
+        with open(path, READ, encoding=ENCODING) as json_file:
+            return json.load(json_file)
+    except Exception as exception:
+        logging.warning(f'Unable to load data from ${path} due to: ${exception}', exc_info=True)
+    return {}
 
 
 def load_last_measurement_for(device):
@@ -391,3 +408,24 @@ def load_last_measurement_for(device):
 def save_warnings(warnings: list):
     today_warnings_path = f"{config.PI_DATA_PATH}{dom_utils.get_date_as_folders()}warnings.txt"
     save_list_to_file(warnings, today_warnings_path)
+
+
+def load_list_of_dict_for(path_to_file: str):
+    data_as_dict_list = []
+    with open(path_to_file, READ, encoding=ENCODING) as data_file:
+        content_list = data_file.readlines()
+        for item in content_list:
+            print(f"|{item}|")
+            if item.strip() != "" and len(item.strip()) > 2:
+                data_as_dict_list.append(json.loads(item.strip()))
+    return data_as_dict_list
+
+
+def save_dict_data_to_file(data: dict, file_name):
+    file_path = f'/home/ds/data/{file_name}.txt'
+    try:
+        logger.info(f'Saving dictionary of size {len(data)} to {file_path}')
+        with open(file_path, 'w+', encoding=ENCODING) as report_file:
+            report_file.write(json.dumps(data, ensure_ascii=False))
+    except Exception as save_data_exception:
+        logger.error('Unable to save  due to {}'.format(save_data_exception), exc_info=True)
