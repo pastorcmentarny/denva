@@ -33,7 +33,7 @@ ERROR = 'ERROR'
 DANGER = 'DANGER'
 UNKNOWN = 'UNKNOWN'
 
-
+# TODO MERGE OK,UP,ON
 # TODO ERROR SHOULD BE DANGER
 def get_state_colour_for_hc(current_state: str):
     if current_state == OK:
@@ -90,9 +90,9 @@ def get_state_colour_for_hc(current_state: str):
 7 
 8
 9
-0 TU TS TD    
+0    
 A
-B 1U 2U       CCA
+B 3D U SSSS   CCA
 C
 D 2D 2A 2U    RRA
 E
@@ -229,31 +229,31 @@ def draw_denva2_status():
         status = healthcheck_service.is_up('denva2', 'ui')
         logger.info(f'Denva TWO UI status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 3, r, g, b)
+        display.unicornhathd.set_pixel(9, 4, r, g, b)
 
         # gps
         status = healthcheck_service.is_up('denva2', 'gps')
         logger.info(f'Denva TWO GPS status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 5, r, g, b)
+        display.unicornhathd.set_pixel(9, 6, r, g, b)
 
         # barometric
         status = healthcheck_service.is_up('denva2', 'barometric')
         logger.info(f'Denva TWO barometric status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 6, r, g, b)
+        display.unicornhathd.set_pixel(9, 7, r, g, b)
 
         # motion
         status = healthcheck_service.is_up('denva2', 'motion')
         logger.info(f'Denva TWO motion status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 7, r, g, b)
+        display.unicornhathd.set_pixel(9, 8, r, g, b)
 
         # spectrometer
         status = healthcheck_service.is_up('denva2', 'spectrometer')
         logger.info(f'Denva TWO spectrometer status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 8, r, g, b)
+        display.unicornhathd.set_pixel(9, 9, r, g, b)
 
 def draw_enviro_status():
     # DEVICE
@@ -326,8 +326,7 @@ def get_data_for(url: str, timeout: int = 1) -> str:
             data_response = response.text
             return json.loads(data_response)["status"]
     except Exception as whoops:
-        print(f"Unable to get data from url: {url} due to {whoops}")
-        # TODO logger.error(f"Unable to get data from url: {url} due to {whoops}")
+        logger.error(f"Unable to get data from url: {url} due to {whoops}")
         return ERROR
 
 

@@ -12,8 +12,10 @@ from pathlib import Path
 
 import dom_utils
 
+CPU_TEMP_FATAL = "cpu_temp_fatal"
+CPU_TEMP_ERROR = "cpu_temp_error"
+CPU_TEMP_WARN = "cpu_temp_warn"
 MEASUREMENT_LIST_SIZE = 'measurement_list_size'
-
 DENVIRO_DISPLAY = "denviro_display"
 
 DENVA_DATA_COLUMN_TIMESTAMP = 0
@@ -96,8 +98,9 @@ FIELD_SPECTROMETER_BLUE = 'blue'
 FIELD_SPECTROMETER_VIOLET = 'violet'
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
+DENVA_TWO_IP = 'http://192.168.0.201'
 DENVIRO_IP = 'http://192.168.0.202'
-TRASES_IP = 'http://192.168.0.224'
+
 REFRESH_RATE = 'refresh-rate'
 
 PI_HOME_DIR = '/home/pi/'
@@ -144,9 +147,9 @@ settings = {
         "memory_available": 250 * 1024 * 1024,  # 250MB
         "free_space": 500,
         "ip": f"{SERVER_IP}:5000",
-        "cpu_temp_warn": 60,
-        "cpu_temp_error": 70,
-        "cpu_temp_fatal": 80
+        CPU_TEMP_WARN: 60,
+        CPU_TEMP_ERROR: 70,
+        CPU_TEMP_FATAL: 80
     },
     "options": {
         "inChina": False
@@ -156,7 +159,6 @@ settings = {
         "denva": f"{DENVA_IP}:5000",
         "enviro": f"{DENVIRO_IP}:5000",
         "delight": f'{SERVER_IP}:5000',
-        "trases": f"{TRASES_IP}:5000",
         "dump1090_data": f"{DENVA_IP}:16601/data.json"
     },
     "latency": {

@@ -91,10 +91,12 @@ def check_denva_app_status(cfg):
         logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
         state.set_error()
     else:
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM]['cpu_temp_error']:
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM][
+            config.CPU_TEMP_ERROR]:
             logger.warning('status: RED due to very high cpu temp on Denva )')
             state.set_danger()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM]['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM][
+            config.CPU_TEMP_WARN]:
             logger.warning('status: ORANGE due to high cpu temp on Denva )')
             state.set_warn()
         if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
@@ -109,13 +111,6 @@ def check_denva_app_status(cfg):
             state.set_danger()
         elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
             logger.warning('status: ORANGE due to low free space on Denva')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
-            logger.warning('status: RED due to very low data free space on Denva')
-            state.set_danger()
-        elif dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
-            logger.warning('status: ORANGE due to low data free space on Denva')
             state.set_warn()
 
     local_data_gateway.post_device_status('denva', state.get_status_as_light_colour())
@@ -135,10 +130,12 @@ def check_enviro_app_status(cfg):
         state.set_error()
     else:
         system_health_check_service.update_hc_for('denviro', 'ui')
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM]['cpu_temp_error']:
+        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM][
+            'cpu_temp_error']:
             logger.warning('status: RED due to very high cpu temp on Denviro')
             state.set_error()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM]['cpu_temp_warn']:
+        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM][
+            'cpu_temp_warn']:
             logger.warning('status: ORANGE due to high cpu temp on Denviro')
             state.set_warn()
 
@@ -173,13 +170,12 @@ def my_services_check():
     headers['User-Agent'] = USER_AGENT
 
     start_time = time.perf_counter()
-    check_for('denva', headers, "http://192.168.0.201:5000/hc")
-    check_for('denva2', headers, "http://192.168.0.205:5000/hc")
-    check_for('radar', headers, "http://192.168.0.201:5000/hc/ar")
-    check_for('denviro', headers, "http://192.168.0.202:5000/hc")
-    check_for('trases', headers, "http://192.168.0.224:5000/hc")
-    check_for('server', headers, "%s:5000/hc" % config.SERVER_IP)
-    check_for('email', headers, "%s:18010/hc" % config.SERVER_IP, 'knyszogar')
+    check_for('denva', headers, f"{config.DENVA_IP}:5000/hc")
+    check_for('denva2', headers, f"{config.DENVA_TWO_IP}:5000/hc")
+    check_for('radar', headers, f"{config.DENVA_IP}:5000/hc/ar")
+    check_for('denviro', headers, f"{config.DENVIRO_IP}:5000/hc")
+    check_for('server', headers, f"{config.SERVER_IP}:5000/hc")
+    check_for('email', headers, f"{config.SERVER_IP}:18010/hc", 'knyszogar')
     end_time = time.perf_counter()
     total_time = '{:0.2f}'.format((end_time - start_time))
     logger.info(f'It took {total_time} second to test.')
@@ -291,4 +287,4 @@ if __name__ == '__main__':
         logger.fatal(msg, exc_info=True)
         # TODO add send email: email_sender_service.send_error_log_email(APP_NAME,'{} crashes due to {}'.format(APP_NAME, exception))
         # TODO post status to ERROR
-    local_data_gateway.post_device_on_off('hc', False)
+    local_data_gateway.post_device_on_off('hc', False)  # TODO
