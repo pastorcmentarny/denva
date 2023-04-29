@@ -35,6 +35,7 @@ events = {
     "0401": ["Prima Aprilis"],
     "0422": ["International Earth Day"],
     "0423": ["St George's Day"],
+    "0426": ["The Chernobyl disaster 1986"],
     "0428": ["Terry Prattchet was born in 1948"],
     "0501": ["Labour Day"],
     "0502": ["Dzień Flagi Rzeczpospolitej Polskiej"],
