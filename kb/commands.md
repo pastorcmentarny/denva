@@ -6,9 +6,10 @@
 * `lsusb` - to see list of usb devices connected to Pi
 * `v4l2-ctl --list-formats-ext` - check what resolution are supported
 * `sudo chmod -R MODE DIRECTORY` - set permission for directory
-* `uname -m` to check is it 64bit (aarch64) or 32bit (armv7l) version of Raspberry Pi.
-* `cat /var/spool/mail/pi` to  email read messages when you see “You have new mail in /var/mail/pi”
-* `> /var/spool/mail/pi` delete messages in /var/mail/pi
+* `uname -m` - to check is it 64bit (aarch64) or 32bit (armv7l) version of Raspberry Pi.
+* `cat /var/spool/mail/pi` - to  email read messages when you see “You have new mail in /var/mail/pi”
+* `> /var/spool/mail/pi` - delete messages in /var/mail/pi
+* `dmesg` - Dmesg is the acronym for diagnostic message. Dmesg is a CLI utility in Linux that displays kernel-related messages retrieved from the kernel ring buffer.I use it to detect Out of Memory and Under Voltage issues 
 
 # Run it before turn it off Pi
 
