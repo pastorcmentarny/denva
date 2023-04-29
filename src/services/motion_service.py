@@ -1,12 +1,13 @@
+import dom_utils
 from common import data_files
 
 
 def get_averages_as_dict(measurements_list) -> dict:
     measurements_data = {
-        'ax': 0, 'ay': 0, 'az': 0,
-        'gx': 0, 'gy': 0, 'gz': 0,
-        'mx': 0, 'my': 0, 'mz': 0,
-        'measurement_time': 0
+        "ax": 0, "ay": 0, "az": 0,
+        "gx": 0, "gy": 0, "gz": 0,
+        "mx": 0, "my": 0, "mz": 0,
+        "measurement_time": 0
     }
 
     for entry in measurements_list:
@@ -19,10 +20,10 @@ def get_averages_as_dict(measurements_list) -> dict:
             measurements_data[field_key] = measurements_data[field_key] / size
     else:
         measurements_data = {
-            'ax': 0, 'ay': 0, 'az': 0,
-            'gx': 0, 'gy': 0, 'gz': 0,
-            'mx': 0, 'my': 0, 'mz': 0,
-            'measurement_time': 0
+            "ax": 0, "ay": 0, "az": 0,
+            "gx": 0, "gy": 0, "gz": 0,
+            "mx": 0, "my": 0, "mz": 0,
+            "measurement_time": 0
         }
 
     for field_key in measurements_data.keys():
@@ -51,8 +52,8 @@ def get_records_as_dict(measurements_list) -> dict:
         'highest_my': -16777216,
         'lowest_mz': 16777216,
         'highest_mz': -16777216,
-        'fastest_measurement_time': 16777216,
-        'slowest_measurement_time': 0
+        'motion_fastest_measurement_time': 16777216,
+        'motion_slowest_measurement_time': 0
     }
 
     for entry in measurements_list:
@@ -79,21 +80,29 @@ def get_records_as_dict(measurements_list) -> dict:
 
 def get_warnings(measurement: dict) -> list:
     warnings = []
-    if measurement['ax'] > 1 or measurement['ax'] < -1:
-        warnings.append(f"AX is high {measurement['ax']}")
-    if measurement['ay'] > 1 or measurement['ay'] < -1:
-        warnings.append(f"AY is high {measurement['ay']}")
-    if measurement['az'] > 1 or measurement['az'] < -1:
-        warnings.append(f"AZ is high {measurement['az']}")
-    if measurement['gx'] > 1 or measurement['gx'] < -1:
-        warnings.append(f"GX is high {measurement['gx']}")
-    if measurement['gy'] > 1 or measurement['gy'] < -1:
-        warnings.append(f"GY is high {measurement['gy']}")
-    if measurement['gz'] > 1 or measurement['gz'] < -1:
-        warnings.append(f"GZ is high {measurement['gz']}")
+    if measurement["ax"] > 1 or measurement["ax"] < -1:
+        warnings.append(f'AX is high {measurement["ax"]}')
+    if measurement["ay"] > 1 or measurement["ay"] < -1:
+        warnings.append(f'AY is high {measurement["ay"]}')
+    if measurement["az"] > 1 or measurement["az"] < -1:
+        warnings.append(f'AZ is high {measurement["az"]}')
+    if measurement["gx"] > 1 or measurement["gx"] < -1:
+        warnings.append(f'GX is high {measurement["gx"]}')
+    if measurement["gy"] > 1 or measurement["gy"] < -1:
+        warnings.append(f'GY is high {measurement["gy"]}')
+    if measurement["gz"] > 1 or measurement["gz"] < -1:
+        warnings.append(f'GZ is high {measurement["gz"]}')
     # no magnetic warnings
 
     return warnings
 
+
 def get_last_measurement():
     return data_files.load_json_data_as_dict_from('/home/ds/data/motion-last-measurement.txt')
+
+
+def update_for_motion_sensor(averages, records):
+    motion_result = data_files.load_list_of_dict_for(f"/home/ds/data/motion-data-{dom_utils.get_date_for_today()}.csv")
+    averages.update(get_averages_as_dict(motion_result))
+    records.update(get_records_as_dict(motion_result))
+    motion_result.clear()

@@ -24,12 +24,12 @@ def get_measurement():
         values = as7262.get_calibrated_values()
 
         return {
-            'red': values.red,
-            'orange': values.orange,
-            'yellow': values.yellow,
-            'green': values.green,
-            'blue': values.blue,
-            'violet': values.violet
+            "red": values.red,
+            "orange": values.orange,
+            "yellow": values.yellow,
+            "green": values.green,
+            "blue": values.blue,
+            "violet": values.violet
         }
     except Exception as spectrometer_exception:
         logger.error(

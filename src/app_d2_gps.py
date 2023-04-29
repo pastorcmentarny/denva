@@ -24,7 +24,7 @@ from timeit import default_timer as timer
 from services import gps_service
 
 logger = logging.getLogger('app')
-dom_utils.setup_logging('gps-sensor', True)
+dom_utils.setup_logging('gps-sensor', False)
 measurements_list = []
 EMPTY = ''
 
