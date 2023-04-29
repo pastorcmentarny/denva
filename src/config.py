@@ -136,7 +136,7 @@ settings = {
         "text": f'{PI_DATA_PATH}text_to_display.txt'
     },
     REFRESH_RATE: {
-        "fast": 0.2,
+        "fast": 0.25,
         "normal": 1,
         "slow": 5,
     },
