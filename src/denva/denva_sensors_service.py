@@ -21,7 +21,6 @@ def get_sensor_log_file_at_server() -> str:
 def get_last_new_measurement():
     entry = commands.get_last_line_from_log(get_sensor_log_file())
     data = entry.split(',')
-    loggy.log_with_print(str(data), False)
     return get_new_data_row(data)
 
 
@@ -41,8 +40,7 @@ def get_new_data_row(row) -> dict:
         config.FIELD_RELATIVE_HUMIDITY: '{:0.2f}'.format(float(row[12])),
         config.FIELD_CPU_TEMP: row[13],
         config.FIELD_ECO2: row[14],
-        config.FIELD_TVOC: row[15],
-        config.FIELD_GPS_NUM_SATS: row[22],
+        config.FIELD_TVOC: row[15]
     }
 
 

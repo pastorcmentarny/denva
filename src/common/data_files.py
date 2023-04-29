@@ -138,15 +138,7 @@ def add_measurement_to_file(file, data: dict):
                          data[config.FIELD_RELATIVE_HUMIDITY],
                          dom_utils.get_float_number_from_text(data[config.FIELD_CPU_TEMP]),
                          data[config.FIELD_ECO2],
-                         data[config.FIELD_TVOC],
-                         data[config.FIELD_GPS_LATITUDE],
-                         data[config.FIELD_GPS_LONGITUDE],
-                         data[config.FIELD_GPS_ALTITUDE],
-                         data[config.FIELD_GPS_LAT_DIR], data[config.FIELD_GPS_LON_DIR],
-                         data[config.FIELD_GPS_GEO_SEP], data[config.FIELD_GPS_NUM_SATS], data[config.FIELD_GPS_QUAL],
-                         data[config.FIELD_GPS_SPEED_OVER_GROUND],
-                         data[config.FIELD_GPS_MODE_FIX_TYPE], data[config.FIELD_GPS_PDOP], data[config.FIELD_GPS_HDOP],
-                         data[config.FIELD_GPS_VDOP]
+                         data[config.FIELD_TVOC]
                          ])
     file.close()
 
@@ -168,7 +160,7 @@ def store_measurement(data, sensor_log_file):
 
 
 def store_measurement2(sensor_data: str, measurements: list):
-    sensor_log_file = f"/home/ds/data/{dom_utils.get_date_with_time_as_filename(sensor_data, 'csv', datetime.now())}"
+    sensor_log_file = f"/home/ds/data/{sensor_data}.txt"
     try:
         with open(sensor_log_file, 'a+', newline=EMPTY, encoding=ENCODING) as report_file:
             for measurement in measurements:
@@ -411,13 +403,14 @@ def save_warnings(warnings: list):
 
 
 def load_list_of_dict_for(path_to_file: str):
+    logger.info(f'loading list with path {path_to_file}')
     data_as_dict_list = []
     with open(path_to_file, READ, encoding=ENCODING) as data_file:
         content_list = data_file.readlines()
         for item in content_list:
-            print(f"|{item}|")
             if item.strip() != "" and len(item.strip()) > 2:
                 data_as_dict_list.append(json.loads(item.strip()))
+    logger.info('task done')
     return data_as_dict_list
 
 

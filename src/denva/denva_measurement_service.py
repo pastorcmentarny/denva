@@ -5,7 +5,7 @@ from timeit import default_timer as timer
 from common import commands, data_files
 from denva import cl_display, denva_sensors_service, denva_service
 from gateways import local_data_gateway
-from sensors import environment_service, co2_sensor, air_quality_service, two_led_service, uv_sensor
+from sensors import environment_sensor, co2_sensor, air_quality_sensor, two_led_service, uv_sensor
 import config
 
 logger = logging.getLogger('app')
@@ -13,8 +13,8 @@ logger = logging.getLogger('app')
 
 def get_data_from_measurement() -> dict:
 
-    environment = environment_service.get_measurement()
-    eco2, tvoc = air_quality_service.get_all_measurements()
+    environment = environment_sensor.get_measurement()
+    eco2, tvoc = air_quality_sensor.get_all_measurements()
     red, green, blue = two_led_service.get_measurement()
     colour = dom_utils.to_hex(red, green, blue)
     co2_data = co2_sensor.get_measurement()
