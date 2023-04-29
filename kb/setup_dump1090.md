@@ -1,15 +1,6 @@
 Based on: https://www.satsignal.eu/raspberry-pi/dump1090.html
 
 
-
-
-
-
-
-
-
-
-
 ```sudo nano /etc/init.d/dump1090.sh```
 
 ```bash

@@ -3,7 +3,7 @@
 Solution:
 
 1. Take SD card and insert to reader on PC
-2. In cmdline.txt in boot partion add init=/bin/sh
+2. In cmdline.txt in boot partition add init=/bin/sh
     1. `console=serial0,115200 console=tty1 root=PARTUUID=1add88fb-02 rootfstype=ext4 fsck.mode=force fsck.repair=yes rootwait init=/bin/sh`
     2. Save it
 3. Insert SD card into Raspberry Pi
@@ -15,9 +15,9 @@ Solution:
 8. Take SD card and insert to reader on PC
 9. Remove `init=/bin/sh` from cmdline.txt
 10. Insert SD card into Raspberry Pi
-11. It should works now :D
+11. It should work now :D
 
-## Raspbery Pi do not start due to issue with sd card
+## Raspberry Pi do not start due to issue with sd card
 
 Run on other linux device:
 `sudo fsck -p /dev/sda1` - where sda1 is your location (you can check ) 
