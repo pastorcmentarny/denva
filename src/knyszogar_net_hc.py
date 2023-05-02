@@ -145,19 +145,11 @@ def check_enviro_app_status(cfg):
         elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
             logger.warning('status: ORANGE due to low memory available on Denviro')
             state.set_warn()
-
         if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
             logger.warning('status: RED due to very low free space on Denviro')
             state.set_error()
         elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
             logger.warning('status: ORANGE due to low free space on Denviro')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 256:
-            logger.warning('status: RED due to very low data free space on Denviro')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Data Free Space']) < 1024:
-            logger.warning('status: ORANGE due to low data free space on Denviro')
             state.set_warn()
     local_data_gateway.post_device_status('denviro', state.get_status_as_light_colour())
     logger.info('Denviro: {}'.format(state.get_status_as_light_colour()))
