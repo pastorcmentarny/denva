@@ -137,6 +137,7 @@
                     <a href="https://joemonster.org/" class="dropdown-item">Joe Monster</a>
                     <a href="https://rickmansworthhistory.org.uk/" class="dropdown-item">Rickmansworth History</a>
                     <a href="https://rickmansworthevents.co.uk/" class="dropdown-item">Ricky Events</a>
+                    <a href="https://www.cgtn.com/search?keyword=Railway" class="dropdown-item">Railway (CGTN)</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -341,7 +342,6 @@
                     </li>
                     <li class="small"><b>RAM Available : </b>{{ message.system.denva["Memory Available"] }}</li>
                     <li class="small"><b>Free Space : </b>{{ message.system.denva["Free Space"] }}</li>
-                    <li class="small"><b>Data Free Space : </b>{{ message.system.denva["Data Free Space"] }}
                     </li>
                     <li class="small"><b>Uptime : </b>{{ message.system.denva["Uptime"] }}</li>
                 {% else %}
@@ -357,7 +357,7 @@
                     <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}
                     </li>
                     <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
-                    <li class="small"><b>Data Free Space : </b>{{ message.system.enviro["Data Free Space"] }}
+
                     </li>
                     <li class="small"><b>Uptime : </b>{{ message.system.enviro["Uptime"] }}</li>
                 {% else %}
