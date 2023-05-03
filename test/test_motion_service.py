@@ -53,8 +53,8 @@ class MyTestCase(unittest.TestCase):
             'highest_my': 228.15,
             'lowest_mz': -557.6999,
             'highest_mz': -371.8499,
-            'fastest_measurement_time': 19,
-            'slowest_measurement_time': 32
+            'motion_fastest_measurement_time': 19,
+            'motion_slowest_measurement_time': 32
         }
 
         # when

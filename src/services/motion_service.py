@@ -58,12 +58,12 @@ def get_records_as_dict(measurements_list) -> dict:
 
     for entry in measurements_list:
         for field_key in measurements_data.keys():
-            a_key = field_key.replace("slowest_", "").replace("highest_", "").replace("fastest_", "").replace("lowest_",
+            a_key = field_key.replace("motion_slowest_", "").replace("highest_", "").replace("motion_fastest_", "").replace("lowest_",
                                                                                                               "")
-            if field_key.startswith("fastest_"):
+            if field_key.startswith("motion_fastest_"):
                 if measurements_data[field_key] > entry[a_key]:
                     measurements_data[field_key] = entry[a_key]
-            elif field_key.startswith("slowest_"):
+            elif field_key.startswith("motion_slowest_"):
                 if measurements_data[field_key] < entry[a_key]:
                     measurements_data[field_key] = entry[a_key]
             elif field_key.startswith("highest_"):
@@ -101,8 +101,8 @@ def get_last_measurement():
     return data_files.load_json_data_as_dict_from('/home/ds/data/motion-last-measurement.txt')
 
 
-def update_for_motion_sensor(averages, records):
-    motion_result = data_files.load_list_of_dict_for(f"/home/ds/data/motion-data-{dom_utils.get_date_for_today()}.csv")
+def update_for_motion_sensor(averages: dict, records: dict, measurement_date: str):
+    motion_result = data_files.load_list_of_dict_for(f"/home/ds/data/motion-data-{measurement_date}.txt")
     averages.update(get_averages_as_dict(motion_result))
     records.update(get_records_as_dict(motion_result))
     motion_result.clear()
