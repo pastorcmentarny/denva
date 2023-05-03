@@ -544,3 +544,16 @@ class ConfigServiceTestCases(TestCase):
 
         # then
         self.assertEqual(expected_result, result)
+
+    def test_get_today_warnings(self):
+        # given
+        expected_result = "/home/ds/data/all-warnings.txt"
+
+        # when
+        result = config.get_today_warnings()
+
+        # debug
+        print(result)
+
+        # then
+        self.assertEqual(expected_result, result)

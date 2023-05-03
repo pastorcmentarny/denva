@@ -406,3 +406,7 @@ def get_fast_refresh_rate():
 
 def get_measurement_size():
     return settings[MEASUREMENT_LIST_SIZE]
+
+
+def get_today_warnings():
+    return "/home/ds/data/all-warnings.txt"
