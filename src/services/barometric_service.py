@@ -85,9 +85,9 @@ def get_records_as_dict(barometric_list):
     return barometric_records
 
 
-def update_for_barometric_sensor(averages:dict,records:dict):
+def update_for_barometric_sensor(averages:dict,records:dict,measurement_date:str):
     barometric_result = data_files.load_list_of_dict_for(
-        f"/home/ds/data/barometric-data-{dom_utils.get_date_for_today()}.csv")
+        f"/home/ds/data/barometric-data-{measurement_date}.txt")
     averages.update(get_averages_as_dict(barometric_result))
     records.update(get_records_as_dict(barometric_result))
     barometric_result.clear()

@@ -22,6 +22,8 @@ import config
 import dom_utils
 from retrying import retry
 
+NEW_LINE = '\n'
+
 EMPTY = ''
 
 READ = 'r'
@@ -160,7 +162,7 @@ def store_measurement(data, sensor_log_file):
 
 
 def store_measurement2(sensor_data: str, measurements: list):
-    sensor_log_file = f"/home/ds/data/{sensor_data}.txt"
+    sensor_log_file = f"/home/ds/data/{sensor_data}"
     try:
         with open(sensor_log_file, 'a+', newline=EMPTY, encoding=ENCODING) as report_file:
             for measurement in measurements:
@@ -244,8 +246,8 @@ def save_list_to_file(data: list, path: str):
         filename = Path(path)
         filename.touch(exist_ok=True)
         with open(path, 'a+', encoding=ENCODING) as path_file:
-            path_file.write('\n'.join(data))
-            path_file.write('\n')
+            path_file.write(NEW_LINE.join(data))
+            path_file.write(NEW_LINE)
     except Exception as exception:
         logger.warning(f"Unable to save this data {data} using path {path} due to {exception}")
 

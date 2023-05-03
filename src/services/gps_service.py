@@ -54,3 +54,4 @@ def update_for_gps_sensor(averages: dict, records: dict, measurement_date: str):
     averages.update(get_averages_as_dict(gps_result))
     records.update(get_records_as_dict(gps_result))
     gps_result.clear()
+    return averages, records

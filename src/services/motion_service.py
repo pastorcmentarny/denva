@@ -106,3 +106,4 @@ def update_for_motion_sensor(averages: dict, records: dict, measurement_date: st
     averages.update(get_averages_as_dict(motion_result))
     records.update(get_records_as_dict(motion_result))
     motion_result.clear()
+    return averages, records

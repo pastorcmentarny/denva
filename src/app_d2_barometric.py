@@ -27,7 +27,7 @@ from timeit import default_timer as timer
 from services import barometric_service
 
 logger = logging.getLogger('app')
-dom_utils.setup_logging('barometric-sensor', True)
+dom_utils.setup_logging('barometric-sensor', False)
 measurements_list = []
 
 EMPTY = ''
@@ -73,7 +73,8 @@ def application():
             local_data_gateway.post_healthcheck_beat('denva2', 'barometric')
 
         if measurement_counter % 100 == 0:
-            data_files.store_measurement2('barometric-data', measurements_list[-100:])
+            data_files.store_measurement2(dom_utils.get_today_date_as_filename('barometric-data', 'txt'),
+                                          measurements_list[-100:])
 
         if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))

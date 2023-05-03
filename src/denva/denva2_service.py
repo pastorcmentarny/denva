@@ -12,6 +12,7 @@
 import config
 import logging
 
+from common import data_files
 from denva import denva_sensors_service
 from reports import averages, records, report_service
 from services import sensor_warnings_service
@@ -54,19 +55,19 @@ def get_current_warnings():
 
 
 def get_warnings_for_today():
-    return sensor_warnings_service.get_warnings_for_today()
+    return data_files.load_json_data_as_dict_from('/home/ds/data/all-warnings.txt')
 
 
 def get_averages():
-    return averages.get_averages_for_today()
+    return {}
 
 
 def get_records_for_today():
     return records.get_records_for_today()
 
 
-def get_last_measurement_from_sensor():
-    return denva_sensors_service.get_last_new_measurement()
+def get_last_measurement_from_all_sensors():
+    return data_files.load_json_data_as_dict_from('/home/ds/data/all-measurement.json')
 
 
 def get_last_report():

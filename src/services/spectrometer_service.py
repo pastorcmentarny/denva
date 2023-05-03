@@ -44,9 +44,10 @@ def get_records_as_dict(spectrometer_list):
     return spectrometer_records
 
 
-def update_for_spectrometer(averages:dict, records:dict):
+def update_for_spectrometer(averages:dict, records:dict, measurement_date: str):
     spectrometer_result = data_files.load_list_of_dict_for(
-        f"/home/ds/data/spectrometer-data-{dom_utils.get_date_for_today()}.csv")
+        f"/home/ds/data/spectrometer-data-{measurement_date}.txt")
     # spectrometer is not here as this do not have sense
     records.update(get_records_as_dict(spectrometer_result))
     spectrometer_result.clear()
+    return averages,records

@@ -16,6 +16,7 @@ import sys
 import time
 import traceback
 from datetime import datetime
+from pathlib import Path
 from timeit import default_timer as timer
 
 import smbus
@@ -80,16 +81,81 @@ def update_records():
     gc.collect()
 
 
-
 def generate_yesterday_report_if_need():
     logger.info('Generating report ')
-    # notes, when do report if something is missing you add to notes in the of report
-    pass
+    start_time = timer()
+    data_path = '/home/ds/data/'
+    yesterday = dom_utils.get_yesterday_date()
+    report_averages = {}
+    report_records = {}
+
+    report = {
+        'report_date': dom_utils.get_date_as_text(yesterday),
+        'time_to_generate': 0,
+        'averages': {},
+        'records': {},
+        'last_measurement': data_files.load_json_data_as_dict_from("/home/ds/data/all-measurement.json"),
+        'problems': []
+    }
+
+    barometric_path = dom_utils.get_date_as_filename('barometric-data', 'txt', yesterday)
+    path = Path("{}/{}".format(data_path, barometric_path))
+    if not path.exists():
+        report['problems'].append(f'Path to barometric data {barometric_path} does NOT exist.')
+    else:
+        report_averages, report_records = barometric_service.update_for_barometric_sensor(report_averages,
+                                                                                          report_records,
+                                                                                          dom_utils.get_date_for_today())
+    print(report_averages)
+    print(report_records)
+
+    gps_path = dom_utils.get_date_as_filename('gps-data', 'txt', yesterday)
+    path = Path("{}/{}".format(data_path, gps_path))
+    if not path.exists():
+        report['problems'].append(f'Path to gps data {gps_path} does NOT exist.')
+    else:
+        report_averages, report_records = gps_service.update_for_gps_sensor(report_averages,
+                                                                            report_records,
+                                                                            dom_utils.get_date_for_today())
+    print(report_averages)
+    print(report_records)
+
+
+
+    spectrometer_path = dom_utils.get_date_as_filename('spectrometer-data', 'txt', yesterday)
+    path = Path("{}/{}".format(data_path, spectrometer_path))
+    if not path.exists():
+        report['problems'].append(f'Path to spectrometer data {spectrometer_path} does NOT exist.')
+    else:
+        report_averages, report_records = spectrometer_service.update_for_spectrometer(report_averages,
+                                                                                  report_records,
+                                                                                  dom_utils.get_date_for_today())
+    print(report_averages)
+    print(report_records)
+
+    motion_path = dom_utils.get_date_as_filename('motion-data', 'txt', yesterday)
+    path = Path("{}/{}".format(data_path, motion_path))
+    if not path.exists():
+        report['problems'].append(f'Path to motion data {motion_path} does NOT exist.')
+    else:
+        report_averages, report_records = motion_service.update_for_motion_sensor(report_averages,
+                                                                                  report_records,
+                                                                                  dom_utils.get_date_for_today())
+    print(report_averages)
+    print(report_records)
+
+    report['averages'] = report_averages
+    report['records'] = report_records
+    end_time = timer()
+    measurement_time = int((end_time - start_time) * 1000)  # in ms
+    report['time_to_generate'] = f"%.2f ms" % (measurement_time / 1000)
+    data_files.save_dict_data_as_json(
+        f"/home/ds/data/{dom_utils.get_date_as_filename('report', 'json', datetime.now())}", report)
 
 
 def main():
     loop_counter = 0
-
+    generate_yesterday_report_if_need()
     while True:
         global averages
         global records
@@ -106,16 +172,19 @@ def main():
 
             if loop_counter % 20 == 0:
                 logger.info('inner loop')
-                averages, records = barometric_service.update_for_barometric_sensor(averages, records)
+                averages, records = barometric_service.update_for_barometric_sensor(averages, records,
+                                                                                    dom_utils.get_date_for_today())
                 gc.collect()
 
-                averages, records = gps_service.update_for_gps_sensor(averages, records)
+                averages, records = gps_service.update_for_gps_sensor(averages, records, dom_utils.get_date_for_today())
                 gc.collect()
 
-                averages, records = motion_service.update_for_motion_sensor(averages, records)
+                averages, records = motion_service.update_for_motion_sensor(averages, records,
+                                                                            dom_utils.get_date_for_today())
                 gc.collect()
 
-                averages, records = spectrometer_service.update_for_spectrometer(averages, records)
+                averages, records = spectrometer_service.update_for_spectrometer(averages, records,
+                                                                                 dom_utils.get_date_for_today())
                 gc.collect()
 
                 update_averages()

@@ -534,7 +534,7 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_fast_refresh_rate(self):
         # given
-        expected_result = 0.2
+        expected_result = 0.25
 
         # when
         result = config.get_fast_refresh_rate()

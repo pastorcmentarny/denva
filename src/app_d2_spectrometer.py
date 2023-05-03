@@ -51,7 +51,7 @@ def application():
             local_data_gateway.post_healthcheck_beat('denva2', 'spectrometer')
 
         if measurement_counter % 100 == 0:
-            data_files.store_measurement2('spectrometer-data', measurements_list[-100:])
+            data_files.store_measurement2(dom_utils.get_today_date_as_filename('spectrometer-data','txt'), measurements_list[-100:])
 
         if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))

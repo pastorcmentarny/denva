@@ -24,7 +24,7 @@ from sensors import motion_sensor
 from services import motion_service
 
 logger = logging.getLogger('app')
-dom_utils.setup_logging('motion-sensor', True)
+dom_utils.setup_logging('motion-sensor', False)
 measurements_list = []
 
 
@@ -33,7 +33,7 @@ def application():
     measurement_counter = 0
     while True:
         measurement_counter += 1
-
+        logger.info("")
         start_time = timer()
 
         result = motion_sensor.get_measurement()
@@ -50,9 +50,11 @@ def application():
         if len(measurements_list) > config.get_measurement_size():
             measurements_list.pop(0)
 
-        if measurement_counter % 100 == 0:
+        if measurement_counter % 20 == 0:
             local_data_gateway.post_healthcheck_beat('denva2', 'motion')
-            data_files.store_measurement2('motion-data', measurements_list[-100:])
+
+        if measurement_counter % 100 == 0:
+            data_files.store_measurement2(dom_utils.get_today_date_as_filename('motion-data','txt'), measurements_list[-100:])
 
         if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
