@@ -48,14 +48,14 @@ class DomUtilsTestCases(TestCase):
     # tag-mock-date
     def test_get_date_as_folders(self):
         # given
-        with patch('common.dom_utils.date') as mock_date:
+        with patch('dom_utils.date') as mock_date:
             mock_date.today.return_value = date(2006, 6, 6)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
             # verify that mock works
             assert dom_utils.date.today() == date(2006, 6, 6)
 
-            expected_result = '\\2006\\06\\06\\'
+            expected_result = '2006/06/06/'
 
             # when
             result = dom_utils.get_date_as_folders()
@@ -65,7 +65,7 @@ class DomUtilsTestCases(TestCase):
 
     def test_get_timestamp_title_with_time(self):
         # given
-        with patch('common.dom_utils.datetime') as mock_date:
+        with patch('dom_utils.datetime') as mock_date:
             mock_date.now.return_value = datetime(2006, 6, 6, 10, 10, 10)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
@@ -82,7 +82,7 @@ class DomUtilsTestCases(TestCase):
 
     def test_get_timestamp_title_without_time(self):
         # given
-        with patch('common.dom_utils.datetime') as mock_date:
+        with patch('dom_utils.datetime') as mock_date:
             mock_date.now.return_value = datetime(2006, 6, 6)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
@@ -217,7 +217,7 @@ class DomUtilsTestCases(TestCase):
 
     def test_get_timestamp_file(self):
         # given
-        with patch('common.dom_utils.datetime') as mock_date:
+        with patch('dom_utils.datetime') as mock_date:
             mock_date.now.return_value = datetime(2006, 6, 6, 1, 2, 3)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
 
@@ -249,3 +249,14 @@ class DomUtilsTestCases(TestCase):
 
     def test_get_filename_for_stats(self):
         self.assertEqual(dom_utils.get_filename_for_stats("2020", "05", "08"), "stats.log.2020-05-08")
+
+    def test_get_date_as_text(self):
+        # given
+        selected_date = datetime(2020, 1, 26, 9, 15)
+        expected_result = '26-01-2020 at 09:15'
+
+        # when
+        result = dom_utils.get_date_as_text(selected_date)
+
+        # then
+        self.assertEqual(expected_result,result)

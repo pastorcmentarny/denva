@@ -67,7 +67,7 @@ def get_filename_for_stats(year, month, day):
 
 
 def get_date_as_text(selected_date: datetime):
-    return f'{selected_date.day:02d}-{selected_date.month:02d}-{selected_date.year} at {selected_date.hour}:{selected_date.minute}'
+    return f'{selected_date.day:02d}-{selected_date.month:02d}-{selected_date.year} at {selected_date.hour:02d}:{selected_date.minute:02d}'
 
 
 # TODO rename it to datetime
