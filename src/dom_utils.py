@@ -42,6 +42,10 @@ def get_date_for_today() -> str:
     dt = datetime.now()
     return f"{dt.year}-{dt.month:02d}-{dt.day:02d}"
 
+
+def get_today_date_as_filename(name: str, file_type: str) -> str:
+    return get_date_as_filename(name,file_type,datetime.now())
+
 def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
     return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{file_type}"
 
@@ -60,6 +64,10 @@ def get_filename_for_warnings(year: str, month: str, day: str):
 
 def get_filename_for_stats(year, month, day):
     return f"stats.log.{int(year)}-{int(month):02d}-{int(day):02d}"
+
+
+def get_date_as_text(selected_date: datetime):
+    return f'{selected_date.day:02d}-{selected_date.month:02d}-{selected_date.year} at {selected_date.hour}:{selected_date.minute}'
 
 
 # TODO rename it to datetime
@@ -367,6 +375,7 @@ def setup_logging(app_name: str, debug_mode: bool = False):
     logging.captureWarnings(True)
     logging.info(f'Logging setup complete with log level set to: {logging_level})')
     print(f'Logs setup completed (Level: {logging_level})')
+
 
 def setup_test_logging(app_name: str, debug_mode: bool = False):
     print('Setting logs ...')
