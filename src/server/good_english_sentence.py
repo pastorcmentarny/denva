@@ -67,6 +67,7 @@ sentences = [
     "What's the ROI* on hugging your mom? {*ROI - Return of Investment}",
     "I appreciate your thorough attentiveness to my deliverables. To ensure we are not duplicating work, please let me know in the future if you'd like to take this n yourself.",
     "This is a reason why god invited 'copy and paste'.",
+    "The service is suspended between Harrow-on-the-Hill and Watford while we remove a gazebo from the track. (TfL)"
     "For every claim or statement made in this book, you'd probably be able to find some new study or investigation that argues against it. (LoeWhaley)",
     "Thank you for sharing this timeline with me. Can you help me understand how this amount of work is achievable in such a short period of time? (LoeWhaley)",
     "Please help me understand why I am required to be in the office when I can effectively execute my job responsibilities remotely. (LoeWhaley)",
