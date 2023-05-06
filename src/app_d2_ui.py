@@ -12,8 +12,7 @@
 import logging
 import traceback
 
-from flask import Flask, jsonify, request
-
+from flask import Flask, jsonify
 
 import dom_utils
 from common import commands
@@ -51,28 +50,22 @@ def recent_system_log_app():
     return jsonify(commands.get_system_logs(200))
 
 
-@app.route("/log/count/app")
-def log_count_app():
-    logger.info('Getting recent healthcheck logs for sending as email for Denva TWO')
-    return jsonify(common_service.get_log_count_for('app'))
-
-
-@app.route("/log/count/ui")
-def log_count_ui():
-    logger.info('Getting recent healthcheck logs for sending as email for Denva TWO')
-    return jsonify(common_service.get_log_count_for('ui'))
-
-
 @app.route("/now")
 def now():
     logger.info('Getting last measurement')
     return jsonify(denva2_service.get_last_measurement_from_all_sensors())
 
 
-@app.route("/report/yesterday")
-def last_report():
+@app.route("/report/today")
+def today_report():
     logger.info('Getting report for yesterday')
-    return jsonify(denva2_service.get_last_report())
+    return jsonify(denva2_service.get_report_for_today())
+
+
+@app.route("/report/yesterday")
+def yesterday_report():
+    logger.info('Getting report for yesterday')
+    return jsonify(denva2_service.get_report_for_yesterday())
 
 
 @app.route("/reboot")
@@ -85,13 +78,6 @@ def reboot():
 def records():
     logger.info('Getting record measurement from today')
     return jsonify(denva2_service.get_records_for_today())
-
-
-# FIXME
-@app.route("/stats")
-def stats():
-    logger.info('Get all stats for today')
-    return jsonify(denva2_service.get_all_stats_for_today())
 
 
 @app.route("/system")
@@ -109,23 +95,13 @@ def today_warns():
 @app.route("/warns/now")
 def current_warns():
     logger.info('Getting current warnings')
-    return jsonify(denva2_service.get_current_warnings())
+    return jsonify(denva2_service.get_current_warnings(denva2_service.get_last_measurement_from_all_sensors()))
 
 
 @app.route("/warns/count")
 def count_warns():
     logger.info('Getting warnings count')
     return jsonify(denva2_service.count_warnings())
-
-
-@app.route("/warns/date")
-def specific_day_warns():
-    args = request.args
-    year = args.get('year')
-    month = args.get('month')
-    day = args.get('day')
-    logger.info('Getting warnings for {}.{}.{}'.format(day, month, year))
-    return jsonify(denva2_service.get_warnings_for(year, month, day))
 
 
 @app.route("/")

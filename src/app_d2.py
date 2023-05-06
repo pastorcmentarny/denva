@@ -26,6 +26,7 @@ import config
 import dom_utils
 
 from common import data_files
+from denva import denva2_service
 
 from emails import email_sender_service
 from gateways import local_data_gateway
@@ -58,25 +59,21 @@ def collect_last_measurements():
 
 def generate_warnings(measurement):
     logger.debug('Updating warnings for all sensors')
-    warnings = []
-    warnings.extend(barometric_service.get_warnings(measurement))
-    warnings.extend(gps_service.get_warnings(measurement))
-    warnings.extend(motion_service.get_warnings(measurement))
-    warnings.extend(spectrometer_service.get_warnings(measurement))
-    data_files.save_list_to_file(warnings, "/home/ds/data/all-warnings.txt")
+    warnings = denva2_service.get_current_warnings(measurement)
+    data_files.save_list_to_file(warnings, config.get_today_warnings())
     logger.debug('done')
 
 
 def update_averages():
     logger.debug('Updating averages for all sensors')
-    data_files.save_dict_data_as_json("/home/ds/data/all-averages.txt", averages)
+    data_files.save_dict_data_as_json("/home/ds/data/all-averages.json", averages)
     averages.clear()
     gc.collect()
 
 
 def update_records():
     logger.debug('Updating records for all sensors')
-    data_files.save_dict_data_as_json("/home/ds/data/all-records.txt", records)
+    data_files.save_dict_data_as_json("/home/ds/data/all-records.json", records)
     records.clear()
     gc.collect()
 
@@ -120,16 +117,14 @@ def generate_yesterday_report_if_need():
     print(report_averages)
     print(report_records)
 
-
-
     spectrometer_path = dom_utils.get_date_as_filename('spectrometer-data', 'txt', yesterday)
     path = Path("{}/{}".format(data_path, spectrometer_path))
     if not path.exists():
         report['problems'].append(f'Path to spectrometer data {spectrometer_path} does NOT exist.')
     else:
         report_averages, report_records = spectrometer_service.update_for_spectrometer(report_averages,
-                                                                                  report_records,
-                                                                                  dom_utils.get_date_for_today())
+                                                                                       report_records,
+                                                                                       dom_utils.get_date_for_today())
     print(report_averages)
     print(report_records)
 
