@@ -65,7 +65,7 @@ def get_measurement():
             return get_no_vales("Gps data wasn't updated")
     except Exception as gps_exception:
         logger.error(
-            f'Unable to read data from bme680 (environment sensor) sensor due to {type(gps_exception).__name__} throws : {gps_exception}',
+            f'Unable to read data from PA1010D (gps sensor) sensor due to {type(gps_exception).__name__} throws : {gps_exception}',
             exc_info=True)
         local_data_gateway.post_metrics_update('gps', 'errors')
         return get_no_vales(gps_exception)
