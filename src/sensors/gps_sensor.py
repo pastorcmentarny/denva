@@ -27,7 +27,9 @@ def setup():
 
 
 gps = setup()
-gps.send_command("PMTK255,0")
+logger.info('Enabling Enable or disable fix NMEA output time behind PPS function. (Default off)')
+gps.send_command("PMTK255,1")
+logger.info('Command sent.')
 
 
 def get_no_vales(get_data_exception):
