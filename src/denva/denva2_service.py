@@ -84,5 +84,5 @@ def get_report_for_today():
 
 
 def get_report_for_yesterday():
-    report_file_name = dom_utils.get_date_as_filename('report', 'txt', dom_utils.get_yesterday_date())
+    report_file_name = dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date())
     return data_files.load_json_data_as_dict_from(f'/home/ds/data/{report_file_name}')
