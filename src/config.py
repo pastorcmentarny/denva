@@ -96,6 +96,9 @@ FIELD_SPECTROMETER_YELLOW = 'yellow'
 FIELD_SPECTROMETER_GREEN = 'green'
 FIELD_SPECTROMETER_BLUE = 'blue'
 FIELD_SPECTROMETER_VIOLET = 'violet'
+
+KEY_DENVA_TWO = 'denva-two'
+
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
 DENVA_TWO_IP = 'http://192.168.0.201'
@@ -157,6 +160,7 @@ settings = {
     "urls": {
         "server": f'{SERVER_IP}:5000',
         "denva": f"{DENVA_IP}:5000",
+        KEY_DENVA_TWO: f"{DENVA_TWO_IP}:5000",
         "enviro": f"{DENVIRO_IP}:5000",
         "delight": f'{SERVER_IP}:5000',
         "dump1090_data": f"{DENVA_IP}:16601/data.json"
