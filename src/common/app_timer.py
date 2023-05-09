@@ -39,6 +39,13 @@ def is_time_to_send_report_email(previous_update_time: datetime) -> bool:
         return False
 
 
+def is_time_to_generate_report(previous_update_time: datetime) -> bool:
+    if datetime.now().hour >= 0 and datetime.now().minute >= 6:
+        return is_it_time(previous_update_time, 3 * 60 * 60)
+    else:
+        return False
+
+
 def is_time_to_send_email(previous_update_time: datetime) -> bool:
     return is_time_to_run_every_5_minutes(previous_update_time)
 
