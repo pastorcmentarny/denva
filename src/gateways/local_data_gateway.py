@@ -17,6 +17,8 @@ import requests
 import config
 from services import system_data_service
 
+
+
 logger = logging.getLogger('app')
 
 REPORT_TIMEOUT = 150
@@ -36,6 +38,10 @@ def get_yesterday_report_for_denva() -> dict:
     return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"]['denva']), REPORT_TIMEOUT)
 
 
+def get_yesterday_report_for_denva_two() -> dict:
+    return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]), REPORT_TIMEOUT)
+
+
 def get_yesterday_report_for_enviro() -> dict:
     return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"]['enviro']), REPORT_TIMEOUT)
 
@@ -44,11 +50,13 @@ def get_current_log_counts() -> dict:
     return {
         'app': {
             'denva': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['denva'])),
+            config.KEY_DENVA_TWO: get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
             'enviro': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['enviro'])),
             'delight': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['delight']))
         },
         'ui': {
             'denva': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['denva'])),
+            config.KEY_DENVA_TWO: get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
             'enviro': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['enviro'])),
             'delight': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['delight']))
         }
@@ -59,11 +67,13 @@ def get_current_logs_for_all_services() -> dict:
     return {
         'app': {
             'denva': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['denva'])),
+            config.KEY_DENVA_TWO: get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
             'enviro': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['enviro'])),
             'delight': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['delight']))
         },
         'hc': {
             'denva': get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"]['denva'])),
+            config.KEY_DENVA_TWO: get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
             'enviro': get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"]['enviro']))
         }
     }
@@ -82,6 +92,7 @@ def get_data_for(url: str, timeout: int = 3):  # ->list or dict
 def get_current_warnings_for_all_services() -> dict:
     return {
         'denva': get_data_for(config.get_current_warnings_url_for('denva')),
+        config.KEY_DENVA_TWO: get_data_for(config.get_current_warnings_url_for(config.KEY_DENVA_TWO)),
         'enviro': get_data_for(config.get_current_warnings_url_for('enviro')),
         'server': system_data_service.get_system_warnings(),
         'trases': get_data_for(config.get_current_warnings_url_for('trases'), 2),
@@ -89,7 +100,7 @@ def get_current_warnings_for_all_services() -> dict:
 
 
 def get_all_healthcheck_from_all_services() -> dict:
-    services = ['denva', 'enviro', 'server', 'delight']
+    services = ['denva',config.KEY_DENVA_TWO, 'enviro', 'server', 'delight']
     result = {}
     for service in services:
         result[service] = _get_hc_result(service)
@@ -221,7 +232,3 @@ def add_entry_to_diary(new_entry: str):
     except Exception as whoops:
         logger.warning(
             'There was a problem with sending measurement for denviro with url {} due to {} '.format(url, whoops))
-
-
-def get_current_reading_for_trases():
-    return None
