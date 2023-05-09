@@ -102,4 +102,4 @@ if __name__ == '__main__':
         logger.fatal(msg, exc_info=True)
         print(f'Error:{msg}')
         traceback.print_exc()
-    print('Application ended its life.')
+    logger.warning('Application ended its life.')

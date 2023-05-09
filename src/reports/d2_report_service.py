@@ -16,7 +16,7 @@ def generate_yesterday_report_if_need(report_generation_cooldown, first_loop: bo
     if data_files.is_report_file_exists(config.PI_DATA_PATH):
         logger.info('Report was already generated.')
         return report_generation_cooldown
-    if first_loop or app_timer.is_time_to_send_report_email(report_generation_cooldown):
+    if first_loop or app_timer.is_time_to_generate_report(report_generation_cooldown):
         logger.info('Generating report')
         report_start_time = timer()
         data_path = '/home/ds/data/'

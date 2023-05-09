@@ -144,7 +144,7 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
-        logging.info('Received request application to shut down.. goodbye!', exc_info=True)
+        logging.warning('Received request application to shut down.. goodbye!', exc_info=True)
         cleanup_before_exit()
     except Exception as exception:
         print(f'Whoops. {exception}')

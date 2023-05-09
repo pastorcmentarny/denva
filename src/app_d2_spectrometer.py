@@ -68,7 +68,7 @@ if __name__ == '__main__':
         application()
     except KeyboardInterrupt as keyboard_exception:
         msg = f'Received request application to shut down.. goodbye. {keyboard_exception}'
-        loggy.log_with_print(msg)
+        loggy.log_with_print(msg,True)
         sys.exit(0)
     except Exception as exception:
         logger.fatal(exception, exc_info=True)
@@ -79,4 +79,4 @@ if __name__ == '__main__':
         logger.fatal(msg, exc_info=True)
         print(f'Error:{msg}')
         traceback.print_exc()
-    print('Application ended its life.')
+    logger.warning('Application ended its life.')

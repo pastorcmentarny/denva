@@ -81,12 +81,12 @@ if __name__ == '__main__':
     try:
         application()
     except KeyboardInterrupt as keyboard_exception:
-        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        logger.warning('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
         sys.exit(0)
     except Exception as exception:
-        print(f'error:{exception}')
+        logger.error(f'error:{exception}', exc_info=True)
     except BaseException as disaster:
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
-        print(f'error:{disaster}')
+        logger.fatal(f'error:{disaster}', exc_info=True)
 
-    print('Application ended its life.')
+    logger.warning('Application ended its life.')
