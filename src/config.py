@@ -101,7 +101,7 @@ KEY_DENVA_TWO = 'denva-two'
 
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
-DENVA_TWO_IP = 'http://192.168.0.201'
+DENVA_TWO_IP = 'http://192.168.0.205'
 DENVIRO_IP = 'http://192.168.0.202'
 
 REFRESH_RATE = 'refresh-rate'
