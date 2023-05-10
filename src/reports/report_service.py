@@ -41,8 +41,8 @@ def generate_enviro_report_for_yesterday() -> dict:
 
 def generate_for_yesterday() -> dict:
     logger.info('Getting report for yesterday...')
-    path = dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date())
     try:
+        path = dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date())
         if data_files.check_if_report_was_generated(path):
             logger.info('Report was generated. Getting report from file.')
             return data_files.load_report(path)
@@ -58,6 +58,7 @@ def generate_for_yesterday() -> dict:
         return {'error': str(exception)}
 
 
+# TODO redoit as it mess
 def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datetime:
     if data_files.is_report_file_exists(config.PI_DATA_PATH):
         logger.info('Report already sent.')
@@ -66,7 +67,7 @@ def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datet
         logger.info('Generating report')
         email_data = report_generator.generate()
         email_sender_service.send(email_data, 'Report (via server)')
-        data_files.save_report_at_server(email_data,config.SERVER_IP)
+        data_files.save_report_at_server(email_data, config.SERVER_IP)
         return datetime.now()
     return report_generation_cooldown
 

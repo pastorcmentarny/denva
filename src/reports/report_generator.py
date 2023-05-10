@@ -18,9 +18,9 @@ from timeit import default_timer as timer
 import config
 import dom_utils
 from denva import denva_service
-from gateways import local_data_gateway, tube_client
+from gateways import local_data_gateway
 from reports import averages, records
-from services import information_service, sensor_warnings_service
+from services import information_service
 
 warnings_logger = logging.getLogger('warnings')
 logger = logging.getLogger('app')
@@ -245,7 +245,7 @@ def load_data(year, month, day) -> list:
                 config.FIELD_CPU_TEMP: row[config.DENVA_DATA_COLUMN_CPU_TEMP],
                 config.FIELD_ECO2: row[config.DENVA_DATA_COLUMN_ECO2],
                 config.FIELD_TVOC: row[config.DENVA_DATA_COLUMN_TVOC],
-                config.FIELD_GPS_NUM_SATS: row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS]
+                # config.FIELD_GPS_NUM_SATS: row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS]
                 # config.FIELD_GPS_NUM_SATS: -1  # FIXME
             }
         )
@@ -253,7 +253,7 @@ def load_data(year, month, day) -> list:
 
 
 def load_enviro_data(year, month, day) -> list:
-    csv_data = read_data_as_list_from_csv_file(day, month, year, 'sensor-enviro-log')
+    csv_data = read_data_as_list_from_csv_file(day, month, year, 'sensor-log')
     data = []
     for row in csv_data:
         data.append({
@@ -283,7 +283,7 @@ def read_data_as_list_from_csv_file(day, month, year, log_file_name: str) -> lis
 
 def generate_enviro_report_for_yesterday() -> dict:
     yesterday = datetime.now() - timedelta(days=1)
-    evniro_report = {}
+    enviro_report = {}
 
     try:
         # TODO refactor
@@ -300,13 +300,13 @@ def generate_enviro_report_for_yesterday() -> dict:
         month = yesterday.month
         day = yesterday.day
         data = load_enviro_data(year, month, day)
-        evniro_report[config.FIELD_MEASUREMENT_COUNTER] = len(data)
-        evniro_report['report_date'] = "{}.{}'{}".format(day, month, year)
+        enviro_report[config.FIELD_MEASUREMENT_COUNTER] = len(data)
+        enviro_report['report_date'] = "{}.{}'{}".format(day, month, year)
         # warnings = sensor_warnings_service.get_warnings_for(str(year), str(month), str(day))
-        # evniro_report['warning_counter'] = len(warnings)
-        evniro_report['avg'] = averages.get_enviro_averages(data)
-        evniro_report['records'] = records.get_enviro_records(data)
-        return evniro_report
+        # enviro_report['warning_counter'] = len(warnings)
+        enviro_report['avg'] = averages.get_enviro_averages(data)
+        enviro_report['records'] = records.get_enviro_records(data)
+        return enviro_report
     except Exception as exception:
         logger.error("Unable to generate  report.", exc_info=True)
         return {'error': str(exception)}
@@ -319,6 +319,7 @@ def generate():
         'report': {
             'denva': local_data_gateway.get_yesterday_report_for_denva(),
             'enviro': local_data_gateway.get_yesterday_report_for_enviro(),
+            config.KEY_DENVA_TWO: local_data_gateway.get_yesterday_report_for_denva_two(),
             'aircraft': local_data_gateway.get_yesterday_report_for_aircraft(),
             'rickmansworth': information_service.get_data_about_rickmansworth(),
         },

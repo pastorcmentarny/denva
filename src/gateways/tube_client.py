@@ -3,6 +3,7 @@ import logging
 from datetime import datetime
 from retrying import retry
 from gateways import web_data_gateway
+from pathlib import Path
 
 STOP_MAX_ATTEMPT_NUMBER = 5
 MAXIMUM_WAIT_TIME = 500
@@ -192,11 +193,16 @@ def save_snapshot(report: dict):
        stop_max_attempt_number=STOP_MAX_ATTEMPT_NUMBER)
 def load():
     try:
-        dt = datetime.now()
-        with open(get_file_name(dt), 'r', newline='') as file_content:
-            return file_content.read().splitlines()
+        file_path = Path(get_file_name(datetime.now()))
+        if file_path.exists():
+            with open(file_path, 'r', newline='') as file_content:
+                return file_content.read().splitlines()
+        else:
+            logger.warning(f"File : {file_path} doesn't exists.")
+            return []
     except Exception as exception:
         logger.warning(f"Unable to load file due to {exception}")
+        return []
 
 
 def update():
