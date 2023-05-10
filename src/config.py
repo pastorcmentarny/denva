@@ -167,7 +167,8 @@ settings = {
     },
     "latency": {
         "max": 200,
-        "max-slow": 1000
+        "max-slow": 1000,
+        "five-seconds": 5000,
     },
     "logs": {
         'dev_app': f'{PI_CONFIG_PATH}dev_log_app_config.json',
@@ -334,6 +335,10 @@ def max_latency(fast: bool = True):
     if fast:
         return settings["latency"]["max"]
     return settings["latency"]["max-slow"]
+
+
+def slow_latency():
+    return settings["latency"]["five-seconds"]
 
 
 def get_system_hc() -> str:
