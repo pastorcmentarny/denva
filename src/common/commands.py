@@ -12,6 +12,7 @@
 import logging
 import re
 import subprocess
+import platform
 
 import psutil
 
@@ -102,6 +103,10 @@ def get_uptime() -> str:
 
 def get_system_info() -> dict:
     return {
+        'Node': platform.node(),
+        'OS': platform.platform(),
+        'Python': platform.python_version(),
+        'Processor': platform.processor(),
         'CPU Speed': get_cpu_speed(),
         'CPU Temp': get_cpu_temp(),
         'IP': get_ip(),
