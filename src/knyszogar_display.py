@@ -9,6 +9,7 @@ from subprocess import PIPE, Popen
 import psutil
 import requests
 
+import config
 import dom_utils
 from server import display, sub_light, forest, warp
 from server import healthcheck_service
@@ -77,31 +78,6 @@ def get_state_colour_for_hc(current_state: str):
         color_green = 64
         color_blue = 64
     return color_red, color_green, color_blue
-
-
-"""
-  1...5..........E
-1 AA BB CC DD 
-2 
-3 ka kc kd kw
-4 
-5 ke kh
-6 
-7 
-8
-9
-0    
-A
-B 3D U SSSS   CCA
-C
-D 2D 2A 2U    RRA
-E
-F 1D 1A 1U    RRD
-"""
-
-# TODO MOVE TO CONFIG
-HOSTNAME = 'http://192.168.0.200'
-
 
 # TODO move
 def get_cpu_temperature():
@@ -359,25 +335,22 @@ def draw_knyszogar_www():
     display.unicornhathd.set_pixel(3, 11, r, g, b)
 
 
-def draw_tm_ui():
-    hc_result = get_data_for(HOSTNAME + ":18001/actuator/health")
+def draw_transport_manager_ui():
+    hc_result = get_data_for(config.SERVER_IP + ":18001/actuator/health")
     r, g, b = get_state_colour_for_hc(hc_result)
-    display.unicornhathd.set_pixel(7, 1, r, g, b)
-    display.unicornhathd.set_pixel(7, 2, r, g, b)
+    display.unicornhathd.set_pixel(3, 13, r, g, b)
 
 
-def draw_tm_service():
-    hc_result = get_data_for(HOSTNAME + ":18002/actuator/health")
+def draw_transport_manager_service():
+    hc_result = get_data_for(config.SERVER_IP + ":18002/actuator/health")
     r, g, b = get_state_colour_for_hc(hc_result)
-    display.unicornhathd.set_pixel(7, 4, r, g, b)
-    display.unicornhathd.set_pixel(7, 5, r, g, b)
+    display.unicornhathd.set_pixel(3, 14, r, g, b)
 
 
-def draw_tm_db():
-    hc_result = get_data_for(HOSTNAME + ":18003/actuator/health")
+def draw_transport_manager_db():
+    hc_result = get_data_for(config.SERVER_IP + ":18003/actuator/health")
     r, g, b = get_state_colour_for_hc(hc_result)
-    display.unicornhathd.set_pixel(7, 7, r, g, b)
-    display.unicornhathd.set_pixel(7, 8, r, g, b)
+    display.unicornhathd.set_pixel(3, 15, r, g, b)
 
 
 def draw_camera_status():
@@ -388,10 +361,10 @@ def draw_camera_status():
 
 
 def random_pixel():
-    display.unicornhathd.set_pixel(1, 15, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    display.unicornhathd.set_pixel(0, 15, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    display.unicornhathd.set_pixel(0, 14, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
     display.unicornhathd.set_pixel(1, 14, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-    display.unicornhathd.set_pixel(2, 14, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-    display.unicornhathd.set_pixel(2, 15, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    display.unicornhathd.set_pixel(1, 15, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 
 def show_status():
@@ -408,9 +381,9 @@ def show_status():
     draw_knyszogar_email()
     draw_knyszogar_hc()
     draw_knyszogar_www()
-    draw_tm_ui()
-    draw_tm_service()
-    draw_tm_db()
+    draw_transport_manager_ui()
+    draw_transport_manager_service()
+    draw_transport_manager_db()
     random_pixel()
     display.unicornhathd.show()
 
