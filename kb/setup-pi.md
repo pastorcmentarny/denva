@@ -97,22 +97,7 @@ sudo apt-get install exfat-utils`
 
 * sudo crontab -e03 13 * * * /sbin/shutdown -r now
 
-## Update Pi
 
-0. `sudo apt update`
-1. `sudo apt full-upgrade`
-2. `sudo apt clean`
-3. `sudo apt autoremove`
-4. `sudo reboot`
-5. `pip install --upgrade pip'`
-
-## Update eeprom
-
-```
-sudo rpi-eeprom-update
-sudo rpi-eeprom-update -a
-sudo reboot
-```
 
 ## Install java17
 
