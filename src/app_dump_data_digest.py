@@ -60,7 +60,7 @@ def digest():
 
         measurement = int((end_time - start_time) * 1000)
         measurement_time = str(measurement)  # in ms
-        if measurement > config.max_latency(False):
+        if measurement > config.slow_latency():
             warnings += 1
             logger.warning(f"Measurement {counter} was SLOW.It took {measurement} ms")
         else:
