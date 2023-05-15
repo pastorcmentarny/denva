@@ -184,9 +184,16 @@ def setup_logging(path: str):
         logger.warning('Using default logging due to problem with loading from log: {}'.format(path))
 
 
+@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
+       stop_max_attempt_number=5)
 def load_json_data_as_dict_from(path: str) -> dict:
-    with open(path, READ, encoding=ENCODING) as json_file:
-        return json.load(json_file)
+    try:
+        with open(path, READ, encoding=ENCODING) as json_file:
+            return json.load(json_file)
+    except Exception as exception:
+        msg = f"Unable to load this file {path} due to {exception}"
+        logger.warning(msg, exc_info=True)
+        return {'error': msg}
 
 
 def save_dict_data_as_json(path: str, data: dict):

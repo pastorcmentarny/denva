@@ -17,6 +17,7 @@ import dom_utils
 
 from common import data_files
 from denva import denva_sensors_service
+from reports import d2_report_service
 from services import sensor_warnings_service
 from services import barometric_service, spectrometer_service, motion_service, gps_service
 
@@ -84,5 +85,5 @@ def get_report_for_today():
 
 
 def get_report_for_yesterday():
-    report_file_name = dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date())
-    return data_files.load_json_data_as_dict_from(f'/home/ds/data/{report_file_name}')
+    return d2_report_service.get_report_for(f"/home/ds/data/{dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date())}",dom_utils.get_yesterday_date())
+
