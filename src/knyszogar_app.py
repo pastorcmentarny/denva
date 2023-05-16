@@ -23,6 +23,8 @@ from common import loggy
 from gateways import local_data_gateway, tube_client
 from timeit import default_timer as timer
 
+GENERATE_NOW = True
+
 APP_NAME = 'server app'
 
 logger = logging.getLogger('app')
@@ -36,12 +38,12 @@ def main():
     global report_generation_cooldown
     counter = 0
     local_data_gateway.post_device_on_off('app', True)
+    report_service.create_and_store_it_if_needed(report_generation_cooldown, GENERATE_NOW)
     while True:
         logger.debug(f'Loop no. {counter}')
         start_time = timer()
         counter += 1
 
-        # every minute
         local_data_gateway.post_healthcheck_beat('knyszogar', 'app')
         information.should_refresh(counter)
 

@@ -49,14 +49,14 @@ def get_data_about_rickmansworth() -> dict:
     ricky_file = config.PI_DATA_PATH + 'ricky.txt'
     if not os.path.exists(ricky_file):
         logger.info('File not exists. Getting ricky data from the web')
-        get_data_from_web()
+        update_data_from_web()
         logger.info('Got all data about Rickmansworth from web')
     else:
         logger.info('loading ricky data from the file')
         ricky_data = data_files.load_ricky(ricky_file)
         if is_rickmansworth_data_expired(ricky_data['date']):
             logger.info('Weather in the file is out of date, Getting weather from the web')
-            get_data_from_web()
+            update_data_from_web()
             logger.info('Got all data about Rickmansworth from web')
         else:
             logger.info('returning ricky from the file {}'.format(ricky_file))
@@ -74,10 +74,11 @@ def get_data_about_rickmansworth() -> dict:
     return information
 
 
-def get_data_from_web():
+def update_data_from_web():
     information['crimes'] = web_data_gateway.get_crime()
     information['floods'] = web_data_gateway.get_flood()
     information['weather'] = weather_service.get_weather()
-    information['o2']
+    information['o2'] = web_data_gateway.get_o2_status()
+
 def get_weather_data():
     return weather_service.get_weather()

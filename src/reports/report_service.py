@@ -58,35 +58,15 @@ def generate_for_yesterday() -> dict:
         return {'error': str(exception)}
 
 
-# TODO redoit as it mess
-def create_and_store_it_if_needed(report_generation_cooldown: datetime) -> datetime:
+# TODO redo it as it mess
+def create_and_store_it_if_needed(report_generation_cooldown: datetime, generate_now: bool = False) -> datetime:
     if data_files.is_report_file_exists(config.PI_DATA_PATH):
         logger.info('Report already sent.')
         return report_generation_cooldown
-    if app_timer.is_time_to_send_report_email(report_generation_cooldown):
+    if generate_now or app_timer.is_time_to_generate_report(report_generation_cooldown):
         logger.info('Generating report')
         email_data = report_generator.generate()
         email_sender_service.send(email_data, 'Report (via server)')
-        data_files.save_report_at_server(email_data, config.SERVER_IP)
+        data_files.save_report_at_server(email_data, config.PI_DATA_PATH)
         return datetime.now()
     return report_generation_cooldown
-
-
-def create_for_current_measurements():
-    return {'information': information.get_data_about_rickmansworth(),
-            'denva': local_data_gateway.get_current_reading_for_denva(),
-            'enviro': local_data_gateway.get_current_reading_for_enviro(),
-            'aircraft': local_data_gateway.get_current_reading_for_aircraft(),
-            'warnings': local_data_gateway.get_current_warnings_for_all_services(),
-            config.FIELD_SYSTEM: app_server_service.get_current_system_information_for_all_services(),
-            'status': local_data_gateway.get_data_for('http://192.168.0.200:5000/shc/get', 3)
-            }
-
-
-def get_yesterday_report_from_server():
-    yesterday = dom_utils.get_yesterday_date()
-    logger.info('Getting report for: {}'.format(yesterday))
-    if not data_files.is_report_file_exists():
-        logger.info('Report is not generated. Creating now.')
-        create_and_store_it_if_needed(yesterday)
-    return data_files.load_report_on_server_on(yesterday)
