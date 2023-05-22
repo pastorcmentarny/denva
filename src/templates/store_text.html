@@ -1,0 +1,35 @@
+{% extends 'foundation.html' %}
+
+{% block content %}
+    <div class="container text-center" >
+        {% for ok_msg in ok_messages %}
+            <div class="alert alert-primary" role="alert">{{ ok_msg }}</div>
+        {% endfor %}
+    </div>
+    <div class="content">
+        {% for err_msg in error_messages %}
+            <div class="alert alert-danger" role="alert">{{ err_msg }}</div>
+        {% endfor %}
+    </div>
+
+
+    <h1>{% block title %} Add a New Notes {% endblock %}</h1>
+    <form method="post">
+        <label for="title">Filename</label>
+        <br>
+        <input type="text" name="title"
+               placeholder="Message title"
+               value="{{ request.form['title'] }}"/>
+
+        <br>
+        <label for="content">Message Content</label>
+        <br>
+        <textarea name="content"
+                  placeholder="Message content"
+                  rows="25"
+                  cols="120"
+        >{{ request.form['content'] }}</textarea>
+        <br>
+        <button type="submit" class="btn btn-primary btn-lg">Save Content to File</button>
+    </form>
+{% endblock %}

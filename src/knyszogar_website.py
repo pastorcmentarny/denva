@@ -16,19 +16,24 @@ import traceback
 
 from flask import Flask, jsonify, url_for, request, render_template
 
+import os
 import config
 import dom_utils
 from gateways import web_data_gateway
 from server import app_server_service, server_storage_service
-from server import delight_service
-from server import healthcheck_service
+from server import delight_service, note_service, healthcheck_service
 from services import common_service, diarist_service
 from services import information_service, text_service, metrics_service
 
-app = Flask(__name__)
-logger = logging.getLogger('www')
+logger = logging.getLogger('app')
 dom_utils.setup_test_logging('website', False)
+
+app = Flask(__name__)
 APP_NAME = 'Knyszogar Website'
+
+os.urandom(24).hex()
+
+messages = []  # replace with db
 
 
 @app.route("/metrics/add", methods=['POST'])
@@ -282,8 +287,8 @@ def get_date_for_messageboard():
     back_date = datetime(year=2023, month=1, day=27, hour=10, minute=45)
     now = datetime.now()
     time_left = back_date - now
-    minutes = time_left.total_seconds()/60
-    hours = minutes/60
+    minutes = time_left.total_seconds() / 60
+    hours = minutes / 60
 
     seconds_left = {
         'left': f'{time_left.total_seconds():.0f}',
@@ -306,6 +311,24 @@ def get_ping_test():
     return jsonify(delight_service.get_ping_test_results())
 
 
+@app.route('/store-data/', methods=('GET', 'POST'))
+def store():
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+
+        if not content:
+            note_service.error_messages.append(f'No content. No need to save')
+        elif not title:
+            title = str(os.urandom(24).hex())
+            note_service.error_messages.append(f'Filename not provided. Using random one: {title}')
+            note_service.store_data(content, title)
+        else:
+            note_service.store_data(content, title)
+
+    return render_template('store_text.html', ok_messages=note_service.get_ok_messages(), error_messages=note_service.get_error_messages())
+
+
 if __name__ == '__main__':
 
     logger.info('Starting web server')
@@ -313,6 +336,8 @@ if __name__ == '__main__':
     try:
         app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
         app.config['JSON_AS_ASCII'] = False
+        app.config['SECRET_KEY'] = os.urandom(24).hex()
+
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
