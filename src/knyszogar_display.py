@@ -34,6 +34,9 @@ ERROR = 'ERROR'
 DANGER = 'DANGER'
 UNKNOWN = 'UNKNOWN'
 
+
+DENVA_TWO = 'Denva TWO'
+
 # TODO MERGE OK,UP,ON
 # TODO ERROR SHOULD BE DANGER
 def get_state_colour_for_hc(current_state: str):
@@ -185,7 +188,7 @@ def draw_denva2_status():
     status = healthcheck_service.get_device_status_for('denva2', 'device')
     if status == OFF:
         r, g, b = get_state_colour_for_hc(OFF)
-        logger.info(f'Denva TWO is OFF')
+        logger.info(f'{DENVA_TWO} is OFF')
         display.unicornhathd.set_pixel(9, 1, r, g, b)
         display.unicornhathd.set_pixel(9, 2, r, g, b)
         display.unicornhathd.set_pixel(9, 3, r, g, b)
@@ -195,39 +198,39 @@ def draw_denva2_status():
         display.unicornhathd.set_pixel(9, 7, r, g, b)
         display.unicornhathd.set_pixel(9, 8, r, g, b)
     else:
-        print(f'Trases device status: {status}')
-        logger.info(f'Denva TWO device status: {status}')
+        print(f'{DENVA_TWO} device status: {status}')
+        logger.info(f'{DENVA_TWO} device status: {status}')
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 1, r, g, b)
         display.unicornhathd.set_pixel(9, 2, r, g, b)
 
         # UI
         status = healthcheck_service.is_up('denva2', 'ui')
-        logger.info(f'Denva TWO UI status: ' + status)
+        logger.info(f'{DENVA_TWO} UI status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 4, r, g, b)
 
         # gps
         status = healthcheck_service.is_up('denva2', 'gps')
-        logger.info(f'Denva TWO GPS status: ' + status)
+        logger.info(f'{DENVA_TWO} GPS status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 6, r, g, b)
 
         # barometric
         status = healthcheck_service.is_up('denva2', 'barometric')
-        logger.info(f'Denva TWO barometric status: ' + status)
+        logger.info(f'{DENVA_TWO} barometric status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 7, r, g, b)
 
         # motion
         status = healthcheck_service.is_up('denva2', 'motion')
-        logger.info(f'Denva TWO motion status: ' + status)
+        logger.info(f'{DENVA_TWO} motion status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 8, r, g, b)
 
         # spectrometer
         status = healthcheck_service.is_up('denva2', 'spectrometer')
-        logger.info(f'Denva TWO spectrometer status: ' + status)
+        logger.info(f'{DENVA_TWO} spectrometer status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 9, r, g, b)
 

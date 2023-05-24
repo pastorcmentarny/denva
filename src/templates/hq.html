@@ -115,19 +115,7 @@
                         <li><span class="bad">No Denvira data :(</span></li>
                     {% endif %}
                     <li>_</li>
-                    <li><strong class="d-inline-block mb-2 text-success">Trases {4}</strong></li>
-                    {% if  message.trases  and "CPU Temp" in message.system.trases  and message.system.trases["CPU Temp"] %}
-                        <li class="small"><b>CPU Speed : </b>{{ message.system.trases["CPU Speed"] }}</li>
-                        <li class="small"><b>CPU Temp : </b>{{ message.system.trases["CPU Temp"].replace('Â','') }}
-                        </li>
-                        <li class="small"><b>RAM Available : </b>{{ message.system.trases["Memory Available"] }}
-                        </li>
-                        <li class="small"><b>Free Space : </b>{{ message.system.trases["Free Space"] }}</li>
-                        <li class="small"><b>Uptime : </b>{{ message.system.trases["Uptime"] }}</li>
-                    {% else %}
-                        <li><span class="bad">No Trases data :(</span></li>
-                    {% endif %}
-                    <li>_</li>
+
                 </ul>
             </div>
         </div>
@@ -178,39 +166,9 @@
                 <li><span class="bad">No Enviro data :(</span></li>
             {% endif %}
             <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Trases 4</h4>
+                <h4 class="my-0 font-weight-normal">Denva TWO</h4>
             </div>
-            {% if  message.trases %}
-                <ul class="list-unstyled mt-3 mb-4">
-                    <li class="small"><b>session_id : </b>{{ message.trases["session_id"] }}</li>
-                    <li class="small"><b>measurement_counter : </b>{{ message.trases["measurement_counter"] }}</li>
-                    <li class="small"><b>measurement_time : </b>{{ message.trases["measurement_time"] }}</li>
-                    <li class="small"><b>pressure : </b>{{ message.trases["pressure"] }}</li>
-                    <li class="small"><b>aps_temperature : </b>{{ message.trases["aps_temperature"] }}</li>
-                    <li class="small"><b>bme_temperature : </b>{{ message.trases["bme_temperature"] }}</li>
-                    <li class="small"><b>bme_pressure : </b>{{ message.trases["bme_pressure"] }}</li>
-                    <li class="small"><b>humidity : </b>{{ message.trases["humidity"] }}</li>
-                    <li class="small"><b>gas_resistance : </b>{{ message.trases["gas_resistance"] }}</li>
-                    <li class="small"><b>oxidising : </b>{{ message.trases["oxidising"] }}</li>
-                    <li class="small"><b>reducing : </b>{{ message.trases["reducing"] }}</li>
-                    <li class="small"><b>nh3 : </b>{{ message.trases["nh3"] }}</li>
-                    <li class="small"><b>uva : </b>{{ message.trases["uva"] }}</li>
-                    <li class="small"><b>uvb : </b>{{ message.trases["uvb"] }}</li>
-                    <li class="small"><b>light : </b>{{ message.trases["light"] }}</li>
-                    <li class="small"><b>proximity : </b>{{ message.trases["proximity"] }}</li>
-                    <li class="small"><b>ax : </b>{{ message.trases["ax"] }}</li>
-                    <li class="small"><b>ay : </b>{{ message.trases["ay"] }}</li>
-                    <li class="small"><b>az : </b>{{ message.trases["az"] }}</li>
-                    <li class="small"><b>gx : </b>{{ message.trases["gx"] }}</li>
-                    <li class="small"><b>gy : </b>{{ message.trases["gy"] }}</li>
-                    <li class="small"><b>gz : </b>{{ message.trases["gz"] }}</li>
-                    <li class="small"><b>mx : </b>{{ message.trases["mx"] }}</li>
-                    <li class="small"><b>my : </b>{{ message.trases["my"] }}</li>
-                    <li class="small"><b>mz : </b>{{ message.trases["mz"] }}</li>
-                </ul>
-            {% else %}
-                <li><span class="bad">No trases data :(</span></li>
-            {% endif %}
+
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">RADAR</h4>
             </div>

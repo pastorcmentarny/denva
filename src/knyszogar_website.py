@@ -85,13 +85,6 @@ def update_denviro_measurement():
     return jsonify({})
 
 
-@app.route("/measurement/trases", methods=['POST'])
-def update_trases_measurement():
-    logger.info('Updating trases measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
-    server_storage_service.save_trases_measurement(request.get_json(force=True))
-    return jsonify({})
-
-
 @app.route("/diary/add", methods=['POST'])
 def add_diary():
     logger.info('Add entry to diary. Data size {}'.format(len(str(request.get_json(force=True)))))

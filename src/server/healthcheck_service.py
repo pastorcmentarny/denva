@@ -42,11 +42,6 @@ default_hc = {
         "ui": "20201212201221",
         "device": config.DEVICE_OFF
     },
-    "trases": {
-        "app": "20201212201221",
-        "ui": "20201212201221",
-        "device": config.DEVICE_OFF
-    },
     "server": {
         "app": "20201212201221",
         "ui": "20201212201221",
@@ -94,15 +89,6 @@ def __load() -> dict:
                                                                                             healthcheck_path),
             exc_info=True)
         return default_hc.copy()
-
-
-def set_trases_mode_to(state):
-    try:
-        data = __load()
-        data['trases']['device'] = state
-        __save(data)
-    except Exception as exception:
-        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
 
 
 def update_for(who: dict):

@@ -32,6 +32,6 @@
 
 * `watch -n 1 vcgencmd measure_temp`
 
-# watch any file (for example measurement in trases4)
+# watch any file (for example measurement in denva2)
 
 * `watch -n 1 cat /home/ds/data/measurement.txt`

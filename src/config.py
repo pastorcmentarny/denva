@@ -381,10 +381,6 @@ def get_post_denviro_measurement_url():
     return f'{SERVER_IP}:5000/measurement/denviro'
 
 
-def get_post_trases_measurement_url():
-    return f'{SERVER_IP}:5000/measurement/trases'
-
-
 def get_add_diary_entry_url():
     return f'{SERVER_IP}:5000/diary/add'
 

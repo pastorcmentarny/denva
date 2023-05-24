@@ -3,13 +3,15 @@
 ## DESIGN
 
 Design choices
+
 - Mono-repo
 - Trunk Based Development
 - Python 3
 
 ### Mothership (200)
-Merge Delight into
-It will contain various
+
+It will contain various apps
+
 - _Send email with data every 5 minutes_
 - _Remove all images that are black_
 - Server CAMERA APP _Python app that making photos_
@@ -19,6 +21,27 @@ It will contain various
 - Airplane scanner
 - Sensor data processor
 - Metrics Service - It will collect all metrics from all services
+
+It runs all apps:
+
+- app to
+- healthcheck - to check application and connectivity
+- email to send emails
+- website - homepage + handling ui for all apps
+- transport manager project
+- Raspberry Pi 3 Model (Kano)
+
+- It was LattePanda Delta 432 with WD Blue SN500
+- Logitech Logitech C525
+- Anker USB 3.0 AK-A7507011
+-
+- Mote (Controller + 4 APA102 RGB LED strips) - for status
+
+
+- Server UI __
+  - Move
+
+carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
 
 
 ### Denva(201) & Denviro(202) - it starts as Dom's Environment Analyser and become denva is a Dom's personal assistant
@@ -39,7 +62,11 @@ This project has inspired by various events in the workplace. It measures:
 
 ## Hardware in use:
 
-### Mothership
+### Mothership (Server)
+- Raspberry Pi 4 (8GB)
+- Unicorn HAT HD
+
+It used to run CCTV, lighting system, NAS but this was offload to Borg PC and LatePanda
 
 ### On Denva device:
 
@@ -50,38 +77,15 @@ This project has inspired by various events in the workplace. It measures:
 - ICM20948 9DoF Motion Sensor Breakout
 - VEML6075 UVA/B Sensor Breakout
 
-
 ## On Denviro device:
 
 - Raspberry Pi 3 Model B+
 - Enviro+
 - PMS 5003 to measure pollution
 
-
-## On Delight device:
-
-- Raspberry Pi 3 Model (Kano)
-- Unicorn HAT HD
-
-
-## Server:
-
-- It was LattePanda Delta 432 with WD Blue SN500
-- Logitech Logitech C525
-- Anker USB 3.0 AK-A7507011
-- 
-- Mote (Controller  + 4 APA102 RGB LED strips) - for status
-
-
-
-- Server UI __
-    - Move
-
-carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
-
-
-
 ## STATUS UI:
+
+```
    1...5..........EF
   1 AA BB CC DD 
   2 
@@ -92,7 +96,7 @@ carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
   7 
   8
   9
-  0     
+  0 3D 3A 3U    
   A             CCA           
   B 2D 2A 2U    
   C             RRA
@@ -102,7 +106,11 @@ carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
   
   
   1 - DENVA
+  2 - DENVA2
   2 - ENVIRO
+  D - device status
+  A - application
+  U - ui for app
   AA - CPU TEMP
   BB - RAM
   CC - SPACE
@@ -113,9 +121,10 @@ carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
   ke - knyszogar email
   kn = knyszogar network health check
   kw - knyszogar website
-
+```
 
 # Resources:
+
 0. https://www.idt.com/eu/en/document/whp/overview-tvoc-and-indoor-air-quality
 1. https://www.epa.gov/sites/production/files/2014-05/documents/zell-aqi.pdf
 2. https://www.google.com/appsstatus

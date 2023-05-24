@@ -24,7 +24,6 @@ import server.information_service as information
 import server.personal_stats as personal_events
 import server.random_irregular_verb as verb
 import server.rules_service as rules
-import server.healthcheck_service as hc
 from common import data_files
 from gateways import web_data_gateway, local_data_gateway, tube_client
 from reports import report_generator
@@ -109,7 +108,6 @@ def get_current_system_information_for_all_services(config: dict):
         'server': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['delight'])),
         'denva': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva'])),
         'enviro': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['enviro'])),
-        'trases': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['trases']))
     }
 
 
@@ -162,7 +160,6 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'enviro': local_data_gateway.get_current_reading_for_enviro(),
-            'trases': data_files.load_last_measurement_for('trases'),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             config.FIELD_SYSTEM: get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),
@@ -235,19 +232,6 @@ def get_device_status(config_data: dict):
 
 def count_tube_problems_today():
     return tube_client.count_tube_problems(tube_client.load())
-
-
-def set_trases_device_to(device_status: str):
-    logger.info(f'Setting Trases Device to {device_status}')
-    hc.set_trases_mode_to(device_status)
-
-
-def set_trases_to_off():
-    return set_trases_device_to('OFF')
-
-
-def set_trases_to_on():
-    return set_trases_device_to('ON')
 
 
 def get_report_for_yesterday():

@@ -247,12 +247,23 @@ def tail(file_path: str, lines=1) -> list:
     return lines_found[-lines:]
 
 
-# TODO add validator? and RETRY
+# TODO add validator? and RETRY rename to add list to file
 def save_list_to_file(data: list, path: str):
     try:
         filename = Path(path)
         filename.touch(exist_ok=True)
         with open(path, 'a+', encoding=ENCODING) as path_file:
+            path_file.write(NEW_LINE.join(data))
+            path_file.write(NEW_LINE)
+    except Exception as exception:
+        logger.warning(f"Unable to save this data {data} using path {path} due to {exception}")
+
+
+def save_list_to_file_replace(data: list, path: str):
+    try:
+        filename = Path(path)
+        filename.touch(exist_ok=True)
+        with open(path, 'w', encoding=ENCODING) as path_file:
             path_file.write(NEW_LINE.join(data))
             path_file.write(NEW_LINE)
     except Exception as exception:

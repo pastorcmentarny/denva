@@ -2,16 +2,18 @@ from datetime import datetime
 from retrying import retry
 import logging
 
+import config
+
 """
 Service to write down all events that happen
 """
 ENCODING = 'utf-8'
-logger = logging.getLogger('www')
+logger = logging.getLogger('app')
 
 
 def add(new_entry):
     dt = datetime.now()
-    path = f"diary-{dt.year}-{dt.month:02d}-{dt.day:02d}.txt"
+    path = f"{config.PI_DATA_PATH}/diary-{dt.year}-{dt.month:02d}-{dt.day:02d}.txt"
     try:
         save_entry(new_entry, path)
     except Exception as exception:

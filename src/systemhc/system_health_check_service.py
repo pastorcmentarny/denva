@@ -43,11 +43,6 @@ hc_fix = {
         "ui": "20200202121212",
         "device": "DANGER"
     },
-    "trases": {
-        "app": "20200202121212",
-        "ui": "20200202121212",
-        "device": "OK"
-    },
     "server": {
         "app": "20200202121212",
         "ui": "20200202121212",
@@ -106,11 +101,6 @@ def update_to_now_for_all():
             'device': 'OK'
         },
         'delight': {
-            'app': to_timestamp(now),
-            'ui': to_timestamp(now),
-            'device': 'OK'
-        },
-        'trases': {
             'app': to_timestamp(now),
             'ui': to_timestamp(now),
             'device': 'OK'
@@ -186,10 +176,6 @@ def get_system_healthcheck():
         'server': {
             'app': is_up('server', 'app'),
             'ui': is_up('server', 'ui')
-        },
-        'trases': {
-            'app': is_up('trases', 'app'),
-            'ui': is_up('trases', 'ui')
         },
         'knyszogar': {
             'cctv': is_camera_up('knyszogar', 'cctv'),

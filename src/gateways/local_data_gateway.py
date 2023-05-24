@@ -94,8 +94,7 @@ def get_current_warnings_for_all_services() -> dict:
         'denva': get_data_for(config.get_current_warnings_url_for('denva')),
         config.KEY_DENVA_TWO: get_data_for(config.get_current_warnings_url_for(config.KEY_DENVA_TWO)),
         'enviro': get_data_for(config.get_current_warnings_url_for('enviro')),
-        'server': system_data_service.get_system_warnings(),
-        'trases': get_data_for(config.get_current_warnings_url_for('trases'), 2),
+        'server': system_data_service.get_system_warnings()
     }
 
 
