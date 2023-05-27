@@ -29,12 +29,12 @@ def save_weather_to_file(weather_data: list, weather_file: str):
     logger.info('Saving updated weather to file using timestamp: {}'.format(weather_timestamp))
 
     weather_data.append(weather_timestamp)
-    data_files.save_list_to_file(weather_data, weather_file)
+    data_files.save_list_to_file_replace(weather_data, weather_file)
 
 
 def get_weather() -> list:
     logger.info('Getting weather')
-    weather_file = config.PI_DATA_PATH + 'weather.txt'
+    weather_file = f'{config.PI_DATA_PATH}/weather.txt'
     if not os.path.exists(weather_file):
         logger.info('File not exists. Getting weather from the web')
         weather_data = __cleanup_weather_data(web_data_gateway.get_weather())
