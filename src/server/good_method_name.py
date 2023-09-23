@@ -12,6 +12,7 @@
 
 import random
 
+#MOVE methodName to file
 names = [
     'getLogsAsSourceRecords()',
     'findElement()',
@@ -21,7 +22,8 @@ names = [
     'if (isLookingForLeader(response)) ',
     'getStringFromByteBuffer(byteBuffer.getValue())',
     'addOrMergeSource()',
-    'addRuntimeShutdownHookIfNecessary()'
+    'addRuntimeShutdownHookIfNecessary()',
+    'createClientHttpConnector()'
 ]
 
 

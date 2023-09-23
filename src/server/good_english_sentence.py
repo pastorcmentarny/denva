@@ -12,7 +12,7 @@
 
 import random
 
-# list of sentence that are cool to use or it is example of good english sentence pattern.
+# List of sentences that are cool to use or it is an examples of good English sentence patterns.
 sentences = [
     "I am extremely sorry for the disruption that Metropolitan line customers are experiencing this morning."
     "This has been caused by an issue with the signalling system at Baker Street.",
@@ -68,10 +68,12 @@ sentences = [
     "I appreciate your thorough attentiveness to my deliverables. To ensure we are not duplicating work, please let me know in the future if you'd like to take this n yourself.",
     "This is a reason why god invited 'copy and paste'.",
     "The service is suspended between Harrow-on-the-Hill and Watford while we remove a gazebo from the track. (TfL)"
-    "For every claim or statement made in this book, you'd probably be able to find some new study or investigation that argues against it. (LoeWhaley)",
+    "For every claim or statement made in this book, you'd probably be able to find some new study or investigation that argues against it.",
     "Thank you for sharing this timeline with me. Can you help me understand how this amount of work is achievable in such a short period of time? (LoeWhaley)",
     "Please help me understand why I am required to be in the office when I can effectively execute my job responsibilities remotely. (LoeWhaley)",
-    "Germans are usually quiet, impeccably polite and keen to remind us that their mid-20th Century reputation for arriving everywhere in a tank is a thing of the past. (Jeremy Clarkson)"
+    "Germans are usually quiet, impeccably polite and keen to remind us that their mid-20th Century reputation for arriving everywhere in a tank is a thing of the past. (Jeremy Clarkson)",
+    "That looks like next week problem for me (LoeWhaley)",
+    "They have to be given a nice cup of fair trade, nuclear-free, peace coffee made with milk from a nut and told that their ridiculous demands will be met.(Jeremy Clarkson)"
 ]
 
 def get_random_english_sentence() -> str:
