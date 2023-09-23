@@ -8,9 +8,14 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+import logging
 from pathlib import Path
-
 import dom_utils
+
+logger = logging.getLogger('app')
+
+
+
 
 CPU_TEMP_FATAL = "cpu_temp_fatal"
 CPU_TEMP_ERROR = "cpu_temp_error"
@@ -48,7 +53,7 @@ DENVA_DATA_COLUMN_GPS_PDOP = 26
 DENVA_DATA_COLUMN_GPS_HDOP = 27
 DENVA_DATA_COLUMN_GPS_VDOP = 28
 
-DEVICE_ON = 'ON'
+DEVICE_ON = 'OK'
 DEVICE_OFF = 'OFF'
 
 FIELD_CPU_TEMP = 'cpu_temp'
@@ -415,3 +420,37 @@ def get_measurement_size():
 
 def get_today_warnings():
     return "/home/ds/data/all-warnings.txt"
+
+
+def reset_hc_statuses():
+    logger.warning('Reseting healthcheck statuses')
+    return {
+        "denva": {
+            "app": "20200202121212",
+            "ui": "20200202121212",
+            "device": "UNKNOWN"
+        },
+        "denviro": {
+            "app": "20200202121212",
+            "ui": "20200202121212",
+            "device": "UNKNOWN"
+        },
+        "delight": {
+            "app": "20200202121212",
+            "ui": "20200202121212",
+            "device": "UNKNOWN"
+        },
+        "server": {
+            "app": "20200202121212",
+            "ui": "20200202121212",
+            "device": "UNKNOWN"
+        },
+        "knyszogar": {
+            "cctv": "20200202121212",
+            "hc": "20200202121212",
+            "radar": "20200202121212",
+            "digest": "20200202121212",
+            "app": "20200202121212",
+            "email": "20200202121212"
+        }
+    }

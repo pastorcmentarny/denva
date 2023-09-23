@@ -4,59 +4,41 @@ import random
 import re
 import time
 from datetime import datetime
-from subprocess import PIPE, Popen
 
 import psutil
 import requests
 
 import config
 import dom_utils
+from common import commands
 from server import display, sub_light, forest, warp
 from server import healthcheck_service
 from server import night_train_effect
 
 logger = logging.getLogger('app')
-dom_utils.setup_test_logging('display',False)
+dom_utils.setup_test_logging('display', False)
 
 READ = 'r'
 OFF = 'OFF'
-ON = 'ON'
-REBOOT = 'REBOOT'
+ERROR = 'ERROR'
+WARN = 'WARN'
 CAUTION = 'CAUTION'
+OK = 'OK'
 PERFECT = 'PERFECT'
 GOOD = 'GOOD'
 POOR = 'POOR'
-DOWN = 'DOWN'
-WARN = 'WARN'
-UP = 'UP'
-OK = 'OK'
-ERROR = 'ERROR'
-DANGER = 'DANGER'
 UNKNOWN = 'UNKNOWN'
-
 
 DENVA_TWO = 'Denva TWO'
 
+
 # TODO MERGE OK,UP,ON
-# TODO ERROR SHOULD BE DANGER
 def get_state_colour_for_hc(current_state: str):
     if current_state == OK:
         color_red = 0
         color_green = 255
         color_blue = 0
-    elif current_state == UP:
-        color_red = 0
-        color_green = 255
-        color_blue = 0
-    elif current_state == ON:
-        color_red = 0
-        color_green = 255
-        color_blue = 0
     elif current_state == ERROR:
-        color_red = 255
-        color_green = 0
-        color_blue = 0
-    elif current_state == DANGER:
         color_red = 255
         color_green = 0
         color_blue = 0
@@ -68,10 +50,6 @@ def get_state_colour_for_hc(current_state: str):
         color_red = 255
         color_green = 224
         color_blue = 0
-    elif current_state == REBOOT:
-        color_red = 255
-        color_green = 229
-        color_blue = 124
     elif current_state == OFF:
         color_red = 0
         color_green = 0
@@ -82,22 +60,10 @@ def get_state_colour_for_hc(current_state: str):
         color_blue = 64
     return color_red, color_green, color_blue
 
+
 # TODO move
-def get_cpu_temperature():
-    with Popen(['vcgencmd', 'measure_temp'], stdout=PIPE) as process:
-        output, _error = process.communicate()
-        output = output.decode()
-
-        pos_start = output.index('=') + 1
-        pos_end = output.rindex("'")
-
-        temp = float(output[pos_start:pos_end])
-        process.kill()
-        return temp
-
-
 def draw_cpu_status():
-    temp = get_cpu_temperature()
+    temp = commands.get_cpu_temperature()
     if temp > 70.0:
         r, g, b = get_state_colour_for_hc(ERROR)
     elif temp > 60.0:
@@ -129,16 +95,11 @@ def draw_ram_status():
     display.unicornhathd.set_pixel(1, 5, r, g, b)
 
 
-#TODO re-use commands
-def get_space_available():
-    with Popen("df / -m --output=avail", stdout=PIPE, shell=True) as process:
-        result, _ = process.communicate()
-        process.kill()
-        return re.sub('[^0-9.]', '', str(result).strip())
+# TODO re-use commands
 
 
 def draw_storage_status():
-    space = int(get_space_available())
+    space = int(commands.get_space_available())
     if space < 250:
         r, g, b = get_state_colour_for_hc(ERROR)
     elif space < 512:
@@ -174,7 +135,7 @@ def draw_network_health_check():
         r, g, b = get_state_colour_for_hc(CAUTION)
     elif status == POOR:
         r, g, b = get_state_colour_for_hc(WARN)
-    elif status == DOWN:
+    elif status == OFF:
         r, g, b = get_state_colour_for_hc(ERROR)
     else:
         r, g, b = get_state_colour_for_hc(UNKNOWN)
@@ -233,6 +194,7 @@ def draw_denva2_status():
         logger.info(f'{DENVA_TWO} spectrometer status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(9, 9, r, g, b)
+
 
 def draw_enviro_status():
     # DEVICE
@@ -370,6 +332,26 @@ def random_pixel():
     display.unicornhathd.set_pixel(1, 15, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 
+tick = True
+# Change led location to next to random color
+def draw_wifi_status():
+    global tick
+    wifi_status = commands.is_internet_up('192.168.0.200')
+    if wifi_status:
+        r, g, b = get_state_colour_for_hc('OK')
+    else:
+        r, g, b = get_state_colour_for_hc('ERROR')
+
+    if tick:
+        display.unicornhathd.set_pixel(8, 13, r, g, b)
+        display.unicornhathd.set_pixel(8, 14, 24, 24, 24)
+        tick = False
+    else:
+        display.unicornhathd.set_pixel(8, 13, 24, 24, 24)
+        display.unicornhathd.set_pixel(8, 14, r, g, b)
+        tick = True
+
+
 def show_status():
     draw_cpu_status()
     draw_ram_status()
@@ -387,6 +369,7 @@ def show_status():
     draw_transport_manager_ui()
     draw_transport_manager_service()
     draw_transport_manager_db()
+    draw_wifi_status()
     random_pixel()
     display.unicornhathd.show()
 

@@ -27,36 +27,7 @@ def save(data: dict):
         logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
 
 
-hc_fix = {
-    "denva": {
-        "app": "20200202121212",
-        "ui": "20200202121212",
-        "device": "DANGER"
-    },
-    "denviro": {
-        "app": "20200202121212",
-        "ui": "20200202121212",
-        "device": "DANGER"
-    },
-    "delight": {
-        "app": "20200202121212",
-        "ui": "20200202121212",
-        "device": "DANGER"
-    },
-    "server": {
-        "app": "20200202121212",
-        "ui": "20200202121212",
-        "device": "DANGER"
-    },
-    "knyszogar": {
-        "cctv": "20200202121212",
-        "hc": "20200202121212",
-        "radar": "20200202121212",
-        "digest": "20200202121212",
-        "app": "20200202121212",
-        "email": "20200202121212"
-    }
-}
+hc_fix = config.reset_hc_statuses()
 
 
 def load() -> dict:

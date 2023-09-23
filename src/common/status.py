@@ -13,8 +13,8 @@
 
 class Status:
     OK = 3
-    WARN = 2
-    DANGER = 1
+    CAUTION = 2
+    WARN = 1
     ERROR = 0
 
     state = OK
@@ -38,7 +38,7 @@ class Status:
         elif self.state == 2:
             return 'CAUTION'
         elif self.state == 1:
-            return 'DANGER'
+            return 'WARN'
         elif self.state == 0:
             return 'ERROR'
         else:

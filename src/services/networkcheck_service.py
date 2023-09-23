@@ -22,7 +22,7 @@ USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 PERFECT = 'Perfect'
 GOOD = 'Good'
 POOR = 'POOR'
-DOWN = 'DOWN'
+ERROR = 'DOWN'
 
 logger = logging.getLogger('hc')
 
@@ -80,7 +80,7 @@ def log_result(problems, status, total_time):
     if status == POOR:
         logger.warning(
             'It looks like there is some problem with network as some pages failed to load due to: {}'.format(problems))
-    if status == DOWN:
+    if status == ERROR:
         logger.error('Network is DOWN! All services failed due to: {}'.format(problems))
     if status == PERFECT or status == GOOD:
         logger.debug('Network seems to be fine. I took {} ms to check.'.format(total_time))
@@ -94,12 +94,11 @@ def _get_network_status(ok: int) -> str:
     elif ok >= 2:
         return POOR
     elif ok == 1:
-        return DOWN + '?'
+        return ERROR + '?'
     else:
-        return DOWN + '!'
+        return ERROR + '!'
 
 
 # use as standalone tool :)
 if __name__ == '__main__':
-    dom_utils.setup_test_logging()
     network_check()

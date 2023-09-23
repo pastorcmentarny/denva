@@ -80,10 +80,6 @@ def update_hc_for(data: dict):
     system_health_check_service.update_hc_for(data['device'], data['app_type'])
 
 
-def reset_hc():
-    system_health_check_service.update_to_now_for_all()
-
-
 def get_system_hc():
     return system_health_check_service.get_system_healthcheck()
 

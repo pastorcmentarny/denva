@@ -29,7 +29,7 @@ USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 PERFECT = 'PERFECT'
 GOOD = 'GOOD'
 POOR = 'POOR'
-DOWN = 'DOWN'
+DOWN = 'OFF'
 
 logger = logging.getLogger('hc')
 dom_utils.setup_test_logging('healthcheck')

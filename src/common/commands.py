@@ -17,6 +17,7 @@ import platform
 import psutil
 
 import dom_utils
+from subprocess import PIPE, Popen
 
 logger = logging.getLogger('app')
 
@@ -123,6 +124,7 @@ def get_space_available():
         return re.sub('[^0-9.]', '', str(result).strip())
 
 
+# TODO remove it
 def get_data_space_available():
     return 0
 
@@ -135,6 +137,15 @@ def get_lines_from_path(path: str, lines: int) -> dict:
 def get_last_line_from_log(path: str) -> str:
     text = str(subprocess.check_output(['tail', '-n', "1", path]).strip(), "utf-8")
     return text
+
+
+def is_internet_up(hostname: str) -> bool:
+    try:
+        text = str(subprocess.check_output(['hostname', '-I']).strip(), "utf-8")
+    except Exception as e:
+        logger.error('Unable to check is internet up due to: {}'.format(e))
+        return False
+    return text == hostname
 
 
 def reboot(reason: str):
@@ -158,10 +169,10 @@ def is_dump_active():
         cmd = f'ps -aux | grep "./dump1090 --net --net-http-port 16601 --metric --quiet" | grep -v grep'
         result = subprocess.check_output(cmd, shell=True)
         logger.debug('Dump1090 is UP. Result {}'.format(result))
-        return "UP"
+        return "OK"
     except Exception as e:
         logger.error('Dump1090 is DOWN due to {}'.format(e))
-        return "DOWN"
+        return "ERROR"
 
 
 def is_dump_digest_active():
@@ -169,10 +180,10 @@ def is_dump_digest_active():
         cmd = f"ps -aux | grep app_dump_data_digest.py | grep -v grep"
         result = subprocess.check_output(cmd, shell=True)
         logger.info('Result {}'.format(result))
-        return "UP"
+        return "OK"
     except Exception as e:
         logger.error('Data digest for Dump1090 is DOWN due to {}'.format(e))
-        return "DOWN"
+        return "ERROR"
 
 
 # TODO test 5 website and all Pi (and maybe laptops)
@@ -185,3 +196,20 @@ def get_ping_results() -> str:
     except Exception as e:
         logger.error('Unable to run ping test'.format(e))
         return "ERROR"
+
+
+def get_cpu_temperature():
+    try:
+        with Popen(['vcgencmd', 'measure_temp'], stdout=PIPE) as process:
+            output, _error = process.communicate()
+            output = output.decode()
+
+            pos_start = output.index('=') + 1
+            pos_end = output.rindex("'")
+
+            temp = float(output[pos_start:pos_end])
+            process.kill()
+            return temp
+    except Exception as e:
+        logger.error(f'There was a problem with get CPU temperature due to {e}', exc_info=True)
+        return -1

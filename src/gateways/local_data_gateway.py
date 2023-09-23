@@ -109,8 +109,8 @@ def get_all_healthcheck_from_all_services() -> dict:
 def _get_hc_result(service: str):
     hc_result = get_data_for('{}/hc'.format(config.load_cfg()["urls"][service]))
     if 'error' in hc_result:
-        return 'DOWN'
-    return 'UP'
+        return 'OFF'
+    return 'OK'
 
 
 def get_current_reading_for_aircraft():
