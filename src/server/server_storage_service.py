@@ -12,10 +12,6 @@ def save_denva_measurement(data):
     __save(data, '/home/pi/data/denva_data.json')
 
 
-def save_denviro_measurement(data):
-    __save(data, '/home/pi/data/denviro_data.json')
-
-
 def __retry_on_exception(exception):
     return isinstance(exception, Exception)
 

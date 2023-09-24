@@ -5,30 +5,14 @@
     <div class="row-cols-auto">
     <!-- main part -->
     <div class=" darkness">
-        {% if not message.daily[2] %}
-            <div class="row col-12 text-center">
-                <div class="col-md-10">
-                    <h2><span class="dailytitle">Now: </span><span class="blinking">{{ message.daily[0] }}</span></h2><br/>
-                </div>
+        <div class="row col-12 text-center">
+            <div class="col-md-10">
+                <h2><span class="dailytitle"></span><span class="blinking">{{ message.welcome_text }}</span></h2><br/>
             </div>
-            <div class="row col-12 text-center">
-                <div class="col-md-10">
-                    <h2><span class="dailytitle">Next: </span><span class="next-item">{{ message.daily[1] }}</span></h2><br/>
-                </div>
-            </div>
-        {% else %}
-            <div class="row col-12 text-center">
-                <div class="col-md-12 text-warning">
-                    <b>&#9728; WEEKEND &#9728;</b>
-                </div>
-            </div>
-        {% endif %}
+        </div>
     </div>
     <div class="row mb-12 text-center">
         <div class="col-md-12">
-            <div class="card-body">
-                {{ message.welcome_text }}
-            </div>
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">WARNINGS</h4>
             </div>
@@ -43,13 +27,6 @@
                         {% endfor %}
                     {% else %}
                         <li><span class="bad">No Data for Denva :(</span></li>
-                    {% endif %}
-                    {% if  message.warnings.enviro %}
-                        {% for _, value in message.warnings.enviro.items() %}
-                            <li class="mb-1 text-warning">{{ value }}</li>
-                        {% endfor %}
-                    {% else %}
-                        <li><span class="bad">No Data for Denviro :(</span></li>
                     {% endif %}
                     {% for server in message.warnings.server %}
                         <li class="mb-1 text-danger">{{ server }}</li>
@@ -102,17 +79,17 @@
                     {% endif %}
 
                     <li>_</li>
-                    <li><strong class="d-inline-block mb-2 text-success">Denvira(Pi3) {2}</strong></li>
-                    {% if  message.system.enviro and message.system.enviro["CPU Temp"] %}
-                        <li class="small"><b>CPU Speed : </b>{{ message.system.enviro["CPU Speed"] }}</li>
-                        <li class="small"><b>CPU Temp : </b>{{ message.system.enviro["CPU Temp"].replace('Â','') }}
+                    <li><strong class="d-inline-block mb-2 text-success">Denva Two(Pi4) {2}</strong></li>
+                    {% if  message.system.denva2 and message.system.denva2["CPU Temp"] %}
+                        <li class="small"><b>CPU Speed : </b>{{ message.system.denva2["CPU Speed"] }}</li>
+                        <li class="small"><b>CPU Temp : </b>{{ message.system.denva2["CPU Temp"].replace('Â','') }}
                         </li>
-                        <li class="small"><b>RAM Available : </b>{{ message.system.enviro["Memory Available"] }}
+                        <li class="small"><b>RAM Available : </b>{{ message.system.denva2["Memory Available"] }}
                         </li>
-                        <li class="small"><b>Free Space : </b>{{ message.system.enviro["Free Space"] }}</li>
-                        <li class="small"><b>Uptime : </b>{{ message.system.enviro["Uptime"] }}</li>
+                        <li class="small"><b>Free Space : </b>{{ message.system.denva2["Free Space"] }}</li>
+                        <li class="small"><b>Uptime : </b>{{ message.system.denva2["Uptime"] }}</li>
                     {% else %}
-                        <li><span class="bad">No Denvira data :(</span></li>
+                        <li><span class="bad">No Denva2 data :(</span></li>
                     {% endif %}
                     <li>_</li>
 
@@ -148,22 +125,17 @@
             <li><span class="bad">No Denva data :(</span></li>
             {% endif %}
             <div class="card-header">
-                <h4 class="my-0 font-weight-normal">ENVIRO</h4>
+                <h4 class="my-0 font-weight-normal">DENVA2</h4>
             </div>
-            {% if  message.enviro %}
+            {% if  message.denva2 %}
             <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><strong>temperature</strong> : {{ message.enviro.temperature }}</li>
-                    <li><strong>oxidised</strong> : {{ message.enviro.oxidised }}</li>
-                    <li><strong>reduced</strong> : {{ message.enviro.reduced }}</li>
-                    <li><strong>nh3</strong> : {{ message.enviro.nh3 }}</li>
-                    <li><strong>pm1</strong> : {{ message.enviro.pm1 }}</li>
-                    <li><strong>pm25</strong> : {{ message.enviro.pm25 }}</li>
-                    <li><strong>pm10</strong> : {{ message.enviro.pm10 }}</li>
+                    <li><strong>temperature</strong> : {{ message.denva2.temperature }}</li>
+
                 </ul>
             </div>
             {% else %}
-                <li><span class="bad">No Enviro data :(</span></li>
+                <li><span class="bad">No Denva2 data :(</span></li>
             {% endif %}
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">Denva TWO</h4>

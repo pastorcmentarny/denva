@@ -32,11 +32,6 @@ default_hc = {
         "spectrometer": "20201212201221",
         "device": config.DEVICE_OFF
     },
-    "denviro": {
-        "app": "20201212201221",
-        "ui": "20201212201221",
-        "device": config.DEVICE_OFF
-    },
     "delight": {
         "app": "20201212201221",
         "ui": "20201212201221",

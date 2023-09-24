@@ -66,7 +66,7 @@ def update_to_now_for_all():
             'ui': to_timestamp(now),
             'device': 'OK'
         },
-        'denviro': {
+        'denva2': {
             'app': to_timestamp(now),
             'ui': to_timestamp(now),
             'device': 'OK'
@@ -135,10 +135,6 @@ def get_system_healthcheck():
         'denva': {
             'app': is_up('denva', 'app'),
             'ui': is_up('denva', 'ui')
-        },
-        'denviro': {
-            'app': is_up('denviro', 'app'),
-            'ui': is_up('denviro', 'ui')
         },
         'delight': {
             'app': is_up('delight', 'app'),

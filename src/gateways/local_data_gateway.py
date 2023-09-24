@@ -29,10 +29,8 @@ HEADERS = {
 def get_current_reading_for_denva() -> dict:
     return get_data_for('{}/now'.format(config.load_cfg()["urls"]['denva']))
 
-
-def get_current_reading_for_enviro() -> dict:
-    return get_data_for('{}/now'.format(config.load_cfg()["urls"]['enviro']))
-
+def get_current_reading_for_denva_two() -> dict:
+    return get_data_for('{}/now'.format(config.load_cfg()["urls"]['denva2']))
 
 def get_yesterday_report_for_denva() -> dict:
     return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"]['denva']), REPORT_TIMEOUT)
@@ -42,22 +40,16 @@ def get_yesterday_report_for_denva_two() -> dict:
     return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]), REPORT_TIMEOUT)
 
 
-def get_yesterday_report_for_enviro() -> dict:
-    return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"]['enviro']), REPORT_TIMEOUT)
-
-
 def get_current_log_counts() -> dict:
     return {
         'app': {
             'denva': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['denva'])),
             config.KEY_DENVA_TWO: get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
-            'enviro': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['enviro'])),
             'delight': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['delight']))
         },
         'ui': {
             'denva': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['denva'])),
             config.KEY_DENVA_TWO: get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
-            'enviro': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['enviro'])),
             'delight': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['delight']))
         }
     }
@@ -68,13 +60,13 @@ def get_current_logs_for_all_services() -> dict:
         'app': {
             'denva': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['denva'])),
             config.KEY_DENVA_TWO: get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
-            'enviro': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['enviro'])),
+
             'delight': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['delight']))
         },
         'hc': {
             'denva': get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"]['denva'])),
             config.KEY_DENVA_TWO: get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
-            'enviro': get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"]['enviro']))
+            'delight': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['delight']))
         }
     }
 
@@ -93,13 +85,12 @@ def get_current_warnings_for_all_services() -> dict:
     return {
         'denva': get_data_for(config.get_current_warnings_url_for('denva')),
         config.KEY_DENVA_TWO: get_data_for(config.get_current_warnings_url_for(config.KEY_DENVA_TWO)),
-        'enviro': get_data_for(config.get_current_warnings_url_for('enviro')),
         'server': system_data_service.get_system_warnings()
     }
 
 
 def get_all_healthcheck_from_all_services() -> dict:
-    services = ['denva',config.KEY_DENVA_TWO, 'enviro', 'server', 'delight']
+    services = ['denva',config.KEY_DENVA_TWO, 'server', 'delight']
     result = {}
     for service in services:
         result[service] = _get_hc_result(service)
@@ -205,20 +196,6 @@ def post_denva_measurement(json_data):
             'There was a problem with sending measurement for denva with url {} due to {} '.format(url, whoops))
 
 
-def post_denviro_measurement(json_data):
-    url = config.get_post_denviro_measurement_url()
-    json_data[config.FIELD_CPU_TEMP] = '40.0' #TODO fix it
-    try:
-        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
-            response.json()
-            logger.info(json_data)
-            logger.info(response.json())
-            response.raise_for_status()
-    except Exception as whoops:
-        logger.warning(
-            'There was a problem with sending measurement for denviro with url {} due to {} '.format(url, whoops))
-
-
 def add_entry_to_diary(new_entry: str):
     url = config.get_add_diary_entry_url()
     try:
@@ -230,4 +207,4 @@ def add_entry_to_diary(new_entry: str):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem with sending measurement for denviro with url {} due to {} '.format(url, whoops))
+            'There was a problem with adding entry with url {} and entry {} due to {} '.format(url,new_entry, whoops))

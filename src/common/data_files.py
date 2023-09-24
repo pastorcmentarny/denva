@@ -100,28 +100,6 @@ def check_if_report_was_generated(report_date: str) -> bool:
     return os.path.isfile(path)
 
 
-def add_enviro_measurement_to_file(file, data: dict):
-    timestamp = datetime.now()
-    csv_writer = csv.writer(file)
-    csv_writer.writerow([timestamp,
-                         data[config.FIELD_TEMPERATURE], data[config.FIELD_PRESSURE], data[config.FIELD_HUMIDITY],
-                         data[config.FIELD_LIGHT], data[config.FIELD_PROXIMITY], data[config.FIELD_OXIDISED],
-                         data[config.FIELD_REDUCED],
-                         data[config.FIELD_NH3], data[config.FIELD_PM1], data[config.FIELD_PM25],
-                         data[config.FIELD_PM10], data[config.FIELD_MEASUREMENT_TIME],
-                         data[config.FIELD_CPU_TEMP]
-                         ])
-    file.close()
-
-
-def store_enviro_measurement(data: dict, sensor_log_file):
-    try:
-        local_file = open(sensor_log_file, 'a+', newline=EMPTY)
-        add_enviro_measurement_to_file(local_file, data)
-    except IOError as exception:
-        logger.warning(f'Unable to store denvira measurement due to : {exception}', exc_info=True)
-
-
 def add_measurement_to_file(file, data: dict):
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
@@ -308,50 +286,8 @@ def add_denva_row(data, row):
     )
 
 
-def load_enviro_data_for_today() -> list:
-    today = datetime.now()
-    return load_enviro_data(today.year, today.month, today.day, get_sensor_log_file())
-
-
 def get_sensor_log_file():
     return config.PI_DATA_PATH + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
-
-
-def load_enviro_data(year: int, month: int, day: int, path: str) -> list:
-    logger.debug('loading enviro sensor data from {} {} {}'.format(day, month, year))
-    sensor_log_file = dom_utils.fix_nulls(
-        open(path, READ, newline=EMPTY,
-             encoding=ENCODING))
-    csv_content = csv.reader(sensor_log_file)
-    csv_data = list(csv_content)
-    data = []
-    for index, row in enumerate(csv_data):
-        logger.debug('read csv row no.{}'.format(index))
-        try:
-            row[12] == UNKNOWN
-        except IndexError:
-            row.insert(12, 0)  # measurement time
-        add_enviro_row(data, row)
-    sensor_log_file.close()
-    return data
-
-
-def add_enviro_row(data, row):
-    data.append(
-        {
-            config.FIELD_TIMESTAMP: row[0],
-            config.FIELD_TEMPERATURE: '{:0.1f}'.format(float(row[1])),  # unit = "C"
-            config.FIELD_OXIDISED: '{:0.2f}'.format(float(row[6])),  # config.FIELD_OXIDISED    unit = "kO"
-            config.FIELD_REDUCED: '{:0.2f}'.format(float(row[7])),  # unit = "kO"
-            config.FIELD_NH3: '{:0.2f}'.format(float(row[8])),  # unit = "kO"
-            config.FIELD_PM1: row[9],  # unit = "ug/m3"
-            config.FIELD_PM25: row[10],  # unit = "ug/m3"
-            config.FIELD_PM10: row[11],  # unit = "ug/m3"
-            config.FIELD_CPU_TEMP: row[13],
-            config.FIELD_LIGHT: '{:0.1f}'.format(float(row[4])),
-            config.FIELD_MEASUREMENT_TIME: row[12]
-        }
-    )
 
 
 def is_report_file_exists(path) -> bool:

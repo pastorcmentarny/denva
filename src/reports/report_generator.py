@@ -252,25 +252,6 @@ def load_data(year, month, day) -> list:
     return data
 
 
-def load_enviro_data(year, month, day) -> list:
-    csv_data = read_data_as_list_from_csv_file(day, month, year, 'sensor-log')
-    data = []
-    for row in csv_data:
-        data.append({
-            config.FIELD_TIMESTAMP: row[0],
-            'temperature': '{:0.1f}'.format(float(row[1])),  # unit = "C"
-            'light': '{:0.1f}'.format(float(row[4])),
-            config.FIELD_OXIDISED: '{:0.2f}'.format(float(row[6])),  # config.FIELD_OXIDISED    unit = "kO"
-            'reduced': '{:0.2f}'.format(float(row[7])),  # unit = "kO"
-            config.FIELD_NH3: '{:0.2f}'.format(float(row[8])),  # unit = "kO"
-            config.FIELD_PM1: row[9],  # unit = "ug/m3"
-            config.FIELD_PM25: row[10],  # unit = "ug/m3"
-            config.FIELD_PM10: row[11],  # unit = "ug/m3"
-            config.FIELD_MEASUREMENT_TIME: row[12],
-        })
-    return data
-
-
 def read_data_as_list_from_csv_file(day, month, year, log_file_name: str) -> list:
     path = dom_utils.get_filename_from_year_month_day(log_file_name, 'csv', year, month, day)
     sensor_log_file = dom_utils.fix_nulls(open(f'{config.PI_DATA_PATH}{path}', 'r',
@@ -281,44 +262,12 @@ def read_data_as_list_from_csv_file(day, month, year, log_file_name: str) -> lis
     return csv_data
 
 
-def generate_enviro_report_for_yesterday() -> dict:
-    yesterday = datetime.now() - timedelta(days=1)
-    enviro_report = {}
-
-    try:
-        # TODO refactor
-        # is below 2 lines looks stupid? yes, because it is
-        warnings_logger.info("")
-        '''
-        why? as report is generated on next day, you need add log entry 
-        logger can trigger TimedRotatingFileHandler event  and create file
-        that is used by report service. 
-        Why I used logger to store data? because I am lazy and i used most efficient way
-        to store data I do analyse over later.
-        '''
-        year = yesterday.year
-        month = yesterday.month
-        day = yesterday.day
-        data = load_enviro_data(year, month, day)
-        enviro_report[config.FIELD_MEASUREMENT_COUNTER] = len(data)
-        enviro_report['report_date'] = "{}.{}'{}".format(day, month, year)
-        # warnings = sensor_warnings_service.get_warnings_for(str(year), str(month), str(day))
-        # enviro_report['warning_counter'] = len(warnings)
-        enviro_report['avg'] = averages.get_enviro_averages(data)
-        enviro_report['records'] = records.get_enviro_records(data)
-        return enviro_report
-    except Exception as exception:
-        logger.error("Unable to generate  report.", exc_info=True)
-        return {'error': str(exception)}
-
-
 def generate():
     logger.info('Preparing to send denva report email')
     start_time = timer()
     email_data = {
         'report': {
             'denva': local_data_gateway.get_yesterday_report_for_denva(),
-            'enviro': local_data_gateway.get_yesterday_report_for_enviro(),
             config.KEY_DENVA_TWO: local_data_gateway.get_yesterday_report_for_denva_two(),
             'aircraft': local_data_gateway.get_yesterday_report_for_aircraft(),
             'rickmansworth': information_service.get_data_about_rickmansworth(),

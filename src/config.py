@@ -14,14 +14,10 @@ import dom_utils
 
 logger = logging.getLogger('app')
 
-
-
-
 CPU_TEMP_FATAL = "cpu_temp_fatal"
 CPU_TEMP_ERROR = "cpu_temp_error"
 CPU_TEMP_WARN = "cpu_temp_warn"
 MEASUREMENT_LIST_SIZE = 'measurement_list_size'
-DENVIRO_DISPLAY = "denviro_display"
 
 DENVA_DATA_COLUMN_TIMESTAMP = 0
 DENVA_DATA_COLUMN_MEASUREMENT_TIME = 1
@@ -107,7 +103,6 @@ KEY_DENVA_TWO = 'denva-two'
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
 DENVA_TWO_IP = 'http://192.168.0.205'
-DENVIRO_IP = 'http://192.168.0.202'
 
 REFRESH_RATE = 'refresh-rate'
 
@@ -166,7 +161,6 @@ settings = {
         "server": f'{SERVER_IP}:5000',
         "denva": f"{DENVA_IP}:5000",
         KEY_DENVA_TWO: f"{DENVA_TWO_IP}:5000",
-        "enviro": f"{DENVIRO_IP}:5000",
         "delight": f'{SERVER_IP}:5000',
         "dump1090_data": f"{DENVA_IP}:16601/data.json"
     },
@@ -183,8 +177,6 @@ settings = {
         'server_ui': f'{PI_CONFIG_PATH}server_log_ui_config.json',
         'denva_app': f'{PI_CONFIG_PATH}log_app_config.json',
         'denva_ui': f'{PI_CONFIG_PATH}log_ui_config.json',
-        'denviro_app': f'{PI_CONFIG_PATH}log_app_config.json',
-        'denviro_ui': f'{PI_CONFIG_PATH}log_ui_config.json',
         'delight_app': f'{PI_CONFIG_PATH}log_app_config.json',
         'delight_ui': f'{PI_CONFIG_PATH}log_ui_config.json',
         'hc': f'{PI_CONFIG_PATH}log_config.json',
@@ -199,7 +191,6 @@ settings = {
     "test": {
         'slow_test': False
     },
-    DENVIRO_DISPLAY: False,
     MEASUREMENT_LIST_SIZE: 2000
 }
 
@@ -236,7 +227,7 @@ def get_information_path() -> str:
 
 
 def load_cfg() -> dict:
-    return settings
+    return settings.copy()
 
 
 def get_healthcheck_ip() -> str:
@@ -382,10 +373,6 @@ def get_post_denva_measurement_url():
     return f'{SERVER_IP}:5000/measurement/denva'
 
 
-def get_post_denviro_measurement_url():
-    return f'{SERVER_IP}:5000/measurement/denviro'
-
-
 def get_add_diary_entry_url():
     return f'{SERVER_IP}:5000/diary/add'
 
@@ -396,10 +383,6 @@ def get_warnings_path_for(date) -> str:
 
 def get_warnings_path_for_today() -> str:
     return f'{PI_DATA_PATH}{dom_utils.get_date_as_folders_for_today()}warnings.txt'
-
-
-def is_cli_display():
-    return settings[DENVIRO_DISPLAY]
 
 
 def get_slow_refresh_rate():
@@ -418,6 +401,14 @@ def get_measurement_size():
     return settings[MEASUREMENT_LIST_SIZE]
 
 
+def get_url_for_denva():
+    return settings["urls"]['denva']
+
+
+def get_url_for_denva_two():
+    return settings["urls"]['denva2']
+
+
 def get_today_warnings():
     return "/home/ds/data/all-warnings.txt"
 
@@ -430,7 +421,7 @@ def reset_hc_statuses():
             "ui": "20200202121212",
             "device": "UNKNOWN"
         },
-        "denviro": {
+        "denva2": {
             "app": "20200202121212",
             "ui": "20200202121212",
             "device": "UNKNOWN"

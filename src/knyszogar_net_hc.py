@@ -22,7 +22,6 @@ import dom_utils
 from common import status, data_files, loggy
 from gateways import local_data_gateway
 from services import networkcheck_service
-from systemhc import system_health_check_service
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
@@ -117,43 +116,6 @@ def check_denva_app_status(cfg):
     logger.info('Denva: {}'.format(state.get_status_as_light_colour()))
 
 
-def check_enviro_app_status(cfg):
-    state = status.Status()
-    logger.info('Getting status for enviro..')
-    state.set_warn()
-    local_data_gateway.post_device_status('denviro', state.get_status_as_light_colour())
-    # 2. DENVIRO
-    state = status.Status()
-    server_data = local_data_gateway.get_data_for('{}/system'.format(config.load_cfg()["urls"]['enviro']))
-    if 'error' in server_data:
-        logger.warning('Unable to get Denviro status due to {}'.format(server_data['error']))
-        state.set_error()
-    else:
-        system_health_check_service.update_hc_for('denviro', 'ui')
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM][
-            'cpu_temp_error']:
-            logger.warning('status: RED due to very high cpu temp on Denviro')
-            state.set_error()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM][
-            'cpu_temp_warn']:
-            logger.warning('status: ORANGE due to high cpu temp on Denviro')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
-            logger.warning('status: RED due to very low memory available on Denviro')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
-            logger.warning('status: ORANGE due to low memory available on Denviro')
-            state.set_warn()
-        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
-            logger.warning('status: RED due to very low free space on Denviro')
-            state.set_error()
-        elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
-            logger.warning('status: ORANGE due to low free space on Denviro')
-            state.set_warn()
-    local_data_gateway.post_device_status('denviro', state.get_status_as_light_colour())
-    logger.info('Denviro: {}'.format(state.get_status_as_light_colour()))
-
 
 def my_services_check():
     logger.debug('Checking my services...')
@@ -165,7 +127,6 @@ def my_services_check():
     check_for('denva', headers, f"{config.DENVA_IP}:5000/hc")
     check_for('denva2', headers, f"{config.DENVA_TWO_IP}:5000/hc")
     check_for('radar', headers, f"{config.DENVA_IP}:5000/hc/ar")
-    check_for('denviro', headers, f"{config.DENVIRO_IP}:5000/hc")
     check_for('server', headers, f"{config.SERVER_IP}:5000/hc")
     check_for('email', headers, f"{config.SERVER_IP}:18010/hc", 'knyszogar')
     end_time = time.perf_counter()
@@ -237,7 +198,7 @@ def app_loop():
                 logger.info("Performing healthcheck for my services")
                 my_services_check()
                 check_denva_app_status(config.load_cfg())
-                check_enviro_app_status(config.load_cfg())
+                #ADD DENVA 2 APP check
 
             if loop_counter >= 10:
                 logger.info("Performing network check")

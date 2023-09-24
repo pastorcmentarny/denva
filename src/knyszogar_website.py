@@ -78,13 +78,6 @@ def update_denva_measurement():
     return jsonify({})
 
 
-@app.route("/measurement/denviro", methods=['POST'])
-def update_denviro_measurement():
-    logger.info('Updating denviro measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
-    server_storage_service.save_denva_measurement(request.get_json(force=True))
-    return jsonify({})
-
-
 @app.route("/diary/add", methods=['POST'])
 def add_diary():
     logger.info('Add entry to diary. Data size {}'.format(len(str(request.get_json(force=True)))))
@@ -100,13 +93,13 @@ def yearly_goals():
 @app.route('/stop-all')
 def stop_all_devices():
     logging.info('Stopping all PI devices.')
-    return jsonify(app_server_service.stop_all_devices(config.load_cfg()))
+    return jsonify(app_server_service.stop_all_devices())
 
 
 @app.route('/reboot-all')
 def reboot_all_devices():
     logging.info('Rebooting all PI devices.')
-    return jsonify(app_server_service.reboot_all_devices(config.load_cfg()))
+    return jsonify(app_server_service.reboot_all_devices())
 
 
 @app.route("/gc")
@@ -319,7 +312,8 @@ def store():
         else:
             note_service.store_data(content, title)
 
-    return render_template('store_text.html', ok_messages=note_service.get_ok_messages(), error_messages=note_service.get_error_messages())
+    return render_template('store_text.html', ok_messages=note_service.get_ok_messages(),
+                           error_messages=note_service.get_error_messages())
 
 
 if __name__ == '__main__':

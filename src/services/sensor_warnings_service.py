@@ -16,7 +16,6 @@ import config
 from common import commands, get_description_for, data_files, loggy
 import dom_utils
 from denva import denva_sensors_service
-from denviro import denviro_sensors_service
 
 warnings_logger = logging.getLogger('warnings')
 
@@ -39,79 +38,7 @@ def get_current_warnings() -> list:
     return denva_sensors_service.get_new_warnings(data)
 
 
-# source: https://ec.europa.eu/environment/air/quality/standards.htm
-def get_current_warnings_for_enviro() -> list:
-    data = denviro_sensors_service.get_last_measurement()
-    warnings = []
 
-    data[config.FIELD_CPU_TEMP] = float(re.sub('[^0-9.]', '', data[config.FIELD_CPU_TEMP]))
-
-    if data[config.FIELD_CPU_TEMP] > cfg[config.FIELD_SYSTEM]['cpu_temp_fatal']:
-        message = 'CPU temperature is too high [cthf]. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP]))
-        warnings.append(message)
-
-    elif data[config.FIELD_CPU_TEMP] > cfg[config.FIELD_SYSTEM]['cpu_temp_error']:
-        message = 'CPU temperature is very high [cthe]. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP]))
-        warnings.append(message)
-    elif data[config.FIELD_CPU_TEMP] > cfg[config.FIELD_SYSTEM]['cpu_temp_warn']:
-        message = 'CPU temperature is high [cthw]. Current temperature is: {}'.format(str(data[config.FIELD_CPU_TEMP]))
-        warnings.append(message)
-
-    data[config.FIELD_TEMPERATURE] = float(data[config.FIELD_TEMPERATURE])
-
-    if type(data[config.FIELD_TEMPERATURE]) is not float:
-        data[config.FIELD_TEMPERATURE] = float(data[config.FIELD_TEMPERATURE])
-    if data[config.FIELD_TEMPERATURE] < 16:
-        message = 'Temperature is too low [tle]. Current temperature is: {}'.format(str(data[config.FIELD_TEMPERATURE]))
-        warnings.append(message)
-    elif data[config.FIELD_TEMPERATURE] < 18:
-        message = 'Temperature is low [tlw]. Current temperature is: {}'.format(str(data[config.FIELD_TEMPERATURE]))
-        warnings.append(message)
-    elif data[config.FIELD_TEMPERATURE] > 25:
-        message = 'Temperature is high [thw]. Current temperature is: {}'.format(str(data[config.FIELD_TEMPERATURE]))
-        warnings.append(message)
-    elif data[config.FIELD_TEMPERATURE] > 30:
-        message = 'Temperature is too high  [the]. Current temperature is: {}'.format(str(data[config.FIELD_TEMPERATURE]))
-        warnings.append(message)
-
-    '''carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
-    Nitrogen dioxide (NO2) - 40 µg/m3 Carbon monoxide (CO) - 10 mg/m3
-    Data from sensor is in kilo-Ohms
-    data['oxidised']: '{:0.2f}'.format(float(row[6])),  # config.FIELD_OXIDISED    unit = "kO"
-    data['reduced']: '{:0.2f}'.format(float(row[7])),  # unit = 'kO'
-    data['nh3']: '{:0.2f}'.format(float(row[8])),  # unit = 'kO'
-    data[config.FIELD_PM1]: row[9],  # unit = 'ug/m3'
-    need to convert between format
-    '''
-
-    data[config.FIELD_PM1] = float(data[config.FIELD_PM1])
-
-    if data[config.FIELD_PM1] > 25:
-        message = 'Particle 1 amount is too high [p1w]. Current PM1 amount is {} ug/m3'.format(str(data[config.FIELD_PM25]))
-        warnings.append(message)
-
-    data[config.FIELD_PM25] = float(data[config.FIELD_PM25])
-
-    if data[config.FIELD_PM25] > 25:
-        message = 'Particle 2.5 amount is too high [p2w]. Current PM2.5 amount is {} ug/m3'.format(str(data[config.FIELD_PM25]))
-        warnings.append(message)
-
-    data[config.FIELD_PM10] = float(data[config.FIELD_PM10])
-
-    if data[config.FIELD_PM10] > 40:
-        message = 'Particle 10 amount is too high [pTw]. Current PM10 amount is {} ug/m3'.format(str(data[config.FIELD_PM25]))
-        warnings.append(message)
-
-    data['light'] = float(data['light'])
-
-    if data['light'] > 3000:
-        message = 'It is too bright in the room. Current value: {} lux.'.format(str(data['light']))
-        warnings.append(message)
-    elif data['light'] > 2000:
-        message = 'It is very bright in the room. Current value: {} lux.'.format(str(data['light']))
-        warnings.append(message)
-
-    return warnings
 
 
 def get_warnings_as_list(data) -> list:

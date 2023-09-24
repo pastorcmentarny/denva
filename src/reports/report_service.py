@@ -24,19 +24,7 @@ from services import information_service as information
 logger = logging.getLogger('app')
 
 
-def generate_enviro_report_for_yesterday() -> dict:
-    yesterday = dom_utils.get_yesterday_date()
-    logger.info('Getting  report for enviro for {}'.format(yesterday))
-    path = dom_utils.get_date_as_filename('report-enviro', 'json', yesterday)
-    if data_files.check_if_report_was_generated(path):
-        logger.info('Report was generated. Getting report from file using path: {}'.format(path))
-        return data_files.load_report(path)
-    else:
-        logger.info('Generating report')
-        report = report_generator.generate_enviro_report_for_yesterday()
-        email_sender_service.send(report, 'Report')
-        data_files.save_report(report, dom_utils.get_date_as_filename('report-enviro', 'json', yesterday))
-        return report
+
 
 
 def generate_for_yesterday() -> dict:

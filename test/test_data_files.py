@@ -30,19 +30,6 @@ class DataFilesTestCases(unittest.TestCase):
                     "tvoc": "132",
                     "uva_index": "0.12",
                     "uvb_index": "0.16"
-                },
-                "enviro": {
-                    "cpu_temp": "44.5'C",
-                    "light": "1815.3",
-                    "measurement_time": "190",
-                    "nh3": "96.48",
-                    "oxidised": "65.74",
-                    "pm1": "1.0",
-                    "pm10": "1.0",
-                    "pm25": "1.0",
-                    "reduced": "191.39",
-                    "temperature": "13.0",
-                    "timestamp": "2020-04-29 10:00:09.324039"
                 }
             },
             "report": {

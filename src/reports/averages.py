@@ -11,10 +11,8 @@
 """
 import logging
 import re
-from timeit import default_timer as timer
 import time
 import config
-from common import data_files
 from denva import denva_sensors_service
 
 logger = logging.getLogger('app')
@@ -22,64 +20,6 @@ logger = logging.getLogger('app')
 
 def get_averages_for_today() -> dict:
     return get_averages(denva_sensors_service.load_data_for_today())
-
-
-def get_enviro_averages_for_today() -> dict:
-    return get_enviro_averages(data_files.load_enviro_data_for_today())
-
-
-def get_enviro_averages(data_records: list) -> dict:
-    start_time = timer()
-    result = {
-        config.FIELD_TEMPERATURE: 0,
-        config.FIELD_LIGHT: 0,
-        config.FIELD_OXIDISED: 0,
-        config.FIELD_REDUCED: 0,
-        config.FIELD_NH3: 0,
-        config.FIELD_PM1: 0,
-        config.FIELD_PM25: 0,
-        config.FIELD_PM10: 0,
-        config.FIELD_MEASUREMENT_TIME: 0
-    }
-
-    temperature = 0
-    light = 0
-    oxidised = 0
-    reduced = 0
-    nh3 = 0
-    pm1 = 0
-    pm25 = 0
-    pm10 = 0
-    measurement_time = 0
-
-    for data_record in data_records:
-        temperature += float(data_record[config.FIELD_TEMPERATURE])
-        light += float(data_record[config.FIELD_LIGHT])
-        oxidised += float(data_record[config.FIELD_OXIDISED])
-        reduced += float(data_record[config.FIELD_REDUCED])
-        nh3 += float(data_record[config.FIELD_NH3])
-        pm1 += float(data_record[config.FIELD_PM1])
-        pm25 += float(data_record[config.FIELD_PM25])
-        pm10 += float(data_record[config.FIELD_PM10])
-        measurement_time += float(data_record[config.FIELD_MEASUREMENT_TIME])
-
-    records = len(data_records)
-    if records != 0:
-        result[config.FIELD_TEMPERATURE] = '{:.2f}'.format(temperature / records)
-        result[config.FIELD_LIGHT] = '{:.2f}'.format(light / records)
-        result[config.FIELD_OXIDISED] = '{:.2f}'.format(oxidised / records)
-        result[config.FIELD_REDUCED] = '{:.2f}'.format(reduced / records)
-        result[config.FIELD_NH3] = '{:.2f}'.format(nh3 / records)
-        result[config.FIELD_PM1] = '{:.2f}'.format(pm1 / records)
-        result[config.FIELD_PM25] = '{:.2f}'.format(pm25 / records)
-        result[config.FIELD_PM10] = '{:.2f}'.format(pm10 / records)
-        result[config.FIELD_MEASUREMENT_TIME] = '{:.2f}'.format(measurement_time / records)
-    else:
-        result['info'] = 'No records'
-    end_time = timer()
-    result['execution_time'] = str(
-        end_time - start_time) + ' ns.'  # TODO FIXME  "execution_time": "0.15859715300007338 ns.",
-    return result
 
 
 def get_averages(data_records) -> dict:

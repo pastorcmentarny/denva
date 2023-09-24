@@ -34,7 +34,7 @@ def average():
 
 @app.route("/halt")
 def halt():
-    logger.info('Stopping Denviro Pi')
+    logger.info('Stopping Denva Pi')
     return jsonify(common_service.stop_device(APP_NAME))
 
 

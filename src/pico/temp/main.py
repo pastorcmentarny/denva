@@ -34,7 +34,7 @@ ON = 1
 OFF = 0
 URL = 'http://192.168.0.200:5000/now-next'
 DENVA_URL = 'http://192.168.0.201:5000/now'
-ENVIRO_URL = 'http://192.168.0.202:5000/now'
+DENVA_TWO_URL = 'http://192.168.0.205:5000/now'
 # COLOURS
 BLACK = 0
 WHITE = 1
@@ -88,7 +88,7 @@ clear()
 display.set_pen(BLACK)
 display.text("#. Dom's status display", 10, 10, scale=4)
 display.text("1. Denva", 10, 43, scale=4)
-display.text("2. Enviro", 10, 77, scale=4)
+display.text("2. Denva2", 10, 77, scale=4)
 display.text("3. Quotes", 10, 110, scale=4)
 display.text("4. Information", 10, 143, scale=4)
 display.text("5. Daily routine", 10, 176, scale=4)
@@ -144,7 +144,7 @@ while True:
         button_b_led.on()
         clear()
         uasyncio.get_event_loop().run_until_complete(network_manager.client(WIFI_CONFIG.SSID, WIFI_CONFIG.PSK))
-        socket = urequest.urlopen(ENVIRO_URL)
+        socket = urequest.urlopen(DENVA_TWO_URL)
         denva_result = ujson.load(socket)
         light = denva_result["light"]
         nh3 = denva_result["nh3"]
@@ -155,7 +155,7 @@ while True:
         pm10 = denva_result['pm10']
         socket.close()
         display.set_pen(BLACK)
-        display.text("Enviro", 10, 10, scale=5)
+        display.text("Denva2", 10, 10, scale=5)
         display.text("Light: " + light, 10, 60, scale=4)
         display.text("nh3: " + nh3, 10, 93, scale=4)
         display.text("oxidised: " + oxidised, 10, 126, scale=4)

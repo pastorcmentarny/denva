@@ -1,5 +1,5 @@
 # Knyszogar - Personal Server Assistance
-
+# source: https://ec.europa.eu/environment/air/quality/standards.htm
 ## DESIGN
 
 Design choices
@@ -44,7 +44,7 @@ It runs all apps:
 carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
 
 
-### Denva(201) & Denviro(202) - it starts as Dom's Environment Analyser and become denva is a Dom's personal assistant
+### Denva(201) & Denva2(205) - it starts as Dom's Environment Analyser and become denva is a Dom's personal assistant
 
 This project has inspired by various events in the workplace. It measures:
 
@@ -77,11 +77,6 @@ It used to run CCTV, lighting system, NAS but this was offload to Borg PC and La
 - ICM20948 9DoF Motion Sensor Breakout
 - VEML6075 UVA/B Sensor Breakout
 
-## On Denviro device:
-
-- Raspberry Pi 3 Model B+
-- Enviro+
-- PMS 5003 to measure pollution
 
 ## STATUS UI:
 
@@ -107,7 +102,6 @@ It used to run CCTV, lighting system, NAS but this was offload to Borg PC and La
   
   1 - DENVA
   2 - DENVA2
-  2 - ENVIRO
   D - device status
   A - application
   U - ui for app

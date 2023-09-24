@@ -16,7 +16,7 @@ import dom_utils
 from gateways import local_data_gateway
 
 DEVICE_SERVER = 'server'
-DEVICE_ENVIRO = 'enviro'
+DEVICE_DENVA2 = 'denva'
 DEVICE_DENVA = 'denva'
 
 FIELD_FREE_SPACE = 'Free Space'
@@ -34,8 +34,8 @@ def get_errors_from_data(data: dict) -> list:
     hc_result = local_data_gateway.get_all_healthcheck_from_all_services()
     if hc_result[DEVICE_DENVA] == 'DOWN':
         errors.append('Healthcheck failed for Denva')
-    if hc_result[DEVICE_ENVIRO] == 'DOWN':
-        errors.append('Healthcheck failed for Denviro')
+    if hc_result[DEVICE_DENVA2] == 'DOWN':
+        errors.append('Healthcheck failed for Denva2')
     if hc_result[DEVICE_SERVER] == 'DOWN':
         errors.append('Healthcheck failed for Server')
 
@@ -60,14 +60,14 @@ def get_errors_from_data(data: dict) -> list:
     else:
         errors.append('Denva data is missing.')
 
-    enviro_data = data[KEY_SYSTEM][DEVICE_ENVIRO]
-    if DEVICE_ENVIRO in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in enviro_data:
-        if dom_utils.get_int_number_from_text(enviro_data[FIELD_MEMORY_AVAILABLE]) < 128:
-            errors.append('Memory available ON ENVIRO is VERY LOW.')
-        if dom_utils.get_int_number_from_text(enviro_data[FIELD_FREE_SPACE]) < 128:
-            errors.append('Free space on disk ON ENVIRO is VERY LOW.')
+    denva2_data = data[KEY_SYSTEM][DEVICE_DENVA2]
+    if DEVICE_DENVA2 in data[KEY_SYSTEM] and FIELD_MEMORY_AVAILABLE in denva2_data:
+        if dom_utils.get_int_number_from_text(denva2_data[FIELD_MEMORY_AVAILABLE]) < 128:
+            errors.append('Memory available ON DENVA2 is VERY LOW.')
+        if dom_utils.get_int_number_from_text(denva2_data[FIELD_FREE_SPACE]) < 128:
+            errors.append('Free space on disk ON DENVA2 is VERY LOW.')
     else:
-        errors.append('Enviro data is missing.')
+        errors.append('Denva2 data is missing.')
 
     loggy.log_error_count(errors)
     return errors

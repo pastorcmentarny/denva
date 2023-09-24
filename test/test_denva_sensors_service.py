@@ -32,7 +32,7 @@ class DenvaSensorsServiceTestCases(unittest.TestCase):
 
         # when
         self.assertEqual(len(data), 0)
-        denva_sensors_service.add_row(data, DENVA_ROW)
+        denva_sensors_service.add_row(data, DENVA_ROW) # <FIX
 
         # then
         self.assertEqual(len(data), 1)

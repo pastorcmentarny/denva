@@ -6,7 +6,6 @@ In `sudo nano /etc/dhcpcd.conf`
 
 * server 192.168.0.200/24
 * denva 192.168.0.201/24
-* denviro 192.168.0.202/24
 * delight 192.168.0.203/24
 * mobile 192.168.0.204/24
 * denvaTwo 192.168.0.205/24
@@ -97,8 +96,6 @@ sudo apt-get install exfat-utils`
 
 * sudo crontab -e03 13 * * * /sbin/shutdown -r now
 
-
-
 ## Install java17
 
 ```
@@ -110,15 +107,17 @@ sdk list java
 (https://sdkman.io/install)
 ```
 
-
 ## Setup usb stick to reboot device on insert
+
 1. Insert USB stick.
-2. run the command 'lsusb' to find  ID of USB stick.
+2. run the command 'lsusb' to find ID of USB stick.
+
 ```bash
 $ lsusb
 Bus 001 Device 001: ID d00e:8686 Usb Stick
 Bus 001 Device 002: ID 42e1:4554 Realtek Semiconductor Corp. RTL8188CUS 802.11n WLAN Adapter
 ```
+
 3. ID is split into vendor(d00e) and product(8686)
 4. `sudo nano /etc/udev/rules.d/10-poweroff.rules`
 5. add  `ACTION=="add", ATTRS{idVendor}=="d00e", ATTRS{idProduct}=="8686", RUN+="/sbin/poweroff"`
@@ -128,5 +127,41 @@ Bus 001 Device 002: ID 42e1:4554 Realtek Semiconductor Corp. RTL8188CUS 802.11n 
 9. Insert the USB stick. (Raspberry Pi)
 
 
+## Set max current for usb 
+ve been searching around for more information on the /boot/config.txt configuration directive max_usb_current, trying to find out exactly what happens when that is set to 1, but it's hard to find any official documentation.
+
+I know the following:
+
+Setting max_usb_current=1 sets the available current over USB to 1.2A (default is 600mA)
+This can help if you have a decent power supply (2A, at least) and need to power something like a small external HDD or something that needs 300+ mA.
+```bash
+```
+## TEST IT
 
 Test: Progress Viewer - https://github.com/Xfennec/progress
+
+
+# ADD SHUTDOWN METHOD USING USB STICK
+
+1. Insert USB stick.
+2. run the command 'lsusb' to find ID of USB stick.
+
+    ```bash
+    $ lsusb
+    Bus 001 Device 001: ID d00e:8686 Usb Stick
+    Bus 001 Device 002: ID 42e1:4554 Realtek Semiconductor Corp. RTL8188CUS 802.11n WLAN Adapter
+    ```
+3. ID is split into vendor(d00e) and product(8686)
+4. `sudo nano /etc/udev/rules.d/10-poweroff.rules`
+5. add  `ACTION=="add", ATTRS{idVendor}=="d00e", ATTRS{idProduct}=="8686", RUN+="/sbin/poweroff"`
+6. Save it.
+7. Remove the USB stick.
+8. `sudo udevadm control --reload-rules`
+9. Insert the USB stick. (Raspberry Pi)
+
+# watch current measurement with autorefresh (from Android phone connected via SSH to Pi)
+
+* `watch -n 1 cat /home/ds/data/measurement.txt`
+
+Bus 001 Device 003: ID 239a:80ff Adafruit NeoKey Trinkey M0
+ACTION=="add", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="80ff", RUN+="/sbin/poweroff -r now"

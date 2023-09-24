@@ -150,74 +150,50 @@ def draw_denva2_status():
     if status == OFF:
         r, g, b = get_state_colour_for_hc(OFF)
         logger.info(f'{DENVA_TWO} is OFF')
-        display.unicornhathd.set_pixel(9, 1, r, g, b)
-        display.unicornhathd.set_pixel(9, 2, r, g, b)
-        display.unicornhathd.set_pixel(9, 3, r, g, b)
-        display.unicornhathd.set_pixel(9, 4, r, g, b)
-        display.unicornhathd.set_pixel(9, 5, r, g, b)
-        display.unicornhathd.set_pixel(9, 6, r, g, b)
-        display.unicornhathd.set_pixel(9, 7, r, g, b)
-        display.unicornhathd.set_pixel(9, 8, r, g, b)
+        display.unicornhathd.set_pixel(11, 1, r, g, b)
+        display.unicornhathd.set_pixel(11, 2, r, g, b)
+        display.unicornhathd.set_pixel(11, 3, r, g, b)
+        display.unicornhathd.set_pixel(11, 4, r, g, b)
+        display.unicornhathd.set_pixel(11, 5, r, g, b)
+        display.unicornhathd.set_pixel(11, 6, r, g, b)
+        display.unicornhathd.set_pixel(11, 7, r, g, b)
+        display.unicornhathd.set_pixel(11, 8, r, g, b)
     else:
         print(f'{DENVA_TWO} device status: {status}')
         logger.info(f'{DENVA_TWO} device status: {status}')
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 1, r, g, b)
-        display.unicornhathd.set_pixel(9, 2, r, g, b)
+        display.unicornhathd.set_pixel(11, 1, r, g, b)
+        display.unicornhathd.set_pixel(11, 2, r, g, b)
 
         # UI
         status = healthcheck_service.is_up('denva2', 'ui')
         logger.info(f'{DENVA_TWO} UI status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 4, r, g, b)
+        display.unicornhathd.set_pixel(11, 4, r, g, b)
 
         # gps
         status = healthcheck_service.is_up('denva2', 'gps')
         logger.info(f'{DENVA_TWO} GPS status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 6, r, g, b)
+        display.unicornhathd.set_pixel(11, 6, r, g, b)
 
         # barometric
         status = healthcheck_service.is_up('denva2', 'barometric')
         logger.info(f'{DENVA_TWO} barometric status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 7, r, g, b)
+        display.unicornhathd.set_pixel(11, 7, r, g, b)
 
         # motion
         status = healthcheck_service.is_up('denva2', 'motion')
         logger.info(f'{DENVA_TWO} motion status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 8, r, g, b)
+        display.unicornhathd.set_pixel(11, 8, r, g, b)
 
         # spectrometer
         status = healthcheck_service.is_up('denva2', 'spectrometer')
         logger.info(f'{DENVA_TWO} spectrometer status: ' + status)
         r, g, b = get_state_colour_for_hc(status)
-        display.unicornhathd.set_pixel(9, 9, r, g, b)
-
-
-def draw_enviro_status():
-    # DEVICE
-    status = healthcheck_service.get_device_status_for('denviro', 'device')
-    logger.info(f'enviro device status: {status}')
-    print(f'enviro device status: {status}')
-    r, g, b = get_state_colour_for_hc(status)
-    display.unicornhathd.set_pixel(11, 1, r, g, b)
-    display.unicornhathd.set_pixel(11, 2, r, g, b)
-
-    # APP
-    status = healthcheck_service.is_up('denviro', 'app')
-    print(f'enviro app status: ' + status)
-    r, g, b = get_state_colour_for_hc(status)
-    display.unicornhathd.set_pixel(11, 4, r, g, b)
-    display.unicornhathd.set_pixel(11, 5, r, g, b)
-
-    # UI
-    status = healthcheck_service.is_up('denviro', 'ui')
-    print(f'enviro ui status: ' + status)
-    r, g, b = get_state_colour_for_hc(status)
-    display.unicornhathd.set_pixel(11, 7, r, g, b)
-    display.unicornhathd.set_pixel(11, 8, r, g, b)
+        display.unicornhathd.set_pixel(11, 9, r, g, b)
 
 
 # DATA NEED BE SEND APP AND UI
@@ -359,7 +335,6 @@ def show_status():
     draw_network_health_check()
     draw_denva_status()
     draw_denva2_status()
-    draw_enviro_status()
     draw_camera_status()
     draw_radar_status()
     draw_knyszogar_app()

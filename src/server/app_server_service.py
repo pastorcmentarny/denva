@@ -107,7 +107,7 @@ def get_current_system_information_for_all_services(config: dict):
     return {
         'server': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['delight'])),
         'denva': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva'])),
-        'enviro': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['enviro'])),
+        'denva2': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva2'])),
     }
 
 
@@ -127,8 +127,7 @@ def get_links_for_gateway(config_data: dict, sensor_only: bool = False) -> dict:
 def get_links_for(config: dict, suffix: str, sensor_only: bool = False) -> dict:
     urls = config['urls']
     result = {
-        'denva': '{}/{}'.format(urls['denva'], suffix),
-        'enviro': '{}/{}'.format(urls['enviro'], suffix)
+        'denva': '{}/{}'.format(urls['denva'], suffix)
     }
     if not sensor_only:
         result['server'] = '{}/{}'.format(urls['server'], suffix)
@@ -159,7 +158,7 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'page_ricky': page_ricky,
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
-            'enviro': local_data_gateway.get_current_reading_for_enviro(),
+            'denva2': local_data_gateway.get_current_reading_for_denva_two(),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             config.FIELD_SYSTEM: get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),
@@ -175,7 +174,7 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'page_ricky': page_ricky,
             'warnings': {},
             'denva': {},
-            'enviro': {},
+            'denva2': {},
             'aircraft': {},
             config.FIELD_SYSTEM: {},
             'links': get_links_for_gateway(config_data),
@@ -184,15 +183,15 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
     return data
 
 
-def stop_all_devices(config: dict):
-    local_data_gateway.get_data_for('{}/halt'.format(config["urls"]['denva']))
-    local_data_gateway.get_data_for('{}/halt'.format(config["urls"]['enviro']))
+def stop_all_devices():
+    local_data_gateway.get_data_for('{}/halt'.format(config.get_url_for_denva()))
+    local_data_gateway.get_data_for('{}/halt'.format(config.get_url_for_denva_two()))
     return {'result': 'All devices stopped'}
 
 
-def reboot_all_devices(config):
-    local_data_gateway.get_data_for('{}/reboot'.format(config["urls"]['denva']))
-    local_data_gateway.get_data_for('{}/reboot'.format(config["urls"]['enviro']))
+def reboot_all_devices():
+    local_data_gateway.get_data_for('{}/reboot'.format(config.get_url_for_denva()))
+    local_data_gateway.get_data_for('{}/reboot'.format(config.get_url_for_denva_two()))
     return {'result': 'All devices starting to reboot'}
 
 
@@ -202,7 +201,7 @@ def get_device_status(config_data: dict):
         data = {
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
             'denva': local_data_gateway.get_current_reading_for_denva(),
-            'enviro': local_data_gateway.get_current_reading_for_enviro(),
+            'denva2': local_data_gateway.get_current_reading_for_denva_two(),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             config.FIELD_SYSTEM: get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),
@@ -218,7 +217,7 @@ def get_device_status(config_data: dict):
         data = {
             'warnings': {},
             'denva': {},
-            'enviro': {},
+            'denva2': {},
             'aircraft': {},
             config.FIELD_SYSTEM: {},
             'links': get_links_for_gateway(config_data),
