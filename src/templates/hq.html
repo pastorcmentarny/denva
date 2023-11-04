@@ -104,7 +104,7 @@
             {% if  message.denva %}
             <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li><strong>temp</strong> : {{ message.denva.temp }}</li>
+                    <li><strong>temperature</strong> : {{ message.denva.temperature }}</li>
                     <li><strong>temp (cpu)</strong> : {{ message.denva.cpu_temp }}</li>
                     <li><strong>pressure</strong> : {{ message.denva.pressure }}</li>
                     <li><strong>humidity</strong> : {{ message.denva.humidity }}</li>
@@ -130,8 +130,39 @@
             {% if  message.denva2 %}
             <div class="card-body small">
                 <ul class="list-unstyled mt-3 mb-4">
+                    <li><strong>counter</strong> : {{ message.denva2.counter }}</li>
+                    <li><strong>timestamp</strong> : {{ message.denva2.timestamp }}</li>
+                    <li><strong>measurement time</strong> : {{ message.denva2.measurement_time }}</li>
                     <li><strong>temperature</strong> : {{ message.denva2.temperature }}</li>
-
+                    <li><strong>pressure</strong> : {{ message.denva2.pressure }}</li>
+                    <li><strong>altitude</strong> : {{ message.denva2.altitude }}</li>
+                    <li><strong>red</strong> : {{ message.denva2.red }}</li>
+                    <li><strong>orange</strong> : {{ message.denva2.orange }}</li>
+                    <li><strong>yellow</strong> : {{ message.denva2.yellow }}</li>
+                    <li><strong>green</strong> : {{ message.denva2.green }}</li>
+                    <li><strong>blue</strong> : {{ message.denva2.blue }}</li>
+                    <li><strong>violet</strong> : {{ message.denva2.violet }}</li>
+                    <li><strong>ax</strong> : {{ message.denva2.ax }}</li>
+                    <li><strong>ay</strong> : {{ message.denva2.ay }}</li>
+                    <li><strong>az</strong> : {{ message.denva2.az }}</li>
+                    <li><strong>gx</strong> : {{ message.denva2.gx }}</li>
+                    <li><strong>gy</strong> : {{ message.denva2.gy }}</li>
+                    <li><strong>gz</strong> : {{ message.denva2.gz }}</li>
+                    <li><strong>mx</strong> : {{ message.denva2.mx }}</li>
+                    <li><strong>my</strong> : {{ message.denva2.my }}</li>
+                    <li><strong>mz</strong> : {{ message.denva2.mz }}</li>
+                    <li><strong>num_sats</strong> : {{ message.denva2.num_sats }}</li>
+                    <li><strong>latitude</strong> : {{ message.denva2.latitude }}</li>
+                    <li><strong>longitude</strong> : {{ message.denva2.longitude }}</li>
+                    <li><strong>lat_dir</strong> : {{ message.denva2.lat_dir }}</li>
+                    <li><strong>lon_dir</strong> : {{ message.denva2.lon_dir }}</li>
+                    <li><strong>geo_sep</strong> : {{ message.denva2.geo_sep }}</li>
+                    <li><strong>gps_qual</strong> : {{ message.denva2.gps_qual }}</li>
+                    <li><strong>speed_over_ground</strong> : {{ message.denva2.speed_over_ground }}</li>
+                    <li><strong>mode_fix_type</strong> : {{ message.denva2.mode_fix_type }}</li>
+                    <li><strong>pdop</strong> : {{ message.denva2.pdop }}</li>
+                    <li><strong>hdop</strong> : {{ message.denva2.hdop }}</li>
+                    <li><strong>vdop</strong> : {{ message.denva2.vdop }}</li>
                 </ul>
             </div>
             {% else %}
