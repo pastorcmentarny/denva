@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DATA_DIR_DATE=$(date +'%Y/%m/%d')
-DATA_PATH="/home/pi/data/${DATA_DIR_DATE}"
+DATA_PATH="/home/ds/data/${DATA_DIR_DATE}"
 FILE_NAME="aircraft.txt"
 echo "$DATA_PATH"
 mkdir -p "$DATA_PATH"

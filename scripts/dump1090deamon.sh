@@ -13,7 +13,7 @@
 ### END INIT INFO
 ## Fill in name of program here.
 PROG="dump1090"
-PROG_PATH="/home/pi/dump1090"
+PROG_PATH="/home/ds/dump1090"
 PROG_ARGS="--net --net-http-port 16601  --metric --quiet"
 PIDFILE="/var/run/dump1090.pid"
 
