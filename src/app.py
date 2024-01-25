@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+ #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -10,7 +10,7 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging.config
-import os
+
 import sys
 import time
 import traceback
@@ -18,7 +18,6 @@ from datetime import datetime
 from timeit import default_timer as timer
 
 import smbus
-from PIL import ImageFont
 
 import config
 
@@ -26,13 +25,10 @@ from common import data_files
 from denva import denva_measurement_service
 from emails import email_sender_service
 from gateways import local_data_gateway
-from sensors import air_quality_service, two_led_service
+from sensors import air_quality_sensor, two_led_service
 
 bus = smbus.SMBus(1)
 
-rr_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fonts', 'Roboto-Regular.ttf'))
-rr_12 = ImageFont.truetype(rr_path, 12)
-rr_14 = ImageFont.truetype(rr_path, 14)
 
 samples = []
 pictures = []
@@ -86,7 +82,7 @@ if __name__ == '__main__':
     email_sender_service.send_ip_email('denva')
     try:
         logging.info("Sensor warming up, please wait...")
-        air_quality_service.start_measurement()
+        air_quality_sensor.start_measurement()
         logging.info('Sensor needed {} seconds to warm up'.format(counter))
         two_led_service.off()
         main()
