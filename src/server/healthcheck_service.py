@@ -15,8 +15,11 @@ def __retry_on_exception(exception):
     logger.warning(f'Unable to load due to {exception}')
     return isinstance(exception, Exception)
 
+def __retry_on_type_error(exception):
+    logger.warning(f'Unable to update_for due to {exception}. Retrying...')
+    return isinstance(exception, TypeError)
 
-healthcheck_path = '/home/pi/data/hc.json'
+healthcheck_path = '/home/ds/data/hc.json'
 
 default_hc = {
     "denva": {
@@ -85,7 +88,9 @@ def __load() -> dict:
             exc_info=True)
         return default_hc.copy()
 
-
+#TODO test it is __retry_on_type_error fix issue
+@retry(retry_on_exception=__retry_on_type_error, wait_exponential_multiplier=50, wait_exponential_max=1000,
+       stop_max_attempt_number=3)
 def update_for(who: dict):
     # TODO validate it
     try:

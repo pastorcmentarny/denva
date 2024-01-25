@@ -26,7 +26,7 @@ def get_last_new_measurement():
 
 def get_new_data_row(row) -> dict:
     return {
-        config.FIELD_TIMESTAMP: row[0],
+        config.FIELD_TIMESTAMP: '{:0.2f}'.format(float(row[0])),
         config.FIELD_TEMPERATURE: row[2],
         config.FIELD_PRESSURE: row[3],
         config.FIELD_HUMIDITY: '{:0.2f}'.format(float(row[4])),

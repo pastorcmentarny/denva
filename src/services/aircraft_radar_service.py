@@ -33,7 +33,7 @@ def get_airplane_for_yesterday():
 
 def get_all_airplanes_for(date: datetime) -> dict:
     start_time = timer()
-    path = f"/home/pi/data/{date.year}/{date.month:02d}/{date.day:02d}/aircraft.txt"
+    path = f"/home/ds/data/{date.year}/{date.month:02d}/{date.day:02d}/aircraft.txt"
     if not os.path.exists(path):
         return {'error': 'no file with airplane detected found.'}
     file = open(path, 'r', newline='')
