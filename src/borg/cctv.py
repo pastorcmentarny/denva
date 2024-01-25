@@ -30,7 +30,6 @@ DARK = 8
 WAIT_STEP = 0.1
 RESOLUTION = '1920x1080'
 
-logger = logging.getLogger('app')
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
 
@@ -38,6 +37,22 @@ total_counter = 0
 deleted = 0
 ignored = 0
 errors = 0
+
+# SETUP LOGS
+LOG_SUMMARY = False
+logger = logging.getLogger('app')
+
+
+def setup_test_logging(app_name: str):
+    logging_level = logging.INFO
+    logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
+    logging_filename = f'/home/dom/data/logs/{app_name}-{date.today()}.txt'
+    logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
+    logging.captureWarnings(True)
+    logging.debug('logging setup complete')
+
+
+setup_test_logging('app')
 
 
 def get_date_with_time_as_filename(name: str, file_type: str, dt: datetime) -> str:
@@ -54,6 +69,7 @@ def get_date_as_folder():
 
 
 def capture_picture() -> str:
+    global errors
     try:
         start_time = time.perf_counter()
         date_as_folders = get_date_as_folder()
@@ -77,13 +93,16 @@ def capture_picture() -> str:
                 if time_out > 10:
                     logger.error(f"It looks file haven't been created with this path: {photo_path}")
                     break
-                post_healthcheck_beat('knyszogar', 'cctv')
             logger.info('picture saved at {}'.format(photo_path))
         except subprocess.CalledProcessError as calledProcessError:
             logger.error(f"Subprocess throws error:{calledProcessError}")
+            print(f'Unable to do picture due to {calledProcessError}')
+            errors += 1
             time.sleep(5)
         except Exception as exception:
-            logger.error(f'Unable to do picture due to :{exception}')
+            logger.error(f'Unable to do picture due to :{exception}', exc_info=True)
+            print(f'Unable to do picture due to {exception}')
+            errors += 1
             time.sleep(5)
         end_time = time.perf_counter()
 
@@ -93,7 +112,7 @@ def capture_picture() -> str:
         return str(photo_path)
     except Exception as exception:
         logger.warning('Unable to capture picture due to {}'.format(exception), exc_info=True)
-        # TODO email_sender_service.send_error_log_email("camera", "Unable to capture picture due to {}".format(calledProcessError))
+        errors += 1
     return ""
 
 
@@ -109,7 +128,8 @@ def post_healthcheck_beat(device: str, app_type: str):
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
-def is_photo_mostly_black(file, with_summary: bool = True):
+def is_photo_mostly_black(file):
+    global LOG_SUMMARY
     global total_counter
     global deleted
     global ignored
@@ -145,10 +165,10 @@ def is_photo_mostly_black(file, with_summary: bool = True):
                 logger.info("{} deleted.".format(file))
                 deleted += 1
         except Exception as e:
-            logger.error('Unable to process {} file due to {}'.format(file, e))
+            logger.error('Unable to process {} file due to {}'.format(file, e), exc_info=True)
             errors += 1
-        print(f'Counter: {total_counter} with {deleted} deleted, {errors} errors and {ignored} ignored.')
-    if with_summary:
+    print(f'Counter: {total_counter} with {deleted} deleted, {errors} errors and {ignored} ignored.')
+    if LOG_SUMMARY:
         logger.info(str(dark_pixels) + ' out of ' + str(total_pixels) + ' is dark. (' + str(too_dark) + '%)')
 
 
@@ -157,30 +177,20 @@ def check_is_pixel_too_dark(pixel) -> bool:
     return x <= DARK and y <= DARK and z <= DARK
 
 
-def setup_test_logging(app_name: str):
-    logging_level = logging.DEBUG
-    logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
-    logging_filename = f'/home/dom/data/logs/{app_name}-{date.today()}.txt'
-    logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
-    logging.captureWarnings(True)
-    logging.debug('logging setup complete')
-
-
 def app_loop():
     global total_counter
     while True:
         logger.info(f"Capturing picture no. {total_counter}")
         try:
             current_file = capture_picture()
-            is_photo_mostly_black(current_file, False)
-            total_counter += 1
+            is_photo_mostly_black(current_file)
             post_healthcheck_beat('knyszogar', 'cctv')
         except Exception as exception:
             logger.error(f"Something went wrong during capture/saving picture : {exception}", exc_info=True)
             traceback.print_exc()
-            total_counter += 1
+
+        total_counter += 1
 
 
 if __name__ == '__main__':
-    setup_test_logging('cctv')
     app_loop()
