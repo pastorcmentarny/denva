@@ -33,7 +33,7 @@ UNKNOWN = '?'
 
 logger = logging.getLogger('app')
 
-report_dir = '/home/pi/reports'
+report_dir = '/home/ds/reports'
 
 
 def __retry_on_exception(exception):
@@ -42,7 +42,7 @@ def __retry_on_exception(exception):
 
 
 def load_cfg() -> dict:
-    with open('/home/pi/email.json', READ) as email_config:
+    with open('/home/ds/email.json', READ) as email_config:
         return json.load(email_config)
 
 
@@ -184,12 +184,13 @@ def save_dict_data_as_json(path: str, data: dict):
 
 def backup_information_data(data: dict):
     dir_path = create_backup_dir_path_for("information-backup.", ".json", config.PI_HOME_DIR)
+    logger.error(dir_path)
     save_dict_data_as_json(dir_path, data)
 
 
 def create_backup_dir_path_for(dir_name: str, suffix: str, path: str):
     dt = datetime.now()
-    dir_path = '{}backup\\{}\\{:02d}\\{:02d}\\'.format(path, dt.year, dt.month, dt.day)
+    dir_path = '{}backup/{}/{:02d}/{:02d}/'.format(path, dt.year, dt.month, dt.day)
     logger.debug('performing information backup using path {}'.format(dir_path))
     Path(dir_path).mkdir(parents=True, exist_ok=True)
     dir_path += dir_name + dom_utils.get_timestamp_file() + suffix
@@ -350,7 +351,7 @@ def __load(path: str) -> dict:
 
 
 def load_last_measurement_for(device):
-    return __load(f'/home/pi/data/{device}_data.json')
+    return __load(f'/home/ds/data/{device}_data.json')
 
 
 def save_warnings(warnings: list):
@@ -378,3 +379,7 @@ def save_dict_data_to_file(data: dict, file_name):
             report_file.write(json.dumps(data, ensure_ascii=False))
     except Exception as save_data_exception:
         logger.error('Unable to save  due to {}'.format(save_data_exception), exc_info=True)
+
+
+if __name__ == '__main__':
+    print(create_backup_dir_path_for("information-backup.", ".json", config.PI_HOME_DIR))

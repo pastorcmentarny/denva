@@ -1,8 +1,8 @@
 #!/bin/bash
 
-    FILE=/home/pi/denva-master/data/dictionary.txt
+    FILE=/home/ds/denva-master/data/dictionary.txt
 
-    cd /home/pi/denva-master/data/
+    cd /home/ds/denva-master/data/
 
     if test -f "$FILE"; then
         sudo mv dictionary.txt backup.txt

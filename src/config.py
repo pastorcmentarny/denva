@@ -98,7 +98,7 @@ FIELD_SPECTROMETER_GREEN = 'green'
 FIELD_SPECTROMETER_BLUE = 'blue'
 FIELD_SPECTROMETER_VIOLET = 'violet'
 
-KEY_DENVA_TWO = 'denva-two'
+KEY_DENVA_TWO = 'denva2'
 
 SERVER_IP = 'http://192.168.0.200'
 DENVA_IP = 'http://192.168.0.201'
@@ -106,8 +106,8 @@ DENVA_TWO_IP = 'http://192.168.0.205'
 
 REFRESH_RATE = 'refresh-rate'
 
-PI_HOME_DIR = '/home/pi/'
-PI_PROJECT_PATH = f'{PI_HOME_DIR}denva-master/src'
+PI_HOME_DIR = '/home/ds/'
+PI_PROJECT_PATH = f'{PI_HOME_DIR}app'
 PI_CONFIG_PATH = f'{PI_HOME_DIR}configs/'
 PI_DATA_PATH = f'{PI_HOME_DIR}data/'
 PI_LOGS_PATH = f'{PI_HOME_DIR}logs/'

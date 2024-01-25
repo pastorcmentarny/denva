@@ -41,8 +41,8 @@ def should_send_email(data):
         logger.info('Collecting data')
         email_data['warnings'] = sensor_warnings_service.get_warnings_as_list(email_data)
         email_data[config.FIELD_SYSTEM] = commands.get_system_info()
-        email_data['log'] = commands.get_lines_from_path('/home/pi/logs/logs.log', 10)
-        email_data['healthcheck'] = commands.get_lines_from_path('/home/pi/logs/healthcheck.log', 10)
+        email_data['log'] = commands.get_lines_from_path('/home/ds/logs/logs.log', 10)
+        email_data['healthcheck'] = commands.get_lines_from_path('/home/ds/logs/healthcheck.log', 10)
         send(email_data, 'Measurement')
         send_denva_email_cooldown = datetime.now()
 

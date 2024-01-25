@@ -21,11 +21,11 @@ lines = ['Bakerloo', 'Central', 'Circle', 'District', 'Hammersmith-city', 'Jubil
 
 def get_stats_file_for(year: str, month: str, day: str) -> list:
     date = dom_utils.get_filename_for_stats(year, month, day)
-    return data_files.load_stats('/home/pi/logs/' + date)
+    return data_files.load_stats('/home/ds/logs/' + date)
 
 
 def get_stats_file_for_today() -> list:
-    return data_files.load_stats('/home/pi/logs/stats.log')
+    return data_files.load_stats('/home/ds/logs/stats.log')
 
 
 # TODO add for specific day

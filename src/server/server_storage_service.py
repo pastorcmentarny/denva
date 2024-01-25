@@ -9,7 +9,7 @@ logger = logging.getLogger('app')
 
 
 def save_denva_measurement(data):
-    __save(data, '/home/pi/data/denva_data.json')
+    __save(data, '/home/ds/data/denva_data.json')
 
 
 def __retry_on_exception(exception):

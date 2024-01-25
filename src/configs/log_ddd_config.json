@@ -17,7 +17,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "/home/pi/logs/ddd.log",
+      "filename": "/home/ds/logs/ddd.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30

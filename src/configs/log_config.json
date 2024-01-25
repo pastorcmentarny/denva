@@ -17,7 +17,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "DEBUG",
       "formatter": "simple",
-      "filename": "/home/pi/logs/logs.log",
+      "filename": "/home/ds/logs/logs.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -26,7 +26,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "DEBUG",
       "formatter": "simple",
-      "filename": "/home/pi/logs/warnings.log",
+      "filename": "/home/ds/logs/warnings.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -35,7 +35,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "DEBUG",
       "formatter": "simple",
-      "filename": "/home/pi/logs/server.log",
+      "filename": "/home/ds/logs/server.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -44,7 +44,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "/home/pi/logs/stats.log",
+      "filename": "/home/ds/logs/stats.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30
@@ -53,7 +53,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "INFO",
       "formatter": "simple",
-      "filename": "/home/pi/logs/healthcheck.log",
+      "filename": "/home/ds/logs/healthcheck.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30

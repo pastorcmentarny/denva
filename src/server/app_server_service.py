@@ -138,7 +138,7 @@ def get_links_for(config: dict, suffix: str, sensor_only: bool = False) -> dict:
 def get_last_logs_for(log_file_name: str, lines):
     today = datetime.now()
     name = f'{log_file_name}-{today.year}-{today.month:02d}-{today.day:02d}.txt'
-    return data_files.tail('/home/pi/knyszogardata/logs/' + name, lines)
+    return data_files.tail('/home/ds/knyszogardata/logs/' + name, lines)
 
 
 def run_gc() -> dict:

@@ -22,7 +22,7 @@
 
 # check if process is running
 
-* `ps -aux | grep "nc 192.168.0.201 30003" | grep -v grep ps -aux | grep "sudo /home/pi/denva-master/scripts/dump_data_reader.sh" | grep -v grep`
+* `ps -aux | grep "nc 192.168.0.201 30003" | grep -v grep ps -aux | grep "sudo /home/ds/denva-master/scripts/dump_data_reader.sh" | grep -v grep`
 
 # if I lost pip
 

@@ -26,11 +26,11 @@ cfg = config.load_cfg()
 
 def get_warnings_for(year: str, month: str, day: str) -> list:
     date = dom_utils.get_filename_for_warnings(year, month, day)
-    return data_files.load_warnings('/home/pi/logs/' + date)
+    return data_files.load_warnings('/home/ds/logs/' + date)
 
 
 def get_warnings_for_today() -> list:
-    return data_files.load_warnings('/home/pi/logs/warnings.log')
+    return data_files.load_warnings('/home/ds/logs/warnings.log')
 
 
 def get_current_warnings() -> list:

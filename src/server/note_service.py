@@ -23,7 +23,7 @@ def get_error_messages():
 
 
 def store_data(content_data: str, filename: str):
-    file_path = f"/home/pi/data/notes/{filename}.txt"
+    file_path = f"/home/ds/data/notes/{filename}.txt"
     try:
         with open(file_path, 'w', newline=EMPTY, encoding=ENCODING) as report_file:
             report_file.write(content_data)

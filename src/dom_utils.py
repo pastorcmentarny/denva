@@ -361,7 +361,7 @@ def post_healthcheck_beat(device: str, app_type: str):
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
-def setup_logging(app_name: str, debug_mode: bool = False):
+def setup_logging(app_name: str, debug_mode: bool = False,user_name = 'ds'):
     print('Setting logs ...')
     if debug_mode:
         logging_level = logging.DEBUG
@@ -370,7 +370,7 @@ def setup_logging(app_name: str, debug_mode: bool = False):
         logging_level = logging.WARN
 
     logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
-    logging_filename = f'/home/ds/logs/{app_name}-{date.today()}.txt'
+    logging_filename = f'/home/{user_name}/logs/{app_name}-{date.today()}.txt'
     logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
     logging.captureWarnings(True)
     logging.info(f'Logging setup complete with log level set to: {logging_level})')
@@ -386,7 +386,7 @@ def setup_test_logging(app_name: str, debug_mode: bool = False):
         logging_level = logging.WARN
 
     logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
-    logging_filename = f'/home/pi/knyszogardata/logs/{app_name}-{date.today()}.txt'
+    logging_filename = f'/home/ds/knyszogardata/logs/{app_name}-{date.today()}.txt'
     logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
     logging.captureWarnings(True)
     logging.info(f'Logging setup complete with log level set to: {logging_level})')
@@ -394,5 +394,5 @@ def setup_test_logging(app_name: str, debug_mode: bool = False):
 
 
 def load_cfg() -> dict:
-    with open('/home/pi/email.json', 'r') as email_config:
+    with open('/home/ds/email.json', 'r') as email_config:
         return json.load(email_config)

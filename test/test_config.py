@@ -31,17 +31,17 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_environment_log_path_for(self):
         # given
-        scale_params_list = [('denva', 'app', '/home/pi/configs/log_app_config.json'),
-                             ('denva', 'ui', '/home/pi/configs/log_ui_config.json'),
-                             ('dev', 'app', '/home/pi/configs/dev_log_app_config.json'),
-                             ('dev', 'ui', '/home/pi/configs/dev_log_ui_config.json'),
-                             ('server', 'app', '/home/pi/configs/server_log_app_config.json'),
-                             ('server', 'ui', '/home/pi/configs/server_log_ui_config.json'),
-                             ('dev', 'ddd', '/home/pi/configs/dev_log_ddd_config.json'),
-                             ('ddd', 'ddd', '/home/pi/configs/dev_log_ddd_config.json'),
-                             ('overseer_mode', 'overseer_mode', '/home/pi/configs/overseer_mode.json'),
-                             ('overseer', 'overseer', '/home/pi/configs/overseer.json'),
-                             ('hc', 'hc', '/home/pi/configs/log_config.json'),
+        scale_params_list = [('denva', 'app', '/home/ds/configs/log_app_config.json'),
+                             ('denva', 'ui', '/home/ds/configs/log_ui_config.json'),
+                             ('dev', 'app', '/home/ds/configs/dev_log_app_config.json'),
+                             ('dev', 'ui', '/home/ds/configs/dev_log_ui_config.json'),
+                             ('server', 'app', '/home/ds/configs/server_log_app_config.json'),
+                             ('server', 'ui', '/home/ds/configs/server_log_ui_config.json'),
+                             ('dev', 'ddd', '/home/ds/configs/dev_log_ddd_config.json'),
+                             ('ddd', 'ddd', '/home/ds/configs/dev_log_ddd_config.json'),
+                             ('overseer_mode', 'overseer_mode', '/home/ds/configs/overseer_mode.json'),
+                             ('overseer', 'overseer', '/home/ds/configs/overseer.json'),
+                             ('hc', 'hc', '/home/ds/configs/log_config.json'),
                              ]
 
         for mode, an_input, expected_result in scale_params_list:
@@ -116,7 +116,7 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_directory_path_for_aircraft_dev(self):
         # given
-        expected_result = f'/home/pi/data/'
+        expected_result = f'/home/ds/data/'
         # when
         result = config.get_directory_path_for_aircraft()
 
@@ -129,7 +129,7 @@ class ConfigServiceTestCases(TestCase):
     def test_get_directory_path_for_aircraft_server(self):
         # given
         config.settings['mode'] = 'server'
-        expected_result = f'/home/pi/data/'
+        expected_result = f'/home/ds/data/'
         # when
         result = config.get_directory_path_for_aircraft()
 
@@ -147,7 +147,7 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_overseer_mode_file_path(self):
         # given
-        expected_result = f'/home/pi/overseer_mode.txt'
+        expected_result = f'/home/ds/overseer_mode.txt'
         # when
         result = config.get_overseer_mode_file_path()
 
@@ -247,7 +247,7 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_sensor_log_file_for(self):
         # given
-        expected_result = f'/home/pi/logs/sensor-log-2021-01-02.csv'
+        expected_result = f'/home/ds/logs/sensor-log-2021-01-02.csv'
 
         # when
         result = config.get_sensor_log_file_for(2021, 1, 2)
@@ -350,7 +350,7 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_path_for_personal_events(self):
         # given
-        expected_result = f'/home/pi/events.json'
+        expected_result = f'/home/ds/events.json'
 
         # when
         result = config.get_path_for_personal_events()
@@ -403,7 +403,7 @@ class ConfigServiceTestCases(TestCase):
     def test_get_information_path_for_server(self):
         # given
         config.settings['mode'] = 'server'
-        expected_result = f'/home/pi/data/information.json'
+        expected_result = f'/home/ds/data/information.json'
 
         # when
         result = config.get_information_path()
@@ -423,7 +423,7 @@ class ConfigServiceTestCases(TestCase):
     def test_get_information_path_for_dev(self):
         # given
         config.settings['mode'] = 'dev'
-        expected_result = f'/home/pi/data/information.json'
+        expected_result = f'/home/ds/data/information.json'
 
         # when
         result = config.get_information_path()
@@ -442,7 +442,7 @@ class ConfigServiceTestCases(TestCase):
 
     def test_get_log_path_for(self):
         # given
-        expected_result = f'/home/pi/configs/dev_log_app_config.json'
+        expected_result = f'/home/ds/configs/dev_log_app_config.json'
 
         # when
         result = config.get_log_path_for('dev_app')
@@ -456,7 +456,7 @@ class ConfigServiceTestCases(TestCase):
     def test_get_path_to_chinese_dictionary_for_dev(self):
         # given
         config.settings['mode'] = 'dev'
-        expected_result = f'/home/pi/data/dictionary.txt'
+        expected_result = f'/home/ds/data/dictionary.txt'
 
         # when
         result = config.get_path_to_chinese_dictionary()
@@ -476,7 +476,7 @@ class ConfigServiceTestCases(TestCase):
     def test_get_path_to_chinese_dictionary_for_server(self):
         # given
         config.settings['mode'] = 'server'
-        expected_result = f'/home/pi/data/dictionary.txt'
+        expected_result = f'/home/ds/data/dictionary.txt'
 
         # when
         result = config.get_path_to_chinese_dictionary()

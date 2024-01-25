@@ -17,7 +17,7 @@
       "class": "logging.handlers.TimedRotatingFileHandler",
       "level": "WARN",
       "formatter": "simple",
-      "filename": "/home/pi/logs/airplane.log",
+      "filename": "/home/ds/logs/airplane.log",
       "when": "midnight",
       "encoding": "utf8",
       "backupCount": 30

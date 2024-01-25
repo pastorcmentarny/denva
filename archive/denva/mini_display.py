@@ -38,7 +38,7 @@ cycle = 0
 
 
 def display_information(message: str):
-    img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
+    img = Image.open("/home/ds/denva-master/src/images/background.png").convert(oled.mode)
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (128, 128)], fill="black")
     draw.text((0, 0), message, fill="white", font=rr_12)
@@ -48,7 +48,7 @@ def display_information(message: str):
 def draw_image_on_screen(data, app_uptime):
     global cycle
     warnings_list = sensor_warnings_service.get_warnings_as_list(data)
-    img = Image.open("/home/pi/denva-master/src/images/background.png").convert(oled.mode)
+    img = Image.open("/home/ds/denva-master/src/images/background.png").convert(oled.mode)
     draw = ImageDraw.Draw(img)
     draw.rectangle([(0, 0), (128, 128)], fill="black")
     if len(warnings_list) > 0 and cycle % 3 == 2:

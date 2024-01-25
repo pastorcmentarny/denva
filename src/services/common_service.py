@@ -44,5 +44,5 @@ def get_log_count_for(log_type: str):
 # TODO for knyszogar
 def get_log_count_from_path(log_file_name: str):
     today = datetime.now()
-    path_name = f'/home/pi/knyszogardata/logs/{log_file_name}-{today.year}-{today.month:02d}-{today.day:02d}.txt'
+    path_name = f'/home/ds/knyszogardata/logs/{log_file_name}-{today.year}-{today.month:02d}-{today.day:02d}.txt'
     return log_metrics_service.get_current_knyszogar_log_metrics_for(path_name)

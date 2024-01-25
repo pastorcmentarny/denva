@@ -164,7 +164,7 @@ def count_tube_problems(problem_list) -> dict:
 
 
 def get_file_name(dt):
-    return f"/home/pi/data/tube-status{dt.year}{dt.month:02d}{dt.day:02d}.txt"
+    return f"/home/ds/data/tube-status{dt.year}{dt.month:02d}{dt.day:02d}.txt"
 
 
 @retry(wait_random_min=MINIMUM_WAIT_TIME, wait_random_max=MAXIMUM_WAIT_TIME,
