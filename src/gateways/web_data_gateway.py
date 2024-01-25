@@ -21,6 +21,7 @@ ENCODING = 'utf-8'
 
 
 def get_train() -> str:
+    return "Disabled"
     logger.info('Getting Chiltern Railways data..')
     try:
         response = requests.get('https://www.nationalrail.co.uk/service_disruptions/indicator.aspx', timeout=5)
