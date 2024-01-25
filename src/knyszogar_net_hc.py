@@ -116,7 +116,6 @@ def check_denva_app_status(cfg):
     logger.info('Denva: {}'.format(state.get_status_as_light_colour()))
 
 
-
 def my_services_check():
     logger.debug('Checking my services...')
 
@@ -198,7 +197,7 @@ def app_loop():
                 logger.info("Performing healthcheck for my services")
                 my_services_check()
                 check_denva_app_status(config.load_cfg())
-                #ADD DENVA 2 APP check
+                # ADD DENVA 2 APP check
 
             if loop_counter >= 10:
                 logger.info("Performing network check")

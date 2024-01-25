@@ -118,6 +118,7 @@ def load_network_health_check_results():
         with open("data/nhc.json", READ, encoding='utf-8') as json_file:
             return json.load(json_file)
     except Exception as exception:
+        logger.warning(f'Unable to load file due to {exception}')
         return {
             "status": UNKNOWN,
             "result": "Unable to load file",
@@ -276,12 +277,6 @@ def draw_knyszogar_www():
     display.unicornhathd.set_pixel(3, 11, r, g, b)
 
 
-def draw_transport_manager_ui():
-    hc_result = get_data_for(config.SERVER_IP + ":18001/actuator/health")
-    r, g, b = get_state_colour_for_hc(hc_result)
-    display.unicornhathd.set_pixel(3, 13, r, g, b)
-
-
 def draw_transport_manager_service():
     hc_result = get_data_for(config.SERVER_IP + ":18002/actuator/health")
     r, g, b = get_state_colour_for_hc(hc_result)
@@ -341,7 +336,6 @@ def show_status():
     draw_knyszogar_email()
     draw_knyszogar_hc()
     draw_knyszogar_www()
-    draw_transport_manager_ui()
     draw_transport_manager_service()
     draw_transport_manager_db()
     draw_wifi_status()

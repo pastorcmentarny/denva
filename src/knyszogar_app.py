@@ -56,7 +56,8 @@ def main():
             print(f'I will go sleep for {sleep_time} s')
             time.sleep(sleep_time)
         else:
-            logger.warning(f'No sleep due to timer is below zero! Sleep time: {sleep_time}, counter {counter}, remaining {remaining}')
+            logger.warning(
+                f'No sleep due to timer is below zero! Sleep time: {sleep_time}, counter {counter}, remaining {remaining}')
 
 
 if __name__ == '__main__':
