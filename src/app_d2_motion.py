@@ -24,7 +24,7 @@ from sensors import motion_sensor
 from services import motion_service
 
 logger = logging.getLogger('app')
-dom_utils.setup_logging('motion-sensor', False)
+dom_utils.setup_logging('motion-sensor', False, 'pi')
 measurements_list = []
 
 

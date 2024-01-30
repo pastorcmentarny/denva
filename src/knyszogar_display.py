@@ -52,7 +52,7 @@ def get_state_colour_for_hc(current_state: str):
         color_blue = 0
     elif current_state == OFF:
         color_red = 0
-        color_green = 0
+        color_green = 64
         color_blue = 127
     else:
         color_red = 64
@@ -137,7 +137,7 @@ def draw_network_health_check():
     elif status == POOR:
         r, g, b = get_state_colour_for_hc(WARN)
     elif status == OFF:
-        r, g, b = get_state_colour_for_hc(ERROR)
+        r, g, b = get_state_colour_for_hc(OFF)
     else:
         r, g, b = get_state_colour_for_hc(UNKNOWN)
 
@@ -159,6 +159,8 @@ def draw_denva2_status():
         display.unicornhathd.set_pixel(11, 6, r, g, b)
         display.unicornhathd.set_pixel(11, 7, r, g, b)
         display.unicornhathd.set_pixel(11, 8, r, g, b)
+        display.unicornhathd.set_pixel(11, 9, r, g, b)
+        display.unicornhathd.set_pixel(11, 10, r, g, b)
     else:
         print(f'{DENVA_TWO} device status: {status}')
         logger.info(f'{DENVA_TWO} device status: {status}')
@@ -196,6 +198,11 @@ def draw_denva2_status():
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(11, 9, r, g, b)
 
+        # sounds
+        status = healthcheck_service.is_up('denva2', 'sound')
+        logger.info(f'{DENVA_TWO} sound status: ' + status)
+        r, g, b = get_state_colour_for_hc(status)
+        display.unicornhathd.set_pixel(11, 10, r, g, b)
 
 # DATA NEED BE SEND APP AND UI
 def draw_denva_status():

@@ -222,13 +222,11 @@ def hq():
     logger.info(f'It took {time} ms.')
     return render_template('hq.html', message=all_data)
 
-
 # FIXME
 @app.route("/flights/today")
 def flights_today():
     logger.info('Getting flights detected today')
     return jsonify(delight_service.get_flights_for_today())
-
 
 # FIXME
 @app.route("/flights/yesterday")

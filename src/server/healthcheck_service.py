@@ -33,9 +33,10 @@ default_hc = {
         "gps": "20201212201221",
         "barometric": "20201212201221",
         "spectrometer": "20201212201221",
+        "sound": "20201212201221",
         "device": config.DEVICE_OFF
     },
-    "delight": {
+    "delight": { #TODO remove it
         "app": "20201212201221",
         "ui": "20201212201221",
         "device": config.DEVICE_OFF
