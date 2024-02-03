@@ -44,7 +44,8 @@ def get_date_for_today() -> str:
 
 
 def get_today_date_as_filename(name: str, file_type: str) -> str:
-    return get_date_as_filename(name,file_type,datetime.now())
+    return get_date_as_filename(name, file_type, datetime.now())
+
 
 def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
     return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{file_type}"
@@ -361,13 +362,12 @@ def post_healthcheck_beat(device: str, app_type: str):
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
-def setup_logging(app_name: str, debug_mode: bool = False,user_name = 'ds'):
+def setup_logging(app_name: str, debug_mode: bool = False, user_name='ds'):
     print('Setting logs ...')
     if debug_mode:
         logging_level = logging.DEBUG
-
     else:
-        logging_level = logging.WARN
+        logging_level = logging.INFO
 
     logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
     logging_filename = f'/home/{user_name}/logs/{app_name}-{date.today()}.txt'
@@ -396,3 +396,10 @@ def setup_test_logging(app_name: str, debug_mode: bool = False):
 def load_cfg() -> dict:
     with open('/home/ds/email.json', 'r') as email_config:
         return json.load(email_config)
+
+
+def percentage(part, whole):
+    if part == 0 or whole == 0:
+        return "0%"
+    result = float(part) / float(whole)
+    return "{:.1%}".format(result)
