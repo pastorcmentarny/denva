@@ -82,17 +82,19 @@ def load_report_on_server_on(report_date: datetime, report_path: str):
         return json.load(report_file)
 
 
-def load_warnings(path: str) -> list:
-    file = open(path, READ, newline=EMPTY)
-    content = file.readlines()
-    content.insert(0, 'Warning counts: {}'.format(len(content)))
-    return content
+def load_warnings(warning_path: str) -> list:
+    logger.info('Loading warning from {}'.format(warning_path))
+    with open(warning_path, READ, newline=EMPTY) as file:
+        content = file.readlines()
+        content.insert(0, 'Warning counts: {}'.format(len(content)))
+        return content
 
 
-def load_stats(path: str) -> list:
-    file = open(path, READ, newline=EMPTY)
-    content = file.readlines()
-    return content
+def load_stats(stats_path: str) -> list:
+    logger.info('Loading stats from {}'.format(stats_path))
+    with open(stats_path, READ, newline=EMPTY) as file:
+        content = file.readlines()
+        return content
 
 
 def check_if_report_was_generated(report_date: str) -> bool:
@@ -101,6 +103,7 @@ def check_if_report_was_generated(report_date: str) -> bool:
 
 
 def add_measurement_to_file(file, data: dict):
+    logger.debug(f'adding measurement to {file}')
     timestamp = datetime.now()
     csv_writer = csv.writer(file)
     csv_writer.writerow([timestamp,
@@ -131,20 +134,21 @@ def store_measurement(data, sensor_log_file):
         counter = 0
     logger.debug('Storing measurement no.{}'.format(counter))
     try:
-        local_file = open(sensor_log_file, 'a+', newline=EMPTY)
-        add_measurement_to_file(local_file, data)
-
-        logger.debug('Measurement no.{} saved to file.'.format(counter))
+        with open(sensor_log_file, 'a+', newline=EMPTY) as local_file:
+            add_measurement_to_file(local_file, data)
+            logger.debug('Measurement no.{} saved to file.'.format(counter))
     except IOError as exception:
         logger.warning(f'Unable to store denvira measurement due to : {exception}', exc_info=True)
 
 
 def store_measurement2(sensor_data: str, measurements: list):
     sensor_log_file = f"/home/ds/data/{sensor_data}"
+    logger.debug(f'Storing measurement to {sensor_log_file}')
     try:
         with open(sensor_log_file, 'a+', newline=EMPTY, encoding=ENCODING) as report_file:
             for measurement in measurements:
                 report_file.write(f'{json.dumps(measurement, ensure_ascii=False)}\n')
+        logger.debug(f'Measurement stored to {sensor_log_file}')
     except IOError as io_exception:
         logger.error(io_exception, exc_info=True)
 
@@ -360,21 +364,21 @@ def save_warnings(warnings: list):
 
 
 def load_list_of_dict_for(path_to_file: str):
-    logger.info(f'loading list with path {path_to_file}')
+    logger.debug(f'loading list with path {path_to_file}')
     data_as_dict_list = []
     with open(path_to_file, READ, encoding=ENCODING) as data_file:
         content_list = data_file.readlines()
         for item in content_list:
             if item.strip() != "" and len(item.strip()) > 2:
                 data_as_dict_list.append(json.loads(item.strip()))
-    logger.info('task done')
+    logger.debug('task done')
     return data_as_dict_list
 
 
 def save_dict_data_to_file(data: dict, file_name):
     file_path = f'/home/ds/data/{file_name}.txt'
     try:
-        logger.info(f'Saving dictionary of size {len(data)} to {file_path}')
+        logger.debug(f'Saving dictionary of size {len(data)} to {file_path}')
         with open(file_path, 'w+', encoding=ENCODING) as report_file:
             report_file.write(json.dumps(data, ensure_ascii=False))
     except Exception as save_data_exception:
