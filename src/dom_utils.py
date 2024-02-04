@@ -362,12 +362,13 @@ def post_healthcheck_beat(device: str, app_type: str):
             'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
 
 
-def setup_logging(app_name: str, debug_mode: bool = False, user_name='ds'):
+#FIXME accept only ds
+def setup_logging(app_name: str, debug_mode: bool = False, user_name:str='ds'):
     print('Setting logs ...')
     if debug_mode:
         logging_level = logging.DEBUG
     else:
-        logging_level = logging.INFO
+        logging_level = logging.WARN
 
     logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
     logging_filename = f'/home/{user_name}/logs/{app_name}-{date.today()}.txt'

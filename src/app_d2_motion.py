@@ -24,7 +24,7 @@ from sensors import motion_sensor
 from services import motion_service
 
 logger = logging.getLogger('app')
-dom_utils.setup_logging('motion-sensor', False, 'pi')
+dom_utils.setup_logging('motion-sensor')
 measurements_list = []
 
 
@@ -33,7 +33,6 @@ def application():
     measurement_counter = 0
     while True:
         measurement_counter += 1
-        logger.info("")
         start_time = timer()
 
         result = motion_sensor.get_measurement()
@@ -44,7 +43,9 @@ def application():
 
         data_files.save_dict_data_to_file(result, 'motion-last-measurement')
 
-        logger.info(motion_service.get_warnings(result))
+        warnings_list = motion_service.get_warnings(result)
+        if len(warnings_list) > 0:
+            logger.info(warnings_list)
 
         measurements_list.append(result)
         if len(measurements_list) > config.get_measurement_size():
@@ -54,7 +55,8 @@ def application():
             local_data_gateway.post_healthcheck_beat('denva2', 'motion')
 
         if measurement_counter % 100 == 0:
-            data_files.store_measurement2(dom_utils.get_today_date_as_filename('motion-data','txt'), measurements_list[-100:])
+            data_files.store_measurement2(dom_utils.get_today_date_as_filename('motion-data', 'txt'),
+                                          measurements_list[-100:])
 
         if measurement_time > config.max_latency(fast=False):
             logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
@@ -66,7 +68,7 @@ def application():
 
 
 if __name__ == '__main__':
-    logger.info('Starting motion app')
+    logger.warning('Starting motion app')
     try:
         application()
     except KeyboardInterrupt as keyboard_exception:
