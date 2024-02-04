@@ -185,8 +185,9 @@ def post_device_status(device: str, device_status: str):
             'There was a problem: {} using url {}, device {} and state {}'.format(whoops, url, device, device_status))
 
 
-def post_denva_measurement(json_data):
-    url = config.get_post_denva_measurement_url()
+def post_denva_measurement(json_data,which:str = 'one'):
+    logger.debug(f'Posting measurements to denva {which.upper()}')
+    url = config.get_post_denva_measurement_url(which)
     try:
         with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
             response.json()

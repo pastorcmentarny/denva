@@ -71,12 +71,17 @@ def update_device_status_for():
     return jsonify({})
 
 
-@app.route("/measurement/denva", methods=['POST'])
+@app.route("/measurement/denva/one", methods=['POST'])
 def update_denva_measurement():
     logger.info('Updating denva measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
     server_storage_service.save_denva_measurement(request.get_json(force=True))
     return jsonify({})
 
+@app.route("/measurement/denva/two", methods=['POST'])
+def update_denva2_measurement():
+    logger.info('Updating denva TWO measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
+    server_storage_service.save_denva_two_measurement(request.get_json(force=True))
+    return jsonify({})
 
 @app.route("/diary/add", methods=['POST'])
 def add_diary():

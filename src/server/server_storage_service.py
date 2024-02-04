@@ -8,9 +8,12 @@ ENCODING = 'utf-8'
 logger = logging.getLogger('app')
 
 
+#TODO rename to denva_one_data.json
 def save_denva_measurement(data):
     __save(data, '/home/ds/data/denva_data.json')
 
+def save_denva_two_measurement(data):
+    __save(data, '/home/ds/data/denva_two_data.json')
 
 def __retry_on_exception(exception):
     return isinstance(exception, Exception)

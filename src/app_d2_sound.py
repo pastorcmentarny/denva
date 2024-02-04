@@ -12,7 +12,7 @@ from gateways import local_data_gateway
 from services import sound_service
 
 logger = logging.getLogger('app')
-dom_utils.setup_logging('sound-sensor', False)
+dom_utils.setup_logging('sound-sensor')
 from datetime import datetime
 from timeit import default_timer as timer
 
@@ -176,6 +176,7 @@ def application():
         check_for_noise_alerts()
         if counter % 5 == 0:
             data_files.save_dict_data_to_file(report_data, 'sound-last-measurement')
+
         if counter % 25 == 0:
             logger.info(report_data)
         if counter > 3:

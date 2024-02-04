@@ -11,7 +11,7 @@ def __retry_on_exception(exception):
 @retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
        stop_max_attempt_number=5)
 def get_last_measurement():
-    return data_files.load_json_data_as_dict_from('/home/ds/data/barometric-last-measurement.txt')
+    return data_files.load_json_data_as_dict_from('/home/ds/data/sound-last-measurement.txt')
 
 
 def get_diff_between(first_value, second_value):

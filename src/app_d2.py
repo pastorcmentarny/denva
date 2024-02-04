@@ -30,7 +30,7 @@ from denva import denva2_service
 from emails import email_sender_service
 from gateways import local_data_gateway
 from reports import d2_report_service
-from services import barometric_service, spectrometer_service, motion_service, gps_service
+from services import barometric_service, spectrometer_service, motion_service, gps_service,sound_service
 
 bus = smbus.SMBus(1)
 
@@ -53,7 +53,7 @@ report_generation_cooldown = datetime.now()
 
 
 def collect_last_measurements():
-    all_measurements = barometric_service.get_last_measurement() | gps_service.get_last_measurement() | motion_service.get_last_measurement() | spectrometer_service.get_last_measurement()
+    all_measurements = barometric_service.get_last_measurement() | gps_service.get_last_measurement() | motion_service.get_last_measurement() | spectrometer_service.get_last_measurement() | sound_service.get_last_measurement()
     data_files.save_dict_data_as_json("/home/ds/data/all-measurement.json", all_measurements)
     return all_measurements
 
@@ -122,6 +122,8 @@ def main():
                         .format(loop_counter, measurement_time))
 
             remaining_time_to_sleep = 15 - (float(measurement_time) / 1000)
+
+            local_data_gateway.post_denva_measurement(all_measurements_data,'two')
 
             if measurement_time > config.max_latency(fast=False):
                 logger.warning("Measurement {} was slow.It took {} ms".format(loop_counter, measurement_time))

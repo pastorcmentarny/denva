@@ -369,8 +369,8 @@ def get_path_to_text():
     return settings["paths"]["text"]
 
 
-def get_post_denva_measurement_url():
-    return f'{SERVER_IP}:5000/measurement/denva'
+def get_post_denva_measurement_url(which:str = 'one'):
+        return f'{SERVER_IP}:5000/measurement/denva/{which}'
 
 
 def get_add_diary_entry_url():
