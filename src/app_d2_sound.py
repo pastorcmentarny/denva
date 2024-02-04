@@ -4,17 +4,17 @@ import traceback
 
 import pyaudio
 import time
-from math import log10
 import audioop
 
 import dom_utils
 from common import data_files, loggy
 from gateways import local_data_gateway
+from services import sound_service
 
 logger = logging.getLogger('app')
 dom_utils.setup_logging('sound-sensor', False)
 from datetime import datetime
-# from timeit import default_timer as timer
+from timeit import default_timer as timer
 
 EMPTY = ''
 
@@ -73,13 +73,12 @@ avg600 = 0
 prev_avg600 = 0
 prev_prev_avg600 = 0
 avgAll = 0
-rms_min = 0
+rms_min = 99999999999
 rms_max = 0
 all = 0
 counter = 0
 last_results = []
 list_size = 10 * 60 * 15
-db_value = 0
 
 
 def update_result(measurement):
@@ -123,50 +122,6 @@ def update_averages():
     prev_avg600 = avg600
 
 
-def get_diff_between(avg10, prev_avg10):
-    return f'{(prev_avg10 - avg10):0.3f}'
-
-
-def get_report():
-    global counter
-    global rms_min
-    global rms_max
-    global rms
-    global noise_error
-    global noise_warn
-    global noise_caution
-    global noise_low
-    return {
-        'timestamp': str(datetime.now()),
-        'counter': counter,
-        'rms': rms,
-        'db' : db_value,
-        'min_rms': rms_min,
-        'max_rms': rms_max,
-        'noise_detected': noise_low,
-        'noise_detected_description': get_description_for_noise_level(noise_low),
-        'noise_detected_percentage': dom_utils.percentage(noise_low, counter),
-        'noise_caution': noise_caution,
-        'noise_caution_description': get_description_for_noise_level(noise_caution),
-        'noise_caution_percentage': dom_utils.percentage(noise_caution, counter),
-        'noise_warn': noise_warn,
-        'noise_warn_description': get_description_for_noise_level(noise_warn),
-        'noise_warn_percentage': dom_utils.percentage(noise_warn, counter),
-        'noise_error': noise_error,
-        'noise_error_description': get_description_for_noise_level(noise_error),
-        'noise_error_percentage': dom_utils.percentage(noise_low, counter),
-        'avg10': avg10,
-        'avg10_description': get_description_for_noise_level(avg10),
-        'avg10_diff': get_diff_between(avg10, prev_avg10),
-        'avg100': avg100,
-        'avg100_description': get_description_for_noise_level(avg100),
-        'avg100_diff': get_diff_between(avg100, prev_avg100),
-        'avg600': avg600,
-        'avg600_description': get_description_for_noise_level(avg600),
-        'avg600_diff': get_diff_between(avg600, prev_avg600),
-    }
-
-
 def shutdown_all():
     logger.info('Shutting down ...')
     print('shutting down...')
@@ -174,6 +129,7 @@ def shutdown_all():
     print(f'Is stream stopped: {stream.is_stopped()}')
     stream.close()
     p.terminate()
+
 
 def application():
     global counter
@@ -183,19 +139,17 @@ def application():
     global noise_error
     global rms_min
     global rms_max
-    global db_value
 
     logger.info('Warming up')
     logger.debug(f'initial value {rms}')
     time.sleep(1)
     logger.info('Starting application..')
+    loop_time = 0
     while stream.is_active():
         counter += 1
-
+        start_time = timer()
         current_value = rms
         logger.debug(f'RMS: {current_value}')
-
-        db_value = 20 * log10(current_value)
 
         update_result(current_value)
         update_averages()
@@ -203,7 +157,22 @@ def application():
             rms_min = current_value
             rms_max = current_value
 
-        report_data = get_report()
+        report_data = sound_service.get_report({
+            'counter': counter,
+            'rms_min': rms_min,
+            'rms_max': rms_max,
+            'rms': rms,
+            'noise_error': noise_error,
+            'noise_warn': noise_warn,
+            'noise_caution': noise_caution,
+            'noise_low': noise_low,
+            'avg10': avg10,
+            'prev_avg10': prev_avg10,
+            'avg100': avg100,
+            'prev_avg100': prev_avg100,
+            'avg600': avg600,
+            'prev_avg600': prev_avg600,
+        })
         check_for_noise_alerts()
         if counter % 5 == 0:
             data_files.save_dict_data_to_file(report_data, 'sound-last-measurement')
@@ -228,16 +197,19 @@ def application():
             data_files.store_measurement2(dom_utils.get_today_date_as_filename('sound-data', 'txt'),
                                           last_results[-100:])
 
-def get_description_for_noise_level(value):
-    if value > 0.61:
-        return 'NOISE ALERT'
-    elif value > 0.12:
-        return 'NOISE WARNING'
-    elif value > 0.012:
-        return 'NOISE CAUTION'
-    elif avg10 > 0.001:
-        return 'NOISE DETECTED'
-    return 'NO NOISE'
+        throttle_speed_of_measurement_if_needed(start_time)
+
+
+def throttle_speed_of_measurement_if_needed(start_time):
+    global counter
+    loop_time = int((timer() - start_time) * 1000)
+    if loop_time <= 50:
+        time_to_sleep = 0.2 - loop_time / 1000
+        if time_to_sleep > 0:
+            time.sleep(time_to_sleep)
+    elif loop_time >= 2000:
+        logger.debug(f'At {counter}. It took {loop_time} ms.')  # in ms
+
 
 def check_for_noise_alerts():
     global noise_error, noise_warn, noise_caution, noise_low
