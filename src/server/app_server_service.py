@@ -157,8 +157,8 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'page_tt_delays_counter': page_tt_delays_counter,
             'page_ricky': page_ricky,
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
-            'denva': local_data_gateway.get_current_reading_for_denva(),
-            'denva2': local_data_gateway.get_current_reading_for_denva_two(),
+            'denva': data_files.load_json_data_as_dict_from('/home/pi/data/denva_data.json'),
+            'denva2': data_files.load_json_data_as_dict_from('/home/pi/data/denva_two_data.json'),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
             config.FIELD_SYSTEM: get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),
@@ -182,17 +182,6 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
         }
     return data
 
-
-def stop_all_devices():
-    local_data_gateway.get_data_for('{}/halt'.format(config.get_url_for_denva()))
-    local_data_gateway.get_data_for('{}/halt'.format(config.get_url_for_denva_two()))
-    return {'result': 'All devices stopped'}
-
-
-def reboot_all_devices():
-    local_data_gateway.get_data_for('{}/reboot'.format(config.get_url_for_denva()))
-    local_data_gateway.get_data_for('{}/reboot'.format(config.get_url_for_denva_two()))
-    return {'result': 'All devices starting to reboot'}
 
 
 def get_device_status(config_data: dict):

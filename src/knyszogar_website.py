@@ -31,8 +31,6 @@ dom_utils.setup_test_logging('website', False)
 app = Flask(__name__)
 APP_NAME = 'Knyszogar Website'
 
-os.urandom(24).hex()
-
 messages = []  # replace with db
 
 
@@ -77,11 +75,13 @@ def update_denva_measurement():
     server_storage_service.save_denva_measurement(request.get_json(force=True))
     return jsonify({})
 
+
 @app.route("/measurement/denva/two", methods=['POST'])
 def update_denva2_measurement():
     logger.info('Updating denva TWO measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
     server_storage_service.save_denva_two_measurement(request.get_json(force=True))
     return jsonify({})
+
 
 @app.route("/diary/add", methods=['POST'])
 def add_diary():
@@ -95,53 +95,10 @@ def yearly_goals():
     return render_template('40b440.html')
 
 
-@app.route('/stop-all')
-def stop_all_devices():
-    logging.info('Stopping all PI devices.')
-    return jsonify(app_server_service.stop_all_devices())
-
-
-@app.route('/reboot-all')
-def reboot_all_devices():
-    logging.info('Rebooting all PI devices.')
-    return jsonify(app_server_service.reboot_all_devices())
-
-
 @app.route("/gc")
 def gc():
     logger.info('Running GC..')
     return jsonify(app_server_service.run_gc())
-
-
-@app.route("/log/count/app")
-def log_count_app():
-    logger.info('Getting recent healthcheck logs for sending as email for Denva')
-    return jsonify(common_service.get_log_count_from_path('app'))
-
-
-# FIXME does not work
-@app.route("/log/count/display")
-def log_count_display():
-    logger.info('Getting recent healthcheck logs for sending as email for Denva')
-    return jsonify(common_service.get_log_count_from_path('display'))
-
-
-@app.route("/log/count/email")
-def log_count_email():
-    logger.info('Getting recent healthcheck logs for sending as email for Denva')
-    return jsonify(common_service.get_log_count_from_path('email'))
-
-
-@app.route("/log/count/hc")
-def log_count_hc():
-    logger.info('Getting recent healthcheck logs for sending as email for Denva')
-    return jsonify(common_service.get_log_count_from_path('healthcheck'))
-
-
-@app.route("/log/count/www")
-def log_count_www():
-    logger.info('Getting recent healthcheck logs for sending as email for Denva')
-    return jsonify(common_service.get_log_count_from_path('website'))
 
 
 @app.route("/metrics/get")
@@ -227,11 +184,13 @@ def hq():
     logger.info(f'It took {time} ms.')
     return render_template('hq.html', message=all_data)
 
+
 # FIXME
 @app.route("/flights/today")
 def flights_today():
     logger.info('Getting flights detected today')
     return jsonify(delight_service.get_flights_for_today())
+
 
 # FIXME
 @app.route("/flights/yesterday")
@@ -264,30 +223,6 @@ def get_now_and_next_event():
     return jsonify(app_server_service.get_now_and_next_event())
 
 
-@app.route('/calendar/weather')
-def get_weather_for_calendar():
-    logger.info('Getting now and next event on daily')
-    return jsonify(app_server_service.get_now_and_next_event())
-
-
-@app.route('/getdate')
-def get_date_for_messageboard():
-    logger.info('Getting current date')
-    back_date = datetime(year=2023, month=1, day=27, hour=10, minute=45)
-    now = datetime.now()
-    time_left = back_date - now
-    minutes = time_left.total_seconds() / 60
-    hours = minutes / 60
-
-    seconds_left = {
-        'left': f'{time_left.total_seconds():.0f}',
-        'minutes': f'{minutes:.0f}',
-        'hours': f'{hours:.0f}'
-
-    }
-    return jsonify(seconds_left)
-
-
 @app.route("/")
 def get_measurement():
     return hq()
@@ -300,8 +235,10 @@ def get_ping_test():
     return jsonify(delight_service.get_ping_test_results())
 
 
+# Used to get or store data on server between devices when I have eureka moment
 @app.route('/store-data/', methods=('GET', 'POST'))
 def store():
+    logger.info(f'Request to {request.method.lower()} temporary data ')
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
@@ -320,15 +257,14 @@ def store():
 
 
 if __name__ == '__main__':
-
-    logger.info('Starting web server')
+    logger.info(f'Starting {APP_NAME}')
 
     try:
         app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
         app.config['JSON_AS_ASCII'] = False
         app.config['SECRET_KEY'] = os.urandom(24).hex()
-
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+        logger.info('Website is running')
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
