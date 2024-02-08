@@ -57,6 +57,7 @@ events = {
     "1004": ["Sputnik 1 launch (first artificial satellite)"],
     "1101": ["Wszystkich Świętych"],
     "1102": ["Dzień zaduszny"],
+    "1104" : ["Eurostar services began between UK-Europe"],
     "1107": ["Hug a Bear Day"],
     "1114": ["BBC makes its first radio broadcast"],
     "1031": ["St. Andrew Day ,Andrzejki?"],
@@ -72,26 +73,26 @@ events = {
 }
 
 """
-DO NOT FORGOT TO UPDATE BY END OF 2023
+DO NOT FORGOT TO UPDATE BY END OF 2024
 To have 2 events on one day do this : ["Easter", "Święto Qingming"],
 """
 
 
 movable_events = {
-    "0122": ["Chinese new year"],  # 2023
-    "0326": ["Summertime +1hr :("],  # 2023
-    "0405": ["Easter Monday", "Święto Qingming"],  # 2023
-    "0407": ["Good Friday"],  # 2023
-    "0409": ["Easter"],  # 2023
-    "0501": ["Early May Bank Holiday"],  # 2023
-    "0514": ["Mother's day (China)"],  # 2023
-    "0529": ["Late May Bank Holiday"],  # 2023
-    "0622": ["端午节(Dragon Boat Festival)"],  # 2023
-    "0623": ["端午节(Dragon Boat Festival)"],  # 2023
-    "0624": ["端午节(Dragon Boat Festival)"],  # 2023
-    "0828": ["Late Summer Bank Holiday"],
-    "0929": ["Mid-Autumn Festival"],
-    "1030": ["Wintertime -1hr :)"],
+    "0208": ["Tlusty Czwartek"],  # 2024
+    "0210": ["Chinese new year"],  # 2024
+    "0310": ["Mother's day (UK,PL)"],  # 2024
+    "0329": ["Good Friday"],  # 2024
+    "0331": ["Easter","Summertime +1hr :("],  # 2024
+    "0401": ["Easter Monday"],  # 2024
+    "0404": ["Święto Qingming"],  # 2024
+    "0506": ["Early May Bank Holiday"],  # 2024
+    "0512": ["Mother's day (China)"],  # 2024
+    "0527": ["Late May Bank Holiday"],  # 2024
+    "0610": ["端午节(Dragon Boat Festival)"],  # 2024
+    "0826": ["Late Summer Bank Holiday"],  # 2024
+    "0917": ["Mid-Autumn Festival"],  # 2024
+    "1027": ["Wintertime -1hr :)"],  # 2024
 }
 
 all_events = dom_utils.merge_two_dictionaries(events, movable_events)
