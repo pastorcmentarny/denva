@@ -73,7 +73,8 @@ sentences = [
     "Please help me understand why I am required to be in the office when I can effectively execute my job responsibilities remotely. (LoeWhaley)",
     "Germans are usually quiet, impeccably polite and keen to remind us that their mid-20th Century reputation for arriving everywhere in a tank is a thing of the past. (Jeremy Clarkson)",
     "That looks like next week problem for me (LoeWhaley)",
-    "They have to be given a nice cup of fair trade, nuclear-free, peace coffee made with milk from a nut and told that their ridiculous demands will be met.(Jeremy Clarkson)"
+    "They have to be given a nice cup of fair trade, nuclear-free, peace coffee made with milk from a nut and told that their ridiculous demands will be met.(Jeremy Clarkson)",
+    "Decommissioning activity has now been actioned."
 ]
 
 def get_random_english_sentence() -> str:
