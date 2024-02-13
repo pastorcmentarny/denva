@@ -26,27 +26,29 @@ def get_all_stats_for_today():
 def get_warnings_for(year, month, day):
     return sensor_warnings_service.get_warnings_for(year, month, day)
 
-
+#FIXME
 def count_warnings():
+    counter = 0
     path = config.get_warnings_path_for_today()
     try:
         with open(path, 'r') as fp:
             for count, line in enumerate(fp):
-                pass
+                counter+=1
     except Exception as exception:
         logging.warning(f'Unable to warning file due to: ${exception}', exc_info=True)
-    return count + 1
+    return counter
 
 
 def count_warnings_for(datetime):
     path = config.get_warnings_path_for(datetime)
+    counter = 0
     try:
         with open(path, 'r') as fp:
             for count, line in enumerate(fp):
-                pass
+                counter+=1
     except Exception as exception:
         logging.warning(f'Unable to warning file due to: ${exception}', exc_info=True)
-    return count + 1
+    return counter
 
 
 def get_current_warnings():
