@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+{% extends 'header.html' %}
+
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="http://localhost:5000/">Dom's Gateway</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
+            aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="weekly" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">Menu</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown02">
+                    <a href="http://192.168.0.200:5000" class="dropdown-item">Home HQ</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- main part -->
+<div class="row mb-12">
+    <h2 class="display-6 text-center mb-4">Data</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-sm text-center">
+            <thead>
+            <tr>
+                <th style="width: 10%;">Data</th>
+                <th style="width: 8%;">Current</th>
+                <th style="width: 8%;">Last</th>
+                <th style="width: 8%;">Min</th>
+                <th style="width: 8%;">Max</th>
+                <th style="width: 8%;">Avg 10x</th>
+                <th style="width: 8%;">Avg 15mins</th>
+                <th style="width: 8%;">Avg 1h</th>
+                <th style="width: 8%;">Avg 6h</th>
+                <th style="width: 8%;">Avg Today</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th></th>
+                <td></td>
+                <th scope="row" class="text-start small"><span class="text-secondary">PRESSURE</span></th>
+                <td class="small"><span class="{{message.color.bme_pressure}}">{{message.current.bme_pressure}}</span></td>
+                <td class="small">{{message.averages.bme_pressure}}</td>
+                <td class="small">{{message.records.bme_pressure.min}}</td>
+                <td class="small">{{message.records.bme_pressure.max}}</td>
+                <th scope="row" class="text-start small"><span class="text-secondary">AX</span></th>
+                <td class="small">{{message.current.ax}}</td>
+                <td class="small">{{message.averages.ax}}</td>
+                <td class="small">{{message.records.ax.min}}</td>
+                <td class="small">{{message.records.ax.max}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start small"><span class="text-muted">CPU</span></th>
+                <td class="small"><span class="text-info">{{message.system.CPU_Speed}}</span></td>
+                <th scope="row" class="text-start small"><span class="text-muted">?</span></th>
+                <td class="small"><span class="{{message.color.aps_temperature}}">?°C</span></td>
+                <td class="small">?</td>
+                <td class="small">?</td>
+                <td class="small">?</td>
+                <th scope="row" class="text-start small"><span class="text-muted">AY</span></th>
+                <td class="small">{{message.current.ay}}</td>
+                <td class="small">{{message.averages.ay}}</td>
+                <td class="small">{{message.records.ay.min}}</td>
+                <td class="small">{{message.records.ay.max}}</td>
+
+            </tr>
+            <tr>
+                <th scope="row" class="text-start small"><span class="text-muted">CPU TEMP</span></th>
+                <td class="small"><span class="text-info">{{message.system.CPU_Temp}}°C</span></td>
+                <th scope="row" class="text-start small"><span class="text-muted">Gas Resist.</span></th>
+                <td class="small"><span class="{{message.color.co2}}">{{message.current.gas_resistance}}</span></td>
+                <td class="small">{{message.averages.gas_resistance}}</td>
+                <td class="small">{{message.records.gas_resistance.min}}</td>
+                <td class="small">{{message.records.gas_resistance.max}}</td>
+                <th scope="row" class="text-start small"><span class="text-muted">AZ</span></th>
+                <td class="small">{{message.current.az}}</td>
+                <td class="small">{{message.averages.az}}</td>
+                <td class="small">{{message.records.az.min}}</td>
+                <td class="small">{{message.records.az.max}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start small"><span class="text-muted">IP</span></th>
+                <td class="small"><span class="text-info">{{message.system.IP}}</span></td>
+                <th scope="row" class="text-start small"><span class="text-muted">Temp (from BME)</span></th>
+                <td class="small"><span class="{{message.color.co2_temperature}}">{{message.current.bme_temperature}}°C</span></td>
+                <td class="small">{{message.averages.bme_temperature}}</td>
+                <td class="small">{{message.records.bme_temperature.min}}</td>
+                <td class="small">{{message.records.bme_temperature.max}}</td>
+                <th scope="row" class="text-start small"><span class="text-muted">GX</span></th>
+                <td class="small">{{message.current.gx}}</td>
+                <td class="small">{{message.averages.gx}}</td>
+                <td class="small">{{message.records.gx.min}}</td>
+                <td class="small">{{message.records.gx.max}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start small"><span class="text-muted">UPTIME</span></th>
+                <td class="small"><span class="text-info">{{message.system.Uptime}}</span></td>
+                <th scope="row" class="text-start small"><span class="text-muted">HUMIDITY(Relative)</span></th>
+                <td class="small"><span class="{{message.color.humidity}}">{{message.current.humidity}}</span></td>
+                <td class="small">{{message.averages.humidity}}</td>
+                <td class="small">{{message.records.humidity.min}}</td>
+                <td class="small">{{message.records.humidity.max}}</td>
+                <th scope="row" class="text-start small"><span class="text-muted">GY</span></th>
+                <td class="small">{{message.current.gy}}</td>
+                <td class="small">{{message.averages.gy}}</td>
+                <td class="small">{{message.records.gy.min}}</td>
+                <td class="small">{{message.records.gy.max}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start small"><span class="text-muted">RAM</span></th>
+                <td class="small"><span class="text-info">{{message.system.RAM}}</span></td>
+                <th scope="row" class="text-start small"><span class="text-muted">OXIDISING</span></th>
+                <td class="small"><span class="{{message.color.oxidising}}">{{message.current.oxidising}}</span></td>
+                <td class="small">{{message.averages.oxidising}}</td>
+                <td class="small">{{message.records.oxidising.min}}</td>
+                <td class="small">{{message.records.oxidising.max}}</td>
+                <th scope="row" class="text-start small"><span class="text-muted">GZ</span></th>
+                <td class="small">{{message.current.gz}}</td>
+                <td class="small">{{message.averages.gz}}</td>
+                <td class="small">{{message.records.gz.min}}</td>
+                <td class="small">{{message.records.gz.max}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start small"><span class="text-muted">SPACE</span></th>
+                <td class="small"><span class="text-info">{{message.system.Space}}</span></td>
+                <th scope="row" class="text-start small"><span class="text-muted">REDUCING</span></th>
+                <td class="small"><span class="{{message.color.reducing}}">{{message.current.reducing}}</span></td>
+                <td class="small">{{message.averages.reducing}}</td>
+                <td class="small">{{message.records.reducing.min}}</td>
+                <td class="small">{{message.records.reducing.max}}</td>
+                <th scope="row" class="text-start small"><span class="text-muted">MX</span></th>
+                <td class="small">{{message.current.mx}}</td>
+                <td class="small">{{message.averages.mx}}</td>
+                <td class="small">{{message.records.mx.min}}</td>
+                <td class="small">{{message.records.mx.max}}</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <th scope="row" class="text-start small"><span class="text-muted">NH3</span></th>
+                <td class="small"><span class="{{message.color.nh3}}">{{message.current.nh3}}</span></td>
+                <td class="small">{{message.averages.nh3}}</td>
+                <td class="small">{{message.records.nh3.min}}</td>
+                <td class="small">{{message.records.nh3.max}}</td>
+                <th scope="row" class="text-start small"><span class="text-muted">MY</span></th>
+                <td class="small">{{message.current.my}}</td>
+                <td class="small">{{message.averages.my}}</td>
+                <td class="small">{{message.records.my.min}}</td>
+                <td class="small">{{message.records.my.max}}</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <th scope="row" class="text-start small"><span class="text-muted">?</span></th>
+                <td class="small"><span class="{{message.color.uva}}">?</span></td>
+                <td class="small">?</td>
+                <td class="small">?</td>
+                <td class="small">?</td>
+                <th scope="row" class="text-start small"><span class="text-muted">MZ</span></th>
+                <td class="small">{{message.current.mz}}</td>
+                <td class="small">{{message.averages.mz}}</td>
+                <td class="small">{{message.records.mz.min}}</td>
+                <td class="small">{{message.records.mz.max}}</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <th scope="row" class="text-start small"><span class="text-muted">?</span></th>
+                <td class="small"><span class="{{message.color.uvb}}">?</span></td>
+                <td class="small">?</td>
+                <td class="small">?</td>
+                <td class="small">?</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <th scope="row" class="text-start small"><span class="text-muted">?</span></th>
+                <td class="small"><span class="{{message.color.uv}}">?</span></td>
+                <td class="small">?</td>
+                <td class="small">?</td>
+                <td class="small">?</td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start small"><span class="text-primary">COUNTER</span></th>
+                <td class="small"><span class="text-primary">{{ message.current.measurement_counter }}</span></td>
+                <th scope="row" class="text-start small"><span class="text-muted">LIGHT</span></th>
+                <td class="small"><span class="{{message.color.light}}">{{message.current.light}}</span></td>
+                <td class="small">{{message.averages.light}}</td>
+                <td class="small">{{message.records.light.min}}</td>
+                <td class="small">{{message.records.light.max}}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start small"><span class="text-primary">SESSION ID</span></th>
+                <td class="small"><span class="text-primary">{{ message.session_id }}</span></td>
+                <th scope="row" class="text-start small"><span class="text-muted">PROXIMITY</span></th>
+                <td class="small"><span class="{{message.color.proximity}}">{{message.current.proximity}}</span></td>
+                <td class="small">{{message.averages.proximity}}</td>
+                <td class="small">{{message.records.proximity.min}}</td>
+                <td class="small">{{message.records.proximity.max}}</td>
+            </tr>
+            <tr>
+                <th><span class="text-muted small">ERRORS</span></th>
+                <td class="small text-danger">{{message.errors}}</td>
+                <th scope="row" class="text-start small"><span class="text-muted">M. TIME</span></th>
+                <td class="small">{{message.current.measurement_time}}</td>
+                <td class="small">{{message.averages.measurement_time}}</td>
+                <td class="small">{{message.records.measurement_time.slowest}}</td>
+                <td class="small">{{message.records.measurement_time.fastest}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- all scripts -->
+<script type="text/javascript">displayTitle();</script>
+</body>
+</html>
