@@ -20,8 +20,8 @@ import os
 import config
 import dom_utils
 from gateways import web_data_gateway
-from server import app_server_service, server_storage_service
-from server import delight_service, note_service, healthcheck_service
+from server import app_server_service, server_storage_service, sky_radar_service
+from server import note_service, healthcheck_service
 from services import common_service, diarist_service
 from services import information_service, text_service, metrics_service
 
@@ -59,13 +59,6 @@ def update_system_healthcheck_for():
 def update_device_to_on_off_for():
     logger.info('Updating device power state to {}'.format(request.get_json(force=True)))
     healthcheck_service.update_device_power_state_for(request.get_json(force=True))
-    return jsonify({})
-
-
-@app.route("/device/status/update", methods=['POST'])
-def update_device_status_for():
-    logger.info('Updating device status to {}'.format(request.get_json(force=True)))
-    healthcheck_service.update_device_status_for(request.get_json(force=True))
     return jsonify({})
 
 
@@ -189,14 +182,14 @@ def hq():
 @app.route("/flights/today")
 def flights_today():
     logger.info('Getting flights detected today')
-    return jsonify(delight_service.get_flights_for_today())
+    return jsonify(sky_radar_service.get_flights_for_today())
 
 
 # FIXME
 @app.route("/flights/yesterday")
 def flights_yesterday():
     logger.info('Getting flights detected yesterday')
-    return jsonify(delight_service.get_flights_for_yesterday())
+    return jsonify(sky_radar_service.get_flights_for_yesterday())
 
 
 @app.route("/halt")
@@ -208,7 +201,7 @@ def halt():
 @app.route("/shc/get")
 def get_system_healthcheck_for():
     logger.info('updating healthcheck')
-    return jsonify(delight_service.get_system_hc())
+    return jsonify(app_server_service.get_system_hc())
 
 
 @app.route("/reboot")
@@ -232,7 +225,7 @@ def get_measurement():
 @app.route("/ping")
 def get_ping_test():
     logger.info("Running ping test")
-    return jsonify(delight_service.get_ping_test_results())
+    return jsonify(app_server_service.get_ping_test_results())
 
 
 # Used to get or store data on server between devices when I have eureka moment

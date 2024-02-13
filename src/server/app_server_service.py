@@ -24,12 +24,13 @@ import server.information_service as information
 import server.personal_stats as personal_events
 import server.random_irregular_verb as verb
 import server.rules_service as rules
-from common import data_files
+from common import data_files, commands
 from gateways import web_data_gateway, local_data_gateway, tube_client
 from reports import report_generator
 from server import daily
 from services import error_detector_service, radar_service, metrics_service
 from services import weather_service, system_data_service
+from systemhc import system_health_check_service
 
 logger = logging.getLogger('app')
 server_logger = logging.getLogger('server')
@@ -224,3 +225,10 @@ def count_tube_problems_today():
 
 def get_report_for_yesterday():
     return report_generator.generate()
+
+
+def get_system_hc():
+    return system_health_check_service.get_system_healthcheck()
+
+def get_ping_test_results():
+    return commands.get_ping_results()

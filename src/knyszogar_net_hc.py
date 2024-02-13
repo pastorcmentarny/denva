@@ -82,6 +82,7 @@ def check_for(app_name: str, headers, page: str, app_type: str = ""):
         logger.warning('Response error: {}'.format(whoops))
 
 
+#TODO Understand what I need it for
 def check_denva_app_status(cfg):
     state = status.Status()
     logger.info('Getting status for denva..')
@@ -112,8 +113,7 @@ def check_denva_app_status(cfg):
             logger.warning('status: ORANGE due to low free space on Denva')
             state.set_warn()
 
-    local_data_gateway.post_device_status('denva', state.get_status_as_light_colour())
-    logger.info('Denva: {}'.format(state.get_status_as_light_colour()))
+    logger.info(f'Denva state: {state.get_status_as_light_colour()}')
 
 
 def my_services_check():
@@ -196,7 +196,7 @@ def app_loop():
             if loop_counter % 2 == 0:
                 logger.info("Performing healthcheck for my services")
                 my_services_check()
-                check_denva_app_status(config.load_cfg())
+                check_denva_app_status(config.load_cfg()) #TODO
                 # ADD DENVA 2 APP check
 
             if loop_counter >= 10:

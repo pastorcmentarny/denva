@@ -37,7 +37,7 @@ report_generation_cooldown = datetime.now()
 def main():
     global report_generation_cooldown
     counter = 0
-    local_data_gateway.post_device_on_off('app', True)
+    local_data_gateway.post_device_on_off('knyszogar_app', True)
     report_service.create_and_store_it_if_needed(report_generation_cooldown, GENERATE_NOW)
     while True:
         logger.debug(f'Loop no. {counter}')
@@ -67,8 +67,10 @@ if __name__ == '__main__':
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
+
     except Exception as exception:
         logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+
         sys.exit(1)
     except BaseException as disaster:
         msg = 'Shit hit the fan and application died badly because {}'.format(disaster)

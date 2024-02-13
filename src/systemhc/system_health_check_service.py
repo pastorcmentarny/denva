@@ -27,7 +27,7 @@ def save(data: dict):
         logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
 
 
-hc_fix = config.reset_hc_statuses()
+
 
 
 def load() -> dict:

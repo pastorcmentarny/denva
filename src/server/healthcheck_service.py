@@ -1,121 +1,17 @@
-import json
 import logging
+from db import db_service
 from datetime import datetime
-
-from retrying import retry
-
-import config
 
 ENCODING = 'utf-8'
 
 logger = logging.getLogger('app')
 
 
-def __retry_on_exception(exception):
-    logger.warning(f'Unable to load due to {exception}')
-    return isinstance(exception, Exception)
-
-def __retry_on_type_error(exception):
-    logger.warning(f'Unable to update_for due to {exception}. Retrying...')
-    return isinstance(exception, TypeError)
-
-healthcheck_path = '/home/ds/data/hc.json'
-
-default_hc = {
-    "denva": {
-        "app": "20201212201221",
-        "ui": "20201212201221",
-        "device": config.DEVICE_OFF
-    },
-    "denva2": {
-        "ui": "20201212201221",
-        "motion": "20201212201221",
-        "gps": "20201212201221",
-        "barometric": "20201212201221",
-        "spectrometer": "20201212201221",
-        "sound": "20201212201221",
-        "device": config.DEVICE_OFF
-    },
-    "delight": { #TODO remove it
-        "app": "20201212201221",
-        "ui": "20201212201221",
-        "device": config.DEVICE_OFF
-    },
-    "server": {
-        "app": "20201212201221",
-        "ui": "20201212201221",
-        "device": config.DEVICE_OFF
-    },
-    "knyszogar": {
-        "cctv": "20201212201221",
-        "hc": "20201212201221",
-        "radar": "20201212201221",
-        "digest": "20201212201221",
-        "app": "20201212201221",
-        "email": "20201212201221"
-    },
-    'radar': config.DEVICE_OFF  # TODO MOVE FROM KNYSZOGAR
-}
-
-
-# TODO replace from data_file
-def save_dict_data_as_json(path: str, data: dict):
-    with open(path, "w+", encoding=ENCODING) as path_file:
-        json.dump(data, path_file, ensure_ascii=False, indent=4)
-
-
-# TODO replace from data_file
-def load_json_data_as_dict_from(path: str) -> dict:
-    with open(path, config.FIELD_RED, encoding=ENCODING) as json_file:
-        return json.load(json_file)
-
-
-def __save(data: dict):
-    try:
-        save_dict_data_as_json(healthcheck_path, data)
-    except Exception as exception:
-        logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
-
-
-@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
-       stop_max_attempt_number=5)
-def __load() -> dict:
-    try:
-        return load_json_data_as_dict_from(healthcheck_path)
-    except Exception as exception:
-        logger.error(
-            'Unable to load file with system healthcheck as due to {} using path {}'.format(exception,
-                                                                                            healthcheck_path),
-            exc_info=True)
-        return default_hc.copy()
-
-#TODO test it is __retry_on_type_error fix issue
-@retry(retry_on_exception=__retry_on_type_error, wait_exponential_multiplier=50, wait_exponential_max=1000,
-       stop_max_attempt_number=3)
 def update_for(who: dict):
-    # TODO validate it
-    try:
-        data = __load()
-        now = datetime.now()
-        data[who['device']]['device'] = config.DEVICE_ON
-        data[who['device']][who['app_type']] = str(
-            '{}{:02d}{:02d}{:02d}{:02d}{:02d}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
-        __save(data)
-    except Exception as exception:
-        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
-
-
-# TODO validate it #TODO multiple power state
-def update_device_status_for(who: dict):
-    logger.debug(f'Request to update status for : {who}')
-    try:
-        data = __load()
-        logger.debug(data)
-        data[who['device']]['device'] = who['status']
-        logger.debug(f'device status: {data[who["device"]]["device"]}')
-        __save(data)
-    except Exception as exception:
-        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
+    service_name = f"{who['device']}_{who['app_type']}"
+    device_name = f"{who['device']}_device"
+    db_service.set_device_on(device_name)
+    db_service.update_for(service_name)
 
 
 # TODO move to dom_utils
@@ -143,13 +39,12 @@ def __get_status(previous_datetime):
 
 def is_up(device: str, app_type: str) -> str:
     try:
-        system = __load()
-        previous = system[device][app_type]
+        name = device + "_" + app_type
+        previous = db_service.get_status_for(name)
         previous_datetime = datetime(__to_int(previous[0:4]), __to_int(previous[4:6]),
                                      __to_int(previous[6:8]),
                                      __to_int(previous[8:10]), __to_int(previous[10:12]),
                                      __to_int(previous[12:14]))
-
         return __get_status(previous_datetime)
     except Exception as exception:
         logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
@@ -158,8 +53,8 @@ def is_up(device: str, app_type: str) -> str:
 
 def get_device_status_for(device: str, app_type: str):
     try:
-        system = __load()
-        return system[device][app_type]
+        name = device + "_" + app_type
+        return db_service.get_status_for(name)
     except Exception as exception:
         logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
         return "UNKNOWN"
@@ -167,12 +62,5 @@ def get_device_status_for(device: str, app_type: str):
 
 # TODO multiple power state
 def update_device_power_state_for(who):
-    logger.debug(f'Request to update power state for : {who}')
-    try:
-        data = __load()
-        logger.debug(data)
-        data[who['device']]['device'] = who['status']
-        logger.info(f'device status: {data[who["device"]]["device"]}')
-        __save(data)
-    except Exception as exception:
-        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
+    logger.warning(f'Not implemented yet. Data sent: {who}')
+    # I need script to run before reboot or shutdown first

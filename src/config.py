@@ -139,7 +139,9 @@ settings = {
         "events": f'{PI_HOME_DIR}events.json',
         "chinese-dictionary": f'{PI_DATA_PATH}dictionary.txt',
         "overseer_mode": f'{PI_HOME_DIR}overseer_mode.txt',
-        "text": f'{PI_DATA_PATH}text_to_display.txt'
+        "text": f'{PI_DATA_PATH}text_to_display.txt',
+        "healthcheck": f'/home/pi/data/hc.json',  # TODO update when user is moved to ds
+        "all_warnings" : f"{PI_DATA_PATH}all-warnings.txt"
     },
     REFRESH_RATE: {
         "fast": 0.25,
@@ -228,6 +230,11 @@ def get_information_path() -> str:
 
 def load_cfg() -> dict:
     return settings.copy()
+
+
+def replace_config(cfg: dict):
+    global settings
+    settings = cfg.copy()
 
 
 def get_healthcheck_ip() -> str:
@@ -361,16 +368,12 @@ def get_overseer_mode_file_path():
     return settings["paths"]["overseer_mode"]
 
 
-def get_update_device_status_url() -> str:
-    return f'{SERVER_IP}:5000/device/status/update'
-
-
 def get_path_to_text():
     return settings["paths"]["text"]
 
 
-def get_post_denva_measurement_url(which:str = 'one'):
-        return f'{SERVER_IP}:5000/measurement/denva/{which}'
+def get_post_denva_measurement_url(which: str = 'one'):
+    return f'{SERVER_IP}:5000/measurement/denva/{which}'
 
 
 def get_add_diary_entry_url():
@@ -410,38 +413,8 @@ def get_url_for_denva_two():
 
 
 def get_today_warnings():
-    return "/home/ds/data/all-warnings.txt"
+    return settings['paths']['all_warnings']
 
 
-def reset_hc_statuses():
-    logger.warning('Reseting healthcheck statuses')
-    return {
-        "denva": {
-            "app": "20200202121212",
-            "ui": "20200202121212",
-            "device": "UNKNOWN"
-        },
-        "denva2": {
-            "app": "20200202121212",
-            "ui": "20200202121212",
-            "device": "UNKNOWN"
-        },
-        "delight": {
-            "app": "20200202121212",
-            "ui": "20200202121212",
-            "device": "UNKNOWN"
-        },
-        "server": {
-            "app": "20200202121212",
-            "ui": "20200202121212",
-            "device": "UNKNOWN"
-        },
-        "knyszogar": {
-            "cctv": "20200202121212",
-            "hc": "20200202121212",
-            "radar": "20200202121212",
-            "digest": "20200202121212",
-            "app": "20200202121212",
-            "email": "20200202121212"
-        }
-    }
+def get_healthcheck_path():
+    return settings['paths']['healthcheck']
