@@ -1,7 +1,6 @@
 import sqlite3
+from contextlib import closing
 from datetime import datetime
-
-
 
 default_hc = {
     "denva_app": "20201212201221",
@@ -24,9 +23,10 @@ default_hc = {
     "knyszogar_app": "20201212201221",
     "knyszogar_email": "20201212201221"
 }
+DB_NAME = "/home/pi/knyszogar/db/denva.db"
 
 def count_size():
-    connection = sqlite3.connect('/home/pi/denva.db')
+    connection = sqlite3.connect(DB_NAME)
     table_name = 'service_status'
     cursor = connection.cursor()
     query = f"SELECT COUNT(*) FROM {table_name}"
@@ -39,9 +39,8 @@ def count_size():
 
 
 def setup():
-    connection = sqlite3.connect('/home/pi/denva.db')
+    connection = sqlite3.connect(DB_NAME)
     cursor = connection.cursor()
-
 
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='service_status'")
     cursor.execute("CREATE TABLE service_status (service TEXT, last_updated TEXT)")
@@ -56,26 +55,26 @@ def setup():
 
     test1 = 'denva_app'
     rows1 = cursor.execute("SELECT service, last_updated FROM service_status WHERE service = ?",
-                          (test1,), ).fetchall()
+                           (test1,), ).fetchall()
     test2 = 'denva_device'
     rows2 = cursor.execute("SELECT service, last_updated FROM service_status WHERE service = ?",
-                          (test2,), ).fetchall()
+                           (test2,), ).fetchall()
 
     test3 = 'denva_app'
     now = datetime.now()
     current_data = str('2021{:02d}{:02d}{:02d}{:02d}{:02d}'
-                       .format( now.month, now.day, now.hour, now.minute, now.second))
+                       .format(now.month, now.day, now.hour, now.minute, now.second))
     cursor.execute("UPDATE service_status SET last_updated = ? WHERE service = ?",
                    (current_data, 'denva_app'))
     rows3 = cursor.execute("SELECT service, last_updated FROM service_status WHERE service = ?",
-                          (test1,), ).fetchall()
+                           (test1,), ).fetchall()
 
     test4 = 'denva_device'
     current_state = 'ON'
     cursor.execute("UPDATE service_status SET last_updated = ? WHERE service = ?",
                    (current_state, 'denva_device'))
     rows4 = cursor.execute("SELECT service, last_updated FROM service_status WHERE service = ?",
-                          (test2,), ).fetchall()
+                           (test2,), ).fetchall()
     print(rows1)
     print(rows2)
     print(rows3)
@@ -93,7 +92,28 @@ def setup():
     connection.close()
 
 
+def add_row(key: str):
+    try:
+        with closing(sqlite3.connect(DB_NAME)) as connection:
+            with closing(connection.cursor()) as cursor:
+                if key.endswith('_device'):
+                    params_data = [key, 'OFF']
+                    cursor.execute("INSERT INTO service_status VALUES (?, ?)", params_data)
+                else:
+                    params_data = [key, '20201212201221']
+                cursor.execute("INSERT INTO service_status VALUES (?, ?)", params_data)
+                print(f'Total changes :{connection.total_changes}')
+                connection.commit()
+    except sqlite3.Error as error:
+        print(f"Unable to add row for {key} due to database error {error}")
+    except Exception as exception:
+        print(f"Unable to add row for {key} due to database error {exception}")
+
 
 if __name__ == '__main__':
-    setup()
-    count_size()
+    add_row('knyszogar_hc')
+    add_row('knyszogar_radar')
+    add_row('knyszogar_digest')
+    add_row('knyszogar_hc')
+    add_row('knyszogar_email')
+
