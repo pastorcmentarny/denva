@@ -11,6 +11,7 @@
 import logging
 from pathlib import Path
 import dom_utils
+from common import data_files
 
 logger = logging.getLogger('app')
 
@@ -97,6 +98,9 @@ FIELD_SPECTROMETER_YELLOW = 'yellow'
 FIELD_SPECTROMETER_GREEN = 'green'
 FIELD_SPECTROMETER_BLUE = 'blue'
 FIELD_SPECTROMETER_VIOLET = 'violet'
+FIELD_UVA = 'uva'
+FIELD_UVB = 'uvb'
+FIELD_UV = 'uv_index'
 
 KEY_DENVA_TWO = 'denva2'
 
@@ -141,7 +145,7 @@ settings = {
         "overseer_mode": f'{PI_HOME_DIR}overseer_mode.txt',
         "text": f'{PI_DATA_PATH}text_to_display.txt',
         "healthcheck": f'/home/pi/data/hc.json',  # TODO update when user is moved to ds
-        "all_warnings" : f"{PI_DATA_PATH}all-warnings.txt"
+        "all_warnings": f"{PI_DATA_PATH}all-warnings.txt"
     },
     REFRESH_RATE: {
         "fast": 0.25,
@@ -230,11 +234,6 @@ def get_information_path() -> str:
 
 def load_cfg() -> dict:
     return settings.copy()
-
-
-def replace_config(cfg: dict):
-    global settings
-    settings = cfg.copy()
 
 
 def get_healthcheck_ip() -> str:
@@ -418,3 +417,13 @@ def get_today_warnings():
 
 def get_healthcheck_path():
     return settings['paths']['healthcheck']
+
+
+def reload_config_from_file():
+    global settings
+    result = data_files.load_json_data_as_dict_from('config.json')
+    if 'error' in result:
+        return result
+    else:
+        settings = result.copy()
+        return result

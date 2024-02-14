@@ -1,0 +1,82 @@
+{
+  "mode": "prod",
+  "sensors": {
+    "cameras": {
+      "cctv": false,
+      "sky": false
+    },
+    "motion": {
+      "shaking": 1000,
+      "sensitivity": 8,
+      "noOfFlashes": 5
+    },
+    "bme": {
+      "warm_up": 10
+    },
+    "unicornhd": {
+      "default_brightness": 0.3
+    },
+    "radar": true
+  },
+  "paths": {
+    "frame": "/home/ds//frame/",
+    "backup": "/home/ds/backup/",
+    "events": "/home/ds/events.json",
+    "chinese-dictionary": "/home/ds/data/dictionary.txt",
+    "overseer_mode": "/home/ds/overseer_mode.txt",
+    "text": "/home/ds/data/text_to_display.txt",
+    "healthcheck": "/home/pi/data/hc.json",
+    "all_warnings": "/home/ds/data/all-warnings.txt"
+  },
+  "refresh-rate": {
+    "fast": 0.25,
+    "normal": 1,
+    "slow": 5
+  },
+  "system": {
+    "memory_available": 262144000,
+    "free_space": 500,
+    "ip": "http://192.168.0.200:5000",
+    "cpu_temp_warn": 60,
+    "cpu_temp_error": 70,
+    "cpu_temp_fatal": 80
+  },
+  "options": {
+    "inChina": false
+  },
+  "urls": {
+    "server": "http://192.168.0.200:5000",
+    "denva": "http://192.168.0.201:5000",
+    "denva2": "http://192.168.0.205:5000",
+    "delight": "http://192.168.0.200:5000",
+    "dump1090_data": "http://192.168.0.201:16601/data.json"
+  },
+  "latency": {
+    "max": 200,
+    "max-slow": 1000,
+    "five-seconds": 5000
+  },
+  "logs": {
+    "dev_app": "/home/ds/configs/dev_log_app_config.json",
+    "dev_ui": "/home/ds/configs/dev_log_ui_config.json",
+    "dev_ddd": "/home/ds/configs/dev_log_ddd_config.json",
+    "server_app": "/home/ds/configs/server_log_app_config.json",
+    "server_ui": "/home/ds/configs/server_log_ui_config.json",
+    "denva_app": "/home/ds/configs/log_app_config.json",
+    "denva_ui": "/home/ds/configs/log_ui_config.json",
+    "delight_app": "/home/ds/configs/log_app_config.json",
+    "delight_ui": "/home/ds/configs/log_ui_config.json",
+    "hc": "/home/ds/configs/log_config.json",
+    "log_app": "/home/ds/logs/logs.log",
+    "log_hc": "/home/ds/logs/healthcheck.log",
+    "log_ui": "/home/ds/logs/server.log",
+    "ddd": "/home/ds/configs/log_ddd_config.log",
+    "overseer_mode": "/home/ds/configs/overseer_mode.json",
+    "overseer": "/home/ds/configs/overseer.json"
+  },
+  "informationData": "/home/ds/data/information.json",
+  "test": {
+    "slow_test": false
+  },
+  "measurement_list_size": 2000
+}
