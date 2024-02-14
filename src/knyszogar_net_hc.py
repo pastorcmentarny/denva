@@ -127,6 +127,7 @@ def my_services_check():
     check_for('denva2', headers, f"{config.DENVA_TWO_IP}:5000/hc")
     check_for('radar', headers, f"{config.DENVA_IP}:5000/hc/ar")
     check_for('server', headers, f"{config.SERVER_IP}:5000/hc")
+    check_for('config', headers, f"{config.SERVER_IP}:18004/hc", 'knyszogar')
     check_for('email', headers, f"{config.SERVER_IP}:18010/hc", 'knyszogar')
     end_time = time.perf_counter()
     total_time = '{:0.2f}'.format((end_time - start_time))
@@ -220,7 +221,6 @@ if __name__ == '__main__':
     loggy.log_with_print('Starting application')
 
     try:
-        local_data_gateway.post_device_on_off('hc', True)
         app_loop()
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))

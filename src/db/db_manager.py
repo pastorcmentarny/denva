@@ -21,7 +21,8 @@ default_hc = {
     "knyszogar_radar": "20201212201221",
     "knyszogar_digest": "20201212201221",
     "knyszogar_app": "20201212201221",
-    "knyszogar_email": "20201212201221"
+    "knyszogar_email": "20201212201221",
+    "knyszogar_config": "20201212201221",
 }
 DB_NAME = "/home/pi/knyszogar/db/denva.db"
 
@@ -111,9 +112,5 @@ def add_row(key: str):
 
 
 if __name__ == '__main__':
-    add_row('knyszogar_hc')
-    add_row('knyszogar_radar')
-    add_row('knyszogar_digest')
-    add_row('knyszogar_hc')
-    add_row('knyszogar_email')
+    add_row('knyszogar_config')
 

@@ -203,6 +203,7 @@ def draw_denva2_status():
         r, g, b = get_state_colour_for_hc(status)
         display.unicornhathd.set_pixel(11, 10, r, g, b)
 
+
 # DATA NEED BE SEND APP AND UI
 def draw_denva_status():
     # DEVICE
@@ -261,26 +262,30 @@ def draw_knyszogar_app():
     display.unicornhathd.set_pixel(3, 2, r, g, b)
 
 
-def draw_knyszogar_email():
-    status = healthcheck_service.is_up('knyszogar', 'email')
+def draw_knyszogar_www():
+    status = healthcheck_service.is_up('server', 'ui')
     r, g, b = get_state_colour_for_hc(status)
     display.unicornhathd.set_pixel(3, 4, r, g, b)
     display.unicornhathd.set_pixel(3, 5, r, g, b)
+
+
+def draw_knyszogar_config():
+    status = healthcheck_service.is_up('knyszogar', 'config')
+    r, g, b = get_state_colour_for_hc(status)
+    display.unicornhathd.set_pixel(3, 7, r, g, b)
+
+
+def draw_knyszogar_email():
+    status = healthcheck_service.is_up('knyszogar', 'email')
+    r, g, b = get_state_colour_for_hc(status)
+    display.unicornhathd.set_pixel(3, 8, r, g, b)
 
 
 def draw_knyszogar_hc():
     status = healthcheck_service.is_up('knyszogar', 'hc')
     print(f'HC status: {status}')
     r, g, b = get_state_colour_for_hc(status)
-    display.unicornhathd.set_pixel(3, 7, r, g, b)
-    display.unicornhathd.set_pixel(3, 8, r, g, b)
-
-
-def draw_knyszogar_www():
-    status = healthcheck_service.is_up('server', 'ui')
-    r, g, b = get_state_colour_for_hc(status)
-    display.unicornhathd.set_pixel(3, 10, r, g, b)
-    display.unicornhathd.set_pixel(3, 11, r, g, b)
+    display.unicornhathd.set_pixel(3, 9, r, g, b)
 
 
 def draw_transport_manager_service():
@@ -310,6 +315,8 @@ def random_pixel():
 
 
 tick = True
+
+
 # Change led location to next to random color
 def draw_wifi_status():
     global tick
@@ -342,6 +349,7 @@ def show_status():
     draw_knyszogar_email()
     draw_knyszogar_hc()
     draw_knyszogar_www()
+    draw_knyszogar_config()
     draw_transport_manager_service()
     draw_transport_manager_db()
     draw_wifi_status()

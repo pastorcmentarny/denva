@@ -22,6 +22,9 @@ dom_utils.setup_test_logging('config')
 app = Flask(__name__)
 APP_NAME = 'Knyszogar Config Service'
 
+@app.route("/")
+def get_main_route():
+    return get_config()
 
 @app.route("/config")
 def get_config():
@@ -49,7 +52,7 @@ if __name__ == '__main__':
         app.config['JSON_AS_ASCII'] = False
         app.config['SECRET_KEY'] = os.urandom(24).hex()
 
-        app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
+        app.run(host='0.0.0.0',  port=18004, debug=False)  # host added so it can be visible on local network
     except KeyboardInterrupt as keyboard_exception:
         print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
