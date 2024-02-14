@@ -1,4 +1,3 @@
-import dom_utils
 from common import data_files
 
 

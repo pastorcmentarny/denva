@@ -387,7 +387,7 @@ def setup_test_logging(app_name: str, debug_mode: bool = False):
         logging_level = logging.WARN
 
     logging_format = '%(levelname)s :: %(asctime)s :: %(message)s'
-    logging_filename = f'/home/ds/knyszogardata/logs/{app_name}-{date.today()}.txt'
+    logging_filename = f'/home/pi/logs/{app_name}-{date.today()}.txt'
     logging.basicConfig(level=logging_level, format=logging_format, filename=logging_filename)
     logging.captureWarnings(True)
     logging.info(f'Logging setup complete with log level set to: {logging_level})')
