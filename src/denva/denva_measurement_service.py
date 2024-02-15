@@ -30,7 +30,10 @@ def get_data_from_measurement() -> dict:
         config.FIELD_RED: red, config.FIELD_GREEN: green, config.FIELD_BLUE: blue,
         config.FIELD_ECO2: eco2, config.FIELD_TVOC: tvoc,
         config.FIELD_CO2: co2_data[0], config.FIELD_CO2_TEMPERATURE: co2_data[1],
-        config.FIELD_RELATIVE_HUMIDITY: co2_data[2]
+        config.FIELD_RELATIVE_HUMIDITY: co2_data[2],
+        config.FIELD_UVA: uv_data[0],
+        config.FIELD_UVB: uv_data[1],
+        config.FIELD_UV: uv_data[2],
     }
 
 
@@ -44,7 +47,8 @@ def get_measurement_from_all_sensors(measurement_counter, start_time):
     data[config.FIELD_MEASUREMENT_COUNTER] = measurement_counter
     data[config.FIELD_MEASUREMENT_TIME] = str(measurement_time)
     data_files.store_measurement(data, denva_sensors_service.get_sensor_log_file())
-    cl_display.print_measurement(data)
+    if config.is_cli_mode_enabled():
+        cl_display.print_measurement(data)
     warnings = denva_service.get_current_warnings()
     data_files.save_warnings(warnings)
     local_data_gateway.post_denva_measurement(data)

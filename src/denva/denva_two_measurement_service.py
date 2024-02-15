@@ -48,7 +48,8 @@ def get_measurement_from_all_sensors(measurement_counter, start_time):
     data[config.FIELD_MEASUREMENT_COUNTER] = measurement_counter
     data[config.FIELD_MEASUREMENT_TIME] = str(measurement_time)
     data_files.store_measurement(data, denva_sensors_service.get_sensor_log_file())
-    cl_display.print_measurement(data)
+    if config.is_cli_mode_enabled():
+        cl_display.print_measurement(data)
     warnings = denva_service.get_current_warnings()
     data_files.save_warnings(warnings)
     local_data_gateway.post_denva_measurement(data)
