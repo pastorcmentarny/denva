@@ -532,6 +532,16 @@ class ConfigServiceTestCases(TestCase):
         # then
         self.assertEqual(expected_result, result)
 
+    def test_is_cli_mode_enabled(self):
+        # when
+        result = config.is_cli_mode_enabled()
+
+        # debug
+        print(f'CLI Enabled {result}')
+
+        # then
+        self.assertFalse(result)
+
     def test_get_fast_refresh_rate(self):
         # given
         expected_result = 0.25

@@ -13,6 +13,14 @@ from pathlib import Path
 import dom_utils
 from common import data_files
 
+KEY_SYSTEM = "system"
+KEY_LATENCY = "latency"
+KEY_LOGS = "logs"
+KEY_SENSORS = "sensors"
+KEY_URLS = "urls"
+KEY_OPTIONS = 'options'
+KEY_PATH = "paths"
+
 logger = logging.getLogger('app')
 
 CPU_TEMP_FATAL = "cpu_temp_fatal"
@@ -91,7 +99,6 @@ FIELD_NH3 = 'nh3'
 FIELD_PM1 = 'p_1'
 FIELD_PM25 = 'p_2'
 FIELD_PM10 = 'p_10'
-FIELD_SYSTEM = 'system'
 FIELD_SPECTROMETER_RED = 'spectometer_red'
 FIELD_SPECTROMETER_ORANGE = 'orange'
 FIELD_SPECTROMETER_YELLOW = 'yellow'
@@ -119,7 +126,7 @@ PI_SENSORS_DATA_PATH = PI_DATA_PATH
 PI_KNYSZOGAR_DATA = f'{PI_HOME_DIR}knyszogar/data/'
 settings = {
     "mode": 'dev',
-    "sensors": {
+    KEY_SENSORS: {
         "cameras": {
             "cctv": False,
             "sky": False
@@ -137,7 +144,7 @@ settings = {
         },
         "radar": True
     },
-    "paths": {
+    KEY_PATH: {
         "frame": f'{PI_HOME_DIR}/frame/',
         "backup": f'{PI_HOME_DIR}backup/',
         "events": f'{PI_HOME_DIR}events.json',
@@ -152,7 +159,7 @@ settings = {
         "normal": 1,
         "slow": 5,
     },
-    "system": {
+    KEY_SYSTEM: {
         "memory_available": 250 * 1024 * 1024,  # 250MB
         "free_space": 500,
         "ip": f"{SERVER_IP}:5000",
@@ -160,22 +167,23 @@ settings = {
         CPU_TEMP_ERROR: 70,
         CPU_TEMP_FATAL: 80
     },
-    "options": {
-        "inChina": False
+    KEY_OPTIONS: {
+        "inChina": False,
+        "cli_enabled": False
     },
-    "urls": {
+    KEY_URLS: {
         "server": f'{SERVER_IP}:5000',
         "denva": f"{DENVA_IP}:5000",
         KEY_DENVA_TWO: f"{DENVA_TWO_IP}:5000",
         "delight": f'{SERVER_IP}:5000',
         "dump1090_data": f"{DENVA_IP}:16601/data.json"
     },
-    "latency": {
+    KEY_LATENCY: {
         "max": 200,
         "max-slow": 1000,
         "five-seconds": 5000,
     },
-    "logs": {
+    KEY_LOGS: {
         'dev_app': f'{PI_CONFIG_PATH}dev_log_app_config.json',
         'dev_ui': f'{PI_CONFIG_PATH}dev_log_ui_config.json',
         'dev_ddd': f'{PI_CONFIG_PATH}dev_log_ddd_config.json',
@@ -202,7 +210,7 @@ settings = {
 
 
 def get_log_path_for(log_type: str) -> str:
-    return settings['logs'][log_type]
+    return settings[KEY_LOGS][log_type]
 
 
 # TODO REFACTOR
@@ -211,21 +219,21 @@ def get_environment_log_path_for(where: str) -> str:
     if where == 'denva_app':
         return f'{PI_CONFIG_PATH}log_denva_app_config.json'
     if where == 'overseer_mode':
-        return settings['logs']['overseer_mode']
+        return settings[KEY_LOGS]['overseer_mode']
     if where == 'overseer':
-        return settings['logs']['overseer']
+        return settings[KEY_LOGS]['overseer']
     if where == 'cctv':
-        return settings['logs']['cctv']
+        return settings[KEY_LOGS]['cctv']
     if where == 'hc':
-        return settings['logs']['hc']
+        return settings[KEY_LOGS]['hc']
 
     if where == 'ddd':
-        return settings['logs']['dev_' + where]
+        return settings[KEY_LOGS]['dev_' + where]
 
     if env_type == 'dev':
-        return settings['logs']['dev_' + where]
-    print(settings['logs']['{}_{}'.format(env_type, where)])
-    return settings['logs']['{}_{}'.format(env_type, where)]
+        return settings[KEY_LOGS]['dev_' + where]
+    print(settings[KEY_LOGS]['{}_{}'.format(env_type, where)])
+    return settings[KEY_LOGS]['{}_{}'.format(env_type, where)]
 
 
 def get_information_path() -> str:
@@ -238,7 +246,7 @@ def load_cfg() -> dict:
 
 def get_healthcheck_ip() -> str:
     config = load_cfg()
-    return config[FIELD_SYSTEM]['ip']
+    return config[KEY_SYSTEM]['ip']
 
 
 def get_current_warnings_url_for(service: str) -> str:
@@ -252,15 +260,15 @@ def get_options() -> dict:
 
 
 def get_path_for_personal_events() -> str:
-    return settings['paths']['events']
+    return settings[KEY_PATH]['events']
 
 
 def get_path_for_backup() -> str:
-    return settings['paths']['backup']
+    return settings[KEY_PATH]['backup']
 
 
 def get_path_to_chinese_dictionary() -> str:
-    return settings['paths']['chinese-dictionary']
+    return settings[KEY_PATH]['chinese-dictionary']
 
 
 def get_irregular_verbs_path() -> str:
@@ -277,11 +285,11 @@ def get_mode() -> str:
 
 
 def get_memory_available_threshold():
-    return settings[FIELD_SYSTEM]['memory_available']
+    return settings[KEY_SYSTEM]['memory_available']
 
 
 def get_disk_space_available_threshold():
-    return settings[FIELD_SYSTEM]['free_space']
+    return settings[KEY_SYSTEM]['free_space']
 
 
 def run_slow_test() -> bool:
@@ -289,11 +297,11 @@ def run_slow_test() -> bool:
 
 
 def get_shaking_level():
-    return settings['sensors']['motion']['shaking']
+    return settings[KEY_SENSORS]['motion']['shaking']
 
 
 def get_sensitivity():
-    return settings['sensors']['motion']['sensitivity']
+    return settings[KEY_SENSORS]['motion']['sensitivity']
 
 
 def get_sensor_log_file_for(year: int, month: int, day: int, sensor_filename: str = 'sensor-log') -> str:
@@ -302,27 +310,27 @@ def get_sensor_log_file_for(year: int, month: int, day: int, sensor_filename: st
 
 
 def get_metrics_service_url():
-    return settings["urls"]["server"] + "/metrics/add"
+    return settings[KEY_URLS]["server"] + "/metrics/add"
 
 
 def get_warm_up_measurement_counter():
-    return settings['sensors']['bme']['warm_up']
+    return settings[KEY_SENSORS]['bme']['warm_up']
 
 
 def get_radar_hc_url() -> str:
-    return settings["urls"]["denva"] + "/hc/ar"
+    return settings[KEY_URLS]["denva"] + "/hc/ar"
 
 
 def get_system_hc_url() -> str:
-    return settings["urls"]["server"] + "/shc/update"
+    return settings[KEY_URLS]["server"] + "/shc/update"
 
 
 def get_system_hc_reboot_url() -> str:
-    return settings["urls"]["server"] + "/shc/reboot"
+    return settings[KEY_URLS]["server"] + "/shc/reboot"
 
 
 def get_service_on_off_url() -> str:
-    return settings["urls"]["server"] + "/shc/change"
+    return settings[KEY_URLS]["server"] + "/shc/change"
 
 
 def get_directory_path_for_aircraft() -> str:
@@ -330,17 +338,17 @@ def get_directory_path_for_aircraft() -> str:
 
 
 def get_url_for_dump1090():
-    return settings["urls"]["dump1090_data"]
+    return settings[KEY_URLS]["dump1090_data"]
 
 
 def max_latency(fast: bool = True):
     if fast:
-        return settings["latency"]["max"]
-    return settings["latency"]["max-slow"]
+        return settings[KEY_LATENCY]["max"]
+    return settings[KEY_LATENCY]["max-slow"]
 
 
 def slow_latency():
-    return settings["latency"]["five-seconds"]
+    return settings[KEY_LATENCY]["five-seconds"]
 
 
 def get_system_hc() -> str:
@@ -348,27 +356,27 @@ def get_system_hc() -> str:
 
 
 def get_default_brightness_for_delight_display():
-    return settings["sensors"]["unicornhd"]["default_brightness"]
+    return settings[KEY_SENSORS]["unicornhd"]["default_brightness"]
 
 
 def is_cctv_camera_on() -> bool:
-    return settings["sensors"]["cameras"]["cctv"]
+    return settings[KEY_SENSORS]["cameras"]["cctv"]
 
 
 def is_sky_camera_on() -> bool:
-    return settings["sensors"]["cameras"]["sky"]
+    return settings[KEY_SENSORS]["cameras"]["sky"]
 
 
 def is_radar_on():
-    return settings["sensors"]["radar"]
+    return settings[KEY_SENSORS]["radar"]
 
 
 def get_overseer_mode_file_path():
-    return settings["paths"]["overseer_mode"]
+    return settings[KEY_PATH]["overseer_mode"]
 
 
 def get_path_to_text():
-    return settings["paths"]["text"]
+    return settings[KEY_PATH]["text"]
 
 
 def get_post_denva_measurement_url(which: str = 'one'):
@@ -404,19 +412,19 @@ def get_measurement_size():
 
 
 def get_url_for_denva():
-    return settings["urls"]['denva']
+    return settings[KEY_URLS]['denva']
 
 
 def get_url_for_denva_two():
-    return settings["urls"]['denva2']
+    return settings[KEY_URLS]['denva2']
 
 
 def get_today_warnings():
-    return settings['paths']['all_warnings']
+    return settings[KEY_PATH]['all_warnings']
 
 
 def get_healthcheck_path():
-    return settings['paths']['healthcheck']
+    return settings[KEY_PATH]['healthcheck']
 
 
 def reload_config_from_file():
@@ -427,3 +435,6 @@ def reload_config_from_file():
     else:
         settings = result.copy()
         return result
+
+def is_cli_mode_enabled():
+    return settings[KEY_OPTIONS]['cli_enabled']
