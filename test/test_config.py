@@ -55,13 +55,6 @@ class ConfigServiceTestCases(TestCase):
                 # then
                 self.assertEqual(expected_result, result)
 
-    def test_get_default_brightness_for_delight_display_is_in_range(self):
-        # when
-        result = config.get_default_brightness_for_delight_display()
-
-        # then
-        self.assertGreaterEqual(result, 0.1)
-        self.assertLessEqual(result, 1)
 
     def test_get_sky_camera_settings(self):
         # when

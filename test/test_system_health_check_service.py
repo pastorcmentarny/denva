@@ -28,7 +28,7 @@ class SystemHealthCheckServiceTestCases(TestCase):
     def test_get_system_healthcheck_where_everything_is_down(self):
         # given
         expected_result = {'denva': {'app': 'DOWN', 'ui': 'DOWN'},
-                           'delight': {'app': 'DOWN', 'ui': 'DOWN'}, 'server': {'app': 'DOWN', 'ui': 'DOWN'},
+                           'server': {'app': 'DOWN', 'ui': 'DOWN'},
                            'other': {'cctv': 'DOWN', 'radar': 'DOWN', 'digest': 'DOWN'}}
 
         # when
@@ -40,7 +40,7 @@ class SystemHealthCheckServiceTestCases(TestCase):
     def test_get_system_healthcheck_where_everything_is_up(self):
         # given
         expected_result = {'denva': {'app': 'UP', 'ui': 'UP'},
-                           'delight': {'app': 'UP', 'ui': 'UP'}, 'server': {'app': 'UP', 'ui': 'UP'},
+                           'server': {'app': 'UP', 'ui': 'UP'},
                            'other': {'cctv': 'OFF', 'radar': 'OFF', 'digest': 'UP'}}
         system_health_check_service.update_to_now_for_all()
         # when

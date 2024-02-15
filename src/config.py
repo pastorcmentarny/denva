@@ -175,7 +175,6 @@ settings = {
         "server": f'{SERVER_IP}:5000',
         "denva": f"{DENVA_IP}:5000",
         KEY_DENVA_TWO: f"{DENVA_TWO_IP}:5000",
-        "delight": f'{SERVER_IP}:5000',
         "dump1090_data": f"{DENVA_IP}:16601/data.json"
     },
     KEY_LATENCY: {
@@ -191,8 +190,6 @@ settings = {
         'server_ui': f'{PI_CONFIG_PATH}server_log_ui_config.json',
         'denva_app': f'{PI_CONFIG_PATH}log_app_config.json',
         'denva_ui': f'{PI_CONFIG_PATH}log_ui_config.json',
-        'delight_app': f'{PI_CONFIG_PATH}log_app_config.json',
-        'delight_ui': f'{PI_CONFIG_PATH}log_ui_config.json',
         'hc': f'{PI_CONFIG_PATH}log_config.json',
         'log_app': f'{PI_LOGS_PATH}logs.log',
         'log_hc': f'{PI_LOGS_PATH}healthcheck.log',
@@ -355,7 +352,7 @@ def get_system_hc() -> str:
     return str(Path(f'{PI_DATA_PATH}/hc.json'))
 
 
-def get_default_brightness_for_delight_display():
+def get_default_brightness_for_unicornhd_display():
     return settings[KEY_SENSORS]["unicornhd"]["default_brightness"]
 
 
@@ -435,6 +432,7 @@ def reload_config_from_file():
     else:
         settings = result.copy()
         return result
+
 
 def is_cli_mode_enabled():
     return settings[KEY_OPTIONS]['cli_enabled']

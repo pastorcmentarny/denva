@@ -17,8 +17,7 @@ from flask import Flask, jsonify, request
 import config
 from common import commands, data_files
 from denva import denva_service
-from server import delight_service
-from services import common_service
+from services import common_service, sky_radar_service
 from emails import email_sender_service
 
 app = Flask(__name__)
@@ -124,13 +123,13 @@ def count_warns():
 @app.route("/flights/today")
 def flights_today():
     logger.info('Getting flights detected today')
-    return jsonify(delight_service.get_flights_for_today())
+    return jsonify(sky_radar_service.get_flights_for_today())
 
 
 @app.route("/flights/yesterday")
 def flights_yesterday():
     logger.info('Getting flights detected yesterday')
-    return jsonify(delight_service.get_flights_for_yesterday())
+    return jsonify(sky_radar_service.get_flights_for_yesterday())
 
 
 @app.route("/warns/date")

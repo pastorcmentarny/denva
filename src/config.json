@@ -48,7 +48,6 @@
     "server": "http://192.168.0.200:5000",
     "denva": "http://192.168.0.201:5000",
     "denva2": "http://192.168.0.205:5000",
-    "delight": "http://192.168.0.200:5000",
     "dump1090_data": "http://192.168.0.201:16601/data.json"
   },
   "latency": {
@@ -64,8 +63,6 @@
     "server_ui": "/home/ds/configs/server_log_ui_config.json",
     "denva_app": "/home/ds/configs/log_app_config.json",
     "denva_ui": "/home/ds/configs/log_ui_config.json",
-    "delight_app": "/home/ds/configs/log_app_config.json",
-    "delight_ui": "/home/ds/configs/log_ui_config.json",
     "hc": "/home/ds/configs/log_config.json",
     "log_app": "/home/ds/logs/logs.log",
     "log_hc": "/home/ds/logs/healthcheck.log",

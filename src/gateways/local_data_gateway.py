@@ -17,8 +17,6 @@ import requests
 import config
 from services import system_data_service
 
-
-
 logger = logging.getLogger('app')
 
 REPORT_TIMEOUT = 150
@@ -29,8 +27,10 @@ HEADERS = {
 def get_current_reading_for_denva() -> dict:
     return get_data_for('{}/now'.format(config.load_cfg()["urls"]['denva']))
 
+
 def get_current_reading_for_denva_two() -> dict:
     return get_data_for('{}/now'.format(config.load_cfg()["urls"]['denva2']))
+
 
 def get_yesterday_report_for_denva() -> dict:
     return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"]['denva']), REPORT_TIMEOUT)
@@ -44,13 +44,13 @@ def get_current_log_counts() -> dict:
     return {
         'app': {
             'denva': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['denva'])),
-            config.KEY_DENVA_TWO: get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
-            'delight': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['delight']))
+            config.KEY_DENVA_TWO: get_data_for(
+                '{}/log/count/app'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]))
         },
         'ui': {
             'denva': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['denva'])),
-            config.KEY_DENVA_TWO: get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
-            'delight': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['delight']))
+            config.KEY_DENVA_TWO: get_data_for(
+                '{}/log/count/ui'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]))
         }
     }
 
@@ -59,14 +59,13 @@ def get_current_logs_for_all_services() -> dict:
     return {
         'app': {
             'denva': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['denva'])),
-            config.KEY_DENVA_TWO: get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
-
-            'delight': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['delight']))
+            config.KEY_DENVA_TWO: get_data_for(
+                '{}/log/app/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]))
         },
         'hc': {
             'denva': get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"]['denva'])),
-            config.KEY_DENVA_TWO: get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO])),
-            'delight': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['delight']))
+            config.KEY_DENVA_TWO: get_data_for(
+                '{}/log/hc/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]))
         }
     }
 
@@ -90,7 +89,7 @@ def get_current_warnings_for_all_services() -> dict:
 
 
 def get_all_healthcheck_from_all_services() -> dict:
-    services = ['denva',config.KEY_DENVA_TWO, 'server', 'delight']
+    services = ['denva', config.KEY_DENVA_TWO, 'server']
     result = {}
     for service in services:
         result[service] = _get_hc_result(service)
@@ -154,11 +153,6 @@ def post_metrics_update(metrics: str, result: str):
                 whoops, url, metrics, result))
 
 
-def post_service_of(device: str, app_type: str, status: bool):
-    print(f'{device}/{app_type} set status to {status} ')
-    # TODO finish it!
-
-
 def post_device_on_off(device: str, state: bool):
     url = config.get_service_on_off_url()
     json_data = {'device': device, 'state': state}
@@ -171,7 +165,7 @@ def post_device_on_off(device: str, state: bool):
             'There was a problem: {} using url {}, device {} and state {}'.format(whoops, url, device, state))
 
 
-def post_denva_measurement(json_data,which:str = 'one'):
+def post_denva_measurement(json_data, which: str = 'one'):
     logger.debug(f'Posting measurements to denva {which.upper()}')
     url = config.get_post_denva_measurement_url(which)
     try:
@@ -194,4 +188,4 @@ def add_entry_to_diary(new_entry: str):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem with adding entry with url {} and entry {} due to {} '.format(url,new_entry, whoops))
+            'There was a problem with adding entry with url {} and entry {} due to {} '.format(url, new_entry, whoops))

@@ -14,6 +14,8 @@ import time
 
 import unicornhathd
 
+import config
+
 unicornhathd.brightness(0.2)
 unicornhathd.clear()
 
@@ -31,8 +33,6 @@ def reset_screen():
     unicornhathd.show()
 
 
-
-
 def perform_blink_animation(unicornhathd):
     b1 = [0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19]
     b2 = [0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29]
@@ -40,7 +40,7 @@ def perform_blink_animation(unicornhathd):
     b4 = [0.40, 0.41, 0.42, 0.43, 0.44, 0.45, 0.46, 0.47, 0.48, 0.49]
     b5 = [0.50, 0.51, 0.52, 0.53, 0.54, 0.55, 0.56, 0.57, 0.58, 0.59]
     b6 = [0.60, 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69]
-    brightnesses = [config.get_default_brightness_for_delight_display()]
+    brightnesses = [config.get_default_brightness_for_unicornhd_display()]  # test ut
     merge_brightnesses(brightnesses, [b3, b4, b5, b6])
     reverse_b1_to_b6(b1, b2, b3, b4, b5, b6)
     merge_brightnesses(brightnesses, [b6, b5, b4, b3, b2, b1])

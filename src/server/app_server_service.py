@@ -106,7 +106,6 @@ def get_all_warnings_page() -> list:
 
 def get_current_system_information_for_all_services(config: dict):
     return {
-        'server': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['delight'])),
         'denva': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva'])),
         'denva2': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva2'])),
     }
@@ -150,7 +149,7 @@ def get_errors_from_data(data):
     return error_detector_service.get_errors_from_data(data)
 
 
-def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,page_tube_trains: str):
+def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str, page_tube_trains: str):
     logger.info('Getting data for main page')
     try:
         data = {
@@ -182,7 +181,6 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'welcome_text': f"Unable to load message due to ${exception}"
         }
     return data
-
 
 
 def get_device_status(config_data: dict):
@@ -229,6 +227,7 @@ def get_report_for_yesterday():
 
 def get_system_hc():
     return system_health_check_service.get_system_healthcheck()
+
 
 def get_ping_test_results():
     return commands.get_ping_results()

@@ -20,16 +20,11 @@ class ErrorDetectorServiceTestCases(TestCase):
                 'enviro': {
                     'Memory Available': '999MB',
                     'Free Space': '64MB',
-                },
-                'delight': {
-                    'Memory Available': '128MB',
-                    'Free Space': '64MB'
-                },
+                }
             }
         }
 
-        expected_result = ['Memory available on SERVER is VERY LOW.', 'Free space on disk  ON ENVIRO is VERY LOW.',
-                           'Free space on disk  ON DELIGHT is VERY LOW.']
+        expected_result = ['Memory available on SERVER is VERY LOW.', 'Free space on disk  ON ENVIRO is VERY LOW.']
         # when
         result = error_detector_service.get_errors_from_data(data)
 
@@ -53,10 +48,6 @@ class ErrorDetectorServiceTestCases(TestCase):
                 },
                 'enviro': {
                     'Free Space': '999MB',
-                },
-                'delight': {
-                    'Memory Available': '999MB',
-                    'Free Space': '999MB'
                 },
             }
         }
@@ -96,10 +87,6 @@ class ErrorDetectorServiceTestCases(TestCase):
                     'Free Space': '999MB',
 
                 },
-                'delight': {
-                    'Memory Available': '999MB',
-                    'Free Space': '999MB'
-                },
             }
         }
 
@@ -125,10 +112,6 @@ class ErrorDetectorServiceTestCases(TestCase):
                     'Free Space': '999MB',
 
                 },
-                'delight': {
-                    'Memory Available': '999MB',
-                    'Free Space': '999MB'
-                },
             }
         }
 
@@ -153,45 +136,10 @@ class ErrorDetectorServiceTestCases(TestCase):
                     'Free Space': '999MB',
 
                 },
-                'enviro': {},
-                'delight': {
-                    'Memory Available': '999MB',
-                    'Free Space': '999MB'
-                },
             }
         }
 
         expected_result = ['Enviro data is missing.']
-        # when
-        result = error_detector_service.get_errors_from_data(data)
-
-        # then
-        self.assertEqual(len(result), 1)
-        self.assertEqual(expected_result, result)
-
-    def test_get_error_for_missing_delight(self):
-        # given
-        data = {
-            config.FIELD_SYSTEM: {
-                'server': {
-                    'Memory Available': '999MB',
-                    'Disk Free': '999MB'
-                },
-                'denva': {
-                    'Memory Available': '999MB',
-                    'Free Space': '999MB',
-
-                },
-                'enviro': {
-                    'Memory Available': '999MB',
-                    'Free Space': '999MB',
-
-                },
-                'delight': {},
-            }
-        }
-
-        expected_result = ['Delight data is missing.']
         # when
         result = error_detector_service.get_errors_from_data(data)
 

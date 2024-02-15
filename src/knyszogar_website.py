@@ -20,9 +20,9 @@ import os
 import config
 import dom_utils
 from gateways import web_data_gateway
-from server import app_server_service, server_storage_service, sky_radar_service
+from server import app_server_service, server_storage_service
 from server import note_service, healthcheck_service
-from services import common_service, diarist_service
+from services import common_service, diarist_service, sky_radar_service
 from services import information_service, text_service, metrics_service
 
 logger = logging.getLogger('app')
@@ -219,6 +219,11 @@ def get_now_and_next_event():
 @app.route("/")
 def get_measurement():
     return hq()
+
+
+@app.route("/alert/red")
+def red_alert():
+    return jsonify({'error': 'not implemented yet'})
 
 
 # TODO improve it
