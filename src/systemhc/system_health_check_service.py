@@ -15,47 +15,33 @@ from datetime import datetime
 
 import config
 import dom_utils
-from common import app_timer, data_files
+from common import app_timer, data_writer, data_loader
 
 logger = logging.getLogger('app')
 
 
 def save(data: dict):
     try:
-        data_files.save_dict_data_as_json(config.get_system_hc(), data)
+        data_writer.save_dict_data_as_json(config.get_system_hc(), data)
     except Exception as exception:
-        logger.error('Unable to save file with system healthcheck due to {}'.format(exception), exc_info=True)
-
-
-
+        logger.error(f'Unable to save file with system healthcheck due to {exception}', exc_info=True)
 
 
 def load() -> dict:
     system_hc_path = config.get_system_hc()
     try:
-        return data_files.load_json_data_as_dict_from(system_hc_path)
+        return data_loader.load_json_data_as_dict_from(system_hc_path)
     except Exception as exception:
         logger.error(
-            'Unable to load file with system healthcheck as due to {} using path {}'.format(exception, system_hc_path),
+            f'Unable to load file with system healthcheck as due to {exception} using path {system_hc_path}',
             exc_info=True)
         logger.info('Recreating healthcheck data')
         return hc_fix.copy()
 
 
-def update_hc_for(device: str, app_type: str):
-    try:
-        data = load()
-        now = datetime.now()
-        data[device][app_type] = str(
-            '{}{:02d}{:02d}{:02d}{:02d}{:02d}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
-        save(data)
-    except Exception as exception:
-        logger.error('Unable to update healthcheck due to {}'.format(exception), exc_info=True)
-
-
 def to_timestamp(now: datetime) -> str:
     return str(
-        '{}{:02d}{:02d}{:02d}{:02d}{:02d}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+        f'{now.year}{now.month:02d}{now.day:02d}{now.hour:02d}{now.minute:02d}{now.second:02d}')
 
 
 def update_to_now_for_all():
@@ -86,6 +72,7 @@ def update_to_now_for_all():
     save(system)
 
 
+# FIXM
 def is_up(device: str, app_type: str) -> str:
     try:
         system = load()
@@ -98,8 +85,8 @@ def is_up(device: str, app_type: str) -> str:
 
         return get_status(previous_datetime)
     except Exception as exception:
-        logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
-        return "UNKNOWN"
+        logger.error(f'Unable to check if system is up due to {exception}', exc_info=True)
+        return config.UNKNOWN
 
 
 def get_status(previous_datetime):

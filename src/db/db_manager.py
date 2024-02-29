@@ -26,6 +26,7 @@ default_hc = {
 }
 DB_NAME = "/home/pi/knyszogar/db/denva.db"
 
+
 def count_size():
     connection = sqlite3.connect(DB_NAME)
     table_name = 'service_status'
@@ -63,8 +64,7 @@ def setup():
 
     test3 = 'denva_app'
     now = datetime.now()
-    current_data = str('2021{:02d}{:02d}{:02d}{:02d}{:02d}'
-                       .format(now.month, now.day, now.hour, now.minute, now.second))
+    current_data = str(f'2021{now.month:02d}{now.day:02d}{now.hour:02d}{now.minute:02d}{now.second:02d}')
     cursor.execute("UPDATE service_status SET last_updated = ? WHERE service = ?",
                    (current_data, 'denva_app'))
     rows3 = cursor.execute("SELECT service, last_updated FROM service_status WHERE service = ?",
@@ -113,4 +113,3 @@ def add_row(key: str):
 
 if __name__ == '__main__':
     add_row('knyszogar_config')
-

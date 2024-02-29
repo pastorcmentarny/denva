@@ -65,15 +65,15 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt as keyboard_exception:
-        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        print(f'Received request application to shut down.. goodbye. {keyboard_exception}')
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
 
     except Exception as exception:
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        logger.error(f'Something went badly wrong\n{exception}', exc_info=True)
 
         sys.exit(1)
     except BaseException as disaster:
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        msg = f'Shit hit the fan and application died badly because {disaster}'
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)

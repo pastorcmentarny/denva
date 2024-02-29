@@ -13,16 +13,15 @@
 import random
 
 import config
+from common import data_loader
 
 words = []
 
 
 def load_dictionary_file() -> list:
-    file_path = config.get_irregular_verbs_path()
-    file = open(file_path, 'r', encoding="UTF-8", newline='')
-    content = file.readlines()
+    content = data_loader.load_as_list_from_file(config.get_irregular_verbs_path())
     for line in content:
-        definition = line.split(";;")
+        definition = line.split(config.FILE_SPLITTER)
         word = {'Base': definition[0],
                 'PastSimple': definition[1],
                 'PastParticiple': definition[2],

@@ -42,5 +42,5 @@ class Status:
         elif self.state == 0:
             return 'ERROR'
         else:
-            print('UNKNOWN STATE {}'.format(self.state))
+            print(f'UNKNOWN STATE {self.state}')
             return 'UNKNOWN'

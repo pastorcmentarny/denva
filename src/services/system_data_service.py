@@ -18,7 +18,6 @@ import psutil
 import config
 import dom_utils
 from common import commands
-from services import common_service
 
 
 def get_boot_time() -> str:
@@ -30,7 +29,7 @@ def get_system_information() -> dict:
 
 
 def get_memory_available_in_mb() -> str:
-    return '{}MB'.format(dom_utils.convert_bytes_to_megabytes(psutil.virtual_memory().available))
+    return f'{dom_utils.convert_bytes_to_megabytes(psutil.virtual_memory().available)}MB'
 
 
 # TODO use this for all services not only server
@@ -39,10 +38,10 @@ def get_system_warnings() -> list:
     memory_data = psutil.virtual_memory()
     memory_threshold = config.get_memory_available_threshold()
     if memory_data.available <= memory_threshold:
-        problems.append('Memory available is low. Memory left: {} bytes.'.format(memory_data.available))
+        problems.append(f'Memory available is low. Memory left: {memory_data.available} bytes.')
     free_space = commands.get_space_available()
     if int(free_space) <= config.get_disk_space_available_threshold():
-        problems.append('Disk free space is low. Free space left: {} MB.'.format(free_space))
+        problems.append(f'Disk free space is low. Free space left: {free_space} MB.')
     return problems
 
 

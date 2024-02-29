@@ -22,8 +22,8 @@ import dom_utils
 from gateways import web_data_gateway
 from server import app_server_service, server_storage_service
 from server import note_service, healthcheck_service
-from services import common_service, diarist_service, sky_radar_service
-from services import information_service, text_service, metrics_service
+from services import common_service, diarist_service
+from services import information_service, metrics_service
 
 logger = logging.getLogger('app')
 dom_utils.setup_test_logging('website', False)
@@ -36,7 +36,7 @@ messages = []  # replace with db
 
 @app.route("/metrics/add", methods=['POST'])
 def update_metrics_for():
-    logger.info('Updating metrics {}'.format(request.get_json(force=True)))
+    logger.info(f'Updating metrics {request.get_json(force=True)}')
     result = request.get_json(force=True)
     metrics_service.add(result['metrics'], result['result'])
     return jsonify({"status": "OK"})
@@ -50,35 +50,35 @@ def healthcheck():
 
 @app.route("/shc/update", methods=['POST'])
 def update_system_healthcheck_for():
-    logger.info('Updating device application status to {}'.format(request.get_json(force=True)))
+    logger.info(f'Updating device application status to {request.get_json(force=True)}')
     healthcheck_service.update_for(request.get_json(force=True))
     return jsonify({})
 
 
 @app.route("/shc/change", methods=['POST'])
 def update_device_to_on_off_for():
-    logger.info('Updating device power state to {}'.format(request.get_json(force=True)))
+    logger.info(f'Updating device power state to {request.get_json(force=True)}')
     healthcheck_service.update_device_power_state_for(request.get_json(force=True))
     return jsonify({})
 
 
 @app.route("/measurement/denva/one", methods=['POST'])
 def update_denva_measurement():
-    logger.info('Updating denva measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
+    logger.info(f'Updating denva measurement. Data size {len(str(request.get_json(force=True)))}')
     server_storage_service.save_denva_measurement(request.get_json(force=True))
     return jsonify({})
 
 
 @app.route("/measurement/denva/two", methods=['POST'])
 def update_denva2_measurement():
-    logger.info('Updating denva TWO measurement. Data size {}'.format(len(str(request.get_json(force=True)))))
+    logger.info(f'Updating denva TWO measurement. Data size {len(str(request.get_json(force=True)))}')
     server_storage_service.save_denva_two_measurement(request.get_json(force=True))
     return jsonify({})
 
 
 @app.route("/diary/add", methods=['POST'])
 def add_diary():
-    logger.info('Add entry to diary. Data size {}'.format(len(str(request.get_json(force=True)))))
+    logger.info(f'Add entry to diary. Data size {len(str(request.get_json(force=True)))}')
     diarist_service.add(request.get_json(force=True))
     return jsonify({})
 
@@ -115,11 +115,6 @@ def system():
     logger.info('Getting information about system')
     result = common_service.get_system_info()
     return jsonify(result)
-
-
-@app.route("/text")
-def get_text():
-    return text_service.get_text_to_display()
 
 
 @app.route("/weather")
@@ -178,24 +173,16 @@ def hq():
     return render_template('hq.html', message=all_data)
 
 
-# FIXME
 @app.route("/flights/today")
 def flights_today():
     logger.info('Getting flights detected today')
-    return jsonify(sky_radar_service.get_flights_for_today())
+    return jsonify(app_server_service.get_data_for_today_flights())
 
 
-# FIXME
 @app.route("/flights/yesterday")
 def flights_yesterday():
     logger.info('Getting flights detected yesterday')
-    return jsonify(sky_radar_service.get_flights_for_yesterday())
-
-
-@app.route("/halt")
-def halt():
-    logger.info('Stopping Server Pi')
-    return jsonify(common_service.stop_device(APP_NAME))
+    return jsonify(app_server_service.get_data_for_yesterday_flights())
 
 
 @app.route("/shc/get")
@@ -226,7 +213,6 @@ def red_alert():
     return jsonify({'error': 'not implemented yet'})
 
 
-# TODO improve it
 @app.route("/ping")
 def get_ping_test():
     logger.info("Running ping test")
@@ -264,13 +250,13 @@ if __name__ == '__main__':
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
         logger.info('Website is running')
     except KeyboardInterrupt as keyboard_exception:
-        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        print(f'Received request application to shut down.. goodbye. {keyboard_exception}')
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
     except Exception as exception:
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        logger.error(f'Something went badly wrong\n{exception}', exc_info=True)
         sys.exit(1)
     except BaseException as disaster:
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        msg = f'Shit hit the fan and application died badly because {disaster}'
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)

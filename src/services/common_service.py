@@ -32,9 +32,5 @@ def reboot_device():
     return commands.reboot('Requested by UI')
 
 
-def stop_device(app_name: str):
-    return commands.halt(app_name)
-
-
 def get_log_count_for(log_type: str):
     return log_metrics_service.get_current_log_metrics_for(config.get_log_path_for(f'log_{log_type}'))

@@ -4,13 +4,6 @@
 
     <div class="row-cols-auto">
     <!-- main part -->
-    <div class=" darkness">
-        <div class="row col-12 text-center">
-            <div class="col-md-10">
-                <h2><span class="dailytitle"></span><span class="blinking">{{ message.welcome_text }}</span></h2><br/>
-            </div>
-        </div>
-    </div>
     <div class="row mb-12 text-center">
         <div class="col-md-12">
             <div class="card-header">
@@ -119,6 +112,9 @@
                     <li><strong>gps_num_sats</strong> : {{ message.denva.gps_num_sats }}</li>
                     <li><strong>eco2</strong> : {{ message.denva.eco2 }}</li>
                     <li><strong>tvoc</strong> : {{ message.denva.tvoc }}</li>
+                    <li><strong>uva</strong> : {{ message.denva.uva }}</li>
+                    <li><strong>uvb</strong> : {{ message.denva.uvb }}</li>
+                    <li><strong>uv index</strong> : {{ message.denva.uv_index }}</li>
                 </ul>
             </div>
             {% else %}

@@ -69,5 +69,3 @@ def get_stats(aircraft_data) -> dict:
             'flight': fastest_flight_flights,
             'speed': fastest_flight}
     }
-
-

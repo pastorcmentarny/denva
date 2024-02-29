@@ -14,30 +14,34 @@ import logging
 import bs4
 import requests
 from datetime import datetime
+
+import config
 from gateways import local_data_gateway
 
 logger = logging.getLogger('app')
-ENCODING = 'utf-8'
 
 
 def get_train() -> str:
-    return "Disabled"
-    logger.info('Getting Chiltern Railways data..')
-    try:
-        response = requests.get('https://www.nationalrail.co.uk/service_disruptions/indicator.aspx', timeout=5)
-        log_response_result(response, 'trains')
-        train_status = ''
-        html_manager = bs4.BeautifulSoup(response.text, "html.parser")
+    if config.is_get_data_for_train_disabled():
+        return "Train Data Disabled"
+    else:
+        logger.info('Getting Chiltern Railways data..')
+        try:
+            response = requests.get('https://www.nationalrail.co.uk/service_disruptions/indicator.aspx', timeout=5)
+            log_response_result(response, 'trains')
+            train_status = ''
+            html_manager = bs4.BeautifulSoup(response.text, "html.parser")
 
-        response = html_manager.select('tr.accordian-header')
-        train_tag = response[3].find_all('td')
-        train_status += train_tag[0].text.replace(' Railways', '') + ': ' + train_tag[1].text
-        if "Good service" not in train_status:
-            local_data_gateway.add_entry_to_diary("Disruption on the Chiltern Railways. {}".format(train_tag[1].text))
-    except Exception as whoops:
-        logger.error('Unable to get train data due to : %s' % whoops)
-        train_status = 'Train data N/A'
-    return train_status
+            response = html_manager.select('tr.accordian-header')
+            train_tag = response[3].find_all('td')
+            train_status += train_tag[0].text.replace(' Railways', '') + ': ' + train_tag[1].text
+            if "Good service" not in train_status:
+                local_data_gateway.add_entry_to_diary(
+                    f"Disruption on the Chiltern Railways. {train_tag[1].text}")
+        except Exception as whoops:
+            logger.error('Unable to get train data due to : %s' % whoops)
+            train_status = 'Train data N/A'
+        return train_status
 
 
 def get_timestamp_for_data_row(dt):
@@ -83,8 +87,7 @@ def get_tube(online: bool):
                         if ('Good Service' not in status['statusSeverityDescription']) or (
                                 'Service Closed' not in status['statusSeverityDescription']):
                             local_data_gateway.add_entry_to_diary(
-                                "{} has {} due to {}".format(i['id'], status['statusSeverityDescription'],
-                                                             status['reason']))
+                                f"{i['id']} has {status['statusSeverityDescription']} due to {status['reason']}")
                 tubes.append(text)
             else:
                 for status in i['lineStatuses']:
@@ -109,7 +112,7 @@ def get_crime() -> str:
 
             crime_number = html_manager.select('p#no_location_crimes strong')[0].text
             crime_period = html_manager.select('#month > optgroup:nth-child(1) > option:nth-child(1)')[0].text
-            crime_result = '{} crimes {}'.format(crime_number, crime_period)
+            crime_result = f'{crime_number} crimes {crime_period}'
             local_data_gateway.add_entry_to_diary(crime_result)
             return crime_result
     except Exception as whoops:
@@ -134,7 +137,7 @@ def get_flood() -> str:
                 '').strip() + ' flooding warnings that require immediate action'
             flood_alerts = html_manager.select('#flood-alerts')[0].text.replace('Flood alerts', '').replace(
                 'Flooding is possible - be prepared', '').strip() + ' flooding alerts that flooding is possible'
-            flooding_result = "Flooding. {}, {}, {}.".format(severe_flood_warnings, flood_warnings, flood_alerts)
+            flooding_result = f"Flooding. {severe_flood_warnings}, {flood_warnings}, {flood_alerts}."
             local_data_gateway.add_entry_to_diary(flooding_result)
             return flooding_result
     except Exception as whoops:
@@ -146,7 +149,7 @@ def get_weather() -> str:
     logger.info('Getting weather data..')
     try:
         with requests.get('https://www.metoffice.gov.uk/weather/forecast/gcptv0ryg', timeout=5) as response:
-            response.encoding = ENCODING
+            response.encoding = config.ENCODING
             log_response_result(response, 'weather')
 
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
@@ -155,7 +158,7 @@ def get_weather() -> str:
             local_data_gateway.add_entry_to_diary(weather)
             return weather
     except Exception as whoops:
-        logger.error('Unable to get weather data due to: {}'.format(whoops))
+        logger.error(f'Unable to get weather data due to: {whoops}')
         return 'Weather data N/A'
 
 
@@ -173,20 +176,20 @@ def get_o2_status() -> str:
             local_data_gateway.add_entry_to_diary(status)
             return status
     except Exception as whoops:
-        logger.error('Unable to get o2 data due to: {}'.format(whoops))
+        logger.error(f'Unable to get o2 data due to: {whoops}')
         return 'o2 data N/A'
 
 
 def log_response_result(response, what: str):
     try:
         if response.status_code == 200:
-            logger.debug('Received data from {}'.format(what))
+            logger.debug(f'Received data from {what}')
         else:
             logger.warning(
-                'There was a problem during receive data from {}. Return Code:{}'.format(what, response.status_code))
+                f'There was a problem during receive data from {what}. Return Code:{response.status_code}')
             response.raise_for_status()
     except Exception as whoops:
-        logger.warning('Response error: {}'.format(whoops))
+        logger.warning(f'Response error: {whoops}')
 
 
 def _get_scale_result_from(city: str, index: int) -> str:
@@ -202,14 +205,14 @@ def _get_scale_result_from(city: str, index: int) -> str:
     else:
         level = 'Good'
         advice = ""
-    return 'At {}, pollution level is {} ({}).{}'.format(city.capitalize(), level, index, advice)
+    return f'At {city.capitalize()}, pollution level is {level} ({index}).{advice}'
 
 
 def get_pollution_for(city: str) -> str:
     logger.info(f'Getting pollution index for {city} ')
     try:
-        with requests.get('https://aqicn.org/city/{}/'.format(city), timeout=5) as response:
-            response.encoding = ENCODING
+        with requests.get(f'https://aqicn.org/city/{city}/', timeout=5) as response:
+            response.encoding = config.ENCODING
             log_response_result(response, 'weather')
 
             html_manager = bs4.BeautifulSoup(response.text, "html.parser")
@@ -219,7 +222,7 @@ def get_pollution_for(city: str) -> str:
             local_data_gateway.add_entry_to_diary(f"Polution index for {city} is {pollution_index}")
             return _get_scale_result_from(city, pollution_index)
     except Exception as whoops:
-        logger.error('Unable to get pollution data due to: {}'.format(whoops))
+        logger.error(f'Unable to get pollution data due to: {whoops}')
         return 'Pollution data N/A'
 
 
@@ -228,18 +231,18 @@ def get_iss_location() -> dict:
     logger.info(f'Getting data about ISS location from {url}')
     try:
         with requests.get(url, timeout=5) as response:
-            response.encoding = ENCODING
+            response.encoding = config.ENCODING
             log_response_result(response, 'ISS')
             print(json.loads(response.text))
             return json.loads(response.text)
     except Exception as whoops:
-        logger.error('Unable to get ISS location data due to: {}'.format(whoops))
+        logger.error(f'Unable to get ISS location data due to: {whoops}')
         return {'error': 'ISS location data N/A'}
 
 
 def check_pages(headers, ok, pages, problems):
     for page in pages:
-        logger.info('checking connection to :{}'.format(page))
+        logger.info(f'checking connection to :{page}')
 
         try:
             with requests.get(page, headers=headers, timeout=5) as response:
@@ -249,7 +252,7 @@ def check_pages(headers, ok, pages, problems):
                     response.raise_for_status()
 
         except Exception as whoops:
-            logger.warning('Response error: {}'.format(whoops))
+            logger.warning(f'Response error: {whoops}')
             problems.append(whoops)
 
     return ok

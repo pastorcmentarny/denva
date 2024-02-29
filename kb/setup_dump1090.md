@@ -18,8 +18,8 @@ Based on: https://www.satsignal.eu/raspberry-pi/dump1090.html
 ### END INIT INFO
 ## Fill in name of program here.
 PROG="dump1090"
-PROG_PATH="/home/pi/dump1090"
-PROG_ARGS="--interactive --net --no-fix --net-ro-size 500 --net-ro-rate 5 --net-heartbeat 60 --gain -10"
+PROG_PATH="/home/ds/dump1090"
+PROG_ARGS="--quiet --net --net-ro-size 500 --net-ro-rate 5 --net-buffer 5 --net-http-port 16601  --metric"
 PIDFILE="/var/run/dump1090.pid"
 
 start() {

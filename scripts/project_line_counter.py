@@ -25,14 +25,13 @@ for path, _, files in chain.from_iterable(os.walk(path) for path in paths):
     for name in files:
         file_path = pathlib.PurePath(path, name)
         if str(file_path).endswith(".py") or str(file_path).endswith(".sh"):
-            with open(str(file_path), encoding="utf-8") as f:
+            with open(str(file_path), encoding=config.ENCODING) as f:
                 file_count += 1
                 for line in f:
                     line_count += 1
 
-result = ("# {}.There are {} files in the project and total count of lines is: {}".format(datetime.now(), file_count,
-                                                                                        line_count))
-with open(result_file, 'a+', newline='') as local_file:
+result = (f"# {datetime.now()}.There are {file_count} files in the project and total count of lines is: {line_count}")
+with open(result_file, config.APPEND_WITH_READ_MODE, newline='') as local_file:
     local_file.write(result)
     local_file.write('\n')
 

@@ -12,6 +12,7 @@
 import datetime
 import logging
 
+import config
 import dom_utils
 
 logger = logging.getLogger("app")
@@ -57,7 +58,7 @@ events = {
     "1004": ["Sputnik 1 launch (first artificial satellite)"],
     "1101": ["Wszystkich Świętych"],
     "1102": ["Dzień zaduszny"],
-    "1104" : ["Eurostar services began between UK-Europe"],
+    "1104": ["Eurostar services began between UK-Europe"],
     "1107": ["Hug a Bear Day"],
     "1114": ["BBC makes its first radio broadcast"],
     "1031": ["St. Andrew Day ,Andrzejki?"],
@@ -66,7 +67,7 @@ events = {
     "1204": ["Barborka (Dzień Górnika)"],
     "1206": ["Dzień św. Mikołaja"],
     "1221": ["Winter starts", "Shortest day of the year"],
-    "1224": ["Christmas Eve","The crew of Apollo 8 was first human to orbit the moon"],
+    "1224": ["Christmas Eve", "The crew of Apollo 8 was first human to orbit the moon"],
     "1225": ["Christmas day"],
     "1226": ["Boxing day"],
     "1231": ["New year Eve"],
@@ -77,13 +78,12 @@ DO NOT FORGOT TO UPDATE BY END OF 2024
 To have 2 events on one day do this : ["Easter", "Święto Qingming"],
 """
 
-
 movable_events = {
     "0208": ["Tlusty Czwartek"],  # 2024
     "0210": ["Chinese new year"],  # 2024
     "0310": ["Mother's day (UK,PL)"],  # 2024
     "0329": ["Good Friday"],  # 2024
-    "0331": ["Easter","Summertime +1hr :("],  # 2024
+    "0331": ["Easter", "Summertime +1hr :("],  # 2024
     "0401": ["Easter Monday"],  # 2024
     "0404": ["Święto Qingming"],  # 2024
     "0506": ["Early May Bank Holiday"],  # 2024
@@ -108,9 +108,9 @@ def day_left_text(counter: int) -> str:
     elif counter == 1:
         return "tomorrow"
     elif counter > 1:
-        return "{} days left".format(counter)
+        return f"{counter} days left"
     else:
-        logger.warning("Unsupported day left counter {}".format(counter))
+        logger.warning(f"Unsupported day left counter {counter}")
         return "error"
 
 
@@ -118,12 +118,12 @@ def get_sentence_from_list_of_events(event_list: list) -> str:
     if len(event_list) == 1:
         return event_list[0]
     elif len(event_list) == 2:
-        return "{} and {}".format(event_list[0], event_list[1])
+        return f"{event_list[0]} and {event_list[1]}"
     elif len(event_list) > 2:
-        sentence = ""
+        sentence = config.EMPTY
         for an_event in event_list[0:len(event_list) - 1]:
             sentence = sentence + an_event + " "
-        return "{}and {}".format(sentence, event_list[len(event_list) - 1])
+        return f"{sentence}and {event_list[len(event_list) - 1]}"
 
 
 def get_next_3_events() -> list:
@@ -133,7 +133,7 @@ def get_next_3_events() -> list:
     while len(next3events) < 3:
         event = all_events.get(dom_utils.get_timestamp_key(day))
         if event is not None:
-            next3events.append("{} ({})".format(get_sentence_from_list_of_events(event), day_left_text(counter)))
+            next3events.append(f"{get_sentence_from_list_of_events(event)} ({day_left_text(counter)})")
         day = day + datetime.timedelta(days=1)
         counter = counter + 1
     return next3events

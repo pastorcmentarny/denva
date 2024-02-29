@@ -1,8 +1,11 @@
 import logging
+
+import config
+import dom_utils
 from db import db_service
 from datetime import datetime
 
-ENCODING = 'utf-8'
+ENCODING = config.ENCODING
 
 logger = logging.getLogger('app')
 
@@ -12,13 +15,6 @@ def update_for(who: dict):
     device_name = f"{who['device']}_device"
     db_service.set_device_on(device_name)
     db_service.update_for(service_name)
-
-
-# TODO move to dom_utils
-def __to_int(number_as_string: str) -> int:
-    if number_as_string == '' or (number_as_string is None) or number_as_string == '00' or number_as_string == '0':
-        return 0
-    return int(number_as_string.lstrip('0'))
 
 
 def __is_it_time(previous_update_time: datetime, time_difference: int) -> bool:
@@ -41,14 +37,14 @@ def is_up(device: str, app_type: str) -> str:
     try:
         name = device + "_" + app_type
         previous = db_service.get_status_for(name)
-        previous_datetime = datetime(__to_int(previous[0:4]), __to_int(previous[4:6]),
-                                     __to_int(previous[6:8]),
-                                     __to_int(previous[8:10]), __to_int(previous[10:12]),
-                                     __to_int(previous[12:14]))
+        previous_datetime = datetime(dom_utils.to_int(previous[0:4]), dom_utils.to_int(previous[4:6]),
+                                     dom_utils.to_int(previous[6:8]),
+                                     dom_utils.to_int(previous[8:10]), dom_utils.to_int(previous[10:12]),
+                                     dom_utils.to_int(previous[12:14]))
         return __get_status(previous_datetime)
     except Exception as exception:
-        logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
-        return "UNKNOWN"
+        logger.error(f'Unable to check if system is up due to {exception}', exc_info=True)
+        return config.UNKNOWN
 
 
 def get_device_status_for(device: str, app_type: str):
@@ -56,8 +52,8 @@ def get_device_status_for(device: str, app_type: str):
         name = device + "_" + app_type
         return db_service.get_status_for(name)
     except Exception as exception:
-        logger.error('Unable to check if system is up due to {}'.format(exception), exc_info=True)
-        return "UNKNOWN"
+        logger.error(f'Unable to check if system is up due to {exception}', exc_info=True)
+        return config.UNKNOWN
 
 
 # TODO multiple power state

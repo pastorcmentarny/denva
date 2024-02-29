@@ -2,6 +2,7 @@ import logging
 import time
 from random import randint
 from server import display
+
 logger = logging.getLogger('app')
 
 BLUE = 'blue'
@@ -91,7 +92,7 @@ def generate_person_of_color(person_color: str, person: list):
 
 
 def sub_light_travel():
-    clock=0
+    clock = 0
 
     running = True
     while running:

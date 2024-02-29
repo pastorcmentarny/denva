@@ -13,7 +13,9 @@ import logging
 import sys
 from icp10125 import ICP10125
 
+import config
 from gateways import local_data_gateway
+
 logger = logging.getLogger('app')
 
 device = ICP10125()
@@ -25,19 +27,19 @@ if len(sys.argv) > 1:
     QNH = float(sys.argv[1])
 
 
+# TODO implement altitude
 def calculate_altitude(pressure, qnh=DEFAULT_QNH):
     return 44330.0 * (1.0 - pow(pressure / qnh, (1.0 / 5.255)))
 
 
-# TODO add try/catch for handle errors and         local_data_gateway.post_metrics_update('co2', 'errors')
 def get_measurement() -> dict:
     try:
         pressure, temperature = device.measure()
         altitude = calculate_altitude(pressure / 100, qnh=QNH)
         return {
-            "pressure": pressure / 100,
-            "temperature": temperature,
-            "altitude": altitude
+            config.FIELD_PRESSURE: pressure / 100,
+            config.FIELD_TEMPERATURE: temperature,
+            config.FIELD_ALTITUDE: altitude
         }
     except Exception as icp10125_exception:
         logger.error(
@@ -45,8 +47,8 @@ def get_measurement() -> dict:
             exc_info=True)
         local_data_gateway.post_metrics_update('air_quality', 'errors')
         return {
-            "pressure": -1,
-            "temperature": -1,
-            "altitude": -1,
+            config.FIELD_PRESSURE: -1,
+            config.FIELD_TEMPERATURE: -1,
+            config.FIELD_ALTITUDE: -1,
             "error": str(icp10125_exception)
         }

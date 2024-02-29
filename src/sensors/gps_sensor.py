@@ -18,6 +18,8 @@ import config
 from common import loggy
 from gateways import local_data_gateway
 
+GPS_NO_DATA = "GPS data wasn't updated"
+
 logger = logging.getLogger('app')
 
 
@@ -33,7 +35,8 @@ logger.info('Command sent.')
 
 
 def get_no_vales(get_data_exception):
-    return {config.FIELD_TIMESTAMP: datetime.now().strftime("%Y%m%d-%H%M%S"), config.FIELD_GPS_LATITUDE: 0.0, config.FIELD_GPS_LONGITUDE: -0.0,
+    return {config.FIELD_TIMESTAMP: datetime.now().strftime("%Y%m%d-%H%M%S"), config.FIELD_GPS_LATITUDE: 0.0,
+            config.FIELD_GPS_LONGITUDE: -0.0,
             config.FIELD_GPS_ALTITUDE: 0, config.FIELD_GPS_LAT_DIR: 'N', config.FIELD_GPS_LON_DIR: 'W',
             config.FIELD_GPS_GEO_SEP: '0', config.FIELD_GPS_NUM_SATS: '0', config.FIELD_GPS_QUAL: 0,
             config.FIELD_GPS_SPEED_OVER_GROUND: 0.0, config.FIELD_GPS_MODE_FIX_TYPE: '0', config.FIELD_GPS_PDOP: '0',
@@ -63,8 +66,8 @@ def get_measurement():
                     config.FIELD_GPS_VDOP: gps_data[config.FIELD_GPS_VDOP]
                     }
         else:
-            loggy.log_with_print("Gps data wasn't updated")
-            return get_no_vales("Gps data wasn't updated")
+            loggy.log_with_print(GPS_NO_DATA)
+            return get_no_vales(GPS_NO_DATA)
     except Exception as gps_exception:
         logger.error(
             f'Unable to read data from PA1010D (gps sensor) sensor due to {type(gps_exception).__name__} throws : {gps_exception}',

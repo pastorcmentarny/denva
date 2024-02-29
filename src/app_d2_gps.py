@@ -12,10 +12,9 @@
 import sys
 import logging
 import time
-from datetime import datetime
 import config
 import dom_utils
-from common import data_files
+from common import data_files, data_writer
 
 from gateways import local_data_gateway
 from sensors import gps_sensor
@@ -26,22 +25,6 @@ from services import gps_service
 logger = logging.getLogger('app')
 dom_utils.setup_logging('gps-sensor', False)
 measurements_list = []
-EMPTY = ''
-
-
-def get_date_with_time_as_filename(name: str, file_type: str) -> str:
-    dt = datetime.now()
-    return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{file_type}"
-
-
-def store_measurement(sensor_data: str, measurement: str):
-    sensor_log_file = f"/home/ds/data/{get_date_with_time_as_filename(sensor_data, 'csv')}"
-    try:
-        with open(sensor_log_file, 'a+', newline=EMPTY, encoding='utf-8') as report_file:
-            report_file.write(f'{measurement}\n')
-    except IOError as exception:
-        print(exception)
-        # add flag to indicate that there is a problem
 
 
 def application():
@@ -57,20 +40,16 @@ def application():
         result.update({'measurement_time': measurement_time})
         logger.info(gps_service.get_warnings(result))
 
-        data_files.save_dict_data_to_file(result, 'gps-last-measurement')
+        data_writer.save_dict_data_to_file(result, 'gps-last-measurement')
         gps_service.get_warnings(result)
-        measurements_list.append(result)
-        if len(measurements_list) > config.get_measurement_size():
-            measurements_list.pop(0)
+        dom_utils.update_measurement_list(measurements_list, result)
 
         if measurement_counter % 5 == 0:
             local_data_gateway.post_healthcheck_beat('denva2', 'gps')
 
-        if measurement_counter % 100 == 0:
-            data_files.store_measurement2(dom_utils.get_today_date_as_filename('gps-data', 'txt'), measurements_list[-100:])
+        data_files.store_last_100_measurement(measurement_counter, measurements_list, 'gps-data')
 
-        if measurement_time > config.max_latency(fast=False):
-            logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
+        dom_utils.log_warning_if_measurement_slow(measurement_counter, measurement_time)
 
         remaining_time_to_sleep = config.get_fast_refresh_rate() - (float((timer() - start_time)))
         if remaining_time_to_sleep > 0:
@@ -81,12 +60,12 @@ if __name__ == '__main__':
     try:
         application()
     except KeyboardInterrupt as keyboard_exception:
-        logger.warning('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        logger.warning(f'Received request application to shut down.. goodbye. {keyboard_exception}')
         sys.exit(0)
     except Exception as exception:
         logger.error(f'error:{exception}', exc_info=True)
     except BaseException as disaster:
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        msg = f'Shit hit the fan and application died badly because {disaster}'
         logger.fatal(f'error:{disaster}', exc_info=True)
 
     logger.warning('Application ended its life.')

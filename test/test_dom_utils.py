@@ -102,12 +102,12 @@ class DomUtilsTestCases(TestCase):
                              ('23:59 - Sleep', 1439)]
 
         for an_input, expected_result in scale_params_list:
-            with self.subTest(msg="Checking to convert_time_to_minutes() for event {} ".format(an_input)):
+            with self.subTest(msg=f"Checking to convert_time_to_minutes() for event {an_input} "):
                 # when
                 result = dom_utils.convert_time_to_minutes(an_input)
 
                 # debug
-                print('for {} result is {} and expected result is {}'.format(an_input, result, expected_result))
+                print(f'for {an_input} result is {result} and expected result is {expected_result}')
 
                 # then
                 self.assertEqual(expected_result, result)
@@ -119,7 +119,7 @@ class DomUtilsTestCases(TestCase):
 
         for an_input in scale_params_list:
             with self.subTest(
-                    msg="Checking to convert_time_to_minutes() for event {} should throw exception ".format(an_input)):
+                    msg=f"Checking to convert_time_to_minutes() for event {an_input} should throw exception "):
                 # when
                 self.assertRaises(gobshite_exception.GobshiteException, dom_utils.convert_time_to_minutes, an_input)
 
@@ -237,7 +237,7 @@ class DomUtilsTestCases(TestCase):
                        ['', 0]]
 
         for an_input, expected_result in params_list:
-            with self.subTest(msg="Checking to convert_time_to_minutes() for event {} ".format(an_input)):
+            with self.subTest(msg=f"Checking to convert_time_to_minutes() for event {an_input} "):
                 # when
                 result = dom_utils.to_int(an_input)
 

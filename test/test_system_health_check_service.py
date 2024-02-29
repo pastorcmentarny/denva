@@ -17,7 +17,7 @@ class SystemHealthCheckServiceTestCases(TestCase):
                        ]
 
         for an_input, expected_result in params_list:
-            with self.subTest(msg=" get_status() for {} should return {}".format(an_input, expected_result)):
+            with self.subTest(msg=f" get_status() for {an_input} should return {expected_result}"):
                 # when
                 result = system_health_check_service.get_status(an_input)
 

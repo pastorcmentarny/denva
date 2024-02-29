@@ -3,7 +3,6 @@ import unittest
 from server import daily
 
 
-# TODO convert to parameterized test
 class DailyTestCases(unittest.TestCase):
     def test_get_now_and_next_event_should_return_last_from_previous_day_and_first_event_of_day_at_midnight(self):
         # given
@@ -25,7 +24,7 @@ class DailyTestCases(unittest.TestCase):
         # then
         self.assertEqual(expected_result, result[0:2])
 
-    def  test_get_now_and_next_event(self):
+    def test_get_now_and_next_event(self):
         # given
         expected_result = ['22:00 - RELAX', '22:25 - plan next day']
 

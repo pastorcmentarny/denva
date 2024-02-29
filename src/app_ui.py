@@ -16,8 +16,7 @@ from flask import Flask, jsonify, request
 
 import config
 from common import commands, data_files
-from denva import denva_service
-from services import common_service, sky_radar_service
+from services import common_service, sky_radar_service, denva_service
 from emails import email_sender_service
 
 app = Flask(__name__)
@@ -29,12 +28,6 @@ APP_NAME = 'Denva UI'
 def average():
     logger.info('Getting average measurement from today')
     return jsonify(denva_service.get_averages())
-
-
-@app.route("/halt")
-def halt():
-    logger.info('Stopping Denva Pi')
-    return jsonify(common_service.stop_device(APP_NAME))
 
 
 @app.route("/hc")
@@ -89,13 +82,6 @@ def records():
     return jsonify(denva_service.get_records_for_today())
 
 
-# FIXME
-@app.route("/stats")
-def stats():
-    logger.info('Get all stats for today')
-    return jsonify(denva_service.get_all_stats_for_today())
-
-
 @app.route("/system")
 def system():
     logger.info('Getting information about system')
@@ -117,7 +103,7 @@ def current_warns():
 @app.route("/warns/count")
 def count_warns():
     logger.info('Getting warnings count')
-    return jsonify(denva_service.count_warnings())
+    return jsonify({'warnings_count': denva_service.count_warnings()})
 
 
 @app.route("/flights/today")
@@ -138,7 +124,7 @@ def specific_day_warns():
     year = args.get('year')
     month = args.get('month')
     day = args.get('day')
-    logger.info('Getting warnings for {}.{}.{}'.format(day, month, year))
+    logger.info(f'Getting warnings for {day}.{month}.{year}')
     return jsonify(denva_service.get_warnings_for(year, month, day))
 
 
@@ -150,7 +136,7 @@ def last_measurement():
 if __name__ == '__main__':
     config.set_mode_to('denva')
     data_files.setup_logging(config.get_environment_log_path_for('ui'))
-    logger.info('Starting web server for {}'.format(APP_NAME))
+    logger.info(f'Starting web server for {APP_NAME}')
 
     try:
         app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -158,15 +144,15 @@ if __name__ == '__main__':
         app.run(host='0.0.0.0', debug=True)  # host added so it can be visible on local network
         healthcheck()
     except KeyboardInterrupt as keyboard_exception:
-        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        print(f'Received request application to shut down.. goodbye. {keyboard_exception}')
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
     except Exception as exception:
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
+        logger.error(f'Something went badly wrong\n{exception}', exc_info=True)
         email_sender_service.send_error_log_email(APP_NAME,
-                                                  'you may need reset web application as it looks like web app '
-                                                  'crashes due to {}'.format(exception))
+                                                  f'you may need reset web application as it looks like web app '
+                                                  f'crashes due to {exception}')
     except BaseException as disaster:
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        msg = f'Shit hit the fan and application died badly because {disaster}'
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)

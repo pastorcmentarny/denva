@@ -97,7 +97,7 @@ class WebDataGatewayTestCases(TestCase):
                              (50, 'At Aberystwyth, pollution level is Good (50).')]
 
         for input, expected_result in scale_params_list:
-            with self.subTest(msg="Checking _get_scale_result_from() for scale {} ".format(input)):
+            with self.subTest(msg="Checking _get_scale_result_from() for scale {} "(input)):
                 # when
                 result = web_data_gateway._get_scale_result_from('aberystwyth', input)
 

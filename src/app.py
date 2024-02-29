@@ -1,4 +1,4 @@
- #!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -9,6 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+
 import logging.config
 
 import sys
@@ -22,13 +23,12 @@ import smbus
 import config
 
 from common import data_files
-from denva import denva_measurement_service
+from services import denva_measurement_service
 from emails import email_sender_service
 from gateways import local_data_gateway
 from sensors import air_quality_sensor, two_led_service
 
 bus = smbus.SMBus(1)
-
 
 samples = []
 pictures = []
@@ -50,7 +50,7 @@ def main():
     two_led_service.led_startup_show()
     while True:
         measurement_counter += 1
-        logger.debug('Getting measurement no.{}'.format(measurement_counter))
+        logger.debug(f'Getting measurement no.{measurement_counter}')
 
         try:
             start_time = timer()
@@ -63,7 +63,7 @@ def main():
             remaining_of_five_s = 5 - (float(measurement_time) / 1000)
 
             if measurement_time > config.max_latency(fast=False):
-                logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
+                logger.warning(f'Measurement {measurement_counter} was slow.It took {measurement_time} ms')
 
             if remaining_of_five_s > 0:
                 time.sleep(remaining_of_five_s)  # it should be 5 seconds between measurements
@@ -77,28 +77,29 @@ def cleanup_before_exit():
     sys.exit(0)
 
 
+# TODO simplify logs in configs
 if __name__ == '__main__':
     global points
     email_sender_service.send_ip_email('denva')
     try:
         logging.info("Sensor warming up, please wait...")
         air_quality_sensor.start_measurement()
-        logging.info('Sensor needed {} seconds to warm up'.format(counter))
+        logging.info(f'Sensor needed {counter} seconds to warm up')
         two_led_service.off()
         main()
     except KeyboardInterrupt as keyboard_exception:
-        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        print(f'Received request application to shut down.. goodbye. {keyboard_exception}')
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
         cleanup_before_exit()
         two_led_service.off()
     except Exception as exception:
         print(f'Whoops. {exception}')
         traceback.print_exc()
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(exception))
+        logger.error(f'Something went badly wrong\n{exception}', exc_info=True)
+        email_sender_service.send_error_log_email("application", f"Application crashed due to {exception}.")
         cleanup_before_exit()
     except BaseException as disaster:
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        msg = f'Shit hit the fan and application died badly because {disaster}'
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)

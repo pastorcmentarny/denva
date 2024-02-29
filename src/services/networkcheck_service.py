@@ -14,11 +14,11 @@ from timeit import default_timer as timer
 
 import requests
 
-import dom_utils
 from gateways import web_data_gateway
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
+# TODO MOVE TO config
 PERFECT = 'Perfect'
 GOOD = 'Good'
 POOR = 'POOR'
@@ -33,7 +33,7 @@ def network_check(in_china: bool = False) -> dict:
     problems = []
 
     if in_china:
-        problems.append("In China mode: {}".format(in_china))
+        problems.append(f"In China mode: {in_china}")
         pages = [
             "https://dominiksymonowicz.com",
             'https://cn.bing.com/',
@@ -62,7 +62,7 @@ def network_check(in_china: bool = False) -> dict:
     end_time = timer()
     total_time = int(end_time - start_time) * 1000
     log_result(problems, status, total_time)
-    result = "{} of {} pages were loaded".format(ok, len(pages))
+    result = f"{ok} of {len(pages)} pages were loaded"
 
     logger.info(status)
     logger.info(result)
@@ -79,11 +79,11 @@ def network_check(in_china: bool = False) -> dict:
 def log_result(problems, status, total_time):
     if status == POOR:
         logger.warning(
-            'It looks like there is some problem with network as some pages failed to load due to: {}'.format(problems))
+            f'It looks like there is some problem with network as some pages failed to load due to: {problems}')
     if status == ERROR:
-        logger.error('Network is DOWN! All services failed due to: {}'.format(problems))
+        logger.error(f'Network is DOWN! All services failed due to: {problems}')
     if status == PERFECT or status == GOOD:
-        logger.debug('Network seems to be fine. I took {} ms to check.'.format(total_time))
+        logger.debug(f'Network seems to be fine. I took {total_time} ms to check.')
 
 
 def _get_network_status(ok: int) -> str:

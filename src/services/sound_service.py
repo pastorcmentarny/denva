@@ -1,31 +1,27 @@
+import config
 import dom_utils
-from common import data_files
-from retrying import retry
+from common import data_loader
+
 from datetime import datetime
 
 
-def __retry_on_exception(exception):
-    return isinstance(exception, Exception)
-
-
-@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
-       stop_max_attempt_number=5)
 def get_last_measurement():
-    return data_files.load_json_data_as_dict_from('/home/ds/data/sound-last-measurement.txt')
+    return data_loader.load_json_data_as_dict_from('/home/ds/data/sound-last-measurement.txt')
 
 
 def get_diff_between(first_value, second_value):
     return f'{(second_value - first_value):0.3f}'
 
 
+# TODO move result message to config
 def get_description_for_noise_level(value):
-    if value > 0.61:
+    if value > config.get_noise_alert_level():
         return 'NOISE ALERT'
-    elif value > 0.12:
+    elif value > config.get_noise_warning_level():
         return 'NOISE WARNING'
-    elif value > 0.012:
+    elif value > config.get_noise_caution_level():
         return 'NOISE CAUTION'
-    elif value > 0.001:
+    elif value > config.get_noise_dected_level():
         return 'NOISE DETECTED'
     return 'NO NOISE'
 

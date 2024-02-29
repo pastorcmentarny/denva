@@ -40,7 +40,7 @@ def should_send_email(data):
     if app_timer.is_time_to_send_email(send_denva_email_cooldown):
         logger.info('Collecting data')
         email_data['warnings'] = sensor_warnings_service.get_warnings_as_list(email_data)
-        email_data[config.FIELD_SYSTEM] = commands.get_system_info()
+        email_data[config.KEY_SYSTEM] = commands.get_system_info()
         email_data['log'] = commands.get_lines_from_path('/home/ds/logs/logs.log', 10)
         email_data['healthcheck'] = commands.get_lines_from_path('/home/ds/logs/healthcheck.log', 10)
         send(email_data, 'Measurement')
@@ -64,8 +64,8 @@ def send(data: dict, subject: str, email_disabled: bool = True):
     # TODO remove it when new way to send email is implemented
     if email_disabled:
         return
-    cfg = data_files.load_cfg()
-    logger.info('Sending email for {}'.format(subject))
+    cfg = data_files.load_email_config()
+    logger.info(f'Sending email for {subject}')
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
@@ -74,11 +74,11 @@ def send(data: dict, subject: str, email_disabled: bool = True):
         msg = MIMEMultipart()
 
         data = json.dumps(data, indent=2, sort_keys=True)
-        message = "Below is a json with a data:\n {}".format(str(data))
+        message = f"Below is a json with a data:\n {str(data)}"
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
-        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
+        msg['Subject'] = f'{subject} @ {dom_utils.get_timestamp_title()}'
         msg.attach(MIMEText(message, 'plain'))
 
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
@@ -86,16 +86,16 @@ def send(data: dict, subject: str, email_disabled: bool = True):
         smtp_server.quit()
         logger.info('Email sent.')
     except Exception as e:
-        logger.error('Unable to send email due to {}'.format(e), exc_info=True)
+        logger.error(f'Unable to send email due to {e}', exc_info=True)
 
 
 def send_picture(picture_path: str, pict_no: int, email_disabled: bool = True):
     # TODO remove it when new way to send email is implemented
     if email_disabled:
         return
-    cfg = data_files.load_cfg()
+    cfg = data_files.load_email_config()
     subject = "CCTV"
-    logger.info('Sending email for {}'.format(subject))
+    logger.info(f'Sending email for {subject}')
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
@@ -103,11 +103,11 @@ def send_picture(picture_path: str, pict_no: int, email_disabled: bool = True):
 
         msg = MIMEMultipart()
 
-        message = "This is picture from PI Camera no. {} from path".format(pict_no, picture_path)
+        message = f"This is picture from PI Camera no. {pict_no} from path"
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
-        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
+        msg['Subject'] = f'{subject} @ {dom_utils.get_timestamp_title()}'
         msg.attach(MIMEText(message, 'plain'))
 
         img_data = open(picture_path, 'rb').read()
@@ -119,15 +119,15 @@ def send_picture(picture_path: str, pict_no: int, email_disabled: bool = True):
         smtp_server.quit()
         logger.info('Email sent.')
     except Exception as e:
-        logger.error('Unable to send email due to {}'.format(e), exc_info=True)
+        logger.error(f'Unable to send email due to {e}', exc_info=True)
 
 
 def send_error_log_email(what: str, message: str, email_disabled: bool = True):
     # TODO remove it when new way to send email is implemented
     if email_disabled:
         return
-    cfg = data_files.load_cfg()
-    logger.info('Sending error log email with message: {}'.format(message))
+    cfg = data_files.load_email_config()
+    logger.info(f'Sending error log email with message: {message}')
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
@@ -135,12 +135,12 @@ def send_error_log_email(what: str, message: str, email_disabled: bool = True):
 
         msg = MIMEMultipart()
 
-        subject = "An serious error happen while {}".format(what)
-        message = "Whoops.. Some sort of gobshite happen with app.\n Error message is: {}".format(message)
+        subject = f"An serious error happen while {what}"
+        message = f"Whoops.. Some sort of gobshite happen with app.\n Error message is: {message}"
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
-        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
+        msg['Subject'] = f'{subject} @ {dom_utils.get_timestamp_title()}'
         msg.attach(MIMEText(message, 'plain'))
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
 
@@ -149,7 +149,7 @@ def send_error_log_email(what: str, message: str, email_disabled: bool = True):
 
         logger.info('Email sent.')
     except Exception as e:
-        logger.error('Unable to send email due to {}'.format(e), exc_info=True)
+        logger.error(f'Unable to send email due to {e}', exc_info=True)
     logger.info(f'Waiting {WAITING_TIME_IN_SECONDS} seconds before carry on..')
     time.sleep(WAITING_TIME_IN_SECONDS)  # wait one minute before carry on ...
 
@@ -159,8 +159,8 @@ def send_error_v2(who: str, subject: str, message: str, email_disabled: bool = T
     if email_disabled:
         return
 
-    cfg = data_files.load_cfg()
-    logger.info('Sending error log email with message: {}'.format(message))
+    cfg = data_files.load_email_config()
+    logger.info(f'Sending error log email with message: {message}')
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
@@ -173,7 +173,7 @@ def send_error_v2(who: str, subject: str, message: str, email_disabled: bool = T
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
-        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
+        msg['Subject'] = f'{subject} @ {dom_utils.get_timestamp_title()}'
         msg.attach(MIMEText(message, 'plain'))
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
 
@@ -182,7 +182,7 @@ def send_error_v2(who: str, subject: str, message: str, email_disabled: bool = T
 
         logger.info('Email sent.')
     except Exception as e:
-        logger.error('Unable to send email due to {}'.format(e), exc_info=True)
+        logger.error(f'Unable to send email due to {e}', exc_info=True)
     logger.info(f'Waiting {WAITING_TIME_IN_SECONDS} seconds before carry on..')
     time.sleep(WAITING_TIME_IN_SECONDS)  # wait one minute before carry on ...
 
@@ -192,8 +192,8 @@ def send_ip_email(device: str, email_disabled: bool = True):
     if email_disabled:
         logger.warning('Sending emails is disabled')
         return
-    logger.info('Sending email with IP info for device: {}'.format(device))
-    cfg = data_files.load_cfg()
+    logger.info(f'Sending email with IP info for device: {device}')
+    cfg = data_files.load_email_config()
     try:
         smtp_server = smtplib.SMTP(host=cfg["host"], port=cfg["port"])
         smtp_server.starttls()
@@ -201,12 +201,12 @@ def send_ip_email(device: str, email_disabled: bool = True):
 
         msg = MIMEMultipart()
 
-        subject = "IP information for {}".format(device)
-        message = "{} starts on  {}".format(device, commands.get_ip())
+        subject = f"IP information for {device}"
+        message = f"{device} starts on  {commands.get_ip()}"
 
         msg['From'] = cfg['user']
         msg['To'] = cfg['user']
-        msg['Subject'] = '{} @ {}'.format(subject, dom_utils.get_timestamp_title())
+        msg['Subject'] = f'{subject} @ {dom_utils.get_timestamp_title()}'
         msg.attach(MIMEText(message, 'plain'))
         smtp_server.send_message(msg, cfg['user'], cfg['user'])
 
@@ -214,7 +214,7 @@ def send_ip_email(device: str, email_disabled: bool = True):
         smtp_server.quit()
         logger.info('Email sent.')
     except Exception as e:
-        logger.error('Unable to send email with IP info for {} due to {}'.format(device, e), exc_info=True)
+        logger.error(f'Unable to send email with IP info for {device} due to {e}', exc_info=True)
 
 
 def validate_email_data(email_data) -> bool:

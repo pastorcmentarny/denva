@@ -1,6 +1,6 @@
 import unittest
 
-from denva import denva_sensors_service
+from services import denva_sensors_service
 
 DENVA_ROW = ['2020-03-27 16:33:13.050509', '22.81', '1017.13', '27.269', '12946860.59', '#ff869f', 'n/a', '0.0',
              '0.002591', '166.015625', '0.00732421875', '0.01318359375', '-0.00048828125', '0.5419847328244275',

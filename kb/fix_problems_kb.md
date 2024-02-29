@@ -21,3 +21,10 @@ Solution:
 
 Run on other linux device:
 `sudo fsck -p /dev/sda1` - where sda1 is your location (you can check ) 
+
+
+## due to database error unable to open database file File "/home/pi/knyszogar/db/db_service.py", line 19, in update_for  sqlite3.OperationalError: unable to open database file
+
+pi@PISERVER:~ $ sudo chmod 776 knyszogar
+pi@PISERVER:~ $ sudo chmod 776 -R knyszogar
+pi@PISERVER:~ $ sudo chown pi:pi -R knyszogar

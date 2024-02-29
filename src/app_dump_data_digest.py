@@ -48,13 +48,13 @@ def digest():
             logger.error(result['error'])
             local_data_gateway.post_metrics_update('flight', 'errors')
             errors += 1
-            logger.error('Errors: {}'.format(errors))
+            logger.error(f'Errors: {errors}')
         else:
             aircraft_storage.save_raw_reading(result)
             aircraft_storage.save_processed_data(result)
             if counter % 2 == 0:
                 local_data_gateway.post_healthcheck_beat('knyszogar', 'radar')
-            local_data_gateway.post_metrics_update('flight', 'ok')
+            local_data_gateway.post_metrics_update('flight', 'OK')
 
         end_time = timer()
 
@@ -69,11 +69,7 @@ def digest():
         if counter % 2 == 0:
             local_data_gateway.post_healthcheck_beat('knyszogar', 'digest')
         display_stats()
-        measurement_message = 'Measurement no. {} It took {} milliseconds to process. Errors: {}. Warnings: {}'.format(
-            counter,
-            measurement_time,
-            errors,
-            warnings)
+        measurement_message = f'Measurement no. {counter} It took {measurement_time} milliseconds to process. Errors: {errors}. Warnings: {warnings}'
         logger.debug(measurement_message)
         remaining_time = refresh_rate_in_seconds - (float(measurement_time) / 1000)
 
@@ -85,11 +81,11 @@ if __name__ == '__main__':
     try:
         digest()
     except KeyboardInterrupt as keyboard_exception:
-        logger.warning('Requesting shutdown: {}'.format(keyboard_exception), exc_info=True)
+        logger.warning(f'Requesting shutdown: {keyboard_exception}', exc_info=True)
     except Exception as exception:
-        logger.error('Something went badly wrong: {}'.format(exception), exc_info=True)
+        logger.error(f'Something went badly wrong: {exception}', exc_info=True)
     except BaseException as disaster:
-        disaster_error_message = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        disaster_error_message = f'Shit hit the fan and application died badly because {disaster}'
         print(disaster_error_message)
         traceback.print_exc()
         logger.fatal(disaster_error_message, exc_info=True)

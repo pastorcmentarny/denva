@@ -18,7 +18,7 @@ from timeit import default_timer as timer
 
 import config
 import dom_utils
-from common import data_files, loggy
+from common import data_files, loggy, data_writer
 from gateways import local_data_gateway
 from sensors import motion_sensor
 from services import motion_service
@@ -41,25 +41,20 @@ def application():
         result.update({'counter': measurement_counter})
         result.update({'measurement_time': measurement_time})
 
-        data_files.save_dict_data_to_file(result, 'motion-last-measurement')
+        data_writer.save_dict_data_to_file(result, 'motion-last-measurement')
 
         warnings_list = motion_service.get_warnings(result)
         if len(warnings_list) > 0:
             logger.info(warnings_list)
 
-        measurements_list.append(result)
-        if len(measurements_list) > config.get_measurement_size():
-            measurements_list.pop(0)
+        dom_utils.update_measurement_list(measurements_list, result)
 
         if measurement_counter % 20 == 0:
             local_data_gateway.post_healthcheck_beat('denva2', 'motion')
 
-        if measurement_counter % 100 == 0:
-            data_files.store_measurement2(dom_utils.get_today_date_as_filename('motion-data', 'txt'),
-                                          measurements_list[-100:])
+        data_files.store_last_100_measurement(measurement_counter, measurements_list, 'motion-data')
 
-        if measurement_time > config.max_latency(fast=False):
-            logger.warning("Measurement {} was slow.It took {} ms".format(measurement_counter, measurement_time))
+        dom_utils.log_warning_if_measurement_slow(measurement_counter, measurement_time)
 
         remaining_time_to_sleep = config.get_fast_refresh_rate() - (float((timer() - start_time)))
         print(remaining_time_to_sleep)

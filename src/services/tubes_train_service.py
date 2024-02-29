@@ -28,10 +28,6 @@ def get_stats_file_for_today() -> list:
     return data_files.load_stats('/home/ds/logs/stats.log')
 
 
-# TODO add for specific day
-# TODO add for this month
-
-
 def count_today_tube_problems(problem_list) -> dict:
     stats_counter = {
         'Bakerloo': {
@@ -169,7 +165,6 @@ def count_today_tube_problems(problem_list) -> dict:
 
     for problem in problem_list:
         columns = problem.split('::')
-        timestamp = columns[0]
         tube_line = columns[1].strip()
         tube_status = columns[2].strip()
 

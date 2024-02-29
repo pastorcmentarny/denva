@@ -27,10 +27,7 @@
                     <a href="http://192.168.0.201:5000/log/hc" class="dropdown-item">Denva's log (HC)</a>
                     <a href="http://192.168.0.202:5000/log/app" class="dropdown-item">Denviro's log (APP)</a>
                     <a href="http://192.168.0.202:5000/log/ui" class="dropdown-item">Denviro's log (UI)</a>
-                    <a href="http://192.168.0.203:5000/log/hc" class="dropdown-item">Denviro's log (HC)</a>
-                    <a href="http://192.168.0.203:5000/log/app" class="dropdown-item">Delight's log (APP)</a>
-                    <a href="http://192.168.0.203:5000/log/ui" class="dropdown-item">Delight's log (UI)</a>
-                    <a href="http://192.168.0.203:5000/log/hc" class="dropdown-item">Delight's log (HC)</a>
+                    <a href="http://192.168.0.202:5000/log/hc" class="dropdown-item">Denviro's log (HC)</a>
                     <a href="{{ message.page_warns_count }}" class="dropdown-item">Warnings count</a>
                     <a href="{{ message.page_warns }}" class="dropdown-item">All Warnings today</a>
                     <a href="{{ message.page_now }}" class="dropdown-item">Page now</a>
@@ -170,60 +167,8 @@
     <div class="col-md-3">
         <div class="card-body">
             <ul class="list-unstyled mt-3 mb-3">
-                <li><strong class="d-inline-block mb-2 text-success">Delight(KanoPi3) {4}</strong></li>
-                {% if  "CPU Temp" in message.system.delight  and message.system.delight["CPU Temp"] %}
-                    <li class="small"><b>CPU Speed : </b>{{ message.system.delight["CPU Speed"] }}</li>
-                    <li class="small"><b>CPU Temp : </b>{{ message.system.delight["CPU Temp"].replace('Â','') }}
-                    </li>
-                    <li class="small"><b>RAM Available : </b>{{ message.system.delight["Memory Available"] }}
-                    </li>
-                    <li class="small"><b>Free Space : </b>{{ message.system.delight["Free Space"] }}</li>
-                    <li class="small"><b>Uptime : </b>{{ message.system.delight["Uptime"] }}</li>
-                {% else %}
-                    <li><span class="bad">No Delight data :(</span></li>
-                {% endif %}
+                <li><strong class="d-inline-block mb-2 text-success">NOT IN USE</strong></li>
             </ul>
-            {% if  message.log_count %}
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Sensor</th>
-                        <th scope="col">APP</th>
-                        <th scope="col">UI</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>CRITICAL</td>
-                        <td><span class="info">{{ message.log_count.app.delight["CRITICAL"] }}</span></td>
-                        <td><span class="info">{{ message.log_count.ui.delight["CRITICAL"] }}</span></td>
-                    </tr>
-                    <tr>
-                        <td>ERRORS</td>
-                        <td><span class="info">{{ message.log_count.app.delight["ERROR"] }}</span></td>
-                        <td><span class="info">{{ message.log_count.ui.delight["ERROR"] }}</span></td>
-                    </tr>
-                    <tr>
-                        <td>WARNING</td>
-                        <td><span class="info">{{ message.log_count.app.delight["WARNING"] }}</span></td>
-                        <td><span class="info">{{ message.log_count.ui.delight["WARNING"] }}</span></td>
-                    </tr>
-                    <tr>
-                        <td>INFO</td>
-                        <td><span class="info">{{ message.log_count.app.delight["INFO"] }}</span></td>
-                        <td><span class="info">{{ message.log_count.ui.delight["INFO"] }}</span></td>
-                    </tr>
-                    <tr>
-                        <td>DEBUG</td>
-                        <td><span class="info">{{ message.log_count.app.delight["DEBUG"] }}</span></td>
-                        <td><span class="info">{{ message.log_count.ui.delight["DEBUG"] }}</span></td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            {% else %}
-                <li><span class="bad">No Log count for Delight :(</span></li>
-            {% endif %}
         </div>
     </div>
     <div class="col-md-3">

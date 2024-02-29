@@ -14,8 +14,11 @@ import re
 import time
 
 import config
-from common import data_files
-from denva import denva_sensors_service
+from services import denva_sensors_service
+
+MAX_VALUE_KEY = 'max'
+
+MIN_VALUE_KEY = 'min'
 
 logger = logging.getLogger('app')
 
@@ -29,28 +32,28 @@ def get_records(data_records: list) -> dict:
     start = time.perf_counter()
     result = {
         config.FIELD_TEMPERATURE: {
-            'min': 100,
-            'max': -100
+            MIN_VALUE_KEY: 100,
+            MAX_VALUE_KEY: -100
         },
         config.FIELD_CO2_TEMPERATURE: {
-            'min': 100,
-            'max': -100
+            MIN_VALUE_KEY: 100,
+            MAX_VALUE_KEY: -100
         },
         config.FIELD_PRESSURE: {
-            'min': 10000,
-            'max': 0
+            MIN_VALUE_KEY: 10000,
+            MAX_VALUE_KEY: 0
         },
         config.FIELD_HUMIDITY: {
-            'min': 100,
-            'max': -100
+            MIN_VALUE_KEY: 100,
+            MAX_VALUE_KEY: -100
         },
         config.FIELD_RELATIVE_HUMIDITY: {
-            'min': 100,
-            'max': -100
+            MIN_VALUE_KEY: 100,
+            MAX_VALUE_KEY: -100
         },
         config.FIELD_CPU_TEMP: {
-            'min': 100,
-            'max': -100
+            MIN_VALUE_KEY: 100,
+            MAX_VALUE_KEY: -100
         },
         'highest_eco2': 0,
         'highest_tvoc': 0,
@@ -58,37 +61,41 @@ def get_records(data_records: list) -> dict:
     }
 
     for data_record in data_records:
-        if float(data_record[config.FIELD_TEMPERATURE]) > float(result[config.FIELD_TEMPERATURE]['max']):
-            result[config.FIELD_TEMPERATURE]['max'] = data_record[config.FIELD_TEMPERATURE]
-        if float(data_record[config.FIELD_TEMPERATURE]) < float(result[config.FIELD_TEMPERATURE]['min']):
-            result[config.FIELD_TEMPERATURE]['min'] = data_record[config.FIELD_TEMPERATURE]
+        if float(data_record[config.FIELD_TEMPERATURE]) > float(result[config.FIELD_TEMPERATURE][MAX_VALUE_KEY]):
+            result[config.FIELD_TEMPERATURE][MAX_VALUE_KEY] = data_record[config.FIELD_TEMPERATURE]
+        if float(data_record[config.FIELD_TEMPERATURE]) < float(result[config.FIELD_TEMPERATURE][MIN_VALUE_KEY]):
+            result[config.FIELD_TEMPERATURE][MIN_VALUE_KEY] = data_record[config.FIELD_TEMPERATURE]
 
-        if float(data_record[config.FIELD_CO2_TEMPERATURE]) > float(result[config.FIELD_CO2_TEMPERATURE]['max']):
-            result[config.FIELD_CO2_TEMPERATURE]['max'] = data_record[config.FIELD_CO2_TEMPERATURE]
-        if float(data_record[config.FIELD_CO2_TEMPERATURE]) < float(result[config.FIELD_CO2_TEMPERATURE]['min']):
-            result[config.FIELD_CO2_TEMPERATURE]['min'] = data_record[config.FIELD_CO2_TEMPERATURE]
+        if float(data_record[config.FIELD_CO2_TEMPERATURE]) > float(
+                result[config.FIELD_CO2_TEMPERATURE][MAX_VALUE_KEY]):
+            result[config.FIELD_CO2_TEMPERATURE][MAX_VALUE_KEY] = data_record[config.FIELD_CO2_TEMPERATURE]
+        if float(data_record[config.FIELD_CO2_TEMPERATURE]) < float(
+                result[config.FIELD_CO2_TEMPERATURE][MIN_VALUE_KEY]):
+            result[config.FIELD_CO2_TEMPERATURE][MIN_VALUE_KEY] = data_record[config.FIELD_CO2_TEMPERATURE]
 
-        if float(data_record[config.FIELD_PRESSURE]) > float(result[config.FIELD_PRESSURE]['max']):
-            result[config.FIELD_PRESSURE]['max'] = data_record[config.FIELD_PRESSURE]
-        if float(data_record[config.FIELD_PRESSURE]) < float(result[config.FIELD_PRESSURE]['min']):
-            result[config.FIELD_PRESSURE]['min'] = data_record[config.FIELD_PRESSURE]
+        if float(data_record[config.FIELD_PRESSURE]) > float(result[config.FIELD_PRESSURE][MAX_VALUE_KEY]):
+            result[config.FIELD_PRESSURE][MAX_VALUE_KEY] = data_record[config.FIELD_PRESSURE]
+        if float(data_record[config.FIELD_PRESSURE]) < float(result[config.FIELD_PRESSURE][MIN_VALUE_KEY]):
+            result[config.FIELD_PRESSURE][MIN_VALUE_KEY] = data_record[config.FIELD_PRESSURE]
 
-        if float(data_record[config.FIELD_HUMIDITY]) > float(result[config.FIELD_HUMIDITY]['max']):
-            result[config.FIELD_HUMIDITY]['max'] = data_record[config.FIELD_HUMIDITY]
-        if float(data_record[config.FIELD_HUMIDITY]) < float(result[config.FIELD_HUMIDITY]['min']):
-            result[config.FIELD_HUMIDITY]['min'] = data_record[config.FIELD_HUMIDITY]
+        if float(data_record[config.FIELD_HUMIDITY]) > float(result[config.FIELD_HUMIDITY][MAX_VALUE_KEY]):
+            result[config.FIELD_HUMIDITY][MAX_VALUE_KEY] = data_record[config.FIELD_HUMIDITY]
+        if float(data_record[config.FIELD_HUMIDITY]) < float(result[config.FIELD_HUMIDITY][MIN_VALUE_KEY]):
+            result[config.FIELD_HUMIDITY][MIN_VALUE_KEY] = data_record[config.FIELD_HUMIDITY]
 
-        if float(data_record[config.FIELD_RELATIVE_HUMIDITY]) > float(result[config.FIELD_RELATIVE_HUMIDITY]['max']):
-            result[config.FIELD_RELATIVE_HUMIDITY]['max'] = data_record[config.FIELD_RELATIVE_HUMIDITY]
-        if float(data_record[config.FIELD_RELATIVE_HUMIDITY]) < float(result[config.FIELD_RELATIVE_HUMIDITY]['min']):
-            result[config.FIELD_RELATIVE_HUMIDITY]['min'] = data_record[config.FIELD_RELATIVE_HUMIDITY]
+        if float(data_record[config.FIELD_RELATIVE_HUMIDITY]) > float(
+                result[config.FIELD_RELATIVE_HUMIDITY][MAX_VALUE_KEY]):
+            result[config.FIELD_RELATIVE_HUMIDITY][MAX_VALUE_KEY] = data_record[config.FIELD_RELATIVE_HUMIDITY]
+        if float(data_record[config.FIELD_RELATIVE_HUMIDITY]) < float(
+                result[config.FIELD_RELATIVE_HUMIDITY][MIN_VALUE_KEY]):
+            result[config.FIELD_RELATIVE_HUMIDITY][MIN_VALUE_KEY] = data_record[config.FIELD_RELATIVE_HUMIDITY]
 
         if data_record[config.FIELD_CPU_TEMP] != '?':
             data_record[config.FIELD_CPU_TEMP] = re.sub('[^0-9.]', '', data_record[config.FIELD_CPU_TEMP])
-            if float(data_record[config.FIELD_CPU_TEMP]) > float(result[config.FIELD_CPU_TEMP]['max']):
-                result[config.FIELD_CPU_TEMP]['max'] = data_record[config.FIELD_CPU_TEMP]
-            if float(data_record[config.FIELD_CPU_TEMP]) < float(result[config.FIELD_CPU_TEMP]['min']):
-                result[config.FIELD_CPU_TEMP]['min'] = data_record[config.FIELD_CPU_TEMP]
+            if float(data_record[config.FIELD_CPU_TEMP]) > float(result[config.FIELD_CPU_TEMP][MAX_VALUE_KEY]):
+                result[config.FIELD_CPU_TEMP][MAX_VALUE_KEY] = data_record[config.FIELD_CPU_TEMP]
+            if float(data_record[config.FIELD_CPU_TEMP]) < float(result[config.FIELD_CPU_TEMP][MIN_VALUE_KEY]):
+                result[config.FIELD_CPU_TEMP][MIN_VALUE_KEY] = data_record[config.FIELD_CPU_TEMP]
 
         if int(data_record[config.FIELD_ECO2]) > int(result['highest_eco2']):
             result['highest_eco2'] = data_record[config.FIELD_ECO2]

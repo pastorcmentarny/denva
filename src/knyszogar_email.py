@@ -4,8 +4,11 @@ import traceback
 
 from flask import Flask, jsonify, request
 
+import config
 import dom_utils
 from emails import email_sender_service
+
+config.EMAIL_PORT = 18010
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -15,7 +18,7 @@ APP_NAME = 'Server UI'
 
 @app.route("/hc")
 def healthcheck():
-    return jsonify({"status": "UP",
+    return jsonify({"status": "OK",
                     "app": APP_NAME})
 
 
@@ -24,7 +27,7 @@ def update_metrics_for():
     logger.info('Received request to send email')
     try:
         email_data = request.get_json(force=True)
-        logger.debug('with body: {}'.format(email_data))
+        logger.debug(f'with body: {email_data}')
     except Exception as generic_exception:
         logger.error(f'Unable to generate json from request due to: {generic_exception}')
         return jsonify({"status": "ERROR"})
@@ -41,19 +44,15 @@ if __name__ == '__main__':
     try:
         app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
         app.config['JSON_AS_ASCII'] = False
-        app.run(host='0.0.0.0', debug=True, port=18010)  # host added so it can be visible on local network
+        app.run(host='0.0.0.0', debug=True, port=config.EMAIL_PORT)  # host added so it can be visible on local network
     except KeyboardInterrupt as keyboard_exception:
-        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        print(f'Received request application to shut down.. goodbye. {keyboard_exception}')
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
     except Exception as exception:
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        """
-        email_sender_service.send_error_log_email('Mothership UI',
-                                                  'Mothership UI crashes due to {}'.format(exception))
-        """
+        logger.error(f'Something went badly wrong\n{exception}', exc_info=True)
         sys.exit(1)
     except BaseException as disaster:
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        msg = f'Shit hit the fan and application died badly because {disaster}'
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)

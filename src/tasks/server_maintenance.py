@@ -18,9 +18,9 @@ def clean():
 
     start_time = timer()
 
-    print('It took {} ms to delete data bin'.format(int((timer() - start_time) * 1000)))
+    print(f'It took {int((timer() - start_time) * 1000)} ms to delete data bin')
 
-    print('It took {} ms to complete all tasks.'.format(int((timer() - start_total_time) * 1000)))
+    print(f'It took {int((timer() - start_total_time) * 1000)} ms to complete all tasks.')
 
 
 def reminders():

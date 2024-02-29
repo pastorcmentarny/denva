@@ -1,12 +1,12 @@
 import logging
 import random
 from server import display
+
 logger = logging.getLogger('app')
 
 
 def in_the_warp():
     clock = 0
-
 
     star_count = 25
     star_speed = 0.01

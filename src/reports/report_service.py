@@ -15,22 +15,16 @@ from datetime import datetime
 import config
 from common import data_files, app_timer
 import dom_utils
-from gateways import local_data_gateway
-from server import app_server_service
 from reports import report_generator
 from emails import email_sender_service
-from services import information_service as information
 
 logger = logging.getLogger('app')
-
-
-
 
 
 def generate_for_yesterday() -> dict:
     logger.info('Getting report for yesterday...')
     try:
-        path = dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date())
+        path = dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_datetime())
         if data_files.check_if_report_was_generated(path):
             logger.info('Report was generated. Getting report from file.')
             return data_files.load_report(path)
@@ -39,10 +33,11 @@ def generate_for_yesterday() -> dict:
             report = report_generator.generate_for_yesterday()
             email_sender_service.send(report, 'Report')
             data_files.save_report(report,
-                                   dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
+                                   dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_datetime()))
             return report
     except Exception as exception:
-        logger.error('Unable to generate report due to {}.Returning empty report'.format(exception), exc_info=True)
+        logger.error(f'Unable to generate report due to {exception}.Returning config.EMPTY report',
+                     exc_info=True)
         return {'error': str(exception)}
 
 
@@ -55,6 +50,6 @@ def create_and_store_it_if_needed(report_generation_cooldown: datetime, generate
         logger.info('Generating report')
         email_data = report_generator.generate()
         email_sender_service.send(email_data, 'Report (via server)')
-        data_files.save_report_at_server(email_data, config.PI_DATA_PATH)
+        data_files.save_report(email_data, config.PI_DATA_PATH)
         return datetime.now()
     return report_generation_cooldown

@@ -65,34 +65,35 @@ def draw_image_on_screen(data, app_uptime):
             y += 14
             draw.text((0, y), status, fill="white", font=rr_12)
     else:
-        draw.text((0, 0), "Temp: {}".format(data[config.FIELD_TEMPERATURE]), fill="white", font=rr_12)
-        draw.text((0, 14), "Pressure: {}".format(data[config.FIELD_PRESSURE]), fill="white", font=rr_12)
+        draw.text((0, 0), f"Temp: {data[config.FIELD_TEMPERATURE]}", fill="white", font=rr_12)
+        draw.text((0, 14), f"Pressure: {data[config.FIELD_PRESSURE]}", fill="white", font=rr_12)
         if cycle % 2 == 0:
-            draw.text((0, 28), "Humidity: {}".format(data[config.FIELD_HUMIDITY]), fill="white", font=rr_12)
-            draw.text((0, 42), "Motion: {:05.02f}".format(data["motion"]), fill="white", font=rr_12)
-            draw.text((0, 56), "Colour: {}".format(dom_utils.get_color_name(data[config.FIELD_COLOUR])), fill="white", font=rr_12)
-            draw.text((0, 70), "UVA: {}".format(get_description_for.uv(data["uva_index"])), fill="white", font=rr_12)
+            draw.text((0, 28), f"Humidity: {data[config.FIELD_HUMIDITY]}", fill="white", font=rr_12)
+            draw.text((0, 42), f"Motion: {data['motion']:05.02f}", fill="white", font=rr_12)
+            draw.text((0, 56), f"Colour: {dom_utils.get_color_name(data[config.FIELD_COLOUR])}", fill="white", font=rr_12)
+            draw.text((0, 70), f"UVA: {get_description_for.uv(data['uva_index'])}", fill="white", font=rr_12)
         else:
-            draw.text((0, 28), "eco2: {}".format(data[config.FIELD_ECO2]), fill="white", font=rr_12)
-            draw.text((0, 42), "Tvoc: {}".format(get_description_for.iqa_from_tvoc(data[config.FIELD_TVOC])['score']),
+            draw.text((0, 28), f"eco2: {data[config.FIELD_ECO2]}", fill="white", font=rr_12)
+            draw.text((0, 42), f"Tvoc: {get_description_for.iqa_from_tvoc(data[config.FIELD_TVOC])['score']}",
                       fill="white",
                       font=rr_12)
-            draw.text((0, 56), "Brightness: {}".format(get_description_for.brightness(data[config.FIELD_RED], data[config.FIELD_GREEN], data[config.FIELD_BLUE])),
+            draw.text((0, 56),
+                      f"Brightness: {get_description_for.brightness(data[config.FIELD_RED], data[config.FIELD_GREEN], data[config.FIELD_BLUE])}",
                       fill="white", font=rr_12)
-            draw.text((0, 70), "UVB: {}".format(get_description_for.uv(data["uvb_index"])), fill="white", font=rr_12)
+            draw.text((0, 70), f"UVB: {get_description_for.uv(data['uvb_index'])}", fill="white", font=rr_12)
 
     if cycle % 7 == 0:
-        draw.text((0, 84), 'CPU: {}'.format(commands.get_cpu_temp()), fill="white", font=rr_12)
+        draw.text((0, 84), f'CPU: {commands.get_cpu_temp()}', fill="white", font=rr_12)
     elif cycle % 7 == 1:
         draw.text((0, 84), commands.get_uptime(), fill="white", font=rr_12)
     elif cycle % 7 == 2:
-        draw.text((0, 84), 'CPU: {}'.format(commands.get_cpu_speed()), fill="white", font=rr_12)
+        draw.text((0, 84), f'CPU: {commands.get_cpu_speed()}', fill="white", font=rr_12)
     elif cycle % 7 == 3:
-        draw.text((0, 84), 'IP: {}'.format(commands.get_ip()), fill="white", font=rr_12)
+        draw.text((0, 84), f'IP: {commands.get_ip()}', fill="white", font=rr_12)
     elif cycle % 7 == 4:
-        draw.text((0, 84), 'Space: {} MB'.format(commands.get_space_available()), fill="white", font=rr_12)
+        draw.text((0, 84), f'Space: {commands.get_space_available()} MB', fill="white", font=rr_12)
     elif cycle % 7 == 6:
-        draw.text((0, 84), 'RAM avail.: {}'.format(system_data_service.get_memory_available_in_mb()), fill="white",
+        draw.text((0, 84), f'RAM avail.: {system_data_service.get_memory_available_in_mb()}', fill="white",
                   font=rr_12)
     else:
         draw.text((0, 84), app_uptime, fill="white", font=rr_12)

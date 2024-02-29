@@ -1,5 +1,5 @@
 import config
-from common import data_files
+from common import data_loader
 
 
 def get_warnings(measurement: dict) -> list:
@@ -11,7 +11,7 @@ def get_warnings(measurement: dict) -> list:
 
 
 def get_last_measurement():
-    return data_files.load_json_data_as_dict_from('/home/ds/data/gps-last-measurement.txt')
+    return data_loader.load_json_data_as_dict_from(config.get_gps_last_measurement())
 
 
 def get_averages_as_dict(gps_list):
@@ -50,7 +50,7 @@ def get_records_as_dict(gps_list):
 
 
 def update_for_gps_sensor(averages: dict, records: dict, measurement_date: str):
-    gps_result = data_files.load_list_of_dict_for(f"/home/ds/data/gps-data-{measurement_date}.txt")
+    gps_result = data_loader.load_list_of_dict_for(config.get_gps_data_for_date(measurement_date))
     averages.update(get_averages_as_dict(gps_result))
     records.update(get_records_as_dict(gps_result))
     gps_result.clear()

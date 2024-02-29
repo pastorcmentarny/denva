@@ -12,7 +12,7 @@
 
 import random
 
-#MOVE methodName to file
+#TODO MOVE methodName to file
 names = [
     'getLogsAsSourceRecords()',
     'findElement()',

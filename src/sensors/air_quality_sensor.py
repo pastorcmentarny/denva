@@ -36,7 +36,7 @@ def crude_progress_bar():
     global air_quality_led_status
     global counter
     counter = counter + 1
-    logger.warning('Waiting.. {}s.\n'.format(counter))
+    logger.warning(f'Waiting.. {counter}s.\n')
 
 
 def start_measurement():

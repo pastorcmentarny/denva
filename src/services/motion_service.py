@@ -1,11 +1,24 @@
-from common import data_files
+import config
+from common import data_loader
+
+MZ = "mz"
+MY = "my"
+MX = "mx"
+GZ = "gz"
+GY = "gy"
+GX = "gx"
+AZ = "az"
+AY = "ay"
+AX = "ax"
+POSITIVE_MOTION_ALERT = 1
+NEGATIVE_MOTION_ALERT = -1
 
 
 def get_averages_as_dict(measurements_list) -> dict:
     measurements_data = {
-        "ax": 0, "ay": 0, "az": 0,
-        "gx": 0, "gy": 0, "gz": 0,
-        "mx": 0, "my": 0, "mz": 0,
+        AX: 0, AY: 0, AZ: 0,
+        GX: 0, GY: 0, GZ: 0,
+        MX: 0, MY: 0, MZ: 0,
         "measurement_time": 0
     }
 
@@ -19,9 +32,9 @@ def get_averages_as_dict(measurements_list) -> dict:
             measurements_data[field_key] = measurements_data[field_key] / size
     else:
         measurements_data = {
-            "ax": 0, "ay": 0, "az": 0,
-            "gx": 0, "gy": 0, "gz": 0,
-            "mx": 0, "my": 0, "mz": 0,
+            AX: 0, AY: 0, AZ: 0,
+            GX: 0, GY: 0, GZ: 0,
+            MX: 0, MY: 0, MZ: 0,
             "measurement_time": 0
         }
 
@@ -57,8 +70,9 @@ def get_records_as_dict(measurements_list) -> dict:
 
     for entry in measurements_list:
         for field_key in measurements_data.keys():
-            a_key = field_key.replace("motion_slowest_", "").replace("highest_", "").replace("motion_fastest_", "").replace("lowest_",
-                                                                                                              "")
+            a_key = field_key.replace("motion_slowest_", "").replace("highest_", "").replace("motion_fastest_",
+                                                                                             "").replace("lowest_",
+                                                                                                         "")
             if field_key.startswith("motion_fastest_"):
                 if measurements_data[field_key] > entry[a_key]:
                     measurements_data[field_key] = entry[a_key]
@@ -79,29 +93,29 @@ def get_records_as_dict(measurements_list) -> dict:
 
 def get_warnings(measurement: dict) -> list:
     warnings = []
-    if measurement["ax"] > 1 or measurement["ax"] < -1:
-        warnings.append(f'AX is high {measurement["ax"]}')
-    if measurement["ay"] > 1 or measurement["ay"] < -1:
-        warnings.append(f'AY is high {measurement["ay"]}')
-    if measurement["az"] > 1 or measurement["az"] < -1:
-        warnings.append(f'AZ is high {measurement["az"]}')
-    if measurement["gx"] > 1 or measurement["gx"] < -1:
-        warnings.append(f'GX is high {measurement["gx"]}')
-    if measurement["gy"] > 1 or measurement["gy"] < -1:
-        warnings.append(f'GY is high {measurement["gy"]}')
-    if measurement["gz"] > 1 or measurement["gz"] < -1:
-        warnings.append(f'GZ is high {measurement["gz"]}')
+    if measurement[AX] > POSITIVE_MOTION_ALERT or measurement[AX] < NEGATIVE_MOTION_ALERT:
+        warnings.append(f'AX is high {measurement[AX]}')
+    if measurement[AY] > POSITIVE_MOTION_ALERT or measurement[AY] < NEGATIVE_MOTION_ALERT:
+        warnings.append(f'AY is high {measurement[AY]}')
+    if measurement[AZ] > POSITIVE_MOTION_ALERT or measurement[AZ] < NEGATIVE_MOTION_ALERT:
+        warnings.append(f'AZ is high {measurement[AZ]}')
+    if measurement[GX] > POSITIVE_MOTION_ALERT or measurement[GX] < NEGATIVE_MOTION_ALERT:
+        warnings.append(f'GX is high {measurement[GX]}')
+    if measurement[GY] > POSITIVE_MOTION_ALERT or measurement[GY] < NEGATIVE_MOTION_ALERT:
+        warnings.append(f'GY is high {measurement[GY]}')
+    if measurement[GZ] > POSITIVE_MOTION_ALERT or measurement[GZ] < NEGATIVE_MOTION_ALERT:
+        warnings.append(f'GZ is high {measurement[GZ]}')
     # no magnetic warnings
 
     return warnings
 
 
 def get_last_measurement():
-    return data_files.load_json_data_as_dict_from('/home/ds/data/motion-last-measurement.txt')
+    return data_loader.load_json_data_as_dict_from(config.get_motion_last_measurement())
 
 
 def update_for_motion_sensor(averages: dict, records: dict, measurement_date: str):
-    motion_result = data_files.load_list_of_dict_for(f"/home/ds/data/motion-data-{measurement_date}.txt")
+    motion_result = data_loader.load_list_of_dict_for(config.get_motion_data_for_date(measurement_date))
     averages.update(get_averages_as_dict(motion_result))
     records.update(get_records_as_dict(motion_result))
     motion_result.clear()

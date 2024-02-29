@@ -1,11 +1,9 @@
 import logging
 
+import config
+
 logger = logging.getLogger('app')
-NEW_LINE = '\n'
-EMPTY = ''
-READ = 'r'
-ENCODING = 'utf-8'
-UNKNOWN = '?'
+
 error_messages = []
 ok_messages = []
 
@@ -22,10 +20,11 @@ def get_error_messages():
     return error_message_list
 
 
+#TODO move to data_writer
 def store_data(content_data: str, filename: str):
-    file_path = f"/home/ds/data/notes/{filename}.txt"
+    file_path = config.get_path_for_note(filename)
     try:
-        with open(file_path, 'w', newline=EMPTY, encoding=ENCODING) as report_file:
+        with open(file_path, config.WRITE_MODE, newline=config.EMPTY, encoding=config.ENCODING) as report_file:
             report_file.write(content_data)
         ok_messages.append(f'Data saved to {file_path}')
     except IOError as io_exception:

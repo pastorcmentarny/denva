@@ -38,7 +38,7 @@ def reset():
     try:
         imu = ICM20948()
     except Exception as exception:
-        print('Unable to restart ICM20948 due to {}'.format(exception))
+        print(f'Unable to restart ICM20948 due to {exception}')
         raise exception
 
 

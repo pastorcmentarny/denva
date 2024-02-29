@@ -14,7 +14,7 @@ import os
 from datetime import datetime
 
 import config
-from common import app_timer, data_files
+from common import app_timer, data_files, data_writer
 from gateways import web_data_gateway
 
 NO_WEATHER_DATA_MESSAGE = 'Weather data N/A'
@@ -24,12 +24,12 @@ logger = logging.getLogger('app')
 
 def save_weather_to_file(weather_data: list, weather_file: str):
     now = datetime.now()
-    weather_timestamp = str('{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+    weather_timestamp = str(f'{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}-{now.second}')
 
-    logger.info('Saving updated weather to file using timestamp: {}'.format(weather_timestamp))
+    logger.info(f'Saving updated weather to file using timestamp: {weather_timestamp}')
 
     weather_data.append(weather_timestamp)
-    data_files.save_list_to_file_replace(weather_data, weather_file)
+    data_writer.save_list_to_file(weather_data, weather_file,config.WRITE_MODE)
 
 
 def get_weather() -> list:

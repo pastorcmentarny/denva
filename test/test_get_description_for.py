@@ -193,12 +193,12 @@ class GetDescriptionForTestCases(unittest.TestCase):
                              (20, 'EXTREME'),(-1,"UNKNOWN")]
 
         for an_input, expected_result in scale_params_list:
-            with self.subTest(msg="Checking to get desciption for uv with value {} ".format(an_input)):
+            with self.subTest(msg=f"Checking to get desciption for uv with value {an_input} "):
                 # when
                 result = get_description_for.uv(an_input)
 
                 # debug
-                print('for {} result is {} and expected result is {}'.format(an_input, result, expected_result))
+                print(f'for {an_input} result is {result} and expected result is {expected_result}')
 
                 # then
                 self.assertEqual(expected_result, result)

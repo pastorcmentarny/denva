@@ -23,9 +23,16 @@ LED_OFF = 0
 LED_ON = 1
 
 logger = logging.getLogger('app')
-bh1745 = BH1745()
-bh1745.setup()
-bh1745.set_leds(1)
+
+
+def get_new_instance():
+    bh1745 = BH1745()
+    bh1745.setup()
+    bh1745.set_leds(1)
+    return bh1745
+
+
+bh1745 = get_new_instance()
 
 
 def warn_if_dom_shakes_his_legs(motion):
@@ -55,13 +62,14 @@ def off():
 
 
 def get_measurement():
+    global bh1745
     try:
         result = bh1745.get_rgb_scaled()
         return result
     except Exception as exception:
         logger.error(f' Unable to take measurement from uv sensor due to {exception}')
         local_data_gateway.post_metrics_update('rgb', 'errors')
-        # TODO add reboot sensor
+        bh1745 = get_new_instance()
         return 0, 0, 0
 
 

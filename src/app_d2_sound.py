@@ -7,16 +7,14 @@ import time
 import audioop
 
 import dom_utils
-from common import data_files, loggy
+from common import data_files, loggy, data_writer
 from gateways import local_data_gateway
 from services import sound_service
-
-logger = logging.getLogger('app')
-dom_utils.setup_logging('sound-sensor')
 from datetime import datetime
 from timeit import default_timer as timer
 
-EMPTY = ''
+logger = logging.getLogger('app')
+dom_utils.setup_logging('sound-sensor')
 
 p = pyaudio.PyAudio()
 WIDTH = 2
@@ -31,32 +29,18 @@ def get_date_with_time_as_filename(name: str, file_type: str) -> str:
     return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{file_type}"
 
 
-def store_measurement(sensor_data: str, measurement: str):
-    sensor_log_file = f"/home/ds/data/{get_date_with_time_as_filename(sensor_data, 'csv')}"
-    try:
-        with open(sensor_log_file, 'a+', newline=EMPTY, encoding='utf-8') as report_file:
-            report_file.write(f'{measurement}\n')
-    except IOError as measurement_exception:
-        logger.error(f'Unable to save due to {measurement_exception}')
-        print(measurement_exception)
-        # add flag to indicate that there is a problem
-
-
 def callback(in_data, frame_count, time_info, status):
     global rms
     rms = audioop.rms(in_data, WIDTH) / 32767
     return in_data, pyaudio.paContinue
 
 
-# TODO make it as method to be able to restart if failed
-stream = p.open(format=p.get_format_from_width(WIDTH),
-                input_device_index=DEVICE,
-                channels=1,
-                rate=RATE,
-                input=True,
-                output=False,
-                stream_callback=callback)
+def get_instance():
+    return p.open(format=p.get_format_from_width(WIDTH), input_device_index=DEVICE, channels=1, rate=RATE, input=True,
+                  output=False, stream_callback=callback)
 
+
+stream = get_instance()
 stream.start_stream()
 
 noise_error = 0
@@ -144,7 +128,7 @@ def application():
     logger.debug(f'initial value {rms}')
     time.sleep(1)
     logger.info('Starting application..')
-    loop_time = 0
+
     while stream.is_active():
         counter += 1
         start_time = timer()
@@ -175,7 +159,7 @@ def application():
         })
         check_for_noise_alerts()
         if counter % 5 == 0:
-            data_files.save_dict_data_to_file(report_data, 'sound-last-measurement')
+            data_writer.save_dict_data_to_file(report_data, 'sound-last-measurement')
 
         if counter % 25 == 0:
             logger.info(report_data)
@@ -194,6 +178,7 @@ def application():
         if counter % 20 == 0:
             local_data_gateway.post_healthcheck_beat('denva2', 'sound')
 
+        # TODO replace with data_files.store_last_100
         if counter % 100 == 0:
             data_files.store_measurement2(dom_utils.get_today_date_as_filename('sound-data', 'txt'),
                                           last_results[-100:])
@@ -201,6 +186,7 @@ def application():
         throttle_speed_of_measurement_if_needed(start_time)
 
 
+# TODO replace it with dom_utils.log_warning_if_measurement_slow(measurement_counter, measurement_time)
 def throttle_speed_of_measurement_if_needed(start_time):
     global counter
     loop_time = int((timer() - start_time) * 1000)

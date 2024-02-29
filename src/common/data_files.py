@@ -9,200 +9,161 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import csv
-import json
+
 import logging
-import logging.config
+import logging.config as log_config
 import os.path
 import random
 from datetime import datetime, date
-from pathlib import Path
 
 import config
 import dom_utils
-from retrying import retry
 
-NEW_LINE = '\n'
-
-EMPTY = ''
-
-READ = 'r'
-
-ENCODING = 'utf-8'
-UNKNOWN = '?'
+from common import data_loader, data_writer
+from common.gobshite_exception import GobshiteException
 
 logger = logging.getLogger('app')
 
-report_dir = '/home/ds/reports'
+
+def load_weather(path: str):
+    logger.debug(f'Loading weather data from {path}')
+    return data_loader.load_weather(path)
 
 
-def __retry_on_exception(exception):
-    logger.warning('Retrying failed operation...')
-    return isinstance(exception, Exception)
-
-
-def load_cfg() -> dict:
-    with open('/home/ds/email.json', READ) as email_config:
-        return json.load(email_config)
-
-
-def save_report_at_server(report: dict, report_path):
-    try:
-        report_file_path = '{}/{}'.format(report_path,
-                                          dom_utils.get_date_as_filename('report', 'json',
-                                                                         dom_utils.get_yesterday_date()))
-        logger.info('Saving report to {}'.format(report_file_path))
-        with open(report_file_path, 'w+', encoding=ENCODING) as report_file:
-            json.dump(report, report_file, ensure_ascii=False, indent=4)
-    except Exception as exception:
-        logger.error('Unable to save report due to {}'.format(exception))
-
-
-def save_report(report: dict, file: str):
-    report_file_path = '{}/{}'.format(report_dir, file)
-    logger.info('Saving report to {}'.format(report_file_path))
-    with open(report_file_path, 'w+', encoding=ENCODING) as report_file:
-        json.dump(report, report_file, ensure_ascii=False, indent=4)
-
-
-# report on Pi
 def load_report(report_date: str) -> dict:
-    report_file_path = '{}/{}'.format(report_dir, report_date)
-    logger.info('Loading report from {}'.format(report_file_path))
-    with open(report_file_path, READ) as report_file:
-        return json.load(report_file)
-
-
-def load_report_on_server_on(report_date: datetime, report_path: str):
-    report_file_path = '{}/{}'.format(report_path,
-                                      dom_utils.get_date_as_filename('report', 'json',
-                                                                     report_date))
-    logger.info('Loading report from {}'.format(report_file_path))
-    with open(report_file_path, READ) as report_file:
-        return json.load(report_file)
+    report_file_path = f'{config.get_report_path()}/{report_date}'
+    logger.info(f'Loading report from {report_file_path}')
+    return data_loader.load_json_data_as_dict_from(report_file_path)
 
 
 def load_warnings(warning_path: str) -> list:
-    logger.info('Loading warning from {}'.format(warning_path))
-    with open(warning_path, READ, newline=EMPTY) as file:
-        content = file.readlines()
-        content.insert(0, 'Warning counts: {}'.format(len(content)))
-        return content
+    logger.info(f'Loading warning from {warning_path}')
+    content = data_loader.load_as_list_from_file(warning_path)
+    content.insert(0, f'Warning counts: {len(content)}')
+    return content
+
+
+def load_email_config() -> dict:
+    return data_loader.load_json_data_as_dict_from(config.get_email_config_path())
+
+
+def load_network_health_check_results():
+    result = data_loader.load_json_data_as_dict_from("data/nhc.json")
+    if 'error' in result:
+        logger.warning(f'loading network hc file failed due to {result["error"]}')
+        return {
+            "status": config.UNKNOWN,
+            "result": "Unable to load file",
+            "problems": [result['error']]
+        }
+    else:
+        return result
+
+
+def load_ricky(path: str):
+    return data_loader.load_json_data_as_dict_from(path)
+
+
+# TODO move generated metrics path to config
+def save_metrics(stats: dict, path):
+    full_path = path + f'metrics-{str(stats["date"])}.txt'
+    data_writer.save_dict_data_as_json(full_path, stats)
+
+
+# TODO move generated metrics path to config
+def load_metrics_data(path: str) -> dict:
+    metric_data_file = f'metrics-{str(date.today())}.txt'
+    path = path + metric_data_file
+    try:
+        return data_loader.load_json_data_as_dict_from(path)
+    except Exception as exception:
+        logging.warning(f'Unable to load metrics data ${metric_data_file} to file due to: ${exception}', exc_info=True)
+        return {}
 
 
 def load_stats(stats_path: str) -> list:
-    logger.info('Loading stats from {}'.format(stats_path))
-    with open(stats_path, READ, newline=EMPTY) as file:
-        content = file.readlines()
-        return content
+    logger.info(f'Loading stats from {stats_path}')
+    return data_loader.load_as_list_from_file(stats_path)
+
+
+def load_last_measurement_for(device):
+    return data_loader.__load(f'/home/ds/data/{device}_data.json')
+
+
+def store_last_100_measurement(measurement_counter, measurements_list, file_name):
+    if measurement_counter % 100 == 0:
+        store_measurement2(dom_utils.get_today_date_as_filename(file_name, 'txt'),
+                           measurements_list[-100:])
+
+
+def save_report(report: dict, file: str):
+    report_file_path = f'{config.get_report_path()}/{file}'
+    logger.info(f'Saving report to {report_file_path}')
+    data_writer.save_dict_data_as_json(report_file_path, report)
+
+
+def save_warnings(warnings: list):
+    today_warnings_path = f"{config.PI_DATA_PATH}{dom_utils.get_date_as_folders()}warnings.txt"
+    data_writer.save_list_to_file(warnings, today_warnings_path, config.APPEND_WITH_READ_MODE)
+
+
+# TODO merge with store_measurement2
+def store_measurement(data, sensor_log_file):
+    row = [datetime.now(),
+           data[config.FIELD_MEASUREMENT_TIME],
+           data[config.FIELD_TEMPERATURE],
+           data[config.FIELD_PRESSURE],
+           data[config.FIELD_HUMIDITY],
+           data[config.FIELD_GAS_RESISTANCE],
+           data[config.FIELD_COLOUR],
+           data[config.FIELD_RED],
+           data[config.FIELD_GREEN],
+           data[config.FIELD_BLUE],
+           data[config.FIELD_CO2],
+           data[config.FIELD_CO2_TEMPERATURE],
+           data[config.FIELD_RELATIVE_HUMIDITY],
+           dom_utils.get_float_number_from_text(data[config.FIELD_CPU_TEMP]),
+           data[config.FIELD_ECO2],
+           data[config.FIELD_TVOC],
+           data[config.FIELD_UVA],
+           data[config.FIELD_UVB],
+           data[config.FIELD_UV]
+           ]
+    data_writer.store_measurement(row, sensor_log_file, data[config.FIELD_MEASUREMENT_COUNTER])
+
+
+# TODO merge with store_measurement
+def store_measurement2(sensor_data: str, measurements: list):
+    data_writer.store_measurement2(sensor_data, measurements)
 
 
 def check_if_report_was_generated(report_date: str) -> bool:
-    path = '{}/{}'.format(report_dir, report_date)
+    path = f'{config.get_report_path()}/{report_date}'
     return os.path.isfile(path)
-
-
-def add_measurement_to_file(file, data: dict):
-    logger.debug(f'adding measurement to {file}')
-    timestamp = datetime.now()
-    csv_writer = csv.writer(file)
-    csv_writer.writerow([timestamp,
-                         data[config.FIELD_MEASUREMENT_TIME],
-                         data[config.FIELD_TEMPERATURE],
-                         data[config.FIELD_PRESSURE],
-                         data[config.FIELD_HUMIDITY],
-                         data[config.FIELD_GAS_RESISTANCE],
-                         data[config.FIELD_COLOUR],
-                         data[config.FIELD_RED],
-                         data[config.FIELD_GREEN],
-                         data[config.FIELD_BLUE],
-                         data[config.FIELD_CO2],
-                         data[config.FIELD_CO2_TEMPERATURE],
-                         data[config.FIELD_RELATIVE_HUMIDITY],
-                         dom_utils.get_float_number_from_text(data[config.FIELD_CPU_TEMP]),
-                         data[config.FIELD_ECO2],
-                         data[config.FIELD_TVOC]
-                         ])
-    file.close()
-
-
-def store_measurement(data, sensor_log_file):
-    try:
-        counter = data[config.FIELD_MEASUREMENT_COUNTER]
-    except Exception as exception:
-        logger.warning(f'Unable to store denva measurement due to : {exception}', exc_info=True)
-        counter = 0
-    logger.debug('Storing measurement no.{}'.format(counter))
-    try:
-        with open(sensor_log_file, 'a+', newline=EMPTY) as local_file:
-            add_measurement_to_file(local_file, data)
-            logger.debug('Measurement no.{} saved to file.'.format(counter))
-    except IOError as exception:
-        logger.warning(f'Unable to store denvira measurement due to : {exception}', exc_info=True)
-
-
-def store_measurement2(sensor_data: str, measurements: list):
-    sensor_log_file = f"/home/ds/data/{sensor_data}"
-    logger.debug(f'Storing measurement to {sensor_log_file}')
-    try:
-        with open(sensor_log_file, 'a+', newline=EMPTY, encoding=ENCODING) as report_file:
-            for measurement in measurements:
-                report_file.write(f'{json.dumps(measurement, ensure_ascii=False)}\n')
-        logger.debug(f'Measurement stored to {sensor_log_file}')
-    except IOError as io_exception:
-        logger.error(io_exception, exc_info=True)
 
 
 def setup_logging(path: str):
     if os.path.exists(path):
-        with open(path, 'rt') as config_json_file:
-            config = json.load(config_json_file)
-        logging.config.dictConfig(config)
+        config_data = data_loader.load_json_data_as_dict_from(path)
+        log_config.dictConfig(config_data)
         logging.captureWarnings(True)
-        logger.info('logs loaded from {}'.format(path))
+        logger.info(f'logs loaded from {path}')
     else:
         logging.basicConfig(level=logging.DEBUG)
         logging.captureWarnings(True)
-        logger.warning('Using default logging due to problem with loading from log: {}'.format(path))
-
-
-@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
-       stop_max_attempt_number=5)
-def load_json_data_as_dict_from(path: str) -> dict:
-    try:
-        with open(path, READ, encoding=ENCODING) as json_file:
-            return json.load(json_file)
-    except Exception as exception:
-        msg = f"Unable to load this file {path} due to {exception}"
-        logger.warning(msg, exc_info=True)
-        return {'error': msg}
-
-
-def save_dict_data_as_json(path: str, data: dict):
-    try:
-        with open(path, "w+", encoding=ENCODING) as path_file:
-            json.dump(data, path_file, ensure_ascii=False, indent=4)
-    except Exception as exception:
-        logger.warning(f"Unable to save this data {data} due to {exception}")
+        logger.warning(f'Using default logging due to problem with loading from log: {path}')
 
 
 def backup_information_data(data: dict):
-    dir_path = create_backup_dir_path_for("information-backup.", ".json", config.PI_HOME_DIR)
-    logger.error(dir_path)
-    save_dict_data_as_json(dir_path, data)
+    logger.info(f'Creating a backup for information data ... ')
+    dir_path = data_writer.create_backup_dir_path_for("information-backup.", ".json", config.PI_HOME_DIR)
+    logger.info(f' ... using path: {dir_path}')
+    data_writer.save_dict_data_as_json(dir_path, data)
 
 
-def create_backup_dir_path_for(dir_name: str, suffix: str, path: str):
-    dt = datetime.now()
-    dir_path = '{}backup/{}/{:02d}/{:02d}/'.format(path, dt.year, dt.month, dt.day)
-    logger.debug('performing information backup using path {}'.format(dir_path))
-    Path(dir_path).mkdir(parents=True, exist_ok=True)
-    dir_path += dir_name + dom_utils.get_timestamp_file() + suffix
-    return dir_path
-
-
-# TODO improve convert files to files_list
 def get_random_frame_picture_path(path: str):
+    if not os.path.exists(path):
+        raise GobshiteException(f'Setup messed up, No dir found for {path}')
     files_list = []
     with os.scandir(path) as files:
         for file in files:
@@ -211,179 +172,30 @@ def get_random_frame_picture_path(path: str):
     return files_list[random.randint(0, len(files_list) - 1)]
 
 
-# TODO improve it, not my code. Do my own implementation and compare performance
-def tail(file_path: str, lines=1) -> list:
-    lines_found = []
-    block_counter = -1
-    with open(file_path) as file:
-        while len(lines_found) < lines:
-            try:
-                file.seek(block_counter * 4098, os.SEEK_END)
-            except IOError:
-                file.seek(0)
-                lines_found = file.readlines()
-                break
-
-            lines_found = file.readlines()
-            block_counter -= 1
-
-    return lines_found[-lines:]
-
-
-# TODO add validator? and RETRY rename to add list to file
-def save_list_to_file(data: list, path: str):
-    try:
-        filename = Path(path)
-        filename.touch(exist_ok=True)
-        with open(path, 'a+', encoding=ENCODING) as path_file:
-            path_file.write(NEW_LINE.join(data))
-            path_file.write(NEW_LINE)
-    except Exception as exception:
-        logger.warning(f"Unable to save this data {data} using path {path} due to {exception}")
-
-
-def save_list_to_file_replace(data: list, path: str):
-    try:
-        filename = Path(path)
-        filename.touch(exist_ok=True)
-        with open(path, 'w', encoding=ENCODING) as path_file:
-            path_file.write(NEW_LINE.join(data))
-            path_file.write(NEW_LINE)
-    except Exception as exception:
-        logger.warning(f"Unable to save this data {data} using path {path} due to {exception}")
-
-
-def load_weather(path: str):
-    with open(path, READ, encoding=ENCODING) as weather_file:
-        return weather_file.read().splitlines()
-
-
-# TODO move this to different place
-def load_data(path: str) -> list:
-    sensor_log_file = dom_utils.fix_nulls(
-        open(path, READ, newline=EMPTY, encoding=ENCODING))
-    csv_content = csv.reader(sensor_log_file)
-    csv_data = list(csv_content)
-    data = []
-    for row in csv_data:
-        add_denva_row(data, row)
-    sensor_log_file.close()
-    return data
-
-
-def add_denva_row(data, row):
-    data.append(
-        {
-            config.FIELD_TIMESTAMP: row[config.DENVA_DATA_COLUMN_TIMESTAMP],
-            config.FIELD_TEMPERATURE: row[config.DENVA_DATA_COLUMN_TEMP],
-            config.FIELD_PRESSURE: row[config.DENVA_DATA_COLUMN_PRESSURE],
-            config.FIELD_HUMIDITY: row[config.DENVA_DATA_COLUMN_HUMIDITY],
-            config.FIELD_RELATIVE_HUMIDITY: row[config.DENVA_DATA_COLUMN_RELATIVE_HUMIDITY],
-            config.FIELD_GAS_RESISTANCE: row[config.DENVA_DATA_COLUMN_GAS_RESISTANCE],
-            config.FIELD_CO2: row[config.DENVA_DATA_COLUMN_CO2],
-            config.FIELD_CO2_TEMPERATURE: row[config.DENVA_DATA_COLUMN_CO2_TEMPERATURE],
-            config.FIELD_MEASUREMENT_TIME: row[config.DENVA_DATA_COLUMN_MEASUREMENT_TIME],
-            config.FIELD_CPU_TEMP: row[config.DENVA_DATA_COLUMN_CPU_TEMP],
-            config.FIELD_ECO2: row[config.DENVA_DATA_COLUMN_ECO2],
-            config.FIELD_TVOC: row[config.DENVA_DATA_COLUMN_TVOC],
-            config.FIELD_GPS_NUM_SATS: row[config.DENVA_DATA_COLUMN_GPS_NUM_SATS],
-        }
-    )
-
-
-def get_sensor_log_file():
-    return config.PI_DATA_PATH + dom_utils.get_date_as_filename('sensor-log', 'csv', datetime.now())
+def tail(file_path: str, lines=1) -> list:  # not my code
+    return data_loader.tail(file_path, lines)
 
 
 def is_report_file_exists(path) -> bool:
-    report_file_path = '{}/{}'.format(path,
-                                      dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_date()))
+    report_file_path = f"{path}/{dom_utils.get_date_as_filename('report', 'json', dom_utils.get_yesterday_datetime())}"
     return os.path.exists(report_file_path)
 
 
-def is_report_file_exists_for(report_date: datetime, path: str) -> bool:
-    report_file_path = '{}/{}'.format(path,
-                                      dom_utils.get_date_as_filename('report', 'json', report_date))
-    return os.path.exists(report_file_path)
-
-
-def load_ricky(path: str):
-    with open(path, READ, encoding=ENCODING) as ricky_data:
-        return json.load(ricky_data)
-
-
-def load_text_to_display(path) -> str:
+def count_lines(path):
+    counter = 0
     try:
-        with open(path, READ, encoding=ENCODING) as text_file:
-            return str(text_file.read())
+        with open(path, config.READ_MODE) as fp:
+            for _ in enumerate(fp):
+                counter += 1
     except Exception as exception:
-        logging.warning(f'Unable to load file with message due to: ${exception}', exc_info=True)
-        return str(exception)
+        logging.warning(f'Unable to warning file due to: ${exception}', exc_info=True)
+        return 0
 
 
-def save_metrics(stats: dict, path) -> str:
-    try:
-        full_path = path + f'metrics-{str(stats["date"])}.txt'
-        save_dict_data_as_json(full_path, stats)
-        return 'saved'
-    except Exception as exception:
-        logging.warning(f'Unable to save stats ${stats} to file due to: ${exception}', exc_info=True)
-        return str(exception)
+def load_logs(path):
+    with open(path, config.READ_MODE, encoding=config.ENCODING) as logs_file:
+        return logs_file.read().splitlines()
 
 
-@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
-       stop_max_attempt_number=5)
-def load_metrics_data(path: str) -> dict:
-    metric_data_file = f'metrics-{str(date.today())}.txt'
-    path = path + metric_data_file
-    try:
-        return load_json_data_as_dict_from(path)
-    except Exception as exception:
-        logging.warning(f'Unable to load metrics data ${metric_data_file} to file due to: ${exception}', exc_info=True)
-        return {}
-
-
-@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
-       stop_max_attempt_number=5)
-def __load(path: str) -> dict:
-    try:
-        with open(path, READ, encoding=ENCODING) as json_file:
-            return json.load(json_file)
-    except Exception as exception:
-        logging.warning(f'Unable to load data from ${path} due to: ${exception}', exc_info=True)
-    return {}
-
-
-def load_last_measurement_for(device):
-    return __load(f'/home/ds/data/{device}_data.json')
-
-
-def save_warnings(warnings: list):
-    today_warnings_path = f"{config.PI_DATA_PATH}{dom_utils.get_date_as_folders()}warnings.txt"
-    save_list_to_file(warnings, today_warnings_path)
-
-
-def load_list_of_dict_for(path_to_file: str):
-    logger.debug(f'loading list with path {path_to_file}')
-    data_as_dict_list = []
-    with open(path_to_file, READ, encoding=ENCODING) as data_file:
-        content_list = data_file.readlines()
-        for item in content_list:
-            if item.strip() != "" and len(item.strip()) > 2:
-                data_as_dict_list.append(json.loads(item.strip()))
-    logger.debug('task done')
-    return data_as_dict_list
-
-
-def save_dict_data_to_file(data: dict, file_name):
-    file_path = f'/home/ds/data/{file_name}.txt'
-    try:
-        logger.debug(f'Saving dictionary of size {len(data)} to {file_path}')
-        with open(file_path, 'w+', encoding=ENCODING) as report_file:
-            report_file.write(json.dumps(data, ensure_ascii=False))
-    except Exception as save_data_exception:
-        logger.error('Unable to save  due to {}'.format(save_data_exception), exc_info=True)
-
-
-if __name__ == '__main__':
-    print(create_backup_dir_path_for("information-backup.", ".json", config.PI_HOME_DIR))
+def save_entry(new_entry, path):
+    data_writer.add_new_line_of_text_to_file(new_entry, path)

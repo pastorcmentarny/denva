@@ -24,33 +24,36 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"}
 
 
+# TODO move to config
 def get_current_reading_for_denva() -> dict:
-    return get_data_for('{}/now'.format(config.load_cfg()["urls"]['denva']))
+    return get_data_for(f'{config.load_cfg()["urls"][config.KEY_DENVA_ONE]}/now')
 
 
 def get_current_reading_for_denva_two() -> dict:
-    return get_data_for('{}/now'.format(config.load_cfg()["urls"]['denva2']))
+    return get_data_for(f'{config.load_cfg()["urls"]["denva2"]}/now')
 
 
 def get_yesterday_report_for_denva() -> dict:
-    return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"]['denva']), REPORT_TIMEOUT)
+    return get_data_for(f'{config.load_cfg()["urls"][config.KEY_DENVA_ONE]}/report/yesterday', REPORT_TIMEOUT)
 
 
 def get_yesterday_report_for_denva_two() -> dict:
-    return get_data_for('{}/report/yesterday'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]), REPORT_TIMEOUT)
+    return get_data_for(f'{config.load_cfg()["urls"][config.KEY_DENVA_TWO]}/report/yesterday', REPORT_TIMEOUT)
 
 
 def get_current_log_counts() -> dict:
     return {
         'app': {
-            'denva': get_data_for('{}/log/count/app'.format(config.load_cfg()["urls"]['denva'])),
+            config.KEY_DENVA_ONE: get_data_for(
+                f'{config.load_cfg()["urls"][config.KEY_DENVA_ONE]}/log/count/app'),
             config.KEY_DENVA_TWO: get_data_for(
-                '{}/log/count/app'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]))
+                f'{config.load_cfg()["urls"][config.KEY_DENVA_TWO]}/log/count/app')
         },
         'ui': {
-            'denva': get_data_for('{}/log/count/ui'.format(config.load_cfg()["urls"]['denva'])),
+            config.KEY_DENVA_ONE: get_data_for(
+                f'{config.load_cfg()["urls"][config.KEY_DENVA_ONE]}/log/count/ui'),
             config.KEY_DENVA_TWO: get_data_for(
-                '{}/log/count/ui'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]))
+                f'{config.load_cfg()["urls"][config.KEY_DENVA_TWO]}/log/count/ui')
         }
     }
 
@@ -58,14 +61,16 @@ def get_current_log_counts() -> dict:
 def get_current_logs_for_all_services() -> dict:
     return {
         'app': {
-            'denva': get_data_for('{}/log/app/recent'.format(config.load_cfg()["urls"]['denva'])),
+            config.KEY_DENVA_ONE: get_data_for(
+                f'{config.load_cfg()["urls"][config.KEY_DENVA_ONE]}/log/app/recent'),
             config.KEY_DENVA_TWO: get_data_for(
-                '{}/log/app/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]))
+                f'{config.load_cfg()["urls"][config.KEY_DENVA_TWO]}/log/app/recent')
         },
         'hc': {
-            'denva': get_data_for('{}/log/hc/recent'.format(config.load_cfg()["urls"]['denva'])),
+            config.KEY_DENVA_ONE: get_data_for(
+                f'{config.load_cfg()["urls"][config.KEY_DENVA_ONE]}/log/hc/recent'),
             config.KEY_DENVA_TWO: get_data_for(
-                '{}/log/hc/recent'.format(config.load_cfg()["urls"][config.KEY_DENVA_TWO]))
+                f'{config.load_cfg()["urls"][config.KEY_DENVA_TWO]}/log/hc/recent')
         }
     }
 
@@ -77,19 +82,19 @@ def get_data_for(url: str, timeout: int = 3):  # ->list or dict
             data_response = response.text
             return json.loads(data_response)
     except Exception as whoops:
-        return {'error': 'There was a problem: {}'.format(whoops)}
+        return {'error': f'There was a problem: {whoops}'}
 
 
 def get_current_warnings_for_all_services() -> dict:
     return {
-        'denva': get_data_for(config.get_current_warnings_url_for('denva')),
+        config.KEY_DENVA_ONE: get_data_for(config.get_current_warnings_url_for(config.KEY_DENVA_ONE)),
         config.KEY_DENVA_TWO: get_data_for(config.get_current_warnings_url_for(config.KEY_DENVA_TWO)),
-        'server': system_data_service.get_system_warnings()
+        config.KEY_SERVER: system_data_service.get_system_warnings()
     }
 
 
 def get_all_healthcheck_from_all_services() -> dict:
-    services = ['denva', config.KEY_DENVA_TWO, 'server']
+    services = [config.KEY_DENVA_ONE, config.KEY_DENVA_TWO, config.KEY_SERVER]
     result = {}
     for service in services:
         result[service] = _get_hc_result(service)
@@ -97,18 +102,18 @@ def get_all_healthcheck_from_all_services() -> dict:
 
 
 def _get_hc_result(service: str):
-    hc_result = get_data_for('{}/hc'.format(config.load_cfg()["urls"][service]))
+    hc_result = get_data_for(f'{config.load_cfg()["urls"][service]}/hc')
     if 'error' in hc_result:
         return 'OFF'
     return 'OK'
 
 
 def get_current_reading_for_aircraft():
-    return get_data_for('{}/flights/today'.format(config.load_cfg()["urls"]['denva']))
+    return get_data_for(f'{config.load_cfg()["urls"][config.KEY_DENVA_ONE]}/flights/today')
 
 
 def get_yesterday_report_for_aircraft():
-    return get_data_for('{}/flights/yesterday'.format(config.load_cfg()["urls"]['denva']))
+    return get_data_for(f'{config.load_cfg()["urls"][config.KEY_DENVA_ONE]}/flights/yesterday')
 
 
 def post_healthcheck_beat(device: str, app_type: str):
@@ -121,23 +126,7 @@ def post_healthcheck_beat(device: str, app_type: str):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
-
-
-# FIXME improve this, currently wording is incorrect
-def post_healthcheck_reboot(device: str, app_type: str):
-    logger.debug(f'Posting reboot to health check service for {device}/{app_type}')
-    url = config.get_system_hc_reboot_url()
-    json_data = {'device': device, 'app_type': app_type}
-    try:
-        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
-            response.json()
-            response.raise_for_status()
-    except Exception as whoops:
-        logger.warning(
-            'There was a problem while sending reboot: {} using url {}, device {} and app_type {}'.format(whoops, url,
-                                                                                                          device,
-                                                                                                          app_type))
+            f'There was a problem: {whoops} using url {url}, device {device} and app_type {app_type}')
 
 
 def post_metrics_update(metrics: str, result: str):
@@ -149,8 +138,7 @@ def post_metrics_update(metrics: str, result: str):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem while sending measurement: {} using url {}, metrics {} and result {}'.format(
-                whoops, url, metrics, result))
+            f'There was a problem while sending measurement: {whoops} using url {url}, metrics {metrics} and result {result}')
 
 
 def post_device_on_off(device: str, state: bool):
@@ -162,7 +150,7 @@ def post_device_on_off(device: str, state: bool):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem: {} using url {}, device {} and state {}'.format(whoops, url, device, state))
+            f'There was a problem: {whoops} using url {url}, device {device} and state {state}')
 
 
 def post_denva_measurement(json_data, which: str = 'one'):
@@ -174,7 +162,7 @@ def post_denva_measurement(json_data, which: str = 'one'):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem with sending measurement for denva with url {} due to {} '.format(url, whoops))
+            f'There was a problem with sending measurement for denva with url {url} due to {whoops} ')
 
 
 def add_entry_to_diary(new_entry: str):
@@ -188,4 +176,22 @@ def add_entry_to_diary(new_entry: str):
             response.raise_for_status()
     except Exception as whoops:
         logger.warning(
-            'There was a problem with adding entry with url {} and entry {} due to {} '.format(url, new_entry, whoops))
+            f'There was a problem with adding entry with url {url} and entry {new_entry} due to {whoops} ')
+
+
+def get_config():
+    return get_data_for(f'{config.load_cfg()["urls"]["config"]}/config')
+
+
+def send(service_name: str, data: dict):
+    cfg = config.load_cfg()
+    url = f'{cfg["urls"]["server"]}/denva'
+    try:
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        response = requests.post(url, data=json.dumps(data), timeout=2, headers=headers)
+        if response.status_code == 200:
+            logger.debug(f'data sent successfully for {service_name}')
+        else:
+            logger.warning(f'Unable to sent data. code:{response.status_code}')
+    except Exception as exception:
+        logger.error(f'Unable to sent data\n{exception}', exc_info=True)

@@ -19,8 +19,8 @@ def update_for(what: str):
         with closing(sqlite3.connect(DB_NAME)) as connection:
             with closing(connection.cursor()) as cursor:
                 now = datetime.now()
-                current_data = str('{}{:02d}{:02d}{:02d}{:02d}{:02d}'
-                                   .format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+                current_data = str(
+                    f'{now.year}{now.month:02d}{now.day:02d}{now.hour:02d}{now.minute:02d}{now.second:02d}')
 
                 cursor.execute("UPDATE service_status SET last_updated = ? WHERE service = ?", (current_data, what))
             logger.debug(f'Total changes :{connection.total_changes}')

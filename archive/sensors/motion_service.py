@@ -38,7 +38,7 @@ def reset():
         imu = ICM20948()
         logger.info("Reset complete")
     except Exception as exception:
-        logger.error('Unable to restart ICM20948 due to {}'.format(exception), exc_info=True)
+        logger.error('Unable to restart ICM20948 due to {}'(exception), exc_info=True)
         raise Exception(exception)
 
     test_mx, test_my, test_mz = imu.read_magnetometer_data()

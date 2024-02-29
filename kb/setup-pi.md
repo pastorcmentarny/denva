@@ -6,15 +6,16 @@ In `sudo nano /etc/dhcpcd.conf`
 
 * server 192.168.0.200/24
 * denva 192.168.0.201/24
-* delight 192.168.0.203/24
+* It was used for Delight 192.168.0.203/24 
 * mobile 192.168.0.204/24
 * denvaTwo 192.168.0.205/24
 * I used 206
 * ubercorn 192.168.0.208/24
+* DomServer 192.168.0.209/24
 
-```bash
+```bash1
 interface wlan0
-static ip_address=192.168.0.208/24
+static ip_address=192.168.0.201/24
 static routers=192.168.0.1
 static domain_name_servers=192.168.0.1
 ```
@@ -83,10 +84,10 @@ sudo apt-get install exfat-utils`
 
 1. `sudo lsblk -o UUID,NAME,FSTYPE,SIZE,MOUNTPOINT,LABEL,MODEL` - check is ssd is there
 2. `mkdir storage`
-3. `sudo mount /dev/sdb1 /home/pi/storage -t exfat -o uid=pi,gid=pi`
-4. `sudo chmod 777 /home/pi/storage/`
+3. `sudo mount /dev/sdb1 /home/ds/storage -t exfat -o uid=pi,gid=pi`
+4. `sudo chmod 777 /home/ds/storage/`
 5. `sudo nano /etc/fstab``
-   1.add ``/dev/sda1 /home/pi/storage exFAT defaults 0 0``
+   1.add ``/dev/sda1 /home/ds/storage exFAT defaults 0 0``
 
 ## Set device for mote lighting
 
@@ -94,7 +95,7 @@ sudo apt-get install exfat-utils`
 
 ## SETUP CRONTAB
 
-* sudo crontab -e03 13 * * * /sbin/shutdown -r now
+* sudo crontab -e 03 13 * * * /sbin/shutdown -r now
 
 ## Install java17
 
@@ -165,3 +166,8 @@ Test: Progress Viewer - https://github.com/Xfennec/progress
 
 Bus 001 Device 003: ID 239a:80ff Adafruit NeoKey Trinkey M0
 ACTION=="add", ATTRS{idVendor}=="239a", ATTRS{idProduct}=="80ff", RUN+="/sbin/poweroff -r now"
+
+
+###
+
+``sudo raspi-config nonint do_i2c 0`` to enable i2c interface

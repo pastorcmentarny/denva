@@ -17,10 +17,9 @@ from timeit import default_timer as timer
 
 import config
 import dom_utils
-from denva import denva_service
 from gateways import local_data_gateway
 from reports import averages, records
-from services import information_service
+from services import information_service, denva_service
 
 warnings_logger = logging.getLogger('warnings')
 logger = logging.getLogger('app')
@@ -173,7 +172,7 @@ denva_report = {
             'min': 0,
             'max': -0
         },
-        'pressure': {
+        config.FIELD_PRESSURE: {
             'min': 0,
             'max': 0
         },
@@ -210,7 +209,7 @@ def generate_for(date: datetime) -> dict:
         data = load_data(year, month, day)
         logger.info(f'data length: {len(data)}')
         denva_report[config.FIELD_MEASUREMENT_COUNTER] = len(data)
-        denva_report['report_date'] = "{}.{}'{}".format(day, month, year)
+        denva_report['report_date'] = f"{day}.{month}'{year}"
         logger.info('Getting records..')
         denva_report['records'] = records.get_records(data)
         logger.info('Getting averages..')
@@ -275,5 +274,5 @@ def generate():
         'status': local_data_gateway.get_data_for('http://192.168.0.200:5000/shc/get', 3)
     }
     end_time = timer()
-    logger.info('It took {} ms to generate data'.format(int((end_time - start_time) * 1000)))
+    logger.info(f'It took {int((end_time - start_time) * 1000)} ms to generate data')
     return email_data

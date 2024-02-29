@@ -1,5 +1,7 @@
 # Knyszogar - Personal Server Assistance
+
 # source: https://ec.europa.eu/environment/air/quality/standards.htm
+
 ## DESIGN
 
 Design choices
@@ -7,6 +9,11 @@ Design choices
 - Mono-repo
 - Trunk Based Development
 - Python 3
+
+
+###
+
+Project is split into main denva project that are run on sensor towers (under ```src``` folder ) and side projects (under ```projects``` that i need to mark as root source )
 
 ### Mothership (200)
 
@@ -39,10 +46,9 @@ It runs all apps:
 
 
 - Server UI __
-  - Move
+    - Move
 
 carbon monoxide (reducing), nitrogen dioxide (oxidising), and ammonia (NH3),
-
 
 ### Denva(201) & Denva2(205) - it starts as Dom's Environment Analyser and become denva is a Dom's personal assistant
 
@@ -63,20 +69,42 @@ This project has inspired by various events in the workplace. It measures:
 ## Hardware in use:
 
 ### Mothership (Server)
+
 - Raspberry Pi 4 (8GB)
 - Unicorn HAT HD
 
 It used to run CCTV, lighting system, NAS but this was offload to Borg PC and LatePanda
 
-### On Denva device:
+### On Denva ONE device:
 
 - Raspberry Pi 4 (4GB)
 - Pimoroni Breakout Garden HAT
-- BH1745 Luminance and Colour Sensor Breakout
-- BME680 Breakout - Air Quality, Temperature, Pressure, Humidity Sensor
-- ICM20948 9DoF Motion Sensor Breakout
-- VEML6075 UVA/B Sensor Breakout
+    1. MAX30101 Sensor - Heart Rate, Oximeter, Smoke Sensor
+    2. BH1745 Luminance and Colour Sensor Breakout
+    3. VEML6075 UVA/B Sensor Breakout
+    4. SGP30 Air Quality Sensor
+    5. SCD41 CO2 Sensor Breakout
+    6. BME688 Breakout - Air Quality, Temperature, Pressure, Humidity Sensor
+    7. DVB-T+FM+DAB detect aircraft transceiver data
 
+### On Denva TWO device:
+
+- Raspberry Pi 4 (4GB)
+- Pimoroni Breakout Garden HAT
+    1. AS7262 Spectrometer
+    2. PA1010D GPS sensor
+    3. ICM20948 9DoF Motion Sensor
+    4. MICS6814 3-in-1 Gas Sensor
+    5. FREE SLOT
+    6. ICP10125 air pressure sensor
+    7. Mic to detect sound
+
+##
+
+app - where app is
+logs - where logs is
+data - where data
+reports - where reports
 
 ## STATUS UI:
 
@@ -84,14 +112,14 @@ It used to run CCTV, lighting system, NAS but this was offload to Borg PC and La
    1...5..........EF
   1 AA BB CC DD 
   2 
-  3 ka ke kn kw
+  3 aw cen 
   4 
   5 TU TS TD
   6 
   7 
   8
   9
-  0 3D 3A 3U    
+  0    
   A             CCA           
   B 2D 2A 2U    
   C             RRA
@@ -111,10 +139,12 @@ It used to run CCTV, lighting system, NAS but this was offload to Borg PC and La
   DD - NETWORK
   CCA - Camera A
   RRA - Radar App
-  ka - knyszogar app
-  ke - knyszogar email
-  kn = knyszogar network health check
-  kw - knyszogar website
+  a - knyszogar app
+  w - knyszogar website
+  c - knyszogar config
+  e - knyszogar email
+  n = knyszogar network health check
+  
 ```
 
 # Resources:

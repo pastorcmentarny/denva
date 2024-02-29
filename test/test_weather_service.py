@@ -9,7 +9,7 @@ class WeatherServiceTestCases(unittest.TestCase):
         # given
         now = datetime.now()
         weather_timestamp = str(
-            '{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+            f'{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}-{now.second}')
 
         # when
         result = weather_service.__is_weather_data_expired(weather_timestamp)
@@ -21,7 +21,7 @@ class WeatherServiceTestCases(unittest.TestCase):
         # given
         now = datetime(2020, 1, 2, 3, 4, 5)
         weather_timestamp = str(
-            '{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+            f'{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}-{now.second}')
 
         # when
         result = weather_service.__is_weather_data_expired(weather_timestamp)
@@ -33,7 +33,7 @@ class WeatherServiceTestCases(unittest.TestCase):
         # given
         now = datetime.now()
         weather_timestamp = str(
-            '{}-{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second))
+            f'{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}-{now.second}')
 
         # when
         result = weather_service.__is_weather_data_expired(weather_timestamp)

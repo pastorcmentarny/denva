@@ -13,7 +13,7 @@ import logging
 import re
 import time
 import config
-from denva import denva_sensors_service
+from services import denva_sensors_service
 
 logger = logging.getLogger('app')
 
@@ -59,23 +59,20 @@ def get_averages(data_records) -> dict:
         eco2 += float(data_record[config.FIELD_ECO2])
         tvoc += float(data_record[config.FIELD_TVOC])
 
-        # TODO remove it as this temporary due to other bug in v2
-        try:
-            measurement_time += float(re.sub('[^0-9.]', '', data_record[config.FIELD_MEASUREMENT_TIME]))
-        except ValueError:
-            measurement_time += float(1000)
+        measurement_time += float(re.sub('[^0-9.]', '', data_record[config.FIELD_MEASUREMENT_TIME]))
+
     records = len(data_records)
     if records != 0:
-        result[config.FIELD_TEMPERATURE] = '{:.2f}'.format(temperature / records)
-        result[config.FIELD_CO2_TEMPERATURE] = '{:.2f}'.format(co2_temperature / records)
-        result[config.FIELD_PRESSURE] = '{:.2f}'.format(pressure / records)
-        result[config.FIELD_HUMIDITY] = '{:.2f}'.format(humidity / records)
-        result[config.FIELD_RELATIVE_HUMIDITY] = '{:.2f}'.format(relative_humidity / records)
-        result[config.FIELD_GAS_RESISTANCE] = '{:.2f}'.format(gas_resistance / records)
-        result[config.FIELD_ECO2] = '{:.2f}'.format(eco2 / records)
-        result[config.FIELD_TVOC] = '{:.2f}'.format(tvoc / records)
-        result[config.FIELD_CPU_TEMP] = '{:.2f}'.format(cpu_temperature / records)
-        result[config.FIELD_MEASUREMENT_TIME] = '{:.2f}'.format(measurement_time / records)
+        result[config.FIELD_TEMPERATURE] = f'{temperature / records:.2f}'
+        result[config.FIELD_CO2_TEMPERATURE] = f'{co2_temperature / records:.2f}'
+        result[config.FIELD_PRESSURE] = f'{pressure / records:.2f}'
+        result[config.FIELD_HUMIDITY] = f'{humidity / records:.2f}'
+        result[config.FIELD_RELATIVE_HUMIDITY] = f'{relative_humidity / records:.2f}'
+        result[config.FIELD_GAS_RESISTANCE] = f'{gas_resistance / records:.2f}'
+        result[config.FIELD_ECO2] = f'{eco2 / records:.2f}'
+        result[config.FIELD_TVOC] = f'{tvoc / records:.2f}'
+        result[config.FIELD_CPU_TEMP] = f'{cpu_temperature / records:.2f}'
+        result[config.FIELD_MEASUREMENT_TIME] = f'{measurement_time / records:.2f}'
     else:
         result['info'] = 'No records'  # TODO check how is it used
     end = time.perf_counter()

@@ -14,7 +14,7 @@ import logging
 from datetime import datetime
 
 import config
-from common import data_files
+from common import data_loader
 from common.gobshite_exception import GobshiteException
 
 logger = logging.getLogger('app')
@@ -28,8 +28,8 @@ def convert_to_date_time(happen_at_time: str) -> datetime:
         return datetime(int(date_as_array[0]), int(date_as_array[1]), int(date_as_array[2]),
                         int(date_as_array[3]), int(date_as_array[4]))
     else:
-        logger.warning('invalid data:{}'.format(happen_at_time))
-        raise GobshiteException('passed crap data {}'.format(happen_at_time))
+        logger.warning(f'invalid data:{happen_at_time}')
+        raise GobshiteException(f'passed crap data {happen_at_time}')
 
 
 def get_time_in_days_as_text(event_time: datetime) -> str:
@@ -37,11 +37,11 @@ def get_time_in_days_as_text(event_time: datetime) -> str:
     text = 'day'
     if result > 1:
         text += 's'
-    return '{} {}.'.format(result, text)
+    return f'{result} {text}.'
 
 
 def __get_events():
-    return data_files.load_json_data_as_dict_from(config.get_path_for_personal_events())
+    return data_loader.load_json_data_as_dict_from(config.get_path_for_personal_events())
 
 
 def get_personal_stats() -> dict:

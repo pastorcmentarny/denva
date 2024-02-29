@@ -9,6 +9,7 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
+
 import gc
 import logging.config
 import os
@@ -23,14 +24,12 @@ from PIL import ImageFont
 
 import config
 import dom_utils
-
-from common import data_files
-from denva import denva2_service
-
+from common import data_writer
 from emails import email_sender_service
 from gateways import local_data_gateway
 from reports import d2_report_service
-from services import barometric_service, spectrometer_service, motion_service, gps_service,sound_service
+from services import barometric_service, spectrometer_service, motion_service, gps_service, sound_service, \
+    denva2_service
 
 bus = smbus.SMBus(1)
 
@@ -54,27 +53,27 @@ report_generation_cooldown = datetime.now()
 
 def collect_last_measurements():
     all_measurements = barometric_service.get_last_measurement() | gps_service.get_last_measurement() | motion_service.get_last_measurement() | spectrometer_service.get_last_measurement() | sound_service.get_last_measurement()
-    data_files.save_dict_data_as_json("/home/ds/data/all-measurement.json", all_measurements)
+    data_writer.save_dict_data_as_json(config.get_all_mesaurements_as_one_path(), all_measurements)
     return all_measurements
 
 
 def generate_warnings(measurement):
     logger.debug('Updating warnings for all sensors')
     warnings = denva2_service.get_current_warnings(measurement)
-    data_files.save_list_to_file(warnings, config.get_today_warnings())
+    data_writer.save_list_to_file(warnings, config.get_today_warnings(), config.APPEND_WITH_READ_MODE)
     logger.debug('done')
 
 
 def update_averages():
     logger.debug('Updating averages for all sensors')
-    data_files.save_dict_data_as_json("/home/ds/data/all-averages.json", averages)
+    data_writer.save_dict_data_as_json(config.get_averages_as_one_path(), averages)
     averages.clear()
     gc.collect()
 
 
 def update_records():
     logger.debug('Updating records for all sensors')
-    data_files.save_dict_data_as_json("/home/ds/data/all-records.json", records)
+    data_writer.save_dict_data_as_json(config.get_all_records_as_one_path(), records)
     records.clear()
     gc.collect()
 
@@ -85,7 +84,7 @@ def main():
         global averages
         global records
         loop_counter += 1
-        logger.debug('Loop no.{}'.format(loop_counter))
+        logger.debug(f'Loop no.{loop_counter}')
         d2_report_service.generate_yesterday_report_if_need(report_generation_cooldown, True)
         try:
             start_time = timer()
@@ -116,17 +115,19 @@ def main():
                 update_records()
                 d2_report_service.generate_yesterday_report_if_need(report_generation_cooldown)
 
+            if loop_counter % 100 == 0:
+                config.update(local_data_gateway.get_config())
+
             end_time = timer()
             measurement_time = int((end_time - start_time) * 1000)  # in ms
-            logger.info('Measurement no. {} took {} milliseconds to measure it.'
-                        .format(loop_counter, measurement_time))
+            logger.info(f'Measurement no. {loop_counter} took {measurement_time} milliseconds to measure it.')
 
             remaining_time_to_sleep = 15 - (float(measurement_time) / 1000)
 
-            local_data_gateway.post_denva_measurement(all_measurements_data,'two')
+            local_data_gateway.post_denva_measurement(all_measurements_data, 'two')
 
             if measurement_time > config.max_latency(fast=False):
-                logger.warning("Measurement {} was slow.It took {} ms".format(loop_counter, measurement_time))
+                logger.warning(f"Measurement {loop_counter} was slow.It took {measurement_time} ms")
 
             if remaining_time_to_sleep > 0:
                 time.sleep(remaining_time_to_sleep)  # it should be 5 seconds between measurements
@@ -145,17 +146,17 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt as keyboard_exception:
-        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        print(f'Received request application to shut down.. goodbye. {keyboard_exception}')
         logging.warning('Received request application to shut down.. goodbye!', exc_info=True)
         cleanup_before_exit()
     except Exception as exception:
         print(f'Whoops. {exception}')
         traceback.print_exc()
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        email_sender_service.send_error_log_email("application", "Application crashed due to {}.".format(exception))
+        logger.error(f'Something went badly wrong\n{exception}', exc_info=True)
+        email_sender_service.send_error_log_email("application", f"Application crashed due to {exception}.")
         cleanup_before_exit()
     except BaseException as disaster:
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        msg = f'Shit hit the fan and application died badly because {disaster}'
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)

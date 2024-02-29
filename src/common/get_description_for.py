@@ -10,14 +10,22 @@
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
 import logging
+import config
 
+KEY_INFORMATION = 'information'
+
+KEY_ACTION = 'action'
+
+KEY_VALUE = 'value'
+
+KEY_SCORE = 'score'
 logger = logging.getLogger('app')
 
 
 def uv(uv_index):
     if uv_index < 0:
-        logger.warning('weird uv value: {}'.format(uv_index))
-        return "UNKNOWN"
+        logger.warning(f'weird uv value: {uv_index}')
+        return config.UNKNOWN
     if uv_index == 0:
         return "NONE"
     elif uv_index < 3:
@@ -56,56 +64,47 @@ def brightness(red, green, blue) -> str:
     elif 240 <= result < 256:
         return 'white'
     else:
-        logger.warning('weird brightness value: {} for {} {} {}'.format(result, red, green, blue))
+        logger.warning(f'weird brightness value: {result} for {red} {green} {blue}')
         return '?'
 
 
 def motion(motion_data: dict) -> str:
-    return 'Acc: {:5.1f} {:5.1f} {:5.1f} Gyro: {:5.1f} {:5.1f} {:5.1f} Mag: {:5.1f} {:5.1f} {:5.1f}'.format(
-        motion_data['ax'],
-        motion_data['ay'],
-        motion_data['az'],
-        motion_data['gx'],
-        motion_data['gy'],
-        motion_data['gz'],
-        motion_data['mx'],
-        motion_data['my'],
-        motion_data['mz'])
+    return f'Acc: {motion_data["ax"]:5.1f} {motion_data["ay"]:5.1f} {motion_data["az"]:5.1f} Gyro: {motion_data["gx"]:5.1f} {motion_data["gy"]:5.1f} {motion_data["gz"]:5.1f} Mag: {motion_data["mx"]:5.1f} {motion_data["my"]:5.1f} {motion_data["mz"]:5.1f}'
 
 
 # based on https://www.idt.com/eu/en/document/whp/overview-tvoc-and-indoor-air-quality
 def iqa_from_tvoc(tvoc: str) -> dict:
     result = {
-        'score': 'unknown',
-        'value': 0,
-        'action': 'unknown',
-        'information': 'unknown'
+        KEY_SCORE: config.UNKNOWN,
+        KEY_VALUE: 0,
+        KEY_ACTION: config.UNKNOWN,
+        KEY_INFORMATION: config.UNKNOWN
     }
     tvoc_value = int(tvoc)
     if tvoc_value < 150:
-        result['score'] = 'Very Good'
-        result['value'] = tvoc_value
-        result['action'] = 'No action required'
-        result['information'] = 'Clean air'
+        result[KEY_SCORE] = 'Very Good'
+        result[KEY_VALUE] = tvoc_value
+        result[KEY_ACTION] = 'No action required'
+        result[KEY_INFORMATION] = 'Clean air'
     elif tvoc_value < 500:
-        result['score'] = 'Good'
-        result['value'] = tvoc_value
-        result['action'] = 'Ventilation recommended.'
-        result['information'] = 'Good Air Quality'
+        result[KEY_SCORE] = 'Good'
+        result[KEY_VALUE] = tvoc_value
+        result[KEY_ACTION] = 'Ventilation recommended.'
+        result[KEY_INFORMATION] = 'Good Air Quality'
     elif tvoc_value < 1500:
-        result['score'] = 'Medium'
-        result['value'] = tvoc_value
-        result['action'] = 'Ventilation required.'
-        result['information'] = 'Air Quality is not good. (Not recommended for exposure for than year)'
+        result[KEY_SCORE] = 'Medium'
+        result[KEY_VALUE] = tvoc_value
+        result[KEY_ACTION] = 'Ventilation required.'
+        result[KEY_INFORMATION] = 'Air Quality is not good. (Not recommended for exposure for than year)'
     elif tvoc_value < 5000:
-        result['score'] = 'POOR'
-        result['value'] = tvoc_value
-        result['action'] = 'Ventilate now!'
-        result['information'] = 'Air Quality is POOR. (Not recommended for exposure for than month)'
+        result[KEY_SCORE] = 'POOR'
+        result[KEY_VALUE] = tvoc_value
+        result[KEY_ACTION] = 'Ventilate now!'
+        result[KEY_INFORMATION] = 'Air Quality is POOR. (Not recommended for exposure for than month)'
     else:
-        result['score'] = 'BAD'
-        result['value'] = tvoc_value
-        result['action'] = 'Use only if unavoidable!'
-        result['information'] = 'Unacceptable Air Quality! Use only if unavoidable and only for short periods.'
+        result[KEY_SCORE] = 'BAD'
+        result[KEY_VALUE] = tvoc_value
+        result[KEY_ACTION] = 'Use only if unavoidable!'
+        result[KEY_INFORMATION] = 'Unacceptable Air Quality! Use only if unavoidable and only for short periods.'
 
     return result

@@ -3,7 +3,6 @@ from unittest import TestCase
 import config
 
 
-# TODO ADD missing test case
 class ConfigServiceTestCases(TestCase):
     def test_get_irregular_verbs_path(self):
         # given
@@ -46,7 +45,7 @@ class ConfigServiceTestCases(TestCase):
 
         for mode, an_input, expected_result in scale_params_list:
             with self.subTest(
-                    msg="Checking to get_environment_log_path_for() for mode {} & app type {} ".format(mode, an_input)):
+                    msg=f"Checking to get_environment_log_path_for() for mode {mode} & app type {an_input} "):
                 # given
                 config.load_cfg()['mode'] = mode
                 # when
@@ -54,7 +53,6 @@ class ConfigServiceTestCases(TestCase):
 
                 # then
                 self.assertEqual(expected_result, result)
-
 
     def test_get_sky_camera_settings(self):
         # when

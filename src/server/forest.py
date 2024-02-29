@@ -1,6 +1,7 @@
 import random
 import numpy
 from server import display
+
 scale = 3
 
 p = 0.01
@@ -61,8 +62,8 @@ def initialise_forest():
     return forest
 
 
-def update_forest(forest):
-    new_forest = [[space for _ in range(forest_width)] for _ in range(forest_height)]  # FIXME REMOVE IT?
+def update_forest(forest): # not my code
+    new_forest = [[space for _ in range(forest_width)] for _ in range(forest_height)]
     for width in range(forest_width):
         for height in range(forest_height):
             if forest[width][height] == start_burning:
@@ -72,8 +73,8 @@ def update_forest(forest):
             elif forest[width][height] == tree:
                 neighbours = get_neighbours(width, height, hood_size)
                 new_forest[width][height] = (burning if any(
-                    [forest[n[0]][n[1]] == burning for n in
-                     neighbours]) or random.random() <= f else tree)  # TODO change it
+                    [forest[neighbour[0]][neighbour[1]] == burning for neighbour in
+                     neighbours]) or random.random() <= f else tree)
     return new_forest
 
 
@@ -81,7 +82,7 @@ def quit_if_burnt(forest):
     for width in range(forest_width):
         for height in range(forest_height):
             if forest[width][height] != space:
-                return True  # it still burning
+                return True
     return False
 
 

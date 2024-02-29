@@ -1,18 +1,14 @@
 import copy
 
+from common import data_files
+
 DEBUG = 'DEBUG'
 INFO = 'INFO'
 WARNING = 'WARNING'
 CRITICAL = 'CRITICAL'
 ERROR = 'ERROR'
-ENCODING = 'UTF-8'
+
 TOTAL_COUNT = 'total_count'
-
-
-def load_logs(path):
-    with open(path, 'r', encoding=ENCODING) as logs_file:
-        return logs_file.read().splitlines()
-
 
 log_metrics = {
     CRITICAL: 0,
@@ -42,7 +38,7 @@ def shows_stats_for_log_metrics():
 
 
 def generate_log_stats(path: str):
-    log_data = load_logs(path)
+    log_data = data_files.load_logs(path)
     for row in log_data:
 
         if ' - CRITICAL - ' in row:
@@ -61,18 +57,18 @@ def generate_log_stats(path: str):
 
 
 def generate_log_stats_for_knyszogar(path: str):
-    log_data = load_logs(path)
+    log_data = data_files.load_logs(path)
     for row in log_data:
 
-        if 'CRITICAL :: ' in row:
+        if f'{CRITICAL} :: ' in row:
             log_metrics[CRITICAL] = log_metrics[CRITICAL] + 1
-        elif 'ERROR :: ' in row:
+        elif f'{ERROR} :: ' in row:
             log_metrics[ERROR] = log_metrics[ERROR] + 1
-        elif 'WARNING :: ' in row:
+        elif f'{WARNING} :: ' in row:
             log_metrics[WARNING] = log_metrics[WARNING] + 1
-        elif 'INFO :: ' in row:
+        elif f'{INFO} :: ' in row:
             log_metrics[INFO] = log_metrics[INFO] + 1
-        elif 'DEBUG :: ' in row:
+        elif f'{DEBUG} :: ' in row:
             log_metrics[DEBUG] = log_metrics[DEBUG] + 1
 
     log_metrics[TOTAL_COUNT] = get_total_count_of_log()

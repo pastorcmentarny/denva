@@ -15,16 +15,15 @@ import random
 import requests
 
 import config
+from common import data_loader
 
 words = []
 
 
 def load_dictionary_file() -> list:
-    file_path = config.get_path_to_chinese_dictionary()
-    file = open(file_path, 'r', encoding="UTF-8", newline='')
-    content = file.readlines()
+    content = data_loader.load_as_list_from_file(config.get_path_to_chinese_dictionary())
     for line in content:
-        definition = line.split(";;")
+        definition = line.split(config.FILE_SPLITTER)
         definition = definition[2:len(definition) - 2]
         word = {'character': definition[0],
                 'pinyin': definition[1],
@@ -68,4 +67,4 @@ def get_chinese_dictionary_from_github() -> list:
         response.raise_for_status()
         return response.text.splitlines()
     except Exception as whoops:
-        return ['Error: {}'.format(whoops)]
+        return [f'Error: {whoops}']

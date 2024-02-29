@@ -23,25 +23,22 @@ import server.good_method_name as method
 import server.information_service as information
 import server.personal_stats as personal_events
 import server.random_irregular_verb as verb
-import server.rules_service as rules
-from common import data_files, commands
-from gateways import web_data_gateway, local_data_gateway, tube_client
+from common import data_files, commands, data_loader
+from gateways import web_data_gateway, local_data_gateway
 from reports import report_generator
-from server import daily
-from services import error_detector_service, radar_service, metrics_service
+from services import error_detector_service, radar_service, metrics_service, tube_service
 from services import weather_service, system_data_service
 from systemhc import system_health_check_service
 
+TUBE_DATA_NOT_AVAILABLE = "Tube data N/A"
+TRAIN_DATA_NOT_AVAILABLE = 'Train data N/A'
+
 logger = logging.getLogger('app')
-server_logger = logging.getLogger('server')
 
 
 def get_now_and_next_event():
-    events = daily.get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute)
     celebration = celebrations.get_next_3_events()
     return {
-        'now': events[0],
-        'next': events[1],
         'celebration': celebration[0],
         'celebration2': celebration[1]
     }
@@ -49,7 +46,7 @@ def get_now_and_next_event():
 
 def get_last_updated_page() -> str:
     now = datetime.now()
-    return "{}.{}'{} - {}:{}".format(now.day, now.month, now.year, now.hour, now.minute)
+    return f"{now.day}.{now.month}'{now.year} - {now.hour}:{now.minute}"
 
 
 def get_gateway_data() -> dict:
@@ -64,8 +61,7 @@ def get_gateway_data() -> dict:
             'events': personal_events.get_personal_stats(),
             'weather': weather_response,
             'information': information.get_information(),
-            'daily': daily.get_now_and_next_event(datetime.now().hour * 60 + datetime.now().minute),
-            'rule': rules.get_random_rule()
+            'rule': 'disabled'
             }
 
 
@@ -83,14 +79,14 @@ def get_all_warnings_page() -> list:
     data = []
 
     tube = web_data_gateway.get_tube(False)
-    if tube == ["Tube data N/A"]:
-        data.append("Tube data N/A")
+    if tube == [TUBE_DATA_NOT_AVAILABLE]:
+        data.append(TUBE_DATA_NOT_AVAILABLE)
     elif tube != 'Good Service' or tube != 'Service Closed':
         data.append(tube)
 
     train = web_data_gateway.get_train()
-    if train == 'Train data N/A':
-        data.append('Train data N/A')
+    if train == TRAIN_DATA_NOT_AVAILABLE:
+        data.append(TRAIN_DATA_NOT_AVAILABLE)
     elif train != "Good service":
         data.append(train)
 
@@ -99,15 +95,15 @@ def get_all_warnings_page() -> list:
     data = dom_utils.clean_list_from_nones(data)
 
     end = time.perf_counter()
-    logger.info('Execution time: {} ns.'.format((end - start)))  # TODO move to stats
+    logger.info(f'Execution time for get all warnings: {(end - start)} ns.')
 
     return data
 
 
 def get_current_system_information_for_all_services(config: dict):
     return {
-        'denva': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva'])),
-        'denva2': local_data_gateway.get_data_for('{}/system'.format(config["urls"]['denva2'])),
+        'denva': local_data_gateway.get_data_for(f'{config["urls"]["denva"]}/system'),
+        'denva2': local_data_gateway.get_data_for(f'{config["urls"]["denva2"]}/system'),
     }
 
 
@@ -127,10 +123,10 @@ def get_links_for_gateway(config_data: dict, sensor_only: bool = False) -> dict:
 def get_links_for(config: dict, suffix: str, sensor_only: bool = False) -> dict:
     urls = config['urls']
     result = {
-        'denva': '{}/{}'.format(urls['denva'], suffix)
+        'denva': f'{urls["denva"]}/{suffix}'
     }
     if not sensor_only:
-        result['server'] = '{}/{}'.format(urls['server'], suffix)
+        result['server'] = f'{urls["server"]}/{suffix}'
 
     return result
 
@@ -157,12 +153,11 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'page_tt_delays_counter': page_tt_delays_counter,
             'page_ricky': page_ricky,
             'warnings': local_data_gateway.get_current_warnings_for_all_services(),
-            'denva': data_files.load_json_data_as_dict_from('/home/pi/data/denva_data.json'),
-            'denva2': data_files.load_json_data_as_dict_from('/home/pi/data/denva_two_data.json'),
+            'denva': data_loader.load_json_data_as_dict_from('/home/pi/data/denva_data.json'),
+            'denva2': data_loader.load_json_data_as_dict_from('/home/pi/data/denva_two_data.json'),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
-            config.FIELD_SYSTEM: get_current_system_information_for_all_services(config_data),
+            config.KEY_SYSTEM: get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),
-            'welcome_text': data_files.load_text_to_display(config_data["paths"]["text"]),
             'transport': web_data_gateway.get_status()
         }
         data['errors'] = get_errors_from_data(data)
@@ -176,9 +171,8 @@ def get_data_for_page(config_data, page_ricky: str, page_tt_delays_counter: str,
             'denva': {},
             'denva2': {},
             'aircraft': {},
-            config.FIELD_SYSTEM: {},
+            config.KEY_SYSTEM: {},
             'links': get_links_for_gateway(config_data),
-            'welcome_text': f"Unable to load message due to ${exception}"
         }
     return data
 
@@ -191,9 +185,8 @@ def get_device_status(config_data: dict):
             'denva': local_data_gateway.get_current_reading_for_denva(),
             'denva2': local_data_gateway.get_current_reading_for_denva_two(),
             'aircraft': radar_service.get_aircraft_detected_today_count(),
-            config.FIELD_SYSTEM: get_current_system_information_for_all_services(config_data),
+            config.KEY_SYSTEM: get_current_system_information_for_all_services(config_data),
             'links': get_links_for_gateway(config_data),
-            'welcome_text': data_files.load_text_to_display(config_data),
             'transport': web_data_gateway.get_status(),
             'metrics': metrics_service.get_currents_metrics(),
             'log_count': local_data_gateway.get_current_log_counts(),
@@ -201,15 +194,14 @@ def get_device_status(config_data: dict):
         }
         data['errors'] = get_errors_from_data(data)
     except Exception as exception:
-        logger.error('Unable to get data due to {}'.format(exception))
+        logger.error(f'Unable to get data due to {exception}')
         data = {
             'warnings': {},
             'denva': {},
             'denva2': {},
             'aircraft': {},
-            config.FIELD_SYSTEM: {},
+            config.KEY_SYSTEM: {},
             'links': get_links_for_gateway(config_data),
-            'welcome_text': f"Unable to load message due to ${exception}",
             'transport': [],
             'metrics': {},
             'log_count': {}
@@ -218,7 +210,7 @@ def get_device_status(config_data: dict):
 
 
 def count_tube_problems_today():
-    return tube_client.count_tube_problems(tube_client.load())
+    return tube_service.count_tube_problems(tube_service.load())
 
 
 def get_report_for_yesterday():
@@ -231,3 +223,11 @@ def get_system_hc():
 
 def get_ping_test_results():
     return commands.get_ping_results()
+
+
+def get_data_for_today_flights():  # redirect to right service
+    return local_data_gateway.get_current_reading_for_aircraft()
+
+
+def get_data_for_yesterday_flights():  # redirect to right service
+    return local_data_gateway.get_yesterday_report_for_aircraft()

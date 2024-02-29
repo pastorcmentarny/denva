@@ -19,9 +19,16 @@ import requests
 
 import config
 import dom_utils
-from common import status, data_files, loggy
+from common import loggy, data_writer
 from gateways import local_data_gateway
+
 from services import networkcheck_service
+
+CPU_TEMP = 'CPU Temp'
+
+MEMORY_AVAILABLE = 'Memory Available'
+
+FREE_SPACE = 'Free Space'
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
 
@@ -39,7 +46,7 @@ HEADERS = {
 
 def check_pages(headers, ok, pages, problems):
     for page in pages:
-        logger.info('checking connection to :{}'.format(page))
+        logger.info(f'checking connection to :{page}')
 
         try:
             with requests.get(page, headers=headers, timeout=5) as response:
@@ -49,26 +56,17 @@ def check_pages(headers, ok, pages, problems):
                     response.raise_for_status()
 
         except Exception as whoops:
-            logger.warning('Response error: {}'.format(whoops))
+            logger.warning(f'Response error: {whoops}')
             problems.append(str(whoops))
 
     return ok
 
 
 def post_healthcheck_beat(device: str, app_type: str):
-    url = f'{HOSTNAME}:5000/shc/update'
-    json_data = {'device': device, 'app_type': app_type}
-    try:
-        with requests.post(url, json=json_data, timeout=2, headers=HEADERS) as response:
-            response.json()
-            response.raise_for_status()
-    except Exception as whoops:
-        logger.warning(
-            'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
-
+    local_data_gateway.post_healthcheck_beat(device,app_type)
 
 def check_for(app_name: str, headers, page: str, app_type: str = ""):
-    logger.info('checking connection to :{}'.format(page))
+    logger.info(f'checking connection to :{page}')
     try:
         with requests.get(page, headers=headers, timeout=5) as response:
             if response.status_code == 200:
@@ -79,41 +77,7 @@ def check_for(app_name: str, headers, page: str, app_type: str = ""):
             else:
                 response.raise_for_status()
     except Exception as whoops:
-        logger.warning('Response error: {}'.format(whoops))
-
-
-#TODO Understand what I need it for
-def check_denva_app_status(cfg):
-    state = status.Status()
-    logger.info('Getting status for denva..')
-    server_data = local_data_gateway.get_data_for('{}/system'.format(config.load_cfg()["urls"]['denva']))
-    if 'error' in server_data:
-        logger.warning('Unable to get Denva status due to {}'.format(server_data['error']))
-        state.set_error()
-    else:
-        if float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM][
-            config.CPU_TEMP_ERROR]:
-            logger.warning('status: RED due to very high cpu temp on Denva )')
-            state.set_danger()
-        elif float(dom_utils.get_float_number_from_text(server_data['CPU Temp'])) > cfg[config.FIELD_SYSTEM][
-            config.CPU_TEMP_WARN]:
-            logger.warning('status: ORANGE due to high cpu temp on Denva )')
-            state.set_warn()
-        if dom_utils.get_int_number_from_text(server_data['Memory Available']) < 384:
-            logger.warning('status: RED due to very low memory available on Denva')
-            state.set_danger()
-        elif dom_utils.get_int_number_from_text(server_data['Memory Available']) < 512:
-            logger.warning('status: ORANGE due to low memory available on Denva')
-            state.set_warn()
-
-        if dom_utils.get_int_number_from_text(server_data['Free Space']) < 256:
-            logger.warning('status: RED due to very low free space on Denva')
-            state.set_danger()
-        elif dom_utils.get_int_number_from_text(server_data['Free Space']) < 1024:
-            logger.warning('status: ORANGE due to low free space on Denva')
-            state.set_warn()
-
-    logger.info(f'Denva state: {state.get_status_as_light_colour()}')
+        logger.warning(f'Response error: {whoops}')
 
 
 def my_services_check():
@@ -130,7 +94,7 @@ def my_services_check():
     check_for('config', headers, f"{config.SERVER_IP}:18004/hc", 'knyszogar')
     check_for('email', headers, f"{config.SERVER_IP}:18010/hc", 'knyszogar')
     end_time = time.perf_counter()
-    total_time = '{:0.2f}'.format((end_time - start_time))
+    total_time = f'{(end_time - start_time):0.2f}'
     logger.info(f'It took {total_time} second to test.')
 
 
@@ -139,14 +103,7 @@ def network_check() -> dict:
     ok = 0
     problems = []
 
-    pages = [
-        "https://dominiksymonowicz.com",
-        'https://bing.com/',
-        'https://baidu.com',
-        'https://amazon.com',
-        'https://wikipedia.org',
-        'https://google.com/',
-    ]
+    pages = config.get_ping_pages().copy()
 
     headers = requests.utils.default_headers()
     headers['User-Agent'] = USER_AGENT
@@ -159,7 +116,7 @@ def network_check() -> dict:
     end_time = timer()
     total_time = end_time - start_time
     networkcheck_service.log_result(problems, network_status, total_time)
-    result = "{} of {} pages were loaded successfully.".format(ok, len(pages))
+    result = f"{ok} of {len(pages)} pages were loaded successfully."
 
     logger.info(f'Status:{network_status}. {result}')
     problems_count = len(problems)
@@ -197,13 +154,13 @@ def app_loop():
             if loop_counter % 2 == 0:
                 logger.info("Performing healthcheck for my services")
                 my_services_check()
-                check_denva_app_status(config.load_cfg()) #TODO
-                # ADD DENVA 2 APP check
+                # TODO ADD DENVA ONE APP check
+                # TODO ADD DENVA TWO APP check
 
             if loop_counter >= 10:
                 logger.info("Performing network check")
                 result = network_check()
-                data_files.save_dict_data_as_json("data/nhc.json", result)
+                data_writer.save_dict_data_as_json("data/nhc.json", result)
                 loop_counter = 0
             loop_counter += 1
 
@@ -223,20 +180,14 @@ if __name__ == '__main__':
     try:
         app_loop()
     except KeyboardInterrupt as keyboard_exception:
-        print('Received request application to shut down.. goodbye. {}'.format(keyboard_exception))
+        print(f'Received request application to shut down.. goodbye. {keyboard_exception}')
         logging.info('Received request application to shut down.. goodbye!', exc_info=True)
         sys.exit(0)
-        # TODO post status to OFF
     except Exception as exception:
-        logger.error('Something went badly wrong\n{}'.format(exception), exc_info=True)
-        # TODO add send email: email_sender_service.send_error_log_email(APP_NAME,'{} crashes due to {}'.format(APP_NAME, exception))
-        # TODO post status to ERROR
+        logger.error(f'Something went badly wrong\n{exception}', exc_info=True)
     except BaseException as disaster:
-        logger.error('Something went badly wrong\n{}'.format(disaster), exc_info=True)
-        msg = 'Shit hit the fan and application died badly because {}'.format(disaster)
+        logger.error(f'Something went badly wrong\n{disaster}', exc_info=True)
+        msg = f'Shit hit the fan and application died badly because {disaster}'
         print(msg)
         traceback.print_exc()
         logger.fatal(msg, exc_info=True)
-        # TODO add send email: email_sender_service.send_error_log_email(APP_NAME,'{} crashes due to {}'.format(APP_NAME, exception))
-        # TODO post status to ERROR
-    local_data_gateway.post_device_on_off('hc', False)  # TODO

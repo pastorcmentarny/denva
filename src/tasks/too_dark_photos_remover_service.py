@@ -18,6 +18,8 @@ from timeit import default_timer as timer
 
 from PIL import Image
 
+import config
+
 logger = logging.getLogger('server')
 deleted = 0
 ignored = 0
@@ -25,14 +27,13 @@ errors = 0
 
 
 def get_all_photos_for(year: str, month: str, day: str) -> list:
-    # TODO move to config path = "d:\\cctv\\{}\\{}\\{}\\".format(year, month, day)
-    path = str(Path("/home/ds/data/{}/{}/{}/".format(year, month, day)))
-    logger.info("Generating list of files to process for {}.{}'{}".format(day, month, year))
+    path = str(Path(f"{config.PI_DATA_PATH}{year}/{month}/{day}/"))
+    logger.info(f"Generating list of files to process for {day}.{month}'{year}")
     photos = []
     for root, dirs, files in os.walk(path):
         for filename in files:
             photos.append(path + filename)
-    logger.info("Collected {} file(s) to process.".format(len(photos)))
+    logger.info(f"Collected {len(photos)} file(s) to process.")
     return photos
 
 
@@ -62,13 +63,13 @@ def remove_if_too_dark(file) -> bool:
         try:
             os.remove(file)
             if os.path.exists(file):
-                logger.warning('{} NOT deleted.'.format(file))
+                logger.warning(f'{file} NOT deleted.')
                 return True
             else:
-                logger.info("{} deleted.".format(file))
+                logger.info(f"{file} deleted.")
                 return True
         except Exception as e:
-            logger.error('Unable to process {} file due to {}'.format(file, e))
+            logger.error(f'Unable to process {file} file due to {e}')
             return True
     else:
         return False
@@ -79,7 +80,7 @@ def is_photo_mostly_black(file, with_summary: bool = True):
     global ignored
     global errors
     if os.path.splitext(file)[-1].lower() != ".jpg":
-        logger.warning('{} is not a photo. Ignore it.'.format(file))
+        logger.warning(f'{file} is not a photo. Ignore it.')
         ignored += 1
         return
 
@@ -104,12 +105,12 @@ def is_photo_mostly_black(file, with_summary: bool = True):
         try:
             os.remove(file)
             if os.path.exists(file):
-                logger.warning('{} NOT deleted.'.format(file))
+                logger.warning(f'{file} NOT deleted.')
             else:
-                logger.info("{} deleted.".format(file))
+                logger.info(f"{file} deleted.")
                 deleted += 1
         except Exception as e:
-            logger.error('Unable to process {} file due to {}'.format(file, e))
+            logger.error(f'Unable to process {file} file due to {e}')
             errors += 1
     if with_summary:
         logger.info(str(dark_pixels) + ' out of ' + str(total_pixels) + ' is dark. (' + str(too_dark) + '%)')
@@ -129,7 +130,7 @@ def setup():
 
 def process_for_yesterday():
     yesterday = datetime.datetime.now() + datetime.timedelta(days=-1)
-    process_for_date(str(yesterday.year), '{:02d}'.format(yesterday.month), '{:02d}'.format(yesterday.day))
+    process_for_date(str(yesterday.year), f'{yesterday.month:02d}', f'{yesterday.day:02d}')
 
 
 def process_for_date(year: str, month: str, day: str):
@@ -149,7 +150,7 @@ def process_for_date(year: str, month: str, day: str):
 
     all_end_time = timer()
     total_time = int((all_end_time - all_start_time) * 1000)
-    logger.info('it took {} ms to process all files.'.format(total_time))  # in ms
+    logger.info(f'it took {total_time} ms to process all files.')  # in ms
 
     logger.info(
         'DONE!'

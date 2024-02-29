@@ -111,30 +111,14 @@ class MetricsServiceTestCases(TestCase):
         self.assertEqual(result[OK][METRICS_NAME], 0)
         self.assertEqual(result[COUNT], 0)
 
-    def test_should_save_backup(self):
-        # given
-        metrics_service.reset()
-        metrics_service.add(METRICS_NAME, ERRORS)
-        metrics_service.add(METRICS_NAME, OK)
-        setup = metrics_service.get_currents_metrics()
 
-        # verify
-        self.assertEqual(setup[ERRORS][METRICS_NAME], 1)
-        self.assertEqual(setup[OK][METRICS_NAME], 1)
-        self.assertEqual(setup[COUNT], 2)
 
-        # when
-        result = metrics_service.save_metrics()
-
-        # then
-        self.assertEqual(result, 'saved')
-
-    def test_get_empty_metrics_should_return_metrics_with_zeros(self):
+    def test_get_config.EMPTY_metrics_should_return_metrics_with_zeros(self):
         # given
         metrics_service.reset()
 
         # when
-        result = metrics_service.get_empty_metrics()
+        result = metrics_service.get_config.EMPTY_metrics()
 
         # then
-        self.assertEqual(result, metrics_service.empty_stats)
+        self.assertEqual(result, metrics_service.config.EMPTY_stats)

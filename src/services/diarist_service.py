@@ -1,28 +1,31 @@
+# -*- coding: utf-8 -*-
+
+"""
+* Author Dominik Symonowicz
+* WWW:	https://dominiksymonowicz.com/welcome
+* IT BLOG:	https://dominiksymonowicz.blogspot.co.uk
+* GitHub:	https://github.com/pastorcmentarny
+* Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
+* LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
+"""
+
 from datetime import datetime
-from retrying import retry
+
 import logging
 
 import config
+from common import data_files
 
 """
 Service to write down all events that happen
 """
-ENCODING = 'utf-8'
+
 logger = logging.getLogger('app')
 
 
 def add(new_entry):
-    dt = datetime.now()
-    path = f"{config.PI_DATA_PATH}/diary-{dt.year}-{dt.month:02d}-{dt.day:02d}.txt"
-    try:
-        save_entry(new_entry, path)
-    except Exception as exception:
-        logger.error(f'Failed to save due to {exception}')
-
-
-def __retry_on_exception(exception):
-    logger.warning(f'Unable to save due to {exception}')
-    return isinstance(exception, Exception)
+    path = config.get_path_diary_for_today()
+    data_files.save_entry(to_line(new_entry), path)
 
 
 def to_line(new_entry):
@@ -33,11 +36,3 @@ def to_line(new_entry):
         key, value = element, new_entry[element]
         text += f'{timestamp}::{value}'
     return text
-
-
-@retry(retry_on_exception=__retry_on_exception, wait_exponential_multiplier=50, wait_exponential_max=1000,
-       stop_max_attempt_number=5)
-def save_entry(new_entry, path):
-    with open(path, "a+", encoding=ENCODING) as diary_file:
-        diary_file.write(to_line(new_entry))
-        diary_file.write('\n')

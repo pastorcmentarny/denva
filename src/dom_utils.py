@@ -9,7 +9,6 @@
 * Google Play:	https://play.google.com/store/apps/developer?id=Dominik+Symonowicz
 * LinkedIn: https://www.linkedin.com/in/dominik-symonowicz
 """
-import json
 import logging
 import re
 import socket
@@ -40,7 +39,7 @@ def convert_list_to_dict(source: list) -> dict:
 
 def get_date_for_today() -> str:
     dt = datetime.now()
-    return f"{dt.year}-{dt.month:02d}-{dt.day:02d}"
+    return f'{dt.year}-{dt.month:02d}-{dt.day:02d}'
 
 
 def get_today_date_as_filename(name: str, file_type: str) -> str:
@@ -48,19 +47,19 @@ def get_today_date_as_filename(name: str, file_type: str) -> str:
 
 
 def get_date_as_filename(name: str, file_type: str, dt: datetime) -> str:
-    return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{file_type}"
+    return f'{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}.{file_type}'
 
 
 def get_date_with_time_as_filename(name: str, file_type: str, dt: datetime) -> str:
-    return f"{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}-{dt.hour:02d}{dt.minute:02d}{dt.second:02d}.{file_type}"
+    return f'{name}-{dt.year}-{dt.month:02d}-{dt.day:02d}-{dt.hour:02d}{dt.minute:02d}{dt.second:02d}.{file_type}'
 
 
 def get_filename_from_year_month_day(name: str, file_type: str, year: int, month: int, day: int) -> str:
-    return f"{name}-{year}-{month:02d}-{day:02d}.{file_type}"
+    return f'{name}-{year}-{month:02d}-{day:02d}.{file_type}'
 
 
 def get_filename_for_warnings(year: str, month: str, day: str):
-    return f"warnings.log.{int(year)}-{int(month):02d}-{int(day):02d}"
+    return f'warnings.log.{int(year)}-{int(month):02d}-{int(day):02d}'
 
 
 def get_filename_for_stats(year, month, day):
@@ -71,17 +70,14 @@ def get_date_as_text(selected_date: datetime):
     return f'{selected_date.day:02d}-{selected_date.month:02d}-{selected_date.year} at {selected_date.hour:02d}:{selected_date.minute:02d}'
 
 
-# TODO rename it to datetime
-def get_yesterday_date() -> datetime:
+def get_yesterday_datetime() -> datetime:
     today = datetime.now()
     return today - timedelta(days=1)
 
 
-# TODO rename it to date
 def get_yesterday_date_as_date() -> date:
-    today = datetime.now()
-    yesterday = today - timedelta(days=1)
-    return yesterday.date()
+    today = date.today()
+    return today - timedelta(days=1)
 
 
 def get_two_days_ago_date() -> datetime:
@@ -114,12 +110,11 @@ def get_timestamp_key(dt: datetime = datetime.now()) -> str:
 
 
 def to_hex(r, g, b):
-    return '#{:02x}{:02x}{:02x}'.format(r, g, b)
+    return f'#{r:02x}{g:02x}{b:02x}'
 
 
-# TODO change return from str to float
-def get_float_number_from_text(text: str) -> str:
-    return re.sub('[^0-9.]', '', text)
+def get_float_number_from_text(text: str) -> float:
+    return float(re.sub('[^0-9.]', '', text))
 
 
 def get_int_number_from_text(text: str) -> int:
@@ -273,7 +268,7 @@ def get_date_as_folders() -> str:
     year = today.year
     month = today.month
     day = today.day
-    return "{}/{:02d}/{:02d}/".format(year, month, day)
+    return f'{year}/{month:02d}/{day:02d}/'
 
 
 def get_date_as_folders_linux() -> str:
@@ -284,7 +279,7 @@ def get_date_as_folders_for(specified_data: date):
     year = specified_data.year
     month = specified_data.month
     day = specified_data.day
-    return "{}/{:02d}/{:02d}/".format(year, month, day)
+    return f'{year}/{month:02d}/{day:02d}/'
 
 
 def get_date_as_folders_for_today():
@@ -357,13 +352,11 @@ def post_healthcheck_beat(device: str, app_type: str):
             response.json()
             response.raise_for_status()
     except Exception as whoops:
-        print('There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
-        logger.warning(
-            'There was a problem: {} using url {}, device {} and app_type {}'.format(whoops, url, device, app_type))
+        logger.warning(f'There was a problem: {whoops} using url {url}, device {device} and app_type {app_type}')
 
 
-#FIXME accept only ds
-def setup_logging(app_name: str, debug_mode: bool = False, user_name:str='ds'):
+# TODO accept only ds when i change server to Pi5
+def setup_logging(app_name: str, debug_mode: bool = False, user_name: str = 'ds'):
     print('Setting logs ...')
     if debug_mode:
         logging_level = logging.DEBUG
@@ -394,13 +387,29 @@ def setup_test_logging(app_name: str, debug_mode: bool = False):
     print(f'Logs setup completed (Level: {logging_level})')
 
 
-def load_cfg() -> dict:
-    with open('/home/ds/email.json', 'r') as email_config:
-        return json.load(email_config)
-
-
 def percentage(part, whole):
     if part == 0 or whole == 0:
         return "0%"
     result = float(part) / float(whole)
-    return "{:.1%}".format(result)
+    return f"{result:.1%}"
+
+
+def get_today_date_with_time_as_filename(sensor_data, file_type):
+    return get_date_with_time_as_filename(sensor_data, file_type, datetime.now())
+
+
+def log_warning_if_measurement_slow(measurement_counter, measurement_time):
+    if measurement_time > config.max_latency(fast=False):
+        logger.warning(f"Measurement {measurement_counter} was slow.It took {measurement_time} ms")
+
+
+def update_measurement_list(measurements_list, result):
+    measurements_list.append(result)
+    if len(measurements_list) > config.get_measurement_size():
+        measurements_list.pop(0)
+
+
+# need to move utils for float comparison
+# https://stackoverflow.com/questions/5595425/what-is-the-best-way-to-compare-floats-for-almost-equality-in-python
+def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
+    return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)

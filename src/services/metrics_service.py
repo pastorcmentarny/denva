@@ -93,9 +93,7 @@ metrics_results = [OK, ERRORS]
 
 def save_metrics():
     logger.info(f'saving metrics for {str(stats[DATE_OF_METRICS])}')
-    result = data_files.save_metrics(stats, config.PI_DATA_PATH)
-    logger.info(f'metrics {result}.')
-    return result
+    data_files.save_metrics(stats, config.PI_DATA_PATH)
 
 
 def generate_daily_metrics():

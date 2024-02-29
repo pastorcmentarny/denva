@@ -88,12 +88,7 @@ def is_in_uk_border_zone(position: dict) -> bool:
     return False
 
 
-# need to move utils for float comparison
-# https://stackoverflow.com/questions/5595425/what-is-the-best-way-to-compare-floats-for-almost-equality-in-python
-def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
-    return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
-
-
+# TODO use it in website
 if __name__ == '__main__':
     counter = 0
     while True:

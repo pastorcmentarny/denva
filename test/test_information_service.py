@@ -83,7 +83,7 @@ class InformationServiceTestCases(TestCase):
     def test_is_rickmansworth_data_expired_is_false_for_valid_data(self):
         # given
         today = datetime.now()
-        today_date_as_text = '{}-{}-{}'.format(today.year, today.month, today.day)
+        today_date_as_text = f'{today.year}-{today.month}-{today.day}'
 
         # when
         result = information_service.is_rickmansworth_data_expired(today_date_as_text)

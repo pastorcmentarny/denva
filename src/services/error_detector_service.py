@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -11,9 +10,12 @@
 """
 import logging
 
+import config
 from common import loggy
 import dom_utils
 from gateways import local_data_gateway
+
+config.DOWN = 'DOWN'
 
 DEVICE_SERVER = 'server'
 DEVICE_DENVA2 = 'denva'
@@ -26,17 +28,18 @@ KEY_SYSTEM = 'system'
 logger = logging.getLogger('app')
 
 
+# TODO refactor this method as it looks dupicate
 def get_errors_from_data(data: dict) -> list:
     errors = []
     if KEY_SYSTEM not in data:
         return ['No data.']
 
     hc_result = local_data_gateway.get_all_healthcheck_from_all_services()
-    if hc_result[DEVICE_DENVA] == 'DOWN':
+    if hc_result[DEVICE_DENVA] == config.DOWN:
         errors.append('Healthcheck failed for Denva')
-    if hc_result[DEVICE_DENVA2] == 'DOWN':
+    if hc_result[DEVICE_DENVA2] == config.DOWN:
         errors.append('Healthcheck failed for Denva2')
-    if hc_result[DEVICE_SERVER] == 'DOWN':
+    if hc_result[DEVICE_SERVER] == config.DOWN:
         errors.append('Healthcheck failed for Server')
 
     server_data = data[KEY_SYSTEM][DEVICE_SERVER]

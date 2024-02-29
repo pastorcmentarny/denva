@@ -62,7 +62,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(expected_result, result)
         self.assertEqual(len(expected_result), 1)
 
-    def test_check_warning_returns_empty_for_no_warnings(self):
+    def test_check_warning_returns_config.EMPTY_for_no_warnings(self):
         # given
         expected_result = []
 

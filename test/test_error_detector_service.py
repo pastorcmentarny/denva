@@ -8,7 +8,7 @@ class ErrorDetectorServiceTestCases(TestCase):
     def test_get_errors_should_return_error_with_low_ram_for_server(self):
         # given
         data = {
-            config.FIELD_SYSTEM: {
+            config.KEY_SYSTEM: {
                 'server': {
                     'Memory Available': '240MB',
                     'Disk Free': '999MB'
@@ -37,7 +37,7 @@ class ErrorDetectorServiceTestCases(TestCase):
 
         # given
         data = {
-            config.FIELD_SYSTEM: {
+            config.KEY_SYSTEM: {
                 'server': {
                     'Memory Available': '999MB',
                     'Disk Free': '999MB'
@@ -75,7 +75,7 @@ class ErrorDetectorServiceTestCases(TestCase):
     def test_get_error_for_missing_server(self):
         # given
         data = {
-            config.FIELD_SYSTEM: {
+            config.KEY_SYSTEM: {
                 'server': {},
                 'denva': {
                     'Memory Available': '999MB',
@@ -101,7 +101,7 @@ class ErrorDetectorServiceTestCases(TestCase):
     def test_get_error_for_missing_denva(self):
         # given
         data = {
-            config.FIELD_SYSTEM: {
+            config.KEY_SYSTEM: {
                 'server': {
                     'Memory Available': '999MB',
                     'Disk Free': '999MB'
@@ -126,7 +126,7 @@ class ErrorDetectorServiceTestCases(TestCase):
     def test_get_error_for_missing_enviro(self):
         # given
         data = {
-            config.FIELD_SYSTEM: {
+            config.KEY_SYSTEM: {
                 'server': {
                     'Memory Available': '999MB',
                     'Disk Free': '999MB'
